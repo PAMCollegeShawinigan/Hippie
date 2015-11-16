@@ -21,7 +21,6 @@ Ce dossier contient le résultat de la generation de la javadoc.
 
 - Diagrammes de classes
 - Diagrammes de la base de données
-- (Peut-être) remplacer le Analyse.docx par le wiki du    
-  répositoire.
+- (Peut-être) remplacer le Analyse.docx par le wiki du répositoire.
 
 [1]:http://www.visual-paradigm.com/
