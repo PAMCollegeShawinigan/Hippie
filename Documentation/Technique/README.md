@@ -13,6 +13,8 @@ Ce dossier contient les documents d'analyse
   - #### Hippie.vpp
     Projet [Visual Paradigm][1].
 
+    Contient les diagrammes UML de l'application.
+
 
 - ### Javadoc
 Ce dossier contient le résultat de la generation de la javadoc.
