@@ -8,7 +8,8 @@ import android.content.Context;
 import android.os.Bundle;
 
 /**
- * This class is used to manage authentication tokens and pass the requests to the server for authentication.
+ * Implémetation du service d'authentification.
+ *
  * @see android.accounts.AbstractAccountAuthenticator
  * @see android.accounts.AccountManager
  */
