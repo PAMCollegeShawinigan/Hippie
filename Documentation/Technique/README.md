@@ -1,7 +1,28 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\margl1440\margr1440\vieww10800\viewh8400\viewkind0
-\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+# Technique
 
-\f0\fs24 \cf0 test}
+## Structure des dossiers
+- ### Analyse
+Ce dossier contient les documents d'analyse
+
+  - #### Analyse.docx
+    Document présentant pour la spécification technique formelle de l'application.
+
+  - #### Hippie.png
+    Screenshot du diagramme de Gant du projet
+
+  - #### Hippie.vpp
+    Projet [Visual Paradigm][1].
+
+    Contient les diagrammes UML de l'application.
+
+
+- ### Javadoc
+Ce dossier contient le résultat de la generation de la javadoc.
+
+## À faire
+
+- Diagrammes de classes
+- Diagrammes de la base de données
+- (Peut-être) remplacer le Analyse.docx par le wiki du répositoire.
+
+[1]:http://www.visual-paradigm.com/
