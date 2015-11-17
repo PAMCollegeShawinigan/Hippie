@@ -137,3 +137,5 @@ proguard/
 # Android Studio Navigation editor temp files
 .navigation/
 
+
+Source/CodeNameHippie/gradlew.bat
