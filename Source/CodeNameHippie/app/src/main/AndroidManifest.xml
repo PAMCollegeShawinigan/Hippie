@@ -1,46 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pam.codenamehippie" >
-
-    <!-- client -->
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-
-    <!-- Authenticator -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-
-    <!-- <uses-permission android:name="android.permission.READ_PROFILE" /> -->
-    <!-- <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity
-            android:name=".ui.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity
-            android:name=".ui.ConnexionActivity"
-            android:label="@string/title_activity_login"
-            android:parentActivityName=".ui.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
-        </activity>
-
-        <service
-            android:name=".auth.HippieAuthentificateurService"
-            android:enabled="false"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
-            </intent-filter>
-        </service>
-    </application>
-
+<manifest
+	package="com.pam.codenamehippie" xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools">
+	<!-- client -->
+	<uses-permission android:name="android.permission.USE_CREDENTIALS"/>
+	<uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+	<uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+	<!-- Authenticator -->
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+	<!-- <uses-permission android:name="android.permission.READ_PROFILE" /> -->
+	<!-- <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
+	<application
+		android:allowBackup="true"
+		android:icon="@mipmap/ic_launcher"
+		android:label="@string/app_name"
+		android:supportsRtl="true"
+		android:theme="@style/AppTheme">
+		<activity
+			android:name=".ui.MainActivity"
+			android:label="@string/app_name"
+			android:theme="@style/AppTheme.NoActionBar">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		<activity
+			android:name=".ui.ConnexionActivity"
+			android:label="@string/title_activity_login"
+			android:parentActivityName=".ui.MainActivity">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value=".ui.MainActivity"/>
+		</activity>
+		<service
+			android:name=".auth.HippieAuthenticatorService"
+			tools:ignore="ExportedService">
+			<intent-filter>
+				<action android:name="android.accounts.AccountAuthenticator"/>
+			</intent-filter>
+			<meta-data
+				android:name="android.accounts.AccountAuthenticator"
+				android:resource="@xml/authentificateur"/>
+		</service>
+	</application>
 </manifest>
