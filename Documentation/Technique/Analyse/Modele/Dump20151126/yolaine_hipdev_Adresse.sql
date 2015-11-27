@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `yolaine_hipdev` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `yolaine_hipdev`;
 -- MySQL dump 10.13  Distrib 5.7.9, for osx10.9 (x86_64)
 --
 -- Host: localhost    Database: yolaine_hipdev
@@ -46,7 +44,6 @@ CREATE TABLE `Adresse` (
 
 LOCK TABLES `Adresse` WRITE;
 /*!40000 ALTER TABLE `Adresse` DISABLE KEYS */;
-INSERT INTO `Adresse` (`id_adresse`, `no_civique`, `type_rue`, `nom`, `app`, `ville`, `province`, `code_postal`, `pays`) VALUES (19,'1',14,'Rue 1',NULL,'Shawinigan','Qc','XXX XXX','Canada'),(20,'2',11,'Promenade_2',NULL,'Shawinigan','Qc','XXX XXX','Canada'),(21,'3',8,'Montee 9',NULL,'Shawinigan','Qc','XXX XXX','Canada'),(22,'4',10,'Place 4',NULL,'Shawinigan','Qc','XXX XXX','Canada'),(23,'5',12,'Rang 5',NULL,'Shawinigan','Qc','XXX XXX','Canada'),(24,'6',13,'Route 6',NULL,'Shawinigan','Qc','XXX XXX','Canada'),(25,'7',1,'Avenue 7',NULL,'Shawinigan','Qc','XXX XXX','Canada'),(26,'8',2,'Boulevard 8',NULL,'Shawinigan','Qc','XXX XXX',NULL);
 /*!40000 ALTER TABLE `Adresse` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-26  8:44:41
+-- Dump completed on 2015-11-27 13:32:30
