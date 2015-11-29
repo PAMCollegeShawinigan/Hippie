@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `yolaine_hipdev` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `yolaine_hipdev`;
 -- MySQL dump 10.13  Distrib 5.7.9, for osx10.9 (x86_64)
 --
 -- Host: localhost    Database: yolaine_hipdev
@@ -28,7 +26,7 @@ CREATE TABLE `Type_Aliment` (
   `id_aliment` int(10) NOT NULL AUTO_INCREMENT,
   `description` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`id_aliment`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +35,6 @@ CREATE TABLE `Type_Aliment` (
 
 LOCK TABLES `Type_Aliment` WRITE;
 /*!40000 ALTER TABLE `Type_Aliment` DISABLE KEYS */;
-INSERT INTO `Type_Aliment` (`id_aliment`, `description`) VALUES (1,'Fruits et Légumes'),(2,'Produits laitiers'),(3,'Viandes'),(4,'Surgelés'),(5,'Non Périssable'),(6,'Boulangerie');
 /*!40000 ALTER TABLE `Type_Aliment` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +47,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-26  8:44:44
+-- Dump completed on 2015-11-27 13:32:31
