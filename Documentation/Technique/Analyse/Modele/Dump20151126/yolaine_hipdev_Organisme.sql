@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `yolaine_hipdev` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `yolaine_hipdev`;
 -- MySQL dump 10.13  Distrib 5.7.9, for osx10.9 (x86_64)
 --
 -- Host: localhost    Database: yolaine_hipdev
@@ -30,14 +28,14 @@ CREATE TABLE `Organisme` (
   `adresse` int(10) NOT NULL,
   `telephone` varchar(10) CHARACTER SET latin1 NOT NULL,
   `poste` int(5) DEFAULT NULL,
-  `contact` int(11) NOT NULL,
+  `utilisateur_contact` int(11) NOT NULL,
   `no_entreprise` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   `no_osbl` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`id_organisme`),
   KEY `Adresse_FK_idx` (`adresse`),
-  KEY `Utilisateur_FK_idx` (`contact`),
-  CONSTRAINT `Adresse_FK` FOREIGN KEY (`adresse`) REFERENCES `Adresse` (`id_adresse`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `Utilisateur_FK` FOREIGN KEY (`contact`) REFERENCES `Utilisateur` (`id_utilisateur`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `Utilisateur_FK_idx` (`utilisateur_contact`),
+  CONSTRAINT `Utilisateur_FK` FOREIGN KEY (`utilisateur_contact`) REFERENCES `Utilisateur` (`id_utilisateur`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `Adresse_FK` FOREIGN KEY (`adresse`) REFERENCES `Adresse` (`id_adresse`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -47,7 +45,6 @@ CREATE TABLE `Organisme` (
 
 LOCK TABLES `Organisme` WRITE;
 /*!40000 ALTER TABLE `Organisme` DISABLE KEYS */;
-INSERT INTO `Organisme` (`id_organisme`, `nom`, `adresse`, `telephone`, `poste`, `contact`, `no_entreprise`, `no_osbl`) VALUES (12,'Organisme_1',19,'',NULL,4,NULL,NULL),(13,'Organisme_2',20,'',NULL,4,NULL,NULL),(14,'Organisme_3',21,'',NULL,4,NULL,NULL),(15,'Organisme_4',22,'',NULL,4,NULL,NULL),(16,'Entreprise_5',23,'',NULL,4,NULL,NULL),(17,'Entreprise_6',24,'',NULL,4,NULL,NULL),(18,'Entreprise_7',25,'',NULL,4,NULL,NULL),(19,'Entreprise_5',26,'',NULL,4,NULL,NULL);
 /*!40000 ALTER TABLE `Organisme` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-26  8:44:43
+-- Dump completed on 2015-11-27 13:32:30

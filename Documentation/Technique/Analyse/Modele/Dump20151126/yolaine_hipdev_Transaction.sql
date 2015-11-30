@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `yolaine_hipdev` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `yolaine_hipdev`;
 -- MySQL dump 10.13  Distrib 5.7.9, for osx10.9 (x86_64)
 --
 -- Host: localhost    Database: yolaine_hipdev
@@ -33,11 +31,13 @@ CREATE TABLE `Transaction` (
   `date_reservation` timestamp NULL DEFAULT NULL,
   `date_disponible` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id_transaction`),
-  KEY `donneur_fk_idx` (`id_donneur`),
-  KEY `receveur_fk_idx` (`id_receveur`),
-  KEY `Alimentaire_FK_idx` (`id_marchandise`),
-  CONSTRAINT `Alimentaire_FK` FOREIGN KEY (`id_marchandise`) REFERENCES `Alimentaire` (`id_alimentaire`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+  KEY `Organisme_Donneur_FK_idx` (`id_donneur`),
+  KEY `Alimentaire_TRX_FK_idx` (`id_marchandise`),
+  KEY `Organisme_Receveur_FK` (`id_receveur`),
+  CONSTRAINT `Organisme_Donneur_FK` FOREIGN KEY (`id_donneur`) REFERENCES `Organisme` (`id_organisme`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `Organisme_Receveur_FK` FOREIGN KEY (`id_receveur`) REFERENCES `Organisme` (`id_organisme`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `Alimentaire_TRX_FK` FOREIGN KEY (`id_marchandise`) REFERENCES `Alimentaire` (`id_alimentaire`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `Transaction` (
 
 LOCK TABLES `Transaction` WRITE;
 /*!40000 ALTER TABLE `Transaction` DISABLE KEYS */;
-INSERT INTO `Transaction` (`id_transaction`, `id_receveur`, `id_donneur`, `id_marchandise`, `date_collecte`, `date_reservation`, `date_disponible`) VALUES (21,19,23,5,NULL,NULL,'0000-00-00 00:00:00'),(22,19,26,10,NULL,NULL,'0000-00-00 00:00:00'),(24,19,23,5,NULL,NULL,'0000-00-00 00:00:00'),(25,19,26,10,NULL,NULL,'0000-00-00 00:00:00'),(26,20,23,11,NULL,NULL,'0000-00-00 00:00:00'),(27,20,24,12,NULL,NULL,'0000-00-00 00:00:00'),(28,21,23,13,NULL,NULL,'0000-00-00 00:00:00'),(29,22,23,14,NULL,NULL,'0000-00-00 00:00:00'),(30,22,24,5,NULL,NULL,'0000-00-00 00:00:00'),(31,22,25,10,NULL,NULL,'0000-00-00 00:00:00'),(32,22,23,11,NULL,NULL,'0000-00-00 00:00:00'),(33,19,23,5,NULL,NULL,'0000-00-00 00:00:00'),(34,19,26,10,NULL,NULL,'0000-00-00 00:00:00'),(35,20,23,11,NULL,NULL,'0000-00-00 00:00:00'),(36,20,24,12,NULL,NULL,'0000-00-00 00:00:00'),(37,21,23,13,NULL,NULL,'0000-00-00 00:00:00'),(38,22,23,14,NULL,NULL,'0000-00-00 00:00:00'),(39,22,24,5,NULL,NULL,'0000-00-00 00:00:00'),(40,22,25,10,NULL,NULL,'0000-00-00 00:00:00'),(41,22,23,11,NULL,NULL,'0000-00-00 00:00:00');
+INSERT INTO `Transaction` (`id_transaction`, `id_receveur`, `id_donneur`, `id_marchandise`, `date_collecte`, `date_reservation`, `date_disponible`) VALUES (23,12,16,5,NULL,NULL,'0000-00-00 00:00:00'),(24,12,17,10,NULL,NULL,'0000-00-00 00:00:00'),(25,13,17,11,NULL,NULL,'0000-00-00 00:00:00'),(26,13,18,12,NULL,NULL,'0000-00-00 00:00:00'),(27,14,17,13,NULL,NULL,'0000-00-00 00:00:00'),(28,15,17,14,NULL,NULL,'0000-00-00 00:00:00'),(29,15,18,5,NULL,NULL,'0000-00-00 00:00:00'),(30,15,19,10,NULL,NULL,'0000-00-00 00:00:00'),(31,15,17,11,NULL,NULL,'0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `Transaction` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-26  8:44:31
+-- Dump completed on 2015-11-27 13:32:28
