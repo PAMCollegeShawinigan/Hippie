@@ -14,4 +14,5 @@
     <string name="permission_rationale" translatable="false">
 	    "Contacts permissions are needed for providing email completions."
     </string>
+    <string name="title_activity_register">Register</string>
 </resources>
