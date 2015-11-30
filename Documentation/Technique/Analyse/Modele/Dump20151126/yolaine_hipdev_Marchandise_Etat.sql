@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `yolaine_hipdev` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `yolaine_hipdev`;
 -- MySQL dump 10.13  Distrib 5.7.9, for osx10.9 (x86_64)
 --
 -- Host: localhost    Database: yolaine_hipdev
@@ -37,7 +35,6 @@ CREATE TABLE `Marchandise_Etat` (
 
 LOCK TABLES `Marchandise_Etat` WRITE;
 /*!40000 ALTER TABLE `Marchandise_Etat` DISABLE KEYS */;
-INSERT INTO `Marchandise_Etat` (`id_etat`, `description`) VALUES (1,'Incomplet'),(2,'Mauvais État'),(3,'Neuf'),(4,'Usagé');
 /*!40000 ALTER TABLE `Marchandise_Etat` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +47,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-26  8:44:29
+-- Dump completed on 2015-11-27 13:32:27

@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `yolaine_hipdev` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `yolaine_hipdev`;
 -- MySQL dump 10.13  Distrib 5.7.9, for osx10.9 (x86_64)
 --
 -- Host: localhost    Database: yolaine_hipdev
@@ -37,7 +35,6 @@ CREATE TABLE `Marchandise_Qtee_Unite` (
 
 LOCK TABLES `Marchandise_Qtee_Unite` WRITE;
 /*!40000 ALTER TABLE `Marchandise_Qtee_Unite` DISABLE KEYS */;
-INSERT INTO `Marchandise_Qtee_Unite` (`id_qtee_unite`, `description`) VALUES (1,'Lbs'),(2,'Kg'),(3,'Unité(s)'),(4,'Ml'),(5,'L'),(6,'Oz');
 /*!40000 ALTER TABLE `Marchandise_Qtee_Unite` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +47,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-26  8:44:33
+-- Dump completed on 2015-11-27 13:32:29
