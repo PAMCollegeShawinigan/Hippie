@@ -10,7 +10,7 @@ import android.os.Bundle;
 /**
  * Implémetation du service d'authentification.
  *
- * @see android.accounts.AbstractAccountAuthenticator
+ * @see AbstractAccountAuthenticator
  * @see android.accounts.AccountManager
  */
 public class HippieAuthenticator extends AbstractAccountAuthenticator {

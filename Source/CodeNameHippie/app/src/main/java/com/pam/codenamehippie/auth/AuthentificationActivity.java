@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 /**
  * This class is only use for authentication and contains no view
- * @see android.accounts.AccountAuthenticatorActivity
+ * @see AccountAuthenticatorActivity
  */
 public class AuthentificationActivity extends AccountAuthenticatorActivity {
 
