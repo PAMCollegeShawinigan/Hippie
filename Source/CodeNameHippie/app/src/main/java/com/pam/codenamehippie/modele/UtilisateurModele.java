@@ -38,7 +38,7 @@ public class UtilisateurModele extends BaseModele {
 
     // ------------------ Début Accesseurs et mutateurs
     public String getCourriel() {
-        return courriel;
+        return this.courriel;
     }
 
     public void setCourriel(String courriel) {
@@ -46,7 +46,7 @@ public class UtilisateurModele extends BaseModele {
     }
 
     public String getMot_de_passe() {
-        return mot_de_passe;
+        return this.mot_de_passe;
     }
 
     public void setMot_de_passe(String mot_de_passe) {
@@ -54,7 +54,7 @@ public class UtilisateurModele extends BaseModele {
     }
 
     public String getNom() {
-        return nom;
+        return this.nom;
     }
 
     public void setNom(String nom) {
@@ -62,7 +62,7 @@ public class UtilisateurModele extends BaseModele {
     }
 
     public String getPrenom() {
-        return prenom;
+        return this.prenom;
     }
 
     public void setPrenom(String prenom) {
@@ -70,7 +70,7 @@ public class UtilisateurModele extends BaseModele {
     }
 
     public String getTelephone() {
-        return telephone;
+        return this.telephone;
     }
 
     public void setTelephone(String telephone) {
@@ -78,7 +78,7 @@ public class UtilisateurModele extends BaseModele {
     }
 
     public int getMoyen_contact() {
-        return moyen_contact;
+        return this.moyen_contact;
     }
 
     public void setMoyen_contact(int moyen_contact) {
@@ -86,7 +86,7 @@ public class UtilisateurModele extends BaseModele {
     }
 
     public int getId_organisme() {
-        return id_organisme;
+        return this.id_organisme;
     }
 
     public void setId_organisme(int id_organisme) {
@@ -94,7 +94,7 @@ public class UtilisateurModele extends BaseModele {
     }
 
     public Date getDern_connexion() {
-        return dern_connexion;
+        return this.dern_connexion;
     }
 
     public void setDern_connexion(Date dern_connexion) {

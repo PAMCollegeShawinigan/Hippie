@@ -2,8 +2,6 @@ package com.pam.codenamehippie.modele;
 
 import android.support.v4.util.SimpleArrayMap;
 
-import java.util.ArrayList;
-
 public abstract class BaseModeleDepot {
 
     /**
@@ -37,7 +35,7 @@ public abstract class BaseModeleDepot {
         throw new AbstractMethodError("non implémenté");
     }
 
-    public BaseModele supprimerModèle(int id) {
+    public BaseModele supprimerModele(int id) {
         throw new AbstractMethodError("non implémenté");
     }
 
