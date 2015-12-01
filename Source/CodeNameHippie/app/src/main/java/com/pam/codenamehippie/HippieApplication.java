@@ -20,9 +20,11 @@ public class HippieApplication extends Application {
         return this.httpClient;
     }
 
+
     @Override
     public void onCreate() {
         super.onCreate();
+        // Configuration du client Http.
         this.httpClient.setAuthenticator(Authentificateur.newInstance(this));
     }
 }
