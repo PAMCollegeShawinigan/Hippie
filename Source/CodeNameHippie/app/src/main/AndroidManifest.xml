@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.pam.codenamehippie">
+	package="com.pam.codenamehippie"
+	xmlns:android="http://schemas.android.com/apk/res/android">
 	<!-- client -->
 	<uses-permission android:name="android.permission.USE_CREDENTIALS"/>
 	<uses-permission android:name="android.permission.GET_ACCOUNTS"/>
@@ -21,8 +21,7 @@
 		<!-- Splash screen -->
 		<activity
 			android:name=".ui.SplashScreenActivity"
-			android:label="@string/app_name"
-			android:screenOrientation="landscape">
+			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 				<category android:name="android.intent.category.LAUNCHER"/>
@@ -31,22 +30,20 @@
 		<activity
 			android:name=".ui.MainActivity"
 			android:label="@string/app_name"/>
-		<service
-			android:name=".auth.HippieAuthenticatorService"
-			android:enabled="false"
-			android:exported="false">
-			<intent-filter>
-				<action android:name="android.accounts.AccountAuthenticator"/>
-			</intent-filter>
-			<meta-data
-				android:name="android.accounts.AccountAuthenticator"
-				android:resource="@xml/authentificateur"/>
-		</service>
 		<activity
 			android:name=".ui.RegisterActivity"
 			android:label="@string/title_activity_register"/>
 		<activity
 			android:name=".ui.LoginActivity"
 			android:label="@string/title_activity_login"/>
+		<activity
+			android:name=".parametre.ParametreActivity"
+			android:label="@string/title_activity_preference"
+			android:parentActivityName=".ui.MainActivity"
+			android:theme="@style/AppTheme.DarkActionBar">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value=".ui.MainActivity"/>
+		</activity>
 	</application>
 </manifest>

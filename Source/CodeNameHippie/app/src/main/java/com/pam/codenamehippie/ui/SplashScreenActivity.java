@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.VideoView;
+
 import com.pam.codenamehippie.R;
 
 public class SplashScreenActivity extends Activity {
@@ -20,7 +21,7 @@ public class SplashScreenActivity extends Activity {
 
         //identifiant du vidéo
         VideoView videoView =
-                (VideoView) this.findViewById(R.id.videoView);
+            (VideoView) this.findViewById(R.id.videoView);
 
         //le chemin du vidéo
         videoView.setVideoURI(Uri.parse("android.resource://" +
