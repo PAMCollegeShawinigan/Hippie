@@ -48,11 +48,13 @@ public final class Authentificateur implements Authenticator {
     private final Context context;
     private final SharedPreferences preferences;
 
+    // Constructeur de l'authentification
     private Authentificateur(Context context) {
         this.context = context;
         this.preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
     }
 
+    // Méthode usine static pour créer une nouvelle instance de Authentificateur
     public static Authentificateur newInstance(Context context) {
         return new Authentificateur(context);
     }

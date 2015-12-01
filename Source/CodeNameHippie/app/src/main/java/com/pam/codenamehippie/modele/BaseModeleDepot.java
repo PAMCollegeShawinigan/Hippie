@@ -7,7 +7,7 @@ public abstract class BaseModeleDepot {
     /**
      * Conteneur de modèles.
      */
-    protected SimpleArrayMap<Integer, ? super BaseModele> modeles = null;
+
     protected String url = null;
 
     /**
@@ -16,9 +16,9 @@ public abstract class BaseModeleDepot {
      * @param id de l'objet
      * @return une instance du modèle correspondant au id reçu en paramètre.
      */
-    public BaseModele rechercheParId(int id) {
+    public BaseModele rechercherParId(int id) {
         // Todo: requête au serveur
-        return (BaseModele) this.modeles.get(id);
+        throw new AbstractMethodError("non implémenté");
     }
 
     /**
