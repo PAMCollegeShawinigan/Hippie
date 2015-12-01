@@ -15,7 +15,7 @@ public class OrganismeModele extends BaseModele {
     @SerializedName("poste")
     private int poste;
     @SerializedName("contact")
-    private int contact;
+    private String contact;
     @SerializedName("no_entreprise")
     private String no_entreprise;
     @SerializedName("no_osbl")
@@ -65,11 +65,11 @@ public class OrganismeModele extends BaseModele {
         this.poste = poste;
     }
 
-    public int getContact() {
+    public String getContact() {
         return contact;
     }
 
-    public void setContact(int contact) {
+    public void setContact(String contact) {
         this.contact = contact;
     }
 

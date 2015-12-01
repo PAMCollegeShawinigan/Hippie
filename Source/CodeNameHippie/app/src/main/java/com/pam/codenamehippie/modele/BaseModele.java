@@ -13,7 +13,7 @@ public abstract class BaseModele {
     @SerializedName("id")
     private int id;
     private BaseModeleDepot depot;
-    protected Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+    protected Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
             .create();
 
     // Accesseur

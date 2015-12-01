@@ -16,7 +16,7 @@ public abstract class BaseModeleDepot {
      * @param id de l'objet
      * @return une instance du modèle correspondant au id reçu en paramètre.
      */
-    public BaseModele rechercheParId(int id){
+    public BaseModele rechercheParId(int id) {
         // Todo: requête au serveur
         return (BaseModele) this.modeles.get(id);
     }
