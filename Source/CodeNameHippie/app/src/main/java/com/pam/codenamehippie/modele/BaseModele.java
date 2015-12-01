@@ -13,10 +13,18 @@ public abstract class BaseModele {
     protected Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
             .create();
 
+    // ------------------------------ Début Constructeur
+    public BaseModele(BaseModeleDepot depot, int id) {
+        this.id = id;
+        this.depot = depot;
+    }
+    // ------------------------------ Fin Constructeur
+
     // Accesseur
     public int getId() {
         return id;
     }
+
 
     public BaseModeleDepot getDepot() {
         return depot;
