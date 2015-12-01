@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
      * Regex pour vérifier la validité de la syntaxe du champ courriel.
      */
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private final Pattern courrielPattern = Pattern.compile("^(\\w.+)@+(\\w.+)");
+    private final Pattern courrielPattern = Patterns.EMAIL_ADDRESS;
     private EditText courrielEditText;
     private EditText passwordEditText;
     private TextInputLayout courrielTextInputLayout;
@@ -92,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         this.courrielTextInputLayout = (TextInputLayout) this.findViewById(R.id.tilCourriel);
         this.passwordTextInputLayout = (TextInputLayout) this.findViewById(R.id.tilPassword);
+
     }
 
     @Override
@@ -183,8 +184,9 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                Log.d(TAG, "Réponse serveur: " + response);
-                Log.d(TAG, "Corps de réponse: " + response.body().string());
+                if (response.isSuccessful()) {
+
+                }
             }
         });
     }
