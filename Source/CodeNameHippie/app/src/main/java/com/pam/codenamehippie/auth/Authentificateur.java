@@ -28,8 +28,14 @@
 package com.pam.codenamehippie.auth;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
+import com.pam.codenamehippie.R;
 import com.squareup.okhttp.Authenticator;
+import com.squareup.okhttp.Challenge;
+import com.squareup.okhttp.Credentials;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
@@ -38,10 +44,13 @@ import java.net.Proxy;
 
 public final class Authentificateur implements Authenticator {
 
+    private static final String TAG = Authentificateur.class.getSimpleName();
     private final Context context;
+    private final SharedPreferences preferences;
 
     private Authentificateur(Context context) {
         this.context = context;
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
     }
 
     public static Authentificateur newInstance(Context context) {
@@ -50,7 +59,20 @@ public final class Authentificateur implements Authenticator {
 
     @Override
     public Request authenticate(Proxy proxy, Response response) throws IOException {
-        return null;
+        String email =
+          this.preferences.getString(this.context.getString(R.string.pref_email_key), null);
+        String password =
+          this.preferences.getString(this.context.getString(R.string.pref_password_key), null);
+        Log.d(TAG, "Authenticating for resp: " + response.toString());
+        for (Challenge challenge : response.challenges()) {
+            Log.d(TAG, "Challenge: " + challenge.toString());
+        }
+        if ((email != null) && (password != null)) {
+            String credentials = Credentials.basic(email, password);
+            return response.request().newBuilder().header("Authorization", credentials).build();
+        } else {
+            return null;
+        }
     }
 
     @Override
