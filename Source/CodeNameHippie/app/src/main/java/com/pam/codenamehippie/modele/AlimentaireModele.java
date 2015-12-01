@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Créé par Carl St-Louis le 23-11-2015.
  */
-public class Alimentaire extends MarchandiseModele {
+public class AlimentaireModele extends MarchandiseModele {
 
     @SerializedName("nom")
     private String nom;
@@ -31,7 +31,7 @@ public class Alimentaire extends MarchandiseModele {
 
 
     // ------------------ Début constructeurs
-    public Alimentaire(BaseModeleDepot depot, int id) {
+    public AlimentaireModele(BaseModeleDepot depot, int id) {
         super(depot, id);
     }
 
