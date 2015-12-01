@@ -17,15 +17,15 @@ public class Alimentaire extends MarchandiseModele {
     @SerializedName("quantite")
     private double quantite;
     @SerializedName("etat")
-    private int etat;
+    private String etat;
     @SerializedName("qtee_unite")
     private int qtee_unite;
     @SerializedName("valeur")
     private int valeur;
     @SerializedName("statut")
-    private int statut;
+    private String statut;
     @SerializedName("type_alimentaire")
-    private int type_alimentaire;
+    private String type_alimentaire;
     @SerializedName("date_peremption")
     private Date date_peremption;
 
@@ -65,11 +65,11 @@ public class Alimentaire extends MarchandiseModele {
         this.quantite = quantite;
     }
 
-    public int getEtat() {
+    public String getEtat() {
         return etat;
     }
 
-    public void setEtat(int etat) {
+    public void setEtat(String etat) {
         this.etat = etat;
     }
 
@@ -89,19 +89,19 @@ public class Alimentaire extends MarchandiseModele {
         this.valeur = valeur;
     }
 
-    public int getStatut() {
+    public String getStatut() {
         return statut;
     }
 
-    public void setStatut(int statut) {
+    public void setStatut(String statut) {
         this.statut = statut;
     }
 
-    public int getType_alimentaire() {
+    public String getType_alimentaire() {
         return type_alimentaire;
     }
 
-    public void setType_alimentaire(int type_alimentaire) {
+    public void setType_alimentaire(String type_alimentaire) {
         this.type_alimentaire = type_alimentaire;
     }
 

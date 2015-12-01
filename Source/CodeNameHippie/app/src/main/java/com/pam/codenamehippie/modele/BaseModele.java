@@ -7,17 +7,11 @@ import com.google.gson.annotations.SerializedName;
 
 public abstract class BaseModele {
 
-    protected Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-                                           .create();
     @SerializedName("id")
     private int id;
     private BaseModeleDepot depot;
-
-    // Constructeur
-    public BaseModele(BaseModeleDepot depot, int id) {
-        this.id = id;
-        this.depot = depot;
-    }
+    protected Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+            .create();
 
     // Accesseur
     public int getId() {
