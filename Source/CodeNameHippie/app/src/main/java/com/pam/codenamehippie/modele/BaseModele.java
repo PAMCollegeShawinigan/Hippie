@@ -5,9 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Créé par Carl St-Louis le 23-11-2015.
- */
 public abstract class BaseModele {
 
     @SerializedName("id")
@@ -25,18 +22,12 @@ public abstract class BaseModele {
         return depot;
     }
 
-    // Constructeur
-    public BaseModele(BaseModeleDepot depot, int id){
-        this.id = id;
-        this.depot = depot;
-    }
-
     /**
      * Méthode de sérialisation du modèle en JSON.
      *
      * @return le modèle en format JSON.
      */
-    public String toJSon(){
+    public String toJSon() {
         return this.gson.toJson(this);
     }
 
@@ -44,16 +35,19 @@ public abstract class BaseModele {
      * Méthode de désérialisation du modèle en JSON
      *
      * @param json
+     *
      * @return une instance du modèle.
      */
-    public BaseModele fromJSon(String json){
-        return  gson.fromJson(json,BaseModele.class);
+    public BaseModele fromJSon(String json) {
+        return gson.fromJson(json, BaseModele.class);
     }
 
     /**
-     *  Surcharge de la méthode {@link Object#toString()} appelle la méthode {@link BaseModele#toJSon()}.
+     * Surcharge de la méthode {@link Object#toString()} appelle la méthode
+     * {@link BaseModele#toJSon()}.
      *
      * @return l'objet en format JSON.
+     *
      * @see BaseModele#toJSon()
      */
     @Override
