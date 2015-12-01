@@ -27,13 +27,15 @@
   -->
 <resources>
 	<string name="app_name">Nom de code: Hippie</string>
+	<string name="action_sign_in">"Se connecter ou s\'enregistrer"</string>
 	<string name="action_sign_in_short">Se connecter</string>
-	<string name="title_activity_login">Connexion</string>
-	<string name="prompt_password">Mot de passe</string>
-	<string name="prompt_email">Courriel</string>
 	<string name="error_invalid_password">Ce mot de passe est invalide</string>
 	<string name="error_incorrect_password">Ce mot de passe est incorrect</string>
 	<string name="error_invalid_email">Cette addresse courriel est invalide</string>
 	<string name="error_field_required">Ce champ est requis</string>
-	<string name="action_sign_in">"Se connecter ou s\'enregistrer"</string>
+	<string name="prompt_password">Mot de passe</string>
+	<string name="prompt_email">Courriel</string>
+	<string name="title_activity_login">Connexion</string>
+	<string name="title_activity_preference">Préférences</string>
+	<string name="title_activity_register">Enregistrement</string>
 </resources>

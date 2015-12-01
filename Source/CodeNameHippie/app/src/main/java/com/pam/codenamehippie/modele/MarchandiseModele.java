@@ -10,5 +10,8 @@ public class MarchandiseModele extends BaseModele {
     protected MarchandiseStatut statut;
 
 
+    public MarchandiseModele(BaseModeleDepot depot, int id) {
+        super(depot, id);
+    }
 }
 
