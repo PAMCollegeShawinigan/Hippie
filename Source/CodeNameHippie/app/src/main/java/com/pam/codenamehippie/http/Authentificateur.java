@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.pam.codenamehippie.auth;
+package com.pam.codenamehippie.http;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -42,19 +42,23 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.net.Proxy;
 
+/**
+ * Classe servant de délégué au client HTTP pour les authentification de type Basic.
+ */
 public final class Authentificateur implements Authenticator {
 
     private static final String TAG = Authentificateur.class.getSimpleName();
     private final Context context;
     private final SharedPreferences preferences;
 
-    // Constructeur de l'authentification
     private Authentificateur(Context context) {
         this.context = context;
         this.preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
     }
 
-    // Méthode usine static pour créer une nouvelle instance de Authentificateur
+    /**
+     * Méthode usine statique pour créer une nouvelle instance.
+     **/
     public static Authentificateur newInstance(Context context) {
         return new Authentificateur(context);
     }
