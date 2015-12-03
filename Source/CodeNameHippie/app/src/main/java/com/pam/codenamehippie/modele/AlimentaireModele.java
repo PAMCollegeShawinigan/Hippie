@@ -2,7 +2,6 @@ package com.pam.codenamehippie.modele;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -19,30 +18,21 @@ public class AlimentaireModele extends MarchandiseModele {
     @SerializedName("etat")
     private String etat;
     @SerializedName("qtee_unite")
-    private int qtee_unite;
+    private int qteeUnite;
     @SerializedName("valeur")
     private int valeur;
     @SerializedName("statut")
     private String statut;
     @SerializedName("type_alimentaire")
-    private String type_alimentaire;
+    private String typeAlimentaire;
     @SerializedName("date_peremption")
-    private Date date_peremption;
+    private Date datePeremption;
 
-
-    // ------------------ Début constructeurs
-    public AlimentaireModele(BaseModeleDepot depot, int id) {
-        super(depot, id);
-    }
-
-    // todo: Vérifier les champs obligatoires pour nos constructeurs
-
-    // ------------------ Fin constructeurs
 
     // ------------------ Début Accesseurs et mutateurs
 
     public String getNom() {
-        return nom;
+        return this.nom;
     }
 
     public void setNom(String nom) {
@@ -50,7 +40,7 @@ public class AlimentaireModele extends MarchandiseModele {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -58,7 +48,7 @@ public class AlimentaireModele extends MarchandiseModele {
     }
 
     public double getQuantite() {
-        return quantite;
+        return this.quantite;
     }
 
     public void setQuantite(double quantite) {
@@ -66,23 +56,23 @@ public class AlimentaireModele extends MarchandiseModele {
     }
 
     public String getEtat() {
-        return etat;
+        return this.etat;
     }
 
     public void setEtat(String etat) {
         this.etat = etat;
     }
 
-    public int getQtee_unite() {
-        return qtee_unite;
+    public int getQteeUnite() {
+        return this.qteeUnite;
     }
 
-    public void setQtee_unite(int qtee_unite) {
-        this.qtee_unite = qtee_unite;
+    public void setQteeUnite(int qteeUnite) {
+        this.qteeUnite = qteeUnite;
     }
 
     public int getValeur() {
-        return valeur;
+        return this.valeur;
     }
 
     public void setValeur(int valeur) {
@@ -90,27 +80,27 @@ public class AlimentaireModele extends MarchandiseModele {
     }
 
     public String getStatut() {
-        return statut;
+        return this.statut;
     }
 
     public void setStatut(String statut) {
         this.statut = statut;
     }
 
-    public String getType_alimentaire() {
-        return type_alimentaire;
+    public String getTypeAlimentaire() {
+        return this.typeAlimentaire;
     }
 
-    public void setType_alimentaire(String type_alimentaire) {
-        this.type_alimentaire = type_alimentaire;
+    public void setTypeAlimentaire(String typeAlimentaire) {
+        this.typeAlimentaire = typeAlimentaire;
     }
 
-    public Date getDate_peremption() {
-        return date_peremption;
+    public Date getDatePeremption() {
+        return this.datePeremption;
     }
 
-    public void setDate_peremption(Date date_peremption) {
-        this.date_peremption = date_peremption;
+    public void setDatePeremption(Date datePeremption) {
+        this.datePeremption = datePeremption;
     }
     // ------------------ Fin Accesseurs et mutateurs
 }

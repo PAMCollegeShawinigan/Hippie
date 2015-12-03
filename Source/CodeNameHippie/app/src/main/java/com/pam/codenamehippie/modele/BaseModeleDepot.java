@@ -3,6 +3,8 @@ package com.pam.codenamehippie.modele;
 import android.support.annotation.Nullable;
 import android.support.v4.util.SimpleArrayMap;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.pam.codenamehippie.HippieApplication;
 import com.squareup.okhttp.HttpUrl;
 
@@ -20,6 +22,31 @@ import com.squareup.okhttp.HttpUrl;
  *   Classe que le dépot contient.
  */
 public abstract class BaseModeleDepot<T extends BaseModele> {
+
+    protected Gson gson = new GsonBuilder().serializeNulls().create();
+
+    /**
+     * Méthode de sérialisation du modèle en JSON.
+     *
+     * @return le modèle en format JSON.
+     */
+    public String toJson() {
+       // return this.gson.toJson(); FIXME: passer le type comme du monde
+        return  null;
+    }
+
+    /**
+     * Méthode de désérialisation du modèle en JSON
+     *
+     * @param json
+     *   une string formatté en JSON. représentant le modèle
+     *
+     * @return une instance du modèle.
+     */
+    public T fromJson(String json) {
+        //return gson.fromJson(json,new TClass<T>()); // FIXME: passer le type comme du monde
+        return null;
+    }
 
     /**
      * Contenant qui renferme les objets entretenus par le dépôt.
@@ -50,15 +77,15 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
     /**
      * Méthode qui modifie selon l'id de l'objet reçu en paramètre.
      *
-     * @param id
+     * @param modele
      *   de l'objet
      *
      * @return une instance du modèle correspondant au id reçu en paramètre.
      */
-    public abstract T modifierModele(int id);
+    public abstract T modifierModele(T modele);
 
-    public abstract T ajouterModele(int id);
+    public abstract T ajouterModele(String json);
 
-    public abstract T supprimerModele(int id);
+    public abstract T supprimerModele(T modele);
 
 }

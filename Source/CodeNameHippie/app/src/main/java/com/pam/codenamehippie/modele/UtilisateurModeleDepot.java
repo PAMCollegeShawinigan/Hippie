@@ -37,16 +37,16 @@ public class UtilisateurModeleDepot extends BaseModeleDepot<UtilisateurModele> {
     /**
      * Ajouter un nouvel UtilisateurModele dans le dépôt
      *
-     * @param id
+     * @param json
      *   de l'objet UtilisateurModele
      *
      * @return une nouvelle instance de UtilisateurModele vide ou null si l'utilisateur existe déjà
      */
     @Override
-    public UtilisateurModele ajouterModele(int id) {
-        UtilisateurModele modele = new UtilisateurModele(this, id);
-        if (this.modeles.get(id) == null) {
-            this.modeles.put(id, modele);
+    public UtilisateurModele ajouterModele(String json) {
+        UtilisateurModele modele = this.gson.fromJson(json, UtilisateurModele.class);
+        if (this.modeles.get(modele.getId()) == null) {
+            this.modeles.put(modele.getId(), modele);
             // todo: requête au serveur pour ajouter un utilisateur
             return modele;
         } else {
@@ -57,18 +57,18 @@ public class UtilisateurModeleDepot extends BaseModeleDepot<UtilisateurModele> {
     /**
      * Modifier un UtilisateurModele présent dans le dépôt
      *
-     * @param id
+     * @param modele
      *   de l'objet UtilisateurModele
      *
      * @return un UtilisateurModele ou null si inexistant dans le dépôt
      */
     @Override
-    public UtilisateurModele modifierModele(int id) {
-        UtilisateurModele modele = this.modeles.get(id);
+    public UtilisateurModele modifierModele(UtilisateurModele modele) {
+        UtilisateurModele oldModele = this.modeles.get(modele.getId());
 
-        if (modele != null) {
+        if (oldModele != null) {
             // todo: requête au serveur pour modification utilisateur
-            return modele;
+            return oldModele;
         } else {
             return null;
         }
@@ -77,17 +77,17 @@ public class UtilisateurModeleDepot extends BaseModeleDepot<UtilisateurModele> {
     /**
      * Supprimer un UtilisateurModele présent dans le dépôt
      *
-     * @param id
+     * @param modele
      *   de l'objet UtilisateurModele
      *
      * @return un UtilisateurModele ou null si inexistant dans le dépôt
      */
     @Override
-    public UtilisateurModele supprimerModele(int id) {
-        UtilisateurModele modele = this.modeles.put(id, null);
-        if (modele != null) {
+    public UtilisateurModele supprimerModele(UtilisateurModele modele) {
+        UtilisateurModele oldModele = this.modeles.put(modele.getId(), null);
+        if (oldModele != null) {
             // todo: requête au serveur pour suppression utilisateur
         }
-        return modele;
+        return oldModele;
     }
 }

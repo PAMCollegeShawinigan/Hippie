@@ -20,18 +20,10 @@ public class MarchandiseModele extends BaseModele {
     @SerializedName("statut")
     private String statut;
 
-    // ------------------------------ Début Constructeur
-    public MarchandiseModele(BaseModeleDepot depot, int id) {
-        super(depot, id);
-    }
-
-    // todo: Vérifier les champs obligatoires pour nos constructeurs
-
-    // ------------------------------ Fin Constructeur
 
     // ------------------------------ Début Accesseur et Mutateur
     public String getNom() {
-        return nom;
+        return this.nom;
     }
 
     public void setNom(String nom) {
@@ -39,7 +31,7 @@ public class MarchandiseModele extends BaseModele {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -47,7 +39,7 @@ public class MarchandiseModele extends BaseModele {
     }
 
     public double getQuantite() {
-        return quantite;
+        return this.quantite;
     }
 
     public void setQuantite(double quantite) {
@@ -55,7 +47,7 @@ public class MarchandiseModele extends BaseModele {
     }
 
     public String getEtat() {
-        return etat;
+        return this.etat;
     }
 
     public void setEtat(String etat) {
@@ -63,7 +55,7 @@ public class MarchandiseModele extends BaseModele {
     }
 
     public int getValeur() {
-        return valeur;
+        return this.valeur;
     }
 
     public void setValeur(int valeur) {
@@ -71,7 +63,7 @@ public class MarchandiseModele extends BaseModele {
     }
 
     public String getStatut() {
-        return statut;
+        return this.statut;
     }
 
     public void setStatut(String statut) {

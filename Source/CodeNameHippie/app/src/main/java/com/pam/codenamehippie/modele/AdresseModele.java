@@ -8,9 +8,9 @@ import com.google.gson.annotations.SerializedName;
 public class AdresseModele extends BaseModele {
 
     @SerializedName("no_civique")
-    private int no_civique;
+    private int noCivique;
     @SerializedName("type_rue")
-    private String type_rue;
+    private String typeRue;
     @SerializedName("nom")
     private String nom;
     @SerializedName("app")
@@ -20,39 +20,30 @@ public class AdresseModele extends BaseModele {
     @SerializedName("province")
     private String province;
     @SerializedName("code_postal")
-    private String code_postal;
+    private String codePostal;
     @SerializedName("pays")
     private String pays;
 
 
-    // ------------------------------ Début Constructeur
-    public AdresseModele(BaseModeleDepot depot, int id) {
-        super(depot, id);
-    }
-
-    // todo: Vérifier les champs obligatoires pour nos constructeurs
-
-    // ------------------------------ Fin Constructeur
-
     // ------------------------------ Début Accesseur et Mutateur
-    public int getNo_civique() {
-        return no_civique;
+    public int getNoCivique() {
+        return this.noCivique;
     }
 
-    public void setNo_civique(int no_civique) {
-        this.no_civique = no_civique;
+    public void setNoCivique(int noCivique) {
+        this.noCivique = noCivique;
     }
 
-    public String getType_rue() {
-        return type_rue;
+    public String getTypeRue() {
+        return this.typeRue;
     }
 
-    public void setType_rue(String type_rue) {
-        this.type_rue = type_rue;
+    public void setTypeRue(String typeRue) {
+        this.typeRue = typeRue;
     }
 
     public String getNom() {
-        return nom;
+        return this.nom;
     }
 
     public void setNom(String nom) {
@@ -60,7 +51,7 @@ public class AdresseModele extends BaseModele {
     }
 
     public String getApp() {
-        return app;
+        return this.app;
     }
 
     public void setApp(String app) {
@@ -68,7 +59,7 @@ public class AdresseModele extends BaseModele {
     }
 
     public String getVille() {
-        return ville;
+        return this.ville;
     }
 
     public void setVille(String ville) {
@@ -76,23 +67,23 @@ public class AdresseModele extends BaseModele {
     }
 
     public String getProvince() {
-        return province;
+        return this.province;
     }
 
     public void setProvince(String province) {
         this.province = province;
     }
 
-    public String getCode_postal() {
-        return code_postal;
+    public String getCodePostal() {
+        return this.codePostal;
     }
 
-    public void setCode_postal(String code_postal) {
-        this.code_postal = code_postal;
+    public void setCodePostal(String codePostal) {
+        this.codePostal = codePostal;
     }
 
     public String getPays() {
-        return pays;
+        return this.pays;
     }
 
     public void setPays(String pays) {

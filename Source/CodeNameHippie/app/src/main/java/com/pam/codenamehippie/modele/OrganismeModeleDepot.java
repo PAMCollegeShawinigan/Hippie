@@ -38,15 +38,15 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
     /**
      * Ajouter un nouveau OrganismeModele dans le dépôt
      *
-     * @param id
+     * @param json
      *   de l'objet OrganismeModele
      * @return une nouvelle instance de OrganismeModele vide ou null si l'organisme existe déjà
      */
     @Override
-    public OrganismeModele ajouterModele(int id) {
-        OrganismeModele modele = new OrganismeModele(this, id);
-        if (this.modeles.get(id) == null) {
-            this.modeles.put(id, modele);
+    public OrganismeModele ajouterModele(String json) {
+        OrganismeModele modele = this.gson.fromJson(json, OrganismeModele.class);
+        if (this.modeles.get(modele.getId()) == null) {
+            this.modeles.put(modele.getId(), modele);
             // todo: requête au serveur pour ajouter un organisme
             return modele;
         } else {
@@ -57,18 +57,18 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
     /**
      * Modifier un OrganismeModele présent dans le dépôt
      *
-     * @param id
+     * @param modele
      *   de l'objet OrganismeModele
      *
      * @return un OrganismeModele ou null si inexistant dans le dépôt
      */
     @Override
-    public OrganismeModele modifierModele(int id) {
-        OrganismeModele modele = this.modeles.get(id);
+    public OrganismeModele modifierModele(OrganismeModele modele) {
+        OrganismeModele oldModele = this.modeles.get(modele.getId());
 
-        if (modele != null) {
+        if (oldModele != null) {
             // todo: requête au serveur pour modification sur l'organisme
-            return modele;
+            return oldModele;
         } else {
             return null;
         }
@@ -77,17 +77,17 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
     /**
      * Supprimer un OrganismeModele présent dans le dépôt
      *
-     * @param id
+     * @param modele
      *   de l'objet OrganismeModele
      *
      * @return un OrganismeModele ou null si inexistant dans le dépôt
      */
     @Override
-    public OrganismeModele supprimerModele(int id) {
-        OrganismeModele modele = this.modeles.put(id, null);
-        if (modele != null) {
+    public OrganismeModele supprimerModele(OrganismeModele modele) {
+        OrganismeModele oldModele = this.modeles.put(modele.getId(), null);
+        if (oldModele != null) {
             // todo: requête au serveur pour suppression d'un organisme
         }
-        return modele;
+        return oldModele;
     }
 }

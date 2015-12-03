@@ -37,17 +37,17 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
     /**
      * Ajouter un nouveau MarchandiseModele dans le dépôt
      *
-     * @param id
+     * @param json
      *   de l'objet MarchandiseModele
      *
      * @return une nouvelle instance de MarchandiseModele vide ou null si la marchansise existe déjà
      */
     @Override
-    public MarchandiseModele ajouterModele(int id) {
-        MarchandiseModele modele = new MarchandiseModele(this, id);
+    public MarchandiseModele ajouterModele(String json) {
+        MarchandiseModele modele = this.gson.fromJson(json, MarchandiseModele.class);
 
-        if (this.modeles.get(id) == null){
-            this.modeles.put(id,modele);
+        if (this.modeles.get(modele.getId()) == null){
+            this.modeles.put(modele.getId(),modele);
             // todo: requête au serveur pour ajouter une marchandise
             return modele;
         } else {
@@ -56,22 +56,21 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
     }
 
 
-
     /**
      * Modifier un MarchandiseModele présent dans le dépôt
      *
-     * @param id
+     * @param modele
      *   de l'objet MarchandiseModele
      *
      * @return un MarchandiseModele ou null si inexistant dans le dépôt
      */
     @Override
-    public MarchandiseModele modifierModele(int id) {
-        MarchandiseModele modele = this.modeles.get(id);
+    public MarchandiseModele modifierModele(MarchandiseModele modele) {
+        MarchandiseModele oldModele = this.modeles.get(modele.getId());
 
-        if (modele != null) {
+        if (oldModele != null) {
             // todo: requête au serveur pour modification sur la marchandise
-            return modele;
+            return oldModele;
         } else {
             return null;
         }
@@ -80,16 +79,16 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
     /**
      * Supprimer un MarchandiseModele présent dans le dépôt
      *
-     * @param id
+     * @param modele
      *   de l'objet MarchandiseModele
      * @return un MarchandiseModele ou null si inexistant dans le dépôt
      */
     @Override
-    public MarchandiseModele supprimerModele(int id) {
-        MarchandiseModele modele = this.modeles.put(id, null);
-        if (modele != null) {
+    public MarchandiseModele supprimerModele(MarchandiseModele modele) {
+        MarchandiseModele oldModele = this.modeles.put(modele.getId(), null);
+        if (oldModele != null) {
             // todo: requête au serveur pour suppression de la marchandise
         }
-        return modele;
+        return oldModele;
     }
 }
