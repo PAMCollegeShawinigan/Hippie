@@ -3,6 +3,7 @@ package com.pam.codenamehippie.ui;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,9 +11,9 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
@@ -28,11 +29,12 @@ import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = LoginActivity.class.getSimpleName();
+
     /**
      * Regex pour vérifier la validité de la syntaxe du champ courriel.
      */
-    private static final String TAG = LoginActivity.class.getSimpleName();
-    private final Pattern courrielPattern = Pattern.compile("^(\\w.+)@+(\\w.+)");
+    private final Pattern courrielPattern = Patterns.EMAIL_ADDRESS;
     private EditText courrielEditText;
     private EditText passwordEditText;
     private TextInputLayout courrielTextInputLayout;
@@ -92,6 +94,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         this.courrielTextInputLayout = (TextInputLayout) this.findViewById(R.id.tilCourriel);
         this.passwordTextInputLayout = (TextInputLayout) this.findViewById(R.id.tilPassword);
+
     }
 
     @Override
@@ -159,32 +162,51 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void onClickLogin(View v) {
+    public void onClickLogin(final View v) {
         OkHttpClient client = ((HippieApplication) this.getApplication()).getHttpClient();
         RequestBody requestBody =
           new FormEncodingBuilder().add("courriel", this.courrielEditText.getText().toString())
                                    .add("mot_de_passe", this.passwordEditText.getText().toString())
                                    .build();
         Request request =
-          new Request.Builder().url("http://yolainecourteau.com/hippie/laravel/public/connection")
+          new Request.Builder().url(HippieApplication.baseUrl)
                                .post(requestBody)
                                .build();
+        final String prefPasswordKey = this.getString(R.string.pref_password_key);
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-                Toast.makeText(LoginActivity.this, "Échec de connexion", Toast.LENGTH_SHORT)
-                     .show();
-                LoginActivity activity = LoginActivity.this;
-                // On oublie le mot de passe.
-                activity.sharedPreferences.edit()
-                                          .remove(activity.getString(R.string.pref_password_key))
-                                          .commit();
+                LoginActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Snackbar.make(v, "Échec de connexion", Snackbar.LENGTH_SHORT)
+                                .show();
+                    }
+                });
+                // On oublie le mot de passe. Parce qu'on a échoué.
+                LoginActivity.this.sharedPreferences.edit()
+                                                    .remove(prefPasswordKey)
+                                                    .commit();
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
-                Log.d(TAG, "Réponse serveur: " + response);
-                Log.d(TAG, "Corps de réponse: " + response.body().string());
+                if (response.isSuccessful()) {
+                    Log.d(TAG, response.body().string());
+                    LoginActivity.this.finish();
+                } else {
+                    LoginActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Snackbar.make(v, "Échec de connexion", Snackbar.LENGTH_SHORT)
+                                    .show();
+                        }
+                    });
+                    // On oublie le mot de passe. Parce qu'on a échoué.
+                    LoginActivity.this.sharedPreferences.edit()
+                                                        .remove(prefPasswordKey)
+                                                        .commit();
+                }
             }
         });
     }

@@ -5,9 +5,8 @@ import android.support.v4.util.SimpleArrayMap;
 /**
  * Créé par Carl St-Louis le 23-11-2015.
  */
-public class MarchandiseModeleDepot extends BaseModeleDepot {
 
-    private SimpleArrayMap<Integer, MarchandiseModele> modeles = null;
+public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
 
     /**
      * Contruction du dépot pour modèle Marchandise
@@ -16,11 +15,12 @@ public class MarchandiseModeleDepot extends BaseModeleDepot {
         this.modeles = new SimpleArrayMap<>();
     }
 
-
     /**
      * Rechercher un MarchandiseModele par ID dans le dépôt
      *
-     * @param id de l'objet MarchandiseModele
+     * @param id
+     *   de l'objet MarchandiseModele
+     *
      * @return un MarchandiseModele ou null si inexistant dans le dépôt
      */
     @Override
@@ -37,7 +37,9 @@ public class MarchandiseModeleDepot extends BaseModeleDepot {
     /**
      * Ajouter un nouveau MarchandiseModele dans le dépôt
      *
-     * @param id de l'objet MarchandiseModele
+     * @param id
+     *   de l'objet MarchandiseModele
+     *
      * @return une nouvelle instance de MarchandiseModele vide ou null si la marchansise existe déjà
      */
     @Override
@@ -54,10 +56,13 @@ public class MarchandiseModeleDepot extends BaseModeleDepot {
     }
 
 
+
     /**
      * Modifier un MarchandiseModele présent dans le dépôt
      *
-     * @param id de l'objet MarchandiseModele
+     * @param id
+     *   de l'objet MarchandiseModele
+     *
      * @return un MarchandiseModele ou null si inexistant dans le dépôt
      */
     @Override
@@ -75,13 +80,14 @@ public class MarchandiseModeleDepot extends BaseModeleDepot {
     /**
      * Supprimer un MarchandiseModele présent dans le dépôt
      *
-     * @param id de l'objet MarchandiseModele
+     * @param id
+     *   de l'objet MarchandiseModele
      * @return un MarchandiseModele ou null si inexistant dans le dépôt
      */
     @Override
     public MarchandiseModele supprimerModele(int id) {
-        MarchandiseModele modele = this.modeles.put(id,null);
-        if (modele != null){
+        MarchandiseModele modele = this.modeles.put(id, null);
+        if (modele != null) {
             // todo: requête au serveur pour suppression de la marchandise
         }
         return modele;
