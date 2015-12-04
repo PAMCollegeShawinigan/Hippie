@@ -1,6 +1,6 @@
 package com.pam.codenamehippie.modele;
 
-import android.support.v4.util.SimpleArrayMap;
+import com.squareup.okhttp.OkHttpClient;
 
 /**
  * Créé par Carl St-Louis le 23-11-2015.
@@ -8,11 +8,9 @@ import android.support.v4.util.SimpleArrayMap;
 
 public class UtilisateurModeleDepot extends BaseModeleDepot<UtilisateurModele> {
 
-    /**
-     * Contruction du dépot pour modèle Utilisateur
-     */
-    public UtilisateurModeleDepot() {
-        this.modeles = new SimpleArrayMap<>();
+    public UtilisateurModeleDepot(OkHttpClient httpClient) {
+        super(httpClient);
+        this.url = this.url.newBuilder().addPathSegment("utilisateur").build();
     }
 
     /**
@@ -24,7 +22,7 @@ public class UtilisateurModeleDepot extends BaseModeleDepot<UtilisateurModele> {
      * @return un UtilisateurModele ou null si inexistant dans le dépôt
      */
     @Override
-    public UtilisateurModele rechercherParId(int id) {
+    public UtilisateurModele rechercherParId(Integer id) {
         UtilisateurModele modele = this.modeles.get(id);
         if (modele != null) {
             return this.modeles.get(id);
@@ -32,7 +30,6 @@ public class UtilisateurModeleDepot extends BaseModeleDepot<UtilisateurModele> {
             return null;
         }
     }
-
 
     /**
      * Ajouter un nouvel UtilisateurModele dans le dépôt
@@ -44,7 +41,7 @@ public class UtilisateurModeleDepot extends BaseModeleDepot<UtilisateurModele> {
      */
     @Override
     public UtilisateurModele ajouterModele(String json) {
-        UtilisateurModele modele = this.gson.fromJson(json, UtilisateurModele.class);
+        UtilisateurModele modele = gson.fromJson(json, UtilisateurModele.class);
         if (this.modeles.get(modele.getId()) == null) {
             this.modeles.put(modele.getId(), modele);
             // todo: requête au serveur pour ajouter un utilisateur

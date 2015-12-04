@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Créé par Carl St-Louis le 23-11-2015.
  */
 public class OrganismeModele extends BaseModele {
+
     @SerializedName("nom")
     private String nom;
     @SerializedName("adresse")
@@ -13,28 +14,17 @@ public class OrganismeModele extends BaseModele {
     @SerializedName("telephone")
     private String telephone;
     @SerializedName("poste")
-    private int poste;
+    private Integer poste;
     @SerializedName("contact")
     private String contact;
     @SerializedName("no_entreprise")
-    private String no_entreprise;
+    private String noEntreprise;
     @SerializedName("no_osbl")
-    private String no_osbl;
-
-
-    // ------------------ Début constructeurs
-    public OrganismeModele(BaseModeleDepot depot, int id) {
-        super(depot, id);
-    }
-
-    // Todo: Vérifier les champs obligatoires pour nos constructeurs
-
-    // ------------------ Fin constructeurs
-
+    private String noOsbl;
 
     // ------------------ Début Accesseurs et mutateurs
     public String getNom() {
-        return nom;
+        return this.nom;
     }
 
     public void setNom(String nom) {
@@ -42,7 +32,7 @@ public class OrganismeModele extends BaseModele {
     }
 
     public String getAdresse() {
-        return adresse;
+        return this.adresse;
     }
 
     public void setAdresse(String adresse) {
@@ -50,43 +40,43 @@ public class OrganismeModele extends BaseModele {
     }
 
     public String getTelephone() {
-        return telephone;
+        return this.telephone;
     }
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 
-    public int getPoste() {
-        return poste;
+    public Integer getPoste() {
+        return this.poste;
     }
 
-    public void setPoste(int poste) {
+    public void setPoste(Integer poste) {
         this.poste = poste;
     }
 
     public String getContact() {
-        return contact;
+        return this.contact;
     }
 
     public void setContact(String contact) {
         this.contact = contact;
     }
 
-    public String getNo_entreprise() {
-        return no_entreprise;
+    public String getNoEntreprise() {
+        return this.noEntreprise;
     }
 
-    public void setNo_entreprise(String no_entreprise) {
-        this.no_entreprise = no_entreprise;
+    public void setNoEntreprise(String noEntreprise) {
+        this.noEntreprise = noEntreprise;
     }
 
-    public String getNo_osbl() {
-        return no_osbl;
+    public String getNoOsbl() {
+        return this.noOsbl;
     }
 
-    public void setNo_osbl(String no_osbl) {
-        this.no_osbl = no_osbl;
+    public void setNoOsbl(String noOsbl) {
+        this.noOsbl = noOsbl;
     }
     // ------------------ Fin Accesseurs et mutateurs
 }

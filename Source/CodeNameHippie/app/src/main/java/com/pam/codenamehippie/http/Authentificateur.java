@@ -57,13 +57,9 @@ public final class Authentificateur implements Authenticator {
         this.preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
     }
 
-<<<<<<< HEAD:Source/CodeNameHippie/app/src/main/java/com/pam/codenamehippie/auth/Authentificateur.java
-    // Méthode usine static pour créer une nouvelle instance de Authentificateur
-=======
     /**
      * Méthode usine statique pour créer une nouvelle instance.
      **/
->>>>>>> refs/heads/pr/4:Source/CodeNameHippie/app/src/main/java/com/pam/codenamehippie/http/Authentificateur.java
     public static Authentificateur newInstance(Context context) {
         return new Authentificateur(context);
     }
