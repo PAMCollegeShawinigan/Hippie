@@ -12,29 +12,20 @@ public class UtilisateurModele extends BaseModele {
     @SerializedName("courriel")
     private String courriel;
     @SerializedName("mot_de_passe")
-    private String mot_de_passe;
+    private String motDePasse;
     @SerializedName("nom")
     private String nom;
     @SerializedName("prenom")
     private String prenom;
     @SerializedName("telephone")
     private String telephone;
-    @SerializedName("moyen_contact")
-    private int moyen_contact;
+    // FIXME: Le serveur retourne moyenContact au lieu de moyen_contact
+    @SerializedName(value = "moyen_contact", alternate = "moyenContact")
+    private Integer moyenContact;
     @SerializedName("id_organisme")
-    private int id_organisme;
+    private Integer idOrganisme;
     @SerializedName("dern_connexion")
-    private Date dern_connexion;
-
-    // ------------------ Début constructeurs
-
-    public UtilisateurModele(BaseModeleDepot depot, int id) {
-        super(depot, id);
-    }
-
-    // Todo: Vérifier les champs obligatoires pour nos constructeurs
-
-    // ------------------ Fin constructeurs
+    private Date dernConnexion;
 
     // ------------------ Début Accesseurs et mutateurs
     public String getCourriel() {
@@ -45,12 +36,12 @@ public class UtilisateurModele extends BaseModele {
         this.courriel = courriel;
     }
 
-    public String getMot_de_passe() {
-        return this.mot_de_passe;
+    public String getMotDePasse() {
+        return this.motDePasse;
     }
 
-    public void setMot_de_passe(String mot_de_passe) {
-        this.mot_de_passe = mot_de_passe;
+    public void setMotDePasse(String motDePasse) {
+        this.motDePasse = motDePasse;
     }
 
     public String getNom() {
@@ -77,28 +68,28 @@ public class UtilisateurModele extends BaseModele {
         this.telephone = telephone;
     }
 
-    public int getMoyen_contact() {
-        return this.moyen_contact;
+    public Integer getMoyenContact() {
+        return this.moyenContact;
     }
 
-    public void setMoyen_contact(int moyen_contact) {
-        this.moyen_contact = moyen_contact;
+    public void setMoyenContact(Integer moyenContact) {
+        this.moyenContact = moyenContact;
     }
 
-    public int getId_organisme() {
-        return this.id_organisme;
+    public Integer getIdOrganisme() {
+        return this.idOrganisme;
     }
 
-    public void setId_organisme(int id_organisme) {
-        this.id_organisme = id_organisme;
+    public void setIdOrganisme(Integer idOrganisme) {
+        this.idOrganisme = idOrganisme;
     }
 
-    public Date getDern_connexion() {
-        return this.dern_connexion;
+    public Date getDernConnexion() {
+        return this.dernConnexion;
     }
 
-    public void setDern_connexion(Date dern_connexion) {
-        this.dern_connexion = dern_connexion;
+    public void setDernConnexion(Date dernConnexion) {
+        this.dernConnexion = dernConnexion;
     }
     // ------------------ Fin Accesseurs et mutateurs
 }

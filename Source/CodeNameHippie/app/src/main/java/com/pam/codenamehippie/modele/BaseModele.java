@@ -1,32 +1,42 @@
 package com.pam.codenamehippie.modele;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
 public abstract class BaseModele {
 
-    // TODO : vérifier convention avec la BD
+    // TODO : Vérifier la convention de nom avec la BD
     @SerializedName(value = "id",
-                    alternate = {"id_utilisateur", "id_organisme", "id_transaction", "id"})
-    private int id;
+                    alternate = {"id_utilisateur"})
+    private Integer id;
 
-    // Accesseur
-    public int getId() {
-        return id;
+    /**
+     * Accesseur de l'id du modèle
+     *
+     * @return l'id de l'objet
+     */
+    public Integer getId() {
+        return this.id;
     }
 
-    // FIXME : arrange toi avec ça
     /**
-     * Surcharge de la méthode {@link Object#toString()} appelle la méthode
-     * {@link BaseModele#toJSon()}.
+     * Surcharge de la méthode {@link Object#toString()}. Appelle la méthode {@link
+     * com.google.gson.Gson#toJson(Object)}.
+     * <p/>
+     * Cette méthode est disponible à des fins de développement, car l'objet JSON
+     * résultant est adapté pour un affichage à la console.
      *
      * @return l'objet en format JSON.
      *
-     * @see BaseModele#toJSon()
+     * @see com.google.gson.Gson#toJson(Object)
+     * @see GsonBuilder#setPrettyPrinting()
      */
-//    @Override
-//    public String toString() {
-//        return this.toJSon();
-//    }
+    @Override
+    public String toString() {
+        return new GsonBuilder().serializeNulls()
+                                .setPrettyPrinting()
+                                .enableComplexMapKeySerialization()
+                                .create()
+                                .toJson(this);
+    }
 }

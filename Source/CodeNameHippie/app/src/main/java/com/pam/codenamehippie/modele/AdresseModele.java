@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 public class AdresseModele extends BaseModele {
 
     @SerializedName("no_civique")
-    private int noCivique;
+    private Integer noCivique;
     @SerializedName("type_rue")
     private String typeRue;
     @SerializedName("nom")
@@ -24,13 +24,12 @@ public class AdresseModele extends BaseModele {
     @SerializedName("pays")
     private String pays;
 
-
     // ------------------------------ Début Accesseur et Mutateur
-    public int getNoCivique() {
+    public Integer getNoCivique() {
         return this.noCivique;
     }
 
-    public void setNoCivique(int noCivique) {
+    public void setNoCivique(Integer noCivique) {
         this.noCivique = noCivique;
     }
 

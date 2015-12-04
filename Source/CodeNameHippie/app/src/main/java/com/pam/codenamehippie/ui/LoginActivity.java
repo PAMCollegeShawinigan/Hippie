@@ -15,8 +15,10 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -192,8 +194,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    Log.d(TAG, response.body().string());
-                    LoginActivity.this.finish();
+                    String json = response.body().string();
+                    UtilisateurModele modele = new Gson().fromJson(json, UtilisateurModele.class);
+                    Log.d(TAG, "Json: " + json);
+                    Log.d(TAG, "Modele: " + modele.toString());
+
                 } else {
                     LoginActivity.this.runOnUiThread(new Runnable() {
                         @Override

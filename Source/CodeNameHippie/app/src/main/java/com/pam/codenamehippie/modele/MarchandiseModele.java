@@ -12,14 +12,13 @@ public class MarchandiseModele extends BaseModele {
     @SerializedName("description")
     private String description;
     @SerializedName("quantite")
-    private double quantite;
+    private Double quantite;
     @SerializedName("etat")
     private String etat;
     @SerializedName("valeur")
-    private int valeur;
+    private Integer valeur;
     @SerializedName("statut")
     private String statut;
-
 
     // ------------------------------ Début Accesseur et Mutateur
     public String getNom() {
@@ -38,11 +37,11 @@ public class MarchandiseModele extends BaseModele {
         this.description = description;
     }
 
-    public double getQuantite() {
+    public Double getQuantite() {
         return this.quantite;
     }
 
-    public void setQuantite(double quantite) {
+    public void setQuantite(Double quantite) {
         this.quantite = quantite;
     }
 
@@ -54,11 +53,11 @@ public class MarchandiseModele extends BaseModele {
         this.etat = etat;
     }
 
-    public int getValeur() {
+    public Integer getValeur() {
         return this.valeur;
     }
 
-    public void setValeur(int valeur) {
+    public void setValeur(Integer valeur) {
         this.valeur = valeur;
     }
 

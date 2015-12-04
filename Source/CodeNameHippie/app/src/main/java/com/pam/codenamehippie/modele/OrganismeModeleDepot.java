@@ -1,6 +1,6 @@
 package com.pam.codenamehippie.modele;
 
-import android.support.v4.util.SimpleArrayMap;
+import com.squareup.okhttp.OkHttpClient;
 
 /**
  * Créé par Carl St-Louis le 23-11-2015.
@@ -11,10 +11,10 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
     /**
      * Contruction du dépot pour modèle Organisme
      */
-    public OrganismeModeleDepot() {
-        this.modeles = new SimpleArrayMap<>();
+    public OrganismeModeleDepot(OkHttpClient httpClient) {
+        super(httpClient);
+        this.url = this.url.newBuilder().addPathSegment("organisme").build();
     }
-
 
     /**
      * Rechercher un OrganismeModele par ID dans le dépôt
@@ -25,7 +25,7 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
      * @return un OrganismeModele ou null si inexistant dans le dépôt
      */
     @Override
-    public OrganismeModele rechercherParId(int id) {
+    public OrganismeModele rechercherParId(Integer id) {
         OrganismeModele modele = this.modeles.get(id);
         if (modele != null) {
             return this.modeles.get(id);
@@ -34,12 +34,12 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
         }
     }
 
-
     /**
      * Ajouter un nouveau OrganismeModele dans le dépôt
      *
      * @param json
      *   de l'objet OrganismeModele
+     *
      * @return une nouvelle instance de OrganismeModele vide ou null si l'organisme existe déjà
      */
     @Override

@@ -1,6 +1,6 @@
 package com.pam.codenamehippie.modele;
 
-import android.support.v4.util.SimpleArrayMap;
+import com.squareup.okhttp.OkHttpClient;
 
 /**
  * Créé par Carl St-Louis le 23-11-2015.
@@ -10,8 +10,9 @@ public class TransactionModeleDepot extends BaseModeleDepot<TransactionModele> {
     /**
      * Contruction du dépot pour modèle Transaction
      */
-    public TransactionModeleDepot() {
-        this.modeles = new SimpleArrayMap<>();
+    public TransactionModeleDepot(OkHttpClient httpClient) {
+        super(httpClient);
+        this.url = this.url.newBuilder().addPathSegment("transaction").build();
     }
 
     /**
@@ -23,7 +24,7 @@ public class TransactionModeleDepot extends BaseModeleDepot<TransactionModele> {
      * @return un TransactionModele ou null si inexistant dans le dépôt
      */
     @Override
-    public TransactionModele rechercherParId(int id) {
+    public TransactionModele rechercherParId(Integer id) {
         TransactionModele modele = this.modeles.get(id);
         if (modele != null) {
             return this.modeles.get(id);
@@ -31,7 +32,6 @@ public class TransactionModeleDepot extends BaseModeleDepot<TransactionModele> {
             return null;
         }
     }
-
 
     /**
      * Ajouter un nouveau TransactionModele dans le dépôt
@@ -43,7 +43,7 @@ public class TransactionModeleDepot extends BaseModeleDepot<TransactionModele> {
      */
     @Override
     public TransactionModele ajouterModele(String json) {
-        TransactionModele modele = this.gson.fromJson(json, TransactionModele.class);
+        TransactionModele modele = this.fromJson(json);
         if (this.modeles.get(modele.getId()) == null) {
             this.modeles.put(modele.getId(), modele);
             // todo: requête au serveur pour ajouter une transaction

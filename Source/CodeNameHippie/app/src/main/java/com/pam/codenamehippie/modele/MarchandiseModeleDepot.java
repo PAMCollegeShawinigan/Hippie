@@ -1,6 +1,6 @@
 package com.pam.codenamehippie.modele;
 
-import android.support.v4.util.SimpleArrayMap;
+import com.squareup.okhttp.OkHttpClient;
 
 /**
  * Créé par Carl St-Louis le 23-11-2015.
@@ -8,11 +8,9 @@ import android.support.v4.util.SimpleArrayMap;
 
 public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
 
-    /**
-     * Contruction du dépot pour modèle Marchandise
-     */
-    public MarchandiseModeleDepot() {
-        this.modeles = new SimpleArrayMap<>();
+    public MarchandiseModeleDepot(OkHttpClient httpClient) {
+        super(httpClient);
+        this.url = this.url.newBuilder().addPathSegment("marchandise").build();
     }
 
     /**
@@ -24,7 +22,7 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
      * @return un MarchandiseModele ou null si inexistant dans le dépôt
      */
     @Override
-    public MarchandiseModele rechercherParId(int id) {
+    public MarchandiseModele rechercherParId(Integer id) {
         MarchandiseModele modele = this.modeles.get(id);
         if (modele != null) {
             return this.modeles.get(id);
@@ -32,7 +30,6 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
             return null;
         }
     }
-
 
     /**
      * Ajouter un nouveau MarchandiseModele dans le dépôt
@@ -44,17 +41,16 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
      */
     @Override
     public MarchandiseModele ajouterModele(String json) {
-        MarchandiseModele modele = this.gson.fromJson(json, MarchandiseModele.class);
+        MarchandiseModele modele = gson.fromJson(json, MarchandiseModele.class);
 
-        if (this.modeles.get(modele.getId()) == null){
-            this.modeles.put(modele.getId(),modele);
+        if (this.modeles.get(modele.getId()) == null) {
+            this.modeles.put(modele.getId(), modele);
             // todo: requête au serveur pour ajouter une marchandise
             return modele;
         } else {
-            return  null;
+            return null;
         }
     }
-
 
     /**
      * Modifier un MarchandiseModele présent dans le dépôt
@@ -81,6 +77,7 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
      *
      * @param modele
      *   de l'objet MarchandiseModele
+     *
      * @return un MarchandiseModele ou null si inexistant dans le dépôt
      */
     @Override

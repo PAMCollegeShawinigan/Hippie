@@ -10,74 +10,65 @@ import java.util.Date;
 public class TransactionModele extends BaseModele {
 
     @SerializedName("id_receveur")
-    private OrganismeModele id_receveur;
-    @SerializedName("id_donneur")
-    private OrganismeModele id_donneur;
+    private OrganismeModele idReceveur;
+    @SerializedName("idDonneur")
+    private OrganismeModele idDonneur;
     @SerializedName("id_marchandise")
-    private MarchandiseModele id_marchandise;
+    private MarchandiseModele idMarchandise;
     @SerializedName("date_collecte")
-    private Date date_collecte;
+    private Date dateCollecte;
     @SerializedName("date_reservation")
-    private Date date_reservation;
+    private Date dateReservation;
     @SerializedName("date_disponible")
-    private Date date_disponible;
-
-    // ------------------------------ Début Constructeur
-    public TransactionModele(BaseModeleDepot depot, int id) {
-        super(depot, id);
-    }
-
-    // todo: Vérifier les champs obligatoires pour nos constructeurs
-
-    // ------------------------------ Fin Constructeur
+    private Date dateDisponible;
 
     // ------------------------------ Début Accesseur et Mutateur
-    public OrganismeModele getId_receveur() {
-        return id_receveur;
+    public OrganismeModele getIdReceveur() {
+        return this.idReceveur;
     }
 
-    public void setId_receveur(OrganismeModele id_receveur) {
-        this.id_receveur = id_receveur;
+    public void setIdReceveur(OrganismeModele idReceveur) {
+        this.idReceveur = idReceveur;
     }
 
-    public OrganismeModele getId_donneur() {
-        return id_donneur;
+    public OrganismeModele getIdDonneur() {
+        return this.idDonneur;
     }
 
-    public void setId_donneur(OrganismeModele id_donneur) {
-        this.id_donneur = id_donneur;
+    public void setIdDonneur(OrganismeModele idDonneur) {
+        this.idDonneur = idDonneur;
     }
 
-    public MarchandiseModele getId_marchandise() {
-        return id_marchandise;
+    public MarchandiseModele getIdMarchandise() {
+        return this.idMarchandise;
     }
 
-    public void setId_marchandise(MarchandiseModele id_marchandise) {
-        this.id_marchandise = id_marchandise;
+    public void setIdMarchandise(MarchandiseModele idMarchandise) {
+        this.idMarchandise = idMarchandise;
     }
 
-    public Date getDate_collecte() {
-        return date_collecte;
+    public Date getDateCollecte() {
+        return this.dateCollecte;
     }
 
-    public void setDate_collecte(Date date_collecte) {
-        this.date_collecte = date_collecte;
+    public void setDateCollecte(Date dateCollecte) {
+        this.dateCollecte = dateCollecte;
     }
 
-    public Date getDate_reservation() {
-        return date_reservation;
+    public Date getDateReservation() {
+        return this.dateReservation;
     }
 
-    public void setDate_reservation(Date date_reservation) {
-        this.date_reservation = date_reservation;
+    public void setDateReservation(Date dateReservation) {
+        this.dateReservation = dateReservation;
     }
 
-    public Date getDate_disponible() {
-        return date_disponible;
+    public Date getDateDisponible() {
+        return this.dateDisponible;
     }
 
-    public void setDate_disponible(Date date_disponible) {
-        this.date_disponible = date_disponible;
+    public void setDateDisponible(Date dateDisponible) {
+        this.dateDisponible = dateDisponible;
     }
     // ------------------------------ Fin Accesseur et Mutateur
 }

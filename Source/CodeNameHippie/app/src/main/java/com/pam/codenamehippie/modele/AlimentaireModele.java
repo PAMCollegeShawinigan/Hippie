@@ -14,20 +14,19 @@ public class AlimentaireModele extends MarchandiseModele {
     @SerializedName("description")
     private String description;
     @SerializedName("quantite")
-    private double quantite;
+    private Double quantite;
     @SerializedName("etat")
     private String etat;
     @SerializedName("qtee_unite")
-    private int qteeUnite;
+    private Integer qteeUnite;
     @SerializedName("valeur")
-    private int valeur;
+    private Integer valeur;
     @SerializedName("statut")
     private String statut;
     @SerializedName("type_alimentaire")
     private String typeAlimentaire;
     @SerializedName("date_peremption")
     private Date datePeremption;
-
 
     // ------------------ Début Accesseurs et mutateurs
 
@@ -47,11 +46,11 @@ public class AlimentaireModele extends MarchandiseModele {
         this.description = description;
     }
 
-    public double getQuantite() {
+    public Double getQuantite() {
         return this.quantite;
     }
 
-    public void setQuantite(double quantite) {
+    public void setQuantite(Double quantite) {
         this.quantite = quantite;
     }
 
@@ -63,19 +62,19 @@ public class AlimentaireModele extends MarchandiseModele {
         this.etat = etat;
     }
 
-    public int getQteeUnite() {
+    public Integer getQteeUnite() {
         return this.qteeUnite;
     }
 
-    public void setQteeUnite(int qteeUnite) {
+    public void setQteeUnite(Integer qteeUnite) {
         this.qteeUnite = qteeUnite;
     }
 
-    public int getValeur() {
+    public Integer getValeur() {
         return this.valeur;
     }
 
-    public void setValeur(int valeur) {
+    public void setValeur(Integer valeur) {
         this.valeur = valeur;
     }
 
