@@ -35,7 +35,7 @@ public class HippieApplication extends Application {
         // Configuration du client Http.
         this.httpClient.setAuthenticator(Authentificateur.newInstance(this))
                        .setCookieHandler(cookieManager);
-        this.httpClient.networkInterceptors().add(new AcceptJsonInterceptor());
+        this.httpClient.networkInterceptors().add(AcceptJsonInterceptor.newInstance());
         if (BuildConfig.DEBUG) {
             // Rapport de debug pour les requêtes.
             this.httpClient.networkInterceptors().add(new HttpDebugInterceptor());
