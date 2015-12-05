@@ -20,55 +20,59 @@ public class MarchandiseModele extends BaseModele {
     @SerializedName("statut")
     private String statut;
 
-    // ------------------------------ Début Accesseur et Mutateur
     public String getNom() {
         return this.nom;
     }
 
-    public void setNom(String nom) {
+    public MarchandiseModele setNom(String nom) {
         this.nom = nom;
+        return this;
     }
 
     public String getDescription() {
         return this.description;
     }
 
-    public void setDescription(String description) {
+    public MarchandiseModele setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public Double getQuantite() {
         return this.quantite;
     }
 
-    public void setQuantite(Double quantite) {
+    public MarchandiseModele setQuantite(Double quantite) {
         this.quantite = quantite;
+        return this;
     }
 
     public String getEtat() {
         return this.etat;
     }
 
-    public void setEtat(String etat) {
+    public MarchandiseModele setEtat(String etat) {
         this.etat = etat;
+        return this;
     }
 
     public Integer getValeur() {
         return this.valeur;
     }
 
-    public void setValeur(Integer valeur) {
+    public MarchandiseModele setValeur(Integer valeur) {
         this.valeur = valeur;
+        return this;
     }
 
     public String getStatut() {
         return this.statut;
     }
 
-    public void setStatut(String statut) {
+    public MarchandiseModele setStatut(String statut) {
         this.statut = statut;
+        return this;
     }
-    // ------------------------------ Fin Accesseur et Mutateur
 
 }
 

@@ -24,69 +24,75 @@ public class AdresseModele extends BaseModele {
     @SerializedName("pays")
     private String pays;
 
-    // ------------------------------ Début Accesseur et Mutateur
     public Integer getNoCivique() {
         return this.noCivique;
     }
 
-    public void setNoCivique(Integer noCivique) {
+    public AdresseModele setNoCivique(Integer noCivique) {
         this.noCivique = noCivique;
+        return this;
     }
 
     public String getTypeRue() {
         return this.typeRue;
     }
 
-    public void setTypeRue(String typeRue) {
+    public AdresseModele setTypeRue(String typeRue) {
         this.typeRue = typeRue;
+        return this;
     }
 
     public String getNom() {
         return this.nom;
     }
 
-    public void setNom(String nom) {
+    public AdresseModele setNom(String nom) {
         this.nom = nom;
+        return this;
     }
 
     public String getApp() {
         return this.app;
     }
 
-    public void setApp(String app) {
+    public AdresseModele setApp(String app) {
         this.app = app;
+        return this;
     }
 
     public String getVille() {
         return this.ville;
     }
 
-    public void setVille(String ville) {
+    public AdresseModele setVille(String ville) {
         this.ville = ville;
+        return this;
     }
 
     public String getProvince() {
         return this.province;
     }
 
-    public void setProvince(String province) {
+    public AdresseModele setProvince(String province) {
         this.province = province;
+        return this;
     }
 
     public String getCodePostal() {
         return this.codePostal;
     }
 
-    public void setCodePostal(String codePostal) {
+    public AdresseModele setCodePostal(String codePostal) {
         this.codePostal = codePostal;
+        return this;
     }
 
     public String getPays() {
         return this.pays;
     }
 
-    public void setPays(String pays) {
+    public AdresseModele setPays(String pays) {
         this.pays = pays;
+        return this;
     }
-    // ------------------------------ Fin Accesseur et Mutateur
 }

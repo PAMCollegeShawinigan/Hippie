@@ -9,97 +9,73 @@ import java.util.Date;
  */
 public class AlimentaireModele extends MarchandiseModele {
 
-    @SerializedName("nom")
-    private String nom;
-    @SerializedName("description")
-    private String description;
-    @SerializedName("quantite")
-    private Double quantite;
-    @SerializedName("etat")
-    private String etat;
     @SerializedName("qtee_unite")
     private Integer qteeUnite;
-    @SerializedName("valeur")
-    private Integer valeur;
-    @SerializedName("statut")
-    private String statut;
     @SerializedName("type_alimentaire")
     private String typeAlimentaire;
     @SerializedName("date_peremption")
     private Date datePeremption;
 
-    // ------------------ Début Accesseurs et mutateurs
-
-    public String getNom() {
-        return this.nom;
+    @Override
+    public AlimentaireModele setNom(String nom) {
+        super.setNom(nom);
+        return this;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    @Override
+    public AlimentaireModele setDescription(String description) {
+        super.setDescription(description);
+        return this;
     }
 
-    public String getDescription() {
-        return this.description;
+    @Override
+    public AlimentaireModele setQuantite(Double quantite) {
+        super.setQuantite(quantite);
+        return this;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    @Override
+    public AlimentaireModele setEtat(String etat) {
+        super.setEtat(etat);
+        return this;
     }
 
-    public Double getQuantite() {
-        return this.quantite;
+    @Override
+    public AlimentaireModele setValeur(Integer valeur) {
+        super.setValeur(valeur);
+        return this;
     }
 
-    public void setQuantite(Double quantite) {
-        this.quantite = quantite;
-    }
-
-    public String getEtat() {
-        return this.etat;
-    }
-
-    public void setEtat(String etat) {
-        this.etat = etat;
+    @Override
+    public AlimentaireModele setStatut(String statut) {
+        super.setStatut(statut);
+        return this;
     }
 
     public Integer getQteeUnite() {
         return this.qteeUnite;
     }
 
-    public void setQteeUnite(Integer qteeUnite) {
+    public AlimentaireModele setQteeUnite(Integer qteeUnite) {
         this.qteeUnite = qteeUnite;
-    }
-
-    public Integer getValeur() {
-        return this.valeur;
-    }
-
-    public void setValeur(Integer valeur) {
-        this.valeur = valeur;
-    }
-
-    public String getStatut() {
-        return this.statut;
-    }
-
-    public void setStatut(String statut) {
-        this.statut = statut;
+        return this;
     }
 
     public String getTypeAlimentaire() {
         return this.typeAlimentaire;
     }
 
-    public void setTypeAlimentaire(String typeAlimentaire) {
+    public AlimentaireModele setTypeAlimentaire(String typeAlimentaire) {
         this.typeAlimentaire = typeAlimentaire;
+        return this;
     }
 
     public Date getDatePeremption() {
         return this.datePeremption;
     }
 
-    public void setDatePeremption(Date datePeremption) {
+    public AlimentaireModele setDatePeremption(Date datePeremption) {
         this.datePeremption = datePeremption;
+        return this;
     }
-    // ------------------ Fin Accesseurs et mutateurs
 }

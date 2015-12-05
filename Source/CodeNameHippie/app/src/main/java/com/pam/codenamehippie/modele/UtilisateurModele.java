@@ -27,69 +27,75 @@ public class UtilisateurModele extends BaseModele {
     @SerializedName("dern_connexion")
     private Date dernConnexion;
 
-    // ------------------ Début Accesseurs et mutateurs
     public String getCourriel() {
         return this.courriel;
     }
 
-    public void setCourriel(String courriel) {
+    public UtilisateurModele setCourriel(String courriel) {
         this.courriel = courriel;
+        return this;
     }
 
     public String getMotDePasse() {
         return this.motDePasse;
     }
 
-    public void setMotDePasse(String motDePasse) {
+    public UtilisateurModele setMotDePasse(String motDePasse) {
         this.motDePasse = motDePasse;
+        return this;
     }
 
     public String getNom() {
         return this.nom;
     }
 
-    public void setNom(String nom) {
+    public UtilisateurModele setNom(String nom) {
         this.nom = nom;
+        return this;
     }
 
     public String getPrenom() {
         return this.prenom;
     }
 
-    public void setPrenom(String prenom) {
+    public UtilisateurModele setPrenom(String prenom) {
         this.prenom = prenom;
+        return this;
     }
 
     public String getTelephone() {
         return this.telephone;
     }
 
-    public void setTelephone(String telephone) {
+    public UtilisateurModele setTelephone(String telephone) {
         this.telephone = telephone;
+        return this;
     }
 
     public Integer getMoyenContact() {
         return this.moyenContact;
     }
 
-    public void setMoyenContact(Integer moyenContact) {
+    public UtilisateurModele setMoyenContact(Integer moyenContact) {
         this.moyenContact = moyenContact;
+        return this;
     }
 
     public Integer getIdOrganisme() {
         return this.idOrganisme;
     }
 
-    public void setIdOrganisme(Integer idOrganisme) {
+    public UtilisateurModele setIdOrganisme(Integer idOrganisme) {
         this.idOrganisme = idOrganisme;
+        return this;
     }
 
     public Date getDernConnexion() {
         return this.dernConnexion;
     }
 
-    public void setDernConnexion(Date dernConnexion) {
+    public UtilisateurModele setDernConnexion(Date dernConnexion) {
         this.dernConnexion = dernConnexion;
+        return this;
     }
-    // ------------------ Fin Accesseurs et mutateurs
 }

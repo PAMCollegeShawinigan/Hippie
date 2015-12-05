@@ -27,48 +27,54 @@ public class TransactionModele extends BaseModele {
         return this.idReceveur;
     }
 
-    public void setIdReceveur(OrganismeModele idReceveur) {
+    public TransactionModele setIdReceveur(OrganismeModele idReceveur) {
         this.idReceveur = idReceveur;
+        return this;
     }
 
     public OrganismeModele getIdDonneur() {
         return this.idDonneur;
     }
 
-    public void setIdDonneur(OrganismeModele idDonneur) {
+    public TransactionModele setIdDonneur(OrganismeModele idDonneur) {
         this.idDonneur = idDonneur;
+        return this;
     }
 
     public MarchandiseModele getIdMarchandise() {
         return this.idMarchandise;
     }
 
-    public void setIdMarchandise(MarchandiseModele idMarchandise) {
+    public TransactionModele setIdMarchandise(MarchandiseModele idMarchandise) {
         this.idMarchandise = idMarchandise;
+        return this;
     }
 
     public Date getDateCollecte() {
         return this.dateCollecte;
     }
 
-    public void setDateCollecte(Date dateCollecte) {
+    public TransactionModele setDateCollecte(Date dateCollecte) {
         this.dateCollecte = dateCollecte;
+        return this;
     }
 
     public Date getDateReservation() {
         return this.dateReservation;
     }
 
-    public void setDateReservation(Date dateReservation) {
+    public TransactionModele setDateReservation(Date dateReservation) {
         this.dateReservation = dateReservation;
+        return this;
     }
 
     public Date getDateDisponible() {
         return this.dateDisponible;
     }
 
-    public void setDateDisponible(Date dateDisponible) {
+    public TransactionModele setDateDisponible(Date dateDisponible) {
         this.dateDisponible = dateDisponible;
+        return this;
     }
     // ------------------------------ Fin Accesseur et Mutateur
 }
