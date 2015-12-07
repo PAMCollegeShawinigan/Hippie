@@ -3,23 +3,45 @@ package pam.yongshunli.hippiemaps;
 /**
  * Created by BEG-163 on 2015-12-01.
  */
-public class Denree {
-    private  String nonDenree;
-    private int quantiteDenree;
-    private String unite="kg";
 
-    public Denree(String nonDenree, int quantiteDenree, String unite) {
-        this.nonDenree = nonDenree;
+
+public class Denree {
+    private String nomDenree;
+    private int quantiteDenree;
+    private String unite = "kg";
+    private StateDenree stateDenree;
+    private TypeDenree typeDenree;
+
+    public Denree(String nomDenree, int quantiteDenree, String unite, StateDenree stateDenree, TypeDenree typeDenree) {
+        this.nomDenree = nomDenree;
         this.quantiteDenree = quantiteDenree;
         this.unite = unite;
+        this.stateDenree = stateDenree;
+        this.stateDenree = stateDenree;
     }
 
-    public String getNonDenree() {
-        return nonDenree;
+    public TypeDenree getTypeDenree() {
+        return typeDenree;
     }
 
-    public void setNonDenree(String nonDenree) {
-        this.nonDenree = nonDenree;
+    public void setTypeDenree(TypeDenree typeDenree) {
+        this.typeDenree = typeDenree;
+    }
+
+    public StateDenree getStateDenree() {
+        return stateDenree;
+    }
+
+    public void setStateDenree(StateDenree stateDenree) {
+        this.stateDenree = stateDenree;
+    }
+
+    public String getNomDenree() {
+        return nomDenree;
+    }
+
+    public void setNomDenree(String nonDenree) {
+        this.nomDenree = nomDenree;
     }
 
     public int getQuantiteDenree() {
@@ -37,4 +59,21 @@ public class Denree {
     public void setUnite(String unite) {
         this.unite = unite;
     }
+}
+
+enum StateDenree {
+    disponible,
+    reserveee,
+    collectee
+}
+
+enum TypeDenree {
+
+    fruit_legume,
+    viande,
+    laitier,
+    surgele,
+    perissable,
+    boulangerie,
+    non_perissable
 }

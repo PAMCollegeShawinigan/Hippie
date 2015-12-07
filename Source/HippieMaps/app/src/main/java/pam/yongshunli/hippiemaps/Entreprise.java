@@ -10,6 +10,7 @@ public class Entreprise {
     private String addresse;
     private String heuresCollect="9:00-15:00";
     private String telephone;
+    private CollectDay collectDay;
     private ArrayList<Denree> listDenree;
 
     public Entreprise(String nomEntreprise, String addresse, String heuresCollect, String telephone, ArrayList<Denree> listDenree) {
@@ -58,5 +59,38 @@ public class Entreprise {
 
     public void setListDenree(ArrayList<Denree> listDenree) {
         this.listDenree = listDenree;
+    }
+}
+
+enum CollectDay{
+    lundi{
+        String getTime(){
+            return "9:00-11:00";
+        }
+
+    },
+    mardi{
+        String getTime(){
+            return "9:00-11:00";}
+    },
+    mercredi{
+        String getTime(){
+            return "9:00-11:00";}
+    },
+    jeudi{
+        String getTime(){
+            return "9:00-11:00";}
+    },
+    vendredi{
+        String getTime(){
+            return "9:00-11:00";}
+    },
+    samdi{
+        String getTime(){
+            return "9:00-11:00";}
+    },
+   dimanche {
+       String getTime(){
+           return "fermee";}
     }
 }
