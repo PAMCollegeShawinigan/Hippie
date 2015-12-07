@@ -90,7 +90,5 @@
         android:fontFamily="@string/openSans" />
 
 </LinearLayout>
-
-
 </LinearLayout>
 </ScrollView>

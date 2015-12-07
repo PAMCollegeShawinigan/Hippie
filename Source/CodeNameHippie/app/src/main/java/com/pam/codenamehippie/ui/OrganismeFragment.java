@@ -1,4 +1,4 @@
-package layout;
+package com.pam.codenamehippie.ui;
 
 import android.content.Context;
 import android.net.Uri;

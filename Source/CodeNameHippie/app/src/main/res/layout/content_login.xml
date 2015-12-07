@@ -107,7 +107,8 @@
         android:textColor="#555951"
         android:layout_below="@+id/etPassword"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+				android:onClick="onClickLogin" />
 
     <Button
         android:id="@+id/bGuest"
