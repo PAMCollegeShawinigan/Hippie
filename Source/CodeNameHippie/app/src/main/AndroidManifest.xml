@@ -25,16 +25,7 @@
             android:name=".ui.SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="landscape">
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> source
-=======
-
-=======
->>>>>>> master
->>>>>>> source
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
