@@ -1,0 +1,96 @@
+package pam.yongshunli.hippiemaps;
+
+import java.util.ArrayList;
+
+/**
+ * Created by BEG-163 on 2015-12-01.
+ */
+public class Entreprise {
+    private String nomEntreprise;
+    private String addresse;
+    private String heuresCollect="9:00-15:00";
+    private String telephone;
+    private CollectDay collectDay;
+    private ArrayList<Denree> listDenree;
+
+    public Entreprise(String nomEntreprise, String addresse, String heuresCollect, String telephone, ArrayList<Denree> listDenree) {
+        this.nomEntreprise = nomEntreprise;
+        this.addresse = addresse;
+        this.heuresCollect = heuresCollect;
+        this.telephone = telephone;
+        this.listDenree = listDenree;
+    }
+
+    public String getNomEntreprise() {
+        return nomEntreprise;
+    }
+
+    public void setNomEntreprise(String nomEntreprise) {
+        this.nomEntreprise = nomEntreprise;
+    }
+
+    public String getAddresse() {
+        return addresse;
+    }
+
+    public void setAddresse(String addresse) {
+        this.addresse = addresse;
+    }
+
+    public String getHeuresCollect() {
+        return heuresCollect;
+    }
+
+    public void setHeuresCollect(String heuresCollect) {
+        this.heuresCollect = heuresCollect;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public ArrayList<Denree> getListDenree() {
+        return listDenree;
+    }
+
+    public void setListDenree(ArrayList<Denree> listDenree) {
+        this.listDenree = listDenree;
+    }
+}
+
+enum CollectDay{
+    lundi{
+        String getTime(){
+            return "9:00-11:00";
+        }
+
+    },
+    mardi{
+        String getTime(){
+            return "9:00-11:00";}
+    },
+    mercredi{
+        String getTime(){
+            return "9:00-11:00";}
+    },
+    jeudi{
+        String getTime(){
+            return "9:00-11:00";}
+    },
+    vendredi{
+        String getTime(){
+            return "9:00-11:00";}
+    },
+    samdi{
+        String getTime(){
+            return "9:00-11:00";}
+    },
+   dimanche {
+       String getTime(){
+           return "fermee";}
+    }
+}
