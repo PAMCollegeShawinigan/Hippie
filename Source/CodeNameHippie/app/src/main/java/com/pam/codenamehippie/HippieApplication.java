@@ -5,6 +5,7 @@ import android.app.Application;
 import com.pam.codenamehippie.http.Authentificateur;
 import com.pam.codenamehippie.http.intercepteur.AcceptJsonInterceptor;
 import com.pam.codenamehippie.http.intercepteur.HttpDebugInterceptor;
+import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -20,9 +21,15 @@ public class HippieApplication extends Application {
     public static final HttpUrl baseUrl =
             HttpUrl.parse("http://yolainecourteau.com/hippie/laravel/public/");
     private final OkHttpClient httpClient = new OkHttpClient();
+    private final UtilisateurModeleDepot utilisateurModeleDepot =
+            new UtilisateurModeleDepot(this.httpClient);
 
     public OkHttpClient getHttpClient() {
         return this.httpClient;
+    }
+
+    public UtilisateurModeleDepot getUtilisateurModeleDepot() {
+        return this.utilisateurModeleDepot;
     }
 
     @Override

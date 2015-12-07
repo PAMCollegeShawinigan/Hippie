@@ -54,24 +54,7 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
-            LoginActivity.this.validerCourriel();
-        }
-    };
-    private TextInputLayout passwordTextInputLayout;
-    private final TextWatcher passwordTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            LoginActivity.this.validerMotDePasse();
+            LoginActivity.this.validerFormulaire();
         }
     };
 
@@ -80,88 +63,115 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            this.setSupportActionBar(toolbar);
+        }
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        this.setSupportActionBar(toolbar);
         this.courrielEditText = ((EditText) this.findViewById(R.id.etCourriel));
         String rememberedEmail =
-          this.sharedPreferences.getString(this.getString(R.string.pref_email_key), null);
+                this.sharedPreferences.getString(this.getString(R.string.pref_email_key), null);
         if ((rememberedEmail != null) && (this.courrielEditText != null)) {
             this.courrielEditText.setText(rememberedEmail);
         }
         String rememberedPassword =
-          this.sharedPreferences.getString(this.getString(R.string.pref_password_key), null);
+                this.sharedPreferences.getString(this.getString(R.string.pref_password_key), null);
         this.passwordEditText = (EditText) this.findViewById(R.id.etPassword);
         if ((this.passwordEditText != null) && (rememberedPassword != null)) {
             this.passwordEditText.setText(rememberedPassword);
         }
-        this.courrielTextInputLayout = (TextInputLayout) this.findViewById(R.id.tilCourriel);
-        this.passwordTextInputLayout = (TextInputLayout) this.findViewById(R.id.tilPassword);
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (this.courrielEditText != null) {
-            this.courrielEditText.addTextChangedListener(this.courrielTextWatcher);
-        }
-        if (this.passwordEditText != null) {
-            this.passwordEditText.addTextChangedListener(this.passwordTextWatcher);
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        this.validerCourriel();
-        this.validerMotDePasse();
+        this.loginButton = (Button) this.findViewById(R.id.bLogin);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         if (this.courrielEditText != null) {
-            this.courrielEditText.removeTextChangedListener(this.courrielTextWatcher);
+            this.courrielEditText.removeTextChangedListener(this.formulaireTextWatcher);
         }
         if (this.passwordEditText != null) {
-            this.passwordEditText.removeTextChangedListener(this.passwordTextWatcher);
+            this.passwordEditText.removeTextChangedListener(this.formulaireTextWatcher);
         }
     }
 
-    private void validerCourriel() {
-        if ((this.courrielEditText != null) && (this.courrielTextInputLayout != null)) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.validerFormulaire();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (this.courrielEditText != null) {
+            this.courrielEditText.addTextChangedListener(this.formulaireTextWatcher);
+        }
+        if (this.passwordEditText != null) {
+            this.passwordEditText.addTextChangedListener(this.formulaireTextWatcher);
+        }
+    }
+
+    /**
+     * Methode pour vérifier si le champ courriel du formulaire est valide et update la vue en
+     * conséquence.
+     *
+     * @return True si le champ est valide
+     */
+    private boolean courrielEstIlValide() {
+        if ((this.courrielEditText != null)) {
             Editable text = this.courrielEditText.getText();
-            String errorMessage = (!this.courrielPattern.matcher(text).matches()) ?
-                                  this.getString(R.string.error_invalid_email) :
-                                  null;
-            this.courrielTextInputLayout.setError(errorMessage);
-            if (errorMessage == null && !TextUtils.isEmpty(text)) {
+            String errorMessage = null;
+            if (TextUtils.isEmpty(text)) {
+                errorMessage = this.getString(R.string.error_field_required);
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
+                errorMessage = this.getString(R.string.error_invalid_email);
+            }
+            this.courrielEditText.setError(errorMessage);
+            if (errorMessage == null) {
                 this.sharedPreferences.edit()
                                       .putString(this.getString(R.string.pref_email_key),
                                                  text.toString()
                                                 )
                                       .commit();
             }
+            return this.courrielEditText.getError() == null;
         }
+        return false;
     }
 
-    private void validerMotDePasse() {
-        if ((this.passwordEditText != null) && (this.passwordTextInputLayout != null)) {
+    /**
+     * Methode pour vérifier si le champ mot the passse du formulaire est valide et update la vue
+     * en conséquence.
+     *
+     * @return True si le champ est valide
+     */
+    private boolean motDePasseEstIlValide() {
+        if ((this.passwordEditText != null)) {
             Editable text = this.passwordEditText.getText();
-            boolean isEmpty = TextUtils.isEmpty(text);
-            String errorMessage =
-              (isEmpty) ? this.getString(R.string.error_invalid_password) : null;
+            String errorMessage = null;
+            if (TextUtils.isEmpty(text)) {
+                errorMessage = this.getString(R.string.error_field_required);
+            }
             // TODO: Checker les contraintes de mots de passe.
-            if (errorMessage == null && !TextUtils.isEmpty(text)) {
+            if (errorMessage == null) {
                 this.sharedPreferences.edit()
                                       .putString(this.getString(R.string.pref_password_key),
                                                  text.toString()
                                                 )
                                       .commit();
             }
-            this.passwordTextInputLayout.setError(errorMessage);
-
+            this.passwordEditText.setError(errorMessage);
+            return this.passwordEditText.getError() == null;
         }
+        return false;
+    }
+
+    /**
+     * Methode pour vérifier si les champs mot the passse et courriel du formulaire est valide sont
+     * update la vue en conséquence.
+     */
+    private void validerFormulaire() {
+        this.loginButton.setEnabled(LoginActivity.this.courrielEstIlValide() &&
+                                    LoginActivity.this.motDePasseEstIlValide());
     }
 
     public void onClickLogin(final View v) {
@@ -181,14 +191,11 @@ public class LoginActivity extends AppCompatActivity {
                 LoginActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Snackbar.make(v, "Échec de connexion", Snackbar.LENGTH_SHORT)
-                                .show();
+                        Snackbar.make(v, "Échec de connexion", Snackbar.LENGTH_SHORT).show();
                     }
                 });
                 // On oublie le mot de passe. Parce qu'on a échoué.
-                LoginActivity.this.sharedPreferences.edit()
-                                                    .remove(prefPasswordKey)
-                                                    .commit();
+                LoginActivity.this.sharedPreferences.edit().remove(prefPasswordKey).commit();
             }
 
             @Override
@@ -203,14 +210,11 @@ public class LoginActivity extends AppCompatActivity {
                     LoginActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Snackbar.make(v, "Échec de connexion", Snackbar.LENGTH_SHORT)
-                                    .show();
+                            Snackbar.make(v, "Échec de connexion", Snackbar.LENGTH_SHORT).show();
                         }
                     });
                     // On oublie le mot de passe. Parce qu'on a échoué.
-                    LoginActivity.this.sharedPreferences.edit()
-                                                        .remove(prefPasswordKey)
-                                                        .commit();
+                    LoginActivity.this.sharedPreferences.edit().remove(prefPasswordKey).commit();
                 }
             }
         });

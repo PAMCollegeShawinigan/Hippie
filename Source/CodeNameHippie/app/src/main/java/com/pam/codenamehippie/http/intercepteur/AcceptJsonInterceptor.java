@@ -20,7 +20,7 @@ public final class AcceptJsonInterceptor implements Interceptor {
     private static final String ACCEPT_HEADER_VALUE =
             JSON_MEDIA_TYPE.type() + "/" + JSON_MEDIA_TYPE.subtype();
     private static final String ACCEPT_CHARSET_HEADER_NAME = "Accept-Charset";
-    private static final String ACCEPT_CHARSET_HEADER_VALUE = Util.UTF_8.toString();
+    private static final String ACCEPT_CHARSET_HEADER_VALUE = Util.UTF_8.name();
 
     private AcceptJsonInterceptor() {}
 
