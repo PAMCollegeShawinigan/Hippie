@@ -132,6 +132,7 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
             Request request = new Request.Builder().url(url).build();
             Response response = null;
             try {
+                // FIXME: Android aime pas les opérations réseaux sur le main thread... Callback?
                 response = this.httpClient.newCall(request).execute();
                 String body = response.body().string();
                 if (response.isSuccessful()) {

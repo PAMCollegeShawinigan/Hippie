@@ -22,7 +22,6 @@ import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
@@ -173,13 +172,17 @@ public class LoginActivity extends AppCompatActivity {
     public void onClickLogin(final View v) {
         OkHttpClient client = ((HippieApplication) this.getApplication()).getHttpClient();
         RequestBody requestBody =
-          new FormEncodingBuilder().add("courriel", this.courrielEditText.getText().toString())
-                                   .add("mot_de_passe", this.passwordEditText.getText().toString())
-                                   .build();
+                new FormEncodingBuilder().add("courriel",
+                                              this.courrielEditText.getText().toString()
+                                             )
+                                         .add("mot_de_passe",
+                                              this.passwordEditText.getText().toString()
+                                             )
+                                         .build();
         Request request =
-          new Request.Builder().url(HippieApplication.baseUrl)
-                               .post(requestBody)
-                               .build();
+                new Request.Builder().url(HippieApplication.baseUrl)
+                                     .post(requestBody)
+                                     .build();
         final String prefPasswordKey = this.getString(R.string.pref_password_key);
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -202,7 +205,7 @@ public class LoginActivity extends AppCompatActivity {
                     UtilisateurModeleDepot utilisateurModeleDepot =
                             application.getUtilisateurModeleDepot();
                     String json = response.body().string();
-                    UtilisateurModele modele = utilisateurModeleDepot.ajouterModele(json);
+                    UtilisateurModele modele = utilisateurModeleDepot.ajouterModele(json, false);
                     if (modele != null) {
                         Log.d(TAG, "utilisateur: " + modele);
                         // On roule dans un thread en parallel au main thread. Android demande
