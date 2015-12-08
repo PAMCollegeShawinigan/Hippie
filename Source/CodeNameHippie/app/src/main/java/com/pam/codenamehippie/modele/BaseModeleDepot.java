@@ -3,13 +3,17 @@ package com.pam.codenamehippie.modele;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.SimpleArrayMap;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pam.codenamehippie.HippieApplication;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
+import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
@@ -33,7 +37,7 @@ import java.lang.reflect.Type;
  * recommandons de limiter le nombre d'allocation d'instances d'objet de type dépôt.
  *
  * @param <T>
- *   Type de modèle que le dépot contient.
+ *         Type de modèle que le dépot contient.
  */
 public abstract class BaseModeleDepot<T extends BaseModele> {
 
@@ -41,8 +45,9 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
      * Instance globale de la classe servant à la conversion des objets du dépôt en format JSON.
      * Ce membre est publique afin de réduire le nombre d'allocation.
      */
-    protected final static Gson gson = new GsonBuilder().serializeNulls().create();
-
+    protected final static Gson gson =
+            new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").serializeNulls().create();
+    private static String TAG = BaseModele.class.getSimpleName();
     /**
      * La valeur du paramètre de type T.
      */
@@ -67,7 +72,7 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
      * Initialise les variables commune à tous les dépôts.
      *
      * @param httpClient
-     *   client http servant à faire des requêtes au serveur
+     *         client http servant à faire des requêtes au serveur
      */
     public BaseModeleDepot(OkHttpClient httpClient) {
         Class clazz = this.getClass();
@@ -100,7 +105,7 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
      * Méthode de désérialisation du modèle en JSON
      *
      * @param json
-     *   un string formatté en JSON. représentant le modèle
+     *         un string formatté en JSON. représentant le modèle
      *
      * @return une instance du modèle.
      */
@@ -113,7 +118,7 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
      * Méthode qui recherche un Modele selon l'id de l'objet reçu en paramètre.
      *
      * @param id
-     *   de l'objet
+     *         de l'objet
      *
      * @return une instance du modèle correspondant au id reçu en paramètre ou null si il
      * n'existe pas.
@@ -122,23 +127,43 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
     @Nullable
     public T rechercherParId(@NonNull Integer id) {
         T modele = this.modeles.get(id);
-        if (modele != null){
+        if (modele != null) {
             return this.modeles.get(id);
         } else {
-            return null;
+            HttpUrl url = this.url.newBuilder().addPathSegment(id.toString()).build();
+            Request request = new Request.Builder().url(url).build();
+            Response response = null;
+            try {
+                response = this.httpClient.newCall(request).execute();
+                String body = response.body().string();
+                if (response.isSuccessful()) {
+                    return this.ajouterModele(body);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if ((response != null) && (response.body() != null)) {
+                    try {
+                        response.body().close();
+                    } catch (IOException e) {
+                        Log.e(TAG, e.getMessage(), e);
+                    }
+                }
+            }
         }
+        return null;
     }
 
     /**
      * Ajouter un nouveau modèle dans le dépôt correspondant
      *
-     * @param json de l'objet Modele
+     * @param json
+     *         de l'objet Modele
      *
      * @return une nouvelle instance de Modele vide ou null s'il existe déjà
      */
     public T ajouterModele(String json) {
         T modele = this.fromJson(json);
-
         if (this.modeles.get(modele.getId()) == null) {
             this.modeles.put(modele.getId(), modele);
             // todo: requête au serveur pour ajouter une marchandise
@@ -148,31 +173,30 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
         }
     }
 
-
     /**
      * Modifier un Modele présent dans le dépôt correspondant selon l'id de
      * l'objet reçu en paramètre.
      *
      * @param modele
-     *   de l'objet
+     *         de l'objet
      *
      * @return Modele existant dans la dépôt ou null s'il n'existe pas dans le dépôt
      */
     public T modifierModele(T modele) {
-        T oldModele =  this.modeles.get(modele.getId());
+        T oldModele = this.modeles.get(modele.getId());
 
-        if (oldModele != null){
+        if (oldModele != null) {
             return oldModele;
         } else {
             return null;
         }
     }
 
-
     /**
      * Supprimer un Modele présent dans le dépôt
      *
-     * @param modele de l'objet
+     * @param modele
+     *         de l'objet
      *
      * @return l'ancien Modele
      */
