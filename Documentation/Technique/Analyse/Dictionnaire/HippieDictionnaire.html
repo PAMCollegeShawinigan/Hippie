@@ -91,7 +91,7 @@
 <tr>
     <td>adresse_id</td>
     <td>INT(10)</td>
-    <td>&nbsp;</td>
+    <td>&#10004;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -225,7 +225,7 @@
 <tr>
     <td>alimentaire_id</td>
     <td>INT(10)</td>
-    <td>&nbsp;</td>
+    <td>&#10004;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -245,11 +245,11 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
+    <td>NULL</td>
     <td>Représente le nom de l&apos;aliment.</td>
 </tr>
 <tr>
-    <td>description</td>
+    <td>description_alimentaire</td>
     <td>VARCHAR(100)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -258,7 +258,7 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
+    <td>NULL</td>
     <td>Décris ce qu&apos;est l&apos;aliment.</td>
 </tr>
 <tr>
@@ -271,7 +271,7 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
+    <td>NULL</td>
     <td>Indique la quantité de l&apos;aliment.</td>
 </tr>
 <tr>
@@ -284,7 +284,7 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
+    <td>NULL</td>
     <td>Nombre référant à la clé étrangère de la table marchandise_etat.</td>
 </tr>
 <tr>
@@ -323,7 +323,7 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
+    <td>NULL</td>
     <td>Nombre référant à la clé étrangère de la table marchandise_statut.</td>
 </tr>
 <tr>
@@ -336,7 +336,7 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
+    <td>NULL</td>
     <td>Nombre référant à la clé étrangère de la table type_aliment.</td>
 </tr>
 <tr>
@@ -372,7 +372,7 @@
 <tr>
     <td>etat_id</td>
     <td>INT(10)</td>
-    <td>&nbsp;</td>
+    <td>&#10004;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -383,7 +383,7 @@
     <td>Numéro unique pour chaque état d&apos;une marchandise.</td>
 </tr>
 <tr>
-    <td>description</td>
+    <td>description_marchandise_etat</td>
     <td>VARCHAR(25)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -392,7 +392,7 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
+    <td>NULL</td>
     <td>Indique l&apos;état de la marchandise pour chaque id unique.</td>
 </tr>
 </table>
@@ -415,7 +415,7 @@
 <tr>
     <td>statut_id</td>
     <td>INT(10)</td>
-    <td>&nbsp;</td>
+    <td>&#10004;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -426,7 +426,7 @@
     <td>Numéro unique pour chaque type de statut pour une marchandise.</td>
 </tr>
 <tr>
-    <td>description</td>
+    <td>description_marchandise_statut</td>
     <td>VARCHAR(25)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -435,7 +435,7 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
+    <td>NULL</td>
     <td>Indique le type de statut pour la marchandise pour chaque statut_id.</td>
 </tr>
 </table>
@@ -458,7 +458,7 @@
 <tr>
     <td>unite_id</td>
     <td>INT(10)</td>
-    <td>&nbsp;</td>
+    <td>&#10004;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -469,7 +469,7 @@
     <td>Numéro unique pour chaque type d&apos;unité.</td>
 </tr>
 <tr>
-    <td>description</td>
+    <td>description_marchandise_unite</td>
     <td>VARCHAR(25)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -478,7 +478,7 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
+    <td>NULL</td>
     <td>Indique le type d&apos;unité pour le produit pour chaque unite_id.</td>
 </tr>
 </table>
@@ -501,7 +501,7 @@
 <tr>
     <td>organisme_id</td>
     <td>INT(10)</td>
-    <td>&nbsp;</td>
+    <td>&#10004;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -622,7 +622,7 @@
 <tr>
     <td>transaction_id</td>
     <td>INT(10)</td>
-    <td>&nbsp;</td>
+    <td>&#10004;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -730,7 +730,7 @@
 <tr>
     <td>aliment_id</td>
     <td>INT(10)</td>
-    <td>&nbsp;</td>
+    <td>&#10004;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -741,7 +741,7 @@
     <td>Numéro unique pour chaque aliment.</td>
 </tr>
 <tr>
-    <td>description</td>
+    <td>description_type_aliment</td>
     <td>VARCHAR(25)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -773,7 +773,7 @@
 <tr>
     <td>type_rue_id</td>
     <td>INT(10)</td>
-    <td>&nbsp;</td>
+    <td>&#10004;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -784,7 +784,7 @@
     <td>Nombre unique pour chaque type de localisation.</td>
 </tr>
 <tr>
-    <td>description</td>
+    <td>description_type_rue</td>
     <td>VARCHAR(15)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -793,7 +793,7 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td></td>
+    <td>NULL</td>
     <td>Indique le nom pour chaque nombre unique de type_rue_id.</td>
 </tr>
 </table>
@@ -816,7 +816,7 @@
 <tr>
     <td>utilisateur_id</td>
     <td>INT(10)</td>
-    <td>&nbsp;</td>
+    <td>&#10004;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
