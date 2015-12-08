@@ -17,7 +17,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
-        this.setSupportActionBar(toolbar);
+        if (toolbar != null) {
+            this.setSupportActionBar(toolbar);
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
