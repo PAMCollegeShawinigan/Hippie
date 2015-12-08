@@ -59,12 +59,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvInscription"
-        android:text="PAS ENCORE INSCRITS?"
+        android:text="INSCRIPTION"
         android:textSize="12dp"
         android:clickable="true"
         android:textColor="#ffffff"
         android:layout_alignTop="@+id/tv_mpo"
-        android:layout_alignEnd="@+id/bLogin" />
+        android:layout_alignEnd="@+id/bLogin"
+        android:layout_marginRight="45dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -78,7 +79,8 @@
         android:layout_alignTop="@+id/tv_mpo"
         android:layout_toStartOf="@+id/tvInscription"
         android:paddingRight="15dp"
-        android:layout_alignBottom="@+id/tvInscription" />
+        android:layout_alignBottom="@+id/tvInscription"
+        android:layout_marginRight="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
