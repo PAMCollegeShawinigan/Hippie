@@ -6,24 +6,27 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.VideoView;
+
 import com.pam.codenamehippie.R;
 
-public class SplashScreen extends Activity {
+public class SplashScreenActivity extends Activity {
 
     // minuterie d'écran du Splash screen 10000 = 10 sec
     private static int SPLASH_TIME_OUT = 1;
+    private static final int SPLASH_TIME_OUT = 10000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_land);
+        this.setContentView(R.layout.activity_splash_land);
 
         //identifiant du vidéo
-        final VideoView videoView =
-                (VideoView) findViewById(R.id.videoView);
+        VideoView videoView =
+          (VideoView) this.findViewById(R.id.videoView);
 
         //le chemin du vidéo
-        videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.denree_o_suivant));
+        videoView.setVideoURI(Uri.parse("android.resource://" +
+                                        this.getPackageName() + "/" + R.raw.denree_o_suivant));
 
         //le démarrage du vidéo Logo dans le splash screen
         videoView.start();
@@ -39,11 +42,11 @@ public class SplashScreen extends Activity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                Intent i = new Intent(SplashScreen.this, MainActivity.class);
-                startActivity(i);
+                Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
+                SplashScreenActivity.this.startActivity(i);
 
                 // fermeture de l'activité
-                finish();
+                SplashScreenActivity.this.finish();
             }
         }, SPLASH_TIME_OUT);
     }
