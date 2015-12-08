@@ -45,7 +45,6 @@ public class ParametreActivity extends AppCompatPreferenceActivity {
             this.setHasOptionsMenu(true);
             String emailKey = this.getString(R.string.pref_email_key);
             bindPreferenceSummaryToValue(this.findPreference(emailKey));
-            bindPreferenceSummaryToValue(this.findPreference("example_list"));
         }
 
         @Override
@@ -64,7 +63,7 @@ public class ParametreActivity extends AppCompatPreferenceActivity {
      * to reflect its new value.
      */
     private static final Preference.OnPreferenceChangeListener
-      sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
+            sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
