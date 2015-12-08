@@ -2,8 +2,8 @@ package com.pam.codenamehippie.modele;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.util.SimpleArrayMap;
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -47,17 +47,15 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
      */
     protected final static Gson gson =
             new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").serializeNulls().create();
-    private static String TAG = BaseModele.class.getSimpleName();
+    private static final String TAG = BaseModele.class.getSimpleName();
+    /**
+     * Contenant qui renferme les objets entretenus par le dépôt.
+     */
+    protected final SparseArray<T> modeles = new SparseArray<>();
     /**
      * La valeur du paramètre de type T.
      */
     protected Class classDeT;
-
-    /**
-     * Contenant qui renferme les objets entretenus par le dépôt.
-     */
-    protected SimpleArrayMap<Integer, T> modeles = new SimpleArrayMap<>();
-
     /**
      * Url du des objets du dépôt.
      */
@@ -125,7 +123,7 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
      */
 
     @Nullable
-    public T rechercherParId(@NonNull Integer id) {
+    public synchronized T rechercherParId(@NonNull Integer id) {
         T modele = this.modeles.get(id);
         if (modele != null) {
             return this.modeles.get(id);
@@ -137,7 +135,7 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
                 response = this.httpClient.newCall(request).execute();
                 String body = response.body().string();
                 if (response.isSuccessful()) {
-                    return this.ajouterModele(body);
+                    return this.ajouterModele(body, false);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -159,14 +157,18 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
      *
      * @param json
      *         de l'objet Modele
+     * @param devraitPoster
+     *         determine si le dépôt doit envoyer le parmètre json au serveur.
      *
      * @return une nouvelle instance de Modele vide ou null s'il existe déjà
      */
-    public T ajouterModele(String json) {
+    public synchronized T ajouterModele(String json, Boolean devraitPoster) {
         T modele = this.fromJson(json);
         if (this.modeles.get(modele.getId()) == null) {
             this.modeles.put(modele.getId(), modele);
-            // todo: requête au serveur pour ajouter une marchandise
+            if (devraitPoster) {
+                // todo: requête au serveur pour ajouter du stock
+            }
             return modele;
         } else {
             return null;
@@ -182,7 +184,7 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
      *
      * @return Modele existant dans la dépôt ou null s'il n'existe pas dans le dépôt
      */
-    public T modifierModele(T modele) {
+    public synchronized T modifierModele(T modele) {
         T oldModele = this.modeles.get(modele.getId());
 
         if (oldModele != null) {
@@ -200,10 +202,11 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
      *
      * @return l'ancien Modele
      */
-    public T supprimerModele(T modele) {
-        T oldModele = this.modeles.put(modele.getId(), null);
+    public synchronized T supprimerModele(T modele) {
+        T oldModele = this.modeles.get(modele.getId());
 
         if (oldModele != null) {
+            this.modeles.remove(modele.getId());
             // todo: requête au serveur pour suppression de l'objet
         }
         return oldModele;

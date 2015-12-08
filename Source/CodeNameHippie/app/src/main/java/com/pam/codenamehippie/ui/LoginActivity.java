@@ -1,10 +1,10 @@
 package com.pam.codenamehippie.ui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -13,35 +13,31 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.gson.Gson;
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.UtilisateurModele;
+import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
-
-    /**
-     * Regex pour vérifier la validité de la syntaxe du champ courriel.
-     */
-    private final Pattern courrielPattern = Patterns.EMAIL_ADDRESS;
     private EditText courrielEditText;
     private EditText passwordEditText;
-    private TextInputLayout courrielTextInputLayout;
+    private Button loginButton;
     private SharedPreferences sharedPreferences;
-    private final TextWatcher courrielTextWatcher = new TextWatcher() {
+    private final TextWatcher formulaireTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -201,11 +197,33 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Response response) throws IOException {
                 if (response.isSuccessful()) {
+                    HippieApplication application =
+                            ((HippieApplication) LoginActivity.this.getApplication());
+                    UtilisateurModeleDepot utilisateurModeleDepot =
+                            application.getUtilisateurModeleDepot();
                     String json = response.body().string();
-                    UtilisateurModele modele = new Gson().fromJson(json, UtilisateurModele.class);
-                    Log.d(TAG, "Json: " + json);
-                    Log.d(TAG, "Modele: " + modele.toString());
-
+                    UtilisateurModele modele = utilisateurModeleDepot.ajouterModele(json);
+                    if (modele != null) {
+                        Log.d(TAG, "utilisateur: " + modele);
+                        // On roule dans un thread en parallel au main thread. Android demande
+                        // que les interaction avec l'UI soit sur le main thread.
+                        LoginActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                LoginActivity.this.startActivity(intent);
+                                LoginActivity.this.finish();
+                            }
+                        });
+                    } else {
+                        LoginActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Snackbar.make(v, "Échec de connexion", Snackbar.LENGTH_SHORT)
+                                        .show();
+                            }
+                        });
+                    }
                 } else {
                     LoginActivity.this.runOnUiThread(new Runnable() {
                         @Override
