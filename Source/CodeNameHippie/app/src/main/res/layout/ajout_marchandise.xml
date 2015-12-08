@@ -26,7 +26,11 @@
 
 
             <TextView
+<<<<<<< HEAD
                 android:id="@+id/tv_infoConnexion"
+=======
+                android:id="@+id/tvAjoutMarchandise"
+>>>>>>> master
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="AJOUT DE MARCHANDISE"
@@ -41,17 +45,30 @@
                 android:paddingTop="10dp"
                 android:textSize="20sp"
                 android:text="Nom"
+<<<<<<< HEAD
                 android:textColor="#ffffff" />
 
             <EditText
                 android:id="@+id/etInscriptionNom"
+=======
+                android:textColor="#ffffff"
+                android:id="@+id/tvNomMarchandise" />
+
+            <EditText
+                android:id="@+id/etNomMarchandise"
+>>>>>>> master
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
                 android:hint="NOM"
                 android:padding="10dp"
+<<<<<<< HEAD
                 android:textColorHint="#c6c6c6"/>
+=======
+                android:textColorHint="#c6c6c6"
+                android:nextFocusForward="@+id/etDescMarchandise"/>
+>>>>>>> master
 
             <TextView
                 android:layout_width="wrap_content"
@@ -60,20 +77,38 @@
                 android:paddingTop="10dp"
                 android:textSize="20sp"
                 android:text="Description"
+<<<<<<< HEAD
                 android:textColor="#ffffff" />
 
             <EditText
                 android:id="@+id/etInscriptionPrenom"
+=======
+                android:textColor="#ffffff"
+                android:id="@+id/tvDescMarchandise" />
+
+            <EditText
+                android:id="@+id/etDescMarchandise"
+>>>>>>> master
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
+<<<<<<< HEAD
                 android:hint="PRÉNOM"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"/>
 
             <TextView
                 android:id="@+id/tvUsername"
+=======
+                android:hint="DESCRIPTION"
+                android:padding="10dp"
+                android:textColorHint="#c6c6c6"
+                android:nextFocusForward="@+id/etQteeMarchandise"/>
+
+            <TextView
+                android:id="@+id/tvQteeMarchandise"
+>>>>>>> master
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
@@ -83,14 +118,25 @@
                 android:textColor="#ffffff" />
 
             <EditText
+<<<<<<< HEAD
                 android:id="@+id/etUsername"
+=======
+                android:id="@+id/etQteeMarchandise"
+>>>>>>> master
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
+<<<<<<< HEAD
                 android:hint="NOM D&apos;UTILISATEUR"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"/>
+=======
+                android:hint="QUANTITÉES"
+                android:padding="10dp"
+                android:textColorHint="#c6c6c6"
+                android:nextFocusForward="@+id/etUniteMarchandise"/>
+>>>>>>> master
 
             <TextView
                 android:layout_width="wrap_content"
@@ -100,17 +146,32 @@
                 android:text="Unité"
                 android:textSize="20sp"
                 android:textColorHint="#c6c6c6"
+<<<<<<< HEAD
                 android:textColor="#ffffff" />
 
             <EditText
                 android:id="@+id/etCourriel"
+=======
+                android:textColor="#ffffff"
+                android:id="@+id/tvUniteMarchandise" />
+
+            <EditText
+                android:id="@+id/etUniteMarchandise"
+>>>>>>> master
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
+<<<<<<< HEAD
                 android:hint="COURRIEL"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"/>
+=======
+                android:hint="UNITÉ"
+                android:padding="10dp"
+                android:textColorHint="#c6c6c6"
+                android:nextFocusForward="@+id/etValeurMarchandise"/>
+>>>>>>> master
 
             <TextView
                 android:layout_width="wrap_content"
@@ -118,19 +179,36 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:textSize="20sp"
+<<<<<<< HEAD
                 android:text="Mot de passe"
                 android:textColor="#ffffff" />
 
             <EditText
                 android:id="@+id/etPassword"
+=======
+                android:text="Valeur"
+                android:textColor="#ffffff"
+                android:id="@+id/tvValeurMarchandise" />
+
+            <EditText
+                android:id="@+id/etValeurMarchandise"
+>>>>>>> master
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
+<<<<<<< HEAD
                 android:hint="MOT DE PASSE"
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"/>
+=======
+                android:hint="VALEUR"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColorHint="#c6c6c6"
+                android:nextFocusForward="@+id/etTypeMarchandise"/>
+>>>>>>> master
 
             <TextView
                 android:layout_width="wrap_content"
@@ -138,15 +216,25 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:textSize="20sp"
+<<<<<<< HEAD
                 android:text="Confirmer mot de passe"
                 android:textColor="#ffffff" />
 
             <EditText
                 android:id="@+id/etConfirmPassword"
+=======
+                android:text="Type alimentaire"
+                android:textColor="#ffffff"
+                android:id="@+id/tvTypeMarchandise" />
+
+            <EditText
+                android:id="@+id/etTypeMarchandise"
+>>>>>>> master
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
+<<<<<<< HEAD
                 android:hint="CONFIRMER LE MOT DE PASSE"
                 android:inputType="textPassword"
                 android:padding="10dp"
@@ -216,11 +304,26 @@
 
             <Button
                 android:id="@+id/bLogin"
+=======
+                android:hint="TYPE ALIMENTAIRE"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColorHint="#c6c6c6"
+                android:imeOptions="actionDone"/>
+
+
+            <Button
+                android:id="@+id/bAjoutMarchandise"
+>>>>>>> master
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/button"
+<<<<<<< HEAD
                 android:text="Connexion" />
+=======
+                android:text="Ajouter" />
+>>>>>>> master
 
         </LinearLayout>
 

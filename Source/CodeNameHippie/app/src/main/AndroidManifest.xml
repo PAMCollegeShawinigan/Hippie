@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.pam.codenamehippie">
 
@@ -58,6 +59,8 @@
 
     </application>
 
+=======
+>>>>>>> master
 <manifest
 	package="com.pam.codenamehippie"
 	xmlns:android="http://schemas.android.com/apk/res/android">
@@ -107,5 +110,8 @@
 				android:value=".ui.MainActivity"/>
 		</activity>
 	</application>
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
 </manifest>
