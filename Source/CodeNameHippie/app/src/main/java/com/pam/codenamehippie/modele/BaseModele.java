@@ -34,6 +34,7 @@ public abstract class BaseModele {
     @Override
     public String toString() {
         return new GsonBuilder().serializeNulls()
+                                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                                 .setPrettyPrinting()
                                 .enableComplexMapKeySerialization()
                                 .create()

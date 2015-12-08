@@ -13,8 +13,9 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_register);
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
-        this.setSupportActionBar(toolbar);
-
+        if (toolbar != null) {
+            this.setSupportActionBar(toolbar);
+        }
 
     }
 
