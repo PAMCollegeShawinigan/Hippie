@@ -10,11 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.Patterns;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
@@ -30,7 +32,7 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements EditText.OnEditorActionListener {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
     private OkHttpClient httpClient;
@@ -38,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private Button loginButton;
     private SharedPreferences sharedPreferences;
+    private Authentificateur authentificateur;
     private final TextWatcher formulaireTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -59,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
+        this.authentificateur = ((Authentificateur) this.httpClient.getAuthenticator());
         this.setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -72,12 +76,8 @@ public class LoginActivity extends AppCompatActivity {
             this.courrielEditText.setText(rememberedEmail);
         }
         this.passwordEditText = ((EditText) this.findViewById(R.id.etPassword));
-        
-        this.loginButton = (Button) this.findViewById(R.id.bLogin);
-        if (((Authentificateur) this.httpClient.getAuthenticator()).estAuthentifie()) {
-            this.navigueAMainActivity();
-        }
 
+        this.loginButton = (Button) this.findViewById(R.id.bLogin);
     }
 
     @Override
@@ -88,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         if (this.passwordEditText != null) {
             this.passwordEditText.removeTextChangedListener(this.formulaireTextWatcher);
+            this.passwordEditText.setOnEditorActionListener(null);
         }
     }
 
@@ -99,8 +100,17 @@ public class LoginActivity extends AppCompatActivity {
         }
         if (this.passwordEditText != null) {
             this.passwordEditText.addTextChangedListener(this.formulaireTextWatcher);
+            this.passwordEditText.setOnEditorActionListener(this);
         }
         this.validerFormulaire();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (this.authentificateur.estAuthentifie()) {
+            this.navigueAMainActivity();
+        }
     }
 
     /**
@@ -146,12 +156,17 @@ public class LoginActivity extends AppCompatActivity {
             }
             // TODO: Checker les contraintes de mots de passe.
             if (errorMessage == null) {
-                ((Authentificateur) this.httpClient.getAuthenticator()).setMotDePasse(text.toString());
+                this.authentificateur.setMotDePasse(text.toString());
             }
             this.passwordEditText.setError(errorMessage);
             return this.passwordEditText.getError() == null;
         }
         return false;
+    }
+
+    private void validerFormulaire() {
+        this.loginButton.setEnabled(LoginActivity.this.courrielEstIlValide() &&
+                                    LoginActivity.this.motDePasseEstIlValide());
     }
 
     /**
@@ -168,14 +183,8 @@ public class LoginActivity extends AppCompatActivity {
      * Methode pour vérifier si les champs mot the passse et courriel du formulaire est valide sont
      * update la vue en conséquence.
      */
-    private void validerFormulaire() {
-        this.loginButton.setEnabled(LoginActivity.this.courrielEstIlValide() &&
-                                    LoginActivity.this.motDePasseEstIlValide());
-    }
 
     public void onClickLogin(final View v) {
-        // On supprime les vieux cookies vu qu'on log un nouvelle utilisateur.
-        ((HippieApplication) this.getApplication()).getBoiteAbiscuit().removeAll();
         RequestBody requestBody =
                 new FormEncodingBuilder().add("courriel",
                                               this.courrielEditText.getText().toString()
@@ -195,7 +204,7 @@ public class LoginActivity extends AppCompatActivity {
                 LoginActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Snackbar.make(v, "Échec de connexion", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT).show();
                     }
                 });
                 // On oublie le mot de passe. Parce qu'on a échoué.
@@ -206,32 +215,34 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                if (response.isSuccessful()) {
+                if (!response.isSuccessful()) {
+                    LoginActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT)
+                                    .show();
+                        }
+                    });
+                } else {
                     HippieApplication application =
                             ((HippieApplication) LoginActivity.this.getApplication());
                     UtilisateurModeleDepot depotUtilisateur =
                             application.getUtilisateurModeleDepot();
                     String json = response.body().string();
-                    UtilisateurModele resultat = depotUtilisateur.fromJson(json);
-                    UtilisateurModele utilisateur =
-                            depotUtilisateur.rechercherParId(resultat.getId());
-                    if (utilisateur == null) {
-                        utilisateur = depotUtilisateur.ajouterModele(resultat, false);
-                    }
-                    if (utilisateur != null) {
-                        Log.d(TAG, "utilisateur: " + utilisateur);
-                        // On roule dans un thread en parallel au main thread. Android demande
-                        // que les interaction avec l'UI soit sur le main thread.
-                        LoginActivity.this.navigueAMainActivity();
-                    } else {
-                        LoginActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Snackbar.make(v, "Échec de connexion", Snackbar.LENGTH_SHORT)
-                                        .show();
-                            }
-                        });
-                    }
+                    UtilisateurModele utilisateur = depotUtilisateur.fromJson(json);
+                    String nom = utilisateur.getPrenom() + " " + utilisateur.getNom();
+                    Snackbar.make(v,
+                                  LoginActivity.this.getString(R.string.message_welcome, nom),
+                                  Snackbar.LENGTH_SHORT
+                                 )
+                            .setCallback(new Snackbar.Callback() {
+                                @Override
+                                public void onDismissed(Snackbar snackbar, int event) {
+                                    super.onDismissed(snackbar, event);
+                                    LoginActivity.this.navigueAMainActivity();
+                                }
+                            })
+                            .show();
                 }
             }
         });
@@ -251,4 +262,17 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        boolean handled = false;
+        switch (actionId) {
+            case EditorInfo.IME_ACTION_DONE:
+                this.onClickLogin(v);
+                handled = true;
+                break;
+            default:
+                break;
+        }
+        return handled;
+    }
 }

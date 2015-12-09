@@ -108,6 +108,11 @@ public final class Authentificateur implements Authenticator {
                 (!this.boiteABiscuit.get(HippieApplication.baseUrl.uri()).isEmpty()));
     }
 
+    public synchronized void deconnecte() {
+        this.boiteABiscuit.removeAll();
+        this.motDePasse = null;
+    }
+
     public void setMotDePasse(String motDePasse) {
         this.motDePasse = motDePasse;
     }
