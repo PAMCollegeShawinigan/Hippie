@@ -7,12 +7,12 @@ package pam.yongshunli.hippiemaps;
 
 public class Denree {
     private String nomDenree;
-    private int quantiteDenree;
+    private String quantiteDenree;
     private String unite = "kg";
     private StateDenree stateDenree;
     private TypeDenree typeDenree;
 
-    public Denree(String nomDenree, int quantiteDenree, String unite, StateDenree stateDenree, TypeDenree typeDenree) {
+    public Denree(String nomDenree, String quantiteDenree, String unite, StateDenree stateDenree, TypeDenree typeDenree) {
         this.nomDenree = nomDenree;
         this.quantiteDenree = quantiteDenree;
         this.unite = unite;
@@ -44,11 +44,11 @@ public class Denree {
         this.nomDenree = nomDenree;
     }
 
-    public int getQuantiteDenree() {
+    public String getQuantiteDenree() {
         return quantiteDenree;
     }
 
-    public void setQuantiteDenree(int quantiteDenree) {
+    public void setQuantiteDenree(String quantiteDenree) {
         this.quantiteDenree = quantiteDenree;
     }
 

@@ -1,6 +1,8 @@
 package pam.yongshunli.hippiemaps;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by BEG-163 on 2015-12-01.
@@ -9,16 +11,33 @@ public class Entreprise {
     private String nomEntreprise;
     private String addresse;
     private String heuresCollect="9:00-15:00";
+    private HashMap<String,String> mapCollectTime;
     private String telephone;
     private CollectDay collectDay;
     private ArrayList<Denree> listDenree;
 
-    public Entreprise(String nomEntreprise, String addresse, String heuresCollect, String telephone, ArrayList<Denree> listDenree) {
+    public Entreprise(String nomEntreprise, String addresse, HashMap<String,String> mapCollectTime, String telephone, ArrayList<Denree> listDenree) {
         this.nomEntreprise = nomEntreprise;
         this.addresse = addresse;
-        this.heuresCollect = heuresCollect;
+        this.mapCollectTime = mapCollectTime;
         this.telephone = telephone;
         this.listDenree = listDenree;
+    }
+
+    public HashMap<String,String> getMapCollectTime() {
+        return mapCollectTime;
+    }
+
+    public void setMapCollectTime(ArrayList<Map<String, String>> listCollectTime) {
+        this.mapCollectTime = mapCollectTime;
+    }
+
+    public CollectDay getCollectDay() {
+        return collectDay;
+    }
+
+    public void setCollectDay(CollectDay collectDay) {
+        this.collectDay = collectDay;
     }
 
     public String getNomEntreprise() {
