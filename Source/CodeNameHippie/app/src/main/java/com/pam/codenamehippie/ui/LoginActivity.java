@@ -18,6 +18,7 @@ import android.widget.EditText;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.http.Authentificateur;
 import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
 import com.squareup.okhttp.Callback;
@@ -32,6 +33,7 @@ import java.io.IOException;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
+    private OkHttpClient httpClient;
     private EditText courrielEditText;
     private EditText passwordEditText;
     private Button loginButton;
@@ -56,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
         this.setContentView(R.layout.activity_login);
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -68,18 +71,18 @@ public class LoginActivity extends AppCompatActivity {
         if ((rememberedEmail != null) && (this.courrielEditText != null)) {
             this.courrielEditText.setText(rememberedEmail);
         }
-        String rememberedPassword =
-                this.sharedPreferences.getString(this.getString(R.string.pref_password_key), null);
-        this.passwordEditText = (EditText) this.findViewById(R.id.etPassword);
-        if ((this.passwordEditText != null) && (rememberedPassword != null)) {
-            this.passwordEditText.setText(rememberedPassword);
-        }
+        this.passwordEditText = ((EditText) this.findViewById(R.id.etPassword));
+        
         this.loginButton = (Button) this.findViewById(R.id.bLogin);
+        if (((Authentificateur) this.httpClient.getAuthenticator()).estAuthentifie()) {
+            this.navigueAMainActivity();
+        }
+
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         if (this.courrielEditText != null) {
             this.courrielEditText.removeTextChangedListener(this.formulaireTextWatcher);
         }
@@ -91,18 +94,13 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        this.validerFormulaire();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         if (this.courrielEditText != null) {
             this.courrielEditText.addTextChangedListener(this.formulaireTextWatcher);
         }
         if (this.passwordEditText != null) {
             this.passwordEditText.addTextChangedListener(this.formulaireTextWatcher);
         }
+        this.validerFormulaire();
     }
 
     /**
@@ -133,7 +131,6 @@ public class LoginActivity extends AppCompatActivity {
         return false;
     }
 
-
     /**
      * Methode pour vérifier si le champ mot the passse du formulaire est valide et update la vue
      * en conséquence.
@@ -149,11 +146,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             // TODO: Checker les contraintes de mots de passe.
             if (errorMessage == null) {
-                this.sharedPreferences.edit()
-                                      .putString(this.getString(R.string.pref_password_key),
-                                                 text.toString()
-                                                )
-                                      .commit();
+                ((Authentificateur) this.httpClient.getAuthenticator()).setMotDePasse(text.toString());
             }
             this.passwordEditText.setError(errorMessage);
             return this.passwordEditText.getError() == null;
@@ -164,7 +157,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Methode pour ouvrir le formulaire d'inscription d'un  nouvel utilisateur
      */
-    public void onClickInscription(final View v) {
+    public void onClickInscription(View v) {
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         LoginActivity.this.startActivity(intent);
         //LoginActivity.this.finish();
@@ -181,7 +174,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onClickLogin(final View v) {
-        OkHttpClient client = ((HippieApplication) this.getApplication()).getHttpClient();
+        // On supprime les vieux cookies vu qu'on log un nouvelle utilisateur.
+        ((HippieApplication) this.getApplication()).getBoiteAbiscuit().removeAll();
         RequestBody requestBody =
                 new FormEncodingBuilder().add("courriel",
                                               this.courrielEditText.getText().toString()
@@ -194,8 +188,8 @@ public class LoginActivity extends AppCompatActivity {
                 new Request.Builder().url(HippieApplication.baseUrl)
                                      .post(requestBody)
                                      .build();
-        final String prefPasswordKey = this.getString(R.string.pref_password_key);
-        client.newCall(request).enqueue(new Callback() {
+        this.httpClient.newCall(request).enqueue(new Callback() {
+
             @Override
             public void onFailure(Request request, IOException e) {
                 LoginActivity.this.runOnUiThread(new Runnable() {
@@ -205,7 +199,9 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
                 // On oublie le mot de passe. Parce qu'on a échoué.
-                LoginActivity.this.sharedPreferences.edit().remove(prefPasswordKey).commit();
+                Authentificateur authentificateur =
+                        ((Authentificateur) LoginActivity.this.httpClient.getAuthenticator());
+                authentificateur.setMotDePasse(null);
             }
 
             @Override
@@ -213,22 +209,20 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     HippieApplication application =
                             ((HippieApplication) LoginActivity.this.getApplication());
-                    UtilisateurModeleDepot utilisateurModeleDepot =
+                    UtilisateurModeleDepot depotUtilisateur =
                             application.getUtilisateurModeleDepot();
                     String json = response.body().string();
-                    UtilisateurModele modele = utilisateurModeleDepot.ajouterModele(json, false);
-                    if (modele != null) {
-                        Log.d(TAG, "utilisateur: " + modele);
+                    UtilisateurModele resultat = depotUtilisateur.fromJson(json);
+                    UtilisateurModele utilisateur =
+                            depotUtilisateur.rechercherParId(resultat.getId());
+                    if (utilisateur == null) {
+                        utilisateur = depotUtilisateur.ajouterModele(resultat, false);
+                    }
+                    if (utilisateur != null) {
+                        Log.d(TAG, "utilisateur: " + utilisateur);
                         // On roule dans un thread en parallel au main thread. Android demande
                         // que les interaction avec l'UI soit sur le main thread.
-                        LoginActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                LoginActivity.this.startActivity(intent);
-                                LoginActivity.this.finish();
-                            }
-                        });
+                        LoginActivity.this.navigueAMainActivity();
                     } else {
                         LoginActivity.this.runOnUiThread(new Runnable() {
                             @Override
@@ -238,17 +232,23 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
                     }
-                } else {
-                    LoginActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Snackbar.make(v, "Échec de connexion", Snackbar.LENGTH_SHORT).show();
-                        }
-                    });
-                    // On oublie le mot de passe. Parce qu'on a échoué.
-                    LoginActivity.this.sharedPreferences.edit().remove(prefPasswordKey).commit();
                 }
             }
         });
     }
+
+    /**
+     * Methode d'aide pour démarrer sur le main thread la main activity et appeler finish.
+     */
+    private void navigueAMainActivity() {
+        LoginActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                LoginActivity.this.startActivity(intent);
+                LoginActivity.this.finish();
+            }
+        });
+    }
+
 }

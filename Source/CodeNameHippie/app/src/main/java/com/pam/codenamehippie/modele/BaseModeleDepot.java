@@ -163,7 +163,7 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
      *
      * @return une nouvelle instance de Modele vide ou null s'il existe déjà
      */
-    public synchronized T ajouterModele(String json, Boolean devraitPoster) {
+    public synchronized T ajouterModele(String json, boolean devraitPoster) {
         T modele = this.fromJson(json);
         if (this.modeles.get(modele.getId()) == null) {
             this.modeles.put(modele.getId(), modele);
@@ -174,6 +174,27 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Ajouter un nouveau modèle dans le dépôt correspondant
+     *
+     * @param modele
+     *         le modele à ajouter
+     * @param devraitPoster
+     *         determine si le dépôt doit envoyer le paramètre modèle au serveur.
+     *
+     * @return une nouvelle instance de Modele vide ou null s'il existe déjà
+     */
+    public synchronized T ajouterModele(T modele, boolean devraitPoster) {
+        if (this.modeles.get(modele.getId()) == null) {
+            this.modeles.put(modele.getId(), modele);
+            if (devraitPoster) {
+                // todo: requête au serveur pour ajouter du stock
+            }
+            return modele;
+        }
+        return null;
     }
 
     /**
