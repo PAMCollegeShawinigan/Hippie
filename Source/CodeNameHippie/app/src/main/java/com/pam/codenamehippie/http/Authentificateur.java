@@ -32,7 +32,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.squareup.okhttp.Authenticator;
 import com.squareup.okhttp.Challenge;
@@ -41,7 +40,6 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
-import java.net.HttpRetryException;
 import java.net.Proxy;
 
 /**
@@ -51,69 +49,41 @@ public final class Authentificateur implements Authenticator {
 
     private static final String TAG = Authentificateur.class.getSimpleName();
     private final Context context;
-    private final PersistentCookieStore boiteABiscuit;
     private final SharedPreferences preferences;
-    private volatile String motDePasse;
 
-    /**
-     * Constructeur de l'authentificateur
-     */
-    private Authentificateur(Context context, PersistentCookieStore boiteABiscuit) {
+    // Constructeur de l'authentification
+    private Authentificateur(Context context) {
         this.context = context;
-        this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        this.boiteABiscuit = boiteABiscuit;
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
     }
 
     /**
      * Méthode usine statique pour créer une nouvelle instance.
      **/
-    public static Authentificateur newInstance(Context context,
-                                               PersistentCookieStore boiteABiscuit) {
-        return new Authentificateur(context, boiteABiscuit);
+    public static Authentificateur newInstance(Context context) {
+        return new Authentificateur(context);
     }
 
     @Override
     public Request authenticate(Proxy proxy, Response response) throws IOException {
         String email =
-                this.preferences.getString(this.context.getString(R.string.pref_email_key), null);
+          this.preferences.getString(this.context.getString(R.string.pref_email_key), null);
+        String password =
+          this.preferences.getString(this.context.getString(R.string.pref_password_key), null);
         Log.d(TAG, "Authenticating for resp: " + response.toString());
         for (Challenge challenge : response.challenges()) {
             Log.d(TAG, "Challenge: " + challenge.toString());
         }
-        if ((email != null) && (this.motDePasse != null)) {
-            String credentials = Credentials.basic(email, this.motDePasse);
+        if ((email != null) && (password != null)) {
+            String credentials = Credentials.basic(email, password);
             return response.request().newBuilder().header("Authorization", credentials).build();
         } else {
-            // On lance une exeception si le combo mot de passe/email est pas bon.
-            throw new HttpRetryException(response.message(),
-                                         response.code(),
-                                         response.request().urlString()
-            );
+            return null;
         }
     }
 
     @Override
     public Request authenticateProxy(Proxy proxy, Response response) throws IOException {
         return null;
-    }
-
-    /**
-     * Fonction pour vérifié si on est authentifié. On se considère authentifié si on a des
-     * cookies ou que l'authentificateur à un mot de passe en mémoire.
-     *
-     * @return vrai si on est authentifié faux sinon.
-     */
-    public boolean estAuthentifie() {
-        return ((this.motDePasse != null) ||
-                (!this.boiteABiscuit.get(HippieApplication.baseUrl.uri()).isEmpty()));
-    }
-
-    public synchronized void deconnecte() {
-        this.boiteABiscuit.removeAll();
-        this.motDePasse = null;
-    }
-
-    public void setMotDePasse(String motDePasse) {
-        this.motDePasse = motDePasse;
     }
 }
