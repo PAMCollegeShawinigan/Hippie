@@ -3,6 +3,7 @@ package com.pam.codenamehippie;
 import android.app.Application;
 
 import com.pam.codenamehippie.http.Authentificateur;
+import com.pam.codenamehippie.http.PersistentCookieStore;
 import com.pam.codenamehippie.http.intercepteur.AcceptJsonInterceptor;
 import com.pam.codenamehippie.http.intercepteur.HttpDebugInterceptor;
 import com.pam.codenamehippie.modele.MarchandiseModeleDepot;
@@ -27,30 +28,30 @@ public class HippieApplication extends Application {
      * Instance du client http pour l'application
      */
     private final OkHttpClient httpClient = new OkHttpClient();
-
     /**
      * Instance de {@link UtilisateurModeleDepot} pour l'application
      */
     private final UtilisateurModeleDepot utilisateurModeleDepot =
             new UtilisateurModeleDepot(this.httpClient);
-
     /**
      * Instance d'{@link OrganismeModeleDepot} pour l'application
      */
     private final OrganismeModeleDepot organismeModeleDepot =
             new OrganismeModeleDepot(this.httpClient);
-
     /**
      * Instance de {@link TransactionModeleDepot} pour l'application
      */
     private final TransactionModeleDepot transactionModeleDepot =
             new TransactionModeleDepot(this.httpClient);
-
     /**
      * Instance de {@link MarchandiseModeleDepot} pour l'application
      */
     private final MarchandiseModeleDepot marchandiseModeleDepot =
             new MarchandiseModeleDepot(this.httpClient);
+    /**
+     * Instance de {@link PersistentCookieStore} pour l'application
+     */
+    private volatile PersistentCookieStore boiteAbiscuit;
 
     public OkHttpClient getHttpClient() {
         return this.httpClient;
@@ -68,15 +69,22 @@ public class HippieApplication extends Application {
         return this.transactionModeleDepot;
     }
 
+    public PersistentCookieStore getBoiteAbiscuit() {
+        return this.boiteAbiscuit;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Manager de cookie.
+        // Les cookies sont sauvegardé dans shared preference.
+        this.boiteAbiscuit = new PersistentCookieStore(this);
+        CookieManager cookieManager = new CookieManager(this.boiteAbiscuit,
+                                                        CookiePolicy.ACCEPT_ALL
+        );
         // Configuration du client Http.
-        this.httpClient.setAuthenticator(Authentificateur.newInstance(this));
-        // Manager de cookie. Par défaut les cookies ne sont pas persistent.
-        CookieManager cookieManager = new CookieManager(null, CookiePolicy.ACCEPT_ALL);
-        // Configuration du client Http.
-        this.httpClient.setAuthenticator(Authentificateur.newInstance(this))
+        this.httpClient.setAuthenticator(Authentificateur.newInstance(this, this.boiteAbiscuit))
                        .setCookieHandler(cookieManager);
         this.httpClient.networkInterceptors().add(AcceptJsonInterceptor.newInstance());
         if (BuildConfig.DEBUG) {
@@ -85,4 +93,5 @@ public class HippieApplication extends Application {
         }
 
     }
+
 }

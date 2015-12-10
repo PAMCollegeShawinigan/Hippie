@@ -10,7 +10,7 @@ public class OrganismeModele extends BaseModele {
     @SerializedName("nom")
     private String nom;
     @SerializedName("adresse")
-    private AdresseModele adresse;
+    private String adresse;
     @SerializedName("telephone")
     private String telephone;
     @SerializedName("poste")
@@ -21,8 +21,6 @@ public class OrganismeModele extends BaseModele {
     private String noEntreprise;
     @SerializedName("no_osbl")
     private String noOsbl;
-    @SerializedName(value = "utilisateur", alternate = "utilisareur")
-    private UtilisateurModele utilisateur;
 
     public String getNom() {
         return this.nom;
@@ -33,11 +31,11 @@ public class OrganismeModele extends BaseModele {
         return this;
     }
 
-    public AdresseModele getAdresse() {
+    public String getAdresse() {
         return this.adresse;
     }
 
-    public OrganismeModele setAdresse(AdresseModele adresse) {
+    public OrganismeModele setAdresse(String adresse) {
         this.adresse = adresse;
         return this;
     }
@@ -85,13 +83,5 @@ public class OrganismeModele extends BaseModele {
     public OrganismeModele setNoOsbl(String noOsbl) {
         this.noOsbl = noOsbl;
         return this;
-    }
-
-    public UtilisateurModele getUtilisateur() {
-        return this.utilisateur;
-    }
-
-    public void setUtilisateur(UtilisateurModele utilisateur) {
-        this.utilisateur = utilisateur;
     }
 }
