@@ -22,7 +22,7 @@ public class UtilisateurModele extends BaseModele {
     // FIXME: Le serveur retourne moyenContact au lieu de moyen_contact
     @SerializedName(value = "moyen_contact", alternate = "moyenContact")
     private Integer moyenContact;
-    @SerializedName("organisme_id")
+    @SerializedName("id_organisme")
     private Integer idOrganisme;
     @SerializedName("dern_connexion")
     private Date dernConnexion;
