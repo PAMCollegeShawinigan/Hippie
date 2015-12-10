@@ -64,7 +64,7 @@ public final class ValidateurCourriel extends ValidateurDeChampTexte {
     @Override
     public boolean estValide() {
         boolean resultat = super.estValide();
-        if (!Patterns.EMAIL_ADDRESS.matcher(this.getText()).matches()) {
+        if (resultat && !Patterns.EMAIL_ADDRESS.matcher(this.getText()).matches()) {
             this.editText.setError(this.context.getString(R.string.error_invalid_email));
             return false;
         }

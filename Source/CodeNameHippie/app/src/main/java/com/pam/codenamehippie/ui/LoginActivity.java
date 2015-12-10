@@ -37,23 +37,13 @@ public class LoginActivity extends AppCompatActivity implements EditText.OnEdito
 
     private static final String TAG = LoginActivity.class.getSimpleName();
     private OkHttpClient httpClient;
-    private ValidateurMotDePasse valideurMotDePasse;
+    private ValidateurMotDePasse validateurMotDePasse;
     private boolean motDePassEstValide;
-    private ValidateurCourriel valideurCourriel;
+    private ValidateurCourriel validateurCourriel;
     private boolean courrielEstValide;
     private Button loginButton;
     private SharedPreferences sharedPreferences;
     private Authentificateur authentificateur;
-
-    @Override
-    public void enValidatant(Validateur validateur, boolean estValide) {
-        if (validateur.equals(this.valideurCourriel)) {
-            this.courrielEstValide = estValide;
-        } else if (validateur.equals(this.valideurMotDePasse)) {
-            this.motDePassEstValide = estValide;
-        }
-        this.loginButton.setEnabled(this.motDePassEstValide && this.courrielEstValide);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +56,7 @@ public class LoginActivity extends AppCompatActivity implements EditText.OnEdito
             this.setSupportActionBar(toolbar);
         }
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        this.valideurCourriel =
+        this.validateurCourriel =
                 ValidateurCourriel.newInstance(this,
                                                ((EditText) this.findViewById(R.id.etCourriel)),
                                                true
@@ -74,32 +64,32 @@ public class LoginActivity extends AppCompatActivity implements EditText.OnEdito
         String rememberedEmail =
                 this.sharedPreferences.getString(this.getString(R.string.pref_email_key), null);
         if ((rememberedEmail != null)) {
-            this.valideurCourriel.setText(rememberedEmail);
+            this.validateurCourriel.setText(rememberedEmail);
         }
-        this.valideurMotDePasse =
+        this.validateurMotDePasse =
                 ValidateurMotDePasse.newInstance(this,
                                                  ((EditText) this.findViewById(R.id.etPassword))
                                                 );
-        this.valideurMotDePasse.getEditText().setOnEditorActionListener(this);
+        this.validateurMotDePasse.getEditText().setOnEditorActionListener(this);
         this.loginButton = ((Button) this.findViewById(R.id.bLogin));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        this.valideurCourriel.onPause();
-        this.valideurMotDePasse.onPause();
-        this.valideurCourriel.unregisterObserver(this);
-        this.valideurMotDePasse.unregisterObserver(this);
+        this.validateurCourriel.onPause();
+        this.validateurMotDePasse.onPause();
+        this.validateurCourriel.unregisterObserver(this);
+        this.validateurMotDePasse.unregisterObserver(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        this.valideurCourriel.onResume();
-        this.valideurMotDePasse.onResume();
-        this.valideurCourriel.registerObserver(this);
-        this.valideurMotDePasse.registerObserver(this);
+        this.validateurCourriel.onResume();
+        this.validateurMotDePasse.onResume();
+        this.validateurCourriel.registerObserver(this);
+        this.validateurMotDePasse.registerObserver(this);
     }
 
     @Override
@@ -115,13 +105,25 @@ public class LoginActivity extends AppCompatActivity implements EditText.OnEdito
         boolean handled = false;
         switch (actionId) {
             case EditorInfo.IME_ACTION_DONE:
-                this.onClickLogin(v);
+                if (this.loginButton.isEnabled()) {
+                    this.onClickLogin(v);
+                }
                 handled = true;
                 break;
             default:
                 break;
         }
         return handled;
+    }
+
+    @Override
+    public void enValidatant(Validateur validateur, boolean estValide) {
+        if (validateur.equals(this.validateurCourriel)) {
+            this.courrielEstValide = estValide;
+        } else if (validateur.equals(this.validateurMotDePasse)) {
+            this.motDePassEstValide = estValide;
+        }
+        this.loginButton.setEnabled(this.motDePassEstValide && this.courrielEstValide);
     }
 
     /**
@@ -133,23 +135,22 @@ public class LoginActivity extends AppCompatActivity implements EditText.OnEdito
     }
 
     /**
-     * Methode pour vérifier si les champs mot the passse et courriel du formulaire est
-     * notifierLesVoyeurs sont
-     * update la vue en conséquence.
+     * Methode déclechant la connection.
+     *
+     * @param v
+     *         un objet view qui est en lien avec l'interaction de connection.
      */
     public void onClickLogin(final View v) {
         RequestBody requestBody =
                 new FormEncodingBuilder().add("courriel",
-                                              this.valideurCourriel.getText().toString()
+                                              this.validateurCourriel.getText().toString()
                                              )
                                          .add("mot_de_passe",
-                                              this.valideurMotDePasse.getText().toString()
+                                              this.validateurMotDePasse.getText().toString()
                                              )
                                          .build();
         Request request =
-                new Request.Builder().url(HippieApplication.baseUrl)
-                                     .post(requestBody)
-                                     .build();
+                new Request.Builder().url(HippieApplication.baseUrl).post(requestBody).build();
         this.httpClient.newCall(request).enqueue(new Callback() {
 
             @Override
@@ -169,6 +170,7 @@ public class LoginActivity extends AppCompatActivity implements EditText.OnEdito
             @Override
             public void onResponse(Response response) throws IOException {
                 if (!response.isSuccessful()) {
+                    // TODO: Gérer Mauvais mot de passe/courriel comme du monde.
                     LoginActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -217,10 +219,10 @@ public class LoginActivity extends AppCompatActivity implements EditText.OnEdito
     }
 
     private void sauvegarderFormulaire() {
-        this.authentificateur.setMotDePasse(this.valideurCourriel.getText().toString());
+        this.authentificateur.setMotDePasse(this.validateurCourriel.getText().toString());
         this.sharedPreferences.edit()
                               .putString(this.getString(R.string.pref_email_key),
-                                         this.valideurMotDePasse.getText().toString()
+                                         this.validateurMotDePasse.getText().toString()
                                         )
                               .commit();
     }
