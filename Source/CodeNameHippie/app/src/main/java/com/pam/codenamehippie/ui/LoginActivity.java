@@ -7,10 +7,6 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -20,6 +16,10 @@ import android.widget.TextView;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.controleur.validation.Validateur;
+import com.pam.codenamehippie.controleur.validation.ValidateurCourriel;
+import com.pam.codenamehippie.controleur.validation.ValidateurMotDePasse;
+import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
 import com.pam.codenamehippie.http.Authentificateur;
 import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
@@ -32,31 +32,28 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-public class LoginActivity extends AppCompatActivity implements EditText.OnEditorActionListener {
+public class LoginActivity extends AppCompatActivity implements EditText.OnEditorActionListener,
+                                                                ValidateurObserver {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
     private OkHttpClient httpClient;
-    private EditText courrielEditText;
-    private EditText passwordEditText;
+    private ValidateurMotDePasse valideurMotDePasse;
+    private boolean motDePassEstValide;
+    private ValidateurCourriel valideurCourriel;
+    private boolean courrielEstValide;
     private Button loginButton;
     private SharedPreferences sharedPreferences;
     private Authentificateur authentificateur;
-    private final TextWatcher formulaireTextWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+    @Override
+    public void enValidatant(Validateur validateur, boolean estValide) {
+        if (validateur.equals(this.valideurCourriel)) {
+            this.courrielEstValide = estValide;
+        } else if (validateur.equals(this.valideurMotDePasse)) {
+            this.motDePassEstValide = estValide;
         }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            LoginActivity.this.validerFormulaire();
-        }
-    };
+        this.loginButton.setEnabled(this.motDePassEstValide && this.courrielEstValide);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,40 +66,40 @@ public class LoginActivity extends AppCompatActivity implements EditText.OnEdito
             this.setSupportActionBar(toolbar);
         }
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        this.courrielEditText = ((EditText) this.findViewById(R.id.etCourriel));
+        this.valideurCourriel =
+                ValidateurCourriel.newInstance(this,
+                                               ((EditText) this.findViewById(R.id.etCourriel)),
+                                               true
+                                              );
         String rememberedEmail =
                 this.sharedPreferences.getString(this.getString(R.string.pref_email_key), null);
-        if ((rememberedEmail != null) && (this.courrielEditText != null)) {
-            this.courrielEditText.setText(rememberedEmail);
+        if ((rememberedEmail != null)) {
+            this.valideurCourriel.setText(rememberedEmail);
         }
-        this.passwordEditText = ((EditText) this.findViewById(R.id.etPassword));
-
-        this.loginButton = (Button) this.findViewById(R.id.bLogin);
+        this.valideurMotDePasse =
+                ValidateurMotDePasse.newInstance(this,
+                                                 ((EditText) this.findViewById(R.id.etPassword))
+                                                );
+        this.valideurMotDePasse.getEditText().setOnEditorActionListener(this);
+        this.loginButton = ((Button) this.findViewById(R.id.bLogin));
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (this.courrielEditText != null) {
-            this.courrielEditText.removeTextChangedListener(this.formulaireTextWatcher);
-        }
-        if (this.passwordEditText != null) {
-            this.passwordEditText.removeTextChangedListener(this.formulaireTextWatcher);
-            this.passwordEditText.setOnEditorActionListener(null);
-        }
+        this.valideurCourriel.onPause();
+        this.valideurMotDePasse.onPause();
+        this.valideurCourriel.unregisterObserver(this);
+        this.valideurMotDePasse.unregisterObserver(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (this.courrielEditText != null) {
-            this.courrielEditText.addTextChangedListener(this.formulaireTextWatcher);
-        }
-        if (this.passwordEditText != null) {
-            this.passwordEditText.addTextChangedListener(this.formulaireTextWatcher);
-            this.passwordEditText.setOnEditorActionListener(this);
-        }
-        this.validerFormulaire();
+        this.valideurCourriel.onResume();
+        this.valideurMotDePasse.onResume();
+        this.valideurCourriel.registerObserver(this);
+        this.valideurMotDePasse.registerObserver(this);
     }
 
     @Override
@@ -113,60 +110,18 @@ public class LoginActivity extends AppCompatActivity implements EditText.OnEdito
         }
     }
 
-    /**
-     * Methode pour vérifier si le champ courriel du formulaire est valide et update la vue en
-     * conséquence.
-     *
-     * @return True si le champ est valide
-     */
-    private boolean courrielEstIlValide() {
-        if ((this.courrielEditText != null)) {
-            Editable text = this.courrielEditText.getText();
-            String errorMessage = null;
-            if (TextUtils.isEmpty(text)) {
-                errorMessage = this.getString(R.string.error_field_required);
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(text).matches()) {
-                errorMessage = this.getString(R.string.error_invalid_email);
-            }
-            this.courrielEditText.setError(errorMessage);
-            if (errorMessage == null) {
-                this.sharedPreferences.edit()
-                                      .putString(this.getString(R.string.pref_email_key),
-                                                 text.toString()
-                                                )
-                                      .commit();
-            }
-            return this.courrielEditText.getError() == null;
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        boolean handled = false;
+        switch (actionId) {
+            case EditorInfo.IME_ACTION_DONE:
+                this.onClickLogin(v);
+                handled = true;
+                break;
+            default:
+                break;
         }
-        return false;
-    }
-
-    /**
-     * Methode pour vérifier si le champ mot the passse du formulaire est valide et update la vue
-     * en conséquence.
-     *
-     * @return True si le champ est valide
-     */
-    private boolean motDePasseEstIlValide() {
-        if ((this.passwordEditText != null)) {
-            Editable text = this.passwordEditText.getText();
-            String errorMessage = null;
-            if (TextUtils.isEmpty(text)) {
-                errorMessage = this.getString(R.string.error_field_required);
-            }
-            // TODO: Checker les contraintes de mots de passe.
-            if (errorMessage == null) {
-                this.authentificateur.setMotDePasse(text.toString());
-            }
-            this.passwordEditText.setError(errorMessage);
-            return this.passwordEditText.getError() == null;
-        }
-        return false;
-    }
-
-    private void validerFormulaire() {
-        this.loginButton.setEnabled(LoginActivity.this.courrielEstIlValide() &&
-                                    LoginActivity.this.motDePasseEstIlValide());
+        return handled;
     }
 
     /**
@@ -175,22 +130,20 @@ public class LoginActivity extends AppCompatActivity implements EditText.OnEdito
     public void onClickInscription(View v) {
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         LoginActivity.this.startActivity(intent);
-        //LoginActivity.this.finish();
-        // TODO: ajouter le parent dans le manifest pour le retour au parent
     }
 
     /**
-     * Methode pour vérifier si les champs mot the passse et courriel du formulaire est valide sont
+     * Methode pour vérifier si les champs mot the passse et courriel du formulaire est
+     * notifierLesVoyeurs sont
      * update la vue en conséquence.
      */
-
     public void onClickLogin(final View v) {
         RequestBody requestBody =
                 new FormEncodingBuilder().add("courriel",
-                                              this.courrielEditText.getText().toString()
+                                              this.valideurCourriel.getText().toString()
                                              )
                                          .add("mot_de_passe",
-                                              this.passwordEditText.getText().toString()
+                                              this.valideurMotDePasse.getText().toString()
                                              )
                                          .build();
         Request request =
@@ -231,6 +184,7 @@ public class LoginActivity extends AppCompatActivity implements EditText.OnEdito
                     String json = response.body().string();
                     UtilisateurModele utilisateur = depotUtilisateur.fromJson(json);
                     String nom = utilisateur.getPrenom() + " " + utilisateur.getNom();
+                    LoginActivity.this.sauvegarderFormulaire();
                     Snackbar.make(v,
                                   LoginActivity.this.getString(R.string.message_welcome, nom),
                                   Snackbar.LENGTH_SHORT
@@ -262,17 +216,13 @@ public class LoginActivity extends AppCompatActivity implements EditText.OnEdito
         });
     }
 
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        boolean handled = false;
-        switch (actionId) {
-            case EditorInfo.IME_ACTION_DONE:
-                this.onClickLogin(v);
-                handled = true;
-                break;
-            default:
-                break;
-        }
-        return handled;
+    private void sauvegarderFormulaire() {
+        this.authentificateur.setMotDePasse(this.valideurCourriel.getText().toString());
+        this.sharedPreferences.edit()
+                              .putString(this.getString(R.string.pref_email_key),
+                                         this.valideurMotDePasse.getText().toString()
+                                        )
+                              .commit();
     }
+
 }

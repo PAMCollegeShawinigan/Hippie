@@ -37,7 +37,8 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
 //     * @param json
 //     *   de l'objet MarchandiseModele
 //     *
-//     * @return une nouvelle instance de MarchandiseModele vide ou null si la marchansise existe déjà
+//     * @return une nouvelle instance de MarchandiseModele vide ou null si la marchansise existe
+// déjà
 //     */
 //    @Override
 //    public MarchandiseModele ajouterModele(String json) {

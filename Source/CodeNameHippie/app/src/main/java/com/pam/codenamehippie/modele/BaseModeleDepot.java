@@ -48,6 +48,7 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
     protected final static Gson gson =
             new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").serializeNulls().create();
     private static final String TAG = BaseModele.class.getSimpleName();
+    private static boolean estInitialiser = false;
     /**
      * Contenant qui renferme les objets entretenus par le dépôt.
      */
@@ -60,7 +61,6 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
      * Url du des objets du dépôt.
      */
     protected HttpUrl url = HippieApplication.baseUrl;
-
     /**
      * Client http.
      */

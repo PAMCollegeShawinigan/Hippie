@@ -14,4 +14,6 @@
 	<string name="title_activity_register">Register</string>
 	<string name="title_activity_preference">Settings</string>
 	<string name="message_welcome">Welcome %1$s</string>
+	<string name="error_confirm_password">"This password doesn\'t match the previous one"</string>
+	<string name="error_field_too_long">The content of this field is too long</string>
 </resources>
