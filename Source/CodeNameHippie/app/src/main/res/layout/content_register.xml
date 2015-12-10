@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -231,6 +232,8 @@
 =======
 =======
 >>>>>>> master
+=======
+>>>>>>> refs/remotes/origin/master
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
