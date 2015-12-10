@@ -91,9 +91,9 @@ public class TriangleImageView extends ImageView {
         super(context, attrs, defStyle);
         if (attrs != null) {
             TypedArray array = getContext().obtainStyledAttributes(attrs,
-                    R.styleable.CircleImageView);
+                    R.styleable.TriangleImageView);
 
-            this.name = array.getString(R.styleable.CircleImageView_name);
+            this.name = array.getString(R.styleable.TriangleImageView_name);
         }
     }
 
