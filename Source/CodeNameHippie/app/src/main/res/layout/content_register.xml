@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:background="#737272"
-	android:fillViewport="false"
-	android:focusableInTouchMode="false"
-	android:scrollIndicators="left|top">
-
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#737272"
+            android:fillViewport="false"
+            android:focusableInTouchMode="false"
+            android:scrollIndicators="left|top">
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
@@ -16,34 +15,28 @@
 		android:scrollIndicators="top"
 		tools:context="com.pam.codenamehippie.ui.Register"
 		tools:showIn="@layout/activity_register">
-
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:gravity="center_horizontal"
 			android:orientation="vertical"
 			android:paddingLeft="40dp">
-
-
-
 			<TextView
 				android:id="@+id/tv_infoConnexion"
 				android:layout_width="447dp"
 				android:layout_height="wrap_content"
 				android:text="INFORMATIONS DE CONNEXION"
 				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:textSize="30sp"
-				android:textColor="#A1CC39" />
-
+				android:textColor="#A1CC39"
+				android:textSize="30sp" />
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:paddingBottom="10dp"
 				android:paddingTop="10dp"
-				android:textSize="20sp"
 				android:text="Nom"
-				android:textColor="#ffffff" />
-
+				android:textColor="#ffffff"
+				android:textSize="20sp" />
 			<EditText
 				android:id="@+id/etInscriptionNom"
 				android:layout_width="300dp"
@@ -51,18 +44,18 @@
 				android:layout_marginBottom="10dp"
 				android:background="@drawable/element"
 				android:hint="NOM"
+				android:inputType="textPersonName"
+				android:nextFocusForward="@+id/etInscriptionPrenom"
 				android:padding="10dp"
-				android:textColorHint="#c6c6c6"/>
-
+				android:textColorHint="#c6c6c6" />
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:paddingBottom="10dp"
 				android:paddingTop="10dp"
-				android:textSize="20sp"
 				android:text="Prénom"
-				android:textColor="#ffffff" />
-
+				android:textColor="#ffffff"
+				android:textSize="20sp" />
 			<EditText
 				android:id="@+id/etInscriptionPrenom"
 				android:layout_width="300dp"
@@ -70,19 +63,19 @@
 				android:layout_marginBottom="10dp"
 				android:background="@drawable/element"
 				android:hint="PRÉNOM"
+				android:inputType="textPersonName"
+				android:nextFocusForward="@+id/etUsername"
 				android:padding="10dp"
-				android:textColorHint="#c6c6c6"/>
-
+				android:textColorHint="#c6c6c6" />
 			<TextView
 				android:id="@+id/tvUsername"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:paddingBottom="10dp"
 				android:paddingTop="10dp"
-				android:textSize="20sp"
 				android:text="Nom d&apos;utilisateur"
-				android:textColor="#ffffff" />
-
+				android:textColor="#ffffff"
+				android:textSize="20sp" />
 			<EditText
 				android:id="@+id/etUsername"
 				android:layout_width="300dp"
@@ -90,19 +83,19 @@
 				android:layout_marginBottom="10dp"
 				android:background="@drawable/element"
 				android:hint="NOM D&apos;UTILISATEUR"
+				android:inputType="text"
+				android:nextFocusForward="@+id/etCourriel"
 				android:padding="10dp"
-				android:textColorHint="#c6c6c6"/>
-
+				android:textColorHint="#c6c6c6" />
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:paddingBottom="10dp"
 				android:paddingTop="10dp"
 				android:text="Courriel"
-				android:textSize="20sp"
+				android:textColor="#ffffff"
 				android:textColorHint="#c6c6c6"
-				android:textColor="#ffffff" />
-
+				android:textSize="20sp" />
 			<EditText
 				android:id="@+id/etCourriel"
 				android:layout_width="300dp"
@@ -110,18 +103,18 @@
 				android:layout_marginBottom="10dp"
 				android:background="@drawable/element"
 				android:hint="COURRIEL"
+				android:inputType="textEmailAddress"
+				android:nextFocusForward="@+id/etPassword"
 				android:padding="10dp"
-				android:textColorHint="#c6c6c6"/>
-
+				android:textColorHint="#c6c6c6" />
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:paddingBottom="10dp"
 				android:paddingTop="10dp"
-				android:textSize="20sp"
 				android:text="Mot de passe"
-				android:textColor="#ffffff" />
-
+				android:textColor="#ffffff"
+				android:textSize="20sp" />
 			<EditText
 				android:id="@+id/etPassword"
 				android:layout_width="300dp"
@@ -130,18 +123,17 @@
 				android:background="@drawable/element"
 				android:hint="MOT DE PASSE"
 				android:inputType="textPassword"
+				android:nextFocusForward="@+id/etConfirmPassword"
 				android:padding="10dp"
-				android:textColorHint="#c6c6c6"/>
-
+				android:textColorHint="#c6c6c6" />
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:paddingBottom="10dp"
 				android:paddingTop="10dp"
-				android:textSize="20sp"
 				android:text="Confirmer mot de passe"
-				android:textColor="#ffffff" />
-
+				android:textColor="#ffffff"
+				android:textSize="20sp" />
 			<EditText
 				android:id="@+id/etConfirmPassword"
 				android:layout_width="300dp"
@@ -149,72 +141,65 @@
 				android:layout_marginBottom="10dp"
 				android:background="@drawable/element"
 				android:hint="CONFIRMER LE MOT DE PASSE"
+				android:imeOptions="actionDone"
 				android:inputType="textPassword"
 				android:padding="10dp"
-				android:textColorHint="#c6c6c6"/>
-
+				android:textColorHint="#c6c6c6" />
 			<TextView
 				android:id="@+id/textView"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="ÊTES-VOUS ?"
-				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:textSize="20sp"
 				android:paddingBottom="10dp"
 				android:paddingTop="20dp"
-				android:textColor="#A1CC39" />
-
-			<LinearLayout
+				android:text="ÊTES-VOUS ?"
+				android:textAppearance="?android:attr/textAppearanceLarge"
+				android:textColor="#A1CC39"
+				android:textSize="20sp" />
+			<RadioGroup
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:gravity="center_horizontal"
 				android:orientation="horizontal">
-
 				<RadioButton
 					android:id="@+id/rbParticulier"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:buttonTint="#ffffff"
 					android:checked="false"
-					android:textSize="15sp"
+					android:paddingBottom="10dp"
+					android:paddingLeft="5dp"
+					android:paddingRight="15dp"
+					android:paddingTop="10dp"
 					android:text="Un particulier"
 					android:textColor="#ffffff"
-					android:paddingLeft="5dp"
-					android:paddingTop="10dp"
-					android:paddingRight="15dp"
-					android:paddingBottom="10dp" />
-
+					android:textSize="15sp" />
 				<RadioButton
 					android:id="@+id/rbEntreprise"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:buttonTint="#ffffff"
 					android:checked="false"
-					android:textSize="15sp"
+					android:paddingBottom="10dp"
+					android:paddingLeft="5dp"
+					android:paddingRight="15dp"
+					android:paddingTop="10dp"
 					android:text="Une entreprise"
 					android:textColor="#ffffff"
-					android:paddingLeft="5dp"
-					android:paddingTop="10dp"
-					android:paddingRight="15dp"
-					android:paddingBottom="10dp" />
-
+					android:textSize="15sp" />
 				<RadioButton
 					android:id="@+id/rbOrganisme"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:buttonTint="#ffffff"
 					android:checked="false"
-					android:textSize="15sp"
+					android:paddingBottom="10dp"
+					android:paddingLeft="5dp"
+					android:paddingRight="15dp"
+					android:paddingTop="10dp"
 					android:text="Un organisme"
 					android:textColor="#ffffff"
-					android:paddingLeft="5dp"
-					android:paddingTop="10dp"
-					android:paddingRight="15dp"
-					android:paddingBottom="10dp" />
-
-			</LinearLayout>
-
-
+					android:textSize="15sp" />
+			</RadioGroup>
 			<Button
 				android:id="@+id/bLogin"
 				android:layout_width="300dp"
@@ -222,8 +207,6 @@
 				android:layout_marginTop="30dp"
 				android:background="@drawable/button"
 				android:text="Connexion" />
-
 		</LinearLayout>
-
 	</LinearLayout>
 </ScrollView>
