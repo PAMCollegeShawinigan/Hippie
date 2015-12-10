@@ -17,7 +17,7 @@ public class MarchandiseModele extends BaseModele {
     private String etat;
     @SerializedName("valeur")
     private Integer valeur;
-    @SerializedName("marchandise_statut")
+    @SerializedName("statut")
     private String statut;
 
     public String getNom() {
