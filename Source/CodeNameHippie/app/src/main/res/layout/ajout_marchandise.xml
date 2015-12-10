@@ -26,15 +26,7 @@
 
 
             <TextView
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:id="@+id/tv_infoConnexion"
-=======
                 android:id="@+id/tvAjoutMarchandise"
->>>>>>> master
-=======
-                android:id="@+id/tvAjoutMarchandise"
->>>>>>> refs/remotes/origin/master
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="AJOUT DE MARCHANDISE"
@@ -49,41 +41,19 @@
                 android:paddingTop="10dp"
                 android:textSize="20sp"
                 android:text="Nom"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:textColor="#ffffff" />
-
-            <EditText
-                android:id="@+id/etInscriptionNom"
-=======
-=======
->>>>>>> refs/remotes/origin/master
                 android:textColor="#ffffff"
                 android:id="@+id/tvNomMarchandise" />
 
             <EditText
                 android:id="@+id/etNomMarchandise"
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> refs/remotes/origin/master
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
                 android:hint="NOM"
                 android:padding="10dp"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:textColorHint="#c6c6c6"/>
-=======
                 android:textColorHint="#c6c6c6"
                 android:nextFocusForward="@+id/etDescMarchandise"/>
->>>>>>> master
-=======
-                android:textColorHint="#c6c6c6"
-                android:nextFocusForward="@+id/etDescMarchandise"/>
->>>>>>> refs/remotes/origin/master
 
             <TextView
                 android:layout_width="wrap_content"
@@ -92,39 +62,15 @@
                 android:paddingTop="10dp"
                 android:textSize="20sp"
                 android:text="Description"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:textColor="#ffffff" />
-
-            <EditText
-                android:id="@+id/etInscriptionPrenom"
-=======
-=======
->>>>>>> refs/remotes/origin/master
                 android:textColor="#ffffff"
                 android:id="@+id/tvDescMarchandise" />
 
             <EditText
                 android:id="@+id/etDescMarchandise"
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> refs/remotes/origin/master
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:hint="PRÉNOM"
-                android:padding="10dp"
-                android:textColorHint="#c6c6c6"/>
-
-            <TextView
-                android:id="@+id/tvUsername"
-=======
-=======
->>>>>>> refs/remotes/origin/master
                 android:hint="DESCRIPTION"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
@@ -132,10 +78,6 @@
 
             <TextView
                 android:id="@+id/tvQteeMarchandise"
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> refs/remotes/origin/master
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
@@ -145,35 +87,15 @@
                 android:textColor="#ffffff" />
 
             <EditText
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:id="@+id/etUsername"
-=======
                 android:id="@+id/etQteeMarchandise"
->>>>>>> master
-=======
-                android:id="@+id/etQteeMarchandise"
->>>>>>> refs/remotes/origin/master
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:hint="NOM D&apos;UTILISATEUR"
-                android:padding="10dp"
-                android:textColorHint="#c6c6c6"/>
-=======
-=======
->>>>>>> refs/remotes/origin/master
                 android:hint="QUANTITÉES"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
                 android:nextFocusForward="@+id/etUniteMarchandise"/>
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> refs/remotes/origin/master
 
             <TextView
                 android:layout_width="wrap_content"
@@ -183,44 +105,19 @@
                 android:text="Unité"
                 android:textSize="20sp"
                 android:textColorHint="#c6c6c6"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:textColor="#ffffff" />
-
-            <EditText
-                android:id="@+id/etCourriel"
-=======
-=======
->>>>>>> refs/remotes/origin/master
                 android:textColor="#ffffff"
                 android:id="@+id/tvUniteMarchandise" />
 
             <EditText
                 android:id="@+id/etUniteMarchandise"
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> refs/remotes/origin/master
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:hint="COURRIEL"
-                android:padding="10dp"
-                android:textColorHint="#c6c6c6"/>
-=======
-=======
->>>>>>> refs/remotes/origin/master
                 android:hint="UNITÉ"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
                 android:nextFocusForward="@+id/etValeurMarchandise"/>
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> refs/remotes/origin/master
 
             <TextView
                 android:layout_width="wrap_content"
@@ -228,48 +125,21 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:textSize="20sp"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:text="Mot de passe"
-                android:textColor="#ffffff" />
-
-            <EditText
-                android:id="@+id/etPassword"
-=======
-=======
->>>>>>> refs/remotes/origin/master
                 android:text="Valeur"
                 android:textColor="#ffffff"
                 android:id="@+id/tvValeurMarchandise" />
 
             <EditText
                 android:id="@+id/etValeurMarchandise"
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> refs/remotes/origin/master
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:hint="MOT DE PASSE"
-                android:inputType="textPassword"
-                android:padding="10dp"
-                android:textColorHint="#c6c6c6"/>
-=======
-=======
->>>>>>> refs/remotes/origin/master
                 android:hint="VALEUR"
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
                 android:nextFocusForward="@+id/etTypeMarchandise"/>
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> refs/remotes/origin/master
 
             <TextView
                 android:layout_width="wrap_content"
@@ -277,104 +147,16 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:textSize="20sp"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:text="Confirmer mot de passe"
-                android:textColor="#ffffff" />
-
-            <EditText
-                android:id="@+id/etConfirmPassword"
-=======
-=======
->>>>>>> refs/remotes/origin/master
                 android:text="Type alimentaire"
                 android:textColor="#ffffff"
                 android:id="@+id/tvTypeMarchandise" />
 
             <EditText
                 android:id="@+id/etTypeMarchandise"
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> refs/remotes/origin/master
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:hint="CONFIRMER LE MOT DE PASSE"
-                android:inputType="textPassword"
-                android:padding="10dp"
-                android:textColorHint="#c6c6c6"/>
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ÊTES-VOUS ?"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="20sp"
-                android:paddingBottom="10dp"
-                android:paddingTop="20dp"
-                android:textColor="#A1CC39" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rbParticulier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="#ffffff"
-                    android:checked="false"
-                    android:textSize="15sp"
-                    android:text="Un particulier"
-                    android:textColor="#ffffff"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="10dp"
-                    android:paddingRight="15dp"
-                    android:paddingBottom="10dp" />
-
-                <RadioButton
-                    android:id="@+id/rbEntreprise"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="#ffffff"
-                    android:checked="false"
-                    android:textSize="15sp"
-                    android:text="Une entreprise"
-                    android:textColor="#ffffff"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="10dp"
-                    android:paddingRight="15dp"
-                    android:paddingBottom="10dp" />
-
-                <RadioButton
-                    android:id="@+id/rbOrganisme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="#ffffff"
-                    android:checked="false"
-                    android:textSize="15sp"
-                    android:text="Un organisme"
-                    android:textColor="#ffffff"
-                    android:paddingLeft="5dp"
-                    android:paddingTop="10dp"
-                    android:paddingRight="15dp"
-                    android:paddingBottom="10dp" />
-
-            </LinearLayout>
-
-
-            <Button
-                android:id="@+id/bLogin"
-=======
-=======
->>>>>>> refs/remotes/origin/master
                 android:hint="TYPE ALIMENTAIRE"
                 android:inputType="textPassword"
                 android:padding="10dp"
@@ -384,23 +166,11 @@
 
             <Button
                 android:id="@+id/bAjoutMarchandise"
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> refs/remotes/origin/master
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/button"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                android:text="Connexion" />
-=======
                 android:text="Ajouter" />
->>>>>>> master
-=======
-                android:text="Ajouter" />
->>>>>>> refs/remotes/origin/master
 
         </LinearLayout>
 

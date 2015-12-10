@@ -12,10 +12,6 @@ import com.pam.codenamehippie.R;
 public class SplashScreenActivity extends Activity {
 
     // minuterie d'écran du Splash screen 10000 = 10 sec
-<<<<<<< HEAD:Source/CodeNameHippie/app/src/main/java/com/pam/codenamehippie/ui/SplashScreenActivity.java
-    private static int SPLASH_TIME_OUT = 1;
-=======
->>>>>>> master:Source/CodeNameHippie/app/src/main/java/com/pam/codenamehippie/ui/SplashScreenActivity.java
     private static final int SPLASH_TIME_OUT = 10000;
 
     @Override

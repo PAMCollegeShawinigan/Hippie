@@ -133,7 +133,6 @@ public class LoginActivity extends AppCompatActivity {
         return false;
     }
 
-
     /**
      * Methode pour vérifier si le champ mot the passse du formulaire est valide et update la vue
      * en conséquence.
@@ -159,16 +158,6 @@ public class LoginActivity extends AppCompatActivity {
             return this.passwordEditText.getError() == null;
         }
         return false;
-    }
-
-    /**
-     * Methode pour ouvrir le formulaire d'inscription d'un  nouvel utilisateur
-     */
-    public void onClickInscription(final View v) {
-        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-        LoginActivity.this.startActivity(intent);
-        //LoginActivity.this.finish();
-        // TODO: ajouter le parent dans le manifest pour le retour au parent
     }
 
     /**
