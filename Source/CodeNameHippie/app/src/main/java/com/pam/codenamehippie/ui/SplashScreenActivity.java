@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.VideoView;
 
+import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.http.Authentificateur;
 
 public class SplashScreenActivity extends Activity {
 
@@ -21,7 +23,7 @@ public class SplashScreenActivity extends Activity {
 
         //identifiant du vidéo
         VideoView videoView =
-          (VideoView) this.findViewById(R.id.videoView);
+                (VideoView) this.findViewById(R.id.videoView);
 
         //le chemin du vidéo
         videoView.setVideoURI(Uri.parse("android.resource://" +
@@ -29,21 +31,27 @@ public class SplashScreenActivity extends Activity {
 
         //le démarrage du vidéo Logo dans le splash screen
         videoView.start();
-
         new Handler().postDelayed(new Runnable() {
 
             /*
              * Showing splash screen with a timer. This will be useful when you
              * want to show case your app logo / company
              */
-
             @Override
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
-                SplashScreenActivity.this.startActivity(i);
+                Intent i;
+                if (((Authentificateur)
+                        ((HippieApplication) SplashScreenActivity.this.getApplication())
+                                .getHttpClient()
+                                .getAuthenticator()).estAuthentifie()) {
+                    i = new Intent(SplashScreenActivity.this, MainActivity.class);
+                } else {
+                    i = new Intent(SplashScreenActivity.this, LoginActivity.class);
 
+                }
+                SplashScreenActivity.this.startActivity(i);
                 // fermeture de l'activité
                 SplashScreenActivity.this.finish();
             }
