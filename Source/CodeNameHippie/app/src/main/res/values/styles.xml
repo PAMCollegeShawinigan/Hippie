@@ -1,21 +1,30 @@
 <resources>
-	<style name="AppTheme" parent="Base.AppTheme"/>
-	<style name="AppTheme.DarkActionBar" parent="AppTheme">
-		<item name="windowActionBar">true</item>
-		<item name="windowNoTitle">false</item>
-	</style>
-	<style name="AppThemeOverlay.ActionBar" parent="Base.AppThemeOverlay.ActionBar"/>
-	<style name="AppThemeOverlay.Light" parent="ThemeOverlay.AppCompat.Light"/>
-	<!-- Base application theme. -->
-	<style name="Base.AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-		<item name="windowActionBar">false</item>
-		<item name="windowNoTitle">true</item>
-		<item name="colorPrimary">@color/colorPrimary</item>
-		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-		<item name="colorAccent">@color/colorAccent</item>
-		<item name="actionBarTheme">@style/AppThemeOverlay.ActionBar</item>
-		<item name="popupTheme">@style/AppThemeOverlay.Light</item>
-	</style>
-	<style name="Base.AppThemeOverlay.ActionBar"
-	       parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme" parent="Base.AppTheme"/>
+
+    <style name="AppTheme.DarkActionBar" parent="AppTheme">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+    </style>
+
+    <style name="AppThemeOverlay.ActionBar" parent="Base.AppThemeOverlay.ActionBar"/>
+
+    <style name="AppThemeOverlay.Light" parent="ThemeOverlay.AppCompat.Light"/>
+    <!-- Base application theme. -->
+    <style name="Base.AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionBarTheme">@style/AppThemeOverlay.ActionBar</item>
+        <item name="popupTheme">@style/AppThemeOverlay.Light</item>
+    </style>
+
+    <style name="Base.AppThemeOverlay.ActionBar"
+           parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 </resources>
