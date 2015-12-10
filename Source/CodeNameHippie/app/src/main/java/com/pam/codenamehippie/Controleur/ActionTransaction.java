@@ -1,8 +1,6 @@
-package com.pam.codenamehippie.Controleur;
+package com.pam.codenamehippie.controleur;
 
 import com.pam.codenamehippie.modele.*;
-
-import java.util.Date;
 
 /**
  * Created by Utilisateur on 2015-12-08.
