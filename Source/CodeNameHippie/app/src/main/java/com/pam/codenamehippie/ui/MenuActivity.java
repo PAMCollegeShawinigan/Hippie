@@ -16,12 +16,12 @@ import com.pam.codenamehippie.TriangleMenu.TriangleLayout.OnItemSelectedListener
 import com.pam.codenamehippie.TriangleMenu.TriangleLayout.OnRotationFinishedListener;
 
 public class MenuActivity extends Activity implements OnItemSelectedListener,
-                                                      OnItemClickListener,
-                                                      OnRotationFinishedListener,
-                                                      OnCenterClickListener {
-        public static final String ARG_LAYOUT = "layout";
+        OnItemClickListener,
+        OnRotationFinishedListener,
+        OnCenterClickListener {
+    public static final String ARG_LAYOUT = "layout";
 
-        private TextView selectedTextView;
+    private TextView selectedTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +33,15 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
         setContentView(layoutId);
 
         // Set listeners
-//        TriangleLayout triangleMenu = (TriangleLayout) findViewById(R.id.main_circle_layout);
-//        triangleMenu.setOnItemSelectedListener(this);
-//        triangleMenu.setOnItemClickListener(this);
-//        triangleMenu.setOnRotationFinishedListener(this);
-//        triangleMenu.setOnCenterClickListener(this);
-//
-//        selectedTextView = (TextView) findViewById(R.id.main_selected_textView);
-//        selectedTextView.setText(((TriangleImageView) triangleMenu
-//                .getSelectedItem()).getName());
+        TriangleLayout triangleMenu = (TriangleLayout) findViewById(R.id.main_circle_layout);
+        triangleMenu.setOnItemSelectedListener(this);
+        triangleMenu.setOnItemClickListener(this);
+        triangleMenu.setOnRotationFinishedListener(this);
+        triangleMenu.setOnCenterClickListener(this);
+
+        selectedTextView = (TextView) findViewById(R.id.main_selected_textView);
+        selectedTextView.setText(((TriangleImageView) triangleMenu
+                .getSelectedItem()).getName());
     }
 
     @Override
@@ -108,5 +108,6 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
     public void onCenterClick() {
 
     }
+
 
 }

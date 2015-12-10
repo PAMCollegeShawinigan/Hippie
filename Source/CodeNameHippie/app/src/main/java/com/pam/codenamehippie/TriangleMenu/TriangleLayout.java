@@ -278,7 +278,7 @@ public class TriangleLayout extends ViewGroup {
         private void rotateViewToCenter(TriangleImageView view) {
             Log.v(VIEW_LOG_TAG, "rotateViewToCenter");
             if (isRotating) {
-                float destAngle = (float) (firstChildPos - view.getAngle());
+                float destAngle = firstChildPos - view.getAngle();
 
                 if (destAngle < 0) {
                     destAngle += 360;
@@ -573,7 +573,7 @@ public class TriangleLayout extends ViewGroup {
 
             private int pointToPosition(float x, float y) {
                 for (int i = 0; i < getChildCount(); i++) {
-                    View item = (View) getChildAt(i);
+                    View item = getChildAt(i);
                     if (item.getLeft() < x && item.getRight() > x
                             & item.getTop() < y && item.getBottom() > y) {
                         return i;

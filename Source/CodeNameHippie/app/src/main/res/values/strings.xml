@@ -18,5 +18,7 @@
 	<string name="message_welcome">Welcome %1$s</string>
 	<string name="error_confirm_password">"This password doesn\'t match the previous one"</string>
 	<string name="error_field_too_long">The content of this field is too long</string>
+	<string name="title_activity_menu">Settings</string>
+	<string name="menu">Menu</string>
 
 </resources>
