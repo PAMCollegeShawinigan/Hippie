@@ -14,7 +14,7 @@ import com.pam.codenamehippie.http.Authentificateur;
 public class SplashScreenActivity extends Activity {
 
     // minuterie d'écran du Splash screen 10000 = 10 sec
-    private static final int SPLASH_TIME_OUT = 10000;
+    private static final int SPLASH_TIME_OUT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class SplashScreenActivity extends Activity {
                                 .getAuthenticator()).estAuthentifie()) {
                     i = new Intent(SplashScreenActivity.this, MainActivity.class);
                 } else {
-                    i = new Intent(SplashScreenActivity.this, LoginActivity.class);
+                    i = new Intent(SplashScreenActivity.this, MenuActivity.class);
 
                 }
                 SplashScreenActivity.this.startActivity(i);
