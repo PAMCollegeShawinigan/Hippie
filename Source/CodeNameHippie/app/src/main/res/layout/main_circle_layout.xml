@@ -25,7 +25,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/main_selected_textView"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        triangle:triangleBackground="@drawable/bg_menu">
 
         <include layout="@layout/menu_items" />
     </com.pam.codenamehippie.TriangleMenu.TriangleLayout>
