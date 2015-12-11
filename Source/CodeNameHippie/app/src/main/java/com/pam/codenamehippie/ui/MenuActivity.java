@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.TriangleMenu.TriangleLayout;
@@ -73,6 +74,9 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
     @Override
     public void onItemClick(View view, String name) {
 
+        Toast.makeText(getApplicationContext(),
+                " Allo ",
+                Toast.LENGTH_SHORT).show();
 
         switch (view.getId()) {
             case R.id.main_calendar_image:
@@ -106,7 +110,8 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
 
     @Override
     public void onCenterClick() {
-
+        Toast.makeText(getApplicationContext(), "Center has been clicked",
+                Toast.LENGTH_SHORT).show();
     }
 
 
