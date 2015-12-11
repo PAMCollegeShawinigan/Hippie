@@ -73,7 +73,6 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
     @Override
     public void onItemClick(View view, String name) {
 
-
         switch (view.getId()) {
             case R.id.main_calendar_image:
                 // Handle calendar click
