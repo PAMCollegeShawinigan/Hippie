@@ -29,9 +29,9 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
         super.onCreate(savedInstanceState);
 
         // Set content view by passed extra
-        Bundle extras = getIntent().getExtras();
-        int layoutId = extras.getInt(ARG_LAYOUT);
-        setContentView(layoutId);
+        //Bundle extras = getIntent().getExtras();
+        // int layoutId = extras.getInt(ARG_LAYOUT);
+        this.setContentView(R.layout.main_circle_layout);
 
         // Set listeners
         TriangleLayout triangleMenu = (TriangleLayout) findViewById(R.id.main_circle_layout);
