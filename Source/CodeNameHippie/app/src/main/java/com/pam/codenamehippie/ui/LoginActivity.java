@@ -123,10 +123,10 @@ public class LoginActivity extends AppCompatActivity {
             this.courrielEditText.setError(errorMessage);
             if (errorMessage == null) {
                 this.sharedPreferences.edit()
-                                      .putString(this.getString(R.string.pref_email_key),
-                                                 text.toString()
-                                                )
-                                      .commit();
+                        .putString(this.getString(R.string.pref_email_key),
+                                text.toString()
+                        )
+                        .commit();
             }
             return this.courrielEditText.getError() == null;
         }
@@ -149,10 +149,10 @@ public class LoginActivity extends AppCompatActivity {
             // TODO: Checker les contraintes de mots de passe.
             if (errorMessage == null) {
                 this.sharedPreferences.edit()
-                                      .putString(this.getString(R.string.pref_password_key),
-                                                 text.toString()
-                                                )
-                                      .commit();
+                        .putString(this.getString(R.string.pref_password_key),
+                                text.toString()
+                        )
+                        .commit();
             }
             this.passwordEditText.setError(errorMessage);
             return this.passwordEditText.getError() == null;
@@ -166,23 +166,23 @@ public class LoginActivity extends AppCompatActivity {
      */
     private void validerFormulaire() {
         this.loginButton.setEnabled(LoginActivity.this.courrielEstIlValide() &&
-                                    LoginActivity.this.motDePasseEstIlValide());
+                LoginActivity.this.motDePasseEstIlValide());
     }
 
     public void onClickLogin(final View v) {
         OkHttpClient client = ((HippieApplication) this.getApplication()).getHttpClient();
         RequestBody requestBody =
                 new FormEncodingBuilder().add("courriel",
-                                              this.courrielEditText.getText().toString()
-                                             )
-                                         .add("mot_de_passe",
-                                              this.passwordEditText.getText().toString()
-                                             )
-                                         .build();
+                        this.courrielEditText.getText().toString()
+                )
+                        .add("mot_de_passe",
+                                this.passwordEditText.getText().toString()
+                        )
+                        .build();
         Request request =
                 new Request.Builder().url(HippieApplication.baseUrl)
-                                     .post(requestBody)
-                                     .build();
+                        .post(requestBody)
+                        .build();
         final String prefPasswordKey = this.getString(R.string.pref_password_key);
         client.newCall(request).enqueue(new Callback() {
             @Override
