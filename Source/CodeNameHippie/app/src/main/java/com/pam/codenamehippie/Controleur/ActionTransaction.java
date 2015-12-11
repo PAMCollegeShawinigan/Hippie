@@ -1,4 +1,4 @@
-package com.pam.codenamehippie.Controleur;
+package com.pam.codenamehippie.controleur;
 
 import com.pam.codenamehippie.modele.MarchandiseModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
