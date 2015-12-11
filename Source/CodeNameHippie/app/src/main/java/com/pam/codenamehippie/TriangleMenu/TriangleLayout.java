@@ -88,20 +88,20 @@ public class TriangleLayout extends ViewGroup {
 
             if (attrs != null) {
                 TypedArray a = getContext().obtainStyledAttributes(attrs,
-                        R.styleable.CircleLayout);
+                        R.styleable.TriangleLayout);
 
                 // The angle where the first menu item will be drawn
-                angle = a.getInt(R.styleable.CircleLayout_firstChildPosition,
+                angle = a.getInt(R.styleable.TriangleLayout_firstChildPosition,
                         (int) angle);
                 firstChildPos = angle;
 
-                speed = a.getInt(R.styleable.CircleLayout_speed, speed);
-                isRotating = a.getBoolean(R.styleable.CircleLayout_isRotating,
+                speed = a.getInt(R.styleable.TriangleLayout_speed, speed);
+                isRotating = a.getBoolean(R.styleable.TriangleLayout_isRotating,
                         isRotating);
 
                 if (imageOriginal == null) {
                     int picId = a.getResourceId(
-                            R.styleable.CircleLayout_circleBackground, -1);
+                            R.styleable.TriangleLayout_triangleBackground, -1);
 
                     // If a background image was set as an attribute,
                     // retrieve the image
@@ -278,7 +278,7 @@ public class TriangleLayout extends ViewGroup {
         private void rotateViewToCenter(TriangleImageView view) {
             Log.v(VIEW_LOG_TAG, "rotateViewToCenter");
             if (isRotating) {
-                float destAngle = (float) (firstChildPos - view.getAngle());
+                float destAngle = firstChildPos - view.getAngle();
 
                 if (destAngle < 0) {
                     destAngle += 360;
@@ -573,7 +573,7 @@ public class TriangleLayout extends ViewGroup {
 
             private int pointToPosition(float x, float y) {
                 for (int i = 0; i < getChildCount(); i++) {
-                    View item = (View) getChildAt(i);
+                    View item = getChildAt(i);
                     if (item.getLeft() < x && item.getRight() > x
                             & item.getTop() < y && item.getBottom() > y) {
                         return i;

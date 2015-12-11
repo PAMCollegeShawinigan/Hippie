@@ -9,4 +9,8 @@
 	<item
 		android:id="@+id/menu_deconnexion"
 		android:title="@string/action_sign_out"/>
+
+	<item
+		android:id="@+id/menu_un"
+		android:title="@string/menu"/>
 </menu>
