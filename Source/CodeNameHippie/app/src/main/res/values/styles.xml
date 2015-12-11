@@ -14,7 +14,7 @@
     <style name="Base.AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorPrimary">#222222</item>
         <item name="colorPrimaryDark">#FFFFFF</item>
         <item name="colorAccent">#6FA642</item>
         <item name="actionBarTheme">@style/AppThemeOverlay.ActionBar</item>

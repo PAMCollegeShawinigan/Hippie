@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
+
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
@@ -46,9 +49,16 @@ public class MainActivity extends AppCompatActivity {
                 this.startActivity(new Intent(this, LoginActivity.class));
                 this.finish();
                 return true;
+            case R.id.menu_un:
+                Intent intent = new Intent(this, MenuActivity.class);
+                intent.putExtra(MenuActivity.ARG_LAYOUT, R.layout.main_circle_layout);
+                startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }
+
+
+
