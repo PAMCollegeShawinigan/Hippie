@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.TriangleMenu.TriangleLayout;
@@ -16,32 +17,32 @@ import com.pam.codenamehippie.TriangleMenu.TriangleLayout.OnItemSelectedListener
 import com.pam.codenamehippie.TriangleMenu.TriangleLayout.OnRotationFinishedListener;
 
 public class MenuActivity extends Activity implements OnItemSelectedListener,
-                                                      OnItemClickListener,
-                                                      OnRotationFinishedListener,
-                                                      OnCenterClickListener {
-        public static final String ARG_LAYOUT = "layout";
+        OnItemClickListener,
+        OnRotationFinishedListener,
+        OnCenterClickListener {
+    public static final String ARG_LAYOUT = "layout";
 
-        private TextView selectedTextView;
+    private TextView selectedTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Set content view by passed extra
-        Bundle extras = getIntent().getExtras();
-        int layoutId = extras.getInt(ARG_LAYOUT);
-        setContentView(layoutId);
+        //Bundle extras = getIntent().getExtras();
+        // int layoutId = extras.getInt(ARG_LAYOUT);
+        this.setContentView(R.layout.main_circle_layout);
 
         // Set listeners
-//        TriangleLayout triangleMenu = (TriangleLayout) findViewById(R.id.main_circle_layout);
-//        triangleMenu.setOnItemSelectedListener(this);
-//        triangleMenu.setOnItemClickListener(this);
-//        triangleMenu.setOnRotationFinishedListener(this);
-//        triangleMenu.setOnCenterClickListener(this);
-//
-//        selectedTextView = (TextView) findViewById(R.id.main_selected_textView);
-//        selectedTextView.setText(((TriangleImageView) triangleMenu
-//                .getSelectedItem()).getName());
+        TriangleLayout triangleMenu = (TriangleLayout) findViewById(R.id.main_circle_layout);
+        triangleMenu.setOnItemSelectedListener(this);
+        triangleMenu.setOnItemClickListener(this);
+        triangleMenu.setOnRotationFinishedListener(this);
+        triangleMenu.setOnCenterClickListener(this);
+
+        selectedTextView = (TextView) findViewById(R.id.main_selected_textView);
+        selectedTextView.setText(((TriangleImageView) triangleMenu
+                .getSelectedItem()).getName());
     }
 
     @Override
@@ -73,6 +74,9 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
     @Override
     public void onItemClick(View view, String name) {
 
+        Toast.makeText(getApplicationContext(),
+                " Allo ",
+                Toast.LENGTH_SHORT).show();
 
         switch (view.getId()) {
             case R.id.main_calendar_image:
@@ -106,7 +110,9 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
 
     @Override
     public void onCenterClick() {
-
+        Toast.makeText(getApplicationContext(), "Center has been clicked",
+                Toast.LENGTH_SHORT).show();
     }
+
 
 }
