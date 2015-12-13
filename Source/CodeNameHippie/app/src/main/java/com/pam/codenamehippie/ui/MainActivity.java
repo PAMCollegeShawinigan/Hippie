@@ -1,14 +1,11 @@
 package com.pam.codenamehippie.ui;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
 
 
 import com.pam.codenamehippie.HippieApplication;
@@ -51,9 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 this.finish();
                 return true;
             case R.id.menu_un:
-                Intent intent = new Intent(this, MenuActivity.class);
-                intent.putExtra(MenuActivity.ARG_LAYOUT, R.layout.main_circle_layout);
-                startActivity(intent);
+                this.startActivity(new Intent(this, MenuActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
