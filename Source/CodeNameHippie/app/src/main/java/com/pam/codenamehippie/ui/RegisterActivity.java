@@ -84,6 +84,7 @@ public class RegisterActivity extends AppCompatActivity
         this.validateurMotDePasse = ValidateurMotDePasse.newInstance(this, etPassword);
         this.validateurMotDePasse.registerObserver(this);
         EditText etConfirmPassword = ((EditText) this.findViewById(R.id.etConfirmPassword));
+        etConfirmPassword.setOnEditorActionListener(this);
         this.validateurConfirmMotDePasse =
                 ValidateurMotDePasse.newInstance(this, etConfirmPassword);
         this.validateurConfirmMotDePasse.registerObserver(this);
@@ -203,6 +204,7 @@ public class RegisterActivity extends AppCompatActivity
                 if (!response.isSuccessful()) {
 
                 } else {
+                    //FIXME: Gérer le retour du serveur
                     RegisterActivity.this.sauvegarderFormulaire();
                     RegisterActivity.this.navigueAMainActivity();
                 }
@@ -212,10 +214,10 @@ public class RegisterActivity extends AppCompatActivity
     }
 
     private void sauvegarderFormulaire() {
-        this.authentificateur.setMotDePasse(this.validateurCourriel.getText().toString());
+        this.authentificateur.setMotDePasse(this.validateurMotDePasse.getText().toString());
         this.sharedPreferences.edit()
                               .putString(this.getString(R.string.pref_email_key),
-                                         this.validateurMotDePasse.getText().toString()
+                                         this.validateurCourriel.getText().toString()
                                         )
                               .commit();
     }
