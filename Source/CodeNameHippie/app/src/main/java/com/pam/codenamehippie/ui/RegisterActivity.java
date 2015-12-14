@@ -84,6 +84,7 @@ public class RegisterActivity extends AppCompatActivity
         this.validateurMotDePasse = ValidateurMotDePasse.newInstance(this, etPassword);
         this.validateurMotDePasse.registerObserver(this);
         EditText etConfirmPassword = ((EditText) this.findViewById(R.id.etConfirmPassword));
+        etConfirmPassword.setOnEditorActionListener(this);
         this.validateurConfirmMotDePasse =
                 ValidateurMotDePasse.newInstance(this, etConfirmPassword);
         this.validateurConfirmMotDePasse.registerObserver(this);

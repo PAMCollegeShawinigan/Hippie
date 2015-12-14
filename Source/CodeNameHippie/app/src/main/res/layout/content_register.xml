@@ -206,6 +206,7 @@
 				android:layout_height="40dp"
 				android:layout_marginTop="30dp"
 				android:background="@drawable/button"
+				android:onClick="soummettreLaConnexion"
 				android:text="Connexion" />
 		</LinearLayout>
 	</LinearLayout>
