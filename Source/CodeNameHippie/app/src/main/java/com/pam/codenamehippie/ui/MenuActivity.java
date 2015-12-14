@@ -23,6 +23,7 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
    // public static final String ARG_LAYOUT = "layout";
 
     private TextView selectedTextView;
+    private TextView selectedTextView2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +44,23 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
         selectedTextView = (TextView) findViewById(R.id.main_selected_textView);
         selectedTextView.setText(((TriangleImageView) triangleMenu
                 .getSelectedItem()).getName());
+
+        selectedTextView2 = (TextView) findViewById(R.id.main_selected_textView2);
+        selectedTextView2.setText(((TriangleImageView) triangleMenu
+                .getSelectedItem()).getName());
+
+
+
+
     }
 
     @Override
     public void onItemSelected(View view, String name) {
         selectedTextView.setText(name);
+        selectedTextView2.setText(name);
 
         switch (view.getId()) {
-            case R.id.main_calendar_image:
+            case R.id.main_tap_image:
                 // Handle calendar selection
                 break;
             case R.id.main_cloud_image:
@@ -65,7 +75,7 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
             case R.id.main_profile_image:
                 // Handle profile selection
                 break;
-            case R.id.main_tap_image:
+            case R.id.main_calendar_image:
                 // Handle tap selection
                 break;
         }

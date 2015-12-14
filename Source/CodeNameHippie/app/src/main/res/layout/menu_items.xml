@@ -6,14 +6,14 @@
 
     <com.pam.codenamehippie.TriangleMenu.TriangleImageView
         android:id="@+id/main_calendar_image"
-        triangle:name="Bleh"
+        triangle:name="Statistiques"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/statistiques" />
 
     <com.pam.codenamehippie.TriangleMenu.TriangleImageView
         android:id="@+id/main_cloud_image"
-        triangle:name="Bleh"
+        triangle:name="Carte des organismes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/organismes" />
@@ -21,28 +21,28 @@
     <com.pam.codenamehippie.TriangleMenu.TriangleImageView
         android:id="@+id/main_facebook_image"
         android:layout_width="wrap_content"
-        triangle:name="Bleh"
+        triangle:name="Profil"
         android:layout_height="wrap_content"
         android:src="@drawable/profil" />
 
     <com.pam.codenamehippie.TriangleMenu.TriangleImageView
         android:id="@+id/main_key_image"
         android:layout_width="wrap_content"
-        triangle:name="Bleh"
+        triangle:name="Catégories"
         android:layout_height="wrap_content"
         android:src="@drawable/categories" />
 
     <com.pam.codenamehippie.TriangleMenu.TriangleImageView
         android:id="@+id/main_profile_image"
         android:layout_width="wrap_content"
-        triangle:name="Bleh"
+        triangle:name="Réservations"
         android:layout_height="wrap_content"
         android:src="@drawable/reservation" />
 
     <com.pam.codenamehippie.TriangleMenu.TriangleImageView
         android:id="@+id/main_tap_image"
         android:layout_width="wrap_content"
-        triangle:name="Bleh"
+        triangle:name="Carte des donneurs"
         android:layout_height="wrap_content"
         android:src="@drawable/maps" />
 

@@ -59,6 +59,7 @@ public class TriangleImageView extends ImageView {
         return name;
     }
 
+
     /**
      * Set the name of the view.
      * @param name The name to be set for the view.

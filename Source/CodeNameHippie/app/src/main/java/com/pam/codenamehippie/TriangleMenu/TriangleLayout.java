@@ -328,6 +328,7 @@ public class TriangleLayout extends ViewGroup {
                         TriangleImageView view = (TriangleImageView) getSelectedItem();
                         onRotationFinishedListener.onRotationFinished(view,
                                 view.getName());
+
                     }
                 }
 
