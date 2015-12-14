@@ -9,11 +9,11 @@ import java.util.Date;
  */
 public class TransactionModele extends BaseModele {
 
-    @SerializedName("id_receveur")
+    @SerializedName("receveur_id")
     private OrganismeModele idReceveur;
-    @SerializedName("idDonneur")
+    @SerializedName("donneur_id")
     private OrganismeModele idDonneur;
-    @SerializedName("id_marchandise")
+    @SerializedName("marchandise_id")
     private MarchandiseModele idMarchandise;
     @SerializedName("date_collecte")
     private Date dateCollecte;

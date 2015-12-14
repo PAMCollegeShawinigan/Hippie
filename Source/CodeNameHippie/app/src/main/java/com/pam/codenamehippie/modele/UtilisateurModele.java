@@ -22,8 +22,8 @@ public class UtilisateurModele extends BaseModele {
     // FIXME: Le serveur retourne moyenContact au lieu de moyen_contact
     @SerializedName(value = "moyen_contact", alternate = "moyenContact")
     private Integer moyenContact;
-    @SerializedName("id_organisme")
-    private Integer idOrganisme;
+    @SerializedName("organisme")
+    private OrganismeModele organisme;
     @SerializedName("dern_connexion")
     private Date dernConnexion;
 
@@ -81,12 +81,12 @@ public class UtilisateurModele extends BaseModele {
         return this;
     }
 
-    public Integer getIdOrganisme() {
-        return this.idOrganisme;
+    public OrganismeModele getOrganisme() {
+        return this.organisme;
     }
 
-    public UtilisateurModele setIdOrganisme(Integer idOrganisme) {
-        this.idOrganisme = idOrganisme;
+    public UtilisateurModele setOrganisme(OrganismeModele organisme) {
+        this.organisme = organisme;
         return this;
     }
 
