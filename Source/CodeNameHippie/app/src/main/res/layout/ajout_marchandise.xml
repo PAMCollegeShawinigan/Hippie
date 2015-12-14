@@ -108,15 +108,13 @@
                 android:textColor="#ffffff"
                 android:id="@+id/tvUniteMarchandise" />
 
-            <EditText
-                android:id="@+id/etUniteMarchandise"
+            <Spinner
+                android:id="@+id/spinnerUniteMarchandise"
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
+                android:entries="@array/UniteMarchandiseListe"
                 android:background="@drawable/element"
-                android:hint="UNITÉ"
-                android:padding="10dp"
-                android:textColorHint="#c6c6c6"
                 android:nextFocusForward="@+id/etValeurMarchandise"/>
 
             <TextView
@@ -151,18 +149,31 @@
                 android:textColor="#ffffff"
                 android:id="@+id/tvTypeMarchandise" />
 
-            <EditText
-                android:id="@+id/etTypeMarchandise"
+            <Spinner
+                android:id="@+id/spinnerTypeMarchandise"
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
+                android:entries="@array/TypeMarchandiseListe"
                 android:background="@drawable/element"
-                android:hint="TYPE ALIMENTAIRE"
-                android:inputType="textPassword"
-                android:padding="10dp"
-                android:textColorHint="#c6c6c6"
                 android:imeOptions="actionDone"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:textSize="20sp"
+                android:text="Date de péremption"
+                android:textColor="#ffffff"
+                android:id="@+id/tvDatePeremption" />
+
+
+            <DatePicker
+                android:layout_width="wrap_content"
+                android:layout_height="107dp"
+                android:id="@+id/datePicker"
+                android:layout_gravity="center_horizontal"/>
 
             <Button
                 android:id="@+id/bAjoutMarchandise"
