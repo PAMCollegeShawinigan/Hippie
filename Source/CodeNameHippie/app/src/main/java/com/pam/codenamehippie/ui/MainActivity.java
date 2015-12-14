@@ -47,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
                 this.startActivity(new Intent(this, LoginActivity.class));
                 this.finish();
                 return true;
-            case R.id.menu_un:
-                this.startActivity(new Intent(this, MenuActivity.class));
-                return true;
+//            case R.id.menu_un:
+//                this.startActivity(new Intent(this, MenuActivity.class));
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
