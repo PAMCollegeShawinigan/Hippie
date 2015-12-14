@@ -1,24 +1,24 @@
 <resources>
 
 
-	<string name="app_name">Codename: Hippie</string>
-	<string name="action_sign_in">Sign in or register</string>
-	<string name="action_sign_in_short">Sign in</string>
-	<string name="action_sign_out">Sign out</string>
-	<string name="error_invalid_email">This email address is invalid</string>
-	<string name="error_invalid_password">This password is invalid</string>
-	<string name="error_incorrect_password">This password is incorrect</string>
-	<string name="error_field_required">This field is required</string>
-	<string name="error_connection">Could not connect</string>
-	<string name="prompt_email">Email</string>
-	<string name="prompt_password">Password</string>
-	<string name="title_activity_login">Login</string>
-	<string name="title_activity_register">Register</string>
-	<string name="title_activity_preference">Settings</string>
-	<string name="message_welcome">Welcome %1$s</string>
-	<string name="error_confirm_password">"This password doesn\'t match the previous one"</string>
-	<string name="error_field_too_long">The content of this field is too long</string>
-	<string name="title_activity_menu">Settings</string>
-	<string name="menu">Menu</string>
+    <string name="app_name">Codename: Hippie</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_out">Sign out</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is invalid</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_connection">Could not connect</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_activity_preference">Settings</string>
+    <string name="message_welcome">Welcome %1$s</string>
+    <string name="error_confirm_password">"This password doesn\'t match the previous one"</string>
+    <string name="error_field_too_long">The content of this field is too long</string>
+    <string name="title_activity_menu">Settings</string>
+    <string name="menu">Menu</string>
 
 </resources>
