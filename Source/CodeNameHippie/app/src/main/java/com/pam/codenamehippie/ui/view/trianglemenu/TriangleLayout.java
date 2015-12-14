@@ -1,4 +1,4 @@
-package com.pam.codenamehippie.TriangleMenu;
+package com.pam.codenamehippie.ui.view.trianglemenu;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
@@ -328,6 +328,7 @@ public class TriangleLayout extends ViewGroup {
                         TriangleImageView view = (TriangleImageView) getSelectedItem();
                         onRotationFinishedListener.onRotationFinished(view,
                                 view.getName());
+
                     }
                 }
 

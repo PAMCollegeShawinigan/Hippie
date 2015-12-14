@@ -12,5 +12,7 @@
 
 	<item
 		android:id="@+id/menu_un"
-		android:title="@string/menu"/>
+		android:title="@string/menu"
+		android:icon="@drawable/menu"
+		android:showAsAction="ifRoom" />
 </menu>

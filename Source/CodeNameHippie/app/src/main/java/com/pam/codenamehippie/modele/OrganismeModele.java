@@ -10,7 +10,7 @@ public class OrganismeModele extends BaseModele {
     @SerializedName("nom")
     private String nom;
     @SerializedName("adresse")
-    private String adresse;
+    private AdresseModele adresse;
     @SerializedName("telephone")
     private String telephone;
     @SerializedName("poste")
@@ -31,11 +31,11 @@ public class OrganismeModele extends BaseModele {
         return this;
     }
 
-    public String getAdresse() {
+    public AdresseModele getAdresse() {
         return this.adresse;
     }
 
-    public OrganismeModele setAdresse(String adresse) {
+    public OrganismeModele setAdresse(AdresseModele adresse) {
         this.adresse = adresse;
         return this;
     }
