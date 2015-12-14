@@ -23,4 +23,7 @@
     <string name="font_name_fontawesome">fontawesome</string>
     <string name="font_name_source_sans_pro">SourceSansPro</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

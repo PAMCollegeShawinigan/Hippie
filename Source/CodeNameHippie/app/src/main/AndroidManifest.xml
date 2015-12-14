@@ -50,10 +50,5 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity"/>
         </activity>
-        <activity
-            android:name=".ui.MenuActivity"
-            android:label="@string/title_activity_menu"
-            android:theme="@style/AppTheme">
-        </activity>
     </application>
 </manifest>

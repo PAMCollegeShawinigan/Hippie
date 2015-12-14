@@ -13,7 +13,8 @@
 
 	<item
 		android:id="@+id/menu_un"
+        android:orderInCategory="1"
 		android:title="@string/menu"
 		android:icon="@drawable/menu"
-		app:showAsAction="ifRoom" />
+		app:showAsAction="always" />
 </menu>

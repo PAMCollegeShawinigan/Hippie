@@ -48,7 +48,7 @@ public class SplashScreenActivity extends Activity {
                                 .getAuthenticator()).estAuthentifie()) {
                     i = new Intent(SplashScreenActivity.this, MainActivity.class);
                 } else {
-                    i = new Intent(SplashScreenActivity.this, MenuActivity.class);
+                    i = new Intent(SplashScreenActivity.this, MainActivity.class);
 
                 }
                 SplashScreenActivity.this.startActivity(i);
