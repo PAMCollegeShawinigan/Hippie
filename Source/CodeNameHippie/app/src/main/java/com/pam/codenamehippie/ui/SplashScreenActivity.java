@@ -43,12 +43,12 @@ public class SplashScreenActivity extends Activity {
                 // Start your app main activity
                 Intent i;
                 if (((Authentificateur)
-                        ((HippieApplication) SplashScreenActivity.this.getApplication())
-                                .getHttpClient()
-                                .getAuthenticator()).estAuthentifie()) {
-                    i = new Intent(SplashScreenActivity.this, MainActivity.class);
-                } else {
+                             ((HippieApplication) SplashScreenActivity.this.getApplication())
+                                     .getHttpClient()
+                                     .getAuthenticator()).estAuthentifie()) {
                     i = new Intent(SplashScreenActivity.this, MenuActivity.class);
+                } else {
+                    i = new Intent(SplashScreenActivity.this, LoginActivity.class);
 
                 }
                 SplashScreenActivity.this.startActivity(i);
