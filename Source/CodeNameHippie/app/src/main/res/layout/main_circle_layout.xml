@@ -27,7 +27,8 @@
         android:layout_alignParentTop="true"
         android:layout_above="@+id/main_selected_textView"
         android:layout_gravity="center_horizontal"
-        triangle:triangleBackground="@drawable/bg_menu_deux">
+        triangle:triangleBackground="@drawable/bg_menu_deux"
+        android:layout_marginTop="45dp">
 
         <include layout="@layout/menu_items" />
     </com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout>
@@ -38,16 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
-
-    <TextView
-        android:id="@+id/main_selected_textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="90dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_marginBottom="50dp" />
 
 
 </RelativeLayout>

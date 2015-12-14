@@ -155,9 +155,9 @@ public class TriangleLayout extends ViewGroup {
             if (imageOriginal != null) {
                 // Scaling the size of the background image
                 if (imageScaled == null) {
-                    float sx = (((radius + childWidth / 4) * 2) / (float) imageOriginal
+                    float sx = (((radius + childWidth / 2) * 4) / (float) imageOriginal
                             .getWidth());
-                    float sy = (((radius + childWidth / 4) * 2) / (float) imageOriginal
+                    float sy = (((radius + childWidth / 22) * 4) / (float) imageOriginal
                             .getHeight());
 
                     matrix = new Matrix();
@@ -220,7 +220,7 @@ public class TriangleLayout extends ViewGroup {
                 child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
             }
 
-            setMeasuredDimension(resolveSize(maxChildWidth, widthMeasureSpec),
+            setMeasuredDimension(resolveSize(maxChildWidth, widthMeasureSpec ),
                     resolveSize(maxChildHeight, heightMeasureSpec));
         }
 
@@ -232,11 +232,12 @@ public class TriangleLayout extends ViewGroup {
             // Laying out the child views
             final int childCount = getChildCount();
             int left, top;
-            radius = (layoutWidth <= layoutHeight) ? layoutWidth / 3
-                    : layoutHeight / 3;
+            radius = (layoutWidth <= layoutHeight) ? layoutWidth /5
+                    : layoutHeight / 5;
 
-            childWidth = (int) (radius / 1.5);
-            childHeight = (int) (radius / 1.5);
+
+            childWidth = (int) (radius / 3);
+            childHeight = (int) (radius / 3);
 
             float angleDelay = 360.0f / getChildCount();
 
