@@ -2,7 +2,8 @@
 <menu
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	tools:context=".ui.MainActivity">
+	tools:context=".ui.MainActivity"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
 		android:id="@+id/menu_parametre"
 		android:title="@string/title_activity_preference"/>
@@ -14,5 +15,5 @@
 		android:id="@+id/menu_un"
 		android:title="@string/menu"
 		android:icon="@drawable/menu"
-		android:showAsAction="ifRoom" />
+		app:showAsAction="ifRoom" />
 </menu>
