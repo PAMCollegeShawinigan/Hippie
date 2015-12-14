@@ -1,5 +1,8 @@
 package pam.yongshunli.hippiemaps;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,15 +13,30 @@ import java.util.Map;
 public class Entreprise {
     private String nomEntreprise;
     private String addresse;
-    private String heuresCollect="9:00-15:00";
     private HashMap<String,String> mapCollectTime;
     private String telephone;
     private CollectDay collectDay;
     private ArrayList<Denree> listDenree;
 
-    public Entreprise(String nomEntreprise, String addresse, HashMap<String,String> mapCollectTime, String telephone, ArrayList<Denree> listDenree) {
+    private LatLng mLatLng;
+
+    public LatLng getmLatLng() {
+        return mLatLng;
+    }
+
+    public void setmLatLng(LatLng mLatLng) {
+        this.mLatLng = mLatLng;
+    }
+
+    public void setMapCollectTime(HashMap<String, String> mapCollectTime) {
+        this.mapCollectTime = mapCollectTime;
+    }
+
+
+    public Entreprise(String nomEntreprise, String addresse,LatLng mLatLng, HashMap<String,String> mapCollectTime, String telephone, ArrayList<Denree> listDenree) {
         this.nomEntreprise = nomEntreprise;
         this.addresse = addresse;
+        this.mLatLng=mLatLng;;
         this.mapCollectTime = mapCollectTime;
         this.telephone = telephone;
         this.listDenree = listDenree;
@@ -56,13 +74,7 @@ public class Entreprise {
         this.addresse = addresse;
     }
 
-    public String getHeuresCollect() {
-        return heuresCollect;
-    }
 
-    public void setHeuresCollect(String heuresCollect) {
-        this.heuresCollect = heuresCollect;
-    }
 
     public String getTelephone() {
         return telephone;

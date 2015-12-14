@@ -17,7 +17,7 @@ public class Denree {
         this.quantiteDenree = quantiteDenree;
         this.unite = unite;
         this.stateDenree = stateDenree;
-        this.stateDenree = stateDenree;
+        this.typeDenree = typeDenree;
     }
 
     public TypeDenree getTypeDenree() {
