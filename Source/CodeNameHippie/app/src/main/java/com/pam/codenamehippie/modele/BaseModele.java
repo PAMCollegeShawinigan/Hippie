@@ -6,8 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public abstract class BaseModele {
 
     // TODO : Vérifier la convention de nom avec la BD
-    @SerializedName(value = "id",
-                    alternate = {"id_utilisateur"})
+    @SerializedName(value = "id")
     private Integer id;
 
     /**
