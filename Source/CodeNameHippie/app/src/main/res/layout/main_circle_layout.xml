@@ -28,19 +28,30 @@
         android:layout_above="@+id/main_selected_textView"
         android:layout_gravity="center_horizontal"
         triangle:triangleBackground="@drawable/bg_menu_deux"
-        android:layout_marginTop="45dp">
+        android:layout_marginTop="60dp">
 
         <include layout="@layout/menu_items" />
     </com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout>
 
-    <TextView
-        android:id="@+id/main_selected_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_marginBottom="50dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/main_selected_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_alignWithParentIfMissing="false"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:layout_marginBottom="70dp"
+            android:textColor="#3a3a3a"
+            android:textSize="28dp" />
+    </RelativeLayout>
 
 
 </RelativeLayout>

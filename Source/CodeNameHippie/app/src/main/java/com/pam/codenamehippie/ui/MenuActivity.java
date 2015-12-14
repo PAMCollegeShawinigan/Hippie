@@ -54,32 +54,31 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
                 .getSelectedItem()).getName());
 
 
+
     }
 
     @Override
     public void onItemSelected(View view, String name) {
         selectedTextView.setText(name);
 
-
-
         switch (view.getId()) {
-            case R.id.main_tap_image:
-                // Handle calendar selection
+            case R.id.main_Profil_image:
+                // selection de image profil
                 break;
-            case R.id.main_cloud_image:
-                // Handle cloud selection
+            case R.id.main_Organisme_image:
+                // selection de image carte des organismes
                 break;
-            case R.id.main_facebook_image:
-                // Handle facebook selection
+            case R.id.main_Statistique_image:
+                // selection de image des statistiques
                 break;
-            case R.id.main_key_image:
-                // Handle key selection
+            case R.id.main_carte_image:
+                // selection de la carte
                 break;
-            case R.id.main_profile_image:
-                // Handle profile selection
+            case R.id.main_réservation_image:
+                // selection de les réservations
                 break;
-            case R.id.main_calendar_image:
-                // Handle tap selection
+            case R.id.main_catégorie_image:
+                // selection de les catégories
                 break;
         }
     }
@@ -88,27 +87,27 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
     public void onItemClick(View view, String name) {
 
         Toast.makeText(getApplicationContext(),
-                " Allo ",
+                " Nouvelle activitée ",
                 Toast.LENGTH_SHORT).show();
 
         switch (view.getId()) {
-            case R.id.main_calendar_image:
-                // Handle calendar click
+            case R.id.main_Profil_image:
+                // clic sur image profil
                 break;
-            case R.id.main_cloud_image:
-                // Handle cloud click
+            case R.id.main_Organisme_image:
+                // clic sur image carte des organismes
                 break;
-            case R.id.main_facebook_image:
-                // Handle facebook click
+            case R.id.main_Statistique_image:
+                // clic sur image des statistiques
                 break;
-            case R.id.main_key_image:
-                // Handle key click
+            case R.id.main_carte_image:
+                // clic sur la carte
                 break;
-            case R.id.main_profile_image:
-                // Handle profile click
+            case R.id.main_réservation_image:
+                // clic sur les réservations
                 break;
-            case R.id.main_tap_image:
-                // Handle tap click
+            case R.id.main_catégorie_image:
+                // clic sur les catégories
                 break;
         }
     }
@@ -123,7 +122,7 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
 
     @Override
     public void onCenterClick() {
-        Toast.makeText(getApplicationContext(), "Center has been clicked",
+        Toast.makeText(getApplicationContext(), "LE CENTRE A ÉTÉ CLICKÉ",
                 Toast.LENGTH_SHORT).show();
     }
 

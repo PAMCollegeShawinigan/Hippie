@@ -157,7 +157,7 @@ public class TriangleLayout extends ViewGroup {
                 if (imageScaled == null) {
                     float sx = (((radius + childWidth / 2) * 4) / (float) imageOriginal
                             .getWidth());
-                    float sy = (((radius + childWidth / 22) * 4) / (float) imageOriginal
+                    float sy = (((radius + childWidth / 20) * 4) / (float) imageOriginal
                             .getHeight());
 
                     matrix = new Matrix();
