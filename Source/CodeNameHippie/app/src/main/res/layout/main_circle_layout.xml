@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.MenuActivity" >
+    tools:context=".ui.MenuActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -24,10 +24,10 @@
         android:id="@+id/main_circle_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
         android:layout_above="@+id/main_selected_textView"
         android:layout_gravity="center_horizontal"
-        triangle:triangleBackground="@drawable/bg_menu">
-
+        triangle:triangleBackground="@drawable/bg_menu_deux">
 
         <include layout="@layout/menu_items" />
     </com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout>
@@ -38,7 +38,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="75dp"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <TextView
@@ -49,5 +48,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="90dp"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
+
 
 </RelativeLayout>

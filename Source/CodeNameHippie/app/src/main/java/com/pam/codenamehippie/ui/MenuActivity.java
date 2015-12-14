@@ -1,6 +1,7 @@
 package com.pam.codenamehippie.ui;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -34,12 +35,19 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
         // int layoutId = extras.getInt(ARG_LAYOUT);
         this.setContentView(R.layout.main_circle_layout);
 
+        //intégrer les polices sur le menu
+        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "opensans_light.ttf");
+        TextView myTextview = (TextView)findViewById(R.id.main_selected_textView);
+        myTextview.setTypeface(myTypeface);
+
         // Set listeners
         TriangleLayout triangleMenu = (TriangleLayout) findViewById(R.id.main_circle_layout);
         triangleMenu.setOnItemSelectedListener(this);
         triangleMenu.setOnItemClickListener(this);
         triangleMenu.setOnRotationFinishedListener(this);
         triangleMenu.setOnCenterClickListener(this);
+
+
 
         selectedTextView = (TextView) findViewById(R.id.main_selected_textView);
         selectedTextView.setText(((TriangleImageView) triangleMenu
@@ -48,8 +56,6 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
         selectedTextView2 = (TextView) findViewById(R.id.main_selected_textView2);
         selectedTextView2.setText(((TriangleImageView) triangleMenu
                 .getSelectedItem()).getName());
-
-
 
 
     }

@@ -20,5 +20,7 @@
     <string name="error_field_too_long">The content of this field is too long</string>
     <string name="title_activity_menu">Settings</string>
     <string name="menu">Menu</string>
+    <string name="font_name_fontawesome">fontawesome</string>
+    <string name="font_name_source_sans_pro">SourceSansPro</string>
 
 </resources>
