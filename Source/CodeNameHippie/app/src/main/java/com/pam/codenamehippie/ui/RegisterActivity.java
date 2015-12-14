@@ -204,6 +204,7 @@ public class RegisterActivity extends AppCompatActivity
                 if (!response.isSuccessful()) {
 
                 } else {
+                    //FIXME: Gérer le retour du serveur
                     RegisterActivity.this.sauvegarderFormulaire();
                     RegisterActivity.this.navigueAMainActivity();
                 }
@@ -213,10 +214,10 @@ public class RegisterActivity extends AppCompatActivity
     }
 
     private void sauvegarderFormulaire() {
-        this.authentificateur.setMotDePasse(this.validateurCourriel.getText().toString());
+        this.authentificateur.setMotDePasse(this.validateurMotDePasse.getText().toString());
         this.sharedPreferences.edit()
                               .putString(this.getString(R.string.pref_email_key),
-                                         this.validateurMotDePasse.getText().toString()
+                                         this.validateurCourriel.getText().toString()
                                         )
                               .commit();
     }
