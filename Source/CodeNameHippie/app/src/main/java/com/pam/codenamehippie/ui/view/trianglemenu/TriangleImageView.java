@@ -1,4 +1,4 @@
-package com.pam.codenamehippie.TriangleMenu;
+package com.pam.codenamehippie.ui.view.trianglemenu;
 
 import android.content.Context;
 import android.content.res.TypedArray;

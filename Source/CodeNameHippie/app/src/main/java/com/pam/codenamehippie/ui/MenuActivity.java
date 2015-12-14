@@ -9,12 +9,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pam.codenamehippie.R;
-import com.pam.codenamehippie.TriangleMenu.TriangleLayout;
-import com.pam.codenamehippie.TriangleMenu.TriangleImageView;
-import com.pam.codenamehippie.TriangleMenu.TriangleLayout.OnCenterClickListener;
-import com.pam.codenamehippie.TriangleMenu.TriangleLayout.OnItemClickListener;
-import com.pam.codenamehippie.TriangleMenu.TriangleLayout.OnItemSelectedListener;
-import com.pam.codenamehippie.TriangleMenu.TriangleLayout.OnRotationFinishedListener;
+import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout;
+import com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView;
+import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnCenterClickListener;
+import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnItemClickListener;
+import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnItemSelectedListener;
+import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnRotationFinishedListener;
 
 public class MenuActivity extends Activity implements OnItemSelectedListener,
         OnItemClickListener,

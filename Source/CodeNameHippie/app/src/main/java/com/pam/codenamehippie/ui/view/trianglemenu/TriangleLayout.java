@@ -1,4 +1,4 @@
-package com.pam.codenamehippie.TriangleMenu;
+package com.pam.codenamehippie.ui.view.trianglemenu;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;

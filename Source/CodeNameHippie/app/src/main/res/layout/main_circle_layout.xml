@@ -20,7 +20,7 @@
             app:popupTheme="?popupTheme" />
     </android.support.design.widget.AppBarLayout>
 
-    <com.pam.codenamehippie.TriangleMenu.TriangleLayout
+    <com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout
         android:id="@+id/main_circle_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -30,7 +30,7 @@
 
 
         <include layout="@layout/menu_items" />
-    </com.pam.codenamehippie.TriangleMenu.TriangleLayout>
+    </com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout>
 
     <TextView
         android:id="@+id/main_selected_textView"
