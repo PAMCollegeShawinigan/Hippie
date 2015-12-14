@@ -1,4 +1,4 @@
-package com.pam.codenamehippie.TriangleMenu;
+package com.pam.codenamehippie.ui.view.trianglemenu;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -58,6 +58,7 @@ public class TriangleImageView extends ImageView {
     public String getName(){
         return name;
     }
+
 
     /**
      * Set the name of the view.
