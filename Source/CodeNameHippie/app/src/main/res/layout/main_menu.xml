@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:triangle="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -27,7 +27,7 @@
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
         triangle:triangleBackground="@drawable/bg_menu_deux"
-        android:layout_marginTop="60dp">
+        android:layout_marginTop="50dp">
 
         <include layout="@layout/menu_items" />
     </com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout>
@@ -47,10 +47,10 @@
             android:layout_alignParentTop="false"
             android:layout_alignParentLeft="false"
             android:layout_alignParentRight="false"
-            android:layout_marginBottom="70dp"
+            android:layout_marginBottom="25dp"
             android:textColor="#3a3a3a"
             android:textSize="28dp" />
     </RelativeLayout>
 
 
-</RelativeLayout>
+</FrameLayout>

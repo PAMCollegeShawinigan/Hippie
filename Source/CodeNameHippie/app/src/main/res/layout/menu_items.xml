@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-<<<<<<< Updated upstream
         xmlns:triangle="http://schemas.android.com/apk/res-auto"
        android:layout_width="match_parent"
        android:layout_height="match_parent" >
-=======
-    xmlns:triangle="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
->>>>>>> Stashed changes
 
     <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
         android:id="@+id/main_statistique_image"
