@@ -77,5 +77,10 @@
             android:name=".ui.MapsActivity"
             android:label="@string/title_activity_maps" >
         </activity>
+
+        <activity
+            android:name=".ui.MenuActivity"
+            android:label="@string/menu" >
+        </activity>
     </application>
 </manifest>
