@@ -173,6 +173,7 @@ public class RegisterActivity extends AppCompatActivity
      *         un objet view qui est en lien avec l'interaction de connection.
      */
     public void soummettreLaConnexion(final View v) {
+        // TODO: RAJOUTER LES ORGANISME
         RequestBody body =
                 new FormEncodingBuilder().add("nom", this.validateurNom.getTextString())
                                          .add("prenom", this.validateurPrenom.getTextString())
