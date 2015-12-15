@@ -48,9 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 this.finish();
                 return true;
             case R.id.menu_un:
-                MenuActivity.newInstance("param1");
-
-                this.setContentView(R.layout.main_menu);
+                this.startActivity(new Intent(this, MenuActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
