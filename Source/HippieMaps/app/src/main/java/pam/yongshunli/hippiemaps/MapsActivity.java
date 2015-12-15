@@ -5,9 +5,11 @@ import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
@@ -200,6 +202,154 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                                               final Entreprise mEntreprise = listEntreprise.get(ordre);
 
+//      expandableListView.setAdapter(new BaseExpandableListAdapter() {
+//    @Override
+//    public int getGroupCount() {
+//        return  3;
+//    }
+//
+//    @Override
+//    public int getChildrenCount(int groupPosition) {
+//        int count;
+//        if (groupPosition == 0) {
+//            count = 2;
+//        } else if (groupPosition == 1) {
+//            count = 7;
+//        } else {
+//            count = mEntreprise.getListDenree().size();
+//        }
+//        return count;
+//    }
+//
+//    @Override
+//    public Object getGroup(int groupPosition) {
+//        Object info ;
+//        if (groupPosition == 0) {
+//            info = mEntreprise.getNomEntreprise();
+//        } else if (groupPosition == 1) {
+//            info = mEntreprise.getMapCollectTime();
+//
+//        } else {
+//
+//            info = mEntreprise.getListDenree();
+//        }
+//
+//        return info;
+//    }
+//
+//    @Override
+//    public Object getChild(int groupPosition, int childPosition) {
+//        Object info = null;
+//
+//
+//        if (groupPosition == 0) {
+//
+//            switch (childPosition) {
+//                case 0:
+//                    info = mEntreprise.getAddresse();
+//                    break;
+//                case 1:
+//                    info = mEntreprise.getTelephone();
+//                    break;
+//            }
+//        } else if (groupPosition == 1) {
+//            switch (childPosition) {
+//                case 0:
+//                    info = mEntreprise.getMapCollectTime().get("lundi");
+//                    break;
+//                case 1:
+//                    info = mEntreprise.getMapCollectTime().get("mardi");
+//                    break;
+//                case 2:
+//                    info = mEntreprise.getMapCollectTime().get("mercredi");
+//                    break;
+//                case 3:
+//                    info = mEntreprise.getMapCollectTime().get("jeudi");
+//                    break;
+//                case 4:
+//                    info = mEntreprise.getMapCollectTime().get("vendredi");
+//                    break;
+//                case 5:
+//                    info = mEntreprise.getMapCollectTime().get("samdi");
+//                    break;
+//                case 6:
+//                    info = mEntreprise.getMapCollectTime().get("dimanche");
+//                    break;
+//            }
+//
+//        } else {
+//            info = mEntreprise.getListDenree().get(childPosition);
+//        }
+//        return info;
+//    }
+//
+//    @Override
+//    public long getGroupId(int groupPosition) {
+//        return 0;
+//    }
+//
+//    @Override
+//    public long getChildId(int groupPosition, int childPosition) {
+//        return 0;
+//    }
+//
+//    @Override
+//    public boolean hasStableIds() {
+//        return false;
+//    }
+//
+//    @Override
+//    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+//
+//                                                                                     View v;
+//
+//                                                                                    if (convertView == null) {
+//                                                                                        LayoutInflater inflater = (LayoutInflater) getSystemService
+//                                                                                                (Context.LAYOUT_INFLATER_SERVICE);
+//                                                                                        v = inflater.inflate(R.layout.layout_normal, parent, false);
+//                                                                                    }else{
+//                                                                                        v=convertView;
+//                                                                                    }
+//
+//                                                                                    ImageView groupName = (ImageView) v.findViewById(R.id.imageView);
+//                                                                                    TextView groupDescr = (TextView) v.findViewById(R.id.textView);
+//
+//                                                                                    groupName.setImageResource(R.drawable.newtele);
+//                                                                                    groupDescr.setText("merci");
+//
+//                                                                                    return v;
+//    }
+//
+//    @Override
+//    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+//                                                                                    View v;
+//
+//                                                                                    if (convertView == null) {
+//                                                                                        LayoutInflater inflater = (LayoutInflater) getSystemService
+//                                                                                                (Context.LAYOUT_INFLATER_SERVICE);
+//                                                                                        v = inflater.inflate(R.layout.layout_normal, parent, false);
+//                                                                                    }else{
+//                                                                                        v=convertView;
+//                                                                                    }
+//
+//                                                                                    ImageView groupName = (ImageView) v.findViewById(R.id.imageView);
+//                                                                                    TextView groupDescr = (TextView) v.findViewById(R.id.textView);
+//
+//                                                                                    groupName.setImageResource(R.drawable.newtele);
+//                                                                                    groupDescr.setText("pas de quoi");
+//
+//                                                                                    return v;
+//    }
+
+//    @Override
+//    public boolean isChildSelectable(int groupPosition, int childPosition) {
+//        return false;
+//    }
+//});
+
+
+
+
                                               expandableListView.setAdapter(new BaseExpandableListAdapter() {
 
                                                                                 @Override
@@ -300,224 +450,221 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                                                                                 @Override
                                                                                 public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+Log.i("groupview","debutergetgroupview");
+
+                                                                                    LinearLayout layout1 = new LinearLayout(MapsActivity.this);
+                                                                                    layout1.setOrientation(LinearLayout.HORIZONTAL);
+
+                                                                                    ImageView logo = new ImageView(MapsActivity.this);
+                                                                                    logo.setMinimumWidth(300);
+
+                                                                                    TextView textView = new TextView(MapsActivity.this);
+                                                                                    textView.setTextColor(Color.BLACK);
+                                                                                    textView.setTextSize(20);
+                                                                                    textView.setPadding(15, 15, 15, 15);
+
+                                                                                    if (groupPosition == 0) {
+
+                                                                                        logo.setImageResource(R.drawable.addren);
+
+                                                                                        textView.setText(mEntreprise.getAddresse());
 
 
-//                                                                                    LinearLayout layout1 = new LinearLayout(MapsActivity.this);
-//                                                                                    layout1.setOrientation(LinearLayout.HORIZONTAL);
-//
-//                                                                                    ImageView logo = new ImageView(MapsActivity.this);
-//                                                                                    logo.setMinimumWidth(300);
-//
-//                                                                                    TextView textView = new TextView(MapsActivity.this);
-//                                                                                    textView.setTextColor(Color.BLACK);
-//                                                                                    textView.setTextSize(20);
-//                                                                                    textView.setPadding(15, 15, 15, 15);
-//
-//                                                                                    if (groupPosition == 0) {
-//
-//                                                                                        logo.setImageResource(R.drawable.addren);
-//
-//                                                                                        textView.setText(mEntreprise.getAddresse());
-//
-//
-//                                                                                    } else if (groupPosition == 1) {
-//
-//                                                                                        logo.setImageResource(R.drawable.clockn);
-//                                                                                        final Calendar c = Calendar.getInstance();
-//                                                                                        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-//                                                                                        if (dayOfWeek == 1) {
-//                                                                                            //  textView.setText(mEntreprise.getMapCollectTime().get("lundi"));
-//                                                                                            textView.setText(((HashMap) getGroup(groupPosition)).get("lundi").toString());
-//                                                                                        } else if (dayOfWeek == 2) {
-//                                                                                            textView.setText(mEntreprise.getMapCollectTime().get("mardi"));
-//                                                                                        } else if (dayOfWeek == 3) {
-//                                                                                            textView.setText(mEntreprise.getMapCollectTime().get("mercredi"));
-//                                                                                        } else if (dayOfWeek == 4) {
-//                                                                                            textView.setText(mEntreprise.getMapCollectTime().get("jeudi"));
-//                                                                                        } else if (dayOfWeek == 5) {
-//                                                                                            textView.setText(mEntreprise.getMapCollectTime().get("vendredi"));
-//                                                                                        } else if (dayOfWeek == 6) {
-//                                                                                            textView.setText(mEntreprise.getMapCollectTime().get("samdi"));
-//                                                                                        } else {
-//                                                                                            textView.setText(mEntreprise.getMapCollectTime().get("dimanche"));
-//                                                                                        }
-//
-//                                                                                    } else {
-//
-//                                                                                        logo.setImageResource(R.drawable.lists);
-//                                                                                        textView.setText("afficher les denree a donner              unites:" + mEntreprise.getListDenree().size());
-//
-//                                                                                    }
-//
-//                                                                                    layout1.addView(logo);
-//                                                                                    layout1.addView(textView);
-//                                                                                    return layout1;
+                                                                                    } else if (groupPosition == 1) {
 
-                                                                                    View v;
+                                                                                        logo.setImageResource(R.drawable.clockn);
+                                                                                        final Calendar c = Calendar.getInstance();
+                                                                                        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+                                                                                        if (dayOfWeek == 1) {
+                                                                                            //  textView.setText(mEntreprise.getMapCollectTime().get("lundi"));
+                                                                                            textView.setText(((HashMap) getGroup(groupPosition)).get("lundi").toString());
+                                                                                        } else if (dayOfWeek == 2) {
+                                                                                            textView.setText(mEntreprise.getMapCollectTime().get("mardi"));
+                                                                                        } else if (dayOfWeek == 3) {
+                                                                                            textView.setText(mEntreprise.getMapCollectTime().get("mercredi"));
+                                                                                        } else if (dayOfWeek == 4) {
+                                                                                            textView.setText(mEntreprise.getMapCollectTime().get("jeudi"));
+                                                                                        } else if (dayOfWeek == 5) {
+                                                                                            textView.setText(mEntreprise.getMapCollectTime().get("vendredi"));
+                                                                                        } else if (dayOfWeek == 6) {
+                                                                                            textView.setText(mEntreprise.getMapCollectTime().get("samdi"));
+                                                                                        } else {
+                                                                                            textView.setText(mEntreprise.getMapCollectTime().get("dimanche"));
+                                                                                        }
 
-                                                                                    if (convertView == null) {
-                                                                                        LayoutInflater inflater = (LayoutInflater) getSystemService
-                                                                                                (Context.LAYOUT_INFLATER_SERVICE);
-                                                                                        v = inflater.inflate(R.layout.layout_normal, parent, false);
-                                                                                    }else{
-                                                                                        v=convertView;
+                                                                                    } else {
+
+                                                                                        logo.setImageResource(R.drawable.lists);
+                                                                                        textView.setText("afficher les denree a donner              unites:" + mEntreprise.getListDenree().size());
+
                                                                                     }
 
-                                                                                    ImageView groupName = (ImageView) v.findViewById(R.id.imageView);
-                                                                                    TextView groupDescr = (TextView) v.findViewById(R.id.textView);
+                                                                                    layout1.addView(logo);
+                                                                                    layout1.addView(textView);
+                                                                                    return layout1;
 
-                                                                                    groupName.setImageResource(R.drawable.newtele);
-                                                                                    groupDescr.setText("pas de quoi");
-
-                                                                                    return v;
+//                                                                                    View v;
+//
+//                                                                                    if (convertView == null) {
+//                                                                                        LayoutInflater inflater = (LayoutInflater) getSystemService
+//                                                                                                (Context.LAYOUT_INFLATER_SERVICE);
+//                                                                                        v = inflater.inflate(R.layout.layout_normal, parent, false);
+//                                                                                    }else{
+//                                                                                        v=convertView;
+//                                                                                    }
+//
+//                                                                                    ImageView groupName = (ImageView) v.findViewById(R.id.imageView);
+//                                                                                    TextView groupDescr = (TextView) v.findViewById(R.id.textView);
+//
+//                                                                                    groupName.setImageResource(R.drawable.newtele);
+//                                                                                    groupDescr.setText("merci");
+//
+//                                                                                    return v;
 
                                                                                 }
 
                                                                                 @Override
                                                                                 public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-                                                                                    View v;
+                                                                                 //   View v;
 
-                                                                                    if (convertView == null) {
-                                                                                        LayoutInflater inflater = (LayoutInflater) getSystemService
-                                                                                                (Context.LAYOUT_INFLATER_SERVICE);
-                                                                                        v = inflater.inflate(R.layout.layout_normal, parent, false);
-                                                                                    }else{
-                                                                                        v=convertView;
-                                                                                    }
-
-                                                                                    ImageView groupName = (ImageView) v.findViewById(R.id.imageView);
-                                                                                    TextView groupDescr = (TextView) v.findViewById(R.id.textView);
-
-                                                                                    groupName.setImageResource(R.drawable.newtele);
-                                                                                    groupDescr.setText("pas de quoi");
-
-                                                                                    return v;
-
-
-
-//                                                                                   LinearLayout layout = new LinearLayout(MapsActivity.this);
-//                                                                                    layout.setOrientation(LinearLayout.HORIZONTAL);
-//                                                                                    if (groupPosition == 0) {
-//                                                                                        ImageView logo = new ImageView(MapsActivity.this);
-//                                                                                        logo.setMinimumWidth(300);
-//                                                                                        TextView textView = new TextView(MapsActivity.this);
-//                                                                                        textView.setTextColor(Color.BLACK);
-//                                                                                        textView.setTextSize(20);
-//                                                                                        textView.setPadding(5, 55, 5, 5);
-//                                                                                        textView.setText(getChild(groupPosition,childPosition).toString());
-//                                                                                        switch (childPosition) {
-//                                                                                            case 0:
-//                                                                                                logo.setImageResource(R.drawable.trademarks);
-//                                                                                                break;
-//                                                                                            case 1:
-//                                                                                                logo.setImageResource(R.drawable.newtele);
-//                                                                                                break;
-//                                                                                        }
-//
-//                                                                                        layout.addView(logo);
-//                                                                                        layout.addView(textView);
-//                                                                                    } else if (groupPosition == 1) {
-//                                                                                        TextView textViewDay = new TextView(MapsActivity.this);
-//                                                                                        textViewDay.setTextColor(Color.BLACK);
-//                                                                                        textViewDay.setTextSize(20);
-//                                                                                        textViewDay.setPadding(55, 35, 5, 5);
-//                                                                                        textViewDay.setWidth(300);
-//
-//                                                                                        TextView textViewTime = new TextView(MapsActivity.this);
-//                                                                                        textViewTime.setTextColor(Color.BLACK);
-//                                                                                        textViewTime.setTextSize(20);
-//                                                                                        textViewTime.setPadding(55, 35, 5, 5);
-//                                                                                        textViewTime.setWidth(300);
-//                                                                                        switch (childPosition) {
-//
-//                                                                                            case 0:
-//                                                                                                textViewTime.setText("lundi");
-//                                                                                                textViewDay.setText(mEntreprise.getMapCollectTime().get("lundi"));
-//                                                                                                break;
-//                                                                                            case 1:
-//                                                                                                textViewTime.setText("mardi");
-//                                                                                                textViewDay.setText(mEntreprise.getMapCollectTime().get("mardi"));
-//                                                                                                break;
-//                                                                                            case 2:
-//                                                                                                textViewTime.setText("mercredi");
-//                                                                                                textViewDay.setText(mEntreprise.getMapCollectTime().get("mercredi"));
-//                                                                                                break;
-//                                                                                            case 3:
-//                                                                                                textViewTime.setText("jeudi");
-//                                                                                                textViewDay.setText(mEntreprise.getMapCollectTime().get("jeudi"));
-//                                                                                                break;
-//                                                                                            case 4:
-//                                                                                                textViewTime.setText("vendredi");
-//                                                                                                textViewDay.setText(mEntreprise.getMapCollectTime().get("vendredi"));
-//                                                                                                break;
-//                                                                                            case 5:
-//                                                                                                textViewTime.setText("samdi");
-//                                                                                                textViewDay.setText(mEntreprise.getMapCollectTime().get("samdi"));
-//                                                                                                break;
-//                                                                                            case 6:
-//                                                                                                textViewTime.setText("dimanche");
-//                                                                                                textViewDay.setText(mEntreprise.getMapCollectTime().get("dimanche"));
-//                                                                                                break;
-//
-//                                                                                        }
-//                                                                                        layout.addView(textViewDay);
-//                                                                                        layout.addView(textViewTime);
-//                                                                                    } else {
-//                                                                                        ImageView logo = new ImageView(MapsActivity.this);
-//
-//                                                                                        if (
-//
-//                                                                                                getChild(groupPosition, childPosition).equals("fruit_legume")
-//                                                                                                ) {
-//                                                                                            logo.setImageResource(R.drawable.fruits);
-//                                                                                        } else if (
-//                                                                                                getChild(groupPosition, childPosition).equals("viande")) {
-//                                                                                            logo.setImageResource(R.drawable.meats);
-//                                                                                        } else if (getChild(groupPosition, childPosition).equals("laitier")) {
-//                                                                                            logo.setImageResource(R.drawable.milks);
-//                                                                                        } else if (getChild(groupPosition, childPosition).equals("surgele")) {
-//                                                                                            logo.setImageResource(R.drawable.frozens);
-//                                                                                        } else if (getChild(groupPosition, childPosition).equals("perissable")) {
-//                                                                                            logo.setImageResource(R.drawable.perishables);
-//                                                                                        } else if (getChild(groupPosition, childPosition).equals("boulangerie")) {
-//                                                                                            logo.setImageResource(R.drawable.breads);
-//                                                                                        } else {
-//                                                                                            logo.setImageResource(R.drawable.nonperishables);
-//                                                                                        }
-//
-//                                                                                        logo.setMinimumWidth(300);
-//
-//                                                                                        TextView textView1 = new TextView(MapsActivity.this);
-//                                                                                        textView1.setTextColor(Color.BLACK);
-//                                                                                        textView1.setTextSize(20);
-//                                                                                        textView1.setWidth(200);
-//                                                                                        textView1.setPadding(5, 55, 5, 5);
-//                                                                                        textView1.setText(mEntreprise.getListDenree().get(childPosition).getNomDenree());
-//                                                                                        TextView textView3 = new TextView(MapsActivity.this);
-//                                                                                        textView3.setTextColor(Color.BLACK);
-//                                                                                        textView3.setTextSize(20);
-//                                                                                        textView3.setWidth(200);
-//                                                                                        textView3.setPadding(5, 55, 5, 5);
-//                                                                                        textView3.setText(mEntreprise.getListDenree().get(childPosition).getQuantiteDenree());
-//                                                                                        Button btn = new Button(MapsActivity.this);
-//                                                                                        btn.setText("reserver");
-//                                                                                        btn.setPadding(5, 5, 5, 5);
-//                                                                                        layout.addView(logo);
-//                                                                                        layout.addView(textView1);
-//                                                                                        layout.addView(textView3);
-//                                                                                        layout.addView(btn);
-//                                                                                        btn.setOnClickListener(new View.OnClickListener() {
-//                                                                                            @Override
-//                                                                                            public void onClick(View v) {
-//                                                                                                mEntreprise.getListDenree().get(childPosition).setStateDenree(StateDenree.reserveee);
-//                                                                                            }
-//
-//                                                                                        });
-//
+//                                                                                    if (convertView == null) {
+//                                                                                        LayoutInflater inflater = (LayoutInflater) getSystemService
+//                                                                                                (Context.LAYOUT_INFLATER_SERVICE);
+//                                                                                        v = inflater.inflate(R.layout.layout_normal, parent, false);
+//                                                                                    }else{
+//                                                                                        v=convertView;
 //                                                                                    }
 //
+//                                                                                    ImageView groupName = (ImageView) v.findViewById(R.id.imageView);
+//                                                                                    TextView groupDescr = (TextView) v.findViewById(R.id.textView);
 //
-//                                                                                    return layout;
+//                                                                                    groupName.setImageResource(R.drawable.newtele);
+//                                                                                    groupDescr.setText("pas de quoi");
+//
+//                                                                                    return v;
+
+
+
+                                                                                   LinearLayout layout = new LinearLayout(MapsActivity.this);
+                                                                                    layout.setOrientation(LinearLayout.HORIZONTAL);
+                                                                                    if (groupPosition == 0) {
+                                                                                        ImageView logo = new ImageView(MapsActivity.this);
+                                                                                        logo.setMinimumWidth(300);
+                                                                                        TextView textView = new TextView(MapsActivity.this);
+                                                                                        textView.setTextColor(Color.BLACK);
+                                                                                        textView.setTextSize(20);
+                                                                                        textView.setPadding(5, 55, 5, 5);
+                                                                                        textView.setText(getChild(groupPosition,childPosition).toString());
+                                                                                        switch (childPosition) {
+                                                                                            case 0:
+                                                                                                logo.setImageResource(R.drawable.trademarks);
+                                                                                                break;
+                                                                                            case 1:
+                                                                                                logo.setImageResource(R.drawable.newtele);
+                                                                                                break;
+                                                                                        }
+
+                                                                                        layout.addView(logo);
+                                                                                        layout.addView(textView);
+                                                                                    } else if (groupPosition == 1) {
+                                                                                        TextView textViewDay = new TextView(MapsActivity.this);
+                                                                                        textViewDay.setTextColor(Color.BLACK);
+                                                                                        textViewDay.setTextSize(20);
+                                                                                        textViewDay.setPadding(55, 35, 5, 5);
+                                                                                        textViewDay.setWidth(300);
+
+                                                                                        TextView textViewTime = new TextView(MapsActivity.this);
+                                                                                        textViewTime.setTextColor(Color.BLACK);
+                                                                                        textViewTime.setTextSize(20);
+                                                                                        textViewTime.setPadding(55, 35, 5, 5);
+                                                                                        textViewTime.setWidth(300);
+                                                                                        switch (childPosition) {
+
+                                                                                            case 0:
+                                                                                                textViewTime.setText("lundi");
+                                                                                                textViewDay.setText(mEntreprise.getMapCollectTime().get("lundi"));
+                                                                                                break;
+                                                                                            case 1:
+                                                                                                textViewTime.setText("mardi");
+                                                                                                textViewDay.setText(mEntreprise.getMapCollectTime().get("mardi"));
+                                                                                                break;
+                                                                                            case 2:
+                                                                                                textViewTime.setText("mercredi");
+                                                                                                textViewDay.setText(mEntreprise.getMapCollectTime().get("mercredi"));
+                                                                                                break;
+                                                                                            case 3:
+                                                                                                textViewTime.setText("jeudi");
+                                                                                                textViewDay.setText(mEntreprise.getMapCollectTime().get("jeudi"));
+                                                                                                break;
+                                                                                            case 4:
+                                                                                                textViewTime.setText("vendredi");
+                                                                                                textViewDay.setText(mEntreprise.getMapCollectTime().get("vendredi"));
+                                                                                                break;
+                                                                                            case 5:
+                                                                                                textViewTime.setText("samdi");
+                                                                                                textViewDay.setText(mEntreprise.getMapCollectTime().get("samdi"));
+                                                                                                break;
+                                                                                            case 6:
+                                                                                                textViewTime.setText("dimanche");
+                                                                                                textViewDay.setText(mEntreprise.getMapCollectTime().get("dimanche"));
+                                                                                                break;
+
+                                                                                        }
+                                                                                        layout.addView(textViewDay);
+                                                                                        layout.addView(textViewTime);
+                                                                                    } else {
+                                                                                        ImageView logo = new ImageView(MapsActivity.this);
+                                                                                        String typeDenree=(((Denree) getChild(groupPosition, childPosition))).getTypeDenree().toString();
+                                                                                        if ((typeDenree.equals("fruit_legume")))
+                                                                                             {
+                                                                                            logo.setImageResource(R.drawable.fruits);
+                                                                                        } else if (typeDenree.equals("viande")) {
+                                                                                            logo.setImageResource(R.drawable.meats);
+                                                                                        } else if (typeDenree.equals("laitier")) {
+                                                                                            logo.setImageResource(R.drawable.milks);
+                                                                                        } else if (typeDenree.equals("surgele")) {
+                                                                                            logo.setImageResource(R.drawable.frozens);
+                                                                                        } else if (typeDenree.equals("perissable")) {
+                                                                                            logo.setImageResource(R.drawable.perishables);
+                                                                                        } else if (typeDenree.equals("boulangerie")) {
+                                                                                            logo.setImageResource(R.drawable.breads);
+                                                                                        } else {
+                                                                                            logo.setImageResource(R.drawable.nonperishables);
+                                                                                        }
+
+                                                                                        logo.setMinimumWidth(300);
+
+                                                                                        TextView textView1 = new TextView(MapsActivity.this);
+                                                                                        textView1.setTextColor(Color.BLACK);
+                                                                                        textView1.setTextSize(20);
+                                                                                        textView1.setWidth(200);
+                                                                                        textView1.setPadding(5, 55, 5, 5);
+                                                                                        textView1.setText(mEntreprise.getListDenree().get(childPosition).getNomDenree());
+                                                                                        TextView textView3 = new TextView(MapsActivity.this);
+                                                                                        textView3.setTextColor(Color.BLACK);
+                                                                                        textView3.setTextSize(20);
+                                                                                        textView3.setWidth(200);
+                                                                                        textView3.setPadding(5, 55, 5, 5);
+                                                                                        textView3.setText(mEntreprise.getListDenree().get(childPosition).getQuantiteDenree());
+                                                                                        Button btn = new Button(MapsActivity.this);
+                                                                                        btn.setText("reserver");
+                                                                                        btn.setPadding(5, 5, 5, 5);
+                                                                                        layout.addView(logo);
+                                                                                        layout.addView(textView1);
+                                                                                        layout.addView(textView3);
+                                                                                        layout.addView(btn);
+                                                                                        btn.setOnClickListener(new View.OnClickListener() {
+                                                                                            @Override
+                                                                                            public void onClick(View v) {
+                                                                                                mEntreprise.getListDenree().get(childPosition).setStateDenree(StateDenree.reserveee);
+                                                                                            }
+
+                                                                                        });
+
+                                                                                    }
+
+
+                                                                                    return layout;
 
                                                                                 }
 
@@ -555,8 +702,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                                                                 public long getCombinedGroupId(long groupId) {
                                                                                     return 0;
                                                                                 }
-                                                                            }
-                                              );
+                                                                            });
                                               return false;
                                           }
                                       }
@@ -570,8 +716,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-        parent.expandGroup(groupPosition);
-        return false;
+        if(!parent.isGroupExpanded(groupPosition)){
+            parent.expandGroup(groupPosition);
+            return true;
+        }
+
+        //parent.collapseGroup(groupPosition);
+
+       return  false;
     }
 }
 
