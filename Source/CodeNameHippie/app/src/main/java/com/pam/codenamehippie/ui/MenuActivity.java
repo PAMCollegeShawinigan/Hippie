@@ -1,8 +1,16 @@
 package com.pam.codenamehippie.ui;
 
-import android.app.Activity;
+
+import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.TextView;
@@ -16,26 +24,32 @@ import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnItemClickLis
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnItemSelectedListener;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnRotationFinishedListener;
 
-public class MenuActivity extends Activity implements OnItemSelectedListener,
+public class MenuActivity extends FragmentActivity implements OnItemSelectedListener,
         OnItemClickListener,
         OnRotationFinishedListener,
         OnCenterClickListener {
-   // public static final String ARG_LAYOUT = "layout";
 
     private TextView selectedTextView;
-    private TextView selectedTextView2;
+    private OnFragmentInteractionListener mListener;
+
+    public MenuActivity() {
+        // Required empty public constructor
+    }
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set content view by passed extra
-        // Bundle extras = getIntent().getExtras();
-        // int layoutId = extras.getInt(ARG_LAYOUT);
-        this.setContentView(R.layout.main_circle_layout);
+        this.setContentView(R.layout.main_menu);
+
+        //intégrer les polices sur le menu
+        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "opensans_light.ttf");
+        TextView myTextview = (TextView) findViewById(R.id.main_selected_textView);
+        myTextview.setTypeface(myTypeface);
 
         // Set listeners
-        TriangleLayout triangleMenu = (TriangleLayout) findViewById(R.id.main_circle_layout);
+        TriangleLayout triangleMenu = (TriangleLayout) findViewById(R.id.main_menu_triangle);
         triangleMenu.setOnItemSelectedListener(this);
         triangleMenu.setOnItemClickListener(this);
         triangleMenu.setOnRotationFinishedListener(this);
@@ -45,11 +59,6 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
         selectedTextView.setText(((TriangleImageView) triangleMenu
                 .getSelectedItem()).getName());
 
-        selectedTextView2 = (TextView) findViewById(R.id.main_selected_textView2);
-        selectedTextView2.setText(((TriangleImageView) triangleMenu
-                .getSelectedItem()).getName());
-
-
 
 
     }
@@ -57,55 +66,55 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
     @Override
     public void onItemSelected(View view, String name) {
         selectedTextView.setText(name);
-        selectedTextView2.setText(name);
 
         switch (view.getId()) {
-            case R.id.main_tap_image:
-                // Handle calendar selection
+            case R.id.main_profil_image:
+                // selection de image profil
                 break;
-            case R.id.main_cloud_image:
-                // Handle cloud selection
+            case R.id.main_organisme_image:
+                // selection de image carte des organismes
                 break;
-            case R.id.main_facebook_image:
-                // Handle facebook selection
+            case R.id.main_statistique_image:
+                // selection de image des statistiques
                 break;
-            case R.id.main_key_image:
-                // Handle key selection
+            case R.id.main_carte_image:
+                // selection de la carte
                 break;
-            case R.id.main_profile_image:
-                // Handle profile selection
+            case R.id.main_reservation_image:
+                // selection de les réservations
                 break;
-            case R.id.main_calendar_image:
-                // Handle tap selection
+            case R.id.main_categorie_image:
+                // selection de les catégories
                 break;
         }
     }
 
     @Override
     public void onItemClick(View view, String name) {
-
-        Toast.makeText(getApplicationContext(),
-                " Allo ",
+        Toast.makeText(this.getApplicationContext(),
+                " Nouvelle activité ",
                 Toast.LENGTH_SHORT).show();
 
         switch (view.getId()) {
-            case R.id.main_calendar_image:
-                // Handle calendar click
+            case R.id.main_profil_image:
+                // clic sur image profil
                 break;
-            case R.id.main_cloud_image:
-                // Handle cloud click
+            case R.id.main_organisme_image:
+                // clic sur image carte des organismes
                 break;
-            case R.id.main_facebook_image:
-                // Handle facebook click
+            case R.id.main_statistique_image:
+                // clic sur image des statistiques
                 break;
-            case R.id.main_key_image:
-                // Handle key click
+            case R.id.main_carte_image:
+                // clic sur la carte
+                startActivity(new Intent(this, MapsActivity.class));
+
                 break;
-            case R.id.main_profile_image:
-                // Handle profile click
+            case R.id.main_reservation_image:
+                // clic sur les réservations
                 break;
-            case R.id.main_tap_image:
-                // Handle tap click
+            case R.id.main_categorie_image:
+                // clic sur les catégories
                 break;
         }
     }
@@ -120,8 +129,24 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
 
     @Override
     public void onCenterClick() {
-        Toast.makeText(getApplicationContext(), "Center has been clicked",
+        Toast.makeText(this.getApplicationContext(), "LE CENTRE A ÉTÉ CLICKÉ",
                 Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 
 
