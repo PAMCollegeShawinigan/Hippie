@@ -8,12 +8,4 @@
         <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
     </style>
 
-    <style name="AppTheme.DarkActionBar" parent="AppTheme">
-        <item name="windowActionBar">true</item>
-        <item name="windowNoTitle">false</item>
-    </style>
-
-    <style name="AppThemeOverlay.ActionBar" parent="Base.AppThemeOverlay.ActionBar">
-        <item name="android:elevation">@dimen/appbar_elevation</item>
-    </style>
 </resources>

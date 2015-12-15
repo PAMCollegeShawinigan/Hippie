@@ -28,7 +28,6 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
         OnCenterClickListener {
 
     private TextView selectedTextView;
-    private TextView selectedTextView2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +66,14 @@ public class MenuActivity extends Activity implements OnItemSelectedListener,
         selectedTextView.setText(((TriangleImageView) triangleMenu
                 .getSelectedItem()).getName());
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
         selectedTextView2 = (TextView) getView().findViewById(R.id.main_selected_textView2);
         selectedTextView2.setText(((TriangleImageView) triangleMenu
                 .getSelectedItem()).getName());
 
+=======
+>>>>>>> origin/EricEtCatherine
         setHasOptionsMenu(true);
         return inflater.inflate(R.layout.main_menu, container, false);
 =======
