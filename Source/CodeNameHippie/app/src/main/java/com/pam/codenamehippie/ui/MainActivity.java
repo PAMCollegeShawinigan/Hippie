@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_un:
                 MenuActivity.newInstance("param1");
+
                 this.setContentView(R.layout.main_menu);
                 return true;
             default:

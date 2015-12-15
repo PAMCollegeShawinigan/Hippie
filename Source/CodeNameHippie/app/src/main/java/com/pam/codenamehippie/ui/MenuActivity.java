@@ -120,7 +120,6 @@ public class MenuActivity extends Fragment implements OnItemSelectedListener,
 
     @Override
     public void onItemClick(View view, String name) {
-
         Toast.makeText(this.getActivity().getApplicationContext(),
                 " Nouvelle activité ",
                 Toast.LENGTH_SHORT).show();
