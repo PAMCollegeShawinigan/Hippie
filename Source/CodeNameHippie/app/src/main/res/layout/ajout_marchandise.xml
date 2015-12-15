@@ -53,7 +53,9 @@
                 android:hint="NOM"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
-                android:nextFocusForward="@+id/etDescMarchandise"/>
+                android:nextFocusForward="@+id/etDescMarchandise"
+                android:inputType="textCapCharacters"
+                android:maxLength="50" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -74,7 +76,9 @@
                 android:hint="DESCRIPTION"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
-                android:nextFocusForward="@+id/etQteeMarchandise"/>
+                android:nextFocusForward="@+id/etQteeMarchandise"
+                android:inputType="textCapCharacters"
+                android:maxLength="100" />
 
             <TextView
                 android:id="@+id/tvQteeMarchandise"
@@ -95,7 +99,10 @@
                 android:hint="QUANTITÉES"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
-                android:nextFocusForward="@+id/etUniteMarchandise"/>
+                android:nextFocusForward="@+id/etUniteMarchandise"
+                android:maxLength="13"
+                android:numeric="decimal"
+                android:inputType="number" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -134,10 +141,11 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
                 android:hint="VALEUR"
-                android:inputType="textPassword"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
-                android:nextFocusForward="@+id/etTypeMarchandise"/>
+                android:nextFocusForward="@+id/etTypeMarchandise"
+                android:inputType="number"
+                android:numeric="integer" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -154,7 +162,7 @@
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="10dp"
-                android:entries="@array/TypeMarchandiseListe"
+
                 android:background="@drawable/element"
                 android:imeOptions="actionDone"/>
 
