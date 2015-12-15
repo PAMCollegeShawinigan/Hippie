@@ -91,8 +91,6 @@ public class HippieApplication extends Application {
             // Rapport de debug pour les requêtes.
             this.httpClient.networkInterceptors().add(new HttpDebugInterceptor());
         }
-        this.marchandiseModeleDepot.peuplerLesListes();
-
     }
 
 }
