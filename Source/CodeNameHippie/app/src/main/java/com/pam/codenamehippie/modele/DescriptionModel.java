@@ -10,12 +10,12 @@ public class DescriptionModel extends BaseModele {
     @SerializedName("description")
     private String description;
 
+    /**
+     * Accesseur la description
+     *
+     * @return retourne la valeur du champ description
+     */
     public String getDescription() {
-        return description;
-    }
-
-    public DescriptionModel setDescription(String description) {
-        this.description = description;
-        return this;
+        return this.description;
     }
 }

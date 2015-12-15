@@ -13,19 +13,15 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-/**
- * Créé par Carl St-Louis le 23-11-2015.
- */
-
 public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
 
     private static final String TAG = MarchandiseModeleDepot.class.getSimpleName();
 
-    private HttpUrl listeUniteUrl;
-    private HttpUrl listeTypeAlimentaireUrl;
+    private final HttpUrl listeUniteUrl;
+    private final HttpUrl listeTypeAlimentaireUrl;
 
-    private ArrayList<DescriptionModel> listeUnitee;
-    private ArrayList<DescriptionModel> listeTypeAlimentaire;
+    private volatile ArrayList<DescriptionModel> listeUnitee;
+    private volatile ArrayList<DescriptionModel> listeTypeAlimentaire;
 
     public MarchandiseModeleDepot(OkHttpClient httpClient) {
         super(httpClient);
@@ -36,6 +32,14 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
         this.url = this.url.newBuilder().addPathSegment("marchandise").build();
     }
 
+    public ArrayList<DescriptionModel> getListeUnitee() {
+        return this.listeUnitee;
+    }
+
+    public ArrayList<DescriptionModel> getListeTypeAlimentaire() {
+        return this.listeTypeAlimentaire;
+    }
+
     /**
      * Permet de peupler les items provenant des spinner.
      * <p/>
@@ -44,7 +48,7 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
     public void peuplerLesListes() {
         Request listeUniteRequete = new Request.Builder().url(this.listeUniteUrl).get().build();
         Request listeTypeAlimentaireRequete =
-                new Request.Builder().url(this.listeUniteUrl).get().build();
+                new Request.Builder().url(this.listeTypeAlimentaireUrl).get().build();
         this.httpClient.newCall(listeUniteRequete).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
@@ -60,9 +64,10 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
                     String json = response.body().string();
                     Type type = new TypeToken<ArrayList<DescriptionModel>>() { }.getType();
                     MarchandiseModeleDepot.this.listeUnitee = gson.fromJson(json, type);
-                    for (DescriptionModel model : MarchandiseModeleDepot.this.listeUnitee) {
-                        Log.d(TAG, model.toString());
-                    }
+                    Log.d(TAG,
+                          "Liste type alimentaire: " +
+                          MarchandiseModeleDepot.this.listeUnitee.toString()
+                         );
                 }
             }
         });
@@ -81,10 +86,10 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
                     String json = response.body().string();
                     Type type = new TypeToken<ArrayList<DescriptionModel>>() { }.getType();
                     MarchandiseModeleDepot.this.listeTypeAlimentaire = gson.fromJson(json, type);
-                    for (DescriptionModel model : MarchandiseModeleDepot.this
-                                                          .listeTypeAlimentaire) {
-                        Log.d(TAG, model.toString());
-                    }
+                    Log.d(TAG,
+                          "Liste type alimentaire: " +
+                          MarchandiseModeleDepot.this.listeTypeAlimentaire.toString()
+                         );
                 }
             }
         });
