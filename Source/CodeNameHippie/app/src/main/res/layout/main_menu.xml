@@ -47,7 +47,8 @@
             android:layout_alignParentTop="false"
             android:layout_alignParentLeft="false"
             android:layout_alignParentRight="false"
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="67dp"
+            android:layout_marginRight="65dp"
             android:textColor="#3a3a3a"
             android:textSize="28dp" />
     </RelativeLayout>
