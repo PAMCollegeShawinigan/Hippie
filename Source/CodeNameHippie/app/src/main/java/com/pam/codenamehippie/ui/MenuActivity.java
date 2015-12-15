@@ -91,7 +91,7 @@ public class MenuActivity extends Fragment implements OnItemSelectedListener,
 
         setHasOptionsMenu(true);
 
-        return inflater.inflate(R.layout.main_menu, container, false);
+        return inflater.inflate(R.layout.main_menu, container, true);
     }
 
     @Override
