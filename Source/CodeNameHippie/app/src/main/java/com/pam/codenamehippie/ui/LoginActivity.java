@@ -1,5 +1,6 @@
 package com.pam.codenamehippie.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -21,6 +23,7 @@ import com.pam.codenamehippie.controleur.validation.ValidateurCourriel;
 import com.pam.codenamehippie.controleur.validation.ValidateurMotDePasse;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
 import com.pam.codenamehippie.http.Authentificateur;
+import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
 import com.squareup.okhttp.Callback;
@@ -44,6 +47,7 @@ public class LoginActivity extends AppCompatActivity implements EditText.OnEdito
     private Button loginButton;
     private SharedPreferences sharedPreferences;
     private Authentificateur authentificateur;
+    private UtilisateurModele utilisateur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,8 +188,11 @@ public class LoginActivity extends AppCompatActivity implements EditText.OnEdito
                     UtilisateurModeleDepot depotUtilisateur =
                             application.getUtilisateurModeleDepot();
                     String json = response.body().string();
-                    UtilisateurModele utilisateur = depotUtilisateur.fromJson(json);
-                    String nom = utilisateur.getPrenom() + " " + utilisateur.getNom();
+                    LoginActivity.this.utilisateur = depotUtilisateur.fromJson(json);
+                    String nom = LoginActivity.this.utilisateur.getPrenom() +
+                                 " " +
+                                 LoginActivity.this.utilisateur.getNom();
+                    Log.d(TAG, LoginActivity.this.utilisateur.toString());
                     LoginActivity.this.sauvegarderFormulaire();
                     Snackbar.make(v,
                                   LoginActivity.this.getString(R.string.message_welcome, nom),
@@ -218,13 +225,21 @@ public class LoginActivity extends AppCompatActivity implements EditText.OnEdito
         });
     }
 
+    @SuppressLint("CommitPrefEdits")
     private void sauvegarderFormulaire() {
         this.authentificateur.setMotDePasse(this.validateurMotDePasse.getText().toString());
-        this.sharedPreferences.edit()
-                              .putString(this.getString(R.string.pref_email_key),
-                                         this.validateurCourriel.getText().toString()
-                                        )
-                              .commit();
+        SharedPreferences.Editor editor =
+                this.sharedPreferences.edit()
+                                      .putString(this.getString(R.string.pref_email_key),
+                                                 this.validateurCourriel.getText().toString()
+                                                );
+        if (this.utilisateur != null) {
+            OrganismeModele organisme = this.utilisateur.getOrganisme();
+            if (organisme != null) {
+                editor.putInt(this.getString(R.string.pref_org_id_key), organisme.getId());
+            }
+        }
+        editor.commit();
     }
 
 }
