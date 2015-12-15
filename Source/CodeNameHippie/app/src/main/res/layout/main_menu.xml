@@ -25,7 +25,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/main_selected_textView"
         android:layout_gravity="center_horizontal"
         triangle:triangleBackground="@drawable/bg_menu_deux"
         android:layout_marginTop="60dp">
