@@ -1,40 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-<<<<<<< HEAD
         xmlns:triangle="http://schemas.android.com/apk/res-auto"
        android:layout_width="match_parent"
        android:layout_height="match_parent" >
 
     <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
-        android:id="@+id/main_Statistique_image"
+        android:id="@+id/main_statistique_image"
         triangle:name="Statistiques"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/statistiques" />
 
     <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
-        android:id="@+id/main_Organisme_image"
+        android:id="@+id/main_organisme_image"
         triangle:name="Organismes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/organismes" />
 
     <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
-        android:id="@+id/main_Profil_image"
+        android:id="@+id/main_profil_image"
         android:layout_width="wrap_content"
         triangle:name="Profil"
         android:layout_height="wrap_content"
         android:src="@drawable/profil" />
 
     <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
-        android:id="@+id/main_catégorie_image"
+        android:id="@+id/main_categorie_image"
         android:layout_width="wrap_content"
         triangle:name="Catégories"
         android:layout_height="wrap_content"
         android:src="@drawable/categories" />
 
     <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
-        android:id="@+id/main_réservation_image"
+        android:id="@+id/main_reservation_image"
         android:layout_width="wrap_content"
         triangle:name="Réservations"
         android:layout_height="wrap_content"
@@ -46,62 +45,5 @@
         triangle:name="Carte"
         android:layout_height="wrap_content"
         android:src="@drawable/maps" />
-=======
-             xmlns:triangle="http://schemas.android.com/apk/res-auto"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
-
-    <com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout
-        android:id="@+id/main_circle_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/menu_triangle"
-        android:layout_gravity="center_horizontal"
-        triangle:triangleBackground="@drawable/bg_menu">
-
-        <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
-            android:id="@+id/main_calendar_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/statistiques"
-            triangle:name="Statistiques"/>
-
-        <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
-            android:id="@+id/main_cloud_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/organismes"
-            triangle:name="Carte des organismes"/>
-
-        <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
-            android:id="@+id/main_facebook_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/profil"
-            triangle:name="Profil"/>
-
-        <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
-            android:id="@+id/main_key_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/categories"
-            triangle:name="Catégories"/>
-
-        <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
-            android:id="@+id/main_profile_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/reservation"
-            triangle:name="Réservations"/>
-
-        <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
-            android:id="@+id/main_tap_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/maps"
-            triangle:name="Carte des donneurs"/>
-
-    </com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout>
->>>>>>> origin/EricEtCatherine
 
 </merge>

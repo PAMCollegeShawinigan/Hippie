@@ -21,7 +21,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout
-        android:id="@+id/main_circle_layout"
+        android:id="@+id/main_menu_triangle"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
