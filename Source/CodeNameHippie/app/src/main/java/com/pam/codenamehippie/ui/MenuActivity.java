@@ -27,7 +27,6 @@ public class MenuActivity extends Fragment implements OnItemSelectedListener,
         OnCenterClickListener {
 
     private TextView selectedTextView;
-    private TextView selectedTextView2;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -91,10 +90,6 @@ public class MenuActivity extends Fragment implements OnItemSelectedListener,
 
         selectedTextView = (TextView) getView().findViewById(R.id.main_selected_textView);
         selectedTextView.setText(((TriangleImageView) triangleMenu
-                .getSelectedItem()).getName());
-
-        selectedTextView2 = (TextView) getView().findViewById(R.id.main_selected_textView2);
-        selectedTextView2.setText(((TriangleImageView) triangleMenu
                 .getSelectedItem()).getName());
 
         setHasOptionsMenu(true);

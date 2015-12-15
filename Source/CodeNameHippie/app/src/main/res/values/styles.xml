@@ -22,9 +22,5 @@
     </style>
 
     <style name="Base.AppThemeOverlay.ActionBar"
-           parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+           parent="ThemeOverlay.AppCompat.ActionBar"/>
 </resources>
