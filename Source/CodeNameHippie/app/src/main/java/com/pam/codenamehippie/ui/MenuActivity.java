@@ -65,6 +65,14 @@ public class MenuActivity extends Fragment implements OnItemSelectedListener,
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
 
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState)
+    {
         //intégrer les polices sur le menu
         Typeface myTypeface = Typeface.createFromAsset(getActivity().getAssets(), "opensans_light.ttf");
         TextView myTextview = (TextView)getView().findViewById(R.id.main_selected_textView);
@@ -82,13 +90,7 @@ public class MenuActivity extends Fragment implements OnItemSelectedListener,
                 .getSelectedItem()).getName());
 
         setHasOptionsMenu(true);
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState)
-    {
         return inflater.inflate(R.layout.main_menu, container, false);
     }
 
