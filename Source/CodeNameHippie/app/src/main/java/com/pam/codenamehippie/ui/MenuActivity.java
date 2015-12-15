@@ -44,9 +44,9 @@ public class MenuActivity extends FragmentActivity implements OnItemSelectedList
         this.setContentView(R.layout.main_menu);
 
         //intégrer les polices sur le menu
-        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "opensans_light.ttf");
-        TextView myTextview = (TextView) findViewById(R.id.main_selected_textView);
-        myTextview.setTypeface(myTypeface);
+//        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "opensans_light.ttf");
+//        TextView myTextview = (TextView) findViewById(R.id.main_selected_textView);
+//        myTextview.setTypeface(myTypeface);
 
         // Set listeners
         TriangleLayout triangleMenu = (TriangleLayout) findViewById(R.id.main_menu_triangle);
@@ -55,9 +55,9 @@ public class MenuActivity extends FragmentActivity implements OnItemSelectedList
         triangleMenu.setOnRotationFinishedListener(this);
         triangleMenu.setOnCenterClickListener(this);
 
-        selectedTextView = (TextView) findViewById(R.id.main_selected_textView);
-        selectedTextView.setText(((TriangleImageView) triangleMenu
-                .getSelectedItem()).getName());
+//        selectedTextView = (TextView) findViewById(R.id.main_selected_textView);
+//        selectedTextView.setText(((TriangleImageView) triangleMenu
+//                .getSelectedItem()).getName());
 
 
 
@@ -65,28 +65,28 @@ public class MenuActivity extends FragmentActivity implements OnItemSelectedList
 
     @Override
     public void onItemSelected(View view, String name) {
-        selectedTextView.setText(name);
-
-        switch (view.getId()) {
-            case R.id.main_profil_image:
-                // selection de image profil
-                break;
-            case R.id.main_organisme_image:
-                // selection de image carte des organismes
-                break;
-            case R.id.main_statistique_image:
-                // selection de image des statistiques
-                break;
-            case R.id.main_carte_image:
-                // selection de la carte
-                break;
-            case R.id.main_reservation_image:
-                // selection de les réservations
-                break;
-            case R.id.main_categorie_image:
-                // selection de les catégories
-                break;
-        }
+//        selectedTextView.setText(name);
+//
+//        switch (view.getId()) {
+//            case R.id.main_profil_image:
+//                // selection de image profil
+//                break;
+//            case R.id.main_organisme_image:
+//                // selection de image carte des organismes
+//                break;
+//            case R.id.main_statistique_image:
+//                // selection de image des statistiques
+//                break;
+//            case R.id.main_carte_image:
+//                // selection de la carte
+//                break;
+//            case R.id.main_reservation_image:
+//                // selection de les réservations
+//                break;
+//            case R.id.main_categorie_image:
+//                // selection de les catégories
+//                break;
+//        }
     }
 
     @Override
