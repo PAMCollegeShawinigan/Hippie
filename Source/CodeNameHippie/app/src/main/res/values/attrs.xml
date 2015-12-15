@@ -15,4 +15,7 @@
     <declare-styleable name="TriangleImageView">
         <attr name="name" format="string" />
     </declare-styleable>
+    <declare-styleable name="CustomFontTextView">
+        <attr name="font" format="string"/>
+    </declare-styleable>
 </resources>
