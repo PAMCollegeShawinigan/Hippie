@@ -29,6 +29,13 @@ public class MenuActivity extends Fragment implements OnItemSelectedListener,
 
     private TextView selectedTextView;
 
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+
     private OnFragmentInteractionListener mListener;
 
     public MenuActivity() {
@@ -39,12 +46,14 @@ public class MenuActivity extends Fragment implements OnItemSelectedListener,
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
+     * @param param1 Parameter 1.
      * @return A new instance of fragment MenuFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MenuActivity newInstance() {
+    public static MenuActivity newInstance(String param1) {
         MenuActivity fragment = new MenuActivity();
         Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,6 +61,9 @@ public class MenuActivity extends Fragment implements OnItemSelectedListener,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+        }
 
         //intégrer les polices sur le menu
         Typeface myTypeface = Typeface.createFromAsset(getActivity().getAssets(), "opensans_light.ttf");

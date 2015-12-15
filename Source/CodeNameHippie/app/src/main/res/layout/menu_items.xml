@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         triangle:name="Réservations"
         android:layout_height="wrap_content"
-        android:src="@drawable/reservation" />
+        android:src="@drawable/reservation"/>
 
     <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
         android:id="@+id/main_carte_image"
