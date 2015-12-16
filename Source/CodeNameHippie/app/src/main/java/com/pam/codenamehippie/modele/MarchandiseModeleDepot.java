@@ -47,6 +47,7 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
      * Cette methode est asynchrone et retourne immédiatement
      */
     public void peuplerLesListes() {
+        //TODO: Refactoriser la méthode pour passer un paramètre
         Request listeUniteRequete = new Request.Builder().url(this.listeUniteUrl).get().build();
         Request listeTypeAlimentaireRequete =
                 new Request.Builder().url(this.listeTypeAlimentaireUrl).get().build();
@@ -64,7 +65,12 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
                 } else {
                     String json = response.body().string();
                     Type type = new TypeToken<ArrayList<DescriptionModel>>() { }.getType();
+                    // Ajouter un String "Faites votre choix..." à l'indice 0
+                    ArrayList<DescriptionModel> temp = new ArrayList<DescriptionModel>();
+                    temp.add(new DescriptionModel());
                     MarchandiseModeleDepot.this.listeUnitee = gson.fromJson(json, type);
+                    temp.addAll( MarchandiseModeleDepot.this.listeUnitee);
+                    MarchandiseModeleDepot.this.listeUnitee = temp;
                     Log.d(TAG,
                           "Liste type alimentaire: " +
                           MarchandiseModeleDepot.this.listeUnitee.toString()
@@ -86,7 +92,12 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
                 } else {
                     String json = response.body().string();
                     Type type = new TypeToken<ArrayList<DescriptionModel>>() { }.getType();
+                    // Ajouter un String "Faites votre choix..." à l'indice 0
+                    ArrayList<DescriptionModel> temp = new ArrayList<DescriptionModel>();
+                    temp.add(new DescriptionModel());
                     MarchandiseModeleDepot.this.listeTypeAlimentaire = gson.fromJson(json, type);
+                    temp.addAll(MarchandiseModeleDepot.this.listeTypeAlimentaire);
+                    MarchandiseModeleDepot.this.listeTypeAlimentaire = temp;
                     Log.d(TAG,
                           "Liste type alimentaire: " +
                           MarchandiseModeleDepot.this.listeTypeAlimentaire.toString()
