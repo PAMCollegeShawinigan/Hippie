@@ -69,6 +69,10 @@ public class HippieApplication extends Application {
         return this.transactionModeleDepot;
     }
 
+    public MarchandiseModeleDepot getMarchandiseModeleDepot() {
+        return this.marchandiseModeleDepot;
+    }
+
     public PersistentCookieStore getBoiteAbiscuit() {
         return this.boiteAbiscuit;
     }
@@ -91,7 +95,5 @@ public class HippieApplication extends Application {
             // Rapport de debug pour les requêtes.
             this.httpClient.networkInterceptors().add(new HttpDebugInterceptor());
         }
-
     }
-
 }

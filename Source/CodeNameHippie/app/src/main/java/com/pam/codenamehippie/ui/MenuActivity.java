@@ -1,41 +1,47 @@
 package com.pam.codenamehippie.ui;
 
-
-import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout;
-import com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnCenterClickListener;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnItemClickListener;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnItemSelectedListener;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnRotationFinishedListener;
 
-public class MenuActivity extends FragmentActivity implements OnItemSelectedListener,
-        OnItemClickListener,
-        OnRotationFinishedListener,
-        OnCenterClickListener {
+public class MenuActivity extends HippieActivity implements OnItemSelectedListener,
+                                                            OnItemClickListener,
+                                                            OnRotationFinishedListener,
+                                                            OnCenterClickListener {
 
 //    private TextView selectedTextView;
 //    private OnFragmentInteractionListener mListener;
 
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+
     public MenuActivity() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,8 +64,6 @@ public class MenuActivity extends FragmentActivity implements OnItemSelectedList
 //        selectedTextView = (TextView) findViewById(R.id.main_selected_textView);
 //        selectedTextView.setText(((TriangleImageView) triangleMenu
 //                .getSelectedItem()).getName());
-
-
 
     }
 
@@ -92,8 +96,9 @@ public class MenuActivity extends FragmentActivity implements OnItemSelectedList
     @Override
     public void onItemClick(View view, String name) {
         Toast.makeText(this.getApplicationContext(),
-                " Nouvelle activité ",
-                Toast.LENGTH_SHORT).show();
+                       " Nouvelle activité ",
+                       Toast.LENGTH_SHORT
+                      ).show();
 
         switch (view.getId()) {
             case R.id.main_profil_image:
@@ -121,7 +126,8 @@ public class MenuActivity extends FragmentActivity implements OnItemSelectedList
     @Override
     public void onRotationFinished(View view, String name) {
         Animation animation = new RotateAnimation(0, 360, view.getWidth() / 2,
-                view.getHeight() / 2);
+                                                  view.getHeight() / 2
+        );
         animation.setDuration(250);
         view.startAnimation(animation);
     }
@@ -130,22 +136,5 @@ public class MenuActivity extends FragmentActivity implements OnItemSelectedList
     public void onCenterClick() {
         this.finish();
     }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
 
 }

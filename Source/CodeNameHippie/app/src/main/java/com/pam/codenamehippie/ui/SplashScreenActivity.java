@@ -1,17 +1,14 @@
 package com.pam.codenamehippie.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.VideoView;
 
-import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
-import com.pam.codenamehippie.http.Authentificateur;
 
-public class SplashScreenActivity extends Activity {
+public class SplashScreenActivity extends HippieActivity {
 
     // minuterie d'écran du Splash screen 10000 = 10 sec
     private static final int SPLASH_TIME_OUT = 1;
@@ -42,13 +39,10 @@ public class SplashScreenActivity extends Activity {
                 // This method will be executed once the timer is over
                 // Start your app main activity
                 Intent i;
-                if (((Authentificateur)
-                        ((HippieApplication) SplashScreenActivity.this.getApplication())
-                                .getHttpClient()
-                                .getAuthenticator()).estAuthentifie()) {
+                if (SplashScreenActivity.this.authentificateur.estAuthentifie()) {
                     i = new Intent(SplashScreenActivity.this, MainActivity.class);
                 } else {
-                    i = new Intent(SplashScreenActivity.this, MainActivity.class);
+                    i = new Intent(SplashScreenActivity.this, LoginActivity.class);
 
                 }
                 SplashScreenActivity.this.startActivity(i);
