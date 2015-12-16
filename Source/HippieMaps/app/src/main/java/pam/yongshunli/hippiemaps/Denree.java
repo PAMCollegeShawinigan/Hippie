@@ -68,7 +68,6 @@ enum StateDenree {
 }
 
 enum TypeDenree {
-
     fruit_legume,
     viande,
     laitier,
