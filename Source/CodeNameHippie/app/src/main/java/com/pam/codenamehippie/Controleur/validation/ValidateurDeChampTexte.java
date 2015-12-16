@@ -160,6 +160,7 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
      */
     public final void setText(CharSequence text) {
         this.editText.setText(text);
+        this.afterTextChanged(this.editText.getText());
     }
 
     /**
@@ -169,6 +170,7 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
      */
     public final void setText(@StringRes int resId) {
         this.editText.setText(resId);
+        this.afterTextChanged(this.editText.getText());
     }
 
     /**
