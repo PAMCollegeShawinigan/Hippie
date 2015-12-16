@@ -171,6 +171,7 @@ public class RegisterActivity extends HippieActivity
      */
     public void soummettreLaConnexion(final View v) {
         // TODO: RAJOUTER LES ORGANISME
+        //FIXME: Utiliser depot
         RequestBody body =
                 new FormEncodingBuilder().add("nom", this.validateurNom.getTextString())
                                          .add("prenom", this.validateurPrenom.getTextString())
