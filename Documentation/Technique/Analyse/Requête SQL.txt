@@ -1,0 +1,271 @@
+// Inscription d'un utilisateur dans la table "utilisateur"
+
+INSERT INTO
+	utilisateur(utilisateur_id), mot_de_passe, nom, prenom, courriel, telephone, moyen_contact)
+	
+VALUES (null, motDePasse, nom, prenom, courriel, telephone, moyeContact);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// Modifier paramètres de l'utilisateur dans la table "utilisateur"
+
+UPDATE utilisateur SET mot_de_passe =  '12345', nom =  'Bleau', prenom =  'Joe',
+		courriel =  'jos.bleau@test.pam', telephone =  '121-121-1111', moyen_contact  = 1 
+		
+WHERE utilisateur_id = 6;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// Requête de l'id_organisme et du nom de l'organisme dans la table "organisme"
+
+SELECT
+	organisme_id,
+	nom
+FROM organisme
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// Requête pour un organisme par le organisme_id dans la table "organisme"
+
+SELECT *
+FROM organisme 
+WHERE organisme_id = id
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// Requête pour ajouter un aliment dans la table "alimentaire"
+
+INSERT INTO alimentaire (alimentaire_id, nom, description, quantite, marchandise_etat,
+ 			marchandise_unite, valeur, marchandise_statut , type_alimentaire, date_peremption) 
+VALUES ([null],[v_nom],[v_description],[v_quantite],[id_marchandise_etat],
+		[id_marchandise_unite],[v_vlaeur],[id_marchandise_statut],[id_type_alimentaire],[id_date_peremption])
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+		
+// Requête pour modifier un aliment dans la table "alimentaire"
+
+UPDATE alimentaire 
+
+SET nom = value-2, description = value-3, quantite = value-4, marchandise_etat = value-5,
+	marchandise_unite = value-6, valeur = value-7, marchandise_statut = value-8 ,
+	type_alimentaire = value-9, date_peremption = value-10 
+WHERE id_alimentaire = id
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// Requête pour ajouter une transaction dans la table "transaction" par un donneur
+
+INSERT INTO transaction (transaction_id, receveur_id, donneur_id, marchandise_id, date_collecte,
+			date_reservation, date_disponible)
+			
+VALUES (NULL, NULL, [donneur_id], [marchandise_id], null, null, [date_disponible])
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// TODO        Requête pour modifier une transaction dans la table "transaction" par un donneur
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// TODO        Requête pour modifer une transaction dans la table "transaction" par un receveur_id
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+//Requête pour obtenir la liste des entreprises qui ont des marchandises à donner
+
+SELECT org.nom,	adr.no_civique,	adr.nom, typrue.description_type_rue, adr.ville, adr.code_postal
+
+FROM alimentaire ali
+INNER JOIN marchandise_statut marstat ON marstat.statut_id = ali.marchandise_statut
+INNER JOIN transaction trx ON trx.marchandise_id = ali.alimentaire_id 
+INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
+INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+INNER JOIN type_rue typrue ON adr.type_rue = typrue.type_rue_id
+
+
+WHERE marstat.statut_id = 3 ANd ali.date_peremption < current_date
+
+GROUP BY
+	org.nom, adr.no_civique, adr.nom, typrue.description_type_rue, adr.ville, adr.code_postal
+
+ORDER BY
+	org.nom, ali.date_peremption, ali.nom
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// Requête pour voir la liste des marchandises disponible par donneur
+
+SELECT 
+	org.nom, trx.date_disponible, marstat.description_marchandise_statut, ali.nom,
+	ali.description_alimentaire, ali.quantite, marunit.description_marchandise_unite,
+	typali.description_type_aliment, maretat.description_marchandise_etat, ali.date_peremption,
+	ali.valeur
+
+FROM transaction trx
+INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
+INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
+INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
+INNER JOIN marchandise_statut marstat ON marstat.statut_id = ali.marchandise_statut
+INNER JOIN marchandise_etat maretat ON maretat.etat_id = ali.marchandise_etat
+INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite
+
+WHERE marstat.statut_id = 3 AND trx.donneur_id = 7
+
+GROUP BY
+	org.nom, trx.date_disponible, marstat.description_marchandise_statut,
+	ali.nom, ali.description_alimentaire, ali.quantite,
+	marunit.description_marchandise_unite, typali.description_type_aliment,
+	maretat.description_marchandise_etat, ali.date_peremption, ali.valeur
+
+ORDER BY
+	ali.date_peremption, org.nom, ali.nom, ali.quantite,
+	marunit.description_marchandise_unite
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// Requête de la liste des marchandises réservé par un organisme (par receveur_id)
+
+SELECT 
+	org_rec.nom,
+	org_don.nom,
+	trx.date_disponible,
+	ali.nom,
+	ali.description_alimentaire,
+	ali.quantite,
+	marunit.description_marchandise_unite,
+	typali.description_type_aliment,
+	maretat.description_marchandise_etat,
+	ali.date_peremption,
+	ali.valeur
+
+FROM transaction trx
+INNER JOIN organisme org_rec ON org_rec.organisme_id = trx.receveur_id
+INNER JOIN organisme org_don ON org_don.organisme_id = trx.donneur_id
+INNER JOIN alimentaire ali on ali.alimentaire_id = trx.marchandise_id
+INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
+INNER JOIN marchandise_statut marstat ON marstat.statut_id = ali.marchandise_statut
+INNER JOIN marchandise_etat maretat ON maretat.etat_id = ali.marchandise_etat
+INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite
+
+WHERE marstat.statut_id = 2 AND org_rec.organisme_id = 1
+
+GROUP BY
+	org_rec.nom, org_don.nom, trx.date_disponible, ali.nom, ali.description_alimentaire,			
+	ali.quantite, marunit.description_marchandise_unite,
+	typali.description_type_aliment, maretat.description_marchandise_etat,
+	ali.date_peremption,ali.valeur
+
+ORDER BY
+	org_rec.nom, org_don.nom, trx.date_disponible, ali.date_peremption
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// Requête pour le total des dons par un donneur
+SELECT org_don.nom 'Entreprise', SUM(ali.valeur) 'Total des dons' 
+FROM transaction trx
+INNER JOIN organisme org_don ON org_don.organisme_id = trx.donneur_id
+INNER JOIN alimentaire ali ON alimentaire_id = trx.marchandise_id
+INNER JOIN marchandise_unite maruni ON maruni.unite_id = ali.marchandise_unite
+
+WHERE
+	trx.donneur_id = 5 AND trx.date_collecte < current_date
+
+GROUP BY 
+	trx.donneur_id
+
+ORDER BY
+	trx.donneur_id;
+	
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// Requête pour le total des dons reçu par un organisme
+
+SELECT org_rec.nom 'Organisme', SUM(ali.valeur) 'Total des dons' 
+FROM transaction trx
+INNER JOIN organisme org_rec ON org_rec.organisme_id = trx.receveur_id
+INNER JOIN alimentaire ali ON alimentaire_id = trx.marchandise_id
+INNER JOIN marchandise_unite maruni ON maruni.unite_id = ali.marchandise_unite
+
+WHERE
+	trx.receveur_id = 1 AND trx.date_collecte < current_date
+
+GROUP BY 
+	trx.receveur_id
+
+ORDER BY
+	trx.receveur_id;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// Requête de la liste des marchandises données par entreprise (STATUT DISPONIBLE ET RÉSERVÉ)
+
+SELECT DISTINCT
+	org_don.nom,
+	ali.nom,
+	ali.description_alimentaire,
+	ali.quantite,
+	maruni.description_marchandise_unite,
+	SUM(ali.valeur)
+	
+FROM transaction trx
+	INNER JOIN organisme org_don ON org_don.organisme_id = trx.donneur_id
+	INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
+	INNER JOIN marchandise_unite maruni ON maruni.unite_id = ali.marchandise_unite
+	INNER JOIN marchandise_statut marstat ON marstat.statut_id = ali.marchandise_statut
+
+WHERE org_don.organisme_id = 6 AND (ali.marchandise_statut = 2 OR
+	  ali.marchandise_statut = 3)
+GROUP BY ali.alimentaire_id
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// Requête de la liste des marchandises données par entreprise pour l'année courante (STATUT COLLECTÉ)
+
+SELECT DISTINCT
+	org_don.nom,
+	ali.nom,
+	ali.description_alimentaire,
+	ali.quantite,
+	maruni.description_marchandise_unite,
+	ali.valeur
+	
+FROM transaction trx
+	INNER JOIN organisme org_don ON org_don.organisme_id = trx.donneur_id
+	INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
+	INNER JOIN marchandise_unite maruni ON maruni.unite_id = ali.marchandise_unite
+	INNER JOIN marchandise_statut marstat ON marstat.statut_id = ali.marchandise_statut
+WHERE trx.donneur_id = 7 AND ali.marchandise_statut = 4;
+GROUP BY ali.alimentaire_id
+
+/////////////////////////////////////////////////////////////////////////////////////////
