@@ -1,5 +1,6 @@
 package com.pam.codenamehippie.modele;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
@@ -23,8 +24,8 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
     private volatile ArrayList<DescriptionModel> listeUnitee;
     private volatile ArrayList<DescriptionModel> listeTypeAlimentaire;
 
-    public MarchandiseModeleDepot(OkHttpClient httpClient) {
-        super(httpClient);
+    public MarchandiseModeleDepot(Context context, OkHttpClient httpClient) {
+        super(context, httpClient);
         HttpUrl baseListeUrl = this.url.newBuilder().addPathSegment("liste").build();
         this.listeUniteUrl = baseListeUrl.newBuilder().addPathSegment("unite").build();
         this.listeTypeAlimentaireUrl =
@@ -42,7 +43,7 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
 
     /**
      * Permet de peupler les items provenant des spinner.
-     * <p/>
+     * <p>
      * Cette methode est asynchrone et retourne immédiatement
      */
     public void peuplerLesListes() {

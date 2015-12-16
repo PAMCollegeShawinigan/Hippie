@@ -32,22 +32,22 @@ public class HippieApplication extends Application {
      * Instance de {@link UtilisateurModeleDepot} pour l'application
      */
     private final UtilisateurModeleDepot utilisateurModeleDepot =
-            new UtilisateurModeleDepot(this.httpClient);
+            new UtilisateurModeleDepot(this, this.httpClient);
     /**
      * Instance d'{@link OrganismeModeleDepot} pour l'application
      */
     private final OrganismeModeleDepot organismeModeleDepot =
-            new OrganismeModeleDepot(this.httpClient);
+            new OrganismeModeleDepot(this, this.httpClient);
     /**
      * Instance de {@link TransactionModeleDepot} pour l'application
      */
     private final TransactionModeleDepot transactionModeleDepot =
-            new TransactionModeleDepot(this.httpClient);
+            new TransactionModeleDepot(this, this.httpClient);
     /**
      * Instance de {@link MarchandiseModeleDepot} pour l'application
      */
     private final MarchandiseModeleDepot marchandiseModeleDepot =
-            new MarchandiseModeleDepot(this.httpClient);
+            new MarchandiseModeleDepot(this, this.httpClient);
     /**
      * Instance de {@link PersistentCookieStore} pour l'application
      */

@@ -1,5 +1,6 @@
 package com.pam.codenamehippie.modele;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -19,7 +20,7 @@ import java.lang.reflect.Type;
 
 /**
  * Classe patron représentant un dépôt d'objet de type {@link BaseModele}.
- * <p/>
+ * <p>
  * Cette classe est définie comme abstraite pour 2 raisons:
  * <ol>
  * <li>
@@ -31,7 +32,7 @@ import java.lang.reflect.Type;
  * fournir des une implémentation par défaut quand c'est possible.
  * </li>
  * </ol>
- * <p/>
+ * <p>
  * L'initialisation d'un dépôt requiert une inspection de sa hiearchie de classe en utilisant
  * le mécanisme de réflection de Java. Ceci est une opération dispendieuse, par conséquent nous
  * recommandons de limiter le nombre d'allocation d'instances d'objet de type dépôt.
@@ -61,18 +62,27 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
      * Url du des objets du dépôt.
      */
     protected HttpUrl url = HippieApplication.baseUrl;
+
     /**
      * Client http.
      */
     protected OkHttpClient httpClient;
 
     /**
+     * Context pour accèder au ressources string.
+     */
+    protected Context context;
+
+    /**
      * Initialise les variables commune à tous les dépôts.
      *
+     * @param context
+     *         le context pour aller chercher des ressources string.
      * @param httpClient
-     *         client http servant à faire des requêtes au serveur
+     *         le client http pour utiliser par les dépots pour faire des requêtes au
+     *         serveur
      */
-    public BaseModeleDepot(OkHttpClient httpClient) {
+    public BaseModeleDepot(Context context, OkHttpClient httpClient) {
         Class clazz = this.getClass();
         ParameterizedType genericType;
         // Recherche la première classe générique dans l'heritage.
@@ -87,6 +97,7 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
                 break;
             }
         }
+        this.context = context;
         this.httpClient = httpClient;
     }
 
