@@ -14,7 +14,10 @@
 		android:orderInCategory="1"
 		android:title="@string/menu"
 		app:showAsAction="always" />
+
 	<item
 		android:id="@+id/ajoutMarchandise"
 		android:title="Ajouter une Marchandise" />
+
+
 </menu>

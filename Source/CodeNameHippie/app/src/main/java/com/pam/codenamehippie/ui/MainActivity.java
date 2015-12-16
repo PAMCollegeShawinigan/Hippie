@@ -15,6 +15,7 @@ public class MainActivity extends HippieActivity {
         MarchandiseModeleDepot marchandiseModeleDepot =
                 ((HippieApplication) this.getApplication()).getMarchandiseModeleDepot();
         marchandiseModeleDepot.peuplerLesListes();
+
     }
 }
 

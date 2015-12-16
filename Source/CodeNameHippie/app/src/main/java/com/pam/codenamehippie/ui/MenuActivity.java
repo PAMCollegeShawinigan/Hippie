@@ -61,6 +61,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
         triangleMenu.setOnRotationFinishedListener(this);
         triangleMenu.setOnCenterClickListener(this);
 
+
 //        selectedTextView = (TextView) findViewById(R.id.main_selected_textView);
 //        selectedTextView.setText(((TriangleImageView) triangleMenu
 //                .getSelectedItem()).getName());

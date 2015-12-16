@@ -80,6 +80,8 @@ public class HippieActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
         if (toolbar != null) {
             this.setSupportActionBar(toolbar);
+            this.getSupportActionBar().setLogo(R.drawable.logo);
+            this.getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
     }
 }
