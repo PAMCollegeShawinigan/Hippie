@@ -20,20 +20,20 @@ public class AjoutMarchandiseActivity extends HippieActivity
         implements ValidateurObserver, AdapterView.OnItemSelectedListener {
 
     private ValidateurDeChampTexte validateurNom;
-    private Boolean nomEstValide;
+    private boolean nomEstValide;
     private ValidateurDeChampTexte validateurDescription;
-    private Boolean descriptionEstValide;
+    private boolean descriptionEstValide;
     private ValidateurDeChampTexte validateurQuantite;
-    private Boolean quantiteEstValide;
+    private boolean quantiteEstValide;
     private ValidateurDeChampTexte validateurValeur;
-    private Boolean valeurEstValide;
+    private boolean valeurEstValide;
     private Spinner spinnerUniteMarchandise;
     private Spinner spinnerTypeMarchandise;
     private DatePicker datePeremption;
     private Button bAjoutMarchandise;
-    private Boolean spinnerUniteMarchandiseEstValide;
-    private Boolean spinnerTypeMarchandiseEstValide;
-    private Boolean datePeremptionEstValide;
+    private boolean spinnerUniteMarchandiseEstValide;
+    private boolean spinnerTypeMarchandiseEstValide;
+    private boolean datePeremptionEstValide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +121,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
             this.descriptionEstValide = estValide;
         } else if (validateur.equals(this.validateurQuantite)) {
             this.quantiteEstValide = estValide;
-        } else if (validateur.equals(this.validateurValeur)) {
+        }
+        if (validateur.equals(this.validateurValeur)) {
             this.valeurEstValide = estValide;
         } else if (this.spinnerUniteMarchandise.getSelectedItemId() != 0) {
             this.spinnerUniteMarchandiseEstValide = estValide;

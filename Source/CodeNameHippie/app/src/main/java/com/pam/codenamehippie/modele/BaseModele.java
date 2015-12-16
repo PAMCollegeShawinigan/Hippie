@@ -7,7 +7,7 @@ public abstract class BaseModele {
 
     // TODO : Vérifier la convention de nom avec la BD
     @SerializedName(value = "id")
-    private Integer id;
+    private Integer id = 0;
 
     /**
      * Accesseur de l'id du modèle
