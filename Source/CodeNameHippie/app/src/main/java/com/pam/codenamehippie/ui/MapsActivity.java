@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -23,7 +24,7 @@ import com.pam.codenamehippie.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ExpandableListView.OnGroupClickListener {
+public class MapsActivity extends MainActivity implements OnMapReadyCallback, ExpandableListView.OnGroupClickListener {
 
     String keyJour = null;
     private GoogleMap mMap;
