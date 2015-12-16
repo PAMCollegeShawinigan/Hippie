@@ -1,5 +1,6 @@
 package com.pam.codenamehippie.ui;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,12 +13,15 @@ import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.controleur.validation.Validateur;
 import com.pam.codenamehippie.controleur.validation.ValidateurDeChampTexte;
+import com.pam.codenamehippie.controleur.validation.ValidateurDeSpinner;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
 import com.pam.codenamehippie.modele.MarchandiseModeleDepot;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.RequestBody;
 
 public class AjoutMarchandiseActivity extends HippieActivity
-        implements ValidateurObserver, AdapterView.OnItemSelectedListener {
+        implements ValidateurObserver {
 
     private ValidateurDeChampTexte validateurNom;
     private boolean nomEstValide;
@@ -27,8 +31,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
     private boolean quantiteEstValide;
     private ValidateurDeChampTexte validateurValeur;
     private boolean valeurEstValide;
-    private Spinner spinnerUniteMarchandise;
-    private Spinner spinnerTypeMarchandise;
+    private ValidateurDeSpinner validateurSpinnerUniteMarchandise;
+    private ValidateurDeSpinner validateurSpinnerTypeMarchandise;
     private DatePicker datePeremption;
     private Button bAjoutMarchandise;
     private boolean spinnerUniteMarchandiseEstValide;
@@ -68,14 +72,17 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                                            .QUANTITE_ALIMENTAIRE_LONGUEUR_MAX
                                                   );
         this.validateurQuantite.registerObserver(this);
-        this.spinnerUniteMarchandise = (Spinner) this.findViewById(R.id.spinnerUniteMarchandise);
-        //TODO: Plugger les données du service WEB
+
+        Spinner spinnerUniteMarchandise = (Spinner) this.findViewById(R.id.spinnerUniteMarchandise);
+        this.validateurSpinnerUniteMarchandise =
+                ValidateurDeSpinner.newInstance(spinnerUniteMarchandise);
+        this.validateurSpinnerUniteMarchandise.registerObserver(this);
         MarchandiseModeleDepot marchandiseModeleDepot =
                 ((HippieApplication) this.getApplication()).getMarchandiseModeleDepot();
-
         HippieSpinnerAdapter uniteAdapter =
                 new HippieSpinnerAdapter(this, marchandiseModeleDepot.getListeUnitee());
-        this.spinnerUniteMarchandise.setAdapter(uniteAdapter);
+        spinnerUniteMarchandise.setAdapter(uniteAdapter);
+
         EditText etValeurMarchandise = (EditText) this.findViewById(R.id.etValeurMarchandise);
         this.validateurValeur =
                 ValidateurDeChampTexte.newInstance(this,
@@ -85,11 +92,15 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                                            .VALEUR_ALIMENTAIRE_LONGUEUR_MAX
                                                   );
         this.validateurValeur.registerObserver(this);
-        this.spinnerTypeMarchandise = (Spinner) this.findViewById(R.id.spinnerTypeMarchandise);
-        //TODO: Plugger les données du WEB
+
+        Spinner spinnerTypeMarchandise = (Spinner) this.findViewById(R.id.spinnerTypeMarchandise);
+        this.validateurSpinnerTypeMarchandise =
+                ValidateurDeSpinner.newInstance(spinnerTypeMarchandise);
+        this.validateurSpinnerTypeMarchandise.registerObserver(this);
         HippieSpinnerAdapter typeAdapter =
                 new HippieSpinnerAdapter(this, marchandiseModeleDepot.getListeTypeAlimentaire());
-        this.spinnerTypeMarchandise.setAdapter(typeAdapter);
+        spinnerTypeMarchandise.setAdapter(typeAdapter);
+
         this.datePeremption = (DatePicker) this.findViewById(R.id.datePicker);
         this.bAjoutMarchandise = (Button) this.findViewById(R.id.bAjoutMarchandise);
 
@@ -102,6 +113,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurDescription.onPause();
         this.validateurQuantite.onPause();
         this.validateurValeur.onPause();
+        this.validateurSpinnerUniteMarchandise.onPause();
+        this.validateurSpinnerTypeMarchandise.onPause();
     }
 
     @Override
@@ -111,6 +124,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurDescription.onResume();
         this.validateurQuantite.onResume();
         this.validateurValeur.onResume();
+        this.validateurSpinnerUniteMarchandise.onResume();
+        this.validateurSpinnerTypeMarchandise.onResume();
     }
 
     @Override
@@ -121,32 +136,33 @@ public class AjoutMarchandiseActivity extends HippieActivity
             this.descriptionEstValide = estValide;
         } else if (validateur.equals(this.validateurQuantite)) {
             this.quantiteEstValide = estValide;
-        }
-        if (validateur.equals(this.validateurValeur)) {
+        } else if (validateur.equals(this.validateurValeur)) {
             this.valeurEstValide = estValide;
-        } else if (this.spinnerUniteMarchandise.getSelectedItemId() != 0) {
+        } else if (validateur.equals(this.validateurSpinnerUniteMarchandise)) {
             this.spinnerUniteMarchandiseEstValide = estValide;
-        } else if (this.spinnerTypeMarchandise.getSelectedItemId() != 0) {
+        } else if (validateur.equals(this.validateurSpinnerTypeMarchandise)) {
             this.spinnerTypeMarchandiseEstValide = estValide;
         }
         //TODO: Valider datePeremption si egal date du jour mettre datePeremption à null sinon
         // convertir au bon format et mettre datePeremptionEstValide = estValide
         this.bAjoutMarchandise.setEnabled(this.nomEstValide &&
-                                          this.descriptionEstValide &&
-                                          this.quantiteEstValide &&
-                                          this.valeurEstValide &&
-                                          this.spinnerUniteMarchandiseEstValide &&
-                                          this.spinnerTypeMarchandiseEstValide);
+                this.descriptionEstValide &&
+                this.quantiteEstValide &&
+                this.valeurEstValide &&
+                this.spinnerUniteMarchandiseEstValide &&
+                this.spinnerTypeMarchandiseEstValide);
 
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+//    public void soumettreMarchandise(final View v) {
+//        //TODO: soumettre la marchandise au serveur selon les paramètres TransactionModele
+//        final String receveurId = "";
+//        SharedPreferences infoDonneurId = null;
+//        String donneur_id = infoDonneurId.getInt(R.string.pref_org_id_key);
+//
+//
+//        RequestBody body =
+//                new FormEncodingBuilder().add("receveur_id", receveurId)
+//                        .add("donneur_id")
+//    }
 }
