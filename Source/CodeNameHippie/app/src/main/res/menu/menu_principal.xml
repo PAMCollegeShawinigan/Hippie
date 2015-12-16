@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	tools:context=".ui.MainActivity"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 	<item
 		android:id="@+id/menu_parametre"
-		android:title="@string/title_activity_preference"/>
+		android:title="@string/title_activity_preference" />
 	<item
 		android:id="@+id/menu_deconnexion"
-		android:title="@string/action_sign_out"/>
-
+		android:title="@string/action_sign_out" />
 	<item
 		android:id="@+id/menu_un"
-		android:title="@string/menu"
 		android:icon="@drawable/menu"
-		app:showAsAction="ifRoom" />
+		android:orderInCategory="1"
+		android:title="@string/menu"
+		app:showAsAction="always" />
+	<item
+		android:id="@+id/ajoutMarchandise"
+		android:title="Ajouter une Marchandise" />
 </menu>

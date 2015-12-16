@@ -12,6 +12,7 @@
     <style name="AppThemeOverlay.Light" parent="ThemeOverlay.AppCompat.Light"/>
     <!-- Base application theme. -->
     <style name="Base.AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowActionBarOverlay">false</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -22,9 +23,5 @@
     </style>
 
     <style name="Base.AppThemeOverlay.ActionBar"
-           parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+           parent="ThemeOverlay.AppCompat.ActionBar"/>
 </resources>

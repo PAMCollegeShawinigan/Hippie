@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
@@ -25,17 +24,15 @@ import com.pam.codenamehippie.http.Authentificateur;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-public class RegisterActivity extends AppCompatActivity
+public class RegisterActivity extends HippieActivity
         implements ValidateurObserver, EditText.OnEditorActionListener {
 
-    private OkHttpClient httpClient;
     private ValidateurDeChampTexte validateurNom;
     private boolean nomEstValide;
     private ValidateurDeChampTexte validateurPrenom;
@@ -173,6 +170,7 @@ public class RegisterActivity extends AppCompatActivity
      *         un objet view qui est en lien avec l'interaction de connection.
      */
     public void soummettreLaConnexion(final View v) {
+        // TODO: RAJOUTER LES ORGANISME
         RequestBody body =
                 new FormEncodingBuilder().add("nom", this.validateurNom.getTextString())
                                          .add("prenom", this.validateurPrenom.getTextString())
