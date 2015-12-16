@@ -1,5 +1,7 @@
 package pam.yongshunli.hippiemaps;
 
+import android.location.Address;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
@@ -13,9 +15,9 @@ import java.util.Map;
 public class Entreprise {
     private String nomEntreprise;
     private String addresse;
+    Address add;
     private HashMap<String,String> mapCollectTime;
     private String telephone;
-    private CollectDay collectDay;
     private ArrayList<Denree> listDenree;
 
     private LatLng mLatLng;
@@ -31,7 +33,6 @@ public class Entreprise {
     public void setMapCollectTime(HashMap<String, String> mapCollectTime) {
         this.mapCollectTime = mapCollectTime;
     }
-
 
     public Entreprise(String nomEntreprise, String addresse,LatLng mLatLng, HashMap<String,String> mapCollectTime, String telephone, ArrayList<Denree> listDenree) {
         this.nomEntreprise = nomEntreprise;
@@ -50,14 +51,6 @@ public class Entreprise {
         this.mapCollectTime = mapCollectTime;
     }
 
-    public CollectDay getCollectDay() {
-        return collectDay;
-    }
-
-    public void setCollectDay(CollectDay collectDay) {
-        this.collectDay = collectDay;
-    }
-
     public String getNomEntreprise() {
         return nomEntreprise;
     }
@@ -73,8 +66,6 @@ public class Entreprise {
     public void setAddresse(String addresse) {
         this.addresse = addresse;
     }
-
-
 
     public String getTelephone() {
         return telephone;
@@ -93,35 +84,3 @@ public class Entreprise {
     }
 }
 
-enum CollectDay{
-    lundi{
-        String getTime(){
-            return "9:00-11:00";
-        }
-
-    },
-    mardi{
-        String getTime(){
-            return "9:00-11:00";}
-    },
-    mercredi{
-        String getTime(){
-            return "9:00-11:00";}
-    },
-    jeudi{
-        String getTime(){
-            return "9:00-11:00";}
-    },
-    vendredi{
-        String getTime(){
-            return "9:00-11:00";}
-    },
-    samdi{
-        String getTime(){
-            return "9:00-11:00";}
-    },
-   dimanche {
-       String getTime(){
-           return "fermee";}
-    }
-}
