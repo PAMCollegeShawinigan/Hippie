@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -28,18 +27,16 @@ import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-public class LoginActivity extends AppCompatActivity implements EditText.OnEditorActionListener,
-                                                                ValidateurObserver {
+public class LoginActivity extends HippieActivity implements EditText.OnEditorActionListener,
+                                                             ValidateurObserver {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private OkHttpClient httpClient;
     private ValidateurMotDePasse validateurMotDePasse;
     private boolean motDePassEstValide;
     private ValidateurCourriel validateurCourriel;

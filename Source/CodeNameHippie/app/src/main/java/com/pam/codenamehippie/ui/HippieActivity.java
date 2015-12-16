@@ -3,6 +3,7 @@ package com.pam.codenamehippie.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -20,13 +21,14 @@ import com.squareup.okhttp.OkHttpClient;
  */
 public class HippieActivity extends AppCompatActivity {
 
-    private Authentificateur authentificateur;
+    protected Authentificateur authentificateur;
+    protected OkHttpClient httpClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        OkHttpClient httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
-        this.authentificateur = ((Authentificateur) httpClient.getAuthenticator());
+        this.httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
+        this.authentificateur = ((Authentificateur) this.httpClient.getAuthenticator());
     }
 
     @Override
@@ -39,6 +41,9 @@ public class HippieActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
             case R.id.menu_parametre:
                 this.startActivity(new Intent(this, ParametreActivity.class));
                 return true;
@@ -48,7 +53,13 @@ public class HippieActivity extends AppCompatActivity {
                 this.finish();
                 return true;
             case R.id.menu_un:
-                this.startActivity(new Intent(this, MenuActivity.class));
+                // Invoque le menu si on est pas déjà dedans
+                if (!this.getClass().equals(MenuActivity.class)) {
+                    this.startActivity(new Intent(this, MenuActivity.class));
+                }
+                return true;
+            case R.id.ajoutMarchandise:
+                this.startActivity(new Intent(this, AjoutMarchandiseActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -32,11 +32,11 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
         this.url = this.url.newBuilder().addPathSegment("marchandise").build();
     }
 
-    public ArrayList<DescriptionModel> getListeUnitee() {
+    public synchronized ArrayList<DescriptionModel> getListeUnitee() {
         return this.listeUnitee;
     }
 
-    public ArrayList<DescriptionModel> getListeTypeAlimentaire() {
+    public synchronized ArrayList<DescriptionModel> getListeTypeAlimentaire() {
         return this.listeTypeAlimentaire;
     }
 

@@ -5,8 +5,11 @@ import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckedTextView;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+
+import com.pam.codenamehippie.modele.DescriptionModel;
 
 import java.util.ArrayList;
 
@@ -15,17 +18,30 @@ import java.util.ArrayList;
  */
 public class HippieSpinnerAdapter implements SpinnerAdapter {
 
-    private ArrayList<String> items;
-    private Context context;
+    private final ArrayList<DescriptionModel> items;
+    private final Context context;
 
-    public HippieSpinnerAdapter(Context context, ArrayList<String> items) {
+    public HippieSpinnerAdapter(Context context, ArrayList<DescriptionModel> items) {
         this.context = context;
         this.items = items;
     }
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        return this.getView(position, convertView, parent);
+        CheckedTextView view =
+                (convertView instanceof CheckedTextView) ? (CheckedTextView) convertView : null;
+        if (view != null) {
+            view.setText(this.getItem(position).getDescription());
+        } else {
+            LayoutInflater inflater =
+                    (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = (CheckedTextView) inflater.inflate(android.R.layout.simple_spinner_dropdown_item,
+                                                      parent,
+                                                      false
+                                                     );
+            view.setText(this.getItem(position).getDescription());
+        }
+        return view;
     }
 
     @Override
@@ -40,17 +56,17 @@ public class HippieSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public int getCount() {
-        return items.size();
+        return this.items.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return items.get(position);
+    public DescriptionModel getItem(int position) {
+        return this.items.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return this.items.get(position).getId();
     }
 
     @Override
@@ -60,22 +76,25 @@ public class HippieSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        TextView view = (TextView) convertView;
+        // On check le type avant de faire un type cast.
+        TextView view = (convertView instanceof TextView) ? (TextView) convertView : null;
         if (view != null) {
-            view.setText((CharSequence) this.getItem(position));
+            view.setText(this.getItem(position).getDescription());
         } else {
             LayoutInflater inflater =
                     (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = ((TextView) inflater.inflate(android.R.layout.simple_spinner_item, null));
-            view.setText((String)this.getItem(position));
+            view = (TextView) inflater.inflate(android.R.layout.simple_spinner_item,
+                                               parent,
+                                               false
+                                              );
+            view.setText(this.getItem(position).getDescription());
         }
         return view;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return 0;
+        return IGNORE_ITEM_VIEW_TYPE;
     }
 
     @Override
