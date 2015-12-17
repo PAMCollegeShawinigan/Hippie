@@ -14,18 +14,17 @@ public class ValidateurDeSpinner extends Observable<ValidateurObserver>
     private Spinner spinner;
     private long id = 0;
 
+    protected ValidateurDeSpinner(Spinner spinner) {
+        this.spinner = spinner;
+
+    }
+
     public static ValidateurDeSpinner newInstance(Spinner spinner) {
         return new ValidateurDeSpinner(spinner);
     }
 
-
     public Spinner getSpinner() {
         return this.spinner;
-    }
-
-    private ValidateurDeSpinner(Spinner spinner){
-        this.spinner = spinner;
-
     }
 
     @Override
@@ -71,6 +70,5 @@ public class ValidateurDeSpinner extends Observable<ValidateurObserver>
             }
         }
     }
-
 
 }

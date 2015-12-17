@@ -6,7 +6,7 @@ import com.pam.codenamehippie.http.Authentificateur;
 import com.pam.codenamehippie.http.PersistentCookieStore;
 import com.pam.codenamehippie.http.intercepteur.AcceptJsonInterceptor;
 import com.pam.codenamehippie.http.intercepteur.HttpDebugInterceptor;
-import com.pam.codenamehippie.modele.MarchandiseModeleDepot;
+import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.OrganismeModeleDepot;
 import com.pam.codenamehippie.modele.TransactionModeleDepot;
 import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
@@ -44,10 +44,10 @@ public class HippieApplication extends Application {
     private final TransactionModeleDepot transactionModeleDepot =
             new TransactionModeleDepot(this, this.httpClient);
     /**
-     * Instance de {@link MarchandiseModeleDepot} pour l'application
+     * Instance de {@link AlimentaireModeleDepot} pour l'application
      */
-    private final MarchandiseModeleDepot marchandiseModeleDepot =
-            new MarchandiseModeleDepot(this, this.httpClient);
+    private final AlimentaireModeleDepot alimentaireModeleDepot =
+            new AlimentaireModeleDepot(this, this.httpClient);
     /**
      * Instance de {@link PersistentCookieStore} pour l'application
      */
@@ -69,8 +69,8 @@ public class HippieApplication extends Application {
         return this.transactionModeleDepot;
     }
 
-    public MarchandiseModeleDepot getMarchandiseModeleDepot() {
-        return this.marchandiseModeleDepot;
+    public AlimentaireModeleDepot getAlimentaireModeleDepot() {
+        return this.alimentaireModeleDepot;
     }
 
     public PersistentCookieStore getBoiteAbiscuit() {

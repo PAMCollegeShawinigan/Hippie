@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
+public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
-    private static final String TAG = MarchandiseModeleDepot.class.getSimpleName();
+    private static final String TAG = AlimentaireModeleDepot.class.getSimpleName();
 
     private final HttpUrl listeUniteUrl;
     private final HttpUrl listeTypeAlimentaireUrl;
@@ -24,7 +24,7 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
     private volatile ArrayList<DescriptionModel> listeUnitee;
     private volatile ArrayList<DescriptionModel> listeTypeAlimentaire;
 
-    public MarchandiseModeleDepot(Context context, OkHttpClient httpClient) {
+    public AlimentaireModeleDepot(Context context, OkHttpClient httpClient) {
         super(context, httpClient);
         HttpUrl baseListeUrl = this.url.newBuilder().addPathSegment("liste").build();
         this.listeUniteUrl = baseListeUrl.newBuilder().addPathSegment("unite").build();
@@ -42,8 +42,8 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
     }
 
     /**
-     * Permet de peupler les items provenant des spinner.
-     * <p>
+     * Permet de peupler les items pour les spinner.
+     * <p/>
      * Cette methode est asynchrone et retourne immédiatement
      */
     public void peuplerLesListes() {
@@ -68,12 +68,12 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
                     // Ajouter un String "Faites votre choix..." à l'indice 0
                     ArrayList<DescriptionModel> temp = new ArrayList<DescriptionModel>();
                     temp.add(new DescriptionModel());
-                    MarchandiseModeleDepot.this.listeUnitee = gson.fromJson(json, type);
-                    temp.addAll( MarchandiseModeleDepot.this.listeUnitee);
-                    MarchandiseModeleDepot.this.listeUnitee = temp;
+                    AlimentaireModeleDepot.this.listeUnitee = gson.fromJson(json, type);
+                    temp.addAll(AlimentaireModeleDepot.this.listeUnitee);
+                    AlimentaireModeleDepot.this.listeUnitee = temp;
                     Log.d(TAG,
                           "Liste type alimentaire: " +
-                          MarchandiseModeleDepot.this.listeUnitee.toString()
+                          AlimentaireModeleDepot.this.listeUnitee.toString()
                          );
                 }
             }
@@ -95,12 +95,12 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
                     // Ajouter un String "Faites votre choix..." à l'indice 0
                     ArrayList<DescriptionModel> temp = new ArrayList<DescriptionModel>();
                     temp.add(new DescriptionModel());
-                    MarchandiseModeleDepot.this.listeTypeAlimentaire = gson.fromJson(json, type);
-                    temp.addAll(MarchandiseModeleDepot.this.listeTypeAlimentaire);
-                    MarchandiseModeleDepot.this.listeTypeAlimentaire = temp;
+                    AlimentaireModeleDepot.this.listeTypeAlimentaire = gson.fromJson(json, type);
+                    temp.addAll(AlimentaireModeleDepot.this.listeTypeAlimentaire);
+                    AlimentaireModeleDepot.this.listeTypeAlimentaire = temp;
                     Log.d(TAG,
                           "Liste type alimentaire: " +
-                          MarchandiseModeleDepot.this.listeTypeAlimentaire.toString()
+                          AlimentaireModeleDepot.this.listeTypeAlimentaire.toString()
                          );
                 }
             }

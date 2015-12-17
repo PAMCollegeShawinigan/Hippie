@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
-import com.pam.codenamehippie.modele.MarchandiseModeleDepot;
+import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
 
 public class MainActivity extends HippieActivity {
 
@@ -12,9 +12,9 @@ public class MainActivity extends HippieActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
-        MarchandiseModeleDepot marchandiseModeleDepot =
-                ((HippieApplication) this.getApplication()).getMarchandiseModeleDepot();
-        marchandiseModeleDepot.peuplerLesListes();
+        AlimentaireModeleDepot alimentaireModeleDepot =
+                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
+        alimentaireModeleDepot.peuplerLesListes();
     }
 }
 

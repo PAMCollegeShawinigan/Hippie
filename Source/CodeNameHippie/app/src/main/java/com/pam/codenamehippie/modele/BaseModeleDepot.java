@@ -8,6 +8,7 @@ import android.util.SparseArray;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 import com.pam.codenamehippie.HippieApplication;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
@@ -15,12 +16,13 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
  * Classe patron représentant un dépôt d'objet de type {@link BaseModele}.
- * <p>
+ * <p/>
  * Cette classe est définie comme abstraite pour 2 raisons:
  * <ol>
  * <li>
@@ -32,7 +34,7 @@ import java.lang.reflect.Type;
  * fournir des une implémentation par défaut quand c'est possible.
  * </li>
  * </ol>
- * <p>
+ * <p/>
  * L'initialisation d'un dépôt requiert une inspection de sa hiearchie de classe en utilisant
  * le mécanisme de réflection de Java. Ceci est une opération dispendieuse, par conséquent nous
  * recommandons de limiter le nombre d'allocation d'instances d'objet de type dépôt.
@@ -40,7 +42,7 @@ import java.lang.reflect.Type;
  * @param <T>
  *         Type de modèle que le dépot contient.
  */
-public abstract class BaseModeleDepot<T extends BaseModele> {
+public abstract class BaseModeleDepot<T extends BaseModele<T>> {
 
     /**
      * Instance globale de la classe servant à la conversion des objets du dépôt en format JSON.
@@ -48,8 +50,7 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
      */
     protected final static Gson gson =
             new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").serializeNulls().create();
-    private static final String TAG = BaseModele.class.getSimpleName();
-
+    private static final String TAG = BaseModeleDepot.class.getSimpleName();
     /**
      * Contenant qui renferme les objets entretenus par le dépôt.
      */
@@ -62,12 +63,10 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
      * Url du des objets du dépôt.
      */
     protected HttpUrl url = HippieApplication.baseUrl;
-
     /**
      * Client http.
      */
     protected OkHttpClient httpClient;
-
     /**
      * Context pour accèder au ressources string.
      */
@@ -99,6 +98,19 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
         }
         this.context = context;
         this.httpClient = httpClient;
+    }
+
+    public SparseArray<T> getModeles() {
+        return this.modeles;
+    }
+
+    /**
+     * Permet de peupler les items pour les spinner.
+     * <p/>
+     * Cette methode est asynchrone et retourne immédiatement
+     */
+    public void peuplerLeDepot() {
+
     }
 
     /**
@@ -200,7 +212,31 @@ public abstract class BaseModeleDepot<T extends BaseModele> {
         if (this.modeles.get(modele.getId()) == null) {
             this.modeles.put(modele.getId(), modele);
             if (devraitPoster) {
-                // todo: requête au serveur pour ajouter du stock
+                Class clazz = modele.getClass();
+                do {
+                    Field[] fields = clazz.getDeclaredFields();
+                    for (Field field : fields) {
+                        SerializedName serializedName = field.getAnnotation(SerializedName.class);
+                        boolean old = field.isAccessible();
+                        field.setAccessible(true);
+                        try {
+                            Log.d(TAG,
+                                  field.getName()     +
+                                  ": "                +
+                                  field.get(modele)   +
+                                  " serializedName: " +
+                                  serializedName
+                                          .value()
+                                 );
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                        field.setAccessible(old);
+
+                    }
+                    clazz = clazz.getSuperclass();
+                } while (clazz != null);
+
             }
             return modele;
         }

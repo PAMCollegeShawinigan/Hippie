@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Classe servant à modeler des élement provenant des tables de lookup de la base de données.
  */
-public class DescriptionModel extends BaseModele {
+public class DescriptionModel extends BaseModele<DescriptionModel> {
 
     @SerializedName("description")
     private String description = "Faites votre choix...";

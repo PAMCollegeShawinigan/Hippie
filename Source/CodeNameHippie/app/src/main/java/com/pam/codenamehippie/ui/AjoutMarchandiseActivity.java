@@ -1,6 +1,7 @@
 package com.pam.codenamehippie.ui;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -12,10 +13,11 @@ import com.pam.codenamehippie.controleur.validation.Validateur;
 import com.pam.codenamehippie.controleur.validation.ValidateurDeChampTexte;
 import com.pam.codenamehippie.controleur.validation.ValidateurDeSpinner;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
-import com.pam.codenamehippie.modele.MarchandiseModeleDepot;
+import com.pam.codenamehippie.modele.AlimentaireModele;
+import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
-
-import java.util.Calendar;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.RequestBody;
 
 public class AjoutMarchandiseActivity extends HippieActivity
         implements ValidateurObserver {
@@ -35,6 +37,9 @@ public class AjoutMarchandiseActivity extends HippieActivity
     private boolean spinnerUniteMarchandiseEstValide;
     private boolean spinnerTypeMarchandiseEstValide;
     private boolean datePeremptionEstValide;
+
+    // Id de l'organisme dont l'utilisateur est membre.
+    private Integer organismeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +79,10 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurSpinnerUniteMarchandise =
                 ValidateurDeSpinner.newInstance(spinnerUniteMarchandise);
         this.validateurSpinnerUniteMarchandise.registerObserver(this);
-        MarchandiseModeleDepot marchandiseModeleDepot =
-                ((HippieApplication) this.getApplication()).getMarchandiseModeleDepot();
+        AlimentaireModeleDepot alimentaireModeleDepot =
+                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         HippieSpinnerAdapter uniteAdapter =
-                new HippieSpinnerAdapter(this, marchandiseModeleDepot.getListeUnitee());
+                new HippieSpinnerAdapter(this, alimentaireModeleDepot.getListeUnitee());
         spinnerUniteMarchandise.setAdapter(uniteAdapter);
 
         EditText etValeurMarchandise = (EditText) this.findViewById(R.id.etValeurMarchandise);
@@ -95,13 +100,16 @@ public class AjoutMarchandiseActivity extends HippieActivity
                 ValidateurDeSpinner.newInstance(spinnerTypeMarchandise);
         this.validateurSpinnerTypeMarchandise.registerObserver(this);
         HippieSpinnerAdapter typeAdapter =
-                new HippieSpinnerAdapter(this, marchandiseModeleDepot.getListeTypeAlimentaire());
+                new HippieSpinnerAdapter(this, alimentaireModeleDepot.getListeTypeAlimentaire());
         spinnerTypeMarchandise.setAdapter(typeAdapter);
 
         this.datePeremption = (DatePicker) this.findViewById(R.id.datePicker);
         // Set la date minimale du date picker au moment présent.
-        this.datePeremption.setMinDate(Calendar.getInstance().getTimeInMillis());
         this.bAjoutMarchandise = (Button) this.findViewById(R.id.bAjoutMarchandise);
+        // Retrouve l'organisme id de shared pref. -1 signifie qu'il n'y a pas d'organisme.
+        this.organismeId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
+                                                         -1
+                                                        );
 
     }
 
@@ -142,6 +150,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
         } else if (validateur.equals(this.validateurSpinnerTypeMarchandise)) {
             this.spinnerTypeMarchandiseEstValide = estValide;
         }
+        // Check si on fait parti d'un organisme
+        boolean hasOrganismeid = (this.organismeId != -1);
         //TODO: Valider datePeremption si egal date du jour mettre datePeremption à null sinon
         // convertir au bon format et mettre datePeremptionEstValide = estValide
         this.bAjoutMarchandise.setEnabled(this.nomEstValide &&
@@ -149,18 +159,21 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                           this.quantiteEstValide &&
                                           this.valeurEstValide &&
                                           this.spinnerUniteMarchandiseEstValide &&
-                                          this.spinnerTypeMarchandiseEstValide);
+                                          this.spinnerTypeMarchandiseEstValide &&
+                                          hasOrganismeid);
 
     }
 
-//    public void soumettreMarchandise(final View v) {
-//        //TODO: soumettre la marchandise au serveur selon les paramètres TransactionModele
-//        final String receveurId = "";
-//        SharedPreferences infoDonneurId = null;
-//        String donneur_id = infoDonneurId.getInt(R.string.pref_org_id_key);
-//
-//        RequestBody body =
-//                new FormEncodingBuilder().add("receveur_id", receveurId)
-//                                         .add("donneur_id")
-//    }
+    public void soumettreMarchandise(final View v) {
+        //TODO: soumettre la marchandise au serveur selon les paramètres TransactionModele
+        final String receveurId = "";
+        AlimentaireModele modele = new AlimentaireModele();
+        AlimentaireModeleDepot depot =
+                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
+        depot.ajouterModele(modele, true);
+        RequestBody body =
+                new FormEncodingBuilder().add("receveur_id", receveurId)
+                                         .add("donneur_id", this.organismeId.toString())
+                                         .build();
+    }
 }

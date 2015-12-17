@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Créé par Carl St-Louis le 23-11-2015.
  */
-public class UtilisateurModele extends BaseModele {
+public class UtilisateurModele extends BaseModele<UtilisateurModele> {
 
     @SerializedName("courriel")
     private String courriel;
