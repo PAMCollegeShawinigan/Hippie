@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -42,21 +40,12 @@ public class LoginActivity extends HippieActivity implements EditText.OnEditorAc
     private ValidateurCourriel validateurCourriel;
     private boolean courrielEstValide;
     private Button loginButton;
-    private SharedPreferences sharedPreferences;
-    private Authentificateur authentificateur;
     private UtilisateurModele utilisateur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
-        this.authentificateur = ((Authentificateur) this.httpClient.getAuthenticator());
         this.setContentView(R.layout.activity_login);
-        Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            this.setSupportActionBar(toolbar);
-        }
-        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         this.validateurCourriel =
                 ValidateurCourriel.newInstance(this,
                                                ((EditText) this.findViewById(R.id.etCourriel)),
@@ -87,10 +76,10 @@ public class LoginActivity extends HippieActivity implements EditText.OnEditorAc
     @Override
     protected void onResume() {
         super.onResume();
-        this.validateurCourriel.onResume();
-        this.validateurMotDePasse.onResume();
         this.validateurCourriel.registerObserver(this);
         this.validateurMotDePasse.registerObserver(this);
+        this.validateurCourriel.onResume();
+        this.validateurMotDePasse.onResume();
     }
 
     @Override

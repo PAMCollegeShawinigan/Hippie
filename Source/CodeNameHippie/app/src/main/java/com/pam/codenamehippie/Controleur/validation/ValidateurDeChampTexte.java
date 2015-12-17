@@ -45,7 +45,6 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
      */
     public static final int QUANTITE_ALIMENTAIRE_LONGUEUR_MAX = 13;
 
-
     /**
      * Longueur maximale du champ valeur pour alimentaire
      */

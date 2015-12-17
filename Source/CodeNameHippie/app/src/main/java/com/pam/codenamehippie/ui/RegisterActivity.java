@@ -1,11 +1,8 @@
 package com.pam.codenamehippie.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -44,20 +41,11 @@ public class RegisterActivity extends HippieActivity
     private ValidateurCourriel validateurCourriel;
     private boolean courrielEstValide;
     private Button loginButton;
-    private Authentificateur authentificateur;
-    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_register);
-        this.httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
-        this.authentificateur = ((Authentificateur) this.httpClient.getAuthenticator());
-        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            this.setSupportActionBar(toolbar);
-        }
         EditText etInscriptionNom = ((EditText) this.findViewById(R.id.etInscriptionNom));
         this.validateurNom =
                 ValidateurDeChampTexte.newInstance(this,

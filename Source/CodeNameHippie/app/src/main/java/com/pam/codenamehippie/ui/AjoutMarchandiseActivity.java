@@ -1,9 +1,6 @@
 package com.pam.codenamehippie.ui;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -17,8 +14,8 @@ import com.pam.codenamehippie.controleur.validation.ValidateurDeSpinner;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
 import com.pam.codenamehippie.modele.MarchandiseModeleDepot;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.RequestBody;
+
+import java.util.Calendar;
 
 public class AjoutMarchandiseActivity extends HippieActivity
         implements ValidateurObserver {
@@ -102,6 +99,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
         spinnerTypeMarchandise.setAdapter(typeAdapter);
 
         this.datePeremption = (DatePicker) this.findViewById(R.id.datePicker);
+        // Set la date minimale du date picker au moment présent.
+        this.datePeremption.setMinDate(Calendar.getInstance().getTimeInMillis());
         this.bAjoutMarchandise = (Button) this.findViewById(R.id.bAjoutMarchandise);
 
     }
@@ -146,11 +145,11 @@ public class AjoutMarchandiseActivity extends HippieActivity
         //TODO: Valider datePeremption si egal date du jour mettre datePeremption à null sinon
         // convertir au bon format et mettre datePeremptionEstValide = estValide
         this.bAjoutMarchandise.setEnabled(this.nomEstValide &&
-                this.descriptionEstValide &&
-                this.quantiteEstValide &&
-                this.valeurEstValide &&
-                this.spinnerUniteMarchandiseEstValide &&
-                this.spinnerTypeMarchandiseEstValide);
+                                          this.descriptionEstValide &&
+                                          this.quantiteEstValide &&
+                                          this.valeurEstValide &&
+                                          this.spinnerUniteMarchandiseEstValide &&
+                                          this.spinnerTypeMarchandiseEstValide);
 
     }
 
@@ -160,9 +159,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
 //        SharedPreferences infoDonneurId = null;
 //        String donneur_id = infoDonneurId.getInt(R.string.pref_org_id_key);
 //
-//
 //        RequestBody body =
 //                new FormEncodingBuilder().add("receveur_id", receveurId)
-//                        .add("donneur_id")
+//                                         .add("donneur_id")
 //    }
 }
