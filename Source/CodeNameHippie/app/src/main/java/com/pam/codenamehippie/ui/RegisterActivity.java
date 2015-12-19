@@ -17,7 +17,6 @@ import com.pam.codenamehippie.controleur.validation.ValidateurCourriel;
 import com.pam.codenamehippie.controleur.validation.ValidateurDeChampTexte;
 import com.pam.codenamehippie.controleur.validation.ValidateurMotDePasse;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
-import com.pam.codenamehippie.http.Authentificateur;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.HttpUrl;
@@ -179,17 +178,42 @@ public class RegisterActivity extends HippieActivity
                         Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT).show();
                     }
                 });
-                // On oublie le mot de passe. Parce qu'on a échoué.
-                Authentificateur authentificateur =
-                        ((Authentificateur) RegisterActivity.this.httpClient.getAuthenticator());
-                authentificateur.setMotDePasse(null);
+                // On "déconnecte": on a échoué.
+                RegisterActivity.this.authentificateur.deconnecte();
 
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Response response) {
                 if (!response.isSuccessful()) {
-
+                    switch (response.code()) {
+                        case 409:
+                            RegisterActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Snackbar.make(v,
+                                                  R.string.error_invalid_email,
+                                                  Snackbar.LENGTH_SHORT
+                                                 )
+                                            .show();
+                                    RegisterActivity.this.validateurCourriel.setText(null);
+                                }
+                            });
+                            break;
+                        default:
+                            RegisterActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Snackbar.make(v,
+                                                  R.string.error_connection,
+                                                  Snackbar.LENGTH_SHORT
+                                                 )
+                                            .show();
+                                }
+                            });
+                            break;
+                    }
+                    RegisterActivity.this.authentificateur.deconnecte();
                 } else {
                     //FIXME: Gérer le retour du serveur
                     RegisterActivity.this.sauvegarderFormulaire();

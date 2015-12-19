@@ -19,7 +19,6 @@ import com.pam.codenamehippie.controleur.validation.Validateur;
 import com.pam.codenamehippie.controleur.validation.ValidateurCourriel;
 import com.pam.codenamehippie.controleur.validation.ValidateurMotDePasse;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
-import com.pam.codenamehippie.http.Authentificateur;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
@@ -151,23 +150,41 @@ public class LoginActivity extends HippieActivity implements EditText.OnEditorAc
                         Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT).show();
                     }
                 });
-                // On oublie le mot de passe. Parce qu'on a échoué.
-                Authentificateur authentificateur =
-                        ((Authentificateur) LoginActivity.this.httpClient.getAuthenticator());
-                authentificateur.setMotDePasse(null);
+                // On "déconnecte": on a échoué.
+                LoginActivity.this.authentificateur.deconnecte();
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
                 if (!response.isSuccessful()) {
-                    // TODO: Gérer Mauvais mot de passe/courriel comme du monde.
-                    LoginActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT)
-                                    .show();
-                        }
-                    });
+                    switch (response.code()) {
+                        case 403:
+                            LoginActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Snackbar.make(v,
+                                                  R.string.error_bad_credentials,
+                                                  Snackbar.LENGTH_SHORT
+                                                 )
+                                            .show();
+                                }
+                            });
+                            break;
+                        default:
+                            LoginActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Snackbar.make(v,
+                                                  R.string.error_connection,
+                                                  Snackbar.LENGTH_SHORT
+                                                 )
+                                            .show();
+                                }
+                            });
+                            break;
+                    }
+                    // On "déconnecte": on a échoué.
+                    LoginActivity.this.authentificateur.deconnecte();
                 } else {
                     HippieApplication application =
                             ((HippieApplication) LoginActivity.this.getApplication());
