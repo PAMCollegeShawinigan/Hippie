@@ -9,7 +9,9 @@ import android.util.SparseArray;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
 import com.pam.codenamehippie.HippieApplication;
+import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -23,7 +25,7 @@ import java.lang.reflect.Type;
 
 /**
  * Classe patron représentant un dépôt d'objet de type {@link BaseModele}.
- * <p/>
+ * <p>
  * Cette classe est définie comme abstraite pour 2 raisons:
  * <ol>
  * <li>
@@ -35,7 +37,7 @@ import java.lang.reflect.Type;
  * fournir des une implémentation par défaut quand c'est possible.
  * </li>
  * </ol>
- * <p/>
+ * <p>
  * L'initialisation d'un dépôt requiert une inspection de sa hiearchie de classe en utilisant
  * le mécanisme de réflection de Java. Ceci est une opération dispendieuse, par conséquent nous
  * recommandons de limiter le nombre d'allocation d'instances d'objet de type dépôt.
@@ -57,21 +59,25 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      */
     protected final SparseArray<T> modeles = new SparseArray<>();
     /**
+     * Client http.
+     */
+    protected final OkHttpClient httpClient;
+    /**
+     * Context pour accèder au ressources string.
+     */
+    protected final Context context;
+    /**
+     * Verrou de synchronisation.
+     */
+    protected final Object lock = new Object();
+    /**
      * La valeur du paramètre de type T.
      */
-    protected Class classDeT;
+    protected Class classeDeT;
     /**
      * Url du des objets du dépôt.
      */
     protected HttpUrl url = HippieApplication.baseUrl;
-    /**
-     * Client http.
-     */
-    protected OkHttpClient httpClient;
-    /**
-     * Context pour accèder au ressources string.
-     */
-    protected Context context;
 
     /**
      * Initialise les variables commune à tous les dépôts.
@@ -93,8 +99,10 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
         // Recherche le premier paramètre de type qui hérite de BaseModèle.
         for (Type type : genericType.getActualTypeArguments()) {
             if (BaseModele.class.isAssignableFrom((Class) type)) {
-                this.classDeT = (Class) type;
-                break;
+                synchronized (this.lock) {
+                    this.classeDeT = (Class) type;
+                    break;
+                }
             }
         }
         this.context = context;
@@ -102,16 +110,44 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     }
 
     public SparseArray<T> getModeles() {
-        return this.modeles;
+        synchronized (this.context) {
+            return this.modeles;
+        }
     }
 
     /**
      * Permet de peupler les items pour les spinner.
-     * <p/>
+     * <p>
      * Cette methode est asynchrone et retourne immédiatement
      */
     public void peuplerLeDepot() {
+        Request request = new Request.Builder().url(this.url).get().build();
+        this.httpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                // TODO: Mettre un toast ou whatever
+                Log.e(TAG, "Request failed: " + request.toString(), e);
+            }
 
+            @Override
+            public void onResponse(Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    Log.e(TAG, "Request failed: " + response.toString());
+                } else {
+                    synchronized (BaseModeleDepot.this.lock) {
+                        JsonReader reader = new JsonReader(response.body().charStream());
+                        reader.beginArray();
+                        while (reader.hasNext()) {
+                            T modele = gson.fromJson(reader, BaseModeleDepot.this.classeDeT);
+                            Log.d(TAG, modele.toString());
+                            BaseModeleDepot.this.modeles.put(modele.getId(), modele);
+                        }
+                        reader.endArray();
+                        reader.close();
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -133,20 +169,24 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      */
     @SuppressWarnings("unchecked")
     public T fromJson(String json) {
-        return (T) gson.fromJson(json, this.classDeT);
+        synchronized (this.lock) {
+            return (T) gson.fromJson(json, this.classeDeT);
+        }
     }
 
     /**
      * Méthode de désérialisation du modèle en JSON
      *
-     * @param body
+     * @param reader
      *         un reader de string formatté en JSON. représentant le modèle
      *
      * @return une instance du modèle.
      */
     @SuppressWarnings("unchecked")
-    public T fromJson(Reader body) {
-        return (T) gson.fromJson(body, this.classDeT);
+    public T fromJson(Reader reader) {
+        synchronized (this.lock) {
+            return (T) gson.fromJson(reader, this.classeDeT);
+        }
     }
 
     /**
@@ -159,7 +199,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * n'existe pas.
      */
     @Nullable
-    public synchronized T rechercherParId(@NonNull Integer id) {
+    public T rechercherParId(@NonNull Integer id) {
         T modele = this.modeles.get(id);
         if (modele != null) {
             return this.modeles.get(id);
@@ -222,7 +262,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @return une nouvelle instance de Modele vide ou null s'il existe déjà
      */
-    public synchronized T ajouterModele(T modele, boolean devraitPoster) {
+    public T ajouterModele(T modele, boolean devraitPoster) {
         if (this.modeles.get(modele.getId()) == null) {
             this.modeles.put(modele.getId(), modele);
             if (devraitPoster) {
@@ -266,7 +306,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @return Modele existant dans la dépôt ou null s'il n'existe pas dans le dépôt
      */
-    public synchronized T modifierModele(T modele) {
+    public T modifierModele(T modele) {
         T oldModele = this.modeles.get(modele.getId());
 
         if (oldModele != null) {

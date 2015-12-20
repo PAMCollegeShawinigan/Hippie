@@ -30,7 +30,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         this.listeUniteUrl = baseListeUrl.newBuilder().addPathSegment("unite").build();
         this.listeTypeAlimentaireUrl =
                 baseListeUrl.newBuilder().addPathSegment("alimentaire").build();
-        this.url = this.url.newBuilder().addPathSegment("marchandise").build();
+        this.url = this.url.newBuilder().addPathSegment("alimentaire").build();
     }
 
     public synchronized ArrayList<DescriptionModel> getListeUnitee() {
