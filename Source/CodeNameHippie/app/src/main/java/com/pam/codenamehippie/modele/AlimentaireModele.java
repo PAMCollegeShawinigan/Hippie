@@ -10,17 +10,17 @@ import java.util.Date;
 public class AlimentaireModele extends MarchandiseModele<AlimentaireModele> {
 
     @SerializedName("qtee_unite")
-    private Integer qteeUnite;
+    private Double qteeUnite;
     @SerializedName("type_alimentaire")
     private String typeAlimentaire;
     @SerializedName("date_peremption")
     private Date datePeremption;
 
-    public Integer getQteeUnite() {
+    public Double getQteeUnite() {
         return this.qteeUnite;
     }
 
-    public AlimentaireModele setQteeUnite(Integer qteeUnite) {
+    public AlimentaireModele setQteeUnite(Double qteeUnite) {
         this.qteeUnite = qteeUnite;
         return this;
     }
