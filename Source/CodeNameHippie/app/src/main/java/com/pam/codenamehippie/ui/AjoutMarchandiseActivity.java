@@ -15,9 +15,8 @@ import com.pam.codenamehippie.controleur.validation.ValidateurDeSpinner;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.DescriptionModel;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.RequestBody;
 
 public class AjoutMarchandiseActivity extends HippieActivity
         implements ValidateurObserver {
@@ -150,7 +149,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
         } else if (validateur.equals(this.validateurSpinnerTypeMarchandise)) {
             this.spinnerTypeMarchandiseEstValide = estValide;
         }
-        // Check si on fait parti d'un organisme
+        // Check si on fait parti d'un organisme...
+        // FIXME: Ce check devrait etre fait au serveur.
         boolean hasOrganismeid = (this.organismeId != -1);
         //TODO: Valider datePeremption si egal date du jour mettre datePeremption à null sinon
         // convertir au bon format et mettre datePeremptionEstValide = estValide
@@ -164,16 +164,24 @@ public class AjoutMarchandiseActivity extends HippieActivity
 
     }
 
-    public void soumettreMarchandise(final View v) {
+    public void soumettreMarchandise(View v) {
         //TODO: soumettre la marchandise au serveur selon les paramètres TransactionModele
-        final String receveurId = "";
-        AlimentaireModele modele = new AlimentaireModele();
+        DescriptionModel typeAlimentaire =
+                ((DescriptionModel) this.validateurSpinnerTypeMarchandise.getSelectedItem());
+        AlimentaireModele modele =
+                new AlimentaireModele().setNom(this.validateurNom.getTextString())
+                                       .setDescription(this.validateurDescription.getTextString())
+                                       .setValeur(Integer.valueOf(this.validateurValeur
+                                                                          .getTextString()))
+                                       .setTypeAlimentaire(typeAlimentaire.getDescription())
+                                       .setQteeUnite(Double.valueOf(this.validateurQuantite
+                                                                            .getTextString()));
         AlimentaireModeleDepot depot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         depot.ajouterModele(modele, true);
-        RequestBody body =
-                new FormEncodingBuilder().add("receveur_id", receveurId)
-                                         .add("donneur_id", this.organismeId.toString())
-                                         .build();
+//        RequestBody body =
+//                new FormEncodingBuilder().add("receveur_id", receveurId)
+//                                         .add("donneur_id", this.organismeId.toString())
+//                                         .build();
     }
 }

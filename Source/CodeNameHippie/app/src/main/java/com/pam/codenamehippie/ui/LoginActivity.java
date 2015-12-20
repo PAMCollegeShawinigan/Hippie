@@ -190,8 +190,8 @@ public class LoginActivity extends HippieActivity implements EditText.OnEditorAc
                             ((HippieApplication) LoginActivity.this.getApplication());
                     UtilisateurModeleDepot depotUtilisateur =
                             application.getUtilisateurModeleDepot();
-                    String json = response.body().string();
-                    LoginActivity.this.utilisateur = depotUtilisateur.fromJson(json);
+                    LoginActivity.this.utilisateur =
+                            depotUtilisateur.fromJson(response.body().charStream());
                     String nom = LoginActivity.this.utilisateur.getPrenom() +
                                  " " +
                                  LoginActivity.this.utilisateur.getNom();

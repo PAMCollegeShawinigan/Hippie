@@ -63,12 +63,12 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                 } else {
-                    String json = response.body().string();
                     Type type = new TypeToken<ArrayList<DescriptionModel>>() { }.getType();
                     // Ajouter un String "Faites votre choix..." à l'indice 0
                     ArrayList<DescriptionModel> temp = new ArrayList<DescriptionModel>();
                     temp.add(new DescriptionModel());
-                    AlimentaireModeleDepot.this.listeUnitee = gson.fromJson(json, type);
+                    AlimentaireModeleDepot.this.listeUnitee =
+                            gson.fromJson(response.body().charStream(), type);
                     temp.addAll(AlimentaireModeleDepot.this.listeUnitee);
                     AlimentaireModeleDepot.this.listeUnitee = temp;
                     Log.d(TAG,
@@ -90,12 +90,12 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                 } else {
-                    String json = response.body().string();
                     Type type = new TypeToken<ArrayList<DescriptionModel>>() { }.getType();
                     // Ajouter un String "Faites votre choix..." à l'indice 0
                     ArrayList<DescriptionModel> temp = new ArrayList<DescriptionModel>();
                     temp.add(new DescriptionModel());
-                    AlimentaireModeleDepot.this.listeTypeAlimentaire = gson.fromJson(json, type);
+                    AlimentaireModeleDepot.this.listeTypeAlimentaire =
+                            gson.fromJson(response.body().charStream(), type);
                     temp.addAll(AlimentaireModeleDepot.this.listeTypeAlimentaire);
                     AlimentaireModeleDepot.this.listeTypeAlimentaire = temp;
                     Log.d(TAG,

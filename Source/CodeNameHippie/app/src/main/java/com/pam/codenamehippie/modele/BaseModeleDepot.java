@@ -16,6 +16,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -133,6 +134,19 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     @SuppressWarnings("unchecked")
     public T fromJson(String json) {
         return (T) gson.fromJson(json, this.classDeT);
+    }
+
+    /**
+     * Méthode de désérialisation du modèle en JSON
+     *
+     * @param body
+     *         un reader de string formatté en JSON. représentant le modèle
+     *
+     * @return une instance du modèle.
+     */
+    @SuppressWarnings("unchecked")
+    public T fromJson(Reader body) {
+        return (T) gson.fromJson(body, this.classDeT);
     }
 
     /**
