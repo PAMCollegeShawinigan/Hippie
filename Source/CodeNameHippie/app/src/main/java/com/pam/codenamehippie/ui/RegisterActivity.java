@@ -196,6 +196,7 @@ public class RegisterActivity extends HippieActivity
                                                   Snackbar.LENGTH_SHORT
                                                  )
                                             .show();
+                                    // L'adresse est invalide on la supprime
                                     RegisterActivity.this.validateurCourriel.setText(null);
                                 }
                             });
@@ -215,7 +216,6 @@ public class RegisterActivity extends HippieActivity
                     }
                     RegisterActivity.this.authentificateur.deconnecte();
                 } else {
-                    //FIXME: Gérer le retour du serveur
                     RegisterActivity.this.sauvegarderFormulaire();
                     RegisterActivity.this.navigueAMainActivity();
                 }

@@ -1,6 +1,7 @@
 package com.pam.codenamehippie.ui;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -17,6 +18,15 @@ import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.DescriptionModel;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.HttpUrl;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
+import java.util.Calendar;
 
 public class AjoutMarchandiseActivity extends HippieActivity
         implements ValidateurObserver {
@@ -164,8 +174,13 @@ public class AjoutMarchandiseActivity extends HippieActivity
 
     }
 
-    public void soumettreMarchandise(View v) {
+    public void soumettreMarchandise(final View v) {
         //TODO: soumettre la marchandise au serveur selon les paramètres TransactionModele
+        Calendar date = Calendar.getInstance();
+        date.set(this.datePeremption.getYear(),
+                 this.datePeremption.getMonth(),
+                 this.datePeremption.getDayOfMonth()
+                );
         DescriptionModel typeAlimentaire =
                 ((DescriptionModel) this.validateurSpinnerTypeMarchandise.getSelectedItem());
         AlimentaireModele modele =
@@ -175,13 +190,77 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                                                           .getTextString()))
                                        .setTypeAlimentaire(typeAlimentaire.getDescription())
                                        .setQteeUnite(Double.valueOf(this.validateurQuantite
-                                                                            .getTextString()));
+                                                                            .getTextString()))
+                                       .setDatePeremption(date.getTime());
+        String typeAlimentaireId =
+                String.valueOf(this.validateurSpinnerTypeMarchandise.getSelectedItemId());
+        String marchandiseUniteId =
+                String.valueOf(this.validateurSpinnerUniteMarchandise.getSelectedItemId());
+        // Converti la date en timestamp php.
+        String dateTimeStamp = String.valueOf(modele.getDatePeremption().getTime() / 1000L);
         AlimentaireModeleDepot depot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        depot.ajouterModele(modele, true);
-//        RequestBody body =
-//                new FormEncodingBuilder().add("receveur_id", receveurId)
-//                                         .add("donneur_id", this.organismeId.toString())
-//                                         .build();
+
+        HttpUrl url = depot.getUrl().newBuilder().addPathSegment("ajout").build();
+        // FIXME: Gérer l'état de marchandise. On mets 3(neuf) en attendant
+        RequestBody body =
+                new FormEncodingBuilder().add("description_alimentaire", modele.getDescription())
+                                         .add("nom", modele.getNom())
+                                         .add("quantite", modele.getQteeUnite().toString())
+                                         .add("valeur", modele.getValeur().toString())
+                                         .add("type_alimentaire", typeAlimentaireId)
+                                         .add("marchandise_unite", marchandiseUniteId)
+                                         .add("marchandise_etat", "3")
+                                         .add("date_peremption", dateTimeStamp)
+                                         .add("donneur_id", this.organismeId.toString())
+                                         .build();
+        Request request = new Request.Builder().url(url).post(body).build();
+        this.httpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(final Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    switch (response.code()) {
+                        default:
+                            AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Snackbar.make(v,
+                                                  R.string.error_connection,
+                                                  Snackbar.LENGTH_SHORT
+                                                 )
+                                            .show();
+                                }
+                            });
+                            break;
+                    }
+                } else {
+                    AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Snackbar.make(v,
+                                              response.body().string(),
+                                              Snackbar.LENGTH_SHORT
+                                             )
+                                        .show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
     }
 }

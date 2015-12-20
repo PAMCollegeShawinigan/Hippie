@@ -109,6 +109,10 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
         this.httpClient = httpClient;
     }
 
+    public HttpUrl getUrl() {
+        return this.url;
+    }
+
     public SparseArray<T> getModeles() {
         synchronized (this.context) {
             return this.modeles;
@@ -116,7 +120,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     }
 
     /**
-     * Permet de peupler les items pour les spinner.
+     * Permet de peupler le dépot.
      * <p>
      * Cette methode est asynchrone et retourne immédiatement
      */
@@ -135,6 +139,8 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                     Log.e(TAG, "Request failed: " + response.toString());
                 } else {
                     synchronized (BaseModeleDepot.this.lock) {
+                        // Le serveur retourne un array. Donc pour supporter un énorme array on
+                        // utilise des streams.
                         JsonReader reader = new JsonReader(response.body().charStream());
                         reader.beginArray();
                         while (reader.hasNext()) {
@@ -266,6 +272,10 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
         if (this.modeles.get(modele.getId()) == null) {
             this.modeles.put(modele.getId(), modele);
             if (devraitPoster) {
+                // Ceci est du code expérimental/prototype.
+                // L'idee ici c'est d'utiliser la réflection java pour créer une form http.
+                // Il serait plus facile de soumettre du json, mais en ce moment le serveur le
+                // prend pas en ce moment
                 Class clazz = modele.getClass();
                 do {
                     Field[] fields = clazz.getDeclaredFields();
