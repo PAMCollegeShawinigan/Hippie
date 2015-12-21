@@ -45,7 +45,6 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
      */
     public static final int QUANTITE_ALIMENTAIRE_LONGUEUR_MAX = 13;
 
-
     /**
      * Longueur maximale du champ valeur pour alimentaire
      */
@@ -160,6 +159,7 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
      */
     public final void setText(CharSequence text) {
         this.editText.setText(text);
+        this.afterTextChanged(this.editText.getText());
     }
 
     /**
@@ -169,6 +169,7 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
      */
     public final void setText(@StringRes int resId) {
         this.editText.setText(resId);
+        this.afterTextChanged(this.editText.getText());
     }
 
     /**

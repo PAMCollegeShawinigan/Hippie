@@ -1,5 +1,8 @@
 package com.pam.codenamehippie.modele;
 
+import android.content.Context;
+
+import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
 
 /**
@@ -8,11 +11,14 @@ import com.squareup.okhttp.OkHttpClient;
 
 public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
 
+    private HttpUrl carteUrl;
+
     /**
-     * Contruction du dépot pour modèle Organisme
+     * Construction du dépot pour modèle Organisme
      */
-    public OrganismeModeleDepot(OkHttpClient httpClient) {
-        super(httpClient);
+    public OrganismeModeleDepot(Context context, OkHttpClient httpClient) {
+        super(context, httpClient);
+        this.carteUrl = this.url.newBuilder().addPathSegment("carte").build();
         this.url = this.url.newBuilder().addPathSegment("organisme").build();
     }
 

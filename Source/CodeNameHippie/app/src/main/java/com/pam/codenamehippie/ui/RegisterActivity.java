@@ -1,11 +1,8 @@
 package com.pam.codenamehippie.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -20,7 +17,6 @@ import com.pam.codenamehippie.controleur.validation.ValidateurCourriel;
 import com.pam.codenamehippie.controleur.validation.ValidateurDeChampTexte;
 import com.pam.codenamehippie.controleur.validation.ValidateurMotDePasse;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
-import com.pam.codenamehippie.http.Authentificateur;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.HttpUrl;
@@ -44,20 +40,11 @@ public class RegisterActivity extends HippieActivity
     private ValidateurCourriel validateurCourriel;
     private boolean courrielEstValide;
     private Button loginButton;
-    private Authentificateur authentificateur;
-    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_register);
-        this.httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
-        this.authentificateur = ((Authentificateur) this.httpClient.getAuthenticator());
-        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            this.setSupportActionBar(toolbar);
-        }
         EditText etInscriptionNom = ((EditText) this.findViewById(R.id.etInscriptionNom));
         this.validateurNom =
                 ValidateurDeChampTexte.newInstance(this,
@@ -191,19 +178,44 @@ public class RegisterActivity extends HippieActivity
                         Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT).show();
                     }
                 });
-                // On oublie le mot de passe. Parce qu'on a échoué.
-                Authentificateur authentificateur =
-                        ((Authentificateur) RegisterActivity.this.httpClient.getAuthenticator());
-                authentificateur.setMotDePasse(null);
+                // On "déconnecte": on a échoué.
+                RegisterActivity.this.authentificateur.deconnecte();
 
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Response response) {
                 if (!response.isSuccessful()) {
-
+                    switch (response.code()) {
+                        case 409:
+                            RegisterActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Snackbar.make(v,
+                                                  R.string.error_invalid_email,
+                                                  Snackbar.LENGTH_SHORT
+                                                 )
+                                            .show();
+                                    // L'adresse est invalide on la supprime
+                                    RegisterActivity.this.validateurCourriel.setText(null);
+                                }
+                            });
+                            break;
+                        default:
+                            RegisterActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Snackbar.make(v,
+                                                  R.string.error_connection,
+                                                  Snackbar.LENGTH_SHORT
+                                                 )
+                                            .show();
+                                }
+                            });
+                            break;
+                    }
+                    RegisterActivity.this.authentificateur.deconnecte();
                 } else {
-                    //FIXME: Gérer le retour du serveur
                     RegisterActivity.this.sauvegarderFormulaire();
                     RegisterActivity.this.navigueAMainActivity();
                 }

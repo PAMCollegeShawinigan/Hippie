@@ -11,21 +11,27 @@ import android.widget.Spinner;
 public class ValidateurDeSpinner extends Observable<ValidateurObserver>
         implements AdapterView.OnItemSelectedListener, Validateur {
 
-    private Spinner spinner;
+    private final Spinner spinner;
     private long id = 0;
+
+    protected ValidateurDeSpinner(Spinner spinner) {
+        this.spinner = spinner;
+    }
 
     public static ValidateurDeSpinner newInstance(Spinner spinner) {
         return new ValidateurDeSpinner(spinner);
     }
 
-
     public Spinner getSpinner() {
         return this.spinner;
     }
 
-    private ValidateurDeSpinner(Spinner spinner){
-        this.spinner = spinner;
+    public long getSelectedItemId() {
+        return this.spinner.getSelectedItemId();
+    }
 
+    public Object getSelectedItem() {
+        return this.spinner.getSelectedItem();
     }
 
     @Override
@@ -71,6 +77,5 @@ public class ValidateurDeSpinner extends Observable<ValidateurObserver>
             }
         }
     }
-
 
 }

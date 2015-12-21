@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Créé par Carl St-Louis le 23-11-2015.
  */
-public class OrganismeModele extends BaseModele {
+public class OrganismeModele extends BaseModele<OrganismeModele> {
 
     @SerializedName("nom")
     private String nom;

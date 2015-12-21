@@ -7,56 +7,20 @@ import java.util.Date;
 /**
  * Créé par Carl St-Louis le 23-11-2015.
  */
-public class AlimentaireModele extends MarchandiseModele {
+public class AlimentaireModele extends MarchandiseModele<AlimentaireModele> {
 
     @SerializedName("qtee_unite")
-    private Integer qteeUnite;
+    private Double qteeUnite;
     @SerializedName("type_alimentaire")
     private String typeAlimentaire;
     @SerializedName("date_peremption")
     private Date datePeremption;
 
-    @Override
-    public AlimentaireModele setNom(String nom) {
-        super.setNom(nom);
-        return this;
-    }
-
-    @Override
-    public AlimentaireModele setDescription(String description) {
-        super.setDescription(description);
-        return this;
-    }
-
-    @Override
-    public AlimentaireModele setQuantite(Double quantite) {
-        super.setQuantite(quantite);
-        return this;
-    }
-
-    @Override
-    public AlimentaireModele setEtat(String etat) {
-        super.setEtat(etat);
-        return this;
-    }
-
-    @Override
-    public AlimentaireModele setValeur(Integer valeur) {
-        super.setValeur(valeur);
-        return this;
-    }
-
-    @Override
-    public AlimentaireModele setStatut(String statut) {
-        super.setStatut(statut);
-        return this;
-    }
-
-    public Integer getQteeUnite() {
+    public Double getQteeUnite() {
         return this.qteeUnite;
     }
 
-    public AlimentaireModele setQteeUnite(Integer qteeUnite) {
+    public AlimentaireModele setQteeUnite(Double qteeUnite) {
         this.qteeUnite = qteeUnite;
         return this;
     }
