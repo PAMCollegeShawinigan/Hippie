@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -21,7 +19,6 @@ import com.pam.codenamehippie.controleur.validation.Validateur;
 import com.pam.codenamehippie.controleur.validation.ValidateurCourriel;
 import com.pam.codenamehippie.controleur.validation.ValidateurMotDePasse;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
-import com.pam.codenamehippie.http.Authentificateur;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
@@ -42,21 +39,12 @@ public class LoginActivity extends HippieActivity implements EditText.OnEditorAc
     private ValidateurCourriel validateurCourriel;
     private boolean courrielEstValide;
     private Button loginButton;
-    private SharedPreferences sharedPreferences;
-    private Authentificateur authentificateur;
     private UtilisateurModele utilisateur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
-        this.authentificateur = ((Authentificateur) this.httpClient.getAuthenticator());
         this.setContentView(R.layout.activity_login);
-        Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            this.setSupportActionBar(toolbar);
-        }
-        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         this.validateurCourriel =
                 ValidateurCourriel.newInstance(this,
                                                ((EditText) this.findViewById(R.id.etCourriel)),
@@ -87,10 +75,10 @@ public class LoginActivity extends HippieActivity implements EditText.OnEditorAc
     @Override
     protected void onResume() {
         super.onResume();
-        this.validateurCourriel.onResume();
-        this.validateurMotDePasse.onResume();
         this.validateurCourriel.registerObserver(this);
         this.validateurMotDePasse.registerObserver(this);
+        this.validateurCourriel.onResume();
+        this.validateurMotDePasse.onResume();
     }
 
     @Override
@@ -162,30 +150,48 @@ public class LoginActivity extends HippieActivity implements EditText.OnEditorAc
                         Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT).show();
                     }
                 });
-                // On oublie le mot de passe. Parce qu'on a échoué.
-                Authentificateur authentificateur =
-                        ((Authentificateur) LoginActivity.this.httpClient.getAuthenticator());
-                authentificateur.setMotDePasse(null);
+                // On "déconnecte": on a échoué.
+                LoginActivity.this.authentificateur.deconnecte();
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
                 if (!response.isSuccessful()) {
-                    // TODO: Gérer Mauvais mot de passe/courriel comme du monde.
-                    LoginActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT)
-                                    .show();
-                        }
-                    });
+                    switch (response.code()) {
+                        case 403:
+                            LoginActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Snackbar.make(v,
+                                                  R.string.error_bad_credentials,
+                                                  Snackbar.LENGTH_SHORT
+                                                 )
+                                            .show();
+                                }
+                            });
+                            break;
+                        default:
+                            LoginActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Snackbar.make(v,
+                                                  R.string.error_connection,
+                                                  Snackbar.LENGTH_SHORT
+                                                 )
+                                            .show();
+                                }
+                            });
+                            break;
+                    }
+                    // On "déconnecte": on a échoué.
+                    LoginActivity.this.authentificateur.deconnecte();
                 } else {
                     HippieApplication application =
                             ((HippieApplication) LoginActivity.this.getApplication());
                     UtilisateurModeleDepot depotUtilisateur =
                             application.getUtilisateurModeleDepot();
-                    String json = response.body().string();
-                    LoginActivity.this.utilisateur = depotUtilisateur.fromJson(json);
+                    LoginActivity.this.utilisateur =
+                            depotUtilisateur.fromJson(response.body().charStream());
                     String nom = LoginActivity.this.utilisateur.getPrenom() +
                                  " " +
                                  LoginActivity.this.utilisateur.getNom();

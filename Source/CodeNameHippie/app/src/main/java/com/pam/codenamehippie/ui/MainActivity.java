@@ -7,7 +7,8 @@ import android.widget.TextView;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
-import com.pam.codenamehippie.modele.MarchandiseModeleDepot;
+import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
 
 public class MainActivity extends HippieActivity {
 
@@ -15,10 +16,11 @@ public class MainActivity extends HippieActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
+
         MarchandiseModeleDepot marchandiseModeleDepot =
                 ((HippieApplication) this.getApplication()).getMarchandiseModeleDepot();
         marchandiseModeleDepot.peuplerLesListes();
-
+        
         Typeface typeface = Typeface.createFromAsset(getAssets(), "opensans_regular.ttf");
         ((TextView) findViewById(R.id.textView5)).setTypeface(typeface);
         ((TextView) findViewById(R.id.textView10)).setTypeface(typeface);
@@ -30,6 +32,13 @@ public class MainActivity extends HippieActivity {
         ((TextView) findViewById(R.id.textView13)).setTypeface(typeface2);
         ((TextView) findViewById(R.id.textView15)).setTypeface(typeface2);
 
+        AlimentaireModeleDepot alimentaireModeleDepot =
+                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
+        UtilisateurModeleDepot utilisateurModeleDepot =
+                ((HippieApplication) this.getApplication())
+                        .getUtilisateurModeleDepot();
+        alimentaireModeleDepot.peuplerLesListes();
+        utilisateurModeleDepot.peuplerLeDepot();
     }
 }
 

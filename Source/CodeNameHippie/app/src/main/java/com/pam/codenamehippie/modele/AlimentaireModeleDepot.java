@@ -1,5 +1,6 @@
 package com.pam.codenamehippie.modele;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
@@ -13,9 +14,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
+public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
-    private static final String TAG = MarchandiseModeleDepot.class.getSimpleName();
+    private static final String TAG = AlimentaireModeleDepot.class.getSimpleName();
 
     private final HttpUrl listeUniteUrl;
     private final HttpUrl listeTypeAlimentaireUrl;
@@ -23,13 +24,13 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
     private volatile ArrayList<DescriptionModel> listeUnitee;
     private volatile ArrayList<DescriptionModel> listeTypeAlimentaire;
 
-    public MarchandiseModeleDepot(OkHttpClient httpClient) {
-        super(httpClient);
+    public AlimentaireModeleDepot(Context context, OkHttpClient httpClient) {
+        super(context, httpClient);
         HttpUrl baseListeUrl = this.url.newBuilder().addPathSegment("liste").build();
         this.listeUniteUrl = baseListeUrl.newBuilder().addPathSegment("unite").build();
         this.listeTypeAlimentaireUrl =
                 baseListeUrl.newBuilder().addPathSegment("alimentaire").build();
-        this.url = this.url.newBuilder().addPathSegment("marchandise").build();
+        this.url = this.url.newBuilder().addPathSegment("alimentaire").build();
     }
 
     public synchronized ArrayList<DescriptionModel> getListeUnitee() {
@@ -41,7 +42,7 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
     }
 
     /**
-     * Permet de peupler les items provenant des spinner.
+     * Permet de peupler les items pour les spinner.
      * <p/>
      * Cette methode est asynchrone et retourne immédiatement
      */
@@ -62,17 +63,17 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                 } else {
-                    String json = response.body().string();
                     Type type = new TypeToken<ArrayList<DescriptionModel>>() { }.getType();
                     // Ajouter un String "Faites votre choix..." à l'indice 0
                     ArrayList<DescriptionModel> temp = new ArrayList<DescriptionModel>();
                     temp.add(new DescriptionModel());
-                    MarchandiseModeleDepot.this.listeUnitee = gson.fromJson(json, type);
-                    temp.addAll( MarchandiseModeleDepot.this.listeUnitee);
-                    MarchandiseModeleDepot.this.listeUnitee = temp;
+                    AlimentaireModeleDepot.this.listeUnitee =
+                            gson.fromJson(response.body().charStream(), type);
+                    temp.addAll(AlimentaireModeleDepot.this.listeUnitee);
+                    AlimentaireModeleDepot.this.listeUnitee = temp;
                     Log.d(TAG,
                           "Liste type alimentaire: " +
-                          MarchandiseModeleDepot.this.listeUnitee.toString()
+                          AlimentaireModeleDepot.this.listeUnitee.toString()
                          );
                 }
             }
@@ -89,17 +90,17 @@ public class MarchandiseModeleDepot extends BaseModeleDepot<MarchandiseModele> {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                 } else {
-                    String json = response.body().string();
                     Type type = new TypeToken<ArrayList<DescriptionModel>>() { }.getType();
                     // Ajouter un String "Faites votre choix..." à l'indice 0
                     ArrayList<DescriptionModel> temp = new ArrayList<DescriptionModel>();
                     temp.add(new DescriptionModel());
-                    MarchandiseModeleDepot.this.listeTypeAlimentaire = gson.fromJson(json, type);
-                    temp.addAll(MarchandiseModeleDepot.this.listeTypeAlimentaire);
-                    MarchandiseModeleDepot.this.listeTypeAlimentaire = temp;
+                    AlimentaireModeleDepot.this.listeTypeAlimentaire =
+                            gson.fromJson(response.body().charStream(), type);
+                    temp.addAll(AlimentaireModeleDepot.this.listeTypeAlimentaire);
+                    AlimentaireModeleDepot.this.listeTypeAlimentaire = temp;
                     Log.d(TAG,
                           "Liste type alimentaire: " +
-                          MarchandiseModeleDepot.this.listeTypeAlimentaire.toString()
+                          AlimentaireModeleDepot.this.listeTypeAlimentaire.toString()
                          );
                 }
             }

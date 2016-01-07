@@ -1,7 +1,9 @@
 package com.pam.codenamehippie.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -23,12 +25,14 @@ public class HippieActivity extends AppCompatActivity {
 
     protected Authentificateur authentificateur;
     protected OkHttpClient httpClient;
+    protected SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
         this.authentificateur = ((Authentificateur) this.httpClient.getAuthenticator());
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     @Override
