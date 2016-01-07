@@ -19,6 +19,7 @@ public class MainActivity extends HippieActivity {
                 ((HippieApplication) this.getApplication()).getMarchandiseModeleDepot();
         marchandiseModeleDepot.peuplerLesListes();
 
+        //style temporairement appliquer en Java avant l'implémentation du theme et des styles
         Typeface typeface = Typeface.createFromAsset(getAssets(), "opensans_regular.ttf");
         ((TextView) findViewById(R.id.textView5)).setTypeface(typeface);
         ((TextView) findViewById(R.id.textView10)).setTypeface(typeface);
@@ -29,6 +30,13 @@ public class MainActivity extends HippieActivity {
         ((TextView) findViewById(R.id.textView11)).setTypeface(typeface2);
         ((TextView) findViewById(R.id.textView13)).setTypeface(typeface2);
         ((TextView) findViewById(R.id.textView15)).setTypeface(typeface2);
+        ((TextView) findViewById(R.id.textView8)).setTypeface(typeface2);
+        ((TextView) findViewById(R.id.textView9)).setTypeface(typeface2);
+        ((TextView) findViewById(R.id.textView12)).setTypeface(typeface2);
+        ((TextView) findViewById(R.id.textView14)).setTypeface(typeface2);
+        ((TextView) findViewById(R.id.textView16)).setTypeface(typeface2);
+        ((TextView) findViewById(R.id.textView18)).setTypeface(typeface2);
+        ((TextView) findViewById(R.id.textView6)).setTypeface(typeface2);
 
     }
 }
