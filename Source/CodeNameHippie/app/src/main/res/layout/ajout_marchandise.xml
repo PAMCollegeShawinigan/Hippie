@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#737272"
+    android:fillViewport="false"
+    android:focusableInTouchMode="false"
+    android:scrollIndicators="left|top">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:scrollIndicators="top"
+        tools:context="com.pam.codenamehippie.ui.Register"
+        tools:showIn="@layout/activity_register">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingLeft="40dp">
+
+
+            <TextView
+                android:id="@+id/tvAjoutMarchandise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AJOUT DE MARCHANDISE"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="30sp"
+                android:textColor="#A1CC39" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:textSize="20sp"
+                android:text="Nom"
+                android:textColor="#ffffff"
+                android:id="@+id/tvNomMarchandise" />
+
+            <EditText
+                android:id="@+id/etNomMarchandise"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/element"
+                android:hint="NOM"
+                android:padding="10dp"
+                android:textColorHint="#c6c6c6"
+                android:nextFocusForward="@+id/etDescMarchandise"
+                android:inputType="textCapCharacters"
+                android:maxLength="50" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:textSize="20sp"
+                android:text="Description"
+                android:textColor="#ffffff"
+                android:id="@+id/tvDescMarchandise" />
+
+            <EditText
+                android:id="@+id/etDescMarchandise"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/element"
+                android:hint="DESCRIPTION"
+                android:padding="10dp"
+                android:textColorHint="#c6c6c6"
+                android:nextFocusForward="@+id/etQteeMarchandise"
+                android:inputType="textCapCharacters"
+                android:maxLength="100" />
+
+            <TextView
+                android:id="@+id/tvQteeMarchandise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:textSize="20sp"
+                android:text="Quantitées"
+                android:textColor="#ffffff" />
+
+            <EditText
+                android:id="@+id/etQteeMarchandise"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/element"
+                android:hint="QUANTITÉES"
+                android:padding="10dp"
+                android:textColorHint="#c6c6c6"
+                android:nextFocusForward="@+id/etUniteMarchandise"
+                android:maxLength="13"
+                android:numeric="decimal"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="Unité"
+                android:textSize="20sp"
+                android:textColorHint="#c6c6c6"
+                android:textColor="#ffffff"
+                android:id="@+id/tvUniteMarchandise" />
+
+            <Spinner
+                android:id="@+id/spinnerUniteMarchandise"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:entries="@array/UniteMarchandiseListe"
+                android:background="@drawable/element"
+                android:nextFocusForward="@+id/etValeurMarchandise"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:textSize="20sp"
+                android:text="Valeur"
+                android:textColor="#ffffff"
+                android:id="@+id/tvValeurMarchandise" />
+
+            <EditText
+                android:id="@+id/etValeurMarchandise"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/element"
+                android:hint="VALEUR"
+                android:padding="10dp"
+                android:textColorHint="#c6c6c6"
+                android:nextFocusForward="@+id/etTypeMarchandise"
+                android:inputType="number"
+                android:numeric="integer" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:textSize="20sp"
+                android:text="Type alimentaire"
+                android:textColor="#ffffff"
+                android:id="@+id/tvTypeMarchandise" />
+
+            <Spinner
+                android:id="@+id/spinnerTypeMarchandise"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+
+                android:background="@drawable/element"
+                android:imeOptions="actionDone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:textSize="20sp"
+                android:text="Date de péremption"
+                android:textColor="#ffffff"
+                android:id="@+id/tvDatePeremption" />
+
+
+            <DatePicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/datePicker"
+                android:layout_gravity="center_horizontal"/>
+
+            <Button
+                android:id="@+id/bAjoutMarchandise"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/button"
+                android:text="Ajouter" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

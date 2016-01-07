@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TriangleLayout">
+        <attr name="triangleBackground" format="integer" />
+        <attr name="firstChildPosition">
+            <enum name="East" value="0" />
+            <enum name="South" value="90" />
+            <enum name="West" value="180" />
+            <enum name="North" value="270" />
+        </attr>
+        <attr name="isRotating" format="boolean" />
+        <attr name="speed" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="TriangleImageView">
+        <attr name="name" format="string" />
+    </declare-styleable>
+    <declare-styleable name="CustomFontTextView">
+        <attr name="font" format="string"/>
+    </declare-styleable>
+</resources>
