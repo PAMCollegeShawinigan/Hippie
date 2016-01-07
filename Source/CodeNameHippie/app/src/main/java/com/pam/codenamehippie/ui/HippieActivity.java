@@ -61,6 +61,11 @@ public class HippieActivity extends AppCompatActivity {
             case R.id.ajoutMarchandise:
                 this.startActivity(new Intent(this, AjoutMarchandiseActivity.class));
                 return true;
+            case R.id.info:
+                if (!this.getClass().equals(MainActivity.class)) {
+                    this.startActivity(new Intent(this, MainActivity.class));
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -81,6 +86,7 @@ public class HippieActivity extends AppCompatActivity {
         if (toolbar != null) {
             this.setSupportActionBar(toolbar);
             this.getSupportActionBar().setLogo(R.drawable.logo);
+            this.getSupportActionBar().setDisplayUseLogoEnabled(true);
             this.getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
     }
