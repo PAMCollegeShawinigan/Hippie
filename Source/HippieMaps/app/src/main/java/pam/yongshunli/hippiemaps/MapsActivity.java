@@ -1,22 +1,16 @@
 package pam.yongshunli.hippiemaps;
 
-import android.content.Context;
-import android.database.DataSetObserver;
 import android.graphics.Color;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -28,13 +22,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ExpandableListView.OnGroupClickListener {
-
+    private SlidingUpPanelLayout slidingLayout;
     private ArrayList<Entreprise> listEntreprise;
     private ExpandableListView expandableListView;
     private int ordre;
@@ -49,7 +44,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps_plus);
+        slidingLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
+        final FrameLayout mapView=(FrameLayout)findViewById(R.id.mapView);
+        slidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener(){
+            @Override
+            public void onPanelSlide(View view, float v) {
 
+
+            }
+
+            @Override
+            public void onPanelCollapsed(View view) {
+                mapView.setVisibility(View.VISIBLE);
+//expandableListView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPanelExpanded(View view) {
+                mapView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onPanelAnchored(View view) {
+
+            }
+
+            @Override
+            public void onPanelHidden(View view) {
+
+            }
+        });
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -57,8 +81,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //preparer les donnees pour tester
         prepareDonnees();
-
-
     }
 
     /**
@@ -79,7 +101,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         listLatLng.add(troisriviereLatLng);
         listLatLng.add(jolietteLatLng);
         listLatLng.add(victoriavilleLatLng);
-
 
         // preparer des entreprise et leurs liste denrees
         ArrayList<Denree> listDenree1 = new ArrayList<Denree>();
@@ -554,7 +575,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
      //  mMap.moveCamera(CameraUpdateFactory.newLatLng(shawiniganLatLng));
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
-        //configurer le listener pour group de l'expandablelistview
+        //mettre le listener pour group de l'expandablelistview
         expandableListView.setOnGroupClickListener(this);
     }
 
@@ -567,5 +588,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
        return  false;
     }
+
+
 }
 
