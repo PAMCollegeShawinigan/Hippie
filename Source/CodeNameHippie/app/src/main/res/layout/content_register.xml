@@ -36,7 +36,8 @@
 				android:paddingTop="10dp"
 				android:text="Nom"
 				android:textColor="#ffffff"
-				android:textSize="20sp" />
+				android:textSize="20sp"
+				android:layout_gravity="center_horizontal|left" />
 			<EditText
 				android:id="@+id/etInscriptionNom"
 				android:layout_width="300dp"
