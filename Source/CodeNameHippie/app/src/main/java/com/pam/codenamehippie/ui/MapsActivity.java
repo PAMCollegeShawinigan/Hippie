@@ -22,6 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.ui.HippieActivity;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
