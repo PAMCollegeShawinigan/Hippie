@@ -4,6 +4,7 @@ package com.pam.codenamehippie.controleur.validation;
  * Interface pour les classes de validation d'entrée.
  */
 public interface Validateur {
+    
 
     /**
      * Methode pour vérifier si les champ du validateurs sont valide et
