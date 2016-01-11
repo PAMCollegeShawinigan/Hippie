@@ -136,6 +136,7 @@
             android:text="Nous sommes Étudiants, mais nous sommes aussi « Carrément Panda », et Entrepreneurs et surtout, nous sommes Shawinigan tout comme vous l’êtes. Issus d’une génération où l’environnement, le recyclage et le partage sont des priorités afin d’accéder à une meilleure qualité de vie, nous croyons en un monde meilleur, une communauté meilleure, et dirigeons nos efforts dans ce sens. L’action sociale et communautaire peut être compatible avec la technologie et faciliter tous les acteurs concernés. Notre projet d’entreprenariat étudiant en est une preuve, malgré toutes les embuches que nous rencontrons chaque jour, et que nous rencontrerons à l’avenir. Il est important de développer et d’encourager l’entreprenariat, de soutenir les entrepreneurs dans leurs démarches, et le DigiHub est un pionnier en ce sens. Vos efforts et votre dynamisme en valent la peine, continuez à travailler pour améliorer le monde qui vous entoure. "
             android:id="@+id/textView18"
             android:textSize="20dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"/>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

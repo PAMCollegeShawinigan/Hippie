@@ -16,10 +16,6 @@ public class MainActivity extends HippieActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
-
-        MarchandiseModeleDepot marchandiseModeleDepot =
-                ((HippieApplication) this.getApplication()).getMarchandiseModeleDepot();
-        marchandiseModeleDepot.peuplerLesListes();
         
         Typeface typeface = Typeface.createFromAsset(getAssets(), "opensans_regular.ttf");
         ((TextView) findViewById(R.id.textView5)).setTypeface(typeface);
