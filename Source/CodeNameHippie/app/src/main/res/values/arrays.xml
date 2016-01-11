@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="UniteMarchandiseListe">
+        <item>Choisir unité... </item>
+        <item>Lbs</item>
+        <item>Kg</item>
+        <item>Unité(s)</item>
+        <item>Ml</item>
+        <item>L</item>
+        <item>Oz</item>
+    </string-array>
+
+    <string-array name="TypeMarchandiseListe">
+        <item>Choisir département...</item>
+        <item>Fruits et Légumes</item>
+        <item>Produits laitiers</item>
+        <item>Viandes</item>
+        <item>Surgelés</item>
+        <item>Non Périssable</item>
+        <item>Viandes</item>
+    </string-array>
+</resources>
