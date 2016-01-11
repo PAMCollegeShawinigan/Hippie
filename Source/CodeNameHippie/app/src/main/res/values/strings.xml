@@ -25,4 +25,5 @@
 	<string name="title_activity_maps">Carte</string>
 	<string name="title_activity_maps2">Map</string>
 	<string name="error_bad_credentials">This email and password combo do not match anything in our records. Please check your password or register if you don\'t have an account.</string>
+
 </resources>
