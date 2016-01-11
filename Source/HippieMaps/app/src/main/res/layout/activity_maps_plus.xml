@@ -19,7 +19,7 @@
         sothree:umanoShadowHeight="4dp">
 
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/mapView">
@@ -31,7 +31,22 @@
                 android:layout_height="match_parent"
                 tools:context=".MapsActivity" />
 
-        </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/marchandise_reservees"
+                android:id="@+id/button"
+                android:layout_gravity="right|center_vertical" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/marchandise_disponible"
+                android:id="@+id/button3"
+                android:layout_gravity="right|top" />
+
+
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

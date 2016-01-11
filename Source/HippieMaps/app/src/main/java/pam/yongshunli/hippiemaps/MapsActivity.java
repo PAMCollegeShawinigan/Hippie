@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -44,7 +45,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps_plus);
         slidingLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
-        final LinearLayout mapView=(LinearLayout)findViewById(R.id.mapView);
+        final FrameLayout mapView=(FrameLayout)findViewById(R.id.mapView);
         slidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener(){
             @Override
             public void onPanelSlide(View view, float v) {
