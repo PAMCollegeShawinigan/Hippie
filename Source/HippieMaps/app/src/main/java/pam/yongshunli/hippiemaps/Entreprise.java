@@ -16,7 +16,7 @@ public class Entreprise {
     private String nomEntreprise;
     private String addresse;
     Address add;
-    private HashMap<String,String> mapCollectTime;
+    private HashMap<String, String> mapCollectTime;
     private String telephone;
     private ArrayList<Denree> listDenree;
 
@@ -34,16 +34,17 @@ public class Entreprise {
         this.mapCollectTime = mapCollectTime;
     }
 
-    public Entreprise(String nomEntreprise, String addresse,LatLng mLatLng, HashMap<String,String> mapCollectTime, String telephone, ArrayList<Denree> listDenree) {
+    public Entreprise(String nomEntreprise, String addresse, LatLng mLatLng, HashMap<String, String> mapCollectTime, String telephone, ArrayList<Denree> listDenree) {
         this.nomEntreprise = nomEntreprise;
         this.addresse = addresse;
-        this.mLatLng=mLatLng;;
+        this.mLatLng = mLatLng;
+        ;
         this.mapCollectTime = mapCollectTime;
         this.telephone = telephone;
         this.listDenree = listDenree;
     }
 
-    public HashMap<String,String> getMapCollectTime() {
+    public HashMap<String, String> getMapCollectTime() {
         return mapCollectTime;
     }
 
