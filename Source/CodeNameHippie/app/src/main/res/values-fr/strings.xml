@@ -38,9 +38,10 @@
 	<string name="title_activity_login">Connexion</string>
 	<string name="title_activity_preference">Préférences</string>
 	<string name="title_activity_register">Enregistrement</string>
-	<string name="message_welcome">Bienvenue $1s</string>
+	<string name="message_welcome">Bienvenue %1$s</string>
 	<string name="action_sign_out">Se déconnecter</string>
 	<string name="error_connection">Échec de connexion</string>
 	<string name="error_confirm_password">Ce mot de passe ne correspond pas a celui entré</string>
 	<string name="error_field_too_long">Le contenu de ce champ est trop long</string>
+	<string name="error_bad_credentials">Cette combinaison de courriel et mot de passe n\'existe pas dans nos archives. Veuillez vérifier votre mot de passe ou vous enregistrer vous si vous n\'avez pas de compte.</string>
 </resources>

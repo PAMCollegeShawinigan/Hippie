@@ -3,17 +3,22 @@ package com.pam.codenamehippie.modele;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Créé par Carl St-Louis le 23-11-2015.
+ * Classe de base pour toutes les types de marchandises.
+ *
+ * @param <T>
+ *         La classe qui hérite de marchandise modèle.
+ *
+ * @see BaseModele
  */
-public class MarchandiseModele extends BaseModele {
+public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends BaseModele<T> {
 
     @SerializedName("nom")
     private String nom;
-    @SerializedName("description")
+    @SerializedName(value = "description", alternate = {"description_alimentaire"})
     private String description;
     @SerializedName("quantite")
     private Double quantite;
-    @SerializedName("etat")
+    @SerializedName("marchandise_etat")
     private String etat;
     @SerializedName("valeur")
     private Integer valeur;
@@ -24,54 +29,60 @@ public class MarchandiseModele extends BaseModele {
         return this.nom;
     }
 
-    public MarchandiseModele setNom(String nom) {
+    @SuppressWarnings(value = {"unchecked"})
+    public T setNom(String nom) {
         this.nom = nom;
-        return this;
+        return (T) this;
     }
 
     public String getDescription() {
         return this.description;
     }
 
-    public MarchandiseModele setDescription(String description) {
+    @SuppressWarnings(value = {"unchecked"})
+    public T setDescription(String description) {
         this.description = description;
-        return this;
+        return (T) this;
     }
 
     public Double getQuantite() {
         return this.quantite;
     }
 
-    public MarchandiseModele setQuantite(Double quantite) {
+    @SuppressWarnings(value = {"unchecked"})
+    public T setQuantite(Double quantite) {
         this.quantite = quantite;
-        return this;
+        return (T) this;
     }
 
     public String getEtat() {
         return this.etat;
     }
 
-    public MarchandiseModele setEtat(String etat) {
+    @SuppressWarnings(value = {"unchecked"})
+    public T setEtat(String etat) {
         this.etat = etat;
-        return this;
+        return (T) this;
     }
 
     public Integer getValeur() {
         return this.valeur;
     }
 
-    public MarchandiseModele setValeur(Integer valeur) {
+    @SuppressWarnings(value = {"unchecked"})
+    public T setValeur(Integer valeur) {
         this.valeur = valeur;
-        return this;
+        return (T) this;
     }
 
     public String getStatut() {
         return this.statut;
     }
 
-    public MarchandiseModele setStatut(String statut) {
+    @SuppressWarnings(value = {"unchecked"})
+    public T setStatut(String statut) {
         this.statut = statut;
-        return this;
+        return (T) this;
     }
 
 }

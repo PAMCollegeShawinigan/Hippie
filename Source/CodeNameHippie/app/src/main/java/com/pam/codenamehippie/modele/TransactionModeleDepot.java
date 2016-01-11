@@ -1,5 +1,7 @@
 package com.pam.codenamehippie.modele;
 
+import android.content.Context;
+
 import com.squareup.okhttp.OkHttpClient;
 
 /**
@@ -8,10 +10,10 @@ import com.squareup.okhttp.OkHttpClient;
 public class TransactionModeleDepot extends BaseModeleDepot<TransactionModele> {
 
     /**
-     * Contruction du dépot pour modèle Transaction
+     * Construction du dépot pour modèle Transaction
      */
-    public TransactionModeleDepot(OkHttpClient httpClient) {
-        super(httpClient);
+    public TransactionModeleDepot(Context context, OkHttpClient httpClient) {
+        super(context, httpClient);
         this.url = this.url.newBuilder().addPathSegment("transaction").build();
     }
 
@@ -39,7 +41,8 @@ public class TransactionModeleDepot extends BaseModeleDepot<TransactionModele> {
 //     * @param json
 //     *   de l'objet TransactionModele
 //     *
-//     * @return une nouvelle instance de TransactionModele vide ou null si la transaction existe déjà
+//     * @return une nouvelle instance de TransactionModele vide ou null si la transaction existe
+// déjà
 //     */
 //    @Override
 //    public TransactionModele ajouterModele(String json) {

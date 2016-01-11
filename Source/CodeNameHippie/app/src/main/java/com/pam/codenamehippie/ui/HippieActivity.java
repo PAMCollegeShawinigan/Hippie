@@ -1,7 +1,9 @@
 package com.pam.codenamehippie.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -23,12 +25,14 @@ public class HippieActivity extends AppCompatActivity {
 
     protected Authentificateur authentificateur;
     protected OkHttpClient httpClient;
+    protected SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
         this.authentificateur = ((Authentificateur) this.httpClient.getAuthenticator());
+        this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     @Override
@@ -61,6 +65,11 @@ public class HippieActivity extends AppCompatActivity {
             case R.id.ajoutMarchandise:
                 this.startActivity(new Intent(this, AjoutMarchandiseActivity.class));
                 return true;
+            case R.id.info:
+                if (!this.getClass().equals(MainActivity.class)) {
+                    this.startActivity(new Intent(this, MainActivity.class));
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -80,6 +89,9 @@ public class HippieActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
         if (toolbar != null) {
             this.setSupportActionBar(toolbar);
+            this.getSupportActionBar().setLogo(R.drawable.logo);
+            this.getSupportActionBar().setDisplayUseLogoEnabled(true);
+            this.getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
     }
 }

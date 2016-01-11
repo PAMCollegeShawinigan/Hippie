@@ -1,8 +1,8 @@
 package com.pam.codenamehippie.ui;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -12,28 +12,43 @@ import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.controleur.validation.Validateur;
 import com.pam.codenamehippie.controleur.validation.ValidateurDeChampTexte;
+import com.pam.codenamehippie.controleur.validation.ValidateurDeSpinner;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
-import com.pam.codenamehippie.modele.MarchandiseModeleDepot;
+import com.pam.codenamehippie.modele.AlimentaireModele;
+import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.DescriptionModel;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.HttpUrl;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
+import java.util.Calendar;
 
 public class AjoutMarchandiseActivity extends HippieActivity
-        implements ValidateurObserver, AdapterView.OnItemSelectedListener {
+        implements ValidateurObserver {
 
     private ValidateurDeChampTexte validateurNom;
-    private Boolean nomEstValide;
+    private boolean nomEstValide;
     private ValidateurDeChampTexte validateurDescription;
-    private Boolean descriptionEstValide;
+    private boolean descriptionEstValide;
     private ValidateurDeChampTexte validateurQuantite;
-    private Boolean quantiteEstValide;
+    private boolean quantiteEstValide;
     private ValidateurDeChampTexte validateurValeur;
-    private Boolean valeurEstValide;
-    private Spinner spinnerUniteMarchandise;
-    private Spinner spinnerTypeMarchandise;
+    private boolean valeurEstValide;
+    private ValidateurDeSpinner validateurSpinnerUniteMarchandise;
+    private ValidateurDeSpinner validateurSpinnerTypeMarchandise;
     private DatePicker datePeremption;
     private Button bAjoutMarchandise;
-    private Boolean spinnerUniteMarchandiseEstValide;
-    private Boolean spinnerTypeMarchandiseEstValide;
-    private Boolean datePeremptionEstValide;
+    private boolean spinnerUniteMarchandiseEstValide;
+    private boolean spinnerTypeMarchandiseEstValide;
+    private boolean datePeremptionEstValide;
+
+    // Id de l'organisme dont l'utilisateur est membre.
+    private Integer organismeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +83,17 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                                            .QUANTITE_ALIMENTAIRE_LONGUEUR_MAX
                                                   );
         this.validateurQuantite.registerObserver(this);
-        this.spinnerUniteMarchandise = (Spinner) this.findViewById(R.id.spinnerUniteMarchandise);
-        //TODO: Plugger les données du service WEB
-        MarchandiseModeleDepot marchandiseModeleDepot =
-                ((HippieApplication) this.getApplication()).getMarchandiseModeleDepot();
 
+        Spinner spinnerUniteMarchandise = (Spinner) this.findViewById(R.id.spinnerUniteMarchandise);
+        this.validateurSpinnerUniteMarchandise =
+                ValidateurDeSpinner.newInstance(spinnerUniteMarchandise);
+        this.validateurSpinnerUniteMarchandise.registerObserver(this);
+        AlimentaireModeleDepot alimentaireModeleDepot =
+                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         HippieSpinnerAdapter uniteAdapter =
-                new HippieSpinnerAdapter(this, marchandiseModeleDepot.getListeUnitee());
-        this.spinnerUniteMarchandise.setAdapter(uniteAdapter);
+                new HippieSpinnerAdapter(this, alimentaireModeleDepot.getListeUnitee());
+        spinnerUniteMarchandise.setAdapter(uniteAdapter);
+
         EditText etValeurMarchandise = (EditText) this.findViewById(R.id.etValeurMarchandise);
         this.validateurValeur =
                 ValidateurDeChampTexte.newInstance(this,
@@ -85,13 +103,22 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                                            .VALEUR_ALIMENTAIRE_LONGUEUR_MAX
                                                   );
         this.validateurValeur.registerObserver(this);
-        this.spinnerTypeMarchandise = (Spinner) this.findViewById(R.id.spinnerTypeMarchandise);
-        //TODO: Plugger les données du WEB
+
+        Spinner spinnerTypeMarchandise = (Spinner) this.findViewById(R.id.spinnerTypeMarchandise);
+        this.validateurSpinnerTypeMarchandise =
+                ValidateurDeSpinner.newInstance(spinnerTypeMarchandise);
+        this.validateurSpinnerTypeMarchandise.registerObserver(this);
         HippieSpinnerAdapter typeAdapter =
-                new HippieSpinnerAdapter(this, marchandiseModeleDepot.getListeTypeAlimentaire());
-        this.spinnerTypeMarchandise.setAdapter(typeAdapter);
+                new HippieSpinnerAdapter(this, alimentaireModeleDepot.getListeTypeAlimentaire());
+        spinnerTypeMarchandise.setAdapter(typeAdapter);
+
         this.datePeremption = (DatePicker) this.findViewById(R.id.datePicker);
+        // Set la date minimale du date picker au moment présent.
         this.bAjoutMarchandise = (Button) this.findViewById(R.id.bAjoutMarchandise);
+        // Retrouve l'organisme id de shared pref. -1 signifie qu'il n'y a pas d'organisme.
+        this.organismeId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
+                                                         -1
+                                                        );
 
     }
 
@@ -102,6 +129,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurDescription.onPause();
         this.validateurQuantite.onPause();
         this.validateurValeur.onPause();
+        this.validateurSpinnerUniteMarchandise.onPause();
+        this.validateurSpinnerTypeMarchandise.onPause();
     }
 
     @Override
@@ -111,6 +140,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurDescription.onResume();
         this.validateurQuantite.onResume();
         this.validateurValeur.onResume();
+        this.validateurSpinnerUniteMarchandise.onResume();
+        this.validateurSpinnerTypeMarchandise.onResume();
     }
 
     @Override
@@ -123,11 +154,14 @@ public class AjoutMarchandiseActivity extends HippieActivity
             this.quantiteEstValide = estValide;
         } else if (validateur.equals(this.validateurValeur)) {
             this.valeurEstValide = estValide;
-        } else if (this.spinnerUniteMarchandise.getSelectedItemId() != 0) {
+        } else if (validateur.equals(this.validateurSpinnerUniteMarchandise)) {
             this.spinnerUniteMarchandiseEstValide = estValide;
-        } else if (this.spinnerTypeMarchandise.getSelectedItemId() != 0) {
+        } else if (validateur.equals(this.validateurSpinnerTypeMarchandise)) {
             this.spinnerTypeMarchandiseEstValide = estValide;
         }
+        // Check si on fait parti d'un organisme...
+        // FIXME: Ce check devrait etre fait au serveur.
+        boolean hasOrganismeid = (this.organismeId != -1);
         //TODO: Valider datePeremption si egal date du jour mettre datePeremption à null sinon
         // convertir au bon format et mettre datePeremptionEstValide = estValide
         this.bAjoutMarchandise.setEnabled(this.nomEstValide &&
@@ -135,17 +169,98 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                           this.quantiteEstValide &&
                                           this.valeurEstValide &&
                                           this.spinnerUniteMarchandiseEstValide &&
-                                          this.spinnerTypeMarchandiseEstValide);
+                                          this.spinnerTypeMarchandiseEstValide &&
+                                          hasOrganismeid);
 
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public void soumettreMarchandise(final View v) {
+        //TODO: soumettre la marchandise au serveur selon les paramètres TransactionModele
+        Calendar date = Calendar.getInstance();
+        date.set(this.datePeremption.getYear(),
+                 this.datePeremption.getMonth(),
+                 this.datePeremption.getDayOfMonth()
+                );
+        DescriptionModel typeAlimentaire =
+                ((DescriptionModel) this.validateurSpinnerTypeMarchandise.getSelectedItem());
+        AlimentaireModele modele =
+                new AlimentaireModele().setNom(this.validateurNom.getTextString())
+                                       .setDescription(this.validateurDescription.getTextString())
+                                       .setValeur(Integer.valueOf(this.validateurValeur
+                                                                          .getTextString()))
+                                       .setTypeAlimentaire(typeAlimentaire.getDescription())
+                                       .setQteeUnite(Double.valueOf(this.validateurQuantite
+                                                                            .getTextString()))
+                                       .setDatePeremption(date.getTime());
+        String typeAlimentaireId =
+                String.valueOf(this.validateurSpinnerTypeMarchandise.getSelectedItemId());
+        String marchandiseUniteId =
+                String.valueOf(this.validateurSpinnerUniteMarchandise.getSelectedItemId());
+        // Converti la date en timestamp php.
+        String dateTimeStamp = String.valueOf(modele.getDatePeremption().getTime() / 1000L);
+        AlimentaireModeleDepot depot =
+                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
 
-    }
+        HttpUrl url = depot.getUrl().newBuilder().addPathSegment("ajout").build();
+        // FIXME: Gérer l'état de marchandise. On mets 3(neuf) en attendant
+        RequestBody body =
+                new FormEncodingBuilder().add("description_alimentaire", modele.getDescription())
+                                         .add("nom", modele.getNom())
+                                         .add("quantite", modele.getQteeUnite().toString())
+                                         .add("valeur", modele.getValeur().toString())
+                                         .add("type_alimentaire", typeAlimentaireId)
+                                         .add("marchandise_unite", marchandiseUniteId)
+                                         .add("marchandise_etat", "3")
+                                         .add("date_peremption", dateTimeStamp)
+                                         .add("donneur_id", this.organismeId.toString())
+                                         .build();
+        Request request = new Request.Builder().url(url).post(body).build();
+        this.httpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+            }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+            @Override
+            public void onResponse(final Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    switch (response.code()) {
+                        default:
+                            AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Snackbar.make(v,
+                                                  R.string.error_connection,
+                                                  Snackbar.LENGTH_SHORT
+                                                 )
+                                            .show();
+                                }
+                            });
+                            break;
+                    }
+                } else {
+                    AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Snackbar.make(v,
+                                              response.body().string(),
+                                              Snackbar.LENGTH_SHORT
+                                             )
+                                        .show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }
+        });
 
     }
 }

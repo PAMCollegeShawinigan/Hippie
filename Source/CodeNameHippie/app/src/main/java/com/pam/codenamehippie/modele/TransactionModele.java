@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Créé par Carl St-Louis le 23-11-2015.
  */
-public class TransactionModele extends BaseModele {
+public class TransactionModele extends BaseModele<TransactionModele> {
 
     @SerializedName("receveur_id")
     private OrganismeModele idReceveur;
