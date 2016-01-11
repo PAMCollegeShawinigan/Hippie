@@ -49,17 +49,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onPanelSlide(View view, float v) {
 
-mapView.setVisibility(View.GONE);
+
             }
 
             @Override
             public void onPanelCollapsed(View view) {
-expandableListView.setVisibility(View.VISIBLE);
+                mapView.setVisibility(View.VISIBLE);
+//expandableListView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onPanelExpanded(View view) {
-
+                mapView.setVisibility(View.GONE);
             }
 
             @Override
@@ -587,33 +588,6 @@ expandableListView.setVisibility(View.VISIBLE);
        return  false;
     }
 
-//    private SlidingUpPanelLayout.PanelSlideListener onSlideListener() {
-//        return new SlidingUpPanelLayout.PanelSlideListener() {
-//            @Override
-//            public void onPanelSlide(View view, float v) {
-//
-//            }
-//
-//            @Override
-//            public void onPanelCollapsed(View view) {
-//
-//            }
-//
-//            @Override
-//            public void onPanelExpanded(View view) {
-//
-//            }
-//
-//            @Override
-//            public void onPanelAnchored(View view) {
-//
-//            }
-//
-//            @Override
-//            public void onPanelHidden(View view) {
-//
-//            }
-//        };
-//    }
+
 }
 
