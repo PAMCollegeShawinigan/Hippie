@@ -21,7 +21,9 @@ import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.DescriptionModel;
+import com.pam.codenamehippie.modele.TypeAlimentaireModele;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
+import com.pam.codenamehippie.ui.adapter.TypeAlimentaireModeleSpinnerAdapter;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.HttpUrl;
@@ -116,8 +118,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurSpinnerTypeMarchandise =
                 ValidateurDeSpinner.newInstance(spinnerTypeMarchandise);
         this.validateurSpinnerTypeMarchandise.registerObserver(this);
-        HippieSpinnerAdapter typeAdapter =
-                new HippieSpinnerAdapter(this, alimentaireModeleDepot.getListeTypeAlimentaire());
+        TypeAlimentaireModeleSpinnerAdapter typeAdapter =
+                new TypeAlimentaireModeleSpinnerAdapter(this, alimentaireModeleDepot.getListeTypeAlimentaire());
         spinnerTypeMarchandise.setAdapter(typeAdapter);
         // Ajout pour test
         this.tvDatePeremption = (TextView) this.findViewById(R.id.tvDatePeremption);
@@ -168,13 +170,13 @@ public class AjoutMarchandiseActivity extends HippieActivity
         } else if (validateur.equals(this.validateurSpinnerTypeMarchandise)) {
             // Mettre invisible le DatePicker si non perissable ou surgele
             // pour la date de péremption
-            if (validateurSpinnerTypeMarchandise.getSelectedItemId() == 4 ||
-                    validateurSpinnerTypeMarchandise.getSelectedItemId() == 5) {
-                tvDatePeremption.setVisibility(View.GONE);
-                datePeremption.setVisibility(View.GONE);
+            // TODO: modifier pour condition true or false
+            if (((TypeAlimentaireModele) validateurSpinnerTypeMarchandise.getSelectedItem()).getEstPerissable()) {
+                tvDatePeremption.setVisibility(View.VISIBLE);
+                datePeremption.setVisibility(View.VISIBLE);
             } else {
-                this.tvDatePeremption.setVisibility(View.VISIBLE);
-                this.datePeremption.setVisibility(View.VISIBLE);
+                this.tvDatePeremption.setVisibility(View.GONE);
+                this.datePeremption.setVisibility(View.GONE);
             }
             this.spinnerTypeMarchandiseEstValide = estValide;
         }
