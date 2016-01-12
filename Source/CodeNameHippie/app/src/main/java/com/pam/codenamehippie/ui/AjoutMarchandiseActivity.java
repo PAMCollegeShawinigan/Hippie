@@ -33,6 +33,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/**
+ *  Cette classe permet à un donneur d'ajouter des produits à la base de données
+ *  via l'interface utilisateur. La date du jour sera utilisée comme date de disponibilité.
+ *  Si un produit n'a pas de date de péremption, la date sera mise à null du côté du serveur.
+ */
 public class AjoutMarchandiseActivity extends HippieActivity
         implements ValidateurObserver {
 
@@ -120,7 +125,6 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                                                 .getListeTypeAlimentaire()
                 );
         spinnerTypeMarchandise.setAdapter(typeAdapter);
-        // Ajout pour test
         this.tvDatePeremption = (TextView) this.findViewById(R.id.tvDatePeremption);
         this.datePeremption = (DatePicker) this.findViewById(R.id.datePicker);
         // Set la date minimale du date picker au moment présent.
@@ -154,6 +158,13 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurSpinnerTypeMarchandise.onResume();
     }
 
+    /**
+     * Méthode pour valider les différentes composantes de l'interface utilisateur selon
+     * le type de validation et les valeurs inscrites.
+     *
+     * @param validateur Type de validateur. Ex: ValidateurDeChampTexte, ValidateurDeSpinner etc...
+     * @param estValide Retourne True or False selon la validation.
+     */
     @Override
     public void enValidatant(Validateur validateur, boolean estValide) {
         if (validateur.equals(this.validateurNom)) {
@@ -167,11 +178,9 @@ public class AjoutMarchandiseActivity extends HippieActivity
         } else if (validateur.equals(this.validateurSpinnerUniteMarchandise)) {
             this.spinnerUniteMarchandiseEstValide = estValide;
         } else if (validateur.equals(this.validateurSpinnerTypeMarchandise)) {
-            // Mettre invisible le DatePicker si non perissable ou surgele
-            // pour la date de péremption
-            // TODO: modifier pour condition true or false
+            // Mettre invisible le DatePicker si produit est non perissable
             if (((TypeAlimentaireModele) this.validateurSpinnerTypeMarchandise.getSelectedItem())
-                        .getEstPerissable()) {
+                        .getEstPerissable() || this.validateurSpinnerTypeMarchandise.getSelectedItemId() == 0) {
                 this.tvDatePeremption.setVisibility(View.VISIBLE);
                 this.datePeremption.setVisibility(View.VISIBLE);
             } else {
@@ -183,8 +192,9 @@ public class AjoutMarchandiseActivity extends HippieActivity
         // Check si on fait parti d'un organisme...
         // FIXME: Ce check devrait etre fait au serveur.
         boolean hasOrganismeid = (this.organismeId != -1);
-        //TODO: Valider datePeremption si egal date du jour mettre datePeremption à null sinon
-        // convertir au bon format et mettre datePeremptionEstValide = estValide
+
+        // Mettre le bouton pour ajouter la marchandise actif si tous les champs requis
+        // respecte les conditions des validateurs.
         this.bAjoutMarchandise.setEnabled(this.nomEstValide &&
                                           this.descriptionEstValide &&
                                           this.quantiteEstValide &&
@@ -192,9 +202,13 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                           this.spinnerUniteMarchandiseEstValide &&
                                           this.spinnerTypeMarchandiseEstValide &&
                                           hasOrganismeid);
-
     }
 
+    /**
+     * Méthode pour soumettre une requête afin d'ajouter un produit dans la base de données sur le
+     * serveur.
+     * @param v
+     */
     public void soumettreMarchandise(final View v) {
         //TODO: soumettre la marchandise au serveur selon les paramètres TransactionModele
         Calendar date = Calendar.getInstance();
@@ -218,12 +232,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
                 String.valueOf(this.validateurSpinnerTypeMarchandise.getSelectedItemId());
         String marchandiseUniteId =
                 String.valueOf(this.validateurSpinnerUniteMarchandise.getSelectedItemId());
-        // Converti la date en timestamp php.
-        // Ajouter condition si Spinner = non perissable ou surgele
-//        if (validateurSpinnerTypeMarchandise.getSelectedItemId() == 4 ||
-//                validateurSpinnerTypeMarchandise.getSelectedItemId() == 5){
-//
-//        }
+
         @SuppressLint("SimpleDateFormat")
         String dateString =
                 new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(modele.getDatePeremption());
@@ -295,7 +304,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
     }
 
     /**
-     * Méthode pour remettre les champs du formulaire vide
+     * Méthode pour réinitialiser les champs du formulaire.
      */
     private void effacerFormulaire() {
         this.validateurNom.setText(null);
@@ -304,8 +313,10 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurSpinnerUniteMarchandise.setSelectedItemId(0);
         this.validateurValeur.setText(null);
         this.validateurSpinnerTypeMarchandise.setSelectedItemId(0);
+        Calendar calendar = Calendar.getInstance();
+        datePeremption.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
         this.tvDatePeremption.setVisibility(View.VISIBLE);
         this.datePeremption.setVisibility(View.VISIBLE);
-
     }
 }
