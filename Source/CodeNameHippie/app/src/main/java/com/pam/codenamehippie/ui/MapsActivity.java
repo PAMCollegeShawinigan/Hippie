@@ -11,6 +11,7 @@ import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -47,7 +48,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps_plus);
         slidingLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
-        final FrameLayout mapView=(FrameLayout)findViewById(R.id.mapView);
+        final RelativeLayout mapView=(RelativeLayout)findViewById(R.id.mapView);
         slidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
 
             @Override
