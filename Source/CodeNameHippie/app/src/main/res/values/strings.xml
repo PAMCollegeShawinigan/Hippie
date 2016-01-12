@@ -32,7 +32,9 @@
 	<string name="md_peremption">MEILLEUR AVANT</string>
 	<string name="md_qtee">QTÉE</string>
 	<string name="md_nom">NOM</string>
-	<string name="res_peremption">res_peremption</string>
-	<string name="res_qtee">res_qtee</string>
+	<string name="res_reservation">DATE DE RÉSERVATION</string>
+	<string name="res_qtee">QTÉE</string>
+	<string name="res_nom">NOM</string>
+	<string name="tv_organisme_communautaire">LES ORGANISMES COMMUNAUTAIRES</string>
 
 </resources>

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 android:orientation="vertical"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
     <include layout="@layout/content_appbar_main"/>
 
     <LinearLayout
@@ -33,18 +35,17 @@
         <TextView
             android:layout_width="82dp"
             android:layout_height="35dp"
-            android:text="@string/res_peremption"
-            android:id="@+id/tv_res_peremption"
+            android:text="@string/res_reservation"
+            android:id="@+id/tv_res_reservation"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:layout_weight="0.06"/>
+            android:layout_weight="0.26"/>
 
     </LinearLayout>
 
     <ExpandableListView
         android:layout_width="match_parent"
         android:layout_height="505dp"
-        android:id="@+id/elv_reservation"
-        android:layout_weight="0.50"/>
+        android:id="@+id/elv_reservation" />
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
