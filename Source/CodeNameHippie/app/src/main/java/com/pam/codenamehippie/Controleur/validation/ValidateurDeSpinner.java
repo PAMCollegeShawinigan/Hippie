@@ -22,6 +22,12 @@ public class ValidateurDeSpinner extends Observable<ValidateurObserver>
         return new ValidateurDeSpinner(spinner);
     }
 
+    public void setSelectedItemId(long id) {
+        this.id = id;
+        this.spinner.setSelection((int)id,true);
+        this.notifierLesVoyeurs(this.estValide());
+    }
+
     public Spinner getSpinner() {
         return this.spinner;
     }
