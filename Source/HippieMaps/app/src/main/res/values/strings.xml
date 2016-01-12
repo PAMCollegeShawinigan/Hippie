@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">HippieMaps</string>
     <string name="title_activity_maps">Map</string>
+    <string name="marchandise_disponible">lister marchandise disponible</string>
+    <string name="marchandise_reservees">lister marchandise reservers</string>
 
 </resources>
