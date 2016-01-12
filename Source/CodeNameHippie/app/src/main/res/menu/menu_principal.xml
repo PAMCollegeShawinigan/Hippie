@@ -17,10 +17,9 @@
 
 	<item
 		android:id="@+id/info"
-		android:icon="@drawable/ic_info_black_24dp"
+		android:icon="@drawable/aide"
 		android:orderInCategory="1"
-		android:title="@string/info"
-		app:showAsAction="always" />
+		android:title="@string/info" />
 
 	<item
 		android:id="@+id/ajoutMarchandise"
