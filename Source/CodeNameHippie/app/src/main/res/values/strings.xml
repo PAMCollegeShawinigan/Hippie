@@ -32,5 +32,7 @@
 	<string name="md_peremption">MEILLEUR AVANT</string>
 	<string name="md_qtee">QTÉE</string>
 	<string name="md_nom">NOM</string>
+	<string name="res_peremption">res_peremption</string>
+	<string name="res_qtee">res_qtee</string>
 
 </resources>
