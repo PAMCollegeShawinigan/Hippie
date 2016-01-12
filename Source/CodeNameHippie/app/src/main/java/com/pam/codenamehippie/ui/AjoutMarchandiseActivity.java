@@ -2,11 +2,15 @@ package com.pam.codenamehippie.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
@@ -26,6 +30,8 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class AjoutMarchandiseActivity extends HippieActivity
@@ -46,6 +52,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
     private boolean spinnerUniteMarchandiseEstValide;
     private boolean spinnerTypeMarchandiseEstValide;
     private boolean datePeremptionEstValide;
+    private TextView tvDatePeremption;
+
 
     // Id de l'organisme dont l'utilisateur est membre.
     private Integer organismeId;
@@ -111,7 +119,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
         HippieSpinnerAdapter typeAdapter =
                 new HippieSpinnerAdapter(this, alimentaireModeleDepot.getListeTypeAlimentaire());
         spinnerTypeMarchandise.setAdapter(typeAdapter);
-
+        // Ajout pour test
+        this.tvDatePeremption = (TextView) this.findViewById(R.id.tvDatePeremption);
         this.datePeremption = (DatePicker) this.findViewById(R.id.datePicker);
         // Set la date minimale du date picker au moment présent.
         this.bAjoutMarchandise = (Button) this.findViewById(R.id.bAjoutMarchandise);
@@ -157,6 +166,16 @@ public class AjoutMarchandiseActivity extends HippieActivity
         } else if (validateur.equals(this.validateurSpinnerUniteMarchandise)) {
             this.spinnerUniteMarchandiseEstValide = estValide;
         } else if (validateur.equals(this.validateurSpinnerTypeMarchandise)) {
+            // Mettre invisible le DatePicker si non perissable ou surgele
+            // pour la date de péremption
+            if (validateurSpinnerTypeMarchandise.getSelectedItemId() == 4 ||
+                    validateurSpinnerTypeMarchandise.getSelectedItemId() == 5) {
+                tvDatePeremption.setVisibility(View.GONE);
+                datePeremption.setVisibility(View.GONE);
+            } else {
+                this.tvDatePeremption.setVisibility(View.VISIBLE);
+                this.datePeremption.setVisibility(View.VISIBLE);
+            }
             this.spinnerTypeMarchandiseEstValide = estValide;
         }
         // Check si on fait parti d'un organisme...
@@ -165,12 +184,12 @@ public class AjoutMarchandiseActivity extends HippieActivity
         //TODO: Valider datePeremption si egal date du jour mettre datePeremption à null sinon
         // convertir au bon format et mettre datePeremptionEstValide = estValide
         this.bAjoutMarchandise.setEnabled(this.nomEstValide &&
-                                          this.descriptionEstValide &&
-                                          this.quantiteEstValide &&
-                                          this.valeurEstValide &&
-                                          this.spinnerUniteMarchandiseEstValide &&
-                                          this.spinnerTypeMarchandiseEstValide &&
-                                          hasOrganismeid);
+                this.descriptionEstValide &&
+                this.quantiteEstValide &&
+                this.valeurEstValide &&
+                this.spinnerUniteMarchandiseEstValide &&
+                this.spinnerTypeMarchandiseEstValide &&
+                hasOrganismeid);
 
     }
 
@@ -178,9 +197,10 @@ public class AjoutMarchandiseActivity extends HippieActivity
         //TODO: soumettre la marchandise au serveur selon les paramètres TransactionModele
         Calendar date = Calendar.getInstance();
         date.set(this.datePeremption.getYear(),
-                 this.datePeremption.getMonth(),
-                 this.datePeremption.getDayOfMonth()
-                );
+                this.datePeremption.getMonth(),
+                this.datePeremption.getDayOfMonth()
+        );
+
         DescriptionModel typeAlimentaire =
                 ((DescriptionModel) this.validateurSpinnerTypeMarchandise.getSelectedItem());
         AlimentaireModele modele =
@@ -197,6 +217,11 @@ public class AjoutMarchandiseActivity extends HippieActivity
         String marchandiseUniteId =
                 String.valueOf(this.validateurSpinnerUniteMarchandise.getSelectedItemId());
         // Converti la date en timestamp php.
+        // Ajouter condition si Spinner = non perissable ou surgele
+//        if (validateurSpinnerTypeMarchandise.getSelectedItemId() == 4 ||
+//                validateurSpinnerTypeMarchandise.getSelectedItemId() == 5){
+//
+//        }
         String dateTimeStamp = String.valueOf(modele.getDatePeremption().getTime() / 1000L);
         AlimentaireModeleDepot depot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
@@ -235,9 +260,9 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                 @Override
                                 public void run() {
                                     Snackbar.make(v,
-                                                  R.string.error_connection,
-                                                  Snackbar.LENGTH_SHORT
-                                                 )
+                                            R.string.error_connection,
+                                            Snackbar.LENGTH_SHORT
+                                    )
                                             .show();
                                 }
                             });
@@ -247,20 +272,36 @@ public class AjoutMarchandiseActivity extends HippieActivity
                     AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                Snackbar.make(v,
-                                              response.body().string(),
-                                              Snackbar.LENGTH_SHORT
-                                             )
-                                        .show();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                            //  try {
+                            Snackbar.make(v,
+                                    "Ok, produit ajouté",
+                                    Snackbar.LENGTH_SHORT
+                            )
+                                    .show();
+                            effacerFormulaire();
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
                         }
                     });
                 }
             }
         });
+
+    }
+
+    /**
+     * Méthode pour remettre les champs du formulaire vide
+     */
+    private void effacerFormulaire() {
+        this.validateurNom.setText(null);
+        this.validateurDescription.setText(null);
+        this.validateurQuantite.setText(null);
+        this.validateurSpinnerUniteMarchandise.setSelectedItemId(0);
+        this.validateurValeur.setText(null);
+        this.validateurSpinnerTypeMarchandise.setSelectedItemId(0);
+        this.tvDatePeremption.setVisibility(View.VISIBLE);
+        this.datePeremption.setVisibility(View.VISIBLE);
 
     }
 }
