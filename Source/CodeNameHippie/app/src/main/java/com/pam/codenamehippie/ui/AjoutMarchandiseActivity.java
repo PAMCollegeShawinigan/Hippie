@@ -36,6 +36,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/**
+ *  Cette classe permet à un donneur d'ajouter des produits à la base de données
+ *  via l'interface utilisateur. La date du jour sera utilisée comme date de disponibilité.
+ */
 public class AjoutMarchandiseActivity extends HippieActivity
         implements ValidateurObserver {
 
@@ -55,8 +59,6 @@ public class AjoutMarchandiseActivity extends HippieActivity
     private boolean spinnerTypeMarchandiseEstValide;
     private boolean datePeremptionEstValide;
     private TextView tvDatePeremption;
-
-
     // Id de l'organisme dont l'utilisateur est membre.
     private Integer organismeId;
 
@@ -121,7 +123,6 @@ public class AjoutMarchandiseActivity extends HippieActivity
         TypeAlimentaireModeleSpinnerAdapter typeAdapter =
                 new TypeAlimentaireModeleSpinnerAdapter(this, alimentaireModeleDepot.getListeTypeAlimentaire());
         spinnerTypeMarchandise.setAdapter(typeAdapter);
-        // Ajout pour test
         this.tvDatePeremption = (TextView) this.findViewById(R.id.tvDatePeremption);
         this.datePeremption = (DatePicker) this.findViewById(R.id.datePicker);
         // Set la date minimale du date picker au moment présent.
@@ -168,9 +169,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
         } else if (validateur.equals(this.validateurSpinnerUniteMarchandise)) {
             this.spinnerUniteMarchandiseEstValide = estValide;
         } else if (validateur.equals(this.validateurSpinnerTypeMarchandise)) {
-            // Mettre invisible le DatePicker si non perissable ou surgele
-            // pour la date de péremption
-            // TODO: modifier pour condition true or false
+            // Mettre invisible le DatePicker si produit non périssable
             if (((TypeAlimentaireModele) validateurSpinnerTypeMarchandise.getSelectedItem()).getEstPerissable()) {
                 tvDatePeremption.setVisibility(View.VISIBLE);
                 datePeremption.setVisibility(View.VISIBLE);
@@ -220,8 +219,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
                 String.valueOf(this.validateurSpinnerUniteMarchandise.getSelectedItemId());
         // Converti la date en timestamp php.
         // Ajouter condition si Spinner = non perissable ou surgele
-//        if (validateurSpinnerTypeMarchandise.getSelectedItemId() == 4 ||
-//                validateurSpinnerTypeMarchandise.getSelectedItemId() == 5){
+//        if (((TypeAlimentaireModele) validateurSpinnerTypeMarchandise.getSelectedItem()).getEstPerissable()){
 //
 //        }
         String dateTimeStamp = String.valueOf(modele.getDatePeremption().getTime() / 1000L);
@@ -304,6 +302,5 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurSpinnerTypeMarchandise.setSelectedItemId(0);
         this.tvDatePeremption.setVisibility(View.VISIBLE);
         this.datePeremption.setVisibility(View.VISIBLE);
-
     }
 }
