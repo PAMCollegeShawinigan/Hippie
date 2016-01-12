@@ -118,7 +118,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
             case R.id.main_reservation_image:
                 // clic sur les réservations
                 break;
-            case R.id.main_categorie_image:
+            case R.id.plus:
                 // clic sur les catégories
                 break;
         }
