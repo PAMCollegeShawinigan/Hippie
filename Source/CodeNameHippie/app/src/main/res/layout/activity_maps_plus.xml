@@ -33,34 +33,44 @@
 					  tools:context=".MapsActivity" />
 
 			<ImageButton
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_width="60dp"
+				android:layout_height="60dp"
+				android:id="@+id/marchandiseDisponible"
+				android:background="@drawable/map_marchandise_btn"
+				android:hapticFeedbackEnabled="false"
+				android:layout_above="@+id/mesReservation"
+				android:layout_alignParentEnd="true"
+				android:layout_marginRight="15dp"
+				android:layout_alignParentBottom="false"
+				android:onClick="onButtonClick" />
+
+			<ImageButton
+				android:layout_width="60dp"
+				android:layout_height="60dp"
 				android:id="@+id/mesReservation"
 				android:hapticFeedbackEnabled="false"
 				android:minHeight="50dp"
 				android:minWidth="50dp"
+				android:layout_marginBottom="110dp"
+				android:background="@drawable/mes_reservations_btn"
 				android:layout_alignParentBottom="true"
 				android:layout_alignParentEnd="true"
-				android:layout_marginBottom="103dp" />
+				android:layout_marginRight="15dp"
+				android:layout_marginTop="10dp"
+				android:onClick="onButtonClick" />
 
 			<ImageButton
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_width="60dp"
+				android:layout_height="60dp"
 				android:id="@+id/listeMarchandise"
 				android:minHeight="50dp"
 				android:minWidth="50dp"
+				android:background="@drawable/liste_marchandise_btn"
 				android:layout_alignTop="@+id/mesReservation"
 				android:layout_alignParentEnd="true"
-				android:layout_marginTop="50dp" />
-
-			<ImageButton
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/marchandiseDisponible"
-				android:minHeight="50dp"
-				android:minWidth="50dp"
-				android:layout_above="@+id/mesReservation"
-				android:layout_alignStart="@+id/mesReservation" />
+				android:layout_marginRight="15dp"
+				android:layout_marginTop="70dp"
+				android:onClick="onButtonClick" />
 
 		</RelativeLayout>
 
