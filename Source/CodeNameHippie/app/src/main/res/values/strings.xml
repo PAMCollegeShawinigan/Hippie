@@ -26,5 +26,15 @@
 	<string name="title_activity_maps2">Map</string>
 	<string name="error_bad_credentials">This email and password combo do not match anything in our records. Please check your password or register if you don\'t have an account.</string>
 	<string name="info">info</string>
+	<string name="marchandise_reservees">Marchandise Réservées</string>
+	<string name="marchandise_disponible">Marchandises Disponibles</string>
+	<string name="md_donneur">DONNEUR</string>
+	<string name="md_peremption">MEILLEUR AVANT</string>
+	<string name="md_qtee">QTÉE</string>
+	<string name="md_nom">NOM</string>
+	<string name="res_reservation">DATE DE RÉSERVATION</string>
+	<string name="res_qtee">QTÉE</string>
+	<string name="res_nom">NOM</string>
+	<string name="tv_organisme_communautaire">LES ORGANISMES COMMUNAUTAIRES</string>
 
 </resources>
