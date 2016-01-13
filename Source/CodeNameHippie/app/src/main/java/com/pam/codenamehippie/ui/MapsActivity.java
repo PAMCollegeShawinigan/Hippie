@@ -43,6 +43,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
     private LatLng shawiniganLatLng, montrealLatLng, troisriviereLatLng, jolietteLatLng, victoriavilleLatLng, quebecvilleLatLng;
     private ArrayList<Marker> listMarker;
     private ArrayList<LatLng> latLngList;
+    GoogleMap mMap;
 
     /**
      * preparer la carte google et des donnees.
@@ -56,6 +57,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
 
         slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         final RelativeLayout mapView = (RelativeLayout) findViewById(R.id.mapView);
+
         slidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
 
             @Override
@@ -89,7 +91,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
         mapFragment.getMapAsync(this);
 
         //preparer les donnees pour tester
-        prepareDonnees();
+      // prepareDonnees();
     }
 
     public void onButtonClick(View v){
@@ -97,18 +99,45 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
 
             case R.id.marchandiseDisponible:
                 // affiche denree disponible sur la carte
-                startActivity(new Intent(this, MapsActivity.class));
+
                 Toast.makeText(this.getApplicationContext(),
                         " Denrées disponible ",
                         Toast.LENGTH_SHORT
                 ).show();
+                mMap.clear();
+            //  listOrganisme=prepareDonnees();
+                latLngList = new ArrayList<>();
+                for (int i = 0; i < listOrganisme.size(); i++) {
+                    latLngList.add(getLocationFromAddress(listOrganisme.get(i).getAddresse()));
+                }
+                listMarker = new ArrayList<>();
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                for (int i = 0; i < latLngList.size(); i++) {
+                    listMarker.add( mMap.addMarker(new MarkerOptions().position(latLngList.get(i))));
+                    builder.include(latLngList.get(i));}
                 break;
+
             case R.id.mesReservation:
                 // affiche mes reservations sur la carte
+
                 Toast.makeText(this.getApplicationContext(),
                         " Mes réservations ",
                         Toast.LENGTH_SHORT
                 ).show();
+                mMap.clear();
+            //   listOrganisme=prepareDonnees();
+                listOrganisme.remove(5);
+                listOrganisme.remove(0);
+                listOrganisme.get(1).getListDenree().remove(0);
+                latLngList = new ArrayList<>();
+                for (int i = 0; i < listOrganisme.size(); i++) {
+                    latLngList.add(getLocationFromAddress(listOrganisme.get(i).getAddresse()));
+                }
+                listMarker = new ArrayList<>();
+                LatLngBounds.Builder builder1 = new LatLngBounds.Builder();
+                for (int i = 0; i < latLngList.size(); i++) {
+                    listMarker.add( mMap.addMarker(new MarkerOptions().position(latLngList.get(i))));
+                    builder1.include(latLngList.get(i));}
                 break;
 
          /*   case R.id.main_liste_denree_disponible:
@@ -120,27 +149,15 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                 break;
            */
         }
-    }
+
+        }
+
+
 
     /**
      * obtenir les lattitudes et longitudes des entreprises,et d'autres donnees.
      */
-    private void prepareDonnees() {
-        latLngList = new ArrayList<>();
-//        shawiniganLatLng = getLocationFromAddress("7750 Boulevard des Hêtres, Shawinigan, QC G9N 4X4");// new LatLng(46.5618559, -72.7435254);
-//        montrealLatLng =getLocationFromAddress("6825 Chemin de la Cote-des-Neiges, Montreal,QC H3S 2B6");//new LatLng(45.5454532, -73.6390814);
-//        troisriviereLatLng = getLocationFromAddress(" 800 Boulevard Thibeau, Trois-Rivières, QC G8T 7A6");//new LatLng(46.35088, -72.54806);
-//       jolietteLatLng = getLocationFromAddress( "909 Boulevard Firestone, Joliette, QC J6E 2W4");// new LatLng(46.02318, -73.44253);
-//       victoriavilleLatLng =  getLocationFromAddress( " 560 Boulevard des Bois Francs S, Victoriaville, QC G6P 5X4");//new LatLng(46.05837, -71.95025);
-//        quebecvilleLatLng = getLocationFromAddress("4545 Boulevard Henri-Bourassa, Ville de Québec, QC G1H 7L9");// new LatLng(46.8481532, -71.245508);
-//        latLngList.add(shawiniganLatLng);
-//        latLngList.add(montrealLatLng);
-//        latLngList.add(troisriviereLatLng);
-//        latLngList.add(jolietteLatLng);
-//        latLngList.add(victoriavilleLatLng);
-//        latLngList.add(quebecvilleLatLng);
-
-
+    private ArrayList<Organisme> prepareDonnees() {
 
         // preparer des entreprise et leurs liste denrees
         ArrayList<Denree> listDenree1 = new ArrayList<>();
@@ -217,19 +234,19 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
         Organisme organisme5 = new Organisme("Tigre Géant", " 800 Boulevard Thibeau, Trois-Rivières, QC G8T 7A6", mapCollectTime5, "(819) 697-3833", listDenree5);
 
         ArrayList<Denree> listDenree6 = new ArrayList<>();
-        listDenree5.add(new Denree("tuna", "34", "kg", StateDenree.disponible, TypeDenree.surgele));
-        listDenree5.add(new Denree("avocat", "27", "kg", StateDenree.disponible, TypeDenree.perissable));
-        listDenree5.add(new Denree("orange", "23", "kg", StateDenree.disponible, TypeDenree.fruit_legume));
-        listDenree5.add(new Denree("samon", "4", "kg", StateDenree.disponible, TypeDenree.surgele));
-        listDenree5.add(new Denree("beuf", "19", "kg", StateDenree.disponible, TypeDenree.viande));
+        listDenree6.add(new Denree("tuna", "34", "kg", StateDenree.disponible, TypeDenree.surgele));
+        listDenree6.add(new Denree("avocat", "27", "kg", StateDenree.disponible, TypeDenree.perissable));
+        listDenree6.add(new Denree("orange", "23", "kg", StateDenree.disponible, TypeDenree.fruit_legume));
+        listDenree6.add(new Denree("samon", "4", "kg", StateDenree.disponible, TypeDenree.surgele));
+        listDenree6.add(new Denree("beuf", "19", "kg", StateDenree.disponible, TypeDenree.viande));
         HashMap<String, String> mapCollectTime6 = new HashMap<>();
-        mapCollectTime5.put("lundi", "9:00-10:00");
-        mapCollectTime5.put("mardi", "11:00-14:00");
-        mapCollectTime5.put("mercredi", "8:00-12:00");
-        mapCollectTime5.put("jeudi", "9:00-16:00");
-        mapCollectTime5.put("vendredi", "13:00-17:00");
-        mapCollectTime5.put("samdi", "9:00-15:00");
-        mapCollectTime5.put("dimanche", "ferme");
+        mapCollectTime6.put("lundi", "9:00-10:00");
+        mapCollectTime6.put("mardi", "11:00-14:00");
+        mapCollectTime6.put("mercredi", "8:00-12:00");
+        mapCollectTime6.put("jeudi", "9:00-16:00");
+        mapCollectTime6.put("vendredi", "13:00-17:00");
+        mapCollectTime6.put("samdi", "9:00-15:00");
+        mapCollectTime6.put("dimanche", "ferme");
         Organisme organisme6 = new Organisme("Provigo", "4545 Boulevard Henri-Bourassa, Ville de Québec, QC G1H 7L9", mapCollectTime6, "(418) 622-7070", listDenree6);
         //preparer les entreprise affichees sur carte
         //  listOrganisme = new ArrayList<>();
@@ -239,10 +256,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
         listOrganisme.add(organisme4);
         listOrganisme.add(organisme5);
         listOrganisme.add(organisme6);
-        
-        for (int i = 0; i < listOrganisme.size(); i++) {
-            latLngList.add(getLocationFromAddress(listOrganisme.get(i).getAddresse()));
-        }
+
+        return listOrganisme;
+
     }
 
     /**
@@ -287,25 +303,17 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        GoogleMap mMap = googleMap;
+       mMap = googleMap;
         //les LatLng infos sont obtenues pas webservice de googlemap,les entrees sont des addresses civiles.
         //les points cidessus sont seulement pour les tests.
         //ajouter les point sur carte
+     listOrganisme=prepareDonnees();
 
-//        final Marker markerShawinigan = mMap.addMarker(new MarkerOptions().position(shawiniganLatLng));
-//        final Marker markerMontreal = mMap.addMarker(new MarkerOptions().position(montrealLatLng));
-//        final Marker markerTroisriviere = mMap.addMarker(new MarkerOptions().position(troisriviereLatLng));
-//       final Marker markerJoliette = mMap.addMarker(new MarkerOptions().position(jolietteLatLng));
-//        final Marker markerVictoriaville = mMap.addMarker(new MarkerOptions().position(victoriavilleLatLng));
-//        final Marker markerQuebecville = mMap.addMarker(new MarkerOptions().position(quebecvilleLatLng));
-
+        latLngList = new ArrayList<>();
+        for (int i = 0; i < listOrganisme.size(); i++) {
+            latLngList.add(getLocationFromAddress(listOrganisme.get(i).getAddresse()));
+        }
         listMarker = new ArrayList<>();
-//        listMarker.add(markerShawinigan);
-//        listMarker.add(markerMontreal);
-//        listMarker.add(markerTroisriviere);
-//        listMarker.add(markerJoliette);
-//        listMarker.add(markerVictoriaville);
-//        listMarker.add(markerQuebecville);
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (int i = 0; i < latLngList.size(); i++) {
            listMarker.add( mMap.addMarker(new MarkerOptions().position(latLngList.get(i))));
@@ -324,13 +332,13 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                                           @Override
                                           public boolean onMarkerClick(Marker marker) {
 
-//                                              for (int i = 0; i < listOrganisme.size(); i++) {
-//                                                  if (listMarker.get(i) == marker) {
-//                                                      ordre = i;
-//                                                      break;
-//                                                  }
-//                                              }
-ordre=4;
+                                              for (int i = 0; i < listOrganisme.size(); i++) {
+                                                  if (listMarker.get(i).equals(marker)) {
+                                                      ordre = i;
+                                                      break;
+                                                  }
+                                              }
+
                                               final Organisme mOrganisme = listOrganisme.get(ordre);
 
                                               expandableListView.setAdapter(new BaseExpandableListAdapter() {

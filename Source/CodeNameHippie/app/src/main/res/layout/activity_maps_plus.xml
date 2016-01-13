@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
+
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
@@ -7,7 +8,9 @@
 	android:layout_height="match_parent"
 	android:fitsSystemWindows="true"
 	android:weightSum="1">
+
 	<include layout="@layout/content_appbar_main" />
+
 	<com.sothree.slidinguppanel.SlidingUpPanelLayout
 		xmlns:sothree="http://schemas.android.com/apk/res-auto"
 		android:id="@+id/sliding_layout"
@@ -89,4 +92,5 @@
 		</LinearLayout>
 
 	</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
 </android.support.design.widget.CoordinatorLayout>
