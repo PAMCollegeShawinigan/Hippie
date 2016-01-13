@@ -1,5 +1,6 @@
 package com.pam.codenamehippie.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -8,9 +9,12 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,14 +26,15 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.ui.HippieActivity;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class MapsActivity extends HippieActivity
-        implements OnMapReadyCallback, ExpandableListView.OnGroupClickListener {
-
+public class MapsActivity extends HippieActivity implements OnMapReadyCallback, ExpandableListView.OnGroupClickListener {
+    private SlidingUpPanelLayout slidingLayout;
     private ArrayList<Entreprise> listEntreprise;
     private ExpandableListView expandableListView;
     private int ordre;
@@ -38,13 +43,43 @@ public class MapsActivity extends HippieActivity
 
     /**
      * preparer la carte google et des donnees.
+     *
      * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps_plus);
+        slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        final RelativeLayout mapView = (RelativeLayout) findViewById(R.id.mapView);
+        slidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
 
+            @Override
+            public void onPanelSlide(View view, float v) {
+
+            }
+
+            @Override
+            public void onPanelCollapsed(View view) {
+                mapView.setVisibility(View.VISIBLE);
+//expandableListView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPanelExpanded(View view) {
+                mapView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onPanelAnchored(View view) {
+
+            }
+
+            @Override
+            public void onPanelHidden(View view) {
+
+            }
+        });
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -52,10 +87,38 @@ public class MapsActivity extends HippieActivity
 
         //preparer les donnees pour tester
         prepareDonnees();
-
-
     }
 
+
+    public void onButtonClick(View v){
+     switch (v.getId()) {
+
+            case R.id.marchandiseDisponible:
+                // affiche denree disponible sur la carte
+                startActivity(new Intent(this, MapsActivity.class));
+                Toast.makeText(this.getApplicationContext(),
+                        " Denrées disponible ",
+                        Toast.LENGTH_SHORT
+                ).show();
+                break;
+            case R.id.mesReservation:
+                // affiche mes reservations sur la carte
+                Toast.makeText(this.getApplicationContext(),
+                        " Mes réservations ",
+                        Toast.LENGTH_SHORT
+                ).show();
+                break;
+
+         /*   case R.id.main_liste_denree_disponible:
+                // affiche les denrees disponible en liste
+                Toast.makeText(this.getApplicationContext(),
+                " Nouvelle activité ",
+                Toast.LENGTH_SHORT
+        ).show();
+                break;
+           */
+        }
+    }
     /**
      * obtenir les lattitudes et longitudes des entreprises,et d'autres donnees.
      */
@@ -74,7 +137,6 @@ public class MapsActivity extends HippieActivity
         listLatLng.add(troisriviereLatLng);
         listLatLng.add(jolietteLatLng);
         listLatLng.add(victoriavilleLatLng);
-
 
         // preparer des entreprise et leurs liste denrees
         ArrayList<Denree> listDenree1 = new ArrayList<Denree>();
@@ -199,7 +261,7 @@ public class MapsActivity extends HippieActivity
         LatLngBounds bounds = builder.build();
 
         int padding = 1; // offset from edges of the map in pixels
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 400, 600, padding);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds,400,600, padding);
         mMap.moveCamera(cu);
 
         mMap.animateCamera(cu);
@@ -546,10 +608,12 @@ public class MapsActivity extends HippieActivity
                                           }
                                       }
         );
+        // Pour désactiver les logo de googlemap
+        mMap.getUiSettings().setMapToolbarEnabled(false);
 
         //  mMap.moveCamera(CameraUpdateFactory.newLatLng(shawiniganLatLng));
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
-        //configurer le listener pour group de l'expandablelistview
+        //mettre le listener pour group de l'expandablelistview
         expandableListView.setOnGroupClickListener(this);
     }
 
@@ -562,5 +626,7 @@ public class MapsActivity extends HippieActivity
 
         return  false;
     }
+
+
 }
 
