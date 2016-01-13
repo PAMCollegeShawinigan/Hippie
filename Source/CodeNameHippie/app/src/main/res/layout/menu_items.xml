@@ -26,11 +26,11 @@
         android:src="@drawable/profil" />
 
     <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
-        android:id="@+id/main_categorie_image"
+        android:id="@+id/plus"
         android:layout_width="wrap_content"
-        triangle:name="Catégories"
+        triangle:name="Ajouter"
         android:layout_height="wrap_content"
-        android:src="@drawable/categories" />
+        android:src="@drawable/plus" />
 
     <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
         android:id="@+id/main_reservation_image"

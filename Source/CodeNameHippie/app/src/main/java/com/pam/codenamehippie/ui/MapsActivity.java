@@ -1,5 +1,6 @@
 package com.pam.codenamehippie.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
@@ -13,7 +14,9 @@ import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -52,7 +55,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
         setContentView(R.layout.activity_maps_plus);
 
         slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        final FrameLayout mapView = (FrameLayout) findViewById(R.id.mapView);
+        final RelativeLayout mapView = (RelativeLayout) findViewById(R.id.mapView);
         slidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
 
             @Override
@@ -89,6 +92,35 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
         prepareDonnees();
     }
 
+    public void onButtonClick(View v){
+     switch (v.getId()) {
+
+            case R.id.marchandiseDisponible:
+                // affiche denree disponible sur la carte
+                startActivity(new Intent(this, MapsActivity.class));
+                Toast.makeText(this.getApplicationContext(),
+                        " Denrées disponible ",
+                        Toast.LENGTH_SHORT
+                ).show();
+                break;
+            case R.id.mesReservation:
+                // affiche mes reservations sur la carte
+                Toast.makeText(this.getApplicationContext(),
+                        " Mes réservations ",
+                        Toast.LENGTH_SHORT
+                ).show();
+                break;
+
+         /*   case R.id.main_liste_denree_disponible:
+                // affiche les denrees disponible en liste
+                Toast.makeText(this.getApplicationContext(),
+                " Nouvelle activité ",
+                Toast.LENGTH_SHORT
+        ).show();
+                break;
+           */
+        }
+    }
 
     /**
      * obtenir les lattitudes et longitudes des entreprises,et d'autres donnees.
@@ -621,6 +653,8 @@ ordre=4;
                                           }
                                       }
         );
+        // Pour désactiver les logo de googlemap
+        mMap.getUiSettings().setMapToolbarEnabled(false);
 
         //  mMap.moveCamera(CameraUpdateFactory.newLatLng(shawiniganLatLng));
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);

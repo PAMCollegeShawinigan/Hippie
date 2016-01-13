@@ -22,7 +22,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
     private final HttpUrl listeTypeAlimentaireUrl;
 
     private volatile ArrayList<DescriptionModel> listeUnitee;
-    private volatile ArrayList<DescriptionModel> listeTypeAlimentaire;
+    private volatile ArrayList<TypeAlimentaireModele> listeTypeAlimentaire;
 
     public AlimentaireModeleDepot(Context context, OkHttpClient httpClient) {
         super(context, httpClient);
@@ -37,7 +37,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         return this.listeUnitee;
     }
 
-    public synchronized ArrayList<DescriptionModel> getListeTypeAlimentaire() {
+    public synchronized ArrayList<TypeAlimentaireModele> getListeTypeAlimentaire() {
         return this.listeTypeAlimentaire;
     }
 
@@ -90,10 +90,10 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                 } else {
-                    Type type = new TypeToken<ArrayList<DescriptionModel>>() { }.getType();
+                    Type type = new TypeToken<ArrayList<TypeAlimentaireModele>>() { }.getType();
                     // Ajouter un String "Faites votre choix..." à l'indice 0
-                    ArrayList<DescriptionModel> temp = new ArrayList<DescriptionModel>();
-                    temp.add(new DescriptionModel());
+                    ArrayList<TypeAlimentaireModele> temp = new ArrayList<>();
+                    temp.add(new TypeAlimentaireModele());
                     AlimentaireModeleDepot.this.listeTypeAlimentaire =
                             gson.fromJson(response.body().charStream(), type);
                     temp.addAll(AlimentaireModeleDepot.this.listeTypeAlimentaire);

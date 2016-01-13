@@ -86,11 +86,11 @@
 				android:layout_marginBottom="10dp"
 				android:background="@drawable/element"
 				android:hint="QUANTITÉES"
-				android:inputType="numberDecimal"
-				android:maxLength="13"
+				android:maxLength="10"
 				android:nextFocusForward="@+id/etUniteMarchandise"
 				android:padding="10dp"
-				android:textColorHint="#c6c6c6" />
+				android:textColorHint="#c6c6c6"
+				android:inputType="numberDecimal" />
 			<TextView
 				android:id="@+id/tvUniteMarchandise"
 				android:layout_width="wrap_content"
@@ -128,7 +128,9 @@
 				android:inputType="number"
 				android:nextFocusForward="@+id/etTypeMarchandise"
 				android:padding="10dp"
-				android:textColorHint="#c6c6c6" />
+				android:textColorHint="#c6c6c6"
+				android:numeric="integer"
+				android:maxLength="10" />
 			<TextView
 				android:id="@+id/tvTypeMarchandise"
 				android:layout_width="wrap_content"

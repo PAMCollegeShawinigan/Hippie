@@ -9,6 +9,8 @@ import java.util.Date;
  */
 public class UtilisateurModele extends BaseModele<UtilisateurModele> {
 
+    // blabla synchro
+
     @SerializedName("courriel")
     private String courriel;
     @SerializedName("mot_de_passe")
