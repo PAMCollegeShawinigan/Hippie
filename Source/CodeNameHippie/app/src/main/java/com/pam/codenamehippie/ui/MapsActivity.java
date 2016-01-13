@@ -105,7 +105,6 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                         Toast.LENGTH_SHORT
                 ).show();
                 mMap.clear();
-            //  listOrganisme=prepareDonnees();
                 latLngList = new ArrayList<>();
                 for (int i = 0; i < listOrganisme.size(); i++) {
                     latLngList.add(getLocationFromAddress(listOrganisme.get(i).getAddresse()));
@@ -119,13 +118,12 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
 
             case R.id.mesReservation:
                 // affiche mes reservations sur la carte
-
+                // just pour tester,deuxiem clique va causer planter.
                 Toast.makeText(this.getApplicationContext(),
                         " Mes réservations ",
                         Toast.LENGTH_SHORT
                 ).show();
                 mMap.clear();
-            //   listOrganisme=prepareDonnees();
                 listOrganisme.remove(5);
                 listOrganisme.remove(0);
                 listOrganisme.get(1).getListDenree().remove(0);

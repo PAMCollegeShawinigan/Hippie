@@ -18,11 +18,10 @@
 		android:layout_height="match_parent"
 		android:gravity="bottom"
 		sothree:umanoDragView="@+id/dragView"
-
-		sothree:umanoOverlay="true"
-		sothree:umanoPanelHeight="68dp"
-		sothree:umanoParalaxOffset="100dp"
-		sothree:umanoShadowHeight="0dp">
+		sothree:umanoOverlay="false"
+		sothree:umanoPanelHeight="54dp"
+		sothree:umanoParalaxOffset="50dp"
+		sothree:umanoShadowHeight="4dp">
 
 		<RelativeLayout
 			android:layout_width="match_parent"
@@ -80,7 +79,11 @@
 
 		<LinearLayout
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+			android:layout_height="match_parent"
+            android:background="#e2e1bb"
+            android:clickable="true"
+            android:focusable="false"
+            android:orientation="vertical" >
 
 			<ExpandableListView
 				android:id="@+id/expandableListView"
