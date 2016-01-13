@@ -31,9 +31,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public abstract class BaseModele<T extends BaseModele<T>> {
 
-    // TODO : Vérifier la convention de nom avec la BD
-    // FIXME: http://www.yolainecourteau.com/hippie/laravel/public/utilisateur
-    @SerializedName(value = "id", alternate = {"utilisateur_id", "organisme_id"})
+    @SerializedName(value = "id")
     private Integer id = 0;
 
     /**
