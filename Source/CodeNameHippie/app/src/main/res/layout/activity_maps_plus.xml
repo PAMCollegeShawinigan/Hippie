@@ -15,10 +15,11 @@
 		android:layout_height="match_parent"
 		android:gravity="bottom"
 		sothree:umanoDragView="@+id/dragView"
+
 		sothree:umanoOverlay="true"
 		sothree:umanoPanelHeight="68dp"
 		sothree:umanoParalaxOffset="100dp"
-		sothree:umanoShadowHeight="4dp">
+		sothree:umanoShadowHeight="0dp">
 
 		<FrameLayout
 			android:layout_width="match_parent"
