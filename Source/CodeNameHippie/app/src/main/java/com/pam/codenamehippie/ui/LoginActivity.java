@@ -30,8 +30,7 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-public class LoginActivity extends HippieActivity implements EditText.OnEditorActionListener,
-                                                             ValidateurObserver {
+public class LoginActivity extends HippieActivity implements EditText.OnEditorActionListener, ValidateurObserver {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
     private ValidateurMotDePasse validateurMotDePasse;
