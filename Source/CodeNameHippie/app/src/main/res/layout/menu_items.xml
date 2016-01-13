@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:triangle="http://schemas.android.com/apk/res-auto"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent" >
+
+    <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
+        android:id="@+id/main_statistique_image"
+        triangle:name="Statistiques"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/statistiques" />
+
+    <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
+        android:id="@+id/main_organisme_image"
+        triangle:name="Organismes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/organismes" />
+
+    <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
+        android:id="@+id/main_profil_image"
+        android:layout_width="wrap_content"
+        triangle:name="Profil"
+        android:layout_height="wrap_content"
+        android:src="@drawable/profil" />
+
+    <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
+        android:id="@+id/plus"
+        android:layout_width="wrap_content"
+        triangle:name="Ajouter"
+        android:layout_height="wrap_content"
+        android:src="@drawable/plus" />
+
+    <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
+        android:id="@+id/main_reservation_image"
+        android:layout_width="wrap_content"
+        triangle:name="Réservations"
+        android:layout_height="wrap_content"
+        android:src="@drawable/reservation"/>
+
+    <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
+        android:id="@+id/main_carte_image"
+        android:layout_width="wrap_content"
+        triangle:name="Carte"
+        android:layout_height="wrap_content"
+        android:src="@drawable/maps" />
+
+</merge>

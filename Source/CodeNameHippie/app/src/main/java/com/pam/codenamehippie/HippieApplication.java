@@ -6,7 +6,7 @@ import com.pam.codenamehippie.http.Authentificateur;
 import com.pam.codenamehippie.http.PersistentCookieStore;
 import com.pam.codenamehippie.http.intercepteur.AcceptJsonInterceptor;
 import com.pam.codenamehippie.http.intercepteur.HttpDebugInterceptor;
-import com.pam.codenamehippie.modele.MarchandiseModeleDepot;
+import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.OrganismeModeleDepot;
 import com.pam.codenamehippie.modele.TransactionModeleDepot;
 import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
@@ -32,22 +32,22 @@ public class HippieApplication extends Application {
      * Instance de {@link UtilisateurModeleDepot} pour l'application
      */
     private final UtilisateurModeleDepot utilisateurModeleDepot =
-            new UtilisateurModeleDepot(this.httpClient);
+            new UtilisateurModeleDepot(this, this.httpClient);
     /**
      * Instance d'{@link OrganismeModeleDepot} pour l'application
      */
     private final OrganismeModeleDepot organismeModeleDepot =
-            new OrganismeModeleDepot(this.httpClient);
+            new OrganismeModeleDepot(this, this.httpClient);
     /**
      * Instance de {@link TransactionModeleDepot} pour l'application
      */
     private final TransactionModeleDepot transactionModeleDepot =
-            new TransactionModeleDepot(this.httpClient);
+            new TransactionModeleDepot(this, this.httpClient);
     /**
-     * Instance de {@link MarchandiseModeleDepot} pour l'application
+     * Instance de {@link AlimentaireModeleDepot} pour l'application
      */
-    private final MarchandiseModeleDepot marchandiseModeleDepot =
-            new MarchandiseModeleDepot(this.httpClient);
+    private final AlimentaireModeleDepot alimentaireModeleDepot =
+            new AlimentaireModeleDepot(this, this.httpClient);
     /**
      * Instance de {@link PersistentCookieStore} pour l'application
      */
@@ -67,6 +67,10 @@ public class HippieApplication extends Application {
 
     public synchronized TransactionModeleDepot getTransactionModeleDepot() {
         return this.transactionModeleDepot;
+    }
+
+    public AlimentaireModeleDepot getAlimentaireModeleDepot() {
+        return this.alimentaireModeleDepot;
     }
 
     public PersistentCookieStore getBoiteAbiscuit() {
@@ -91,7 +95,5 @@ public class HippieApplication extends Application {
             // Rapport de debug pour les requêtes.
             this.httpClient.networkInterceptors().add(new HttpDebugInterceptor());
         }
-
     }
-
 }

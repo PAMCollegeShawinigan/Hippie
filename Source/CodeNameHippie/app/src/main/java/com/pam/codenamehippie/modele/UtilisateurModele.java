@@ -7,7 +7,9 @@ import java.util.Date;
 /**
  * Créé par Carl St-Louis le 23-11-2015.
  */
-public class UtilisateurModele extends BaseModele {
+public class UtilisateurModele extends BaseModele<UtilisateurModele> {
+
+    // blabla synchro
 
     @SerializedName("courriel")
     private String courriel;
@@ -19,11 +21,10 @@ public class UtilisateurModele extends BaseModele {
     private String prenom;
     @SerializedName("telephone")
     private String telephone;
-    // FIXME: Le serveur retourne moyenContact au lieu de moyen_contact
-    @SerializedName(value = "moyen_contact", alternate = "moyenContact")
+    @SerializedName(value = "moyen_contact")
     private Integer moyenContact;
-    @SerializedName("id_organisme")
-    private Integer idOrganisme;
+    @SerializedName("organisme")
+    private OrganismeModele organisme;
     @SerializedName("dern_connexion")
     private Date dernConnexion;
 
@@ -81,12 +82,12 @@ public class UtilisateurModele extends BaseModele {
         return this;
     }
 
-    public Integer getIdOrganisme() {
-        return this.idOrganisme;
+    public OrganismeModele getOrganisme() {
+        return this.organisme;
     }
 
-    public UtilisateurModele setIdOrganisme(Integer idOrganisme) {
-        this.idOrganisme = idOrganisme;
+    public UtilisateurModele setOrganisme(OrganismeModele organisme) {
+        this.organisme = organisme;
         return this;
     }
 

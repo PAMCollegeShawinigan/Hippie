@@ -36,6 +36,21 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
     public static final int NOM_ALIMENTAIRE_LONGUEUR_MAX = 50;
 
     /**
+     * Longueur maximale du champ description pour alimentaire
+     */
+    public static final int DESCRIPTION_ALIMENTAIRE_LONGUEUR_MAX = 100;
+
+    /**
+     * Longueur maximale du champ quantite pour alimentaire
+     */
+    public static final int QUANTITE_ALIMENTAIRE_LONGUEUR_MAX = 12;
+
+    /**
+     * Longueur maximale du champ valeur pour alimentaire
+     */
+    public static final int VALEUR_ALIMENTAIRE_LONGUEUR_MAX = 10;
+
+    /**
      * Longueur maximale du champ prenom
      */
     public static final int PRENOM_LONGUEUR_MAX = 30;
@@ -144,6 +159,7 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
      */
     public final void setText(CharSequence text) {
         this.editText.setText(text);
+        this.afterTextChanged(this.editText.getText());
     }
 
     /**
@@ -153,6 +169,7 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
      */
     public final void setText(@StringRes int resId) {
         this.editText.setText(resId);
+        this.afterTextChanged(this.editText.getText());
     }
 
     /**

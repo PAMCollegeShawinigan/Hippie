@@ -7,13 +7,13 @@ import java.util.Date;
 /**
  * Créé par Carl St-Louis le 23-11-2015.
  */
-public class TransactionModele extends BaseModele {
+public class TransactionModele extends BaseModele<TransactionModele> {
 
-    @SerializedName("id_receveur")
+    @SerializedName("receveur_id")
     private OrganismeModele idReceveur;
-    @SerializedName("idDonneur")
+    @SerializedName("donneur_id")
     private OrganismeModele idDonneur;
-    @SerializedName("id_marchandise")
+    @SerializedName("marchandise_id")
     private MarchandiseModele idMarchandise;
     @SerializedName("date_collecte")
     private Date dateCollecte;

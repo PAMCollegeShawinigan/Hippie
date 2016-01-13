@@ -110,6 +110,13 @@ public final class Authentificateur implements Authenticator {
 
     public synchronized void deconnecte() {
         this.boiteABiscuit.removeAll();
+        // TODO: Mieux gérer l'authentification.
+        // On supprime l'ID d'organisme.
+        if (this.preferences.contains(this.context.getString(R.string.pref_org_id_key))) {
+            this.preferences.edit()
+                            .remove(this.context.getString(R.string.pref_org_id_key))
+                            .commit();
+        }
         this.motDePasse = null;
     }
 

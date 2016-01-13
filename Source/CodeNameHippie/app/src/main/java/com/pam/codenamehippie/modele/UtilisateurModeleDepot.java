@@ -1,5 +1,7 @@
 package com.pam.codenamehippie.modele;
 
+import android.content.Context;
+
 import com.squareup.okhttp.OkHttpClient;
 
 /**
@@ -8,8 +10,8 @@ import com.squareup.okhttp.OkHttpClient;
 
 public class UtilisateurModeleDepot extends BaseModeleDepot<UtilisateurModele> {
 
-    public UtilisateurModeleDepot(OkHttpClient httpClient) {
-        super(httpClient);
+    public UtilisateurModeleDepot(Context context, OkHttpClient httpClient) {
+        super(context, httpClient);
         this.url = this.url.newBuilder().addPathSegment("utilisateur").build();
     }
 
@@ -37,7 +39,8 @@ public class UtilisateurModeleDepot extends BaseModeleDepot<UtilisateurModele> {
 //     * @param json
 //     *   de l'objet UtilisateurModele
 //     *
-//     * @return une nouvelle instance de UtilisateurModele vide ou null si l'utilisateur existe déjà
+//     * @return une nouvelle instance de UtilisateurModele vide ou null si l'utilisateur existe
+// déjà
 //     */
 //    @Override
 //    public UtilisateurModele ajouterModele(String json) {

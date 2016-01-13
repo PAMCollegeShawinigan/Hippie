@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 android:orientation="vertical"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:weightSum="1"
+                                                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <include layout="@layout/content_appbar_main"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="35dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/md_nom"
+            android:id="@+id/tv_md_nom"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/md_qtee"
+            android:id="@+id/tv_md_qtee"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/md_peremption"
+            android:id="@+id/tv_md_peremption"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_weight="0.025"/>
+
+    </LinearLayout>
+
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="505dp"
+        android:id="@+id/marchandise_dispo" />
+</android.support.design.widget.CoordinatorLayout>

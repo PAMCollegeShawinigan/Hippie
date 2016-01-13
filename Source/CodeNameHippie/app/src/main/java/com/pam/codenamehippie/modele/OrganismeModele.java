@@ -5,12 +5,12 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Créé par Carl St-Louis le 23-11-2015.
  */
-public class OrganismeModele extends BaseModele {
+public class OrganismeModele extends BaseModele<OrganismeModele> {
 
     @SerializedName("nom")
     private String nom;
     @SerializedName("adresse")
-    private String adresse;
+    private AdresseModele adresse;
     @SerializedName("telephone")
     private String telephone;
     @SerializedName("poste")
@@ -31,11 +31,11 @@ public class OrganismeModele extends BaseModele {
         return this;
     }
 
-    public String getAdresse() {
+    public AdresseModele getAdresse() {
         return this.adresse;
     }
 
-    public OrganismeModele setAdresse(String adresse) {
+    public OrganismeModele setAdresse(AdresseModele adresse) {
         this.adresse = adresse;
         return this;
     }

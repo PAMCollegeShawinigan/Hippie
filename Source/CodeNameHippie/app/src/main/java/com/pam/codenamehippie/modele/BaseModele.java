@@ -3,12 +3,36 @@ package com.pam.codenamehippie.modele;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
-public abstract class BaseModele {
+/**
+ * Classe de base des modèles. Cette classe est générique afin de pouvoir utiliser un API fluent
+ * et éviter de dupliquer du code inutilement, car autrement les classes qui hérite devrait
+ * faire des override de mutateurs en changeant le type de retour.
+ * <p/>
+ * Par API fluent nous entendons quelque chose comme ceci:
+ * <p/>
+ * <code>
+ * UtilisateurModele modele = new UtilisateurModele();<br/>
+ * modele.setNom("Lafontaine").setPrenom("Philippe").setTelephone("819 555 8963");
+ * </code>
+ * <p/>
+ * Par opposition à:
+ * <p/>
+ * <code>
+ * UtilisateurModele modele = new UtilisateurModele();<br/>
+ * modele.setNom("Lafontaine");<br/>
+ * modele.setPrenom("Philippe");<br/>
+ * modele.setTelephone("819 555 8963");
+ * </code>
+ *
+ * @param <T>
+ *         La classe qui hérite de BaseModele
+ *
+ * @see <a href="http://goo.gl/67YLAR">Using Generics To Build Fluent API's In Java</a>
+ */
+public abstract class BaseModele<T extends BaseModele<T>> {
 
-    // TODO : Vérifier la convention de nom avec la BD
-    @SerializedName(value = "id",
-                    alternate = {"id_utilisateur"})
-    private Integer id;
+    @SerializedName(value = "id")
+    private Integer id = 0;
 
     /**
      * Accesseur de l'id du modèle
@@ -17,6 +41,20 @@ public abstract class BaseModele {
      */
     public Integer getId() {
         return this.id;
+    }
+
+    /**
+     * Mutateur pour l'id
+     *
+     * @param id
+     *         le nouvelle id du modele
+     *
+     * @return l'instance du modèle.
+     */
+    @SuppressWarnings(value = {"unchecked"})
+    public T setId(Integer id) {
+        this.id = id;
+        return (T) this;
     }
 
     /**

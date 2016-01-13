@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 android:orientation="vertical"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <include layout="@layout/content_appbar_main"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_organisme_communautaire"
+        android:id="@+id/tv_liste_organisme"
+        android:textSize="25sp"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+    <ExpandableListView
+        android:layout_width="match_parent"
+        android:layout_height="489dp"
+        android:id="@+id/liste_organisme"
+        android:layout_marginTop="140dp"/>
+
+</android.support.design.widget.CoordinatorLayout>

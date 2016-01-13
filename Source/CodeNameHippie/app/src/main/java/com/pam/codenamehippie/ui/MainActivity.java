@@ -1,54 +1,42 @@
 package com.pam.codenamehippie.ui;
 
-import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
-import com.pam.codenamehippie.http.Authentificateur;
-import com.pam.codenamehippie.parametre.ParametreActivity;
-import com.squareup.okhttp.OkHttpClient;
+import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
 
-public class MainActivity extends AppCompatActivity {
-
-    private Authentificateur authentificateur;
+public class MainActivity extends HippieActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
-        OkHttpClient httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
-        this.authentificateur = ((Authentificateur) httpClient.getAuthenticator());
-        Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            this.setSupportActionBar(toolbar);
-        }
-    }
+        
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "opensans_regular.ttf");
+        ((TextView) findViewById(R.id.textView5)).setTypeface(typeface);
+        ((TextView) findViewById(R.id.textView10)).setTypeface(typeface);
+        ((TextView) findViewById(R.id.textView17)).setTypeface(typeface);
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        this.getMenuInflater().inflate(R.menu.menu_principal, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+        Typeface typeface2 = Typeface.createFromAsset(getAssets(), "opensans_light.ttf");
+        ((TextView) findViewById(R.id.textView7)).setTypeface(typeface2);
+        ((TextView) findViewById(R.id.textView11)).setTypeface(typeface2);
+        ((TextView) findViewById(R.id.textView13)).setTypeface(typeface2);
+        ((TextView) findViewById(R.id.textView15)).setTypeface(typeface2);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_parametre:
-                this.startActivity(new Intent(this, ParametreActivity.class));
-                return true;
-            case R.id.menu_deconnexion:
-                this.authentificateur.deconnecte();
-                this.startActivity(new Intent(this, LoginActivity.class));
-                this.finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        AlimentaireModeleDepot alimentaireModeleDepot =
+                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
+        UtilisateurModeleDepot utilisateurModeleDepot =
+                ((HippieApplication) this.getApplication())
+                        .getUtilisateurModeleDepot();
+        alimentaireModeleDepot.peuplerLesListes();
+        utilisateurModeleDepot.peuplerLeDepot();
     }
-
 }
+
+
+
