@@ -20,9 +20,11 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
     private final HttpUrl listeUniteUrl;
     private final HttpUrl listeTypeAlimentaireUrl;
+    private final HttpUrl listeDonUrl;
 
     private volatile ArrayList<DescriptionModel> listeUnitee;
     private volatile ArrayList<TypeAlimentaireModele> listeTypeAlimentaire;
+    private volatile ArrayList<AlimentaireModele> listeDon;
 
     public AlimentaireModeleDepot(Context context, OkHttpClient httpClient) {
         super(context, httpClient);
@@ -31,6 +33,8 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         this.listeTypeAlimentaireUrl =
                 baseListeUrl.newBuilder().addPathSegment("alimentaire").build();
         this.url = this.url.newBuilder().addPathSegment("alimentaire").build();
+        this.listeDonUrl = baseListeUrl.newBuilder().addPathSegment("carte").build();
+
     }
 
     public synchronized ArrayList<DescriptionModel> getListeUnitee() {
@@ -39,6 +43,10 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
     public synchronized ArrayList<TypeAlimentaireModele> getListeTypeAlimentaire() {
         return this.listeTypeAlimentaire;
+    }
+
+    public synchronized ArrayList<AlimentaireModele> getListeDon() {
+        return this.listeDon;
     }
 
     /**
@@ -107,6 +115,47 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         });
     }
 
+    /**
+     * retourne la liste de tout les dons de l'entreprise qui sont disponibles ou reservé
+     * @param id id de l'organisme dont on veut obtenir la liste des dons.
+     **/
+    public void peuplerListeDon(Integer id) {
+        HttpUrl url = this.listeDonUrl.newBuilder().addPathSegment(id.toString()).build();
+        Request listeDonRequete = new Request.Builder().url(url).get().build();
+
+            this.httpClient.newCall(listeDonRequete).enqueue(new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
+
+                    //TODO: Toast ou whatever
+                    Log.e(TAG, "Request failed: " + request.toString(), e);
+                }
+
+                @Override
+                public void onResponse(Response response) throws IOException {
+
+                    if(!response.isSuccessful()) {
+                        Log.e(TAG, "Request failed: " + response.toString());
+                    } else {
+                        Type type = new TypeToken<ArrayList<AlimentaireModele>>() {
+                        }.getType();
+
+                        AlimentaireModeleDepot.this.listeDon =
+                                gson.fromJson(response.body().charStream(), type);
+
+
+                        Log.d(TAG,
+                                "Liste don: " +
+                                        AlimentaireModeleDepot.this.listeDon.toString()
+                            );
+                        }
+
+
+                }
+            });
+
+
+    }
 //    /**
 //     * Rechercher un MarchandiseModele par ID dans le dépôt
 //     *
