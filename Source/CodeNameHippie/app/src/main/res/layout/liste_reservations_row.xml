@@ -10,7 +10,8 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/iv_res_categorie"/>
+        android:id="@+id/iv_res_categorie"
+        android:contentDescription="@string/iv_res_categorie"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -24,14 +25,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nom du produit ici"
+            android:text="@string/tv_res_nom_marchandise"
             android:id="@+id/tv_res_nom_marchandise"
             />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Description du produit ici"
+            android:layout_height="0dp"
+            android:text="@string/tv_res_description"
             android:id="@+id/tv_res_description"
             android:layout_weight="0.1"
             />
@@ -41,7 +42,7 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="99999 unités"
+        android:text="@string/tv_res_qtee_marchandise"
         android:id="@+id/tv_res_qtee_marchandise"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -50,7 +51,7 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="99/99/9999"
+        android:text="@string/tv_res_date_marchandise"
         android:id="@+id/tv_res_date_marchandise"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -62,6 +63,6 @@
         android:layout_height="40dp"
         android:id="@+id/ib_res_supprimer"
         android:background="@drawable/x_rouge"
-        />
+        android:contentDescription="@string/ib_res_supprimer"/>
 
 </LinearLayout>

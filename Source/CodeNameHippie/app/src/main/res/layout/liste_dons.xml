@@ -42,7 +42,7 @@
             android:id="@+id/tv_dons_qtee"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:layout_weight="0.1"
+            android:layout_weight="0.5"
             android:layout_gravity="right"
             />
 

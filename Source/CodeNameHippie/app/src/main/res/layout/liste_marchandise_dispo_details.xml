@@ -9,7 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/adresse_mini"
-        android:id="@+id/iv_md_adresse_mini"/>
+        android:id="@+id/iv_md_adresse_mini"
+        android:contentDescription="@string/iv_md_adresse_mini"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -22,14 +23,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DIGIHUB SHAWINIGAN"
+            android:text="@string/tv_md_nom_entreprise"
             android:id="@+id/tv_md_nom_entreprise"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Adresse, Adresse, Adresse, j'ai pas d'idée"
+            android:text="@string/tv_md_adresse_entreprise"
             android:id="@+id/tv_md_adresse_entreprise"
             />
     </LinearLayout>
