@@ -51,24 +51,22 @@ public class HippieActivity extends AppCompatActivity {
             case R.id.menu_parametre:
                 this.startActivity(new Intent(this, ParametreActivity.class));
                 return true;
-            case R.id.menu_deconnexion:
-                this.authentificateur.deconnecte();
-                this.startActivity(new Intent(this, LoginActivity.class));
-                this.finish();
-                return true;
+
             case R.id.menu_un:
                 // Invoque le menu si on est pas déjà dedans
                 if (!this.getClass().equals(MenuActivity.class)) {
                     this.startActivity(new Intent(this, MenuActivity.class));
                 }
                 return true;
-            case R.id.ajoutMarchandise:
-                this.startActivity(new Intent(this, AjoutMarchandiseActivity.class));
-                return true;
             case R.id.info:
                 if (!this.getClass().equals(MainActivity.class)) {
                     this.startActivity(new Intent(this, MainActivity.class));
                 }
+                return true;
+            case R.id.menu_deconnexion:
+                this.authentificateur.deconnecte();
+                this.startActivity(new Intent(this, LoginActivity.class));
+                this.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
