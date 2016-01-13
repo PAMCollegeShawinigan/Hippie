@@ -52,15 +52,6 @@
 			android:label="@string/title_activity_login"
 			android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 		<activity
-			android:name=".parametre.ParametreActivity"
-			android:label="@string/title_activity_preference"
-			android:parentActivityName=".ui.MainActivity"
-			android:theme="@style/AppTheme.DarkActionBar">
-			<meta-data
-				android:name="android.support.PARENT_ACTIVITY"
-				android:value=".ui.MainActivity" />
-		</activity>
-		<activity
 			android:name=".ui.MapsActivity"
 			android:label="@string/title_activity_maps">
 		</activity>
