@@ -36,5 +36,12 @@
 	<string name="res_qtee">QTÉE</string>
 	<string name="res_nom">NOM</string>
 	<string name="tv_organisme_communautaire">LES ORGANISMES COMMUNAUTAIRES</string>
+	<string name="dons_nom">NOM</string>
+	<string name="dons_description">DESCRIPTION</string>
+	<string name="dons_qtee">QTÉE</string>
+	<string name="iv_org_personne_contact">Personne Contact</string>
+	<string name="tv_org_personne_contact">Philippe Nadeau</string>
+	<string name="iv_org_telephone">Numero de telephone</string>
+	<string name="tv_org_telephone">1 888 888-8888</string>
 
 </resources>
