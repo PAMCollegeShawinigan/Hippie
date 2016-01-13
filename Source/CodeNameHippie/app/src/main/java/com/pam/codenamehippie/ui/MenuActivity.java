@@ -119,6 +119,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                 // clic sur les réservations
                 break;
             case R.id.plus:
+                startActivity(new Intent(this, AjoutMarchandiseActivity.class));
                 // clic sur les catégories
                 break;
         }
