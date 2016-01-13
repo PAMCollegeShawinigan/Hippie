@@ -21,8 +21,7 @@ public class UtilisateurModele extends BaseModele<UtilisateurModele> {
     private String prenom;
     @SerializedName("telephone")
     private String telephone;
-    // FIXME: Le serveur retourne moyenContact au lieu de moyen_contact
-    @SerializedName(value = "moyen_contact", alternate = "moyenContact")
+    @SerializedName(value = "moyen_contact")
     private Integer moyenContact;
     @SerializedName("organisme")
     private OrganismeModele organisme;

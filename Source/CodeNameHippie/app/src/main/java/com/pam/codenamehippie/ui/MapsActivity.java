@@ -455,14 +455,14 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
 
                                                       if (groupPosition == 0) {
 
-                                                          logo.setImageResource(R.drawable.addren);
+                                                          logo.setImageResource(R.drawable.adresse);
 
                                                           textView.setText(mOrganisme.getAddresse());
 
 
                                                       } else if (groupPosition == 1) {
 
-                                                          logo.setImageResource(R.drawable.clockn);
+                                                          logo.setImageResource(R.drawable.horaire);
                                                           final Calendar c = Calendar.getInstance();
                                                           int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
                                                           if (dayOfWeek == 2) {
@@ -484,7 +484,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
 
                                                       } else {
 
-                                                          logo.setImageResource(R.drawable.lists);
+                                                          logo.setImageResource(R.drawable.liste_marchandise);
                                                           textView.setText("afficher les denree a donner              unites:" + mOrganisme.getListDenree().size());
 
                                                       }
@@ -515,7 +515,8 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                                                                   textView.setText(mOrganisme.getNomOrganisme());
                                                                   break;
                                                               case 1:
-                                                                  logo.setImageResource(R.drawable.newtele);
+
+                                                                  logo.setImageResource(R.drawable.telephone2);
                                                                   textView.setText(mOrganisme.getTelephone());
                                                                   break;
                                                           }
@@ -573,19 +574,19 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                                                           ImageView logo = new ImageView(MapsActivity.this);
                                                           String typeDenree = (((Denree) getChild(groupPosition, childPosition))).getTypeDenree().toString();
                                                           if ((typeDenree.equals("fruit_legume"))) {
-                                                              logo.setImageResource(R.drawable.fruits);
+                                                              logo.setImageResource(R.drawable.map_fruit_legume);
                                                           } else if (typeDenree.equals("viande")) {
-                                                              logo.setImageResource(R.drawable.meats);
+                                                              logo.setImageResource(R.drawable.map_viande);
                                                           } else if (typeDenree.equals("laitier")) {
-                                                              logo.setImageResource(R.drawable.milks);
+                                                              logo.setImageResource(R.drawable.map_laitier);
                                                           } else if (typeDenree.equals("surgele")) {
-                                                              logo.setImageResource(R.drawable.frozens);
-                                                          } else if (typeDenree.equals("perissable")) {
-                                                              logo.setImageResource(R.drawable.perishables);
+                                                              logo.setImageResource(R.drawable.map_surgele);
+                                                          } else if (typeDenree.equals("non-comestible")) {
+                                                              logo.setImageResource(R.drawable.map_non_comestible);
                                                           } else if (typeDenree.equals("boulangerie")) {
-                                                              logo.setImageResource(R.drawable.breads);
+                                                              logo.setImageResource(R.drawable.map_boulangerie);
                                                           } else {
-                                                              logo.setImageResource(R.drawable.nonperishables);
+                                                              logo.setImageResource(R.drawable.map_non_perissable);
                                                           }
 
                                                           logo.setMinimumWidth(300);
