@@ -36,5 +36,38 @@
 	<string name="res_qtee">QTÉE</string>
 	<string name="res_nom">NOM</string>
 	<string name="tv_organisme_communautaire">LES ORGANISMES COMMUNAUTAIRES</string>
+	<string name="profil">profil</string>
+	<string name="dons_nom">NOM</string>
+	<string name="dons_description">DESCRIPTION</string>
+	<string name="dons_qtee">QTÉE</string>
+	<string name="iv_org_personne_contact">Personne Contact</string>
+	<string name="tv_org_personne_contact">Philippe Nadeau</string>
+	<string name="iv_org_telephone">Numero de telephone</string>
+	<string name="tv_org_telephone">1 888 888-8888</string>
+	<string name="iv_dons_categorie">Catégorie</string>
+	<string name="tv_dons_nom_marchandise">Nom du produit ici</string>
+	<string name="tv_dons_description_marchandise">Description du produit ici</string>
+	<string name="tv_dons_qtee_marchandise">99999 unités</string>
+	<string name="ib_dons_modifier">Modifier</string>
+	<string name="ib_dons_supprimer">Supprimer</string>
+	<string name="iv_md_categorie">Catégorie</string>
+	<string name="tv_md_nom_marchandise">Nom du produit ici</string>
+	<string name="tv_md_description">Description du produit ici</string>
+	<string name="tv_md_qtee_marchandise">99999 unités</string>
+	<string name="tv_md_date_marchandise">99/99/9999</string>
+	<string name="ib_md_ajouter">Ajouter</string>
+	<string name="iv_org_adresse">Adresse</string>
+	<string name="tv_org_nom_organisme">DIGIHUB SHAWINIGAN</string>
+	<string name="tv_org_adresse">Adresse, Adresse, Adresse, j\'ai pas d\'idée</string>
+	<string name="iv_md_adresse_mini">Adresse</string>
+	<string name="tv_md_nom_entreprise">DIGIHUB SHAWINIGAN</string>
+	<string name="tv_md_adresse_entreprise">Adresse, Adresse, Adresse, j\'ai pas d\'idée</string>
+	<string name="iv_res_categorie">Catégorie</string>
+	<string name="tv_res_qtee_marchandise">99999 unités</string>
+	<string name="tv_res_date_marchandise">99/99/9999</string>
+	<string name="ib_res_supprimer">Supprimer</string>
+	<string name="tv_res_nom_marchandise">Nom du produit ici</string>
+	<string name="tv_res_description">Description du produit ici</string>
+
 
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
+
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
@@ -7,7 +8,9 @@
 	android:layout_height="match_parent"
 	android:fitsSystemWindows="true"
 	android:weightSum="1">
+
 	<include layout="@layout/content_appbar_main" />
+
 	<com.sothree.slidinguppanel.SlidingUpPanelLayout
 		xmlns:sothree="http://schemas.android.com/apk/res-auto"
 		android:id="@+id/sliding_layout"
@@ -15,9 +18,9 @@
 		android:layout_height="match_parent"
 		android:gravity="bottom"
 		sothree:umanoDragView="@+id/dragView"
-		sothree:umanoOverlay="true"
-		sothree:umanoPanelHeight="68dp"
-		sothree:umanoParalaxOffset="100dp"
+		sothree:umanoOverlay="false"
+		sothree:umanoPanelHeight="54dp"
+		sothree:umanoParalaxOffset="50dp"
 		sothree:umanoShadowHeight="4dp">
 
 		<RelativeLayout
@@ -76,7 +79,11 @@
 
 		<LinearLayout
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+			android:layout_height="match_parent"
+            android:background="#e2e1bb"
+            android:clickable="true"
+            android:focusable="false"
+            android:orientation="vertical" >
 
 			<ExpandableListView
 				android:id="@+id/expandableListView"
@@ -88,4 +95,5 @@
 		</LinearLayout>
 
 	</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
 </android.support.design.widget.CoordinatorLayout>
