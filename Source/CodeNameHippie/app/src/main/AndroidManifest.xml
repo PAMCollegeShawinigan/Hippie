@@ -53,7 +53,8 @@
 			android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 		<activity
 			android:name=".ui.MapsActivity"
-			android:label="@string/title_activity_maps">
+			android:label="@string/title_activity_maps"
+			android:theme="@style/AppTheme">
 		</activity>
 		<activity
 			android:name=".ui.MenuActivity"
