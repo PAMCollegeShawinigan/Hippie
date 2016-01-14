@@ -1,10 +1,13 @@
 package com.pam.codenamehippie.ui;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -44,6 +50,11 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
     private ArrayList<Marker> listMarker;
     private ArrayList<LatLng> latLngList;
     GoogleMap mMap;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     /**
      * preparer la carte google et des donnees.
@@ -54,8 +65,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps_plus);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        slidingLayout.setAnchorPoint(0.6f);
         final RelativeLayout mapView = (RelativeLayout) findViewById(R.id.mapView);
 
         slidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
@@ -68,12 +81,16 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
             @Override
             public void onPanelCollapsed(View view) {
                 mapView.setVisibility(View.VISIBLE);
+                toolbar.setVisibility(View.VISIBLE);
+
             }
 
             @Override
             public void onPanelExpanded(View view) {
 
                 mapView.setVisibility(View.GONE);
+                toolbar.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -91,11 +108,14 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
         mapFragment.getMapAsync(this);
 
         //preparer les donnees pour tester
-      // prepareDonnees();
+        // prepareDonnees();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    public void onButtonClick(View v){
-     switch (v.getId()) {
+    public void onButtonClick(View v) {
+        switch (v.getId()) {
 
             case R.id.marchandiseDisponible:
                 // affiche denree disponible sur la carte
@@ -112,8 +132,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                 listMarker = new ArrayList<>();
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
                 for (int i = 0; i < latLngList.size(); i++) {
-                    listMarker.add( mMap.addMarker(new MarkerOptions().position(latLngList.get(i))));
-                    builder.include(latLngList.get(i));}
+                    listMarker.add(mMap.addMarker(new MarkerOptions().position(latLngList.get(i))));
+                    builder.include(latLngList.get(i));
+                }
                 break;
 
             case R.id.mesReservation:
@@ -134,8 +155,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                 listMarker = new ArrayList<>();
                 LatLngBounds.Builder builder1 = new LatLngBounds.Builder();
                 for (int i = 0; i < latLngList.size(); i++) {
-                    listMarker.add( mMap.addMarker(new MarkerOptions().position(latLngList.get(i))));
-                    builder1.include(latLngList.get(i));}
+                    listMarker.add(mMap.addMarker(new MarkerOptions().position(latLngList.get(i))));
+                    builder1.include(latLngList.get(i));
+                }
                 break;
 
          /*   case R.id.main_liste_denree_disponible:
@@ -148,8 +170,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
            */
         }
 
-        }
-
+    }
 
 
     /**
@@ -200,7 +221,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
         mapCollectTime3.put("vendredi", "9:00-17:00");
         mapCollectTime3.put("samdi", "9:00-13:00");
         mapCollectTime3.put("dimanche", "ferme");
-        Organisme organisme3 = new Organisme("Maxi ",  "909 Boulevard Firestone, Joliette, QC J6E 2W4", mapCollectTime3, "(450) 752-0088", listDenree3);
+        Organisme organisme3 = new Organisme("Maxi ", "909 Boulevard Firestone, Joliette, QC J6E 2W4", mapCollectTime3, "(450) 752-0088", listDenree3);
 
         ArrayList<Denree> listDenree4 = new ArrayList<>();
         listDenree4.add(new Denree("rasin", "37", "kg", StateDenree.disponible, TypeDenree.fruit_legume));
@@ -301,11 +322,11 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-       mMap = googleMap;
+        mMap = googleMap;
         //les LatLng infos sont obtenues pas webservice de googlemap,les entrees sont des addresses civiles.
         //les points cidessus sont seulement pour les tests.
         //ajouter les point sur carte
-     listOrganisme=prepareDonnees();
+        listOrganisme = prepareDonnees();
 
         latLngList = new ArrayList<>();
         for (int i = 0; i < listOrganisme.size(); i++) {
@@ -314,7 +335,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
         listMarker = new ArrayList<>();
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (int i = 0; i < latLngList.size(); i++) {
-           listMarker.add( mMap.addMarker(new MarkerOptions().position(latLngList.get(i))));
+            listMarker.add(mMap.addMarker(new MarkerOptions().position(latLngList.get(i))));
             builder.include(latLngList.get(i));
         }
 
@@ -680,5 +701,44 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
     }
 
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Maps Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.pam.codenamehippie.ui/http/host/path")
+        );
+        // AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Maps Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.pam.codenamehippie.ui/http/host/path")
+        );
+//        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
 }
 
