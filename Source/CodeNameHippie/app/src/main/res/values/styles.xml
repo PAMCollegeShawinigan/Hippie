@@ -1,7 +1,9 @@
 <resources>
 
     <style name="AppTheme" parent="Base.AppTheme"/>
-
+    <style name="AppThemeMap" parent="Theme.AppCompat">
+        <item name="windowActionBar">false</item>
+    </style>
 
 
     <style name="AppTheme.DarkActionBar" parent="AppTheme">

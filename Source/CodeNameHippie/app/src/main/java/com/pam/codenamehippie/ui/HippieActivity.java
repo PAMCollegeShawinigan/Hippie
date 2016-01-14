@@ -1,5 +1,6 @@
 package com.pam.codenamehippie.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,7 +22,8 @@ import com.squareup.okhttp.OkHttpClient;
  * Classe de base pour toutes les {@link android.app.Activity} du projet. Sert principalement à
  * propager le menu principal dans l'action bar.
  */
-public class HippieActivity extends AppCompatActivity {
+public class HippieActivity extends  AppCompatActivity
+{
 
     protected Authentificateur authentificateur;
     protected OkHttpClient httpClient;
