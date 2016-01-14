@@ -75,15 +75,17 @@
             android:id="@+id/textView11"
             android:textSize="25dp"
             android:textColor="#A1CC39"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="o	Denrée Ô suivant aide les entreprises à afficher leurs ressources. Ainsi, cela évite les sollicitations inappropriées de la part des organismes. Elle facilite aussi la communication avec les organismes et sers à économiser du temps et des ressources humaines. "
+            android:text="Denrée Ô suivant aide les entreprises à afficher leurs ressources. Ainsi, cela évite les sollicitations inappropriées de la part des organismes. Elle facilite aussi la communication avec les organismes et sers à économiser du temps et des ressources humaines. "
             android:id="@+id/textView12"
             android:textSize="20dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="50dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -92,15 +94,17 @@
             android:id="@+id/textView13"
             android:textSize="25dp"
             android:textColor="#A1CC39"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="o	L’objectif est d’augmenter potentiellement les dons et ainsi donner une aide directe aux plus démunis et aux organismes œuvrant dans le milieu communautaire et social. "
+            android:text="L’objectif est d’augmenter potentiellement les dons et ainsi donner une aide directe aux plus démunis et aux organismes œuvrant dans le milieu communautaire et social. "
             android:id="@+id/textView14"
             android:textSize="20dp"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="50dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -109,16 +113,18 @@
             android:id="@+id/textView15"
             android:textSize="25dp"
             android:textColor="#A1CC39"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="o	Denrée Ô suivant se donne pour mission de minimiser les ressources gaspillées. Ainsi favoriser la récupération et le recyclage. Il aura donc une revalorisation et une redistribution des ressources non-utilisées. L’impact environnemental en sera plus que positif. "
+            android:text="Denrée Ô suivant se donne pour mission de minimiser les ressources gaspillées. Ainsi favoriser la récupération et le recyclage. Il aura donc une revalorisation et une redistribution des ressources non-utilisées. L’impact environnemental en sera plus que positif. "
             android:id="@+id/textView16"
             android:textSize="20dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="32dp" />
 
         <TextView
             android:layout_width="wrap_content"
