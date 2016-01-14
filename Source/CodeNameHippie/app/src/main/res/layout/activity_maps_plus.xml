@@ -20,12 +20,13 @@
 		sothree:umanoDragView="@+id/dragView"
 		sothree:umanoOverlay="false"
 		sothree:umanoPanelHeight="54dp"
-		sothree:umanoParalaxOffset="50dp"
+		sothree:umanoParalaxOffset="100dp"
 		sothree:umanoShadowHeight="4dp">
 
 		<RelativeLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
 			android:id="@+id/mapView">
 			<fragment xmlns:android="http://schemas.android.com/apk/res/android"
 					  xmlns:tools="http://schemas.android.com/tools"
