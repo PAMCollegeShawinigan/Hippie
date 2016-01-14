@@ -2,9 +2,7 @@
 <menu
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
-	<item
-		android:id="@+id/menu_parametre"
-		android:title="@string/title_activity_preference" />
+
 	<item
 		android:id="@+id/menu_un"
 		android:icon="@drawable/menu"
@@ -15,15 +13,18 @@
 	<item
 		android:id="@+id/info"
 		android:icon="@drawable/aide"
-		android:orderInCategory="1"
+		android:orderInCategory="2"
 		android:title="@string/info"/>
 	<item
 		android:id="@+id/menu_deconnexion"
+        android:orderInCategory="3"
 		android:title="@string/action_sign_out" />
 
     <item
         android:id="@+id/menu_profil"
-        android:title="@string/action_sign_out" />
+        android:icon="@drawable/profil"
+        android:title="@string/profil"
+        android:orderInCategory="1"/>
 
 
 

@@ -1,9 +1,6 @@
 package com.pam.codenamehippie.ui;
 
-import android.location.Address;
-
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,14 +9,13 @@ import java.util.Map;
 /**
  * Created by BEG-163 on 2015-12-01.
  */
-public class Entreprise {
-    private String nomEntreprise;
+public class Organisme {
+    private String nomOrganisme;
     private String addresse;
-    Address add;
+    private AddressOrganisme add;
     private HashMap<String, String> mapCollectTime;
     private String telephone;
     private ArrayList<Denree> listDenree;
-
     private LatLng mLatLng;
 
     public LatLng getmLatLng() {
@@ -34,11 +30,9 @@ public class Entreprise {
         this.mapCollectTime = mapCollectTime;
     }
 
-    public Entreprise(String nomEntreprise, String addresse, LatLng mLatLng, HashMap<String, String> mapCollectTime, String telephone, ArrayList<Denree> listDenree) {
-        this.nomEntreprise = nomEntreprise;
+    public Organisme(String nomOrganisme, String addresse, HashMap<String, String> mapCollectTime, String telephone, ArrayList<Denree> listDenree) {
+        this.nomOrganisme = nomOrganisme;
         this.addresse = addresse;
-        this.mLatLng = mLatLng;
-        ;
         this.mapCollectTime = mapCollectTime;
         this.telephone = telephone;
         this.listDenree = listDenree;
@@ -52,12 +46,12 @@ public class Entreprise {
         this.mapCollectTime = mapCollectTime;
     }
 
-    public String getNomEntreprise() {
-        return nomEntreprise;
+    public String getNomOrganisme() {
+        return nomOrganisme;
     }
 
-    public void setNomEntreprise(String nomEntreprise) {
-        this.nomEntreprise = nomEntreprise;
+    public void setNomOrganisme(String nomOrganisme) {
+        this.nomOrganisme = nomOrganisme;
     }
 
     public String getAddresse() {
