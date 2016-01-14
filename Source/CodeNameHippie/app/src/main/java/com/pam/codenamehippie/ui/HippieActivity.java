@@ -50,9 +50,6 @@ public class HippieActivity extends  AppCompatActivity
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
-            case R.id.menu_parametre:
-                this.startActivity(new Intent(this, ParametreActivity.class));
-                return true;
 
             case R.id.menu_un:
                 // Invoque le menu si on est pas déjà dedans
