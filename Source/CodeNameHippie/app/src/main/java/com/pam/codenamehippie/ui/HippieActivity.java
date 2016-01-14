@@ -1,5 +1,6 @@
 package com.pam.codenamehippie.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,7 +22,8 @@ import com.squareup.okhttp.OkHttpClient;
  * Classe de base pour toutes les {@link android.app.Activity} du projet. Sert principalement à
  * propager le menu principal dans l'action bar.
  */
-public class HippieActivity extends AppCompatActivity {
+public class HippieActivity extends  AppCompatActivity
+{
 
     protected Authentificateur authentificateur;
     protected OkHttpClient httpClient;
@@ -48,27 +50,22 @@ public class HippieActivity extends AppCompatActivity {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
-            case R.id.menu_parametre:
-                this.startActivity(new Intent(this, ParametreActivity.class));
-                return true;
-            case R.id.menu_deconnexion:
-                this.authentificateur.deconnecte();
-                this.startActivity(new Intent(this, LoginActivity.class));
-                this.finish();
-                return true;
+
             case R.id.menu_un:
                 // Invoque le menu si on est pas déjà dedans
                 if (!this.getClass().equals(MenuActivity.class)) {
                     this.startActivity(new Intent(this, MenuActivity.class));
                 }
                 return true;
-            case R.id.ajoutMarchandise:
-                this.startActivity(new Intent(this, AjoutMarchandiseActivity.class));
-                return true;
             case R.id.info:
                 if (!this.getClass().equals(MainActivity.class)) {
                     this.startActivity(new Intent(this, MainActivity.class));
                 }
+                return true;
+            case R.id.menu_deconnexion:
+                this.authentificateur.deconnecte();
+                this.startActivity(new Intent(this, LoginActivity.class));
+                this.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
