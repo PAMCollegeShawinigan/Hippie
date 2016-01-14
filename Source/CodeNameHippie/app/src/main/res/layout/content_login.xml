@@ -26,7 +26,7 @@
 			android:layout_centerHorizontal="true"
 			android:layout_marginBottom="45dp"
 			android:layout_marginTop="90dp"
-			android:background="@drawable/logo2" />
+			android:background="@drawable/logo_2x" />
 		<EditText
 			android:id="@+id/etCourriel"
 			android:layout_width="300dp"
