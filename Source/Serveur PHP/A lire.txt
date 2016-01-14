@@ -1,0 +1,2 @@
+Les fonctions sont dans Controllers 
+la liste des routes dans routes.php
