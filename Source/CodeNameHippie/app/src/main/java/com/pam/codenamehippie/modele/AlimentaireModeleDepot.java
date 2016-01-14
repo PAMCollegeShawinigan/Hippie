@@ -156,6 +156,12 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
 
     }
+
+    public void peuplerListeReserve(){
+
+    }
+
+
 //    /**
 //     * Rechercher un MarchandiseModele par ID dans le dépôt
 //     *
