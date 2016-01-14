@@ -60,6 +60,10 @@
 			android:logo="@drawable/logo"
 			android:label="@string/menu">
 		</activity>
+		<activity
+			android:name=".ui.ListeMesDonsActivity"
+			android:label="Mes Dons">
+		</activity>
 		<activity android:name=".ui.AjoutMarchandiseActivity" />
 		<!--
 			 The API key for Google Maps-based APIs is defined as a string resource.

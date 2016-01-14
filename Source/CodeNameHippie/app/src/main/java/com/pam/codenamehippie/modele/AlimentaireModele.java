@@ -9,6 +9,7 @@ import java.util.Date;
  */
 public class AlimentaireModele extends MarchandiseModele<AlimentaireModele> {
 
+    //TODO: Remplacer qteeUnite par unite
     @SerializedName("qtee_unite")
     private Double qteeUnite;
     @SerializedName("type_alimentaire")
