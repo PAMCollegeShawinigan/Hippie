@@ -50,6 +50,7 @@ public class HippieActivity extends  AppCompatActivity
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
 
+            // TODO: Utilisation temporaire pour afficher ListeMesDonsActivity
             case R.id.menu_profil:
                 if (!this.getClass().equals(ListeMesDonsActivity.class)) {
                     this.startActivity(new Intent(this, ListeMesDonsActivity.class));
