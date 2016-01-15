@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 
-
 import java.util.ArrayList;
 
 /**
@@ -47,14 +46,13 @@ public class HippieListAdapter extends BaseAdapter {
         AlimentaireModele modele = this.getItem(position);
         if (row == null) {
             LayoutInflater inflater =
-                    (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.liste_dons_row, parent, false);
         }
         ((TextView) row.findViewById(R.id.tv_dons_nom_marchandise)).setText(modele.getNom());
         ((TextView) row.findViewById(R.id.tv_dons_description_marchandise)).setText(modele.getDescription());
-        ((TextView) row.findViewById(R.id.tv_dons_qtee_marchandise)).setText(modele.getQuantite().toString() + " " + "Unités");
-        //TODO: mettre l'unité marchandise (Lbs)
-
+        String quantiteString = modele.getQuantite().toString() + " " + modele.getUnite();
+        ((TextView) row.findViewById(R.id.tv_dons_qtee_marchandise)).setText(quantiteString);
         return row;
     }
 }
