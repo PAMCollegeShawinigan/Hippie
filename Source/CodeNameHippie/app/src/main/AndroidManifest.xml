@@ -21,6 +21,7 @@
 	<application
 		android:name=".HippieApplication"
 		android:allowBackup="true"
+		android:icon="@mipmap/ic_launcher"
 		android:logo="@drawable/logo"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
@@ -58,8 +59,8 @@
 		</activity>
 		<activity
 			android:name=".ui.MenuActivity"
-			android:logo="@drawable/logo"
-			android:label="@string/menu">
+			android:label="@string/menu"
+			android:logo="@drawable/logo">
 		</activity>
 		<activity
 			android:name=".ui.ListeMesDonsActivity"
