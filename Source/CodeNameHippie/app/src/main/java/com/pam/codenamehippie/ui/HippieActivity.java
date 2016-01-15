@@ -1,6 +1,5 @@
 package com.pam.codenamehippie.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,8 +20,7 @@ import com.squareup.okhttp.OkHttpClient;
  * Classe de base pour toutes les {@link android.app.Activity} du projet. Sert principalement à
  * propager le menu principal dans l'action bar.
  */
-public class HippieActivity extends  AppCompatActivity
-{
+public class HippieActivity extends AppCompatActivity {
 
     protected Authentificateur authentificateur;
     protected OkHttpClient httpClient;
@@ -50,7 +48,7 @@ public class HippieActivity extends  AppCompatActivity
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
 
-            // TODO: Utilisation temporaire pour afficher ListeMesDonsActivity
+            // FIXME: Utilisation temporaire pour afficher ListeMesDonsActivity
             case R.id.menu_profil:
                 if (!this.getClass().equals(ListeMesDonsActivity.class)) {
                     this.startActivity(new Intent(this, ListeMesDonsActivity.class));
