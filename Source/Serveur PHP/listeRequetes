@@ -1,0 +1,47 @@
+CONNECTION
+
+http://yolainecourteau.com/hippie/laravel/public/  en POST pour la connection, prend courriel et mot_de_passe en parametre, retourne l'utilisateur relié
+
+LISTE
+
+http://yolainecourteau.com/hippie/laravel/public/liste/alimentaire en GET retourne la liste de la table type_alimentaire sous forme [{"id":"1","description":"Fruits et Légumes"},{"id":"2","description":"Produits laitiers"})]
+
+http://yolainecourteau.com/hippie/laravel/public/liste/rue en GET retourne la liste de la table type_rue sous forme  [{"id":"1","description":"Avenue"},{"id":"2","description":"Boulevard"}]
+
+http://yolainecourteau.com/hippie/laravel/public/liste/unite en GET retourne la liste de la table marchandise_unite sous forme  [{"id":"1","description":"Lbs"},{"id":"2","description":"Kg"}]
+
+http://yolainecourteau.com/hippie/laravel/public/liste/statut en GET retourne la liste de la table marchandise_statut sous forme  [{"id":"1","description":"En Traitement"},{"id":"2","description":"Réservé"}]
+
+http://yolainecourteau.com/hippie/laravel/public/liste/etat en GET retourne la liste de la table marchandise_etat sous forme  [{"id":"1","description":"Incomplet"},{"id":"2","description":"Mauvais État"}]
+
+ADRESSE
+
+http://yolainecourteau.com/hippie/laravel/public/adresse/{id} en GET, mettre la clef adresse de la table organisme au lieu de {id} retourne l'adresse complete de l'organisme 
+
+ORGANISME
+
+http://yolainecourteau.com/hippie/laravel/public/orgarnisme en GET, retourne le nom et l'id de tout les organismes dans la table organisme sous forme 
+
+http://yolainecourteau.com/hippie/laravel/public/orgarnisme/{id} en GET, mettre l'id de l'organisme desiré au lieu de {id}, retourne tous les informations de l'organisme avec l'objet adresse et contact dans le JSon
+
+UTILISATEUR
+
+http://yolainecourteau.com/hippie/laravel/public/utilisateur/ en GET, retourne la liste des utilisateurs avec id, nom et prenom
+
+http://yolainecourteau.com/hippie/laravel/public/utilisateur/{id} en GET, mettre l'id de l'utilisateur desiré au lieu de {id}, retourne les informations relié a l'utilisateur, s'il fait parti d'un organisme, retourne l'id et le nom de l'organisme sinon retourne null
+
+http://yolainecourteau.com/hippie/laravel/public/utilisateur en POST, permet l'inscription d'un utilisateur, prends nom, prenom, courriel, mot_de_passe et retourne l'id attribué a l'utilisateur
+
+ALIMENTAIRE
+
+http://yolainecourteau.com/hippie/laravel/public/alimentaire/{id} en GET, mettre l'id de la marchanfise desiré au lieu de {id}, retourne toutes les informations relié a la marchandise_etat
+***a tester***
+http://yolainecourteau.com/hippie/laravel/public/alimentaire/ajout en POST, permet l'ajout d'une marchandise dans la base de donné et la met disponible et cré une transaction, a besoin de [nom(string), description(string), quantité(float), marchandise_etat(int,fk), marchandise_unite(int,fk), valeur(int), type_alimentaire(int, fk), date_peremption, donneur_id]
+
+
+
+RESERVATION
+
+http://yolainecourteau.com/hippie/laravel/public/reservation/ajouter en POST, permet la reservation d'une marchandise et la création d'une transaction, a besoin[marchandise_id, receveur_id]
+
+http://yolainecourteau.com/hippie/laravel/public/reservation/annuler/{id} en GET, mettre l'id de la marchandise a annuler la reservation au lieu de {id}, remet l'aliment disponible et cré une nouvelle transaction avec date reservation a 0

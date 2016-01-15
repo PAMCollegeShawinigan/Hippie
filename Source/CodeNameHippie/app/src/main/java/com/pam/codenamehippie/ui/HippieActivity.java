@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.http.Authentificateur;
-import com.pam.codenamehippie.parametre.ParametreActivity;
 import com.squareup.okhttp.OkHttpClient;
 
 /**
@@ -49,6 +48,12 @@ public class HippieActivity extends AppCompatActivity {
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
 
+            // FIXME: Utilisation temporaire pour afficher ListeMesDonsActivity
+            case R.id.menu_profil:
+                if (!this.getClass().equals(ListeMesDonsActivity.class)) {
+                    this.startActivity(new Intent(this, ListeMesDonsActivity.class));
+                }
+                return true;
             case R.id.menu_un:
                 // Invoque le menu si on est pas déjà dedans
                 if (!this.getClass().equals(MenuActivity.class)) {
