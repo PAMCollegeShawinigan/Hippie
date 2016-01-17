@@ -32,8 +32,8 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         this.listeUniteUrl = baseListeUrl.newBuilder().addPathSegment("unite").build();
         this.listeTypeAlimentaireUrl =
                 baseListeUrl.newBuilder().addPathSegment("alimentaire").build();
+        this.listeDonUrl = this.url.newBuilder().addPathSegment("carte").build();
         this.url = this.url.newBuilder().addPathSegment("alimentaire").build();
-        this.listeDonUrl = baseListeUrl.newBuilder().addPathSegment("carte").build();
 
     }
 
