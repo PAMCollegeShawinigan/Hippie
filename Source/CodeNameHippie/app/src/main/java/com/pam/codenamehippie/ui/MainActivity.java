@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.OrganismeModeleDepot;
 import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
 
 public class MainActivity extends HippieActivity {
@@ -45,6 +46,9 @@ public class MainActivity extends HippieActivity {
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         alimentaireModeleDepot.peuplerListeDon(4);
+        OrganismeModeleDepot organismeModeleDepot =
+                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
+        organismeModeleDepot.peuplerListeDonneur();
     }
 }
 
