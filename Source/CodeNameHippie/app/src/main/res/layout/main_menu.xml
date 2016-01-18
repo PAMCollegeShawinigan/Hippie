@@ -15,7 +15,7 @@
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
-        triangle:triangleBackground="@drawable/bg_menu"
+        triangle:triangleBackground="@drawable/bg_menu3"
         triangle:firstChildPosition="North"
         triangle:isRotating="false"
         triangle:speed="25"
