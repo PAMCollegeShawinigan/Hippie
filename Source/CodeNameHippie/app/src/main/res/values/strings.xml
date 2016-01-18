@@ -68,6 +68,11 @@
 	<string name="ib_res_supprimer">Supprimer</string>
 	<string name="tv_res_nom_marchandise">Nom du produit ici</string>
 	<string name="tv_res_description">Description du produit ici</string>
+	<string name="tv_inscription">S\'INSCRIRE</string>
+	<string name="tv_separation">|</string>
+	<string name="tv_mpo">MOT DE PASSE OUBLIÉ?</string>
+	<string name="bguest">Compte invité</string>
+	<string name="iv_logo">Logo</string>
 
 
 </resources>
