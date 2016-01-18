@@ -46,6 +46,8 @@ public class MainActivity extends HippieActivity {
                 ((HippieApplication) this.getApplication())
                         .getUtilisateurModeleDepot();
         alimentaireModeleDepot.peuplerLesListes();
+        // TODO: le id est temporairement Hardcoder
+        alimentaireModeleDepot.peuplerListeDon(4);
         utilisateurModeleDepot.peuplerLeDepot();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
