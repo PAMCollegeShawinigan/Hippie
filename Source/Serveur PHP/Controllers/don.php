@@ -16,8 +16,7 @@ class don extends Controller
 		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev		
 		
 		$req = $bdd -> prepare('SELECT ali.nom, ali.alimentaire_id,
-		ali.description_alimentaire, ali.quantite, marunit.description_marchandise_unite,ali.date_peremption, ali.valeur, marstat.description
-		
+		ali.description_alimentaire, ali.quantite, marunit.description_marchandise_unite,ali.date_peremption, ali.valeur, marstat.description_marchandise_statut
 		FROM transaction trx
 		
 		
@@ -26,9 +25,9 @@ class don extends Controller
 		INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
 		INNER JOIN marchandise_statut marstat ON marstat.statut_id = ali.marchandise_statut
 		INNER JOIN marchandise_etat maretat ON maretat.etat_id = ali.marchandise_etat
-		INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite
+		INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite 
 
-		WHERE trx.donneur_id = :id_donneur ');
+		WHERE trx.donneur_id = :id_donneur ORDER BY alimentaire_id DESC');
 		
 					$req->execute(array(
 						'id_donneur' => $id_donneur
@@ -38,9 +37,19 @@ class don extends Controller
 		
 		while($resultat = $req->fetch()){
 			
+			if($resultat['date_peremption'] != null )
+			{
+			$date = date_create($resultat['date_peremption']);
+			
+			$date_peremption = date_format($date, DATE_ATOM);
+			}
+			else
+			{
+				$date_peremption = null;
+			}	
 			$arr = array( 'id' => $resultat['alimentaire_id'], 'quantite' => $resultat['quantite'], 'unite' => $resultat['description_marchandise_unite'], 
 			'nom' => $resultat['nom'], 'description' => $resultat['description_alimentaire'], 
-			 'date_peremption' => $resultat['date_peremption'], 'valeur' => $resultat['valeur']);
+			 'date_peremption' => $date_peremption, 'valeur' => $resultat['valeur'], 'marchandise_statut' => $resultat['description_marchandise_statut']);
 			
 			array_push($array, $arr);
 			
