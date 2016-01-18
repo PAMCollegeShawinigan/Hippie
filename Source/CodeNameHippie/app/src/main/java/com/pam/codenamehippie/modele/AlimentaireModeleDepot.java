@@ -32,7 +32,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         this.listeUniteUrl = baseListeUrl.newBuilder().addPathSegment("unite").build();
         this.listeTypeAlimentaireUrl =
                 baseListeUrl.newBuilder().addPathSegment("alimentaire").build();
-        this.listeDonUrl = this.url.newBuilder().addPathSegment("carte").build();
+        this.listeDonUrl = this.url.newBuilder().addPathSegment("don").build();
         this.url = this.url.newBuilder().addPathSegment("alimentaire").build();
 
     }
@@ -222,20 +222,36 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 //        }
 //    }
 
-//    /**
-//     * Supprimer un MarchandiseModele présent dans le dépôt
-//     *
-//     * @param modele
-//     *   de l'objet MarchandiseModele
-//     *
-//     * @return un MarchandiseModele ou null si inexistant dans le dépôt
-//     */
-//    @Override
-//    public MarchandiseModele supprimerModele(MarchandiseModele modele) {
-//        MarchandiseModele oldModele = this.modeles.put(modele.getId(), null);
-//        if (oldModele != null) {
-//            // todo: requête au serveur pour suppression de la marchandise
-//        }
-//        return oldModele;
-//    }
+    /**
+     * Supprimer un MarchandiseModele présent dans le dépôt
+     *
+     * @param modele
+     *   de l'objet MarchandiseModele
+     *
+     * @return un MarchandiseModele ou null si inexistant dans le dépôt
+     */
+    @Override
+    public void supprimerModele(AlimentaireModele modele) {
+        if (modele != null) {
+            // todo: requête au serveur pour suppression de la marchandise
+            HttpUrl url = this.url.newBuilder().addPathSegment("canceller")
+                    .addPathSegment(modele.getId().toString()).build();
+            this.httpClient.newCall(new Request.Builder().url(url).get().build()).enqueue(new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
+                    //TODO: Toast ou whatever
+                    Log.e(TAG, "Request failed: " + request.toString(), e);
+                }
+
+                @Override
+                public void onResponse(Response response) throws IOException {
+
+                    // TODO: Accroche une interface et raffraichir la liste
+
+
+                }
+            });
+        }
+       // return oldModele;
+    }
 }

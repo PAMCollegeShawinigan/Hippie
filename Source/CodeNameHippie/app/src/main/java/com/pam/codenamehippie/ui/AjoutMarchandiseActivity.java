@@ -242,7 +242,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
                 new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(modele.getDatePeremption());
         AlimentaireModeleDepot depot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-
+        // TODO: Modifier URL en ajoutant condition pour modifier un produit au lieu d'ajouter.
         HttpUrl url = depot.getUrl().newBuilder().addPathSegment("ajout").build();
         // FIXME: Gérer l'état de marchandise. On mets 3(neuf) en attendant
         RequestBody body =
