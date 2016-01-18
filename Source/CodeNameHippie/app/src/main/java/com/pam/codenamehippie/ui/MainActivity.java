@@ -12,6 +12,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.OrganismeModeleDepot;
 import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
 
 public class MainActivity extends HippieActivity {
@@ -47,11 +48,22 @@ public class MainActivity extends HippieActivity {
                         .getUtilisateurModeleDepot();
         alimentaireModeleDepot.peuplerLesListes();
         // TODO: le id est temporairement Hardcoder
-        alimentaireModeleDepot.peuplerListeDon(4);
+
         utilisateurModeleDepot.peuplerLeDepot();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AlimentaireModeleDepot alimentaireModeleDepot =
+                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
+        alimentaireModeleDepot.peuplerListeDon(4);
+        OrganismeModeleDepot organismeModeleDepot =
+                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
+        organismeModeleDepot.peuplerListeDonneur();
     }
 }
 
