@@ -1,5 +1,7 @@
 package com.pam.codenamehippie.ui;
 
+import java.util.Date;
+
 /**
  * Created by BEG-163 on 2015-12-01.
  */
@@ -8,16 +10,26 @@ package com.pam.codenamehippie.ui;
 public class Denree {
     private String nomDenree;
     private String quantiteDenree;
-    private String unite = "kg";
+    private String typeUnite;
     private StateDenree stateDenree;
     private TypeDenree typeDenree;
+    private String datePeremption;
 
-    public Denree(String nomDenree, String quantiteDenree, String unite, StateDenree stateDenree, TypeDenree typeDenree) {
+
+    public Denree(String nomDenree, String quantiteDenree, String typeUnite, String datePeremption, TypeDenree typeDenree) {
         this.nomDenree = nomDenree;
         this.quantiteDenree = quantiteDenree;
-        this.unite = unite;
-        this.stateDenree = stateDenree;
+        this.typeUnite = typeUnite;
+        this.datePeremption = datePeremption;
         this.typeDenree = typeDenree;
+    }
+
+    public String getTypeUnite() {
+        return typeUnite;
+    }
+
+    public void setTypeUnite(String typeUnite) {
+        this.typeUnite = typeUnite;
     }
 
     public TypeDenree getTypeDenree() {
@@ -52,12 +64,13 @@ public class Denree {
         this.quantiteDenree = quantiteDenree;
     }
 
-    public String getUnite() {
-        return unite;
+
+    public String getDatePeremption() {
+        return datePeremption;
     }
 
-    public void setUnite(String unite) {
-        this.unite = unite;
+    public void setDatePeremption(String datePeremption) {
+        this.datePeremption = datePeremption;
     }
 }
 
@@ -75,5 +88,11 @@ enum TypeDenree {
     surgele,
     perissable,
     boulangerie,
-    non_perissable
+
+}
+
+enum TypeUnite {
+    kg,
+    litre,
+    unite
 }
