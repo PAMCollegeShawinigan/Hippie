@@ -35,8 +35,16 @@ public class MainActivity extends HippieActivity {
                         .getUtilisateurModeleDepot();
         alimentaireModeleDepot.peuplerLesListes();
         // TODO: le id est temporairement Hardcoder
-        alimentaireModeleDepot.peuplerListeDon(4);
+
         utilisateurModeleDepot.peuplerLeDepot();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AlimentaireModeleDepot alimentaireModeleDepot =
+                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
+        alimentaireModeleDepot.peuplerListeDon(4);
     }
 }
 

@@ -27,7 +27,7 @@ public class ListeMesDonsActivity extends HippieActivity {
 
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        this.mesDonsAdapter = new HippieListAdapter(this, alimentaireModeleDepot.getListeDon());
+        this.mesDonsAdapter = new HippieListAdapter(this, alimentaireModeleDepot.getListeDon(), alimentaireModeleDepot);
 
         listeMesDons = (ListView) findViewById(R.id.lv_dons);
         listeMesDons.setItemsCanFocus(false);
