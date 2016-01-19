@@ -1,7 +1,11 @@
 package com.pam.codenamehippie.ui;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
@@ -19,7 +23,7 @@ public class ListeMesReservationsActivity extends HippieActivity {
     // TODO: Mes réservations
     // Informations sur les listes et les listAdapter : http://www.vogella.com/tutorials/AndroidListView/article.html
 
-    ListView mesReservations;
+    ListView listeMesReservations;
     MesReservationsAdapter mesReservationsAdapter;
 
     @Override
@@ -37,9 +41,17 @@ public class ListeMesReservationsActivity extends HippieActivity {
             String statut = modele.getStatut();
             int idReceveur = modele.getId();
 
-            if (statut.equalsIgnoreCase("Reservé"))
+            // TODO: Faire en sorte que la liste ne prenne que les réservations de la personne connectée.
+            if (statut.equalsIgnoreCase("Reservé")) {
+                modeles.add(modele);
+            }
 
         }
+
+        this.mesReservationsAdapter = new MesReservationsAdapter(modeles, this, alimentaireModeleDepot);
+        listeMesReservations = (ListView) findViewById(R.id.lv_reservation);
+        listeMesReservations.setItemsCanFocus(false);
+        listeMesReservations.setAdapter(mesReservationsAdapter);
 
     }
 
