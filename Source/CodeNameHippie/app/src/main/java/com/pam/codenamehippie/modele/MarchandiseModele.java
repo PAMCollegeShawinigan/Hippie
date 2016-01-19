@@ -14,7 +14,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
 
     @SerializedName("nom")
     private String nom;
-    @SerializedName(value = "description", alternate = {"description_alimentaire"})
+    @SerializedName(value = "description")
     private String description;
     @SerializedName("quantite")
     private Double quantite;

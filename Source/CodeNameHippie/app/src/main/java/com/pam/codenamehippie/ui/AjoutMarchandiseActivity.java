@@ -34,9 +34,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- *  Cette classe permet à un donneur d'ajouter des produits à la base de données
- *  via l'interface utilisateur. La date du jour sera utilisée comme date de disponibilité.
- *  Si un produit n'a pas de date de péremption, la date sera mise à null du côté du serveur.
+ * Cette classe permet à un donneur d'ajouter des produits à la base de données
+ * via l'interface utilisateur. La date du jour sera utilisée comme date de disponibilité.
+ * Si un produit n'a pas de date de péremption, la date sera mise à null du côté du serveur.
  */
 public class AjoutMarchandiseActivity extends HippieActivity
         implements ValidateurObserver {
@@ -162,8 +162,10 @@ public class AjoutMarchandiseActivity extends HippieActivity
      * Méthode pour valider les différentes composantes de l'interface utilisateur selon
      * le type de validation et les valeurs inscrites.
      *
-     * @param validateur Type de validateur. Ex: ValidateurDeChampTexte, ValidateurDeSpinner etc...
-     * @param estValide Retourne True or False selon la validation.
+     * @param validateur
+     *         Type de validateur. Ex: ValidateurDeChampTexte, ValidateurDeSpinner etc...
+     * @param estValide
+     *         Retourne True or False selon la validation.
      */
     @Override
     public void enValidatant(Validateur validateur, boolean estValide) {
@@ -180,7 +182,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
         } else if (validateur.equals(this.validateurSpinnerTypeMarchandise)) {
             // Mettre invisible le DatePicker si produit est non perissable
             if (((TypeAlimentaireModele) this.validateurSpinnerTypeMarchandise.getSelectedItem())
-                        .getEstPerissable() || this.validateurSpinnerTypeMarchandise.getSelectedItemId() == 0) {
+                        .getEstPerissable() ||
+                this.validateurSpinnerTypeMarchandise.getSelectedItemId() == 0) {
                 this.tvDatePeremption.setVisibility(View.VISIBLE);
                 this.datePeremption.setVisibility(View.VISIBLE);
             } else {
@@ -207,6 +210,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
     /**
      * Méthode pour soumettre une requête afin d'ajouter un produit dans la base de données sur le
      * serveur.
+     *
      * @param v
      */
     public void soumettreMarchandise(final View v) {
@@ -224,9 +228,9 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                        .setDescription(this.validateurDescription.getTextString())
                                        .setValeur(Integer.valueOf(this.validateurValeur
                                                                           .getTextString()))
+                                       .setQuantite(Double.valueOf(this.validateurQuantite
+                                                                           .getTextString()))
                                        .setTypeAlimentaire(typeAlimentaire.getDescription())
-                                       .setQteeUnite(Double.valueOf(this.validateurQuantite
-                                                                            .getTextString()))
                                        .setDatePeremption(date.getTime());
         String typeAlimentaireId =
                 String.valueOf(this.validateurSpinnerTypeMarchandise.getSelectedItemId());
@@ -238,13 +242,13 @@ public class AjoutMarchandiseActivity extends HippieActivity
                 new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(modele.getDatePeremption());
         AlimentaireModeleDepot depot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-
+        // TODO: Modifier URL en ajoutant condition pour modifier un produit au lieu d'ajouter.
         HttpUrl url = depot.getUrl().newBuilder().addPathSegment("ajout").build();
         // FIXME: Gérer l'état de marchandise. On mets 3(neuf) en attendant
         RequestBody body =
                 new FormEncodingBuilder().add("description_alimentaire", modele.getDescription())
                                          .add("nom", modele.getNom())
-                                         .add("quantite", modele.getQteeUnite().toString())
+                                         .add("quantite", modele.getQuantite().toString())
                                          .add("valeur", modele.getValeur().toString())
                                          .add("type_alimentaire", typeAlimentaireId)
                                          .add("marchandise_unite", marchandiseUniteId)
@@ -315,7 +319,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurSpinnerTypeMarchandise.setSelectedItemId(0);
         Calendar calendar = Calendar.getInstance();
         datePeremption.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH));
+                                  calendar.get(Calendar.DAY_OF_MONTH)
+                                 );
         this.tvDatePeremption.setVisibility(View.VISIBLE);
         this.datePeremption.setVisibility(View.VISIBLE);
     }

@@ -22,11 +22,12 @@
 		<ImageView
 			android:id="@+id/iv_logo"
 			android:layout_width="300dp"
-			android:layout_height="125dp"
+			android:layout_height="150dp"
 			android:layout_centerHorizontal="true"
 			android:layout_marginBottom="45dp"
 			android:layout_marginTop="90dp"
-			android:background="@drawable/logo" />
+			android:background="@drawable/logo"
+			android:contentDescription="@string/iv_logo"/>
 		<EditText
 			android:id="@+id/etCourriel"
 			android:layout_width="300dp"
@@ -55,15 +56,17 @@
 			android:textColorHint="#c6c6c6" />
 		<TextView
 			android:id="@+id/tvInscription"
-			android:layout_width="wrap_content"
+			android:layout_width="100dp"
 			android:layout_height="wrap_content"
 			android:layout_alignEnd="@+id/bLogin"
 			android:layout_alignTop="@+id/tv_mpo"
 			android:clickable="true"
 			android:onClick="onClickInscription"
-			android:text="PAS ENCORE INSCRITS?"
+			android:text="@string/tv_inscription"
 			android:textColor="#ffffff"
-			android:textSize="12dp" />
+			android:textSize="12sp"
+			android:textAlignment="textEnd"
+			/>
 		<TextView
 			android:id="@+id/tv_separation"
 			android:layout_width="wrap_content"
@@ -73,10 +76,11 @@
 			android:layout_toStartOf="@+id/tvInscription"
 			android:clickable="true"
 			android:paddingRight="15dp"
-			android:text="|"
+			android:text="@string/tv_separation"
 			android:textAlignment="center"
 			android:textColor="#ffffff"
-			android:textSize="12dp" />
+			android:textSize="12sp"
+			/>
 		<TextView
 			android:id="@+id/tv_mpo"
 			android:layout_width="wrap_content"
@@ -84,10 +88,11 @@
 			android:layout_alignStart="@+id/bLogin"
 			android:layout_below="@+id/bLogin"
 			android:clickable="true"
-			android:text="MOT DE PASSE OUBLIÉ?"
+			android:text="@string/tv_mpo"
 			android:textColor="#ffffff"
 			android:textIsSelectable="false"
-			android:textSize="12dp" />
+			android:textSize="12sp"
+			android:layout_marginTop="10dp"/>
 		<Button
 			android:id="@+id/bLogin"
 			android:layout_width="300dp"
@@ -107,7 +112,7 @@
 			android:layout_height="wrap_content"
 			android:layout_alignParentBottom="true"
 			android:layout_alignStart="@+id/iv_logo"
-			android:text="Compte invité"
+			android:text="@string/bguest"
 			android:visibility="invisible" />
 	</RelativeLayout>
 </android.support.v4.widget.NestedScrollView>
