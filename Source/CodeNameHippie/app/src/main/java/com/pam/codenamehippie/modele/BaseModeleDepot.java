@@ -76,6 +76,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * La valeur du paramètre de type T.
      */
     protected Class classeDeT;
+
     /**
      * Url du des objets du dépôt.
      */
@@ -116,12 +117,22 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
         this.httpClient = httpClient;
     }
 
+    /**
+     * Accesseur de l'url des objet du dépôt
+     *
+     * @return Url du des objets du dépôt.
+     */
     public HttpUrl getUrl() {
         return this.url;
     }
 
+    /**
+     * Accesseur du contenu du dépôt
+     *
+     * @return Le contenu du dépôt
+     */
     public SparseArray<T> getModeles() {
-        synchronized (this.context) {
+        synchronized (this.lock) {
             return this.modeles;
         }
     }
@@ -133,17 +144,24 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      */
     protected void peuplerLeDepot(HttpUrl url) {
         Request request = new Request.Builder().url(url).get().build();
+        // FIXME: surDebutDeRequête devrait être caller quand le dispatcher traite la requête.
+        // Il faudrait soummettre manuellement les calls aux dispatcher… Ça demanderait quand
+        // même assez de travail… Pour les besoins de la cause on va tenter de pas soumettre
+        // plusieurs requêtes en même temps au même dépot.
+        this.surDebutDeRequete();
         this.httpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 // TODO: Mettre un toast ou whatever
                 Log.e(TAG, "Request failed: " + request.toString(), e);
+                BaseModeleDepot.this.surErreur();
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
+                    BaseModeleDepot.this.surErreur();
                 } else {
                     synchronized (BaseModeleDepot.this.lock) {
                         // Le serveur retourne un array. Donc pour supporter un énorme array on
@@ -158,7 +176,9 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                         reader.endArray();
                         reader.close();
                     }
+                    BaseModeleDepot.this.surChangementDeDonnees();
                 }
+                BaseModeleDepot.this.surFinDeRequete();
             }
         });
     }
@@ -169,7 +189,9 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * @return le modèle en format JSON.
      */
     public String toJson(T modele) {
-        return gson.toJson(modele);
+        synchronized (this.lock) {
+            return gson.toJson(modele);
+        }
     }
 
     /**

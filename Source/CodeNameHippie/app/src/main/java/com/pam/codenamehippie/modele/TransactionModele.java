@@ -2,6 +2,7 @@ package com.pam.codenamehippie.modele;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -75,6 +76,24 @@ public class TransactionModele extends BaseModele<TransactionModele> {
     public TransactionModele setDateDisponible(Date dateDisponible) {
         this.dateDisponible = dateDisponible;
         return this;
+    }
+
+    public Calendar getCalendarDateDisponible() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(this.dateDisponible);
+        return calendar;
+    }
+
+    public Calendar getCalendarDateReservation() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(this.dateReservation);
+        return calendar;
+    }
+
+    public Calendar getCalendarDateCollecte() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(this.dateCollecte);
+        return calendar;
     }
     // ------------------------------ Fin Accesseur et Mutateur
 }

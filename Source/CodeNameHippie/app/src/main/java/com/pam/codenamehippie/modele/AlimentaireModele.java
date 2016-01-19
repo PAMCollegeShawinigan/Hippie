@@ -2,6 +2,7 @@ package com.pam.codenamehippie.modele;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -41,5 +42,11 @@ public class AlimentaireModele extends MarchandiseModele<AlimentaireModele> {
     public AlimentaireModele setDatePeremption(Date datePeremption) {
         this.datePeremption = datePeremption;
         return this;
+    }
+
+    public Calendar getCalendarDatePeremption() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(this.datePeremption);
+        return calendar;
     }
 }
