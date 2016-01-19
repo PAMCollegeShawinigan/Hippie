@@ -19,9 +19,9 @@
         android:src="@drawable/organismes" />
 
     <com.pam.codenamehippie.ui.view.trianglemenu.TriangleImageView
-        android:id="@+id/main_profil_image"
+        android:id="@+id/main_mes_dons_image"
         android:layout_width="wrap_content"
-        triangle:name="Profil"
+        triangle:name="mes_dons"
         android:layout_height="wrap_content"
         android:src="@drawable/mes_dons" />
 
