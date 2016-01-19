@@ -14,7 +14,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
 
     @SerializedName("nom")
     private String nom;
-    @SerializedName(value = "description")
+    @SerializedName("description")
     private String description;
     @SerializedName("quantite")
     private Double quantite;
@@ -24,6 +24,16 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
     private Integer valeur;
     @SerializedName("marchandise_statut")
     private String statut;
+    @SerializedName("organisme")
+    private OrganismeModele organisme;
+
+    public OrganismeModele getOrganisme(){return this.organisme;}
+
+    @SuppressWarnings(value = {"unchecked"})
+    public T setOrganisme(OrganismeModele organisme) {
+        this.organisme = organisme;
+        return (T) this;
+    }
 
     public String getNom() {
         return this.nom;
