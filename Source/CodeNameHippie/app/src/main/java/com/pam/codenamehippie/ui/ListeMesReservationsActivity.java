@@ -42,8 +42,10 @@ public class ListeMesReservationsActivity extends HippieActivity {
             int idReceveur = modele.getId();
 
             // TODO: Faire en sorte que la liste ne prenne que les réservations de la personne connectée.
-            if (statut.equalsIgnoreCase("Reservé")) {
+            if (statut.equalsIgnoreCase("Disponible")) {
                 modeles.add(modele);
+            } else {
+
             }
 
         }

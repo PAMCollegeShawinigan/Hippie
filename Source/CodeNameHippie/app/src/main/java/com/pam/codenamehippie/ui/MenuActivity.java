@@ -131,10 +131,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                 break;
             case R.id.main_reservation_image:
                 // clic sur les réservations
-                Toast.makeText(this.getApplicationContext(),
-                        " Mes réservations ",
-                        Toast.LENGTH_SHORT
-                ).show();
+                startActivity(new Intent(this, ListeMesReservationsActivity.class));
                 break;
             case R.id.plus:
                 startActivity(new Intent(this, AjoutMarchandiseActivity.class));
