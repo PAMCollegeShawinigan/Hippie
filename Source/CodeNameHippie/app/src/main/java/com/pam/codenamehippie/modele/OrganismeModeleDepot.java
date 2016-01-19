@@ -1,9 +1,18 @@
 package com.pam.codenamehippie.modele;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.google.gson.reflect.TypeToken;
+import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 /**
  * Créé par Carl St-Louis le 23-11-2015.
@@ -11,18 +20,57 @@ import com.squareup.okhttp.OkHttpClient;
 
 public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
 
-    private HttpUrl carteUrl;
+    private static final String TAG = OrganismeModeleDepot.class.getSimpleName();
+
+
+    private HttpUrl listeOrganismeDonneur;
+
+
+    private volatile ArrayList<OrganismeModele> listeDonneur;
 
     /**
      * Construction du dépot pour modèle Organisme
      */
     public OrganismeModeleDepot(Context context, OkHttpClient httpClient) {
         super(context, httpClient);
-        this.carteUrl = this.url.newBuilder().addPathSegment("carte").build();
+        this.listeOrganismeDonneur = this.url.newBuilder().addPathSegment("carte").build();
         this.url = this.url.newBuilder().addPathSegment("organisme").build();
+
     }
 
-//    /**
+
+    public void peuplerListeDonneur() {
+        Request listeOrganismeDonneur = new Request.Builder().url(this.listeOrganismeDonneur).get().build();
+
+        this.httpClient.newCall(listeOrganismeDonneur).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                //TODO toast ou whatever
+
+                Log.e(TAG, "Request failed: " + request.toString(), e);
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    Log.e(TAG, "Request failed: " + response.toString());
+                } else {
+                    Type type = new TypeToken<ArrayList<OrganismeModele>>() { }.getType();
+
+                    OrganismeModeleDepot.this.listeDonneur =
+                            gson.fromJson(response.body().charStream(), type);
+
+                    Log.d(TAG,
+                            "Liste Donneur: " +
+                                    OrganismeModeleDepot.this.listeDonneur.toString()
+                    );
+                }
+            }
+        });
+
+    }
+
+    //    /**
 //     * Rechercher un OrganismeModele par ID dans le dépôt
 //     *
 //     * @param id
