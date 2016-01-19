@@ -1,6 +1,8 @@
 <resources>
 
-    <style name="AppTheme" parent="Base.AppTheme"/>
+    <style name="AppTheme" parent="Base.AppTheme">
+        <item name="android:textColorPrimary">@color/primary_text_material_light</item>
+    </style>
     <style name="AppThemeMap" parent="Theme.AppCompat">
         <item name="windowActionBar">false</item>
     </style>
