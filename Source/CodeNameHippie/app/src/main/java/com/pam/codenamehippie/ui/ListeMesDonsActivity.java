@@ -9,11 +9,15 @@ import android.widget.Toast;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
 import com.pam.codenamehippie.ui.adapter.HippieListAdapter;
 
+import java.util.ArrayList;
+
 /**
- * Created by Carl St-Louis le 2016-01-14.
+ * Cette classe permet de récupérer la liste des dons et de l'afficher dans l'interface
+ * utilisateur.
  */
 public class ListeMesDonsActivity extends HippieActivity {
     ListView listeMesDons;
@@ -27,8 +31,18 @@ public class ListeMesDonsActivity extends HippieActivity {
 
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        this.mesDonsAdapter = new HippieListAdapter(this, alimentaireModeleDepot.getListeDon());
 
+        // Filtre pour récupérer les items dont le statut est Disponible ou Réservé
+        ArrayList<AlimentaireModele> modeles = new ArrayList<>();
+        for (AlimentaireModele modele : alimentaireModeleDepot.getListeDon()) {
+            String statut = modele.getStatut();
+            // FIXME: Utiliser ressource Sting pour le texte
+            if (statut.equalsIgnoreCase("Disponible") || statut.equalsIgnoreCase("Réservé")){
+                modeles.add(modele);
+            }
+        }
+
+        this.mesDonsAdapter = new HippieListAdapter(this, modeles, alimentaireModeleDepot);
         listeMesDons = (ListView) findViewById(R.id.lv_dons);
         listeMesDons.setItemsCanFocus(false);
         listeMesDons.setAdapter(mesDonsAdapter);
