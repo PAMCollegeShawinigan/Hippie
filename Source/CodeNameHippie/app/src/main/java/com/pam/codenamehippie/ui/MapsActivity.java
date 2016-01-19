@@ -118,18 +118,14 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
       ArrayList<Organisme> listOrganisme;
+
       intent = getIntent();
-        if(intent.getFlags()==R.id.marchandiseDisponible){
+
+        if(intent.getFlags()!=R.id.marchandiseDisponible){
             listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
         }else {
             listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
         }
-
-//        switch (view.getId()){
-//            case R.id.marchandiseDisponible: listOrganisme = TestDonneeCentre.prepareDonnees_disponible();break;
-//            case R.id.mesReservation:listOrganisme = TestDonneeCentre.prepareDonnees_reservees();break;
-//            default:break;
-//        }
 
         prepareMarkers(listOrganisme);
 

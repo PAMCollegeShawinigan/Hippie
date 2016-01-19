@@ -48,7 +48,7 @@ public class TestDonneeCentre {
         mapCollectTime4.put("vendredi", "9:00-16:00");
         mapCollectTime4.put("samdi", "9:00-13:00");
         mapCollectTime4.put("dimanche", "ferme");
-        Organisme organisme4 = new Organisme("Marché IGA Bellevue ", " 560 Boulevard des Bois Francs S, Victoriaville, QC G6P 5X4", mapCollectTime4, "(819) 357-2241", listDenree4);
+        Organisme organisme4 = new Organisme("Maxi & Cie", "2478 Rue de la Laurentie, Sherbrooke, QC J1J 1L4", mapCollectTime4, "(819) 829-1000", listDenree4);
 
         ArrayList<Denree> listDenree6 = new ArrayList<>();
         listDenree6.add(new Denree("tuna", "34", "kg", "9999-12-31", Denree.TypeDenree.surgele,"on bon etat,importee de usa"));
