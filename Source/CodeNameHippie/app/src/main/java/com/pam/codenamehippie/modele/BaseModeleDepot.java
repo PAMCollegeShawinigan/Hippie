@@ -131,8 +131,8 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * <p>
      * Cette methode est asynchrone et retourne immédiatement
      */
-    public void peuplerLeDepot() {
-        Request request = new Request.Builder().url(this.url).get().build();
+    protected void peuplerLeDepot(HttpUrl url) {
+        Request request = new Request.Builder().url(url).get().build();
         this.httpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
