@@ -134,6 +134,26 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                                          -1
                                                         );
 
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle != null){
+
+            etNomMarchandise.setText(bundle.getCharSequence("nom"));
+            etDescMarchandise.setText(bundle.getCharSequence("description"));
+            etQteeMarchandise.setText(bundle.getCharSequence("quantite"));
+            String bundleDesc = bundle.getString("unite");
+            for (int i = 0; i < uniteAdapter.getCount(); i++) {
+               String uniteDescription = uniteAdapter.getItem(i).getDescription();
+                if (bundleDesc.equalsIgnoreCase(uniteDescription)){
+                    spinnerUniteMarchandise.setSelection(i);
+                    break;
+                }
+            }
+
+           // spinnerUniteMarchandise.setSelection(Integer.parseInt("unite"));
+
+        }
+
     }
 
     @Override
