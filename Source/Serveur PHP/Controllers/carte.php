@@ -75,9 +75,20 @@ class carte extends Controller
 		
 		while($resultat = $req->fetch()){
 			
+			if($resultat['date_peremption'] != null )
+			{
+			$date = date_create($resultat['date_peremption']);
+			
+			$date_peremption = date_format($date, DATE_ATOM);
+			}
+			else
+			{
+				$date_peremption = null;
+			}	
+			
 			$arr = array( 'id' => $resultat['alimentaire_id'], 'quantite' => $resultat['quantite'], 'unite' => $resultat['description_marchandise_unite'], 
 			'nom' => $resultat['nom'], 'description' => $resultat['description_alimentaire'], 
-			 'date_peremption' => $resultat['date_peremption'], 'valeur' => $resultat['valeur']);
+			 'date_peremption' => $date_peremption, 'valeur' => $resultat['valeur']);
 			
 			array_push($array, $arr);
 			
