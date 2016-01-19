@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
     <include layout="@layout/content_appbar_main"/>
+    <ViewSwitcher
+        android:id="@+id/main_view_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <include layout="@layout/loading" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,5 +29,5 @@
         android:layout_height="489dp"
         android:id="@+id/liste_organisme"
         android:layout_marginTop="140dp"/>
-
+</ViewSwitcher>
 </android.support.design.widget.CoordinatorLayout>
