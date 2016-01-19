@@ -65,7 +65,7 @@ class carte extends Controller
 		INNER JOIN marchandise_etat maretat ON maretat.etat_id = ali.marchandise_etat
 		INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite
 
-		WHERE (ali.marchandise_statut = 3 OR ali.marchandise_statut = 2 )AND trx.donneur_id = :id_donneur AND (ali.date_peremption > current_date OR ali.date_peremption IS NULL)');
+		WHERE (ali.marchandise_statut = 3 OR ali.marchandise_statut = 2 )AND trx.donneur_id = :id_donneur AND (ali.date_peremption > current_date OR ali.date_peremption IS NULL) ORDER BY aliment_id DESC');
 		
 					$req->execute(array(
 						'id_donneur' => $id_donneur
