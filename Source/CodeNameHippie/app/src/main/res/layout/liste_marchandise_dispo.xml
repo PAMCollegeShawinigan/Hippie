@@ -8,6 +8,13 @@
                                                  app:layout_behavior="@string/appbar_scrolling_view_behavior">
     <include layout="@layout/content_appbar_main"/>
 
+    <ViewSwitcher
+        android:id="@+id/main_view_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -48,4 +55,6 @@
         android:layout_width="match_parent"
         android:layout_height="505dp"
         android:id="@+id/marchandise_dispo" />
+        <include layout="@layout/loading" />
+    </ViewSwitcher>
 </android.support.design.widget.CoordinatorLayout>
