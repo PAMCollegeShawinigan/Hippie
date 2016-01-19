@@ -22,6 +22,7 @@ import java.io.Reader;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 /**
  * Classe patron représentant un dépôt d'objet de type {@link BaseModele}.
@@ -78,6 +79,8 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * Url du des objets du dépôt.
      */
     protected HttpUrl url = HippieApplication.baseUrl;
+
+    protected ArrayList<DepotObserver<T>> observateurs = new ArrayList<>();
 
     /**
      * Initialise les variables commune à tous les dépôts.
@@ -331,15 +334,56 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @param modele
      *         de l'objet
-     *
-     * @return l'ancien Modele
      */
-    public synchronized void supprimerModele(T modele) {
+    public void supprimerModele(T modele) {
         T oldModele = this.modeles.get(modele.getId());
 
         if (oldModele != null) {
             this.modeles.remove(modele.getId());
             // todo: requête au serveur pour suppression de l'objet
+        }
+    }
+
+    public void ajouterUnObservateur(DepotObserver<T> observateur) {
+        if (observateur == null) {
+            throw new IllegalArgumentException("L'observateur est null");
+        }
+        synchronized (this.lock) {
+            if (this.observateurs.contains(observateur)) {
+                throw new IllegalStateException("L'observateur " + observateur + "est déjà ajouté");
+            }
+            this.observateurs.add(observateur);
+        }
+
+    }
+
+    public void supprimerUnObservateur(DepotObserver<T> observateur) {
+        if (observateur == null) {
+            throw new IllegalArgumentException("L'observateur est null");
+        }
+        synchronized (this.lock) {
+            int index = this.observateurs.indexOf(observateur);
+            if (index == -1) {
+                throw new IllegalStateException("L'observateur " + observateur + "n'est pas déjà " +
+                                                "ajouté");
+            }
+            this.observateurs.remove(index);
+        }
+    }
+
+    public void supprimerToutLesObservateurs() {
+        synchronized (this.lock) {
+            this.observateurs.clear();
+        }
+    }
+
+    public void surChangementDeDonnees() {
+        synchronized (this.lock) {
+            if (!this.observateurs.isEmpty()) {
+                for (DepotObserver<T> depotObserver : this.observateurs) {
+                    depotObserver.surSucces(this.modeles);
+                }
+            }
         }
     }
 }
