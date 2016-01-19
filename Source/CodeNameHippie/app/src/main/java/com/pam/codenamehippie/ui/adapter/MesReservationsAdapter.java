@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -68,13 +70,55 @@ public class MesReservationsAdapter extends BaseAdapter {
             row = inflater.inflate(R.layout.liste_reservations_row, parent, false);
         }
 
+        // TODO: Faire afficher l'icône correspondant au bon type alimentaire à côté du texte
+       /* if(modele.getTypeAlimentaire()!= null) {
+            String image = modele.getTypeAlimentaire();
+            ImageView ivResCategorie = (ImageView) row.findViewById(R.id.iv_res_categorie);
+            switch(image) {
+                case "1":
+                    ivResCategorie.setImageResource(R.drawable.surgele);
+                    break;
+                case "2":
+                    ivResCategorie.setImageResource(R.drawable.fruit_legume);
+                    break;
+                case "3":
+                    ivResCategorie.setImageResource(R.drawable.boulangerie);
+                    break;
+                case "4":
+                    ivResCategorie.setImageResource(R.drawable.laitier);
+                    break;
+                case "5":
+                    ivResCategorie.setImageResource(R.drawable.viande);
+                    break;
+                case "6":
+                    ivResCategorie.setImageResource(R.drawable.non_perissable);
+                    break;
+                default:
+                    ivResCategorie.setImageResource(R.drawable.non_comestible);
+                    break;
+            }
+        } else {
+            ((ImageView) row.findViewById(R.id.iv_res_categorie)).setImageResource(R.drawable.non_comestible);
+        }*/
+
+
+        //((ImageView) row.findViewById(R.id.iv_res_categorie)).setTransitionName(modele.getTypeAlimentaire());
+
         ((TextView) row.findViewById(R.id.tv_res_nom_marchandise)).setText(modele.getNom());
-        ((TextView) row.findViewById(R.id.tv_dons_description_marchandise)).setText(modele.getDescription());
+        ((TextView) row.findViewById(R.id.tv_res_description)).setText(modele.getDescription());
 
         // On affiche la quantité + l'unité de la marchandise
         String quantiteString = modele.getQuantite().toString() + " " + modele.getUnite();
         ((TextView) row.findViewById(R.id.tv_res_qtee_marchandise)).setText(quantiteString);
-        ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setText((CharSequence) modele.getDatePeremption());
+
+        // Faire afficher la date de péremption.
+        if(modele.getDatePeremption() != null){
+            DateFormat format = android.text.format.DateFormat.getLongDateFormat(this.context);
+            String date = format.format(modele.getDatePeremption());
+            ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setText(date);
+        } else {
+            ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setVisibility(View.INVISIBLE);
+        }
 
         // Supprimer une réservation de la liste
         ImageButton ibSupprimer = (ImageButton) row.findViewById(R.id.ib_res_supprimer);
