@@ -48,6 +48,13 @@ public class HippieActivity extends AppCompatActivity {
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
 
+            // FIXME: Utilisation temporaire pour afficher ListeMesReservationsActivity
+            case R.id.res:
+                if (!this.getClass().equals(ListeMesReservationsActivity.class)) {
+                    this.startActivity(new Intent(this, ListeMesReservationsActivity.class));
+                }
+                return true;
+
             // FIXME: Utilisation temporaire pour afficher ListeMesDonsActivity
             case R.id.menu_profil:
                 /*if (!this.getClass().equals(ListeMesDonsActivity.class)) {
