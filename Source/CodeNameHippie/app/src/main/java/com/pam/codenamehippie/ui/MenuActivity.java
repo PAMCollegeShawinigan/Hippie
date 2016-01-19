@@ -98,8 +98,9 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
     public void onItemClick(View view, String name) {
 
         switch (view.getId()) {
-            case R.id.main_profil_image:
+            case R.id.main_mes_dons_image:
                 // clic sur image profil
+                startActivity(new Intent(this, ListeMesDonsActivity.class));
                 Toast.makeText(this.getApplicationContext(),
                         " Mes dons ",
                         Toast.LENGTH_SHORT
