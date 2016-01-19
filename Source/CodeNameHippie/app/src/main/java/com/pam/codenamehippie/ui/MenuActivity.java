@@ -113,7 +113,10 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                 break;
             case R.id.main_carte_image:
                 // clic sur la carte
+
                 startActivity(new Intent(this, MapsActivity.class));
+
+
                 break;
             case R.id.main_reservation_image:
                 // clic sur les réservations

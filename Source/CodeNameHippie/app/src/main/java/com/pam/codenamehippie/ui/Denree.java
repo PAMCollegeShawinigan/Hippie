@@ -72,15 +72,15 @@ public class Denree {
     public void setDatePeremption(String datePeremption) {
         this.datePeremption = datePeremption;
     }
-}
 
-enum StateDenree {
+
+public enum StateDenree {
     disponible,
     reserveee,
     collectee
 }
 
-enum TypeDenree {
+public enum TypeDenree {
 
     fruit_legume,
     viande,
@@ -88,11 +88,13 @@ enum TypeDenree {
     surgele,
     perissable,
     boulangerie,
-
+    non_comestible,
+    non_perissable
 }
 
-enum TypeUnite {
+public enum TypeUnite {
     kg,
     litre,
     unite
+}
 }
