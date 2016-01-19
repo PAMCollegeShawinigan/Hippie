@@ -50,9 +50,9 @@ public class HippieActivity extends AppCompatActivity {
 
             // FIXME: Utilisation temporaire pour afficher ListeMesDonsActivity
             case R.id.menu_profil:
-                if (!this.getClass().equals(ListeMesDonsActivity.class)) {
+                /*if (!this.getClass().equals(ListeMesDonsActivity.class)) {
                     this.startActivity(new Intent(this, ListeMesDonsActivity.class));
-                }
+                }*/
                 return true;
             case R.id.menu_un:
                 // Invoque le menu si on est pas déjà dedans
