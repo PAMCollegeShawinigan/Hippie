@@ -1,6 +1,7 @@
 package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +12,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
+import com.pam.codenamehippie.ui.HippieActivity;
 
 import java.util.ArrayList;
 
@@ -75,10 +78,13 @@ public class HippieListAdapter extends BaseAdapter {
             public void onClick(View v) {
             // TODO: faire ce qui faut pour modifier un produit.
                 Log.i("Bouton modifier cliqué", "**********" + position);
+
                 Toast.makeText(context, "Bouton modifier sélectionné",
                         Toast.LENGTH_LONG).show();
             }
         });
+
+        // Supprimer un item de la liste
         ImageButton ibDonSupprimer = (ImageButton) row.findViewById(R.id.ib_don_supprimer);
         ibDonSupprimer.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -87,7 +93,6 @@ public class HippieListAdapter extends BaseAdapter {
                 depot.supprimerModele(modele);
                 Toast.makeText(context, "Produit supprimé de la liste",
                         Toast.LENGTH_LONG).show();
-
             }
         });
         return row;
