@@ -1,5 +1,6 @@
 package com.pam.codenamehippie.ui;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -36,6 +37,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
     private ArrayList<Organisme> listOrganisme = new ArrayList<>();
     private ExpandableListView expandableListView;
     private int ordre;
+    View view;
     GoogleMap mMap;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -56,7 +58,6 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
         slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         slidingLayout.setAnchorPoint(0.6f);
         final RelativeLayout mapView = (RelativeLayout) findViewById(R.id.mapView);
-        mapView.invalidate();
         slidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
 
             @Override
@@ -99,35 +100,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
      */
 
 
-    /**
-     * obtenir lattitude et longitude par string d'adresse .
-     *
-     * @param strAddress
-     * @return LatLng
-     */
-    public LatLng getLocationFromAddress(String strAddress) {
 
-        Geocoder coder = new Geocoder(this);
-        List<Address> address;
-        LatLng pоint = null;
-
-        try {
-            address = coder.getFromLocationName(strAddress, 5);
-            if (address == null) {
-                return null;
-            }
-            Address location = address.get(0);
-
-            pоint = new LatLng(location.getLatitude(), location.getLongitude());
-
-        } catch (Exception ex) {
-
-            ex.printStackTrace();
-            Log.d("Wrong address", ex.toString());
-        }
-
-        return pоint;
-    }
 
     /**
      * Manipulates the map once available.
@@ -143,7 +116,22 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        final ArrayList<Organisme> listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
+      ArrayList<Organisme> listOrganisme=new ArrayList<>();
+       Intent intent = getIntent();
+      final  int id1=intent.getIntExtra("disponible", 0);
+       final int id2=intent.getIntExtra("reservees",0);
+        if(intent.getSerializableExtra()){
+            listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
+        }else {
+            listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
+        }
+
+//        switch (view.getId()){
+//            case R.id.marchandiseDisponible: listOrganisme = TestDonneeCentre.prepareDonnees_disponible();break;
+//            case R.id.mesReservation:listOrganisme = TestDonneeCentre.prepareDonnees_reservees();break;
+//            default:break;
+//        }
+
         prepareMarkers(listOrganisme);
 
     }
@@ -201,6 +189,36 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
             return true;
         }
         return false;
+    }
+
+    /**
+     * obtenir lattitude et longitude par string d'adresse .
+     *
+     * @param strAddress
+     * @return LatLng
+     */
+    public LatLng getLocationFromAddress(String strAddress) {
+
+        Geocoder coder = new Geocoder(this);
+        List<Address> address;
+        LatLng pоint = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+
+            pоint = new LatLng(location.getLatitude(), location.getLongitude());
+
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+            Log.d("Wrong address", ex.toString());
+        }
+
+        return pоint;
     }
 
     public void onButtonClick(View v) {
