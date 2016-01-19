@@ -46,9 +46,11 @@ public class MainActivity extends HippieActivity {
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         alimentaireModeleDepot.peuplerListeDon(4);
+        alimentaireModeleDepot.peuplerListeDonDispo();
         OrganismeModeleDepot organismeModeleDepot =
                 ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
         organismeModeleDepot.peuplerListeDonneur();
+
     }
 }
 
