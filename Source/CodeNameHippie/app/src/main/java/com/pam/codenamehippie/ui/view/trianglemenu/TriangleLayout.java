@@ -236,8 +236,8 @@ public class TriangleLayout extends ViewGroup {
                 : layoutHeight / 5;
 
 
-        childWidth = (int) (radius / 3);
-        childHeight = (int) (radius / 3);
+        childWidth = (int) (radius / 2.7);
+        childHeight = (int) (radius / 2.7);
 
         float angleDelay = 360.0f / getChildCount();
 
