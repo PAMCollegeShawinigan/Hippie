@@ -120,7 +120,8 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
      * @param id id de l'organisme dont on veut obtenir la liste des dons.
      **/
     public void peuplerListeDon(Integer id) {
-        HttpUrl url = this.listeDonUrl.newBuilder().addPathSegment(id.toString()).build();
+        HttpUrl url = this.listeDonUrl.newBuilder().addPathSegment("listedon").build();
+        this.listeDonUrl.newBuilder().addPathSegment(id.toString()).build();
         Request listeDonRequete = new Request.Builder().url(url).get().build();
 
             this.httpClient.newCall(listeDonRequete).enqueue(new Callback() {
