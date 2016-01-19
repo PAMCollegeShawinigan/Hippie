@@ -146,8 +146,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                         Type type = new TypeToken<ArrayList<AlimentaireModele>>() {
                         }.getType();
 
-                        AlimentaireModeleDepot.this.listeDon =
-                                gson.fromJson(response.body().charStream(), type);
+                        AlimentaireModeleDepot.this.listeDon = gson.fromJson(response.body().charStream(), type);
 
 
                         Log.d(TAG,
