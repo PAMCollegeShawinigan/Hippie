@@ -14,14 +14,23 @@ public class Denree {
     private StateDenree stateDenree;
     private TypeDenree typeDenree;
     private String datePeremption;
+    private String description;
 
+    public String getDescription() {
+        return description;
+    }
 
-    public Denree(String nomDenree, String quantiteDenree, String typeUnite, String datePeremption, TypeDenree typeDenree) {
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Denree(String nomDenree, String quantiteDenree, String typeUnite, String datePeremption, TypeDenree typeDenree,String description) {
         this.nomDenree = nomDenree;
         this.quantiteDenree = quantiteDenree;
         this.typeUnite = typeUnite;
         this.datePeremption = datePeremption;
         this.typeDenree = typeDenree;
+        this.description=description;
     }
 
     public String getTypeUnite() {
@@ -72,15 +81,15 @@ public class Denree {
     public void setDatePeremption(String datePeremption) {
         this.datePeremption = datePeremption;
     }
-}
 
-enum StateDenree {
+
+public enum StateDenree {
     disponible,
     reserveee,
     collectee
 }
 
-enum TypeDenree {
+public enum TypeDenree {
 
     fruit_legume,
     viande,
@@ -88,11 +97,13 @@ enum TypeDenree {
     surgele,
     perissable,
     boulangerie,
-
+    non_comestible,
+    non_perissable
 }
 
-enum TypeUnite {
+public enum TypeUnite {
     kg,
     litre,
     unite
+}
 }

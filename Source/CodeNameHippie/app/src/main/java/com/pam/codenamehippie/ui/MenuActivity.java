@@ -15,6 +15,8 @@ import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnItemClickLis
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnItemSelectedListener;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnRotationFinishedListener;
 
+import java.io.Serializable;
+
 public class MenuActivity extends HippieActivity implements OnItemSelectedListener,
                                                             OnItemClickListener,
                                                             OnRotationFinishedListener,
@@ -98,8 +100,9 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
     public void onItemClick(View view, String name) {
 
         switch (view.getId()) {
-            case R.id.main_profil_image:
+            case R.id.main_mes_dons_image:
                 // clic sur image profil
+                startActivity(new Intent(this, ListeMesDonsActivity.class));
                 Toast.makeText(this.getApplicationContext(),
                         " Mes dons ",
                         Toast.LENGTH_SHORT
@@ -122,7 +125,10 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                 break;
             case R.id.main_carte_image:
                 // clic sur la carte
-                startActivity(new Intent(this, MapsActivity.class));
+                Intent intent_d=new Intent(this,MapsActivity.class);
+              intent_d.setFlags(view.getId());
+                startActivity(intent_d);
+                //startActivity(new Intent(this, MapsActivity.class));
                 Toast.makeText(this.getApplicationContext(),
                         " Carte ",
                         Toast.LENGTH_SHORT
@@ -130,6 +136,10 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                 break;
             case R.id.main_reservation_image:
                 // clic sur les réservations
+                Intent intent_r=new Intent(this,MapsActivity.class);
+                intent_r.setFlags(view.getId());
+                startActivity(intent_r);
+              //  startActivity(new Intent(this, MapsActivity.class));
                 Toast.makeText(this.getApplicationContext(),
                         " Mes réservations ",
                         Toast.LENGTH_SHORT

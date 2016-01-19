@@ -21,10 +21,13 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
     private final HttpUrl listeUniteUrl;
     private final HttpUrl listeTypeAlimentaireUrl;
     private final HttpUrl listeDonUrl;
+    private final HttpUrl listeDonDispoUrl;
 
     private volatile ArrayList<DescriptionModel> listeUnitee;
     private volatile ArrayList<TypeAlimentaireModele> listeTypeAlimentaire;
     private volatile ArrayList<AlimentaireModele> listeDon;
+    private volatile ArrayList<AlimentaireModele> listeDonDispo;
+
 
     public AlimentaireModeleDepot(Context context, OkHttpClient httpClient) {
         super(context, httpClient);
@@ -32,8 +35,11 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         this.listeUniteUrl = baseListeUrl.newBuilder().addPathSegment("unite").build();
         this.listeTypeAlimentaireUrl =
                 baseListeUrl.newBuilder().addPathSegment("alimentaire").build();
-        this.listeDonUrl = this.url.newBuilder().addPathSegment("don").build();
-        this.url = this.url.newBuilder().addPathSegment("alimentaire").build();
+        this.listeDonUrl = this.url.newBuilder().addPathSegment("don").addPathSegment("listedon").build();
+
+        this.listeDonDispoUrl = this.url.newBuilder().addPathSegment("don").addPathSegment("listedondispo").build();
+
+       this.url = this.url.newBuilder().addPathSegment("alimentaire").build();
 
     }
 
@@ -121,6 +127,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
      **/
     public void peuplerListeDon(Integer id) {
         HttpUrl url = this.listeDonUrl.newBuilder().addPathSegment(id.toString()).build();
+
         Request listeDonRequete = new Request.Builder().url(url).get().build();
 
             this.httpClient.newCall(listeDonRequete).enqueue(new Callback() {
@@ -140,8 +147,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                         Type type = new TypeToken<ArrayList<AlimentaireModele>>() {
                         }.getType();
 
-                        AlimentaireModeleDepot.this.listeDon =
-                                gson.fromJson(response.body().charStream(), type);
+                        AlimentaireModeleDepot.this.listeDon = gson.fromJson(response.body().charStream(), type);
 
 
                         Log.d(TAG,
@@ -158,6 +164,41 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
     }
 
     public void peuplerListeReserve(){
+
+    }
+
+    public void peuplerListeDonDispo(){
+
+        Request listeDonDispoRequete = new Request.Builder().url(this.listeDonDispoUrl).get().build();
+
+        this.httpClient.newCall(listeDonDispoRequete).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                //TODO toast
+
+                Log.e(TAG, "Request failed: " + request.toString(), e);
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                if(!response.isSuccessful()) {
+                    Log.e(TAG, "Request failed: " + response.toString());
+                } else {
+                    Type type = new TypeToken<ArrayList<AlimentaireModele>>() {}.getType();
+
+                    AlimentaireModeleDepot.this.listeDonDispo =
+                            gson.fromJson(response.body().charStream(), type);
+
+
+                    Log.d(TAG,
+                            "Liste don dispo: " +
+                                    AlimentaireModeleDepot.this.listeDonDispo.toString()
+                    );
+                }
+
+
+            }
+        });
 
     }
 

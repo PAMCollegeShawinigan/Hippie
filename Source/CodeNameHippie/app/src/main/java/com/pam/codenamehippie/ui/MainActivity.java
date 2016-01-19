@@ -33,13 +33,12 @@ public class MainActivity extends HippieActivity {
         ((TextView) findViewById(R.id.textView5)).setTypeface(typeface);
         ((TextView) findViewById(R.id.textView10)).setTypeface(typeface);
         ((TextView) findViewById(R.id.textView17)).setTypeface(typeface);
+        ((TextView) findViewById(R.id.textView7)).setTypeface(typeface);
+        ((TextView) findViewById(R.id.textView11)).setTypeface(typeface);
+        ((TextView) findViewById(R.id.textView13)).setTypeface(typeface);
+        ((TextView) findViewById(R.id.textView15)).setTypeface(typeface);
 
-        Typeface typeface2;
-        typeface2 = Typeface.createFromAsset(getAssets(), "opensans_light.ttf");
-        ((TextView) findViewById(R.id.textView7)).setTypeface(typeface2);
-        ((TextView) findViewById(R.id.textView11)).setTypeface(typeface2);
-        ((TextView) findViewById(R.id.textView13)).setTypeface(typeface2);
-        ((TextView) findViewById(R.id.textView15)).setTypeface(typeface2);
+
 
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
@@ -61,9 +60,11 @@ public class MainActivity extends HippieActivity {
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         alimentaireModeleDepot.peuplerListeDon(4);
+        alimentaireModeleDepot.peuplerListeDonDispo();
         OrganismeModeleDepot organismeModeleDepot =
                 ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
         organismeModeleDepot.peuplerListeDonneur();
+
     }
 }
 
