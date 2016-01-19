@@ -21,7 +21,9 @@ import com.pam.codenamehippie.modele.DescriptionModel;
 import com.pam.codenamehippie.ui.AjoutMarchandiseActivity;
 import com.pam.codenamehippie.ui.HippieActivity;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Cette classe permet de faire le lien entre les composantes de l'interface utilisateur et
@@ -89,6 +91,13 @@ public class HippieListAdapter extends BaseAdapter {
                 bundle.putString("description", modele.getDescription().toString());
                 bundle.putString("quantite", modele.getQuantite().toString());
                 bundle.putString("unite", modele.getUnite());
+                bundle.putString("valeur", modele.getValeur().toString());
+                bundle.putString("typeAlimentaire", modele.getTypeAlimentaire());
+                if (modele.getDatePeremption() != null){
+                    Date date = modele.getDatePeremption();
+                    DateFormat df = android.text.format.DateFormat.getLongDateFormat(context);
+                    bundle.putString("datePeremption", df.format(date));
+                }
 
                 intent.putExtras(bundle);
                 context.startActivity(intent);
