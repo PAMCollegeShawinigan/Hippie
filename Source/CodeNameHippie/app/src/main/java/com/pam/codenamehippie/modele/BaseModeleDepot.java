@@ -1,6 +1,7 @@
 package com.pam.codenamehippie.modele;
 
 import android.content.Context;
+import android.database.DataSetObservable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -80,7 +81,10 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      */
     protected HttpUrl url = HippieApplication.baseUrl;
 
-    protected ArrayList<DepotObserver<T>> observateurs = new ArrayList<>();
+    /**
+     * Liste contenant les objets qui observe le dépôt.
+     */
+    protected ArrayList<ObservateurDeDepot<T>> observateurs = new ArrayList<>();
 
     /**
      * Initialise les variables commune à tous les dépôts.
@@ -344,7 +348,17 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
         }
     }
 
-    public void ajouterUnObservateur(DepotObserver<T> observateur) {
+    /**
+     * Ajoute un objet implémentant l'interface {@link ObservateurDeDepot} dans la listes des
+     * observateurs du dépôt.  L'objet ajouté reçoit des notifications du dépôt à l'aide des
+     * méthodes de l'interface {@link ObservateurDeDepot}.
+     *
+     * @param observateur
+     *         L'objet qui va recevoir les callbacks.
+     *
+     * @see {@link android.database.DataSetObservable#registerObserver(Object)}
+     */
+    public void ajouterUnObservateur(ObservateurDeDepot<T> observateur) {
         if (observateur == null) {
             throw new IllegalArgumentException("L'observateur est null");
         }
@@ -357,7 +371,16 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
 
     }
 
-    public void supprimerUnObservateur(DepotObserver<T> observateur) {
+    /**
+     * Supprime un objet implémentant l'interface {@link ObservateurDeDepot} de la liste des
+     * observateurs du dépôt. L'objet supprimé cesse de recevoir des notifications du dépôt.
+     *
+     * @param observateur
+     *         L'objet à enlever de la liste des observateur.
+     *
+     * @see {@link android.database.DataSetObservable#unregisterObserver(Object)}
+     */
+    public void supprimerUnObservateur(ObservateurDeDepot<T> observateur) {
         if (observateur == null) {
             throw new IllegalArgumentException("L'observateur est null");
         }
@@ -371,19 +394,71 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
         }
     }
 
+    /**
+     * Vide la liste des observateurs.
+     *
+     * @see {@link DataSetObservable#unregisterAll()}
+     */
     public void supprimerToutLesObservateurs() {
         synchronized (this.lock) {
             this.observateurs.clear();
         }
     }
 
-    public void surChangementDeDonnees() {
+    /**
+     * Notifie tous les observateurs du dépôt qu'une requête a démarré.
+     *
+     * @see {@link ObservateurDeDepot#surDebutDeRequete()}
+     */
+    public void surDebutDeRequete() {
         synchronized (this.lock) {
             if (!this.observateurs.isEmpty()) {
-                for (DepotObserver<T> depotObserver : this.observateurs) {
-                    depotObserver.surSucces(this.modeles);
+                for (ObservateurDeDepot<T> observateur : this.observateurs) {
+                    observateur.surDebutDeRequete();
                 }
             }
         }
+    }
+
+    /**
+     * Notifie tous les observateurs du dépôt qu'il y a eu un changement dans les données du dépôt.
+     */
+    public void surChangementDeDonnees() {
+        synchronized (this.lock) {
+            if (!this.observateurs.isEmpty()) {
+                for (ObservateurDeDepot<T> observateur : this.observateurs) {
+                    observateur.surChangementDeDonnees(this.modeles);
+                }
+            }
+        }
+    }
+
+    /**
+     * Notifie tous les observateurs du dépôt qu'il y a eu une erreur lors d'une requête.
+     */
+    public void surErreur() {
+        synchronized (this.lock) {
+            if (!this.observateurs.isEmpty()) {
+                for (ObservateurDeDepot<T> observateur : this.observateurs) {
+                    observateur.surErreur();
+                }
+            }
+        }
+    }
+
+    /**
+     * Notifie tous les observateurs du dépôt qu'une requête a terminée.
+     *
+     * @see {@link ObservateurDeDepot#surDebutDeRequete()}
+     */
+    public void surFinDeRequete() {
+        synchronized (this.lock) {
+            if (!this.observateurs.isEmpty()) {
+                for (ObservateurDeDepot<T> observateur : this.observateurs) {
+                    observateur.surFinDeRequete();
+                }
+            }
+        }
+
     }
 }
