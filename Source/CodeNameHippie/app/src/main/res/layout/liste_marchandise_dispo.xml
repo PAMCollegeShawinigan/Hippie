@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                  xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 android:orientation="vertical"
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
+                                                 android:orientation="vertical"
                                                  android:weightSum="1"
                                                  app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
     <include layout="@layout/content_appbar_main"/>
 
     <ViewSwitcher
@@ -15,46 +16,47 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="35dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:weightSum="1">
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/md_nom"
-            android:id="@+id/tv_md_nom"
-            android:paddingLeft="5dp"
-            android:paddingRight="10dp"/>
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:paddingLeft="35dp"
+            android:paddingTop="10dp"
+            android:weightSum="1">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/md_qtee"
-            android:id="@+id/tv_md_qtee"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"/>
+            <TextView
+                android:id="@+id/tv_md_nom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingRight="10dp"
+                android:text="@string/md_nom"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/md_peremption"
-            android:id="@+id/tv_md_peremption"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_weight="0.025"/>
+            <TextView
+                android:id="@+id/tv_md_qtee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/md_qtee"/>
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_md_peremption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.025"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/md_peremption"/>
 
-    <ExpandableListView
-        android:layout_width="match_parent"
-        android:layout_height="505dp"
-        android:id="@+id/marchandise_dispo" />
-        <include layout="@layout/loading" />
+        </LinearLayout>
+
+        <ExpandableListView
+            android:id="@+id/marchandise_dispo"
+            android:layout_width="match_parent"
+            android:layout_height="505dp"/>
+
+        <include layout="@layout/loading"/>
     </ViewSwitcher>
 </android.support.design.widget.CoordinatorLayout>

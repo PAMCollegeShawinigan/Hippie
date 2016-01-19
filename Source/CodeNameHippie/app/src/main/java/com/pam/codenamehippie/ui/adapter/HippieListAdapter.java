@@ -2,6 +2,7 @@ package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,13 @@ import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.DescriptionModel;
+import com.pam.codenamehippie.ui.AjoutMarchandiseActivity;
 import com.pam.codenamehippie.ui.HippieActivity;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Cette classe permet de faire le lien entre les composantes de l'interface utilisateur et
@@ -78,7 +83,24 @@ public class HippieListAdapter extends BaseAdapter {
             public void onClick(View v) {
             // TODO: faire ce qui faut pour modifier un produit.
                 Log.i("Bouton modifier cliqué", "**********" + position);
+                Intent intent = new Intent(context, AjoutMarchandiseActivity.class);
+                // Créer un bundle pour faire voyager les données vers AjoutMarchandiseActivity
+                Bundle bundle = new Bundle();
+                // Insérer les données aux bundle
+                bundle.putString("nom", modele.getNom().toString());
+                bundle.putString("description", modele.getDescription().toString());
+                bundle.putString("quantite", modele.getQuantite().toString());
+                bundle.putString("unite", modele.getUnite());
+                bundle.putString("valeur", modele.getValeur().toString());
+                bundle.putString("typeAlimentaire", modele.getTypeAlimentaire());
+                if (modele.getDatePeremption() != null){
+                    Date date = modele.getDatePeremption();
+                    DateFormat df = android.text.format.DateFormat.getLongDateFormat(context);
+                    bundle.putString("datePeremption", df.format(date));
+                }
 
+                intent.putExtras(bundle);
+                context.startActivity(intent);
                 Toast.makeText(context, "Bouton modifier sélectionné",
                         Toast.LENGTH_LONG).show();
             }

@@ -26,6 +26,4 @@
         android:title="@string/profil"
         android:orderInCategory="1"/>
 
-
-
 </menu>
