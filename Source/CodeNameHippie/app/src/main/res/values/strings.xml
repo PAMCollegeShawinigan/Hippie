@@ -73,6 +73,7 @@
 	<string name="tv_mpo">MOT DE PASSE OUBLIÉ?</string>
 	<string name="bguest">Compte invité</string>
 	<string name="iv_logo">Logo</string>
+	<string name="loading">Un moment s\'il-vous-plaît.</string>
 
 
 </resources>
