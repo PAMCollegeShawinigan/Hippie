@@ -2,32 +2,36 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
     <include layout="@layout/content_appbar_main"/>
+
     <ViewSwitcher
         android:id="@+id/main_view_switcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <include layout="@layout/loading" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tv_organisme_communautaire"
-        android:id="@+id/tv_liste_organisme"
-        android:textSize="25sp"
-        android:layout_marginTop="70dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
 
-    <ExpandableListView
-        android:layout_width="match_parent"
-        android:layout_height="489dp"
-        android:id="@+id/liste_organisme"
-        android:layout_marginTop="140dp"/>
-</ViewSwitcher>
+        <TextView
+            android:id="@+id/tv_liste_organisme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="70dp"
+            android:text="@string/tv_organisme_communautaire"
+            android:textSize="25sp"/>
+
+        <ExpandableListView
+            android:id="@+id/liste_organisme"
+            android:layout_width="match_parent"
+            android:layout_height="489dp"
+            android:layout_marginTop="140dp"/>
+
+        <include layout="@layout/loading"/>
+    </ViewSwitcher>
 </android.support.design.widget.CoordinatorLayout>
