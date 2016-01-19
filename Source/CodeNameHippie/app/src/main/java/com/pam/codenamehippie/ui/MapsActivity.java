@@ -39,6 +39,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
     private int ordre;
     View view;
     GoogleMap mMap;
+    Intent intent;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -116,11 +117,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-      ArrayList<Organisme> listOrganisme=new ArrayList<>();
-       Intent intent = getIntent();
-      final  int id1=intent.getIntExtra("disponible", 0);
-       final int id2=intent.getIntExtra("reservees",0);
-        if(intent.getSerializableExtra()){
+      ArrayList<Organisme> listOrganisme;
+      intent = getIntent();
+        if(intent.getFlags()==R.id.marchandiseDisponible){
             listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
         }else {
             listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
@@ -169,7 +168,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                                                   }
                                               }
                                               final Organisme mOrganisme = listOrganisme.get(ordre);
-                                              expandableListView.setAdapter(new CarteOrganismeAdapter(MapsActivity.this, mOrganisme));
+                                              expandableListView.setAdapter(new CarteOrganismeAdapter(MapsActivity.this, mOrganisme,intent));
                                               return false;
                                           }
                                       }

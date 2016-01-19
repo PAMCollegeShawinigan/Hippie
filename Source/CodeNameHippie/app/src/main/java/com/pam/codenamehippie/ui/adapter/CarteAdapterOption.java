@@ -1,5 +1,4 @@
 package com.pam.codenamehippie.ui.adapter;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -24,12 +23,12 @@ import java.util.HashMap;
 /**
  * Created by BEG-163 on 2016-01-18.
  */
-public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
+public class CarteAdapterOption extends BaseExpandableListAdapter {
     Context context;
     Organisme mOrganisme;
     Intent intent;
 
-    public CarteOrganismeAdapter(Context context,Organisme mOrganisme,Intent intent){
+    public CarteAdapterOption(Context context,Organisme mOrganisme,Intent intent){
         this.context=context;
         this.mOrganisme=mOrganisme;
         this.intent=intent;
@@ -37,7 +36,7 @@ public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return 3;
+        return 2+mOrganisme.getListDenree().size();
     }
 
     @Override
@@ -48,7 +47,7 @@ public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
         } else if (groupPosition == 1) {
             count = 7;
         } else {
-            count = mOrganisme.getListDenree().size() + 1;
+            count = 1;
         }
         return count;
     }
@@ -111,14 +110,15 @@ public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
             }
 
         } else {
-            switch (childPosition) {
-                case 0:
-                    String[] str = {"nom", "quantite", "date de peremption"};
-                    info = str;
-                    break;
-                default:
-                    info = mOrganisme.getListDenree().get(childPosition - 1);
-            }
+//            switch (childPosition) {
+//                case 0:
+//                    String[] str = {"nom", "quantite", "date de peremption"};
+//                    info = str;
+//                    break;
+//                default:
+//                    info = mOrganisme.getListDenree().get(childPosition - 1);
+//            }
+            info = mOrganisme.getListDenree().get(childPosition).getDescription();
 
         }
         return info;
@@ -158,7 +158,8 @@ public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
             logo.setImageResource(R.drawable.adresse);
 
             textView.setText(mOrganisme.getAddresse());
-
+            layout1.addView(logo);
+            layout1.addView(textView);
 
         } else if (groupPosition == 1) {
 
@@ -180,17 +181,61 @@ public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
                 textView.setText("Collecte Aujourd'hui:" + ((HashMap) getGroup(groupPosition)).get("samdi"));
             } else {
                 textView.setText("Collecte Aujourd'hui:" + ((HashMap) getGroup(groupPosition)).get("dimanche"));
+
             }
+            layout1.addView(logo);
+            layout1.addView(textView);
 
         } else {
 
-            logo.setImageResource(R.drawable.liste_marchandise);
-            textView.setText("Afficher les denrées à donner              unites:" + mOrganisme.getListDenree().size());
+            Denree.TypeDenree typeDenree = mOrganisme.getListDenree().get(groupPosition).getTypeDenree();
+
+            if ((typeDenree.equals(Denree.TypeDenree.fruit_legume))) {
+                logo.setImageResource(R.drawable.map_fruit_legume);
+            } else if (typeDenree.equals(Denree.TypeDenree.viande)) {
+                logo.setImageResource(R.drawable.map_viande);
+            } else if (typeDenree.equals(Denree.TypeDenree.laitier)) {
+                logo.setImageResource(R.drawable.map_laitier);
+            } else if (typeDenree.equals(Denree.TypeDenree.surgele)) {
+                logo.setImageResource(R.drawable.map_surgele);
+            } else if (typeDenree.equals(Denree.TypeDenree.non_comestible)) {
+                logo.setImageResource(R.drawable.map_non_comestible);
+            } else if (typeDenree.equals(Denree.TypeDenree.boulangerie)) {
+                logo.setImageResource(R.drawable.map_boulangerie);
+            } else {
+                logo.setImageResource(R.drawable.map_non_perissable);
+            }
+
+            logo.setMinimumWidth(300);
+
+            TextView textView1 = new TextView(context);
+            textView1.setTextColor(Color.BLACK);
+            textView1.setTextSize(20);
+            textView1.setWidth(200);
+            textView1.setPadding(5, 17, 5, 17);
+            textView1.setText(mOrganisme.getListDenree().get(groupPosition-2).getNomDenree());
+
+            TextView textView2 = new TextView(context);
+            textView2.setTextColor(Color.BLACK);
+            textView2.setTextSize(20);
+            textView2.setWidth(200);
+            textView2.setPadding(0, 17, 5, 17);
+            textView2.setText(mOrganisme.getListDenree().get(groupPosition-2).getQuantiteDenree()+mOrganisme.getListDenree().get(groupPosition-2).getTypeUnite());
+
+            TextView textView4 = new TextView(context);
+            textView4.setTextColor(Color.BLACK);
+            textView4.setTextSize(20);
+            textView4.setWidth(400);
+            textView4.setPadding(65, 17, 5, 17);
+            textView4.setText(mOrganisme.getListDenree().get(groupPosition-2).getDatePeremption());
+            layout1.addView(logo);
+            layout1.addView(textView1);
+            layout1.addView(textView2);
+            layout1.addView(textView4);
 
         }
 
-        layout1.addView(logo);
-        layout1.addView(textView);
+
         return layout1;
 
 
@@ -271,101 +316,29 @@ public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
             layout.addView(textViewDay);
             layout.addView(textViewTime);
         } else {
-            if (childPosition == 0) {
-                Space space = new Space(context);
-                space.setMinimumHeight(60);
-                space.setMinimumWidth(300);
 
-                TextView textView1 = new TextView(context);
-                textView1.setTextColor(Color.BLACK);
-                textView1.setTextSize(20);
-                textView1.setPadding(5, 17, 5, 17);
-                textView1.setWidth(100);
-                textView1.setText("Nom");
-
-                TextView textView2 = new TextView(context);
-                textView2.setTextColor(Color.BLACK);
-                textView2.setTextSize(20);
-                textView2.setPadding(105, 17, 5, 17);
-                textView2.setWidth(280);
-                textView2.setText("Quantite");
-
-                TextView textView3 = new TextView(context);
-                textView3.setTextColor(Color.BLACK);
-                textView3.setTextSize(20);
-                textView3.setPadding(45, 17, 5, 17);
-                textView3.setWidth(800);
-                textView3.setText("Date de peremption");
-                layout.addView(space);
-                layout.addView(textView1);
-                layout.addView(textView2);
-                layout.addView(textView3);
-
-            } else {
-                ImageView logo = new ImageView(context);
-                Denree.TypeDenree typeDenree = (((Denree) getChild(groupPosition, childPosition))).getTypeDenree();
-
-                if ((typeDenree.equals(Denree.TypeDenree.fruit_legume))) {
-                    logo.setImageResource(R.drawable.map_fruit_legume);
-                } else if (typeDenree.equals(Denree.TypeDenree.viande)) {
-                    logo.setImageResource(R.drawable.map_viande);
-                } else if (typeDenree.equals(Denree.TypeDenree.laitier)) {
-                    logo.setImageResource(R.drawable.map_laitier);
-                } else if (typeDenree.equals(Denree.TypeDenree.surgele)) {
-                    logo.setImageResource(R.drawable.map_surgele);
-                } else if (typeDenree.equals(Denree.TypeDenree.non_comestible)) {
-                    logo.setImageResource(R.drawable.map_non_comestible);
-                } else if (typeDenree.equals(Denree.TypeDenree.boulangerie)) {
-                    logo.setImageResource(R.drawable.map_boulangerie);
-                } else {
-                    logo.setImageResource(R.drawable.map_non_perissable);
-                }
-
-                logo.setMinimumWidth(300);
 
                 TextView textView1 = new TextView(context);
                 textView1.setTextColor(Color.BLACK);
                 textView1.setTextSize(20);
                 textView1.setWidth(200);
                 textView1.setPadding(5, 17, 5, 17);
-                textView1.setText(mOrganisme.getListDenree().get(childPosition - 1).getNomDenree());
+                textView1.setText(mOrganisme.getListDenree().get(groupPosition).getDescription());
 
-                TextView textView2 = new TextView(context);
-                textView2.setTextColor(Color.BLACK);
-                textView2.setTextSize(20);
-                textView2.setWidth(100);
-                textView2.setPadding(0, 17, 5, 17);
-                textView2.setText(mOrganisme.getListDenree().get(childPosition - 1).getTypeUnite());
-
-                TextView textView3 = new TextView(context);
-                textView3.setTextColor(Color.BLACK);
-                textView3.setTextSize(20);
-                textView3.setWidth(60);
-                textView3.setPadding(5, 17, 0, 17);
-                textView3.setText(mOrganisme.getListDenree().get(childPosition - 1).getQuantiteDenree());
-
-                TextView textView4 = new TextView(context);
-                textView4.setTextColor(Color.BLACK);
-                textView4.setTextSize(20);
-                textView4.setWidth(400);
-                textView4.setPadding(65, 17, 5, 17);
-                textView4.setText(mOrganisme.getListDenree().get(childPosition - 1).getDatePeremption());
 
                 Button btn = new Button(context);
                 if(intent.getFlags()==R.id.marchandiseDisponible){
-                btn.setText("Reserver");
-                btn.setBackgroundColor(Color.GREEN);}
+                    btn.setText("Reserver");
+                    btn.setBackgroundColor(Color.GREEN);}
                 else{
                     btn.setText("annuler");
                     btn.setBackgroundColor(Color.RED);
                 }
 
                 btn.setPadding(5, 5, 5, 5);
-                layout.addView(logo);
+
                 layout.addView(textView1);
-                layout.addView(textView3);
-                layout.addView(textView2);
-                layout.addView(textView4);
+
                 layout.addView(btn);
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -374,9 +347,11 @@ public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
                     }
 
                 });
+            layout.addView(textView1);
+            layout.addView(btn);
 
             }
-        }
+
 
         return layout;
     }
