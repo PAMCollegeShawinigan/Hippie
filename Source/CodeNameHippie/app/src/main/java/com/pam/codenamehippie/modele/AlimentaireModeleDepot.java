@@ -28,6 +28,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
     private volatile ArrayList<AlimentaireModele> listeDon;
     private volatile ArrayList<AlimentaireModele> listeDonDispo;
 
+
     public AlimentaireModeleDepot(Context context, OkHttpClient httpClient) {
         super(context, httpClient);
         HttpUrl baseListeUrl = this.url.newBuilder().addPathSegment("liste").build();
@@ -38,7 +39,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
         this.listeDonDispoUrl = this.url.newBuilder().addPathSegment("don").addPathSegment("listedondispo").build();
 
-       // this.url = this.url.newBuilder().addPathSegment("alimentaire").build();
+       this.url = this.url.newBuilder().addPathSegment("alimentaire").build();
 
     }
 
@@ -146,8 +147,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                         Type type = new TypeToken<ArrayList<AlimentaireModele>>() {
                         }.getType();
 
-                        AlimentaireModeleDepot.this.listeDon =
-                                gson.fromJson(response.body().charStream(), type);
+                        AlimentaireModeleDepot.this.listeDon = gson.fromJson(response.body().charStream(), type);
 
 
                         Log.d(TAG,
