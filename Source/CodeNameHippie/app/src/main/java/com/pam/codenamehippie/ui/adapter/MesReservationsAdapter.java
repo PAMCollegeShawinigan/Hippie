@@ -65,6 +65,7 @@ public class MesReservationsAdapter extends BaseAdapter {
         View row = convertView;
 
         final AlimentaireModele modele = this.getItem(position);
+        // Affiche un item personnalisé à la liste
         if (row == null) {
             LayoutInflater inflater =
                     (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -98,8 +99,6 @@ public class MesReservationsAdapter extends BaseAdapter {
                 break;
         }
 
-        //((ImageView) row.findViewById(R.id.iv_res_categorie)).setTransitionName(modele.getTypeAlimentaire());
-
         ((TextView) row.findViewById(R.id.tv_res_nom_marchandise)).setText(modele.getNom());
         ((TextView) row.findViewById(R.id.tv_res_description)).setText(modele.getDescription());
 
@@ -108,6 +107,7 @@ public class MesReservationsAdapter extends BaseAdapter {
         ((TextView) row.findViewById(R.id.tv_res_qtee_marchandise)).setText(quantiteString);
 
         // Faire afficher la date de péremption.
+        // TODO: Faire afficher la date de réservation. Présentement, il y a un mélange entre Date de réservation et date de péremption.
         if (modele.getDatePeremption() != null) {
             DateFormat format = android.text.format.DateFormat.getLongDateFormat(this.context);
             String date = format.format(modele.getDatePeremption());
@@ -122,10 +122,17 @@ public class MesReservationsAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                // TODO: faire ce qui faut pour supprimer une marchandise de la liste.
+                // TODO: faire ce qui faut pour supprimer une réservation de la liste. Ou bien mettre la réservation de Réservé à disponible.
                 Log.i("Boutton supprimé cliqué", "**********" + position);
 
-                Toast.makeText(context, "Réservation supprimé de la liste",
+                /**
+                 * String statut = modele.getStatut();
+                 */
+
+
+
+
+                Toast.makeText(context, "Réservation supprimé",
                         Toast.LENGTH_LONG).show();
             }
         });

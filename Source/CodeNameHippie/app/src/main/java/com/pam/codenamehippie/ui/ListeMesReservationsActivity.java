@@ -36,16 +36,13 @@ public class ListeMesReservationsActivity extends HippieActivity {
         // Filtre pour récupérer les items dont le statut est réservé par le receveur (AKA organisme)
         ArrayList<AlimentaireModele> modeles = new ArrayList<>();
 
-        // TODO: Vérifier ce qui est disponible dans cette dite de ListeDon()
+        // Vérifie ce qui est réservé par l'organisme communautaire.
         for (AlimentaireModele modele : alimentaireModeleDepot.getListeDon()) {
             String statut = modele.getStatut();
-            int idReceveur = modele.getId();
 
             // TODO: Faire en sorte que la liste ne prenne que les réservations de la personne connectée.
-            if (statut.equalsIgnoreCase("Disponible")) {
+            if (statut.equalsIgnoreCase("Réservé")) {
                 modeles.add(modele);
-            } else {
-
             }
 
         }
