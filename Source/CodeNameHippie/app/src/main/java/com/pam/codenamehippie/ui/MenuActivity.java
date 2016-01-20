@@ -21,6 +21,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                                                             OnItemClickListener,
                                                             OnRotationFinishedListener,
                                                             OnCenterClickListener {
+    Intent intent;
 
 //    private TextView selectedTextView;
 //    private OnFragmentInteractionListener mListener;
@@ -108,6 +109,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                         Toast.LENGTH_SHORT
                 ).show();
                 break;
+
             case R.id.main_organisme_image:
                 // clic sur image carte des organismes
                 Toast.makeText(this.getApplicationContext(),
@@ -115,6 +117,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                         Toast.LENGTH_SHORT
                 ).show();
                 break;
+
             case R.id.main_statistique_image:
                 // clic sur image des statistiques
                 Toast.makeText(this.getApplicationContext(),
@@ -123,22 +126,24 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                 ).show();
 
                 break;
+
             case R.id.main_carte_image:
                 // clic sur la carte
-                Intent intent_d=new Intent(this,MapsActivity.class);
-              intent_d.setFlags(view.getId());
-                startActivity(intent_d);
+                intent=new Intent(this,MapsActivity.class);
+              intent.setFlags(view.getId());
+                startActivity(intent);
                 //startActivity(new Intent(this, MapsActivity.class));
                 Toast.makeText(this.getApplicationContext(),
                         " Carte ",
                         Toast.LENGTH_SHORT
                 ).show();
                 break;
+
             case R.id.main_reservation_image:
                 // clic sur les réservations
-                Intent intent_r=new Intent(this,MapsActivity.class);
-                intent_r.setFlags(view.getId());
-                startActivity(intent_r);
+                intent=new Intent(this,MapsActivity.class);
+                intent.setFlags(view.getId());
+                startActivity(intent);
               //  startActivity(new Intent(this, MapsActivity.class));
                 Toast.makeText(this.getApplicationContext(),
                         " Mes réservations ",
