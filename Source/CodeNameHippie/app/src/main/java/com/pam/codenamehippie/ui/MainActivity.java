@@ -51,9 +51,11 @@ public class MainActivity extends HippieActivity {
         super.onResume();
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        // TODO: le id est temporairement Hardcoder
-        alimentaireModeleDepot.peuplerListeDon(4);
-        alimentaireModeleDepot.peuplerListeDonDispo();
+        // TODO: Déplacer les deux ligne qui suivent dans l'activité de liste
+        int orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
+                                                  -1
+                                                 );
+        alimentaireModeleDepot.peuplerListeDon(orgId);
         OrganismeModeleDepot organismeModeleDepot =
                 ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
         organismeModeleDepot.peuplerListeDonneur();
