@@ -15,10 +15,13 @@ import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnItemClickLis
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnItemSelectedListener;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnRotationFinishedListener;
 
+import java.io.Serializable;
+
 public class MenuActivity extends HippieActivity implements OnItemSelectedListener,
                                                             OnItemClickListener,
                                                             OnRotationFinishedListener,
                                                             OnCenterClickListener {
+    Intent intent;
 
 //    private TextView selectedTextView;
 //    private OnFragmentInteractionListener mListener;
@@ -96,30 +99,63 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
 
     @Override
     public void onItemClick(View view, String name) {
-        Toast.makeText(this.getApplicationContext(),
-                       " Nouvelle activité ",
-                       Toast.LENGTH_SHORT
-                      ).show();
 
         switch (view.getId()) {
-            case R.id.main_profil_image:
+            case R.id.main_mes_dons_image:
                 // clic sur image profil
+                startActivity(new Intent(this, ListeMesDonsActivity.class));
+                Toast.makeText(this.getApplicationContext(),
+                        " Mes dons ",
+                        Toast.LENGTH_SHORT
+                ).show();
                 break;
+
             case R.id.main_organisme_image:
                 // clic sur image carte des organismes
+                Toast.makeText(this.getApplicationContext(),
+                        " Carte des organismes ",
+                        Toast.LENGTH_SHORT
+                ).show();
                 break;
+
             case R.id.main_statistique_image:
                 // clic sur image des statistiques
+                Toast.makeText(this.getApplicationContext(),
+                        " Statistiques ",
+                        Toast.LENGTH_SHORT
+                ).show();
+
                 break;
+
             case R.id.main_carte_image:
                 // clic sur la carte
-                startActivity(new Intent(this, MapsActivity.class));
+                intent=new Intent(this,MapsActivity.class);
+              intent.setFlags(view.getId());
+                startActivity(intent);
+                //startActivity(new Intent(this, MapsActivity.class));
+                Toast.makeText(this.getApplicationContext(),
+                        " Carte ",
+                        Toast.LENGTH_SHORT
+                ).show();
                 break;
+
             case R.id.main_reservation_image:
                 // clic sur les réservations
+                intent=new Intent(this,MapsActivity.class);
+                intent.setFlags(view.getId());
+                startActivity(intent);
+              //  startActivity(new Intent(this, MapsActivity.class));
+                Toast.makeText(this.getApplicationContext(),
+                        " Mes réservations ",
+                        Toast.LENGTH_SHORT
+                ).show();
                 break;
             case R.id.plus:
                 startActivity(new Intent(this, AjoutMarchandiseActivity.class));
+                Toast.makeText(this.getApplicationContext(),
+                        " Ajout d'une nouvelle marchandise ",
+                        Toast.LENGTH_SHORT
+                ).show();
                 // clic sur les catégories
                 break;
         }
