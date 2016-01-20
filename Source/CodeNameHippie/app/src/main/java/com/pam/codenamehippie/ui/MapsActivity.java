@@ -34,12 +34,12 @@ import java.util.List;
 
 public class MapsActivity extends HippieActivity implements OnMapReadyCallback, ExpandableListView.OnGroupClickListener {
     private SlidingUpPanelLayout slidingLayout;
-    private ArrayList<Organisme> listOrganisme = new ArrayList<>();
     private ExpandableListView expandableListView;
+    private ArrayList<Organisme> listOrganisme=new ArrayList<>();
     private int ordre;
-    View view;
+    private Intent intent;
     GoogleMap mMap;
-    Intent intent;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -90,7 +90,6 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -99,9 +98,6 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
      * preparer les donnees pour list marchandises reservees.
      * @return
      */
-
-
-
 
     /**
      * Manipulates the map once available.
@@ -113,29 +109,41 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
      * installed Google Play services and returned to the app.
      */
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-      ArrayList<Organisme> listOrganisme;
+         intent = getIntent();
+      int  viewID = intent.getFlags();
 
-      intent = getIntent();
-
-        if(intent.getFlags()!=R.id.marchandiseDisponible){
+        if (viewID == R.id.main_carte_image) {
             listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
-        }else {
+        } else
+        {
             listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
         }
 
-        prepareMarkers(listOrganisme);
 
+        prepareMarkers(listOrganisme, viewID);
+
+//        switch (viewID){
+//            case R.id.marchandiseDisponible:listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
+//               break;
+//            case R.id.mesReservation: listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
+//                break;
+//            default:break;
+//        }
+//        prepareMarkers(listOrganisme,viewID);
     }
+
     /**
      * selon list d'organisme,positionner les markers d'organisme,etablir le border de markers et set adapter et listener pour markers
      *
      * @param listOrganisme
      */
-    private void prepareMarkers(final ArrayList<Organisme> listOrganisme) {
+    private void prepareMarkers(final ArrayList<Organisme> listOrganisme, final int viewID) {
+        if(mMap!=null){
+            mMap.clear();
+        }
         ArrayList<LatLng> latLngList = new ArrayList<>();
         for (int i = 0; i < listOrganisme.size(); i++) {
             latLngList.add(getLocationFromAddress(listOrganisme.get(i).getAddresse()));
@@ -145,7 +153,6 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
         for (int i = 0; i < latLngList.size(); i++) {
             listMarker.add(mMap.addMarker(new MarkerOptions().position(latLngList.get(i))));
             builder.include(latLngList.get(i));
-
         }
         LatLngBounds bounds = builder.build();
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 600, 800, 1);
@@ -164,7 +171,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                                                   }
                                               }
                                               final Organisme mOrganisme = listOrganisme.get(ordre);
-                                              expandableListView.setAdapter(new CarteOrganismeAdapter(MapsActivity.this, mOrganisme,intent));
+                                              expandableListView.setAdapter(new CarteOrganismeAdapter(MapsActivity.this, mOrganisme, viewID));
                                               return false;
                                           }
                                       }
@@ -226,10 +233,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                         " Denrées disponible ",
                         Toast.LENGTH_SHORT
                 ).show();
-                 mMap.clear();
+             //   mMap.clear();
 
-                ArrayList<Organisme> listOrganisme1 = TestDonneeCentre.prepareDonnees_disponible();
-              prepareMarkers(listOrganisme1);
+                listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
+                prepareMarkers(listOrganisme, v.getId());
                 break;
 
             case R.id.mesReservation:
@@ -239,9 +246,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                         " Mes réservations ",
                         Toast.LENGTH_SHORT
                 ).show();
-                  mMap.clear();
-                ArrayList<Organisme> listOrganisme2 = TestDonneeCentre.prepareDonnees_reservees();
-             prepareMarkers(listOrganisme2);
+              //  mMap.clear();
+                listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
+                prepareMarkers(listOrganisme, v.getId());
 
                 break;
 
