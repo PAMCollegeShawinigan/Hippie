@@ -37,7 +37,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Cette classe permet à un donneur d'ajouter des produits à la base de données
+ * Cette classe permet à un donneur d'ajouter et modifier des produits à la base de données
  * via l'interface utilisateur. La date du jour sera utilisée comme date de disponibilité.
  * Si un produit n'a pas de date de péremption, la date sera mise à null du côté du serveur.
  */
@@ -60,7 +60,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
     private boolean spinnerTypeMarchandiseEstValide;
     private boolean datePeremptionEstValide;
     private TextView tvDatePeremption;
-
+    // Id de alimentaire pour sélection route modifier ou ajouter
+    private Integer idModele = null;
     // Id de l'organisme dont l'utilisateur est membre.
     private Integer organismeId;
 
@@ -148,7 +149,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
             // FIXME: mettre ressource string losrqu'elle sera disponible
             tvAjoutMarchandise.setText("Modification de marchandise");
             bAjoutMarchandise.setText("Modifier");
-
+            this.idModele = bundle.getInt("id");
             etNomMarchandise.setText(bundle.getCharSequence("nom"));
             etDescMarchandise.setText(bundle.getCharSequence("description"));
             etQteeMarchandise.setText(bundle.getCharSequence("quantite"));
@@ -183,9 +184,6 @@ public class AjoutMarchandiseActivity extends HippieActivity
                 } catch (ParseException e) {
                     e.printStackTrace();
                 } if (date != null) {
-//                    int annee = Integer.parseInt(dateString.substring(0, 3));
-//                    int mois = Integer.parseInt(dateString.substring(5, 6));
-//                    int jour = Integer.parseInt(dateString.substring(8, 9));
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(date);
                     datePeremption.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
@@ -262,12 +260,12 @@ public class AjoutMarchandiseActivity extends HippieActivity
         // Mettre le bouton pour ajouter la marchandise actif si tous les champs requis
         // respecte les conditions des validateurs.
         this.bAjoutMarchandise.setEnabled(this.nomEstValide &&
-                                          this.descriptionEstValide &&
-                                          this.quantiteEstValide &&
-                                          this.valeurEstValide &&
-                                          this.spinnerUniteMarchandiseEstValide &&
-                                          this.spinnerTypeMarchandiseEstValide &&
-                                          hasOrganismeid);
+                this.descriptionEstValide &&
+                this.quantiteEstValide &&
+                this.valeurEstValide &&
+                this.spinnerUniteMarchandiseEstValide &&
+                this.spinnerTypeMarchandiseEstValide &&
+                hasOrganismeid);
     }
 
     /**
@@ -308,7 +306,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
         // TODO: Modifier URL en ajoutant condition pour modifier un produit au lieu d'ajouter.
         HttpUrl url = depot.getUrl().newBuilder().addPathSegment("ajout").build();
         // FIXME: Gérer l'état de marchandise. On mets 3(neuf) en attendant
-        RequestBody body =
+        FormEncodingBuilder body =
                 new FormEncodingBuilder().add("description_alimentaire", modele.getDescription())
                                          .add("nom", modele.getNom())
                                          .add("quantite", modele.getQuantite().toString())
@@ -317,9 +315,12 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                          .add("marchandise_unite", marchandiseUniteId)
                                          .add("marchandise_etat", "3")
                                          .add("date_peremption", dateString)
-                                         .add("donneur_id", this.organismeId.toString())
-                                         .build();
-        Request request = new Request.Builder().url(url).post(body).build();
+                                         .add("donneur_id", this.organismeId.toString());
+        if (this.idModele != null){
+            body.add("id",this.idModele.toString());
+            url =  depot.getUrl().newBuilder().addPathSegment("modifier").build();
+        }
+        Request request = new Request.Builder().url(url).post(body.build()).build();
         this.httpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
@@ -353,12 +354,29 @@ public class AjoutMarchandiseActivity extends HippieActivity
                         @Override
                         public void run() {
                             //  try {
-                            Snackbar.make(v,
-                                          "Ok, produit ajouté",
-                                          Snackbar.LENGTH_SHORT
-                                         )
-                                    .show();
-                            AjoutMarchandiseActivity.this.effacerFormulaire();
+                            if (idModele != null){
+                               Snackbar snackbar =  Snackbar.make(v,
+                                        "Ok, produit modifié",
+                                        Snackbar.LENGTH_SHORT
+                                );
+                                snackbar.setCallback(new Snackbar.Callback() {
+                                    @Override
+                                    public void onDismissed(Snackbar snackbar, int event) {
+                                        if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                                            finish();
+                                        }
+                                    }
+                                }).show();
+
+                            }else {
+                                Snackbar.make(v,
+                                        "Ok, produit ajouté",
+                                        Snackbar.LENGTH_SHORT
+                                )
+                                        .show();
+                                AjoutMarchandiseActivity.this.effacerFormulaire();
+                            }
+
 //                            } catch (IOException e) {
 //                                e.printStackTrace();
 //                            }
