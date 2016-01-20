@@ -18,7 +18,6 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -26,7 +25,7 @@ import java.util.ArrayList;
 
 /**
  * Classe patron représentant un dépôt d'objet de type {@link BaseModele}.
- * <p>
+ * <p/>
  * Cette classe est définie comme abstraite pour 2 raisons:
  * <ol>
  * <li>
@@ -38,7 +37,7 @@ import java.util.ArrayList;
  * fournir des une implémentation par défaut quand c'est possible.
  * </li>
  * </ol>
- * <p>
+ * <p/>
  * L'initialisation d'un dépôt requiert une inspection de sa hiearchie de classe en utilisant
  * le mécanisme de réflection de Java. Ceci est une opération dispendieuse, par conséquent nous
  * recommandons de limiter le nombre d'allocation d'instances d'objet de type dépôt.
@@ -82,6 +81,21 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     protected HttpUrl url = HippieApplication.baseUrl;
 
     /**
+     * Url pour modifications des objets du dépot.
+     */
+    protected HttpUrl modifierUrl = null;
+
+    /**
+     * Url pour les ajouts des objets du dépot
+     */
+    protected HttpUrl ajoutUrl = null;
+
+    /**
+     * Url pour les suppressions des objets du dépot
+     */
+    protected HttpUrl supprimerUrl = null;
+
+    /**
      * Liste contenant les objets qui observe le dépôt.
      */
     protected ArrayList<ObservateurDeDepot<T>> observateurs = new ArrayList<>();
@@ -103,7 +117,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
             genericType = ((ParameterizedType) clazz.getGenericSuperclass());
             clazz = super.getClass();
         } while (genericType == null);
-        // Recherche le premier paramètre de type qui hérite de BaseModèle.
+        // Recherche le premier paramètre de type qui hérite de BaseModele.
         for (Type type : genericType.getActualTypeArguments()) {
             if (BaseModele.class.isAssignableFrom((Class) type)) {
                 synchronized (this.lock) {
@@ -138,7 +152,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
 
     /**
      * Permet de peupler le dépot.
-     * <p>
+     * <p/>
      * Cette methode est asynchrone et retourne immédiatement
      */
     protected void peuplerLeDepot(HttpUrl url) {
@@ -168,7 +182,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                         JsonReader reader = new JsonReader(response.body().charStream());
                         reader.beginArray();
                         while (reader.hasNext()) {
-                            T modele = gson.fromJson(reader, BaseModeleDepot.this.classeDeT);
+                            T modele = BaseModeleDepot.this.fromJson(reader);
                             Log.d(TAG, modele.toString());
                             BaseModeleDepot.this.modeles.add(modele);
                         }
@@ -217,7 +231,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * @return une instance du modèle.
      */
     @SuppressWarnings("unchecked")
-    public T fromJson(Reader reader) {
+    public T fromJson(JsonReader reader) {
         synchronized (this.lock) {
             return (T) gson.fromJson(reader, this.classeDeT);
         }
@@ -361,12 +375,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *         de l'objet
      */
     public void supprimerModele(T modele) {
-        T oldModele = this.modeles.get(modele.getId());
 
-        if (oldModele != null) {
-            this.modeles.remove(modele);
-            // todo: requête au serveur pour suppression de l'objet
-        }
     }
 
     /**
@@ -379,10 +388,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @see {@link android.database.DataSetObservable#registerObserver(Object)}
      */
-    public void ajouterUnObservateur(ObservateurDeDepot<T> observateur) {
-        if (observateur == null) {
-            throw new IllegalArgumentException("L'observateur est null");
-        }
+    public void ajouterUnObservateur(@NonNull ObservateurDeDepot<T> observateur) {
         synchronized (this.lock) {
             if (this.observateurs.contains(observateur)) {
                 throw new IllegalStateException("L'observateur " + observateur + "est déjà ajouté");
@@ -401,10 +407,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @see {@link android.database.DataSetObservable#unregisterObserver(Object)}
      */
-    public void supprimerUnObservateur(ObservateurDeDepot<T> observateur) {
-        if (observateur == null) {
-            throw new IllegalArgumentException("L'observateur est null");
-        }
+    public void supprimerUnObservateur(@NonNull ObservateurDeDepot<T> observateur) {
         synchronized (this.lock) {
             int index = this.observateurs.indexOf(observateur);
             if (index == -1) {
@@ -433,6 +436,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      */
     public void surDebutDeRequete() {
         synchronized (this.lock) {
+            this.modeles.clear();
             if (!this.observateurs.isEmpty()) {
                 for (ObservateurDeDepot<T> observateur : this.observateurs) {
                     observateur.surDebutDeRequete();

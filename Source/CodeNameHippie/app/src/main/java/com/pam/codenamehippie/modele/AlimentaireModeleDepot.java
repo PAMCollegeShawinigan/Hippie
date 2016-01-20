@@ -41,6 +41,9 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                 this.url.newBuilder().addPathSegment("don").addPathSegment("listedondispo").build();
 
         this.url = this.url.newBuilder().addPathSegment("alimentaire").build();
+        this.ajoutUrl = this.url.newBuilder().addPathSegment("ajout").build();
+        this.modifierUrl = this.url.newBuilder().addPathSegment("modifier").build();
+        this.supprimerUrl = this.url.newBuilder().addPathSegment("canceller").build();
 
     }
 
@@ -58,7 +61,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
     /**
      * Permet de peupler les items pour les spinner.
-     * <p>
+     * <p/>
      * Cette methode est asynchrone et retourne immédiatement
      */
     public void peuplerLesListes() {
@@ -276,8 +279,9 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
             throw new IllegalArgumentException("Le modèle est null");
         } else {
             // todo: requête au serveur pour suppression de la marchandise
-            HttpUrl url = this.url.newBuilder().addPathSegment("canceller")
-                                  .addPathSegment(modele.getId().toString()).build();
+            HttpUrl url = this.supprimerUrl.newBuilder()
+                                           .addPathSegment(modele.getId().toString())
+                                           .build();
             this.httpClient.newCall(new Request.Builder().url(url).get().build())
                            .enqueue(new Callback() {
                                @Override
