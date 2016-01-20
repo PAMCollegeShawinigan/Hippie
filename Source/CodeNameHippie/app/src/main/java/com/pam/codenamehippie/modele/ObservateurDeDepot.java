@@ -1,5 +1,6 @@
 package com.pam.codenamehippie.modele;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -31,5 +32,5 @@ public interface ObservateurDeDepot<T extends BaseModele<T>> {
     /**
      * Callback pour savoir quand un dépôt a une erreur lors d'une requête.
      */
-    void surErreur(); // FIXME: Passer des exceptions?
+    void surErreur(IOException e);
 }

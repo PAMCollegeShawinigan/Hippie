@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.pam.codenamehippie.HippieApplication;
+import com.pam.codenamehippie.http.exception.HttpReponseException;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
@@ -40,8 +41,9 @@ import java.util.ArrayList;
  * </ol>
  * <p/>
  * L'initialisation d'un dépôt requiert une inspection de sa hiearchie de classe en utilisant
- * le mécanisme de réflection de Java. Ceci est une opération dispendieuse, par conséquent nous
- * recommandons de limiter le nombre d'allocation d'instances d'objet de type dépôt.
+ * le mécanisme de réflection de Java. Ceci est une opération relativement dispendieuse, par
+ * conséquent nous recommandons de limiter le nombre d'allocation d'instances d'objet de type
+ * dépôt.
  *
  * @param <T>
  *         Type de modèle que le dépot contient.
@@ -146,7 +148,8 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     }
 
     /**
-     * Accesseur du contenu du dépôt
+     * Accesseur du contenu du dépôt. Le contenu du dépôt est toujours le résultat de de la
+     * dernière requête de peuplement.
      *
      * @return Le contenu du dépôt
      */
@@ -195,14 +198,15 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
             public void onFailure(Request request, IOException e) {
                 // TODO: Mettre un toast ou whatever
                 Log.e(TAG, "Request failed: " + request.toString(), e);
-                BaseModeleDepot.this.surErreur();
+                BaseModeleDepot.this.surErreur(e);
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
-                    BaseModeleDepot.this.surErreur();
+                    BaseModeleDepot.this.surErreur(new HttpReponseException(response));
+                    BaseModeleDepot.this.surFinDeRequete();
                 } else {
                     synchronized (BaseModeleDepot.this.lock) {
                         BaseModeleDepot.this.modeles.clear();
@@ -365,7 +369,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
             if (devraitPoster) {
                 // Ceci est du code expérimental/prototype.
                 // L'idee ici c'est d'utiliser la réflection java pour créer une form http.
-                // Il serait plus facile de soumettre du json, mais en ce moment le serveur le
+                // Il serait plus facile de soumettre du json, mais en ce moment, le serveur ne le
                 // prend pas en ce moment
                 Class clazz = modele.getClass();
                 do {
@@ -509,11 +513,11 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     /**
      * Notifie tous les observateurs du dépôt qu'il y a eu une erreur lors d'une requête.
      */
-    public void surErreur() {
+    public void surErreur(IOException e) {
         synchronized (this.lock) {
             if (!this.observateurs.isEmpty()) {
                 for (ObservateurDeDepot<T> observateur : this.observateurs) {
-                    observateur.surErreur();
+                    observateur.surErreur(e);
                 }
             }
         }
