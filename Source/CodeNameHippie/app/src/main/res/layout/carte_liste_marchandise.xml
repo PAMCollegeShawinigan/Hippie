@@ -38,7 +38,6 @@
         android:id="@+id/date_de_peremption"
         android:padding="10dp" />
 
-<<<<<<< HEAD:Source/CodeNameHippie/app/src/main/res/layout/item_liste_marchandise.xml
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,6 +51,5 @@
         android:id="@+id/ib_annuler"
         android:contentDescription="@null"
         android:padding="10dp" />
-=======
->>>>>>> master:Source/CodeNameHippie/app/src/main/res/layout/carte_liste_marchandise.xml
+
 </LinearLayout>
