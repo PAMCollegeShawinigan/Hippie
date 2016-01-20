@@ -179,6 +179,9 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * Permet de peupler le dépot.
      * <p/>
      * Cette methode est asynchrone et retourne immédiatement
+     *
+     * @param url
+     *         url de la requête.
      */
     protected void peuplerLeDepot(HttpUrl url) {
         Request request = new Request.Builder().url(url).get().build();

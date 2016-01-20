@@ -1,6 +1,7 @@
 package com.pam.codenamehippie.modele;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
@@ -65,7 +66,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
      * Cette methode est asynchrone et retourne immédiatement
      */
     public void peuplerLesListes() {
-        //TODO: Refactoriser la méthode pour passer un paramètre
+        //TODO: Refactoriser la méthode pour passer en paramètre des callbacks
         Request listeUniteRequete = new Request.Builder().url(this.listeUniteUrl).get().build();
         Request listeTypeAlimentaireRequete =
                 new Request.Builder().url(this.listeTypeAlimentaireUrl).get().build();
@@ -133,9 +134,9 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
      **/
     public void peuplerListeDon(Integer id) {
         HttpUrl url = this.listeDonUrl.newBuilder().addPathSegment(id.toString()).build();
-
+        this.peuplerLeDepot(url);
+        //TODO: Enlever le code en dessous et listeDon quand le nouvel api sera en place
         Request listeDonRequete = new Request.Builder().url(url).get().build();
-
         this.httpClient.newCall(listeDonRequete).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
@@ -172,7 +173,8 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
     }
 
     public void peuplerListeDonDispo() {
-
+        this.peuplerLeDepot(this.listeDonDispoUrl);
+        //TODO: Enlever le code en dessous et listeDonDispo quand le nouvel api sera en place
         Request listeDonDispoRequete =
                 new Request.Builder().url(this.listeDonDispoUrl).get().build();
 
@@ -274,29 +276,25 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
      * @return un MarchandiseModele ou null si inexistant dans le dépôt
      */
     @Override
-    public void supprimerModele(AlimentaireModele modele) {
-        if (modele == null) {
-            throw new IllegalArgumentException("Le modèle est null");
-        } else {
-            // todo: requête au serveur pour suppression de la marchandise
-            HttpUrl url = this.supprimerUrl.newBuilder()
-                                           .addPathSegment(modele.getId().toString())
-                                           .build();
-            this.httpClient.newCall(new Request.Builder().url(url).get().build())
-                           .enqueue(new Callback() {
-                               @Override
-                               public void onFailure(Request request, IOException e) {
-                                   //TODO: Toast ou whatever
-                                   Log.e(TAG, "Request failed: " + request.toString(), e);
-                               }
+    public void supprimerModele(@NonNull AlimentaireModele modele) {
+        // TODO: requête au serveur pour suppression de la marchandise
+        HttpUrl url = this.supprimerUrl.newBuilder()
+                                       .addPathSegment(modele.getId().toString())
+                                       .build();
+        this.httpClient.newCall(new Request.Builder().url(url).get().build())
+                       .enqueue(new Callback() {
+                           @Override
+                           public void onFailure(Request request, IOException e) {
+                               //TODO: Toast ou whatever
+                               Log.e(TAG, "Request failed: " + request.toString(), e);
+                           }
 
-                               @Override
-                               public void onResponse(Response response) throws IOException {
+                           @Override
+                           public void onResponse(Response response) throws IOException {
 
-                                   // TODO: Accroche une interface et raffraichir la liste
+                               // TODO: Callback
 
-                               }
-                           });
-        }
+                           }
+                       });
     }
 }
