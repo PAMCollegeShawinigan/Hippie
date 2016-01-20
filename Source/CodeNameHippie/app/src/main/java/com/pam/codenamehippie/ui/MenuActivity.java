@@ -9,6 +9,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.Toast;
 
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.ui.view.trianglemenu.ListeOrganismesActivity;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnCenterClickListener;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnItemClickListener;
@@ -111,8 +112,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                 break;
 
             case R.id.main_organisme_image:
-                intent=new Intent(this,MapsActivity.class);
-                intent.setFlags(view.getId());
+                intent=new Intent(this,ListeOrganismesActivity.class);
                 startActivity(intent);
 
                 // clic sur image carte des organismes
