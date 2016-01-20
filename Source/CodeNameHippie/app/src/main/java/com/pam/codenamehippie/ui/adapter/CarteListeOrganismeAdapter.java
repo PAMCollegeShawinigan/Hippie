@@ -24,13 +24,13 @@ import java.util.HashMap;
  */
 public class CarteListeOrganismeAdapter extends BaseExpandableListAdapter {
     Context context;
-   ArrayList<Organisme> listOrganisme;
+    ArrayList<Organisme> listOrganisme;
     int viewID;
 
-    public CarteListeOrganismeAdapter(Context context, ArrayList<Organisme> listOrganisme, int viewID){
-        this.context=context;
-        this.listOrganisme=listOrganisme;
-        this.viewID=viewID;
+    public CarteListeOrganismeAdapter(Context context, ArrayList<Organisme> listOrganisme, int viewID) {
+        this.context = context;
+        this.listOrganisme = listOrganisme;
+        this.viewID = viewID;
     }
 
     @Override
@@ -75,12 +75,17 @@ public class CarteListeOrganismeAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        LinearLayout layout=new LinearLayout(context);
+        LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.HORIZONTAL);
-        TextView textView=new TextView(context);
+        ImageView logo=new ImageView(context);
+        TextView textView = new TextView(context);
         textView.setText(listOrganisme.get(groupPosition).getNomOrganisme());
-layout.addView(textView);
 
+        layout.addView(logo);
+        layout.addView(textView);
+        textView.setTextSize(20);
+        logo.setImageResource(R.drawable.trademarks);
+        logo.setPadding(40,0,40,0);
         return layout;
 
 
@@ -92,9 +97,9 @@ layout.addView(textView);
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.HORIZONTAL);
 
-        ImageView logo1=new ImageView(context);
+        ImageView logo1 = new ImageView(context);
 
-        TextView textView1=new TextView(context);
+        TextView textView1 = new TextView(context);
 
 
         LinearLayout layout1 = new LinearLayout(context);
@@ -106,23 +111,37 @@ layout.addView(textView);
         LinearLayout layout3 = new LinearLayout(context);
         layout3.setOrientation(LinearLayout.HORIZONTAL);
 
-        ImageView logo2=new ImageView(context);
-        TextView textView2=new TextView(context);
-        layout1.addView(logo2);
-        layout1.addView(textView2);
+        ImageView logo2 = new ImageView(context);
+        TextView textView2 = new TextView(context);
+        layout2.addView(logo2);
+        layout2.addView(textView2);
+
+
+        ImageView logo3 = new ImageView(context);
+        TextView textView3 = new TextView(context);
+        layout3.addView(logo3);
+        layout3.addView(textView3);
+
+
         layout1.addView(layout2);
-
-
-        ImageView logo3=new ImageView(context);
-        TextView textView3=new TextView(context);
-        layout1.addView(logo3);
-        layout1.addView(textView3);
         layout1.addView(layout3);
 
 
         layout.addView(logo1);
         layout.addView(textView1);
         layout.addView(layout1);
+        logo1.setImageResource(R.drawable.adresse);
+        logo1.setPadding(40,0,40,0);
+        logo2.setImageResource(R.drawable.personne_contact);
+        logo3.setImageResource(R.drawable.telephone2);
+        textView1.setText(listOrganisme.get(groupPosition).getAddresse());
+        textView2.setText(listOrganisme.get(groupPosition).getContact());
+        textView3.setText(listOrganisme.get(groupPosition).getTelephone());
+        textView1.setTextSize(20);
+        textView1.setMaxWidth(700);
+
+        textView2.setTextSize(20);
+        textView3.setTextSize(20);
 
 
         return layout;

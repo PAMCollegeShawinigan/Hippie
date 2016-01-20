@@ -17,6 +17,23 @@ public class Organisme {
     private String telephone;
     private ArrayList<Denree> listDenree;
     private LatLng mLatLng;
+    private String contact;
+
+    public AddressOrganisme getAdd() {
+        return add;
+    }
+
+    public void setAdd(AddressOrganisme add) {
+        this.add = add;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
 
     public LatLng getmLatLng() {
         return mLatLng;
@@ -30,12 +47,13 @@ public class Organisme {
         this.mapCollectTime = mapCollectTime;
     }
 
-    public Organisme(String nomOrganisme, String addresse, HashMap<String, String> mapCollectTime, String telephone, ArrayList<Denree> listDenree) {
+    public Organisme(String nomOrganisme, String addresse, HashMap<String, String> mapCollectTime, String telephone, ArrayList<Denree> listDenree,String contact) {
         this.nomOrganisme = nomOrganisme;
         this.addresse = addresse;
         this.mapCollectTime = mapCollectTime;
         this.telephone = telephone;
         this.listDenree = listDenree;
+        this.contact=contact;
     }
 
     public HashMap<String, String> getMapCollectTime() {
