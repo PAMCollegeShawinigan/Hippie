@@ -15,22 +15,27 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-        <TextView
-            android:id="@+id/tv_liste_organisme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="70dp"
-            android:text="@string/tv_organisme_communautaire"
-            android:textSize="25sp"/>
-
-        <ExpandableListView
-            android:id="@+id/liste_organisme"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="489dp"
-            android:layout_marginTop="140dp"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_liste_organisme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="70dp"
+                android:text="@string/tv_organisme_communautaire"
+                android:textSize="25sp"/>
+
+            <ExpandableListView
+                android:id="@+id/liste_organisme"
+                android:layout_width="match_parent"
+                android:layout_height="489dp"
+                android:layout_marginTop="140dp"/>
+        </LinearLayout>
 
         <include layout="@layout/loading"/>
     </ViewSwitcher>
