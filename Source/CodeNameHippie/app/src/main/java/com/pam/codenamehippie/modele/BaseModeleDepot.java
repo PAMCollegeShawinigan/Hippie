@@ -102,6 +102,11 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     protected ArrayList<ObservateurDeDepot<T>> observateurs = new ArrayList<>();
 
     /**
+     * Foncteur pour les listes résultantes des requêtes
+     */
+    protected FiltreDeListe<T> filtreDeListe = null;
+
+    /**
      * Initialise les variables commune à tous les dépôts.
      *
      * @param context
@@ -151,6 +156,25 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
         }
     }
 
+    public FiltreDeListe<T> getFiltreDeListe() {
+        synchronized (this.lock) {
+            return this.filtreDeListe;
+        }
+    }
+
+    /**
+     * Assigne un filtre pour toutes les nouvelles requêtes de peuplement du dépôt. Mettre à null
+     * pour supprimer le filtre
+     *
+     * @param filtreDeListe
+     *         Le filtre à mettre pour la requête.
+     */
+    public void setFiltreDeListe(@Nullable FiltreDeListe<T> filtreDeListe) {
+        synchronized (this.lock) {
+            this.filtreDeListe = filtreDeListe;
+        }
+    }
+
     /**
      * Permet de peupler le dépot.
      * <p/>
@@ -178,14 +202,20 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                     BaseModeleDepot.this.surErreur();
                 } else {
                     synchronized (BaseModeleDepot.this.lock) {
+                        BaseModeleDepot.this.modeles.clear();
                         // Le serveur retourne un array. Donc pour supporter un énorme array on
                         // utilise des streams.
                         JsonReader reader = new JsonReader(response.body().charStream());
                         reader.beginArray();
                         while (reader.hasNext()) {
                             T modele = BaseModeleDepot.this.fromJson(reader);
-                            Log.d(TAG, modele.toString());
-                            BaseModeleDepot.this.modeles.add(modele);
+                            if (BaseModeleDepot.this.filtreDeListe != null) {
+                                if (BaseModeleDepot.this.filtreDeListe.appliquer(modele)) {
+                                    BaseModeleDepot.this.modeles.add(modele);
+                                }
+                            } else {
+                                BaseModeleDepot.this.modeles.add(modele);
+                            }
                         }
                         reader.endArray();
                         reader.close();
@@ -452,7 +482,6 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      */
     public void surDebutDeRequete() {
         synchronized (this.lock) {
-            this.modeles.clear();
             if (!this.observateurs.isEmpty()) {
                 for (ObservateurDeDepot<T> observateur : this.observateurs) {
                     observateur.surDebutDeRequete();
