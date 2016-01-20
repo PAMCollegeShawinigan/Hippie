@@ -27,12 +27,12 @@ import java.util.HashMap;
 public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
     Context context;
     Organisme mOrganisme;
-    Intent intent;
+    int viewID;
 
-    public CarteOrganismeAdapter(Context context,Organisme mOrganisme,Intent intent){
+    public CarteOrganismeAdapter(Context context,Organisme mOrganisme,int viewID){
         this.context=context;
         this.mOrganisme=mOrganisme;
-        this.intent=intent;
+        this.viewID=viewID;
     }
 
     @Override
@@ -73,7 +73,6 @@ public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
     @Override
     public Object getChild(int groupPosition, int childPosition) {
         Object info = null;
-
 
         if (groupPosition == 0) {
 
@@ -119,7 +118,6 @@ public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
                 default:
                     info = mOrganisme.getListDenree().get(childPosition - 1);
             }
-
         }
         return info;
     }
@@ -352,7 +350,7 @@ public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
                 textView4.setText(mOrganisme.getListDenree().get(childPosition - 1).getDatePeremption());
 
                 Button btn = new Button(context);
-                if(intent.getFlags()==R.id.marchandiseDisponible){
+                if(viewID==R.id.marchandiseDisponible||viewID==R.id.main_carte_image){
                 btn.setText("Reserver");
                 btn.setBackgroundColor(Color.GREEN);}
                 else{
