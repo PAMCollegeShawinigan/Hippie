@@ -1,205 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".ui.AjoutMarchandiseActivity">
+
     <include layout="@layout/content_appbar_main"/>
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#ffffff"
-        android:fillViewport="false"
-        android:focusableInTouchMode="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:scrollIndicators="left|top">
+    <ViewSwitcher
+        android:id="@+id/main_view_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#ffffff"
+            android:fillViewport="false"
+            android:focusableInTouchMode="false"
+            android:scrollIndicators="left|top"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:scrollIndicators="top">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingLeft="40dp">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:scrollIndicators="top">
 
-                <TextView
-                    android:id="@+id/tvAjoutMarchandise"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="AJOUT DE MARCHANDISE"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="#70A843"
-                    android:textSize="30sp" />
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingLeft="40dp">
 
-                <TextView
-                    android:id="@+id/tvNomMarchandise"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Nom"
-                    android:textColor="#000000"
-                    android:textSize="20sp" />
+                    <TextView
+                        android:id="@+id/tvAjoutMarchandise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="AJOUT DE MARCHANDISE"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="#70A843"
+                        android:textSize="30sp"/>
 
-                <EditText
-                    android:id="@+id/etNomMarchandise"
-                    android:layout_width="300dp"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/element"
-                    android:hint="NOM"
-                    android:inputType="textCapCharacters"
-                    android:maxLength="50"
-                    android:nextFocusForward="@+id/etDescMarchandise"
-                    android:padding="10dp"
-                    android:textColorHint="#c6c6c6" />
+                    <TextView
+                        android:id="@+id/tvNomMarchandise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="Nom"
+                        android:textColor="#000000"
+                        android:textSize="20sp"/>
 
-                <TextView
-                    android:id="@+id/tvDescMarchandise"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Description"
-                    android:textColor="#000000"
-                    android:textSize="20sp" />
+                    <EditText
+                        android:id="@+id/etNomMarchandise"
+                        android:layout_width="300dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/element"
+                        android:hint="NOM"
+                        android:inputType="textCapCharacters"
+                        android:maxLength="50"
+                        android:nextFocusForward="@+id/etDescMarchandise"
+                        android:padding="10dp"
+                        android:textColorHint="#c6c6c6"/>
 
-                <EditText
-                    android:id="@+id/etDescMarchandise"
-                    android:layout_width="300dp"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/element"
-                    android:hint="DESCRIPTION"
-                    android:inputType="textCapCharacters"
-                    android:maxLength="100"
-                    android:nextFocusForward="@+id/etQteeMarchandise"
-                    android:padding="10dp"
-                    android:textColorHint="#c6c6c6" />
+                    <TextView
+                        android:id="@+id/tvDescMarchandise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="Description"
+                        android:textColor="#000000"
+                        android:textSize="20sp"/>
 
-                <TextView
-                    android:id="@+id/tvQteeMarchandise"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Quantitées"
-                    android:textColor="#000000"
-                    android:textSize="20sp" />
+                    <EditText
+                        android:id="@+id/etDescMarchandise"
+                        android:layout_width="300dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/element"
+                        android:hint="DESCRIPTION"
+                        android:inputType="textCapCharacters"
+                        android:maxLength="100"
+                        android:nextFocusForward="@+id/etQteeMarchandise"
+                        android:padding="10dp"
+                        android:textColorHint="#c6c6c6"/>
 
-                <EditText
-                    android:id="@+id/etQteeMarchandise"
-                    android:layout_width="300dp"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/element"
-                    android:hint="QUANTITÉES"
-                    android:maxLength="10"
-                    android:nextFocusForward="@+id/etUniteMarchandise"
-                    android:padding="10dp"
-                    android:textColorHint="#c6c6c6"
-                    android:inputType="numberDecimal" />
+                    <TextView
+                        android:id="@+id/tvQteeMarchandise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="Quantitées"
+                        android:textColor="#000000"
+                        android:textSize="20sp"/>
 
-                <TextView
-                    android:id="@+id/tvUniteMarchandise"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Unité"
-                    android:textColor="#000000"
-                    android:textColorHint="#c6c6c6"
-                    android:textSize="20sp" />
+                    <EditText
+                        android:id="@+id/etQteeMarchandise"
+                        android:layout_width="300dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/element"
+                        android:hint="QUANTITÉES"
+                        android:inputType="numberDecimal"
+                        android:maxLength="10"
+                        android:nextFocusForward="@+id/etUniteMarchandise"
+                        android:padding="10dp"
+                        android:textColorHint="#c6c6c6"/>
 
-                <Spinner
-                    android:id="@+id/spinnerUniteMarchandise"
-                    android:layout_width="300dp"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/element"
-                    android:entries="@array/UniteMarchandiseListe"
-                    android:nextFocusForward="@+id/etValeurMarchandise" />
+                    <TextView
+                        android:id="@+id/tvUniteMarchandise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="Unité"
+                        android:textColor="#000000"
+                        android:textColorHint="#c6c6c6"
+                        android:textSize="20sp"/>
 
-                <TextView
-                    android:id="@+id/tvValeurMarchandise"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Valeur"
-                    android:textColor="#000000"
-                    android:textSize="20sp" />
+                    <Spinner
+                        android:id="@+id/spinnerUniteMarchandise"
+                        android:layout_width="300dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/element"
+                        android:entries="@array/UniteMarchandiseListe"
+                        android:nextFocusForward="@+id/etValeurMarchandise"/>
 
-                <EditText
-                    android:id="@+id/etValeurMarchandise"
-                    android:layout_width="300dp"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/element"
-                    android:hint="VALEUR"
-                    android:inputType="number"
-                    android:nextFocusForward="@+id/etTypeMarchandise"
-                    android:padding="10dp"
-                    android:textColorHint="#c6c6c6"
-                    android:numeric="integer"
-                    android:maxLength="10" />
+                    <TextView
+                        android:id="@+id/tvValeurMarchandise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="Valeur"
+                        android:textColor="#000000"
+                        android:textSize="20sp"/>
 
-                <TextView
-                    android:id="@+id/tvTypeMarchandise"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Type alimentaire"
-                    android:textColor="#000000"
-                    android:textSize="20sp" />
+                    <EditText
+                        android:id="@+id/etValeurMarchandise"
+                        android:layout_width="300dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/element"
+                        android:hint="VALEUR"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:nextFocusForward="@+id/etTypeMarchandise"
+                        android:numeric="integer"
+                        android:padding="10dp"
+                        android:textColorHint="#c6c6c6"/>
 
-                <Spinner
-                    android:id="@+id/spinnerTypeMarchandise"
-                    android:layout_width="300dp"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/element"
-                    android:imeOptions="actionDone" />
+                    <TextView
+                        android:id="@+id/tvTypeMarchandise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="Type alimentaire"
+                        android:textColor="#000000"
+                        android:textSize="20sp"/>
 
-                <TextView
-                    android:id="@+id/tvDatePeremption"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
-                    android:text="Date de péremption"
-                    android:textColor="#000000"
-                    android:textSize="20sp" />
+                    <Spinner
+                        android:id="@+id/spinnerTypeMarchandise"
+                        android:layout_width="300dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/element"
+                        android:imeOptions="actionDone"/>
 
-                <DatePicker
-                    android:id="@+id/datePicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:calendarViewShown="false"
-                    android:nestedScrollingEnabled="false" />
+                    <TextView
+                        android:id="@+id/tvDatePeremption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="Date de péremption"
+                        android:textColor="#000000"
+                        android:textSize="20sp"/>
 
-                <Button
-                    android:id="@+id/bAjoutMarchandise"
-                    android:layout_width="300dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/button"
-                    android:onClick="soumettreMarchandise"
-                    android:text="Ajouter" />
+                    <DatePicker
+                        android:id="@+id/datePicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <Button
+                        android:id="@+id/bAjoutMarchandise"
+                        android:layout_width="300dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/button"
+                        android:onClick="soumettreMarchandise"
+                        android:text="Ajouter"/>
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+        </android.support.v4.widget.NestedScrollView>
+
+        <include layout="@layout/loading"/>
+    </ViewSwitcher>
 </android.support.design.widget.CoordinatorLayout>
