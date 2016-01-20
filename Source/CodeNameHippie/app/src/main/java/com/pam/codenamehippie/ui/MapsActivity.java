@@ -179,7 +179,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                                               final Organisme mOrganisme = listOrganisme.get(ordre);
                                               if(viewID!=R.id.main_organisme_image){
                                               expandableListView.setAdapter(new CarteOrganismeAdapter(MapsActivity.this, mOrganisme, viewID));}
-                                              else{  expandableListView.setAdapter(new CarteListeOrganismeAdapter(MapsActivity.this, listOrganisme, viewID));
+                                              else{
 
                                               }
                                               return false;
