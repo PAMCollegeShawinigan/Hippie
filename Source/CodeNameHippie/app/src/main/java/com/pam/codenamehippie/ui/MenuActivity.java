@@ -145,7 +145,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
 
             case R.id.main_reservation_image:
                 // clic sur les réservations
-                intent=new Intent(this,MapsActivity.class);
+                intent=new Intent(this,ListeMesReservationsActivity.class);
                 intent.setFlags(view.getId());
                 startActivity(intent);
               //  startActivity(new Intent(this, MapsActivity.class));
