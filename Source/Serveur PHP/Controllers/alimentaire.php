@@ -143,9 +143,8 @@ class alimentaire extends Controller
 	public function cancelleraliment($id_alimentaire){ // TO-DO, FAIRE UNE TRANSACTION
 		include('Connection/bdlogin.php');
 		
-		$req = $bdd -> prepare('UPDATE alimentaire SET marchandise_statut = :marchandise_statut WHERE alimentaire_id = :id_alimentaire');
+		$req = $bdd -> prepare('UPDATE alimentaire SET marchandise_statut = 7 WHERE alimentaire_id = :id_alimentaire');
 			$req->execute(array(
-			'marchandise_statut' => '7', //enlever le hard-coding
 			'id_alimentaire' => $id_alimentaire
 			));
 			

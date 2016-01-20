@@ -14,7 +14,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        android:background="#737272">
+        android:background="#ffffff">
 
         <TextView
             android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
             android:text="Qui nous sommes? "
             android:id="@+id/textView5"
             android:textSize="40dp"
-            android:textColor="#A1CC39"
+            android:textColor="#70A843"
             android:layout_marginTop="10dp" />
 
         <TextView
@@ -39,7 +39,7 @@
             android:text="Comment nous est venue l’idée de Denrée Ô Suivant? "
             android:id="@+id/textView7"
             android:textSize="25dp"
-            android:textColor="#A1CC39"
+            android:textColor="#70A843"
             android:layout_marginTop="10dp" />
 
         <TextView
@@ -64,7 +64,7 @@
             android:text="Notre mission "
             android:id="@+id/textView10"
             android:textSize="40dp"
-            android:textColor="#A1CC39"
+            android:textColor="#70A843"
             android:textStyle="bold"
             android:layout_marginTop="10dp" />
 
@@ -74,7 +74,7 @@
             android:text="•	Simplifier les dons pour les entreprises "
             android:id="@+id/textView11"
             android:textSize="25dp"
-            android:textColor="#A1CC39"
+            android:textColor="#70A843"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="30dp" />
 
@@ -85,7 +85,7 @@
             android:id="@+id/textView12"
             android:textSize="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="50dp" />
+            android:layout_marginLeft="70dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -93,7 +93,7 @@
             android:text="•	Vocation sociale et communautaire "
             android:id="@+id/textView13"
             android:textSize="25dp"
-            android:textColor="#A1CC39"
+            android:textColor="#70A843"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="30dp" />
 
@@ -104,7 +104,7 @@
             android:id="@+id/textView14"
             android:textSize="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="50dp" />
+            android:layout_marginLeft="70dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
             android:text="•	Environnement et gaspillage "
             android:id="@+id/textView15"
             android:textSize="25dp"
-            android:textColor="#A1CC39"
+            android:textColor="#70A843"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="30dp" />
 
@@ -124,7 +124,7 @@
             android:textSize="20dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="32dp" />
+            android:layout_marginLeft="50dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
             android:text="En conclusion "
             android:id="@+id/textView17"
             android:textSize="40dp"
-            android:textColor="#A1CC39"
+            android:textColor="#70A843"
             android:textStyle="bold"
             android:layout_marginTop="10dp" />
 

@@ -334,13 +334,12 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @return l'ancien Modele
      */
-    public synchronized T supprimerModele(T modele) {
+    public synchronized void supprimerModele(T modele) {
         T oldModele = this.modeles.get(modele.getId());
 
         if (oldModele != null) {
             this.modeles.remove(modele.getId());
             // todo: requête au serveur pour suppression de l'objet
         }
-        return oldModele;
     }
 }
