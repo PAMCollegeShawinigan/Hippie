@@ -1,6 +1,6 @@
 package com.pam.codenamehippie.modele;
 
-import android.util.SparseArray;
+import java.util.ArrayList;
 
 /**
  * Interface de callback pour recevoir des notifications de changement dans les dépots.
@@ -21,7 +21,7 @@ public interface ObservateurDeDepot<T extends BaseModele<T>> {
      * @param modeles
      *         le contenu du dépôt au moment du callback.
      */
-    void surChangementDeDonnees(SparseArray<T> modeles);
+    void surChangementDeDonnees(ArrayList<T> modeles);
 
     /**
      * Callback pour savoir quand un dépôt finit une requête.

@@ -5,7 +5,6 @@ import android.database.DataSetObservable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.util.SparseArray;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -59,7 +58,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     /**
      * Contenant qui renferme les objets entretenus par le dépôt.
      */
-    protected final SparseArray<T> modeles = new SparseArray<>();
+    protected final ArrayList<T> modeles = new ArrayList<>();
     /**
      * Client http.
      */
@@ -131,7 +130,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @return Le contenu du dépôt
      */
-    public SparseArray<T> getModeles() {
+    public ArrayList<T> getModeles() {
         synchronized (this.lock) {
             return this.modeles;
         }
@@ -171,7 +170,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                         while (reader.hasNext()) {
                             T modele = gson.fromJson(reader, BaseModeleDepot.this.classeDeT);
                             Log.d(TAG, modele.toString());
-                            BaseModeleDepot.this.modeles.put(modele.getId(), modele);
+                            BaseModeleDepot.this.modeles.add(modele);
                         }
                         reader.endArray();
                         reader.close();
@@ -277,7 +276,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     public synchronized T ajouterModele(String json, boolean devraitPoster) {
         T modele = this.fromJson(json);
         if (this.modeles.get(modele.getId()) == null) {
-            this.modeles.put(modele.getId(), modele);
+            this.modeles.add(modele);
             if (devraitPoster) {
                 // todo: requête au serveur pour ajouter du stock
             }
@@ -299,7 +298,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      */
     public T ajouterModele(T modele, boolean devraitPoster) {
         if (this.modeles.get(modele.getId()) == null) {
-            this.modeles.put(modele.getId(), modele);
+            this.modeles.add(modele);
             if (devraitPoster) {
                 // Ceci est du code expérimental/prototype.
                 // L'idee ici c'est d'utiliser la réflection java pour créer une form http.
@@ -365,7 +364,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
         T oldModele = this.modeles.get(modele.getId());
 
         if (oldModele != null) {
-            this.modeles.remove(modele.getId());
+            this.modeles.remove(modele);
             // todo: requête au serveur pour suppression de l'objet
         }
     }
