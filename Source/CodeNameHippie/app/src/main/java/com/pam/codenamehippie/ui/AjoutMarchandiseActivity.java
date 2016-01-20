@@ -30,8 +30,11 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Cette classe permet à un donneur d'ajouter des produits à la base de données
@@ -128,11 +131,71 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.tvDatePeremption = (TextView) this.findViewById(R.id.tvDatePeremption);
         this.datePeremption = (DatePicker) this.findViewById(R.id.datePicker);
         // Set la date minimale du date picker au moment présent.
+        TextView tvAjoutMarchandise = (TextView) findViewById(R.id.tvAjoutMarchandise);
+        // FIXME: mettre ressource string losrqu'elle sera disponible
+        tvAjoutMarchandise.setText("Ajout de marchandise");
         this.bAjoutMarchandise = (Button) this.findViewById(R.id.bAjoutMarchandise);
+        // FIXME: mettre ressource string losrqu'elle sera disponible
+        bAjoutMarchandise.setText("Ajouter");
         // Retrouve l'organisme id de shared pref. -1 signifie qu'il n'y a pas d'organisme.
         this.organismeId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
                                                          -1
                                                         );
+
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle != null){
+            // FIXME: mettre ressource string losrqu'elle sera disponible
+            tvAjoutMarchandise.setText("Modification de marchandise");
+            bAjoutMarchandise.setText("Modifier");
+
+            etNomMarchandise.setText(bundle.getCharSequence("nom"));
+            etDescMarchandise.setText(bundle.getCharSequence("description"));
+            etQteeMarchandise.setText(bundle.getCharSequence("quantite"));
+            etValeurMarchandise.setText(bundle.getCharSequence("valeur"));
+
+            String bundleDesc = bundle.getString("unite");
+            for (int i = 0; i < uniteAdapter.getCount(); i++) {
+               String uniteDescription = uniteAdapter.getItem(i).getDescription();
+                if (bundleDesc.equalsIgnoreCase(uniteDescription)){
+                    spinnerUniteMarchandise.setSelection(i);
+                    break;
+                }
+            }
+
+//            String bundleTypeAlimentaire = bundle.getString("typeAlimentaire");
+//            for (int i = 0; i < typeAdapter.getCount(); i++) {
+//                String typeDescription = typeAdapter.getItem(i).getDescription();
+//                if (bundleTypeAlimentaire.equalsIgnoreCase(typeDescription)) {
+//                    spinnerTypeMarchandise.setSelection(i);
+//                    break;
+//                }
+//            }
+            spinnerTypeMarchandise.setSelection(2);
+
+            String dateString = bundle.getString("datePeremption");
+
+            if (dateString != null){
+                DateFormat df = android.text.format.DateFormat.getLongDateFormat(this);
+                Date date = null;
+                try {
+                    date = df.parse(dateString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                } if (date != null) {
+//                    int annee = Integer.parseInt(dateString.substring(0, 3));
+//                    int mois = Integer.parseInt(dateString.substring(5, 6));
+//                    int jour = Integer.parseInt(dateString.substring(8, 9));
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(date);
+                    datePeremption.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                            calendar.get(Calendar.DAY_OF_MONTH), null);
+
+                }
+
+            }
+
+        }
 
     }
 
@@ -227,9 +290,9 @@ public class AjoutMarchandiseActivity extends HippieActivity
                 new AlimentaireModele().setNom(this.validateurNom.getTextString())
                                        .setDescription(this.validateurDescription.getTextString())
                                        .setValeur(Integer.valueOf(this.validateurValeur
-                                                                          .getTextString()))
+                                               .getTextString()))
                                        .setQuantite(Double.valueOf(this.validateurQuantite
-                                                                           .getTextString()))
+                                               .getTextString()))
                                        .setTypeAlimentaire(typeAlimentaire.getDescription())
                                        .setDatePeremption(date.getTime());
         String typeAlimentaireId =
