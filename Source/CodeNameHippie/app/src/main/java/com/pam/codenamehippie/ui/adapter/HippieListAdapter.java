@@ -34,6 +34,8 @@ public class HippieListAdapter extends BaseAdapter {
     private final ArrayList<AlimentaireModele> items;
     private final Context context;
     private final AlimentaireModeleDepot depot;
+    private int requestCode = 1597;
+
 
     public HippieListAdapter(Context context, ArrayList<AlimentaireModele> items, AlimentaireModeleDepot depot) {
         this.context = context;
@@ -93,6 +95,7 @@ public class HippieListAdapter extends BaseAdapter {
                 bundle.putString("unite", modele.getUnite());
                 bundle.putString("valeur", modele.getValeur().toString());
                 bundle.putString("typeAlimentaire", modele.getTypeAlimentaire());
+                bundle.putInt("id", modele.getId());
                 if (modele.getDatePeremption() != null){
                     Date date = modele.getDatePeremption();
                     DateFormat df = android.text.format.DateFormat.getLongDateFormat(context);
@@ -100,7 +103,9 @@ public class HippieListAdapter extends BaseAdapter {
                 }
 
                 intent.putExtras(bundle);
-                context.startActivity(intent);
+               context.startActivity(intent);
+
+
                 Toast.makeText(context, "Bouton modifier sélectionné",
                         Toast.LENGTH_LONG).show();
             }

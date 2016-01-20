@@ -42,10 +42,12 @@ public class ListeMesDonsActivity extends HippieActivity {
             }
         }
 
+        Toast.makeText(this,"Nombre d'aliment dans ArrayList" + modeles.size(),Toast.LENGTH_SHORT);
         this.mesDonsAdapter = new HippieListAdapter(this, modeles, alimentaireModeleDepot);
         listeMesDons = (ListView) findViewById(R.id.lv_dons);
         listeMesDons.setItemsCanFocus(false);
         listeMesDons.setAdapter(mesDonsAdapter);
+        mesDonsAdapter.notifyDataSetChanged();
 
         // peut être non nécessaire
         listeMesDons.setOnItemClickListener(new AdapterView.OnItemClickListener() {
