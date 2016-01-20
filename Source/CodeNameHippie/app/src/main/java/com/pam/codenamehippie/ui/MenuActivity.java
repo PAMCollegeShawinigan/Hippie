@@ -111,6 +111,10 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                 break;
 
             case R.id.main_organisme_image:
+                intent=new Intent(this,MapsActivity.class);
+                intent.setFlags(view.getId());
+                startActivity(intent);
+
                 // clic sur image carte des organismes
                 Toast.makeText(this.getApplicationContext(),
                         " Carte des organismes ",

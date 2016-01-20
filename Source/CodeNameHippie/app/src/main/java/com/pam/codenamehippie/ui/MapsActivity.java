@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.ui.adapter.CarteListeOrganismeAdapter;
 import com.pam.codenamehippie.ui.adapter.CarteOrganismeAdapter;
 import com.pam.codenamehippie.ui.view.trianglemenu.TestDonneeCentre;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -117,11 +118,16 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
 
         if (viewID == R.id.main_carte_image) {
             listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
-        } else
+
+        }
+        else if(viewID==R.id.main_reservation_image)
         {
             listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
-        }
 
+        }else{
+
+            listOrganisme=TestDonneeCentre.prepareDonnees_organismes();
+        }
 
         prepareMarkers(listOrganisme, viewID);
 
@@ -171,7 +177,11 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                                                   }
                                               }
                                               final Organisme mOrganisme = listOrganisme.get(ordre);
-                                              expandableListView.setAdapter(new CarteOrganismeAdapter(MapsActivity.this, mOrganisme, viewID));
+                                              if(viewID!=R.id.main_organisme_image){
+                                              expandableListView.setAdapter(new CarteOrganismeAdapter(MapsActivity.this, mOrganisme, viewID));}
+                                              else{  expandableListView.setAdapter(new CarteListeOrganismeAdapter(MapsActivity.this, mOrganisme, viewID));
+
+                                              }
                                               return false;
                                           }
                                       }
