@@ -5,7 +5,7 @@
 
 	<item
 		android:id="@+id/menu_un"
-		android:icon="@drawable/menu"
+		android:icon="@drawable/menu_blanc"
 		android:orderInCategory="1"
 		android:title="@string/menu"
 		app:showAsAction="always" />
@@ -25,7 +25,5 @@
         android:icon="@drawable/profil"
         android:title="@string/profil"
         android:orderInCategory="1"/>
-
-
 
 </menu>

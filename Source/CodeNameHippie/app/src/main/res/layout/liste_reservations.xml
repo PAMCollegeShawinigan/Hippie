@@ -6,13 +6,6 @@
                                                  android:orientation="vertical"
                                                  app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <ViewSwitcher
-        android:id="@+id/main_view_switcher"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,6 +54,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="55dp"/>
 
+  <!--  TODO: J'ai enlevé le view switcher afin de régler le problème plus tard
+
+    <ViewSwitcher
+        android:id="@+id/main_view_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <include layout="@layout/loading"/>
-    </ViewSwitcher>
+    </ViewSwitcher> -->
+
 </android.support.design.widget.CoordinatorLayout>

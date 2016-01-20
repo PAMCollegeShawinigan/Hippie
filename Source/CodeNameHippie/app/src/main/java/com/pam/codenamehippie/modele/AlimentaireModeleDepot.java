@@ -39,7 +39,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
         this.listeDonDispoUrl = this.url.newBuilder().addPathSegment("don").addPathSegment("listedondispo").build();
 
-       // this.url = this.url.newBuilder().addPathSegment("alimentaire").build();
+       this.url = this.url.newBuilder().addPathSegment("alimentaire").build();
 
     }
 
