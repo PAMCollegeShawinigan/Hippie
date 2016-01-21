@@ -129,9 +129,6 @@ public class MesReservationsAdapter extends BaseAdapter {
                  * String statut = modele.getStatut();
                  */
 
-
-
-
                 Toast.makeText(context, "Réservation supprimé",
                         Toast.LENGTH_LONG).show();
             }
