@@ -9,24 +9,20 @@
     tools:context=".ui.ListeMesDonsActivity">
     <include layout="@layout/content_appbar_main"/>
 
-    <android.support.v4.widget.NestedScrollView
+    <ViewSwitcher
+        android:id="@+id/main_view_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:background="#ffffff"
-            android:fillViewport="false"
-            android:focusableInTouchMode="false"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:scrollIndicators="left|top"/>
-
-
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="#ffffff"
-            android:fillViewport="false"
             android:focusableInTouchMode="false"
             android:scrollIndicators="left|top"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            >
 
             <LinearLayout
                 android:layout_height="match_parent"
@@ -76,15 +72,17 @@
                 </LinearLayout>
 
                 <ListView
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     android:id="@+id/lv_dons"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="60dp" />
             </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+        </LinearLayout>
 
 
         <include layout="@layout/loading"/>
-   
+    </ViewSwitcher>
+
 </android.support.design.widget.CoordinatorLayout>

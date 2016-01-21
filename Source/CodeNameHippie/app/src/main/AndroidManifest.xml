@@ -58,6 +58,11 @@
 			android:name=".ui.ListeMesDonsActivity"
 			android:label="Mes Dons">
 		</activity>
+
+		<activity
+			android:name=".ui.view.trianglemenu.ListeOrganismesActivity"
+			android:label="Mes Dons">
+		</activity>
 		<activity
 			android:name=".ui.ListeMesReservationsActivity"
 			android:label="Mes Réservations">
