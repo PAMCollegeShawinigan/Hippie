@@ -7,6 +7,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Classe d'aide qui intercepte le traffic HTTP et qui Log le contenu dans Logcat
@@ -19,7 +20,8 @@ public class HttpDebugInterceptor implements Interceptor {
 
         long t1 = System.nanoTime();
         Log.d("HTTP",
-              String.format("Envoi d'une requête %s sur %s%n%s",
+              String.format(Locale.getDefault(),
+                            "Envoi d'une requête %s sur %s%n%s",
                             request.method(),
                             request.url(),
                             request.headers()
@@ -29,7 +31,8 @@ public class HttpDebugInterceptor implements Interceptor {
 
         long t2 = System.nanoTime();
         Log.d("HTTP",
-              String.format("Received response %d - %s for %s in %.1fms%n%s",
+              String.format(Locale.getDefault(),
+                            "Received response %d - %s for %s in %.1fms%n%s",
                             response.code(),
                             response.message(),
                             response.request().url(),

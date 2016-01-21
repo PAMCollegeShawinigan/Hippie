@@ -1,12 +1,9 @@
 package com.pam.codenamehippie.ui;
 
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.pam.codenamehippie.HippieApplication;
@@ -38,17 +35,12 @@ public class MainActivity extends HippieActivity {
         ((TextView) findViewById(R.id.textView13)).setTypeface(typeface);
         ((TextView) findViewById(R.id.textView15)).setTypeface(typeface);
 
-
-
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         UtilisateurModeleDepot utilisateurModeleDepot =
                 ((HippieApplication) this.getApplication())
                         .getUtilisateurModeleDepot();
         alimentaireModeleDepot.peuplerLesListes();
-        // TODO: le id est temporairement Hardcoder
-
-        utilisateurModeleDepot.peuplerLeDepot();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -59,8 +51,11 @@ public class MainActivity extends HippieActivity {
         super.onResume();
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        alimentaireModeleDepot.peuplerListeDon(4);
-        alimentaireModeleDepot.peuplerListeDonDispo();
+        // TODO: Déplacer les deux ligne qui suivent dans l'activité de liste
+        int orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
+                                                  -1
+                                                 );
+        alimentaireModeleDepot.peuplerListeDon(orgId);
         OrganismeModeleDepot organismeModeleDepot =
                 ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
         organismeModeleDepot.peuplerListeDonneur();
