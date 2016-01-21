@@ -25,12 +25,12 @@ import java.util.HashMap;
 public class CarteListeOrganismeAdapter extends BaseExpandableListAdapter {
     Context context;
     ArrayList<Organisme> listOrganisme;
-    int viewID;
 
-    public CarteListeOrganismeAdapter(Context context, ArrayList<Organisme> listOrganisme, int viewID) {
+
+    public CarteListeOrganismeAdapter(Context context, ArrayList<Organisme> listOrganisme ) {
         this.context = context;
         this.listOrganisme = listOrganisme;
-        this.viewID = viewID;
+
     }
 
     @Override
