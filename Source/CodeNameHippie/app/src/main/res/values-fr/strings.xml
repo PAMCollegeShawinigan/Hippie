@@ -62,5 +62,8 @@
 
   <!--Ressource pour HippieListAdapter -->
   <string name="msg_produit_supprime">Marchandise supprimée</string>
+  <string name="msg_confirme_suppression">Êtes-vous sur de vouloir supprimer ce don ?</string>
+  <string name="bouton_confirme_suppression_oui">OUI</string>
+  <string name="bouton_confirme_suppression_non">NON</string>
 
 </resources>

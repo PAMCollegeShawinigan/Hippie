@@ -1,6 +1,8 @@
 package com.pam.codenamehippie.ui.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,8 +28,14 @@ import java.util.Date;
  */
 public class HippieListAdapter extends BaseAdapter {
 
-    private final ArrayList<AlimentaireModele> items;
+    private volatile ArrayList<AlimentaireModele> items;
     private final Context context;
+
+    public void setItems(ArrayList<AlimentaireModele> items) {
+        this.items = items;
+        this.notifyDataSetChanged();
+    }
+
     private final AlimentaireModeleDepot depot;
 
 
@@ -55,11 +63,9 @@ public class HippieListAdapter extends BaseAdapter {
 
     /**
      * Méthode pour lier les données aux composantes de l'interface utilisateur.
+     * Implémentation de {@link android.widget.Adapter#getView(int, View, ViewGroup)}
      *
-     * @param position
-     * @param convertView
-     * @param parent
-     * @return row
+     * @return Retourne une instance de {@link View} gonfler de liste_dons_row.xml
      */
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -108,9 +114,26 @@ public class HippieListAdapter extends BaseAdapter {
         ibDonSupprimer.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                depot.supprimerModele(modele);
-                Toast.makeText(context, R.string.msg_produit_supprime,
-                        Toast.LENGTH_LONG).show();
+                // Confirmer la suppression du don
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                alertDialogBuilder.setMessage(R.string.msg_confirme_suppression);
+                alertDialogBuilder.setPositiveButton(R.string.bouton_confirme_suppression_oui,
+                        new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        depot.supprimerModele(modele);
+                        Toast.makeText(context, R.string.msg_produit_supprime,
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+                alertDialogBuilder.setNegativeButton(R.string.bouton_confirme_suppression_non,
+                        new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
         return row;
