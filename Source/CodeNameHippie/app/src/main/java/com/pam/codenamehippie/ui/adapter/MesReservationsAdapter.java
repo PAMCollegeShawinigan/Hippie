@@ -24,6 +24,8 @@ import java.util.Calendar;
  *
  * L'adapter pour faire fonctionner la liste de mes réservations.
  *
+ * Cette classe est pour but d'afficher les reservations de l'utilisateur.
+ *
  */
 public class MesReservationsAdapter extends BaseAdapter {
 

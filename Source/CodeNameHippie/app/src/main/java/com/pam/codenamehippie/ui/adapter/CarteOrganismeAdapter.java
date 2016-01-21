@@ -1,7 +1,6 @@
 package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.widget.Space;
 import android.view.View;
@@ -13,9 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pam.codenamehippie.R;
-import com.pam.codenamehippie.ui.Denree;
-import com.pam.codenamehippie.ui.MapsActivity;
-import com.pam.codenamehippie.ui.Organisme;
+import com.pam.codenamehippie.ui.view.trianglemenu.TestDonneeCentre;
 
 
 import java.util.Calendar;
@@ -23,13 +20,21 @@ import java.util.HashMap;
 
 /**
  * Created by BEG-163 on 2016-01-18.
+ * cette classe est pour but d‘afficher les liste marchandises disponibles ou reservees pour chaque organisme
  */
 public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
     Context context;
-    Organisme mOrganisme;
+    TestDonneeCentre.Organisme mOrganisme;
     int viewID;
 
-    public CarteOrganismeAdapter(Context context,Organisme mOrganisme,int viewID){
+    /**
+     *
+     * @param context
+     * @param mOrganisme l'organisme que le marker cliquer represent
+     * @param viewID le ID du view surlequel on clique,afin d'introduire les donnees different
+     */
+
+    public CarteOrganismeAdapter(Context context,TestDonneeCentre.Organisme mOrganisme,int viewID){
         this.context=context;
         this.mOrganisme=mOrganisme;
         this.viewID=viewID;
@@ -183,7 +188,7 @@ public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
         } else {
 
             logo.setImageResource(R.drawable.liste_marchandise);
-            textView.setText("Afficher les denrées à donner              unites:" + mOrganisme.getListDenree().size());
+            textView.setText("Afficher liste denrées                         unites:" + mOrganisme.getListDenree().size());
 
         }
 
@@ -301,19 +306,19 @@ public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
 
             } else {
                 ImageView logo = new ImageView(context);
-                Denree.TypeDenree typeDenree = (((Denree) getChild(groupPosition, childPosition))).getTypeDenree();
+                TestDonneeCentre.Denree.TypeDenree typeDenree = (((TestDonneeCentre.Denree) getChild(groupPosition, childPosition))).getTypeDenree();
 
-                if ((typeDenree.equals(Denree.TypeDenree.fruit_legume))) {
+                if ((typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.fruit_legume))) {
                     logo.setImageResource(R.drawable.map_fruit_legume);
-                } else if (typeDenree.equals(Denree.TypeDenree.viande)) {
+                } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.viande)) {
                     logo.setImageResource(R.drawable.map_viande);
-                } else if (typeDenree.equals(Denree.TypeDenree.laitier)) {
+                } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.laitier)) {
                     logo.setImageResource(R.drawable.map_laitier);
-                } else if (typeDenree.equals(Denree.TypeDenree.surgele)) {
+                } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.surgele)) {
                     logo.setImageResource(R.drawable.map_surgele);
-                } else if (typeDenree.equals(Denree.TypeDenree.non_comestible)) {
+                } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.non_comestible)) {
                     logo.setImageResource(R.drawable.map_non_comestible);
-                } else if (typeDenree.equals(Denree.TypeDenree.boulangerie)) {
+                } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.boulangerie)) {
                     logo.setImageResource(R.drawable.map_boulangerie);
                 } else {
                     logo.setImageResource(R.drawable.map_non_perissable);
