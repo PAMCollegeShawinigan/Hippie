@@ -67,6 +67,10 @@
 			android:name=".ui.ListeMesReservationsActivity"
 			android:label="Mes Réservations">
 		</activity>
+		<activity
+			android:name=".ui.ListeMarchandisesDisponiblesActivity"
+			android:label="Mes Réservations">
+		</activity>
 		<activity android:name=".ui.AjoutMarchandiseActivity" />
 		<!--
 			 The API key for Google Maps-based APIs is defined as a string resource.

@@ -24,8 +24,6 @@ public class ListeMarchandisesDisponiblesActivity extends HippieActivity {
 
     ExpandableListView maListeMarchandisesDisponibles;
     ListeMarchandisesDisponiblesAdapter listeMarchandisesDisponiblesAdapter;
-    ArrayList<AlimentaireModele> groupItems;
-    HashMap<OrganismeModele, ArrayList<AlimentaireModele>> detailsItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +39,7 @@ public class ListeMarchandisesDisponiblesActivity extends HippieActivity {
 
         // Filtre pour récupérer les données des entreprises dans l'enfant
         // Enfant = liste_marchandise_dispo_details
-        ArrayList<OrganismeModele> modelesDetails = new ArrayList<>();
+        HashMap<OrganismeModele, ArrayList<AlimentaireModele>> modelesDetails = new HashMap<>();
 
         // Recherche toutes les données demandés à faire afficher.
         // Toutes les données qui sont disponibles
@@ -55,7 +53,7 @@ public class ListeMarchandisesDisponiblesActivity extends HippieActivity {
         //Recherche toutes les données demandés à faire afficher.
         // Toutes les données étant les donneur (entreprise)
         for(OrganismeModele modele: organismeModeleDepot.getModeles()) {
-            modelesDetails.add(modele);
+            modelesDetails.get(modele);
         }
 
 
@@ -63,7 +61,7 @@ public class ListeMarchandisesDisponiblesActivity extends HippieActivity {
         maListeMarchandisesDisponibles = (ExpandableListView) findViewById(R.id.marchandise_dispo);
 
         maListeMarchandisesDisponibles.setItemsCanFocus(false);
-        listeMarchandisesDisponiblesAdapter = new ListeMarchandisesDisponiblesAdapter(this, groupItems, detailsItems);
+        listeMarchandisesDisponiblesAdapter = new ListeMarchandisesDisponiblesAdapter(this, modelesGroup, modelesDetails, alimentaireModeleDepot, organismeModeleDepot);
         // On set l'adapter pour la liste.
         maListeMarchandisesDisponibles.setAdapter(listeMarchandisesDisponiblesAdapter);
     }

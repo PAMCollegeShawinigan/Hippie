@@ -13,7 +13,9 @@ import android.widget.Toast;
 
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
+import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.OrganismeModele;
+import com.pam.codenamehippie.modele.OrganismeModeleDepot;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -32,18 +34,21 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
     private Context context;
     private ArrayList<AlimentaireModele> groupItems;
     private HashMap<OrganismeModele, ArrayList<AlimentaireModele>> detailsItems;
+    private AlimentaireModeleDepot alimentaireDepot;
+    private OrganismeModeleDepot organismeDepot;
 
     /**
      * On ajoute les paramètres.
-     *
-     * @param context
+     *  @param context
      * @param groupItems
      * @param detailsItems
      */
 
     public ListeMarchandisesDisponiblesAdapter(Context context,
                                                ArrayList<AlimentaireModele> groupItems,
-                                               HashMap<OrganismeModele, ArrayList<AlimentaireModele>> detailsItems) {
+                                               HashMap<OrganismeModele, ArrayList<AlimentaireModele>> detailsItems,
+                                               AlimentaireModeleDepot alimentaireDepot,
+                                               OrganismeModeleDepot organismeDepot) {
         this.context = context;
         this.groupItems = groupItems;
         this.detailsItems = detailsItems;
