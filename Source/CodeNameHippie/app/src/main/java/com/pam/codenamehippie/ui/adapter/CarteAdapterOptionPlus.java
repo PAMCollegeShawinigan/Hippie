@@ -13,8 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pam.codenamehippie.R;
-import com.pam.codenamehippie.ui.Denree;
-import com.pam.codenamehippie.ui.Organisme;
+import com.pam.codenamehippie.ui.view.trianglemenu.TestDonneeCentre;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -24,10 +23,10 @@ import java.util.HashMap;
  */
 public class CarteAdapterOptionPlus extends BaseExpandableListAdapter {
     Context context;
-    Organisme mOrganisme;
+    TestDonneeCentre.Organisme mOrganisme;
     Intent intent;
 
-    public CarteAdapterOptionPlus(Context context, Organisme mOrganisme, Intent intent) {
+    public CarteAdapterOptionPlus(Context context, TestDonneeCentre.Organisme mOrganisme, Intent intent) {
         this.context = context;
         this.mOrganisme = mOrganisme;
         this.intent = intent;
@@ -179,19 +178,19 @@ inflater.inflate(R.layout.carte_item_simple, layout1);
 
         } else {
 
-            Denree.TypeDenree typeDenree = mOrganisme.getListDenree().get(groupPosition).getTypeDenree();
+            TestDonneeCentre.Denree.TypeDenree typeDenree = mOrganisme.getListDenree().get(groupPosition).getTypeDenree();
 
-            if ((typeDenree.equals(Denree.TypeDenree.fruit_legume))) {
+            if ((typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.fruit_legume))) {
                 logo.setImageResource(R.drawable.map_fruit_legume);
-            } else if (typeDenree.equals(Denree.TypeDenree.viande)) {
+            } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.viande)) {
                 logo.setImageResource(R.drawable.map_viande);
-            } else if (typeDenree.equals(Denree.TypeDenree.laitier)) {
+            } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.laitier)) {
                 logo.setImageResource(R.drawable.map_laitier);
-            } else if (typeDenree.equals(Denree.TypeDenree.surgele)) {
+            } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.surgele)) {
                 logo.setImageResource(R.drawable.map_surgele);
-            } else if (typeDenree.equals(Denree.TypeDenree.non_comestible)) {
+            } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.non_comestible)) {
                 logo.setImageResource(R.drawable.map_non_comestible);
-            } else if (typeDenree.equals(Denree.TypeDenree.boulangerie)) {
+            } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.boulangerie)) {
                 logo.setImageResource(R.drawable.map_boulangerie);
             } else {
                 logo.setImageResource(R.drawable.map_non_perissable);
