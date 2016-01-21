@@ -44,4 +44,23 @@
 	<string name="error_confirm_password">Ce mot de passe ne correspond pas a celui entré</string>
 	<string name="error_field_too_long">Le contenu de ce champ est trop long</string>
 	<string name="error_bad_credentials">Cette combinaison de courriel et mot de passe n\'existe pas dans nos archives. Veuillez vérifier votre mot de passe ou vous enregistrer vous si vous n\'avez pas de compte.</string>
+
+  <!--Ressource pour ajoutMarchandiseActivity et layout ajout_marchandise -->
+  <string name="ajouter_marchandise">AJOUTER MARCHANDISE</string>
+  <string name="modifier_marchandise">MODIFIER MARCHANDISE</string>
+  <string name="bouton_ajouter">AJOUTER</string>
+  <string name="bouton_modifier">MODIFIER</string>
+  <string name="msg_produit_ajoute">Marchandise ajoutée</string>
+  <string name="msg_produit_modifie">Marchandise modifiée</string>
+  <string name="marchandise_nom">Nom</string>
+  <string name="marchandise_description">Description</string>
+  <string name="marchandise_quantites">Quantités</string>
+  <string name="marchandise_unite">Unité</string>
+  <string name="marchandise_valeur">Valeur</string>
+  <string name="marchandise_type_alimentaire">Type alimentaire</string>
+  <string name="marchandise_date_peremption">Date de péremption</string>
+
+  <!--Ressource pour HippieListAdapter -->
+  <string name="msg_produit_supprime">Marchandise supprimée</string>
+
 </resources>
