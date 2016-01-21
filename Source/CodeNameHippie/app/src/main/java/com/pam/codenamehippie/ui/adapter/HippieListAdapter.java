@@ -3,23 +3,18 @@ package com.pam.codenamehippie.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
-import com.pam.codenamehippie.modele.DescriptionModel;
 import com.pam.codenamehippie.ui.AjoutMarchandiseActivity;
-import com.pam.codenamehippie.ui.HippieActivity;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -34,10 +29,10 @@ public class HippieListAdapter extends BaseAdapter {
     private final ArrayList<AlimentaireModele> items;
     private final Context context;
     private final AlimentaireModeleDepot depot;
-    private int requestCode = 1597;
 
 
-    public HippieListAdapter(Context context, ArrayList<AlimentaireModele> items, AlimentaireModeleDepot depot) {
+    public HippieListAdapter(Context context, ArrayList<AlimentaireModele> items,
+                             AlimentaireModeleDepot depot) {
         this.context = context;
         this.items = items;
         this.depot = depot;
@@ -75,16 +70,19 @@ public class HippieListAdapter extends BaseAdapter {
                     (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.liste_dons_row, parent, false);
         }
+        // Assigner les valeurs nom, description, quantités, unité et ajouter deux ImageButton par
+        // rangée selon le nombre d'items contenus dans l'ArrayList.
         ((TextView) row.findViewById(R.id.tv_dons_nom_marchandise)).setText(modele.getNom());
         ((TextView) row.findViewById(R.id.tv_dons_description_marchandise)).setText(modele.getDescription());
         String quantiteString = modele.getQuantite().toString() + " " + modele.getUnite();
         ((TextView) row.findViewById(R.id.tv_dons_qtee_marchandise)).setText(quantiteString);
+        ImageButton ibDonSupprimer = (ImageButton) row.findViewById(R.id.ib_don_supprimer);
         ImageButton ibDonModifier = (ImageButton) row.findViewById(R.id.ib_dons_modifier);
+
+        // Modifier un item de la liste liste_dons_row
         ibDonModifier.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-            // TODO: faire ce qui faut pour modifier un produit.
-                Log.i("Bouton modifier cliqué", "**********" + position);
                 Intent intent = new Intent(context, AjoutMarchandiseActivity.class);
                 // Créer un bundle pour faire voyager les données vers AjoutMarchandiseActivity
                 Bundle bundle = new Bundle();
@@ -101,24 +99,17 @@ public class HippieListAdapter extends BaseAdapter {
                     DateFormat df = android.text.format.DateFormat.getLongDateFormat(context);
                     bundle.putString("datePeremption", df.format(date));
                 }
-
                 intent.putExtras(bundle);
                context.startActivity(intent);
-
-
-                Toast.makeText(context, "Bouton modifier sélectionné",
-                        Toast.LENGTH_LONG).show();
             }
         });
 
-        // Supprimer un item de la liste
-        ImageButton ibDonSupprimer = (ImageButton) row.findViewById(R.id.ib_don_supprimer);
+        // Supprimer un item de la liste liste_dons_row
         ibDonSupprimer.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Log.i("Bouton supprimer cliqué", "**********" + position);
                 depot.supprimerModele(modele);
-                Toast.makeText(context, "Produit supprimé de la liste",
+                Toast.makeText(context, R.string.msg_produit_supprime,
                         Toast.LENGTH_LONG).show();
             }
         });
