@@ -16,8 +16,8 @@ import com.pam.codenamehippie.ui.adapter.HippieListAdapter;
 import java.util.ArrayList;
 
 /**
- * Cette classe permet de récupérer la liste des dons et de l'afficher dans l'interface
- * utilisateur.
+ * Cette classe permet de récupérer la liste des dons personnalisée selon l'id du donneur
+ * et de l'afficher dans l'interface utilisateur.
  */
 public class ListeMesDonsActivity extends HippieActivity {
     ListView listeMesDons;
@@ -46,6 +46,7 @@ public class ListeMesDonsActivity extends HippieActivity {
         listeMesDons = (ListView) findViewById(R.id.lv_dons);
         listeMesDons.setItemsCanFocus(false);
         listeMesDons.setAdapter(mesDonsAdapter);
+        mesDonsAdapter.notifyDataSetChanged();
 
         // peut être non nécessaire
         listeMesDons.setOnItemClickListener(new AdapterView.OnItemClickListener() {
