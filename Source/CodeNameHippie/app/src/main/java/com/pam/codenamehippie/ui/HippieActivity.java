@@ -70,6 +70,12 @@ public class HippieActivity extends AppCompatActivity {
                 this.startActivity(new Intent(this, LoginActivity.class));
                 this.finish();
                 return true;
+            // TODO: À effacer plus tard, lorsque les tests avec cette activité sera terminé.
+            case R.id.menu_marchandise_disponible:
+                if (!this.getClass().equals(MainActivity.class)) {
+                    this.startActivity(new Intent(this, ListeMarchandisesDisponiblesActivity.class));
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
