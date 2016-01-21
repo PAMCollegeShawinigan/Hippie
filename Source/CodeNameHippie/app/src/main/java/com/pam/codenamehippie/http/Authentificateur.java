@@ -27,8 +27,10 @@
 
 package com.pam.codenamehippie.http;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -108,15 +110,22 @@ public final class Authentificateur implements Authenticator {
                 (!this.boiteABiscuit.get(HippieApplication.baseUrl.uri()).isEmpty()));
     }
 
+    @SuppressLint("CommitPrefEdits")
     public synchronized void deconnecte() {
         this.boiteABiscuit.removeAll();
         // TODO: Mieux gérer l'authentification.
+        String userIdKey = this.context.getString(R.string.pref_user_id_key);
+        String orgIdKey = this.context.getString(R.string.pref_org_id_key);
+        Editor editor = this.preferences.edit();
         // On supprime l'ID d'organisme.
-        if (this.preferences.contains(this.context.getString(R.string.pref_org_id_key))) {
-            this.preferences.edit()
-                            .remove(this.context.getString(R.string.pref_org_id_key))
-                            .commit();
+        if (this.preferences.contains(orgIdKey)) {
+            editor.remove(orgIdKey);
         }
+        // On supprime l'ID de l'utilisateur.
+        if (this.preferences.contains(userIdKey)) {
+            editor.remove(userIdKey);
+        }
+        editor.commit();
         this.motDePasse = null;
     }
 
