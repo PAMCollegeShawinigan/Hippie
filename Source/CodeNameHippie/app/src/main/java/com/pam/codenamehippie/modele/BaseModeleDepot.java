@@ -1,16 +1,17 @@
 package com.pam.codenamehippie.modele;
 
 import android.content.Context;
+import android.database.DataSetObservable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.util.SparseArray;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.pam.codenamehippie.HippieApplication;
+import com.pam.codenamehippie.http.exception.HttpReponseException;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
@@ -22,10 +23,11 @@ import java.io.Reader;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 /**
  * Classe patron représentant un dépôt d'objet de type {@link BaseModele}.
- * <p>
+ * <p/>
  * Cette classe est définie comme abstraite pour 2 raisons:
  * <ol>
  * <li>
@@ -37,10 +39,11 @@ import java.lang.reflect.Type;
  * fournir des une implémentation par défaut quand c'est possible.
  * </li>
  * </ol>
- * <p>
+ * <p/>
  * L'initialisation d'un dépôt requiert une inspection de sa hiearchie de classe en utilisant
- * le mécanisme de réflection de Java. Ceci est une opération dispendieuse, par conséquent nous
- * recommandons de limiter le nombre d'allocation d'instances d'objet de type dépôt.
+ * le mécanisme de réflection de Java. Ceci est une opération relativement dispendieuse, par
+ * conséquent nous recommandons de limiter le nombre d'allocation d'instances d'objet de type
+ * dépôt.
  *
  * @param <T>
  *         Type de modèle que le dépot contient.
@@ -57,7 +60,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     /**
      * Contenant qui renferme les objets entretenus par le dépôt.
      */
-    protected final SparseArray<T> modeles = new SparseArray<>();
+    protected final ArrayList<T> modeles = new ArrayList<>();
     /**
      * Client http.
      */
@@ -74,10 +77,36 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * La valeur du paramètre de type T.
      */
     protected Class classeDeT;
+
     /**
      * Url du des objets du dépôt.
      */
     protected HttpUrl url = HippieApplication.baseUrl;
+
+    /**
+     * Url pour modifications des objets du dépot.
+     */
+    protected HttpUrl modifierUrl = null;
+
+    /**
+     * Url pour les ajouts des objets du dépot
+     */
+    protected HttpUrl ajoutUrl = null;
+
+    /**
+     * Url pour les suppressions des objets du dépot
+     */
+    protected HttpUrl supprimerUrl = null;
+
+    /**
+     * Liste contenant les objets qui observe le dépôt.
+     */
+    protected ArrayList<ObservateurDeDepot<T>> observateurs = new ArrayList<>();
+
+    /**
+     * Foncteur pour les listes résultantes des requêtes
+     */
+    protected FiltreDeListe<T> filtreDeListe = null;
 
     /**
      * Initialise les variables commune à tous les dépôts.
@@ -96,7 +125,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
             genericType = ((ParameterizedType) clazz.getGenericSuperclass());
             clazz = super.getClass();
         } while (genericType == null);
-        // Recherche le premier paramètre de type qui hérite de BaseModèle.
+        // Recherche le premier paramètre de type qui hérite de BaseModele.
         for (Type type : genericType.getActualTypeArguments()) {
             if (BaseModele.class.isAssignableFrom((Class) type)) {
                 synchronized (this.lock) {
@@ -109,49 +138,98 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
         this.httpClient = httpClient;
     }
 
+    /**
+     * Accesseur de l'url des objet du dépôt
+     *
+     * @return Url du des objets du dépôt.
+     */
     public HttpUrl getUrl() {
         return this.url;
     }
 
-    public SparseArray<T> getModeles() {
-        synchronized (this.context) {
+    /**
+     * Accesseur du contenu du dépôt. Le contenu du dépôt est toujours le résultat de de la
+     * dernière requête de peuplement.
+     *
+     * @return Le contenu du dépôt
+     */
+    public ArrayList<T> getModeles() {
+        synchronized (this.lock) {
             return this.modeles;
+        }
+    }
+
+    public FiltreDeListe<T> getFiltreDeListe() {
+        synchronized (this.lock) {
+            return this.filtreDeListe;
+        }
+    }
+
+    /**
+     * Assigne un filtre pour toutes les nouvelles requêtes de peuplement du dépôt. Mettre à null
+     * pour supprimer le filtre
+     *
+     * @param filtreDeListe
+     *         Le filtre à mettre pour la requête.
+     */
+    public void setFiltreDeListe(@Nullable FiltreDeListe<T> filtreDeListe) {
+        synchronized (this.lock) {
+            this.filtreDeListe = filtreDeListe;
         }
     }
 
     /**
      * Permet de peupler le dépot.
-     * <p>
+     * <p/>
      * Cette methode est asynchrone et retourne immédiatement
+     *
+     * @param url
+     *         url de la requête.
      */
-    public void peuplerLeDepot() {
-        Request request = new Request.Builder().url(this.url).get().build();
+    protected void peuplerLeDepot(HttpUrl url) {
+        Request request = new Request.Builder().url(url).get().build();
+        // FIXME: surDebutDeRequête devrait être caller quand le dispatcher traite la requête.
+        // Il faudrait soummettre manuellement les calls aux dispatcher… Ça demanderait quand
+        // même assez de travail… Pour les besoins de la cause on va tenter de pas soumettre
+        // plusieurs requêtes en même temps au même dépot.
+        this.surDebutDeRequete();
         this.httpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 // TODO: Mettre un toast ou whatever
                 Log.e(TAG, "Request failed: " + request.toString(), e);
+                BaseModeleDepot.this.surErreur(e);
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
+                    BaseModeleDepot.this.surErreur(new HttpReponseException(response));
+                    BaseModeleDepot.this.surFinDeRequete();
                 } else {
                     synchronized (BaseModeleDepot.this.lock) {
+                        BaseModeleDepot.this.modeles.clear();
                         // Le serveur retourne un array. Donc pour supporter un énorme array on
                         // utilise des streams.
                         JsonReader reader = new JsonReader(response.body().charStream());
                         reader.beginArray();
                         while (reader.hasNext()) {
-                            T modele = gson.fromJson(reader, BaseModeleDepot.this.classeDeT);
-                            Log.d(TAG, modele.toString());
-                            BaseModeleDepot.this.modeles.put(modele.getId(), modele);
+                            T modele = BaseModeleDepot.this.fromJson(reader);
+                            if (BaseModeleDepot.this.filtreDeListe != null) {
+                                if (BaseModeleDepot.this.filtreDeListe.appliquer(modele)) {
+                                    BaseModeleDepot.this.modeles.add(modele);
+                                }
+                            } else {
+                                BaseModeleDepot.this.modeles.add(modele);
+                            }
                         }
                         reader.endArray();
                         reader.close();
                     }
+                    BaseModeleDepot.this.surChangementDeDonnees();
                 }
+                BaseModeleDepot.this.surFinDeRequete();
             }
         });
     }
@@ -162,7 +240,9 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * @return le modèle en format JSON.
      */
     public String toJson(T modele) {
-        return gson.toJson(modele);
+        synchronized (this.lock) {
+            return gson.toJson(modele);
+        }
     }
 
     /**
@@ -177,6 +257,21 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     public T fromJson(String json) {
         synchronized (this.lock) {
             return (T) gson.fromJson(json, this.classeDeT);
+        }
+    }
+
+    /**
+     * Méthode de désérialisation du modèle en JSON
+     *
+     * @param reader
+     *         un reader de string formatté en JSON. représentant le modèle
+     *
+     * @return une instance du modèle.
+     */
+    @SuppressWarnings("unchecked")
+    public T fromJson(JsonReader reader) {
+        synchronized (this.lock) {
+            return (T) gson.fromJson(reader, this.classeDeT);
         }
     }
 
@@ -248,7 +343,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     public synchronized T ajouterModele(String json, boolean devraitPoster) {
         T modele = this.fromJson(json);
         if (this.modeles.get(modele.getId()) == null) {
-            this.modeles.put(modele.getId(), modele);
+            this.modeles.add(modele);
             if (devraitPoster) {
                 // todo: requête au serveur pour ajouter du stock
             }
@@ -270,11 +365,11 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      */
     public T ajouterModele(T modele, boolean devraitPoster) {
         if (this.modeles.get(modele.getId()) == null) {
-            this.modeles.put(modele.getId(), modele);
+            this.modeles.add(modele);
             if (devraitPoster) {
                 // Ceci est du code expérimental/prototype.
                 // L'idee ici c'est d'utiliser la réflection java pour créer une form http.
-                // Il serait plus facile de soumettre du json, mais en ce moment le serveur le
+                // Il serait plus facile de soumettre du json, mais en ce moment, le serveur ne le
                 // prend pas en ce moment
                 Class clazz = modele.getClass();
                 do {
@@ -331,15 +426,116 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @param modele
      *         de l'objet
-     *
-     * @return l'ancien Modele
      */
-    public synchronized void supprimerModele(T modele) {
-        T oldModele = this.modeles.get(modele.getId());
+    public void supprimerModele(T modele) {
 
-        if (oldModele != null) {
-            this.modeles.remove(modele.getId());
-            // todo: requête au serveur pour suppression de l'objet
+    }
+
+    /**
+     * Ajoute un objet implémentant l'interface {@link ObservateurDeDepot} dans la listes des
+     * observateurs du dépôt.  L'objet ajouté reçoit des notifications du dépôt à l'aide des
+     * méthodes de l'interface {@link ObservateurDeDepot}.
+     *
+     * @param observateur
+     *         L'objet qui va recevoir les callbacks.
+     *
+     * @see {@link android.database.DataSetObservable#registerObserver(Object)}
+     */
+    public void ajouterUnObservateur(@NonNull ObservateurDeDepot<T> observateur) {
+        synchronized (this.lock) {
+            if (this.observateurs.contains(observateur)) {
+                throw new IllegalStateException("L'observateur " + observateur + "est déjà ajouté");
+            }
+            this.observateurs.add(observateur);
         }
+
+    }
+
+    /**
+     * Supprime un objet implémentant l'interface {@link ObservateurDeDepot} de la liste des
+     * observateurs du dépôt. L'objet supprimé cesse de recevoir des notifications du dépôt.
+     *
+     * @param observateur
+     *         L'objet à enlever de la liste des observateur.
+     *
+     * @see {@link android.database.DataSetObservable#unregisterObserver(Object)}
+     */
+    public void supprimerUnObservateur(@NonNull ObservateurDeDepot<T> observateur) {
+        synchronized (this.lock) {
+            int index = this.observateurs.indexOf(observateur);
+            if (index == -1) {
+                throw new IllegalStateException("L'observateur " + observateur + "n'est pas déjà " +
+                                                "ajouté");
+            }
+            this.observateurs.remove(index);
+        }
+    }
+
+    /**
+     * Vide la liste des observateurs.
+     *
+     * @see {@link DataSetObservable#unregisterAll()}
+     */
+    public void supprimerToutLesObservateurs() {
+        synchronized (this.lock) {
+            this.observateurs.clear();
+        }
+    }
+
+    /**
+     * Notifie tous les observateurs du dépôt qu'une requête a démarré.
+     *
+     * @see {@link ObservateurDeDepot#surDebutDeRequete()}
+     */
+    public void surDebutDeRequete() {
+        synchronized (this.lock) {
+            if (!this.observateurs.isEmpty()) {
+                for (ObservateurDeDepot<T> observateur : this.observateurs) {
+                    observateur.surDebutDeRequete();
+                }
+            }
+        }
+    }
+
+    /**
+     * Notifie tous les observateurs du dépôt qu'il y a eu un changement dans les données du dépôt.
+     */
+    public void surChangementDeDonnees() {
+        synchronized (this.lock) {
+            if (!this.observateurs.isEmpty()) {
+                for (ObservateurDeDepot<T> observateur : this.observateurs) {
+                    observateur.surChangementDeDonnees(this.modeles);
+                }
+            }
+        }
+    }
+
+    /**
+     * Notifie tous les observateurs du dépôt qu'il y a eu une erreur lors d'une requête.
+     */
+    public void surErreur(IOException e) {
+        synchronized (this.lock) {
+            if (!this.observateurs.isEmpty()) {
+                for (ObservateurDeDepot<T> observateur : this.observateurs) {
+                    observateur.surErreur(e);
+                }
+            }
+        }
+    }
+
+    /**
+     * Notifie tous les observateurs du dépôt qu'une requête a terminée.
+     *
+     * @see {@link ObservateurDeDepot#surDebutDeRequete()}
+     */
+    public void surFinDeRequete() {
+        synchronized (this.lock) {
+            if (!this.observateurs.isEmpty()) {
+                for (ObservateurDeDepot<T> observateur : this.observateurs) {
+                    observateur.surFinDeRequete();
+                }
+            }
+        }
+
     }
 }
