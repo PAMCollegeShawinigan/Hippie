@@ -1,4 +1,4 @@
-package com.pam.codenamehippie.ui.view.trianglemenu;
+package com.pam.codenamehippie.ui;
 
 import android.os.Bundle;
 import android.widget.ExpandableListView;
@@ -12,6 +12,7 @@ import com.pam.codenamehippie.ui.HippieActivity;
 import com.pam.codenamehippie.ui.Organisme;
 import com.pam.codenamehippie.ui.adapter.CarteListeOrganismeAdapter;
 import com.pam.codenamehippie.ui.adapter.MesReservationsAdapter;
+import com.pam.codenamehippie.ui.view.trianglemenu.TestDonneeCentre;
 
 import java.util.ArrayList;
 
@@ -31,8 +32,7 @@ public class ListeOrganismesActivity extends HippieActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.liste_organisme);
-        listOrganisme=TestDonneeCentre.prepareDonnees_organismes();
-
+        listOrganisme= TestDonneeCentre.prepareDonnees_organismes();
                 ((ExpandableListView) findViewById(R.id.liste_organisme)).setAdapter(new CarteListeOrganismeAdapter(this, listOrganisme));
     }
 
