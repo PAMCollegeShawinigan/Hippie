@@ -2,7 +2,6 @@ package com.pam.codenamehippie.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v4.widget.Space;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -12,9 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pam.codenamehippie.R;
-import com.pam.codenamehippie.ui.Denree;
-import com.pam.codenamehippie.ui.MapsActivity;
-import com.pam.codenamehippie.ui.Organisme;
+import com.pam.codenamehippie.ui.view.trianglemenu.TestDonneeCentre;
 
 
 import java.util.Calendar;
@@ -22,13 +19,15 @@ import java.util.HashMap;
 
 /**
  * Created by BEG-163 on 2016-01-18.
+ * cette classe est cours de construction,une version modifiee de CarteOrganismeAdapter,
+ * pour afficher les details de liste marchandise directement,pas besoin de cliquer sur le groupview pour les voir.
  */
 public class CarteAdapterOption extends BaseExpandableListAdapter {
     Context context;
-    Organisme mOrganisme;
+    TestDonneeCentre.Organisme mOrganisme;
     Intent intent;
 
-    public CarteAdapterOption(Context context,Organisme mOrganisme,Intent intent){
+    public CarteAdapterOption(Context context,TestDonneeCentre.Organisme mOrganisme,Intent intent){
         this.context=context;
         this.mOrganisme=mOrganisme;
         this.intent=intent;
@@ -188,19 +187,19 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
 
         } else {
 
-            Denree.TypeDenree typeDenree = mOrganisme.getListDenree().get(groupPosition).getTypeDenree();
+            TestDonneeCentre.Denree.TypeDenree typeDenree = mOrganisme.getListDenree().get(groupPosition).getTypeDenree();
 
-            if ((typeDenree.equals(Denree.TypeDenree.fruit_legume))) {
+            if ((typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.fruit_legume))) {
                 logo.setImageResource(R.drawable.map_fruit_legume);
-            } else if (typeDenree.equals(Denree.TypeDenree.viande)) {
+            } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.viande)) {
                 logo.setImageResource(R.drawable.map_viande);
-            } else if (typeDenree.equals(Denree.TypeDenree.laitier)) {
+            } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.laitier)) {
                 logo.setImageResource(R.drawable.map_laitier);
-            } else if (typeDenree.equals(Denree.TypeDenree.surgele)) {
+            } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.surgele)) {
                 logo.setImageResource(R.drawable.map_surgele);
-            } else if (typeDenree.equals(Denree.TypeDenree.non_comestible)) {
+            } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.non_comestible)) {
                 logo.setImageResource(R.drawable.map_non_comestible);
-            } else if (typeDenree.equals(Denree.TypeDenree.boulangerie)) {
+            } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.boulangerie)) {
                 logo.setImageResource(R.drawable.map_boulangerie);
             } else {
                 logo.setImageResource(R.drawable.map_non_perissable);

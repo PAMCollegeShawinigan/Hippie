@@ -21,6 +21,7 @@ import java.util.Calendar;
 
 /**
  * Created by Catherine on 2016-01-19.
+ * cette classe est pour but d'afficher les reservation de l'utilisateur
  */
 public class MesReservationsAdapter extends BaseAdapter {
 

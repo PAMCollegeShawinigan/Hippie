@@ -1,33 +1,28 @@
 package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.support.v4.widget.Space;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pam.codenamehippie.R;
-import com.pam.codenamehippie.ui.Denree;
-import com.pam.codenamehippie.ui.Organisme;
+import com.pam.codenamehippie.ui.view.trianglemenu.TestDonneeCentre;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 
 /**
  * Created by BEG-163 on 2016-01-18.
+ * cette class est pour but de affichier les organismes communautaires
  */
 public class CarteListeOrganismeAdapter extends BaseExpandableListAdapter {
     Context context;
-    ArrayList<Organisme> listOrganisme;
+    ArrayList<TestDonneeCentre.Organisme> listOrganisme;
 
 
-    public CarteListeOrganismeAdapter(Context context, ArrayList<Organisme> listOrganisme ) {
+    public CarteListeOrganismeAdapter(Context context, ArrayList<TestDonneeCentre.Organisme> listOrganisme ) {
         this.context = context;
         this.listOrganisme = listOrganisme;
 
