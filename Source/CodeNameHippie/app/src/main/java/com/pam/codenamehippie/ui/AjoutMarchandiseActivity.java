@@ -131,6 +131,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.tvDatePeremption = (TextView) this.findViewById(R.id.tvDatePeremption);
         this.datePeremption = (DatePicker) this.findViewById(R.id.datePicker);
         // Set la date minimale du date picker au moment présent.
+
         TextView tvAjoutMarchandise = (TextView) findViewById(R.id.tvAjoutMarchandise);
         tvAjoutMarchandise.setText(R.string.ajouter_marchandise);
         //tvAjoutMarchandise.setText("Ajout de marchandise");
@@ -143,7 +144,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
                 -1
         );
 
-        Bundle bundle = getIntent().getExtras();
+        Bundle bundle = this.getIntent().getExtras();
+
 
         // Si le Bundle n'est pas null, il s'agit d'une modification à faire sur un don.
         if (bundle != null) {
@@ -152,6 +154,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
             tvAjoutMarchandise.setText(R.string.modifier_marchandise);
             bAjoutMarchandise.setText(R.string.bouton_modifier);
             // Obtenir le id du produit à modifier
+
             this.idModele = bundle.getInt("id");
             etNomMarchandise.setText(bundle.getCharSequence("nom"));
             etDescMarchandise.setText(bundle.getCharSequence("description"));
@@ -160,11 +163,14 @@ public class AjoutMarchandiseActivity extends HippieActivity
 
             // Récupérer la position du spinnerUniteMarchandise selon la description
             String bundleDesc = bundle.getString("unite");
-            for (int i = 0; i < uniteAdapter.getCount(); i++) {
-                String uniteDescription = uniteAdapter.getItem(i).getDescription();
-                if (bundleDesc.equalsIgnoreCase(uniteDescription)) {
-                    spinnerUniteMarchandise.setSelection(i);
-                    break;
+
+            if (bundleDesc != null) {
+                for (int i = 0; i < uniteAdapter.getCount(); i++) {
+                    String uniteDescription = uniteAdapter.getItem(i).getDescription();
+                    if (bundleDesc.equalsIgnoreCase(uniteDescription)) {
+                        spinnerUniteMarchandise.setSelection(i);
+                        break;
+                    }
                 }
             }
 
@@ -180,6 +186,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
 
             // Récupérer la datePeremption du bundle pour fixer la date du DatePicker
             String dateString = bundle.getString("datePeremption");
+
             if (dateString != null) {
                 DateFormat df = android.text.format.DateFormat.getLongDateFormat(this);
                 Date date = null;
@@ -191,8 +198,11 @@ public class AjoutMarchandiseActivity extends HippieActivity
                 if (date != null) {
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(date);
-                    datePeremption.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                            calendar.get(Calendar.DAY_OF_MONTH), null);
+                    this.datePeremption.init(calendar.get(Calendar.YEAR),
+                                             calendar.get(Calendar.MONTH),
+                                             calendar.get(Calendar.DAY_OF_MONTH),
+                                             null
+                                            );
 
                 }
             }
@@ -260,12 +270,12 @@ public class AjoutMarchandiseActivity extends HippieActivity
         // Mettre le bouton pour ajouter la marchandise actif si tous les champs requis
         // respecte les conditions des validateurs.
         this.bAjoutMarchandise.setEnabled(this.nomEstValide &&
-                this.descriptionEstValide &&
-                this.quantiteEstValide &&
-                this.valeurEstValide &&
-                this.spinnerUniteMarchandiseEstValide &&
-                this.spinnerTypeMarchandiseEstValide &&
-                hasOrganismeid);
+                                          this.descriptionEstValide &&
+                                          this.quantiteEstValide &&
+                                          this.valeurEstValide &&
+                                          this.spinnerUniteMarchandiseEstValide &&
+                                          this.spinnerTypeMarchandiseEstValide &&
+                                          hasOrganismeid);
     }
 
     /**
@@ -287,13 +297,14 @@ public class AjoutMarchandiseActivity extends HippieActivity
                 ((DescriptionModel) this.validateurSpinnerTypeMarchandise.getSelectedItem());
         AlimentaireModele modele =
                 new AlimentaireModele().setNom(this.validateurNom.getTextString())
-                        .setDescription(this.validateurDescription.getTextString())
-                        .setValeur(Integer.valueOf(this.validateurValeur
-                                .getTextString()))
-                        .setQuantite(Double.valueOf(this.validateurQuantite
-                                .getTextString()))
-                        .setTypeAlimentaire(typeAlimentaire.getDescription())
-                        .setDatePeremption(date.getTime());
+                                       .setDescription(this.validateurDescription.getTextString())
+                                       .setValeur(Integer.valueOf(this.validateurValeur
+                                                                          .getTextString()))
+                                       .setQuantite(Double.valueOf(this.validateurQuantite
+                                                                           .getTextString()))
+                                       .setTypeAlimentaire(typeAlimentaire.getDescription())
+                                       .setDatePeremption(date.getTime());
+
         String typeAlimentaireId =
                 String.valueOf(this.validateurSpinnerTypeMarchandise.getSelectedItemId());
         String marchandiseUniteId =
@@ -309,19 +320,16 @@ public class AjoutMarchandiseActivity extends HippieActivity
         // FIXME: Gérer l'état de marchandise. On mets 3(neuf) en attendant
         FormEncodingBuilder body =
                 new FormEncodingBuilder().add("description_alimentaire", modele.getDescription())
-                        .add("nom", modele.getNom())
-                        .add("quantite", modele.getQuantite().toString())
-                        .add("valeur", modele.getValeur().toString())
-                        .add("type_alimentaire", typeAlimentaireId)
-                        .add("marchandise_unite", marchandiseUniteId)
-                        .add("marchandise_etat", "3")
-                        .add("date_peremption", dateString)
-                        .add("donneur_id", this.organismeId.toString());
-        // Si le idModele n'est pas null, il s'agit d'une modification au lieu d'un ajout.
+                                         .add("nom", modele.getNom())
+                                         .add("quantite", modele.getQuantite().toString())
+                                         .add("valeur", modele.getValeur().toString())
+                                         .add("type_alimentaire", typeAlimentaireId)
+                                         .add("marchandise_unite", marchandiseUniteId)
+                                         .add("marchandise_etat", "3")
+                                         .add("date_peremption", dateString)
+                                         .add("donneur_id", this.organismeId.toString());
         if (this.idModele != null) {
-            // ajouter le idModele pour modification de l'enregistrement sur le serveur
             body.add("id", this.idModele.toString());
-            // Construction du url pour une modification de marchandise
             url = depot.getUrl().newBuilder().addPathSegment("modifier").build();
         }
         Request request = new Request.Builder().url(url).post(body.build()).build();
@@ -362,12 +370,12 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                         R.string.msg_produit_modifie,
                                         Snackbar.LENGTH_SHORT
                                 );
+
                                 snackbar.setCallback(new Snackbar.Callback() {
                                     @Override
                                     public void onDismissed(Snackbar snackbar, int event) {
                                         if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
-                                            idModele = null;
-                                            finish();
+                                            AjoutMarchandiseActivity.this.finish();
                                         }
                                     }
                                 }).show();
@@ -376,8 +384,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                 Snackbar.make(v,
                                         R.string.msg_produit_ajoute,
                                         Snackbar.LENGTH_SHORT
-                                )
-                                        .show();
+                                ).show();
                                 AjoutMarchandiseActivity.this.effacerFormulaire();
                             }
                         }
@@ -399,9 +406,9 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurValeur.setText(null);
         this.validateurSpinnerTypeMarchandise.setSelectedItemId(0);
         Calendar calendar = Calendar.getInstance();
-        datePeremption.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-        );
+        this.datePeremption.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                                       calendar.get(Calendar.DAY_OF_MONTH)
+                                      );
         this.tvDatePeremption.setVisibility(View.VISIBLE);
         this.datePeremption.setVisibility(View.VISIBLE);
     }

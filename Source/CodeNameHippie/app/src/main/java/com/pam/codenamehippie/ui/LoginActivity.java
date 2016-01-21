@@ -30,7 +30,8 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-public class LoginActivity extends HippieActivity implements EditText.OnEditorActionListener, ValidateurObserver {
+public class LoginActivity extends HippieActivity
+        implements EditText.OnEditorActionListener, ValidateurObserver {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
     private ValidateurMotDePasse validateurMotDePasse;
@@ -237,6 +238,7 @@ public class LoginActivity extends HippieActivity implements EditText.OnEditorAc
                                                 );
         if (this.utilisateur != null) {
             OrganismeModele organisme = this.utilisateur.getOrganisme();
+            editor.putInt(this.getString(R.string.pref_user_id_key), this.utilisateur.getId());
             if (organisme != null) {
                 editor.putInt(this.getString(R.string.pref_org_id_key), organisme.getId());
             }
