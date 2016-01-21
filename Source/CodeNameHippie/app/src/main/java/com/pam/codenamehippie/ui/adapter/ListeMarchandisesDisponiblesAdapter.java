@@ -33,7 +33,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     private Context context;
     private ArrayList<AlimentaireModele> groupItems;
-    private HashMap<OrganismeModele, ArrayList<AlimentaireModele>> detailsItems;
+    private ArrayList<OrganismeModele> detailsItems;
     private AlimentaireModeleDepot alimentaireDepot;
     private OrganismeModeleDepot organismeDepot;
 
@@ -46,12 +46,14 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     public ListeMarchandisesDisponiblesAdapter(Context context,
                                                ArrayList<AlimentaireModele> groupItems,
-                                               HashMap<OrganismeModele, ArrayList<AlimentaireModele>> detailsItems,
+                                               ArrayList<OrganismeModele> detailsItems,
                                                AlimentaireModeleDepot alimentaireDepot,
                                                OrganismeModeleDepot organismeDepot) {
         this.context = context;
         this.groupItems = groupItems;
         this.detailsItems = detailsItems;
+        this.alimentaireDepot = alimentaireDepot;
+        this.organismeDepot = organismeDepot;
     }
 
     /**
@@ -69,7 +71,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return this.detailsItems.get(this.groupItems.get(groupPosition)).get(childPosition);
+        return this.detailsItems.get(groupPosition);
     }
 
     /**
@@ -133,7 +135,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.detailsItems.get(this.groupItems.get(groupPosition)).size();
+        return 1;
     }
 
     /**
