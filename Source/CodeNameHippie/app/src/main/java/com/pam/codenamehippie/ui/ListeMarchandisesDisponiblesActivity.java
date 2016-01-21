@@ -1,11 +1,7 @@
 package com.pam.codenamehippie.ui;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
@@ -35,7 +31,7 @@ public class ListeMarchandisesDisponiblesActivity extends HippieActivity {
         setContentView(R.layout.liste_marchandise_dispo);
 
         AlimentaireModeleDepot alimentaireModeleDepot = ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        final OrganismeModeleDepot organismeModeleDepot = ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
+        OrganismeModeleDepot organismeModeleDepot = ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
 
         // Filtre pour récupérer les données pour les marchandises dans le parent
         // Parent = liste_marchandise_dispo_group (le layout)
@@ -43,7 +39,7 @@ public class ListeMarchandisesDisponiblesActivity extends HippieActivity {
 
         // Filtre pour récupérer les données des entreprises dans l'enfant
         // Enfant = liste_marchandise_dispo_details
-        final ArrayList<OrganismeModele> modelesDetails = new ArrayList<>();
+        ArrayList<OrganismeModele> modelesDetails = new ArrayList<>();
 
         // Recherche toutes les données demandés à faire afficher.
         // Toutes les données qui sont disponibles
@@ -54,21 +50,11 @@ public class ListeMarchandisesDisponiblesActivity extends HippieActivity {
             }
         }
 
-        maListeMarchandisesDisponibles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    final int position, long id) {
-
-                //Recherche toutes les données demandés à faire afficher.
-                // Toutes les données étant les donneur (entreprise)
-                for(OrganismeModele modele: organismeModeleDepot.getModeles()) {
-                    modelesDetails.add(modele);
-                }
-
-            }
-        });
-
-
+        //Recherche toutes les données demandés à faire afficher.
+        // Toutes les données étant les donneur (entreprise)
+        for(OrganismeModele modele: organismeModeleDepot.getModeles()) {
+            modelesDetails.add(modele);
+        }
 
 
         // On va chercher l'expendable listView
