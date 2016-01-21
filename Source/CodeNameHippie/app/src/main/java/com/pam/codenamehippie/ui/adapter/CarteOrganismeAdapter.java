@@ -183,7 +183,7 @@ public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
         } else {
 
             logo.setImageResource(R.drawable.liste_marchandise);
-            textView.setText("Afficher les denrées à donner              unites:" + mOrganisme.getListDenree().size());
+            textView.setText("Afficher liste denrées                         unites:" + mOrganisme.getListDenree().size());
 
         }
 
