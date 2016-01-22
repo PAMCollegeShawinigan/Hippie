@@ -17,11 +17,11 @@ import java.util.ArrayList;
 
 /**
  * Created by Catherine on 2016-01-13.
+ *
+ * Activité pour faire affiché la liste des réservations des receveurs (organismes communautaires)
+ *
  */
 public class ListeMesReservationsActivity extends HippieActivity {
-
-    // TODO: Mes réservations
-    // Informations sur les listes et les listAdapter : http://www.vogella.com/tutorials/AndroidListView/article.html
 
     ListView listeMesReservations;
     MesReservationsAdapter mesReservationsAdapter;

@@ -1,8 +1,10 @@
 package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,22 +22,26 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static android.text.format.DateFormat.getLongDateFormat;
+
 /**
  * Cette classe permet de faire le lien entre les composantes de l'interface utilisateur et
  * la source de données afin de relier les données aux vues correctement.
  */
 public class HippieListAdapter extends BaseAdapter {
 
-    private final ArrayList<AlimentaireModele> items;
     private final Context context;
     private final AlimentaireModeleDepot depot;
+    private volatile ArrayList<AlimentaireModele> items = new ArrayList<>();
 
-
-    public HippieListAdapter(Context context, ArrayList<AlimentaireModele> items,
-                             AlimentaireModeleDepot depot) {
+    public HippieListAdapter(Context context, AlimentaireModeleDepot depot) {
         this.context = context;
-        this.items = items;
         this.depot = depot;
+    }
+
+    public void setItems(ArrayList<AlimentaireModele> items) {
+        this.items = items;
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -55,14 +61,12 @@ public class HippieListAdapter extends BaseAdapter {
 
     /**
      * Méthode pour lier les données aux composantes de l'interface utilisateur.
+     * Implémentation de {@link android.widget.Adapter#getView(int, View, ViewGroup)}
      *
-     * @param position
-     * @param convertView
-     * @param parent
-     * @return row
+     * @return Retourne une instance de {@link View} gonfler de liste_dons_row.xml
      */
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         final AlimentaireModele modele = this.getItem(position);
         if (row == null) {
@@ -73,44 +77,77 @@ public class HippieListAdapter extends BaseAdapter {
         // Assigner les valeurs nom, description, quantités, unité et ajouter deux ImageButton par
         // rangée selon le nombre d'items contenus dans l'ArrayList.
         ((TextView) row.findViewById(R.id.tv_dons_nom_marchandise)).setText(modele.getNom());
-        ((TextView) row.findViewById(R.id.tv_dons_description_marchandise)).setText(modele.getDescription());
+        ((TextView) row.findViewById(R.id.tv_dons_description_marchandise))
+                .setText(modele.getDescription());
         String quantiteString = modele.getQuantite().toString() + " " + modele.getUnite();
         ((TextView) row.findViewById(R.id.tv_dons_qtee_marchandise)).setText(quantiteString);
         ImageButton ibDonSupprimer = (ImageButton) row.findViewById(R.id.ib_don_supprimer);
         ImageButton ibDonModifier = (ImageButton) row.findViewById(R.id.ib_dons_modifier);
 
         // Modifier un item de la liste liste_dons_row
-        ibDonModifier.setOnClickListener(new View.OnClickListener(){
+        ibDonModifier.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AjoutMarchandiseActivity.class);
+                Intent intent =
+                        new Intent(HippieListAdapter.this.context, AjoutMarchandiseActivity.class);
                 // Créer un bundle pour faire voyager les données vers AjoutMarchandiseActivity
                 Bundle bundle = new Bundle();
                 // Insérer les données aux bundle
-                bundle.putString("nom", modele.getNom().toString());
-                bundle.putString("description", modele.getDescription().toString());
+                bundle.putString("nom", modele.getNom());
+                bundle.putString("description", modele.getDescription());
                 bundle.putString("quantite", modele.getQuantite().toString());
                 bundle.putString("unite", modele.getUnite());
                 bundle.putString("valeur", modele.getValeur().toString());
                 bundle.putString("typeAlimentaire", modele.getTypeAlimentaire());
                 bundle.putInt("id", modele.getId());
-                if (modele.getDatePeremption() != null){
+                if (modele.getDatePeremption() != null) {
                     Date date = modele.getDatePeremption();
-                    DateFormat df = android.text.format.DateFormat.getLongDateFormat(context);
+                    DateFormat df = getLongDateFormat(HippieListAdapter.this.context);
                     bundle.putString("datePeremption", df.format(date));
                 }
                 intent.putExtras(bundle);
-               context.startActivity(intent);
+                HippieListAdapter.this.context.startActivity(intent);
             }
         });
 
         // Supprimer un item de la liste liste_dons_row
-        ibDonSupprimer.setOnClickListener(new View.OnClickListener(){
+        ibDonSupprimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                depot.supprimerModele(modele);
-                Toast.makeText(context, R.string.msg_produit_supprime,
-                        Toast.LENGTH_LONG).show();
+                // Confirmer la suppression du don
+                // Pour sauver de la mémoire, on instancie un seul click listener pour les deux
+                // bouton.
+                DialogInterface.OnClickListener dialogOnClickListener =
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case DialogInterface.BUTTON_POSITIVE:
+                                        HippieListAdapter.this.depot.supprimerModele(modele);
+                                        Toast.makeText(HippieListAdapter.this.context,
+                                                       R.string.msg_produit_supprime,
+                                                       Toast.LENGTH_LONG
+                                                      ).show();
+                                        dialog.dismiss();
+                                        break;
+                                    default:
+                                        dialog.dismiss();
+                                        break;
+                                }
+                            }
+                        };
+
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(HippieListAdapter.this.context);
+                builder.setMessage(R.string.msg_confirme_suppression)
+                       .setPositiveButton(R.string.bouton_confirme_suppression_oui,
+                                          dialogOnClickListener
+                                         )
+                       .setNegativeButton(R.string.bouton_confirme_suppression_non,
+                                          dialogOnClickListener
+                                         )
+                       .create()
+                       .show();
             }
         });
         return row;

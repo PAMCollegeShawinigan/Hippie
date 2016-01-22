@@ -73,29 +73,29 @@ public class AjoutMarchandiseActivity extends HippieActivity
         EditText etNomMarchandise = (EditText) this.findViewById(R.id.etNomMarchandise);
         this.validateurNom =
                 ValidateurDeChampTexte.newInstance(this,
-                        etNomMarchandise,
-                        true,
-                        ValidateurDeChampTexte
-                                .NOM_ALIMENTAIRE_LONGUEUR_MAX
-                );
+                                                   etNomMarchandise,
+                                                   true,
+                                                   ValidateurDeChampTexte
+                                                           .NOM_ALIMENTAIRE_LONGUEUR_MAX
+                                                  );
         this.validateurNom.registerObserver(this);
         EditText etDescMarchandise = (EditText) this.findViewById(R.id.etDescMarchandise);
         this.validateurDescription =
                 ValidateurDeChampTexte.newInstance(this,
-                        etDescMarchandise,
-                        true,
-                        ValidateurDeChampTexte
-                                .DESCRIPTION_ALIMENTAIRE_LONGUEUR_MAX
-                );
+                                                   etDescMarchandise,
+                                                   true,
+                                                   ValidateurDeChampTexte
+                                                           .DESCRIPTION_ALIMENTAIRE_LONGUEUR_MAX
+                                                  );
         this.validateurDescription.registerObserver(this);
         EditText etQteeMarchandise = (EditText) this.findViewById(R.id.etQteeMarchandise);
         this.validateurQuantite =
                 ValidateurDeChampTexte.newInstance(this,
-                        etQteeMarchandise,
-                        true,
-                        ValidateurDeChampTexte
-                                .QUANTITE_ALIMENTAIRE_LONGUEUR_MAX
-                );
+                                                   etQteeMarchandise,
+                                                   true,
+                                                   ValidateurDeChampTexte
+                                                           .QUANTITE_ALIMENTAIRE_LONGUEUR_MAX
+                                                  );
         this.validateurQuantite.registerObserver(this);
 
         Spinner spinnerUniteMarchandise = (Spinner) this.findViewById(R.id.spinnerUniteMarchandise);
@@ -111,11 +111,11 @@ public class AjoutMarchandiseActivity extends HippieActivity
         EditText etValeurMarchandise = (EditText) this.findViewById(R.id.etValeurMarchandise);
         this.validateurValeur =
                 ValidateurDeChampTexte.newInstance(this,
-                        etValeurMarchandise,
-                        true,
-                        ValidateurDeChampTexte
-                                .VALEUR_ALIMENTAIRE_LONGUEUR_MAX
-                );
+                                                   etValeurMarchandise,
+                                                   true,
+                                                   ValidateurDeChampTexte
+                                                           .VALEUR_ALIMENTAIRE_LONGUEUR_MAX
+                                                  );
         this.validateurValeur.registerObserver(this);
 
         Spinner spinnerTypeMarchandise = (Spinner) this.findViewById(R.id.spinnerTypeMarchandise);
@@ -124,35 +124,34 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurSpinnerTypeMarchandise.registerObserver(this);
         TypeAlimentaireModeleSpinnerAdapter typeAdapter =
                 new TypeAlimentaireModeleSpinnerAdapter(this,
-                        alimentaireModeleDepot
-                                .getListeTypeAlimentaire()
+                                                        alimentaireModeleDepot
+                                                                .getListeTypeAlimentaire()
                 );
         spinnerTypeMarchandise.setAdapter(typeAdapter);
         this.tvDatePeremption = (TextView) this.findViewById(R.id.tvDatePeremption);
         this.datePeremption = (DatePicker) this.findViewById(R.id.datePicker);
         // Set la date minimale du date picker au moment présent.
 
-        TextView tvAjoutMarchandise = (TextView) findViewById(R.id.tvAjoutMarchandise);
+        TextView tvAjoutMarchandise = (TextView) this.findViewById(R.id.tvAjoutMarchandise);
         tvAjoutMarchandise.setText(R.string.ajouter_marchandise);
         //tvAjoutMarchandise.setText("Ajout de marchandise");
         this.bAjoutMarchandise = (Button) this.findViewById(R.id.bAjoutMarchandise);
         // FIXME: mettre ressource string losrqu'elle sera disponible
-        bAjoutMarchandise.setText(R.string.bouton_ajouter);
+        this.bAjoutMarchandise.setText(R.string.bouton_ajouter);
         //bAjoutMarchandise.setText("Ajouter");
         // Retrouve l'organisme id de shared pref. -1 signifie qu'il n'y a pas d'organisme.
         this.organismeId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
-                -1
-        );
+                                                         -1
+                                                        );
 
         Bundle bundle = this.getIntent().getExtras();
-
 
         // Si le Bundle n'est pas null, il s'agit d'une modification à faire sur un don.
         if (bundle != null) {
             // FIXME: mettre ressource string losrqu'elle sera disponible
             // Modifier le TextView pour signifier une modification
             tvAjoutMarchandise.setText(R.string.modifier_marchandise);
-            bAjoutMarchandise.setText(R.string.bouton_modifier);
+            this.bAjoutMarchandise.setText(R.string.bouton_modifier);
             // Obtenir le id du produit à modifier
 
             this.idModele = bundle.getInt("id");
@@ -176,11 +175,13 @@ public class AjoutMarchandiseActivity extends HippieActivity
 
             // Récupérer la position du spinnerTypeMarchandise selon la description
             String bundleTypeAlimentaire = bundle.getString("typeAlimentaire");
-            for (int i = 0; i < typeAdapter.getCount(); i++) {
-                String typeDescription = typeAdapter.getItem(i).getDescription();
-                if (bundleTypeAlimentaire.equalsIgnoreCase(typeDescription)) {
-                    spinnerTypeMarchandise.setSelection(i);
-                    break;
+            if (bundleTypeAlimentaire != null) {
+                for (int i = 0; i < typeAdapter.getCount(); i++) {
+                    String typeDescription = typeAdapter.getItem(i).getDescription();
+                    if (bundleTypeAlimentaire.equalsIgnoreCase(typeDescription)) {
+                        spinnerTypeMarchandise.setSelection(i);
+                        break;
+                    }
                 }
             }
 
@@ -235,8 +236,10 @@ public class AjoutMarchandiseActivity extends HippieActivity
      * Méthode pour valider les différentes composantes de l'interface utilisateur selon
      * le type de validation et les valeurs inscrites.
      *
-     * @param validateur Type de validateur. Ex: ValidateurDeChampTexte, ValidateurDeSpinner etc...
-     * @param estValide  Retourne True or False selon la validation.
+     * @param validateur
+     *         Type de validateur. Ex: ValidateurDeChampTexte, ValidateurDeSpinner etc...
+     * @param estValide
+     *         Retourne True or False selon la validation.
      */
     @Override
     public void enValidatant(Validateur validateur, boolean estValide) {
@@ -253,8 +256,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
         } else if (validateur.equals(this.validateurSpinnerTypeMarchandise)) {
             // Mettre invisible le DatePicker si un produit est non perissable
             if (((TypeAlimentaireModele) this.validateurSpinnerTypeMarchandise.getSelectedItem())
-                    .getEstPerissable() ||
-                    this.validateurSpinnerTypeMarchandise.getSelectedItemId() == 0) {
+                        .getEstPerissable() ||
+                this.validateurSpinnerTypeMarchandise.getSelectedItemId() == 0) {
                 this.tvDatePeremption.setVisibility(View.VISIBLE);
                 this.datePeremption.setVisibility(View.VISIBLE);
             } else {
@@ -289,9 +292,9 @@ public class AjoutMarchandiseActivity extends HippieActivity
         // Prend la date du jour pour soumettre l'ajout ou modification d'un item
         Calendar date = Calendar.getInstance();
         date.set(this.datePeremption.getYear(),
-                this.datePeremption.getMonth(),
-                this.datePeremption.getDayOfMonth()
-        );
+                 this.datePeremption.getMonth(),
+                 this.datePeremption.getDayOfMonth()
+                );
 
         DescriptionModel typeAlimentaire =
                 ((DescriptionModel) this.validateurSpinnerTypeMarchandise.getSelectedItem());
@@ -353,9 +356,9 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                 @Override
                                 public void run() {
                                     Snackbar.make(v,
-                                            R.string.error_connection,
-                                            Snackbar.LENGTH_SHORT
-                                    )
+                                                  R.string.error_connection,
+                                                  Snackbar.LENGTH_SHORT
+                                                 )
                                             .show();
                                 }
                             });
@@ -365,11 +368,11 @@ public class AjoutMarchandiseActivity extends HippieActivity
                     AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (idModele != null) {
+                            if (AjoutMarchandiseActivity.this.idModele != null) {
                                 Snackbar snackbar = Snackbar.make(v,
-                                        R.string.msg_produit_modifie,
-                                        Snackbar.LENGTH_SHORT
-                                );
+                                                                  R.string.msg_produit_modifie,
+                                                                  Snackbar.LENGTH_SHORT
+                                                                 );
 
                                 snackbar.setCallback(new Snackbar.Callback() {
                                     @Override
@@ -382,9 +385,9 @@ public class AjoutMarchandiseActivity extends HippieActivity
 
                             } else {
                                 Snackbar.make(v,
-                                        R.string.msg_produit_ajoute,
-                                        Snackbar.LENGTH_SHORT
-                                ).show();
+                                              R.string.msg_produit_ajoute,
+                                              Snackbar.LENGTH_SHORT
+                                             ).show();
                                 AjoutMarchandiseActivity.this.effacerFormulaire();
                             }
                         }

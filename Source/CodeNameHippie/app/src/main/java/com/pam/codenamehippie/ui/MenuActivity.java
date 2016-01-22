@@ -9,14 +9,11 @@ import android.view.animation.RotateAnimation;
 import android.widget.Toast;
 
 import com.pam.codenamehippie.R;
-import com.pam.codenamehippie.ui.view.trianglemenu.ListeOrganismesActivity;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnCenterClickListener;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnItemClickListener;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnItemSelectedListener;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnRotationFinishedListener;
-
-import java.io.Serializable;
 
 public class MenuActivity extends HippieActivity implements OnItemSelectedListener,
                                                             OnItemClickListener,

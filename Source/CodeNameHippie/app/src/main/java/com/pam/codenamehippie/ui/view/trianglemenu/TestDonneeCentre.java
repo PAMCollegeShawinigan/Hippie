@@ -1,15 +1,18 @@
 package com.pam.codenamehippie.ui.view.trianglemenu;
 
-import com.pam.codenamehippie.ui.Denree;
-import com.pam.codenamehippie.ui.Organisme;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by BEG-163 on 2016-01-18.
+ * Cette classe est pour fabriquer les donnees pour tester les affichages de liste marchandises diponible,reservees
+ * et toutes les organismes communautaire
  */
 public class TestDonneeCentre {
+
     public static ArrayList<Organisme> prepareDonnees_reservees() {
 
         // preparer des entreprise et leurs liste denrees
@@ -363,6 +366,299 @@ public class TestDonneeCentre {
         listOrganisme.add(organisme9);
        listOrganisme.add(organisme10);
         return listOrganisme;
+
+    }
+
+    /**
+     * Created by BEG-163 on 2015-12-01.
+     */
+
+
+    public static class Denree {
+        private String nomDenree;
+        private String quantiteDenree;
+        private String typeUnite;
+        private StateDenree stateDenree;
+        private TypeDenree typeDenree;
+        private String datePeremption;
+        private String description;
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public Denree(String nomDenree, String quantiteDenree, String typeUnite, String datePeremption, TypeDenree typeDenree,String description) {
+            this.nomDenree = nomDenree;
+            this.quantiteDenree = quantiteDenree;
+            this.typeUnite = typeUnite;
+            this.datePeremption = datePeremption;
+            this.typeDenree = typeDenree;
+            this.description=description;
+        }
+
+        public String getTypeUnite() {
+            return typeUnite;
+        }
+
+        public void setTypeUnite(String typeUnite) {
+            this.typeUnite = typeUnite;
+        }
+
+        public TypeDenree getTypeDenree() {
+            return typeDenree;
+        }
+
+        public void setTypeDenree(TypeDenree typeDenree) {
+            this.typeDenree = typeDenree;
+        }
+
+        public StateDenree getStateDenree() {
+            return stateDenree;
+        }
+
+        public void setStateDenree(StateDenree stateDenree) {
+            this.stateDenree = stateDenree;
+        }
+
+        public String getNomDenree() {
+            return nomDenree;
+        }
+
+        public void setNomDenree(String nonDenree) {
+            this.nomDenree = nomDenree;
+        }
+
+        public String getQuantiteDenree() {
+            return quantiteDenree;
+        }
+
+        public void setQuantiteDenree(String quantiteDenree) {
+            this.quantiteDenree = quantiteDenree;
+        }
+
+
+        public String getDatePeremption() {
+            return datePeremption;
+        }
+
+        public void setDatePeremption(String datePeremption) {
+            this.datePeremption = datePeremption;
+        }
+
+
+    public enum StateDenree {
+        disponible,
+        reserveee,
+        collectee
+    }
+
+    public enum TypeDenree {
+
+        fruit_legume,
+        viande,
+        laitier,
+        surgele,
+        perissable,
+        boulangerie,
+        non_comestible,
+        non_perissable
+    }
+
+    public enum TypeUnite {
+        kg,
+        litre,
+        unite
+    }
+    }
+
+    /**
+     * Created by BEG-163 on 2015-12-01.
+     */
+    public static class Organisme {
+        private String nomOrganisme;
+        private String addresse;
+        private AddressOrganisme add;
+        private HashMap<String, String> mapCollectTime;
+        private String telephone;
+        private ArrayList<Denree> listDenree;
+        private LatLng mLatLng;
+        private String contact;
+
+        public AddressOrganisme getAdd() {
+            return add;
+        }
+
+        public void setAdd(AddressOrganisme add) {
+            this.add = add;
+        }
+
+        public String getContact() {
+            return contact;
+        }
+
+        public void setContact(String contact) {
+            this.contact = contact;
+        }
+
+        public LatLng getmLatLng() {
+            return mLatLng;
+        }
+
+        public void setmLatLng(LatLng mLatLng) {
+            this.mLatLng = mLatLng;
+        }
+
+        public void setMapCollectTime(HashMap<String, String> mapCollectTime) {
+            this.mapCollectTime = mapCollectTime;
+        }
+
+        public Organisme(String nomOrganisme, String addresse, HashMap<String, String> mapCollectTime, String telephone, ArrayList<Denree> listDenree,String contact) {
+            this.nomOrganisme = nomOrganisme;
+            this.addresse = addresse;
+            this.mapCollectTime = mapCollectTime;
+            this.telephone = telephone;
+            this.listDenree = listDenree;
+            this.contact=contact;
+        }
+
+        public HashMap<String, String> getMapCollectTime() {
+            return mapCollectTime;
+        }
+
+        public void setMapCollectTime(ArrayList<Map<String, String>> listCollectTime) {
+            this.mapCollectTime = mapCollectTime;
+        }
+
+        public String getNomOrganisme() {
+            return nomOrganisme;
+        }
+
+        public void setNomOrganisme(String nomOrganisme) {
+            this.nomOrganisme = nomOrganisme;
+        }
+
+        public String getAddresse() {
+            return addresse;
+        }
+
+        public void setAddresse(String addresse) {
+            this.addresse = addresse;
+        }
+
+        public String getTelephone() {
+            return telephone;
+        }
+
+        public void setTelephone(String telephone) {
+            this.telephone = telephone;
+        }
+
+        public ArrayList<Denree> getListDenree() {
+            return listDenree;
+        }
+
+        public void setListDenree(ArrayList<Denree> listDenree) {
+            this.listDenree = listDenree;
+        }
+    }
+
+    /**
+     * Created by BEG-163 on 2016-01-12.
+     */
+    public static class AddressOrganisme {
+
+        private Integer noCivique;
+
+        private String typeRue;
+
+        private String nom;
+
+        private String app;
+
+        private String ville;
+
+        private String province;
+
+        private String codePostal;
+
+        private String pays;
+
+        public Integer getNoCivique() {
+            return this.noCivique;
+        }
+
+        public AddressOrganisme setNoCivique(Integer noCivique) {
+            this.noCivique = noCivique;
+            return this;
+        }
+
+        public String getTypeRue() {
+            return this.typeRue;
+        }
+
+        public AddressOrganisme setTypeRue(String typeRue) {
+            this.typeRue = typeRue;
+            return this;
+        }
+
+        public String getNom() {
+            return this.nom;
+        }
+
+        public AddressOrganisme setNom(String nom) {
+            this.nom = nom;
+            return this;
+        }
+
+        public String getApp() {
+            return this.app;
+        }
+
+        public AddressOrganisme setApp(String app) {
+            this.app = app;
+            return this;
+        }
+
+        public String getVille() {
+            return this.ville;
+        }
+
+        public AddressOrganisme setVille(String ville) {
+            this.ville = ville;
+            return this;
+        }
+
+        public String getProvince() {
+            return this.province;
+        }
+
+        public AddressOrganisme setProvince(String province) {
+            this.province = province;
+            return this;
+        }
+
+        public String getCodePostal() {
+            return this.codePostal;
+        }
+
+        public AddressOrganisme setCodePostal(String codePostal) {
+            this.codePostal = codePostal;
+            return this;
+        }
+
+        public String getPays() {
+            return this.pays;
+        }
+
+        public AddressOrganisme setPays(String pays) {
+            this.pays = pays;
+            return this;
+        }
+
 
     }
 }
