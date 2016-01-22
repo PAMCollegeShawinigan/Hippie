@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -70,6 +71,14 @@ public class HippieActivity extends AppCompatActivity {
                 this.startActivity(new Intent(this, LoginActivity.class));
                 this.finish();
                 return true;
+            // TODO: À effacer plus tard, lorsque les tests avec cette activité sera terminé.
+            case R.id.menu_marchandise_disponible:
+                if (!this.getClass().equals(ListeMarchandisesDisponiblesActivity.class)) {
+                    this.startActivity(new Intent(this,
+                                                  ListeMarchandisesDisponiblesActivity.class
+                    ));
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -89,9 +98,12 @@ public class HippieActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
         if (toolbar != null) {
             this.setSupportActionBar(toolbar);
-            this.getSupportActionBar().setLogo(R.drawable.logo);
-            this.getSupportActionBar().setDisplayUseLogoEnabled(true);
-            this.getSupportActionBar().setDisplayShowTitleEnabled(false);
+            ActionBar actionBar = this.getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setLogo(R.drawable.logo);
+                actionBar.setDisplayUseLogoEnabled(true);
+                actionBar.setDisplayShowTitleEnabled(false);
+            }
         }
     }
 }

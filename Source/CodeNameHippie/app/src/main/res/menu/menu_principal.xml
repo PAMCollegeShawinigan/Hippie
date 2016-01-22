@@ -26,4 +26,9 @@
         android:title="@string/profil"
         android:orderInCategory="1"/>
 
+	<!-- TODO: À effacer lorsque ce sera fini, cet item est utilisé à des fins de tests seulement -->
+	<item
+		android:id="@+id/menu_marchandise_disponible"
+		android:title="Ma liste de marchandises disponibles"
+		android:orderInCategory="1"/>
 </menu>
