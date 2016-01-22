@@ -2,6 +2,8 @@ package com.pam.codenamehippie.modele;
 
 import android.content.Context;
 import android.database.DataSetObservable;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -84,6 +86,11 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     protected HttpUrl url = HippieApplication.baseUrl;
 
     /**
+     * Url de la dernière requête de peuplement effectuée
+     */
+    protected HttpUrl urlDeRepeuplement = null;
+
+    /**
      * Url pour modifications des objets du dépot.
      */
     protected HttpUrl modifierUrl = null;
@@ -101,12 +108,17 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     /**
      * Liste contenant les objets qui observe le dépôt.
      */
-    protected ArrayList<ObservateurDeDepot<T>> observateurs = new ArrayList<>();
+    protected volatile ArrayList<ObservateurDeDepot<T>> observateurs = new ArrayList<>();
 
     /**
      * Foncteur pour les listes résultantes des requêtes
      */
     protected FiltreDeListe<T> filtreDeListe = null;
+
+    /**
+     * Main thread handler
+     */
+    protected Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
     /**
      * Initialise les variables commune à tous les dépôts.
@@ -179,62 +191,6 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     }
 
     /**
-     * Permet de peupler le dépot.
-     * <p/>
-     * Cette methode est asynchrone et retourne immédiatement
-     *
-     * @param url
-     *         url de la requête.
-     */
-    protected void peuplerLeDepot(HttpUrl url) {
-        Request request = new Request.Builder().url(url).get().build();
-        // FIXME: surDebutDeRequête devrait être caller quand le dispatcher traite la requête.
-        // Il faudrait soummettre manuellement les calls aux dispatcher… Ça demanderait quand
-        // même assez de travail… Pour les besoins de la cause on va tenter de pas soumettre
-        // plusieurs requêtes en même temps au même dépot.
-        this.surDebutDeRequete();
-        this.httpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                // TODO: Mettre un toast ou whatever
-                Log.e(TAG, "Request failed: " + request.toString(), e);
-                BaseModeleDepot.this.surErreur(e);
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    Log.e(TAG, "Request failed: " + response.toString());
-                    BaseModeleDepot.this.surErreur(new HttpReponseException(response));
-                    BaseModeleDepot.this.surFinDeRequete();
-                } else {
-                    synchronized (BaseModeleDepot.this.lock) {
-                        BaseModeleDepot.this.modeles.clear();
-                        // Le serveur retourne un array. Donc pour supporter un énorme array on
-                        // utilise des streams.
-                        JsonReader reader = new JsonReader(response.body().charStream());
-                        reader.beginArray();
-                        while (reader.hasNext()) {
-                            T modele = BaseModeleDepot.this.fromJson(reader);
-                            if (BaseModeleDepot.this.filtreDeListe != null) {
-                                if (BaseModeleDepot.this.filtreDeListe.appliquer(modele)) {
-                                    BaseModeleDepot.this.modeles.add(modele);
-                                }
-                            } else {
-                                BaseModeleDepot.this.modeles.add(modele);
-                            }
-                        }
-                        reader.endArray();
-                        reader.close();
-                    }
-                    BaseModeleDepot.this.surChangementDeDonnees();
-                }
-                BaseModeleDepot.this.surFinDeRequete();
-            }
-        });
-    }
-
-    /**
      * Méthode de sérialisation du modèle en JSON.
      *
      * @return le modèle en format JSON.
@@ -291,144 +247,194 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     }
 
     /**
-     * Méthode qui recherche un Modele selon l'id de l'objet reçu en paramètre.
+     * Permet de peupler le dépot.
+     * <p/>
+     * Cette methode est asynchrone et retourne immédiatement.
+     *
+     * @param url
+     *         url de la requête.
+     */
+    protected void peuplerLeDepot(@NonNull HttpUrl url) {
+        synchronized (this.lock) {
+            if ((this.urlDeRepeuplement == null) || (!this.urlDeRepeuplement.equals(url))) {
+                this.urlDeRepeuplement = url;
+            }
+        }
+        Request request = new Request.Builder().url(url).get().build();
+        // FIXME: surDebutDeRequête devrait être caller quand le dispatcher traite la requête.
+        // Il faudrait soummettre manuellement les calls aux dispatcher… Ça demanderait quand
+        // même assez de travail… Pour les besoins de la cause on va tenter de pas soumettre
+        // plusieurs requêtes en même temps au même dépot.
+        this.surDebutDeRequete();
+        this.httpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                Log.e(TAG, "Request failed: " + request.toString(), e);
+                BaseModeleDepot.this.surErreur(e);
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    Log.e(TAG, "Request failed: " + response.toString());
+                    BaseModeleDepot.this.surErreur(new HttpReponseException(response));
+                    BaseModeleDepot.this.surFinDeRequete();
+                } else {
+                    synchronized (BaseModeleDepot.this.lock) {
+                        // On vide le dépôt pour faire place au nouveau stock.
+                        BaseModeleDepot.this.modeles.clear();
+                        // Le serveur retourne un array. Donc pour supporter un énorme array on
+                        // utilise des streams.
+                        JsonReader reader = new JsonReader(response.body().charStream());
+                        reader.beginArray();
+                        while (reader.hasNext()) {
+                            T modele = BaseModeleDepot.this.fromJson(reader);
+                            if (BaseModeleDepot.this.filtreDeListe != null) {
+                                if (BaseModeleDepot.this.filtreDeListe.appliquer(modele)) {
+                                    BaseModeleDepot.this.modeles.add(modele);
+                                }
+                            } else {
+                                BaseModeleDepot.this.modeles.add(modele);
+                            }
+                        }
+                        reader.endArray();
+                        reader.close();
+                    }
+                    BaseModeleDepot.this.surChangementDeDonnees();
+                }
+                BaseModeleDepot.this.surFinDeRequete();
+            }
+        });
+    }
+
+    /**
+     * Repeuple le dépôt avec la dernière url utilisée par le dépôt.
+     */
+    public void repeuplerLedepot() {
+        synchronized (this.lock) {
+            if (this.urlDeRepeuplement != null) {
+                this.peuplerLeDepot(this.urlDeRepeuplement);
+            }
+        }
+    }
+
+    /**
+     * Méthode qui recherche un modèle selon l'id de l'objet reçu en paramètre.
+     * <p/>
+     * Cette methode est asynchrone et retourne immédiatement.
      *
      * @param id
      *         de l'objet
-     *
-     * @return une instance du modèle correspondant au id reçu en paramètre ou null si il
-     * n'existe pas.
      */
-    @Nullable
-    public T rechercherParId(@NonNull Integer id) {
-        T modele = this.modeles.get(id);
-        if (modele != null) {
-            return this.modeles.get(id);
-        } else {
-            HttpUrl url = this.url.newBuilder().addPathSegment(id.toString()).build();
-            Request request = new Request.Builder().url(url).build();
-            Response response = null;
-            try {
-                // FIXME: Android aime pas les opérations réseaux sur le main thread... Callback?
-                response = this.httpClient.newCall(request).execute();
-                String body = response.body().string();
-                if (response.isSuccessful()) {
-                    return this.ajouterModele(body, false);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if ((response != null) && (response.body() != null)) {
-                    try {
-                        response.body().close();
-                    } catch (IOException e) {
-                        Log.e(TAG, e.getMessage(), e);
-                    }
-                }
-            }
-        }
-        return null;
+    public void rechercherParId(@NonNull Integer id) {
+        HttpUrl url = this.url.newBuilder().addPathSegment(id.toString()).build();
+        Request request = new Request.Builder().url(url).build();
+        //TODO: Implémenter la requête + callback?
     }
 
     /**
-     * Ajouter un nouveau modèle dans le dépôt correspondant
-     *
-     * @param json
-     *         de l'objet Modele
-     * @param devraitPoster
-     *         determine si le dépôt doit envoyer le parmètre json au serveur.
-     *
-     * @return une nouvelle instance de Modele vide ou null s'il existe déjà
-     */
-    public synchronized T ajouterModele(String json, boolean devraitPoster) {
-        T modele = this.fromJson(json);
-        if (this.modeles.get(modele.getId()) == null) {
-            this.modeles.add(modele);
-            if (devraitPoster) {
-                // todo: requête au serveur pour ajouter du stock
-            }
-            return modele;
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Ajouter un nouveau modèle dans le dépôt correspondant
+     * Ajouter un nouveau modèle dans le dépôt.
      *
      * @param modele
      *         le modele à ajouter
      * @param devraitPoster
      *         determine si le dépôt doit envoyer le paramètre modèle au serveur.
-     *
-     * @return une nouvelle instance de Modele vide ou null s'il existe déjà
      */
-    public T ajouterModele(T modele, boolean devraitPoster) {
-        if (this.modeles.get(modele.getId()) == null) {
-            this.modeles.add(modele);
-            if (devraitPoster) {
-                // Ceci est du code expérimental/prototype.
-                // L'idee ici c'est d'utiliser la réflection java pour créer une form http.
-                // Il serait plus facile de soumettre du json, mais en ce moment, le serveur ne le
-                // prend pas en ce moment
-                Class clazz = modele.getClass();
-                do {
-                    Field[] fields = clazz.getDeclaredFields();
-                    for (Field field : fields) {
-                        SerializedName serializedName = field.getAnnotation(SerializedName.class);
-                        boolean old = field.isAccessible();
-                        field.setAccessible(true);
-                        try {
-                            Log.d(TAG,
-                                  field.getName()     +
-                                  ": "                +
-                                  field.get(modele)   +
-                                  " serializedName: " +
-                                  serializedName
-                                          .value()
-                                 );
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                        field.setAccessible(old);
-
-                    }
-                    clazz = clazz.getSuperclass();
-                } while (clazz != null);
-
+    public void ajouterModele(T modele, boolean devraitPoster) {
+        if (this.ajoutUrl == null) {
+            if (this.modifierUrl == null) {
+                throw new UnsupportedOperationException("Ce dépôt ne supporte pas l'ajout");
             }
-            return modele;
         }
-        return null;
+        synchronized (this.lock) {
+            int index = this.modeles.indexOf(modele);
+            if (index != -1) {
+                this.modeles.add(index, modele);
+            } else {
+                this.modeles.add(modele);
+            }
+        }
+        if (devraitPoster) {
+            // Ceci est du code expérimental/prototype.
+            // L'idee ici c'est d'utiliser la réflection java pour créer une form http.
+            // Il serait plus facile de soumettre du json, mais en ce moment, le serveur ne le
+            // prend pas en ce moment
+            Class clazz = modele.getClass();
+            do {
+                Field[] fields = clazz.getDeclaredFields();
+                for (Field field : fields) {
+                    SerializedName serializedName = field.getAnnotation(SerializedName.class);
+                    boolean old = field.isAccessible();
+                    field.setAccessible(true);
+                    try {
+                        Log.d(TAG,
+                              field.getName()     +
+                              ": "                +
+                              field.get(modele)   +
+                              " serializedName: " +
+                              serializedName
+                                      .value()
+                             );
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    field.setAccessible(old);
+
+                }
+                clazz = clazz.getSuperclass();
+            } while (clazz != null);
+
+        }
     }
 
     /**
-     * Modifier un Modele présent dans le dépôt correspondant selon l'id de
-     * l'objet reçu en paramètre.
+     * Modifie un é présent dans le dépôt correspondant selon l'id de l'objet reçu en
+     * paramètre.
      *
      * @param modele
-     *         de l'objet
-     *
-     * @return Modele existant dans la dépôt ou null s'il n'existe pas dans le dépôt
+     *         Le modèle à modifier.
      */
-    public T modifierModele(T modele) {
-        T oldModele = this.modeles.get(modele.getId());
-
-        if (oldModele != null) {
-            return oldModele;
-        } else {
-            return null;
+    public void modifierModele(T modele) {
+        if (this.modifierUrl == null) {
+            throw new UnsupportedOperationException("Ce dépôt ne supporte pas la modification");
         }
+        //TODO: Code de modification de modèle générique.
     }
 
     /**
-     * Supprimer un Modele présent dans le dépôt
+     * Supprime un modele présent dans le dépôt.
+     * <p/>
+     * Cette méthode est asynchrone et retourne immédiatement.
      *
      * @param modele
      *         de l'objet
      */
     public void supprimerModele(T modele) {
+        if (this.supprimerUrl == null) {
+            throw new UnsupportedOperationException("Ce dépot ne supporte pas la suppression");
+        }
+        HttpUrl url = this.supprimerUrl.newBuilder()
+                                       .addPathSegment(modele.getId().toString())
+                                       .build();
+        Request request = new Request.Builder().url(url).get().build();
+        this.httpClient.newCall(request)
+                       .enqueue(new Callback() {
+                           @Override
+                           public void onFailure(Request request, IOException e) {
+                               BaseModeleDepot.this.surErreur(e);
+                           }
 
+                           @Override
+                           public void onResponse(Response response) {
+                               if (!response.isSuccessful()) {
+                                   HttpReponseException e = new HttpReponseException(response);
+                                   BaseModeleDepot.this.surErreur(e);
+                               } else {
+                                   BaseModeleDepot.this.repeuplerLedepot();
+                               }
+
+                           }
+                       });
     }
 
     /**
@@ -488,39 +494,54 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * @see {@link ObservateurDeDepot#surDebutDeRequete()}
      */
     public void surDebutDeRequete() {
-        synchronized (this.lock) {
-            if (!this.observateurs.isEmpty()) {
-                for (ObservateurDeDepot<T> observateur : this.observateurs) {
-                    observateur.surDebutDeRequete();
+        Runnable action = new Runnable() {
+            public void run() {
+                synchronized (BaseModeleDepot.this.lock) {
+                    if (!BaseModeleDepot.this.observateurs.isEmpty()) {
+                        for (ObservateurDeDepot<T> obs : BaseModeleDepot.this.observateurs) {
+                            obs.surDebutDeRequete();
+                        }
+                    }
                 }
             }
-        }
+        };
+        this.runOnUiThread(action);
     }
 
     /**
      * Notifie tous les observateurs du dépôt qu'il y a eu un changement dans les données du dépôt.
      */
     public void surChangementDeDonnees() {
-        synchronized (this.lock) {
-            if (!this.observateurs.isEmpty()) {
-                for (ObservateurDeDepot<T> observateur : this.observateurs) {
-                    observateur.surChangementDeDonnees(this.modeles);
+        Runnable action = new Runnable() {
+            public void run() {
+                synchronized (BaseModeleDepot.this.lock) {
+                    if (!BaseModeleDepot.this.observateurs.isEmpty()) {
+                        for (ObservateurDeDepot<T> obs : BaseModeleDepot.this.observateurs) {
+                            obs.surChangementDeDonnees(BaseModeleDepot.this.modeles);
+                        }
+                    }
                 }
             }
-        }
+        };
+        this.runOnUiThread(action);
     }
 
     /**
      * Notifie tous les observateurs du dépôt qu'il y a eu une erreur lors d'une requête.
      */
-    public void surErreur(IOException e) {
-        synchronized (this.lock) {
-            if (!this.observateurs.isEmpty()) {
-                for (ObservateurDeDepot<T> observateur : this.observateurs) {
-                    observateur.surErreur(e);
+    public void surErreur(final IOException e) {
+        Runnable action = new Runnable() {
+            public void run() {
+                synchronized (BaseModeleDepot.this.lock) {
+                    if (!BaseModeleDepot.this.observateurs.isEmpty()) {
+                        for (ObservateurDeDepot<T> obs : BaseModeleDepot.this.observateurs) {
+                            obs.surErreur(e);
+                        }
+                    }
                 }
             }
-        }
+        };
+        this.runOnUiThread(action);
     }
 
     /**
@@ -529,13 +550,33 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * @see {@link ObservateurDeDepot#surDebutDeRequete()}
      */
     public void surFinDeRequete() {
-        synchronized (this.lock) {
-            if (!this.observateurs.isEmpty()) {
-                for (ObservateurDeDepot<T> observateur : this.observateurs) {
-                    observateur.surFinDeRequete();
+        Runnable action = new Runnable() {
+            public void run() {
+                synchronized (BaseModeleDepot.this.lock) {
+                    if (!BaseModeleDepot.this.observateurs.isEmpty()) {
+                        for (ObservateurDeDepot<T> obs : BaseModeleDepot.this.observateurs) {
+                            obs.surFinDeRequete();
+                        }
+                    }
                 }
             }
-        }
+        };
+        this.runOnUiThread(action);
+    }
 
+    /**
+     * Réimplémentation de {@link android.app.Activity#runOnUiThread(Runnable)}
+     *
+     * @param action
+     *         truc à rouler sur le main thread
+     *
+     * @see android.app.Activity#runOnUiThread(Runnable)
+     */
+    protected void runOnUiThread(Runnable action) {
+        if (Thread.currentThread() != this.mainThreadHandler.getLooper().getThread()) {
+            this.mainThreadHandler.post(action);
+        } else {
+            action.run();
+        }
     }
 }
