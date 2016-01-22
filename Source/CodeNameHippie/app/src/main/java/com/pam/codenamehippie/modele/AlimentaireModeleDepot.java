@@ -55,6 +55,17 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         return this.listeTypeAlimentaire;
     }
 
+    /**
+     * Accesseur pour la liste des dons reçu lors de l'appel de
+     * {@link AlimentaireModeleDepot#peuplerListeDon(Integer)}
+     *
+     * @return La liste des dons
+     *
+     * @deprecated Veuillez utiliser un {@link ObservateurDeDepot} et
+     * {@link AlimentaireModeleDepot#peuplerListeDon(Integer)} pour obtenir cette liste. Pour
+     * plus de détail voir {@link com.pam.codenamehippie.ui.ListeMesDonsActivity}
+     */
+    @Deprecated
     public synchronized ArrayList<AlimentaireModele> getListeDon() {
         return this.listeDon;
     }
@@ -126,7 +137,8 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
     }
 
     /**
-     * retourne la liste de tout les dons de l'entreprise qui sont disponibles ou reservé
+     * Peuple le dépot avec la liste de tous les dons de l'entreprise qui sont disponibles ou
+     * reservé
      *
      * @param id
      *         id de l'organisme dont on veut obtenir la liste des dons.
