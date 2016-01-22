@@ -31,7 +31,7 @@ import okhttp3.Response;
 
 /**
  * Classe patron représentant un dépôt d'objet de type {@link BaseModele}.
- * <p>
+ * <p/>
  * Cette classe est définie comme abstraite pour 2 raisons:
  * <ol>
  * <li>
@@ -43,7 +43,7 @@ import okhttp3.Response;
  * fournir des une implémentation par défaut quand c'est possible.
  * </li>
  * </ol>
- * <p>
+ * <p/>
  * L'initialisation d'un dépôt requiert une inspection de sa hiearchie de classe en utilisant
  * le mécanisme de réflection de Java. Ceci est une opération relativement dispendieuse, par
  * conséquent nous recommandons de limiter le nombre d'allocation d'instances d'objet de type
@@ -250,7 +250,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
 
     /**
      * Permet de peupler le dépot.
-     * <p>
+     * <p/>
      * Cette methode est asynchrone et retourne immédiatement.
      *
      * @param url
@@ -280,7 +280,6 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                     BaseModeleDepot.this.surErreur(new HttpReponseException(response));
-                    BaseModeleDepot.this.surFinDeRequete();
                 } else {
                     synchronized (BaseModeleDepot.this.lock) {
                         // On vide le dépôt pour faire place au nouveau stock.
@@ -322,7 +321,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
 
     /**
      * Méthode qui recherche un modèle selon l'id de l'objet reçu en paramètre.
-     * <p>
+     * <p/>
      * Cette methode est asynchrone et retourne immédiatement.
      *
      * @param id
@@ -404,14 +403,31 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     }
 
     /**
-     * Supprime un modele présent dans le dépôt.
-     * <p>
+     * Envoi une commande de suppression de données au serveur.
+     * <p/>
+     * Cette méthode est asynchrone et retourne immédiatement.<br/>
+     * Cette méthode est équivalente à {@code supprimerModele(modele, null)}.
+     *
+     * @param modele
+     *         l'objet à supprimer.
+     *
+     * @see BaseModeleDepot#supprimerModele(BaseModele, Runnable)
+     */
+    public void supprimerModele(T modele) {
+        this.supprimerModele(modele, null);
+    }
+
+    /**
+     * Envoi une commande de suppression de données au serveur.
+     * <p/>
      * Cette méthode est asynchrone et retourne immédiatement.
      *
      * @param modele
-     *         de l'objet
+     *         l'objet à supprimer
+     * @param action
+     *         une action à executer en cas de succès.
      */
-    public void supprimerModele(T modele) {
+    public void supprimerModele(T modele, @Nullable final Runnable action) {
         if (this.supprimerUrl == null) {
             throw new UnsupportedOperationException("Ce dépot ne supporte pas la suppression");
         }
@@ -433,6 +449,9 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                                    BaseModeleDepot.this.surErreur(e);
                                } else {
                                    BaseModeleDepot.this.repeuplerLedepot();
+                                   if (action != null) {
+                                       BaseModeleDepot.this.runOnUiThread(action);
+                                   }
                                }
 
                            }

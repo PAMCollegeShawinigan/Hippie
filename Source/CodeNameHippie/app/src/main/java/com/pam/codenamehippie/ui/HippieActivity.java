@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
+import android.widget.ViewSwitcher;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
@@ -27,6 +29,8 @@ public class HippieActivity extends AppCompatActivity {
     protected Authentificateur authentificateur;
     protected OkHttpClient httpClient;
     protected SharedPreferences sharedPreferences;
+    protected ViewSwitcher viewSwitcher;
+    protected ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +100,7 @@ public class HippieActivity extends AppCompatActivity {
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
+        // Configuration de l'action bar
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.toolbar);
         if (toolbar != null) {
             this.setSupportActionBar(toolbar);
@@ -106,5 +111,45 @@ public class HippieActivity extends AppCompatActivity {
                 actionBar.setDisplayShowTitleEnabled(false);
             }
         }
+        // Configuration du viewSwitcher
+        this.viewSwitcher = ((ViewSwitcher) this.findViewById(R.id.main_view_switcher));
+        if (this.viewSwitcher != null) {
+            this.viewSwitcher.setInAnimation(this, android.R.anim.fade_in);
+            this.viewSwitcher.setOutAnimation(this, android.R.anim.fade_out);
+        }
+
+        this.progressBar = ((ProgressBar) this.findViewById(R.id.main_progress));
+    }
+
+    /**
+     * Méthode de comodité pour afficher un layout de progress bar à l'aide d'un view switcher.
+     */
+    public void afficherLaProgressBar() {
+        if (this.progressBar == null) {
+            throw new IllegalStateException("Le layout de l'activité ne contient pas de " +
+                                            "progressbar.");
+        }
+        if (this.viewSwitcher == null) {
+            throw new IllegalStateException("Le layout de l'activité ne contient pas de " +
+                                            "ViewSwitcher pour gérer l'affichage de la " +
+                                            "progressbar");
+        }
+        this.viewSwitcher.showNext();
+    }
+
+    /**
+     * Méthode de comodité pour cacher un layout de progress bar à l'aide d'un view switcher.
+     */
+    public void cacherLaProgressbar() {
+        if (this.progressBar == null) {
+            throw new IllegalStateException("Le layout de l'activité ne contient pas de " +
+                                            "progressbar.");
+        }
+        if (this.viewSwitcher == null) {
+            throw new IllegalStateException("Le layout de l'activité ne contient pas de " +
+                                            "ViewSwitcher pour gérer l'affichage de la " +
+                                            "progressbar");
+        }
+        this.viewSwitcher.showPrevious();
     }
 }
