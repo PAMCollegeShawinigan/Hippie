@@ -1,7 +1,6 @@
 package com.pam.codenamehippie.modele;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
@@ -267,34 +266,17 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 //        }
 //    }
 
-    /**
-     * Supprimer un MarchandiseModele présent dans le dépôt
-     *
-     * @param modele
-     *         de l'objet MarchandiseModele
-     *
-     * @return un MarchandiseModele ou null si inexistant dans le dépôt
-     */
-    @Override
-    public void supprimerModele(@NonNull AlimentaireModele modele) {
-        // TODO: requête au serveur pour suppression de la marchandise
-        HttpUrl url = this.supprimerUrl.newBuilder()
-                                       .addPathSegment(modele.getId().toString())
-                                       .build();
-        this.httpClient.newCall(new Request.Builder().url(url).get().build())
-                       .enqueue(new Callback() {
-                           @Override
-                           public void onFailure(Request request, IOException e) {
-                               //TODO: Toast ou whatever
-                               Log.e(TAG, "Request failed: " + request.toString(), e);
-                           }
-
-                           @Override
-                           public void onResponse(Response response) throws IOException {
-
-                               // TODO: Callback
-
-                           }
-                       });
-    }
+//    /**
+//     * Supprimer un MarchandiseModele présent dans le dépôt
+//     *
+//     * @param modele
+//     *         de l'objet MarchandiseModele
+//     *
+//     * @return un MarchandiseModele ou null si inexistant dans le dépôt
+//     */
+//    @Override
+//    public void supprimerModele(@NonNull AlimentaireModele modele) {
+//        // TODO: requête au serveur pour suppression de la marchandise
+//
+//    }
 }

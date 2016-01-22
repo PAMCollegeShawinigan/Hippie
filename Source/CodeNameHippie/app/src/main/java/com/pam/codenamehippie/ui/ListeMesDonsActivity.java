@@ -95,34 +95,19 @@ public class ListeMesDonsActivity extends HippieActivity
 
     @Override
     public void surDebutDeRequete() {
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ListeMesDonsActivity.this.viewSwitcher.showNext();
-            }
-        });
+        this.viewSwitcher.showNext();
     }
 
     @Override
-    public void surChangementDeDonnees(final ArrayList<AlimentaireModele> modeles) {
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("test", "Count= " + modeles.size());
-                ListeMesDonsActivity.this.mesDonsAdapter.setItems(modeles);
-            }
-        });
+    public void surChangementDeDonnees(ArrayList<AlimentaireModele> modeles) {
+        Log.d("test", "Count= " + modeles.size());
+        this.mesDonsAdapter.setItems(modeles);
 
     }
 
     @Override
     public void surFinDeRequete() {
-        this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ListeMesDonsActivity.this.viewSwitcher.showPrevious();
-            }
-        });
+        this.viewSwitcher.showPrevious();
     }
 
     @Override
