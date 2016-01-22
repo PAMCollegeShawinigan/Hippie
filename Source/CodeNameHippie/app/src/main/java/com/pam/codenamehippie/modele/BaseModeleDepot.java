@@ -254,9 +254,9 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * @param url
      *         url de la requête.
      */
-    protected void peuplerLeDepot(HttpUrl url) {
+    protected void peuplerLeDepot(@NonNull HttpUrl url) {
         synchronized (this.lock) {
-            if (!this.urlDeRepeuplement.equals(url)) {
+            if ((this.urlDeRepeuplement == null) || (!this.urlDeRepeuplement.equals(url))) {
                 this.urlDeRepeuplement = url;
             }
         }
