@@ -86,6 +86,11 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     protected HttpUrl url = HippieApplication.baseUrl;
 
     /**
+     * Url de la dernière requête de peuplement effectuée
+     */
+    protected HttpUrl urlDeRepeuplement = null;
+
+    /**
      * Url pour modifications des objets du dépot.
      */
     protected HttpUrl modifierUrl = null;
@@ -250,6 +255,11 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *         url de la requête.
      */
     protected void peuplerLeDepot(HttpUrl url) {
+        synchronized (this.lock) {
+            if (!this.urlDeRepeuplement.equals(url)) {
+                this.urlDeRepeuplement = url;
+            }
+        }
         Request request = new Request.Builder().url(url).get().build();
         // FIXME: surDebutDeRequête devrait être caller quand le dispatcher traite la requête.
         // Il faudrait soummettre manuellement les calls aux dispatcher… Ça demanderait quand
@@ -295,6 +305,17 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                 BaseModeleDepot.this.surFinDeRequete();
             }
         });
+    }
+
+    /**
+     * Repeuple le dépôt avec la dernière url utilisée par le dépôt.
+     */
+    public void repeuplerLedepot() {
+        synchronized (this.lock) {
+            if (this.urlDeRepeuplement != null) {
+                this.peuplerLeDepot(this.urlDeRepeuplement);
+            }
+        }
     }
 
     /**
@@ -388,7 +409,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * @param modele
      *         de l'objet
      */
-    public void supprimerModele(final T modele) {
+    public void supprimerModele(T modele) {
         if (this.supprimerUrl == null) {
             throw new UnsupportedOperationException("Ce dépot ne supporte pas la suppression");
         }
@@ -409,10 +430,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                                    HttpReponseException e = new HttpReponseException(response);
                                    BaseModeleDepot.this.surErreur(e);
                                } else {
-                                   synchronized (BaseModeleDepot.this.lock) {
-                                       BaseModeleDepot.this.modeles.remove(modele);
-                                   }
-
+                                   BaseModeleDepot.this.repeuplerLedepot();
                                }
 
                            }
