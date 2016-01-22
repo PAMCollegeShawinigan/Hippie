@@ -25,12 +25,12 @@ import java.util.HashMap;
 public class CarteAdapterOption extends BaseExpandableListAdapter {
     Context context;
     TestDonneeCentre.Organisme mOrganisme;
-    Intent intent;
+   int viewID;
 
-    public CarteAdapterOption(Context context,TestDonneeCentre.Organisme mOrganisme,Intent intent){
+    public CarteAdapterOption(Context context,TestDonneeCentre.Organisme mOrganisme,int viewID){
         this.context=context;
         this.mOrganisme=mOrganisme;
-        this.intent=intent;
+        this.viewID=viewID;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
 
         } else {
 
-            info = mOrganisme.getListDenree();
+            info = mOrganisme.getListDenree().get(groupPosition-2);
         }
 
         return info;
@@ -117,7 +117,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
 //                default:
 //                    info = mOrganisme.getListDenree().get(childPosition - 1);
 //            }
-            info = mOrganisme.getListDenree().get(childPosition).getDescription();
+            info = mOrganisme.getListDenree().get(groupPosition-2).getDescription();
 
         }
         return info;
@@ -187,7 +187,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
 
         } else {
 
-            TestDonneeCentre.Denree.TypeDenree typeDenree = mOrganisme.getListDenree().get(groupPosition).getTypeDenree();
+            TestDonneeCentre.Denree.TypeDenree typeDenree = mOrganisme.getListDenree().get(groupPosition-2).getTypeDenree();
 
             if ((typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.fruit_legume))) {
                 logo.setImageResource(R.drawable.map_fruit_legume);
@@ -278,7 +278,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
             TextView textViewTime = new TextView(context);
             textViewTime.setTextColor(Color.BLACK);
             textViewTime.setTextSize(20);
-            textViewTime.setPadding(55, 17, 5, 5);
+            textViewTime.setPadding(95, 17, 5, 5);
             textViewTime.setWidth(300);
             switch (childPosition) {
 
@@ -312,33 +312,33 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
                     break;
 
             }
-            layout.addView(textViewDay);
-            layout.addView(textViewTime);
+
+            layout.addView(textViewTime);    layout.addView(textViewDay);
         } else {
 
 
                 TextView textView1 = new TextView(context);
                 textView1.setTextColor(Color.BLACK);
                 textView1.setTextSize(20);
-                textView1.setWidth(200);
-                textView1.setPadding(5, 17, 5, 17);
-                textView1.setText(mOrganisme.getListDenree().get(groupPosition).getDescription());
+                textView1.setWidth(1000);
+                textView1.setPadding(300, 17, 5, 17);
+                textView1.setText(mOrganisme.getListDenree().get(groupPosition-2).getDescription());
 
 
                 Button btn = new Button(context);
-                if(intent.getFlags()==R.id.marchandiseDisponible){
+                if(viewID==R.id.marchandiseDisponible||viewID==R.id.main_carte_image){
                     btn.setText("Reserver");
                     btn.setBackgroundColor(Color.GREEN);}
                 else{
-                    btn.setText("annuler");
+                    btn.setText("Annuler");
                     btn.setBackgroundColor(Color.RED);
                 }
 
                 btn.setPadding(5, 5, 5, 5);
 
-                layout.addView(textView1);
 
-                layout.addView(btn);
+
+
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

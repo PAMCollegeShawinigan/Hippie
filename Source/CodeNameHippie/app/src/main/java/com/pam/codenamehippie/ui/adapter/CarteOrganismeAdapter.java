@@ -237,7 +237,7 @@ public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
             TextView textViewTime = new TextView(context);
             textViewTime.setTextColor(Color.BLACK);
             textViewTime.setTextSize(20);
-            textViewTime.setPadding(55, 17, 5, 5);
+            textViewTime.setPadding(95, 17, 5, 5);
             textViewTime.setWidth(300);
             switch (childPosition) {
 
@@ -271,8 +271,9 @@ public class CarteOrganismeAdapter extends BaseExpandableListAdapter {
                     break;
 
             }
-            layout.addView(textViewDay);
+
             layout.addView(textViewTime);
+            layout.addView(textViewDay);
         } else {
             if (childPosition == 0) {
                 Space space = new Space(context);
