@@ -115,6 +115,8 @@ public class HippieListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 // Confirmer la suppression du don
+                // Pour sauver de la mémoire, on instancie un seul click listener pour les deux
+                // bouton.
                 DialogInterface.OnClickListener dialogOnClickListener =
                         new DialogInterface.OnClickListener() {
                             @Override
