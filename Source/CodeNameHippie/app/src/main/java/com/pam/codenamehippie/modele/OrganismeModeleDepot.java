@@ -22,11 +22,9 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
 
     private static final String TAG = OrganismeModeleDepot.class.getSimpleName();
 
+    private final HttpUrl listeOrganismeDonneur;
 
-    private HttpUrl listeOrganismeDonneur;
-
-
-    private volatile ArrayList<OrganismeModele> listeDonneur;
+    private volatile ArrayList<OrganismeModele> listeDonneur = new ArrayList<>();
 
     /**
      * Construction du dépot pour modèle Organisme
@@ -35,13 +33,13 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
         super(context, httpClient);
         this.listeOrganismeDonneur = this.url.newBuilder().addPathSegment("carte").build();
         this.url = this.url.newBuilder().addPathSegment("organisme").build();
-
     }
 
-
     public void peuplerListeDonneur() {
-        Request listeOrganismeDonneur = new Request.Builder().url(this.listeOrganismeDonneur).get().build();
-
+        this.peuplerLeDepot(this.listeOrganismeDonneur);
+        //TODO: Enlever le code en dessous et listeDon quand le nouvel api sera en place
+        Request listeOrganismeDonneur =
+                new Request.Builder().url(this.listeOrganismeDonneur).get().build();
         this.httpClient.newCall(listeOrganismeDonneur).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
@@ -61,9 +59,9 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
                             gson.fromJson(response.body().charStream(), type);
 
                     Log.d(TAG,
-                            "Liste Donneur: " +
-                                    OrganismeModeleDepot.this.listeDonneur.toString()
-                    );
+                          "Liste Donneur: " +
+                          OrganismeModeleDepot.this.listeDonneur.toString()
+                         );
                 }
             }
         });
