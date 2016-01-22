@@ -22,11 +22,6 @@ import com.pam.codenamehippie.modele.DescriptionModel;
 import com.pam.codenamehippie.modele.TypeAlimentaireModele;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
 import com.pam.codenamehippie.ui.adapter.TypeAlimentaireModeleSpinnerAdapter;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -35,13 +30,19 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.HttpUrl;
+import okhttp3.Request;
+import okhttp3.Response;
+
 /**
  * Cette classe permet à un donneur d'ajouter et modifier des produits à la base de données
  * via l'interface utilisateur. La date du jour sera utilisée comme date de disponibilité.
  * Si un produit n'a pas de date de péremption, la date sera mise à null du côté du serveur.
  */
-public class AjoutMarchandiseActivity extends HippieActivity
-        implements ValidateurObserver {
+public class AjoutMarchandiseActivity extends HippieActivity implements ValidateurObserver {
 
     private ValidateurDeChampTexte validateurNom;
     private boolean nomEstValide;
@@ -321,16 +322,16 @@ public class AjoutMarchandiseActivity extends HippieActivity
         // Construction du url pour un ajout de marchandise
         HttpUrl url = depot.getUrl().newBuilder().addPathSegment("ajout").build();
         // FIXME: Gérer l'état de marchandise. On mets 3(neuf) en attendant
-        FormEncodingBuilder body =
-                new FormEncodingBuilder().add("description_alimentaire", modele.getDescription())
-                                         .add("nom", modele.getNom())
-                                         .add("quantite", modele.getQuantite().toString())
-                                         .add("valeur", modele.getValeur().toString())
-                                         .add("type_alimentaire", typeAlimentaireId)
-                                         .add("marchandise_unite", marchandiseUniteId)
-                                         .add("marchandise_etat", "3")
-                                         .add("date_peremption", dateString)
-                                         .add("donneur_id", this.organismeId.toString());
+        FormBody.Builder body =
+                new FormBody.Builder().add("description_alimentaire", modele.getDescription())
+                                      .add("nom", modele.getNom())
+                                      .add("quantite", modele.getQuantite().toString())
+                                      .add("valeur", modele.getValeur().toString())
+                                      .add("type_alimentaire", typeAlimentaireId)
+                                      .add("marchandise_unite", marchandiseUniteId)
+                                      .add("marchandise_etat", "3")
+                                      .add("date_peremption", dateString)
+                                      .add("donneur_id", this.organismeId.toString());
         if (this.idModele != null) {
             body.add("id", this.idModele.toString());
             url = depot.getUrl().newBuilder().addPathSegment("modifier").build();
@@ -338,7 +339,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
         Request request = new Request.Builder().url(url).post(body.build()).build();
         this.httpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -348,7 +349,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
             }
 
             @Override
-            public void onResponse(Response response) {
+            public void onResponse(Call call, Response response) {
                 if (!response.isSuccessful()) {
                     switch (response.code()) {
                         default:

@@ -15,7 +15,8 @@ import android.view.MenuItem;
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.http.Authentificateur;
-import com.squareup.okhttp.OkHttpClient;
+
+import okhttp3.OkHttpClient;
 
 /**
  * Classe de base pour toutes les {@link android.app.Activity} du projet. Sert principalement à
@@ -31,7 +32,7 @@ public class HippieActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
-        this.authentificateur = ((Authentificateur) this.httpClient.getAuthenticator());
+        this.authentificateur = ((Authentificateur) this.httpClient.authenticator());
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
