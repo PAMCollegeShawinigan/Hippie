@@ -82,11 +82,10 @@ public class HippieApplication extends Application {
         // Configuration du client Http.
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.authenticator(Authentificateur.newInstance(this))
-                         .networkInterceptors()
-                         .add(AcceptJsonInterceptor.newInstance());
+                         .addNetworkInterceptor(AcceptJsonInterceptor.newInstance());
         if (BuildConfig.DEBUG) {
             // Rapport de debug pour les requêtes.
-            httpClientBuilder.networkInterceptors().add(new HttpDebugInterceptor());
+            httpClientBuilder.addNetworkInterceptor(new HttpDebugInterceptor());
         }
         this.httpClient = httpClientBuilder.build();
 

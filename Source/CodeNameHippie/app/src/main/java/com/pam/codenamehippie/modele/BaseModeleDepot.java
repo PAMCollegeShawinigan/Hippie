@@ -425,7 +425,8 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * @param modele
      *         l'objet à supprimer
      * @param action
-     *         une action à executer en cas de succès.
+     *         une action à executer en cas de succès. Cette action est exécutée sur le main
+     *         thread.
      */
     public void supprimerModele(T modele, @Nullable final Runnable action) {
         if (this.supprimerUrl == null) {
