@@ -40,6 +40,7 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
 
 
     public void peuplerListeDonneur() {
+        this.peuplerLeDepot(this.listeOrganismeDonneur);
         Request listeOrganismeDonneur = new Request.Builder().url(this.listeOrganismeDonneur).get().build();
 
         this.httpClient.newCall(listeOrganismeDonneur).enqueue(new Callback() {
