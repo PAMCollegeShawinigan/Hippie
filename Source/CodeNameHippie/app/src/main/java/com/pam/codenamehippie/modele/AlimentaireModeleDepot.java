@@ -4,15 +4,17 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
@@ -72,7 +74,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
     /**
      * Permet de peupler les items pour les spinner.
-     * <p/>
+     * <p>
      * Cette methode est asynchrone et retourne immédiatement
      */
     public void peuplerLesListes() {
@@ -82,13 +84,13 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                 new Request.Builder().url(this.listeTypeAlimentaireUrl).get().build();
         this.httpClient.newCall(listeUniteRequete).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 // TODO: Mettre un toast ou whatever
-                Log.e(TAG, "Request failed: " + request.toString(), e);
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                 } else {
@@ -109,13 +111,13 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         });
         this.httpClient.newCall(listeTypeAlimentaireRequete).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 // TODO: Mettre un toast ou whatever
-                Log.e(TAG, "Request failed: " + request.toString(), e);
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                 } else {
@@ -150,14 +152,14 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         Request listeDonRequete = new Request.Builder().url(url).get().build();
         this.httpClient.newCall(listeDonRequete).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
 
                 //TODO: Toast ou whatever
-                Log.e(TAG, "Request failed: " + request.toString(), e);
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
 
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
@@ -191,14 +193,14 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
         this.httpClient.newCall(listeDonDispoRequete).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 //TODO toast
 
-                Log.e(TAG, "Request failed: " + request.toString(), e);
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                 } else {

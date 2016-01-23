@@ -4,15 +4,17 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Créé par Carl St-Louis le 23-11-2015.
@@ -42,14 +44,14 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
                 new Request.Builder().url(this.listeOrganismeDonneur).get().build();
         this.httpClient.newCall(listeOrganismeDonneur).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 //TODO toast ou whatever
 
-                Log.e(TAG, "Request failed: " + request.toString(), e);
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                 } else {
