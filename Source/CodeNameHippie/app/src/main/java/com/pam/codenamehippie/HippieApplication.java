@@ -3,18 +3,15 @@ package com.pam.codenamehippie;
 import android.app.Application;
 
 import com.pam.codenamehippie.http.Authentificateur;
-import com.pam.codenamehippie.http.PersistentCookieStore;
 import com.pam.codenamehippie.http.intercepteur.AcceptJsonInterceptor;
 import com.pam.codenamehippie.http.intercepteur.HttpDebugInterceptor;
 import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.OrganismeModeleDepot;
 import com.pam.codenamehippie.modele.TransactionModeleDepot;
 import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.OkHttpClient;
 
-import java.net.CookieManager;
-import java.net.CookiePolicy;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
 
 /**
  * Sous classe de {@link Application} qui sert à initialiser l'application et à stocker les
@@ -27,73 +24,70 @@ public class HippieApplication extends Application {
     /**
      * Instance du client http pour l'application
      */
-    private final OkHttpClient httpClient = new OkHttpClient();
+    private volatile OkHttpClient httpClient;
     /**
      * Instance de {@link UtilisateurModeleDepot} pour l'application
      */
-    private final UtilisateurModeleDepot utilisateurModeleDepot =
-            new UtilisateurModeleDepot(this, this.httpClient);
+    private volatile UtilisateurModeleDepot utilisateurModeleDepot;
+
     /**
      * Instance d'{@link OrganismeModeleDepot} pour l'application
      */
-    private final OrganismeModeleDepot organismeModeleDepot =
-            new OrganismeModeleDepot(this, this.httpClient);
+    private volatile OrganismeModeleDepot organismeModeleDepot;
     /**
      * Instance de {@link TransactionModeleDepot} pour l'application
      */
-    private final TransactionModeleDepot transactionModeleDepot =
-            new TransactionModeleDepot(this, this.httpClient);
+    private volatile TransactionModeleDepot transactionModeleDepot;
     /**
      * Instance de {@link AlimentaireModeleDepot} pour l'application
      */
-    private final AlimentaireModeleDepot alimentaireModeleDepot =
-            new AlimentaireModeleDepot(this, this.httpClient);
-    /**
-     * Instance de {@link PersistentCookieStore} pour l'application
-     */
-    private volatile PersistentCookieStore boiteAbiscuit;
+    private volatile AlimentaireModeleDepot alimentaireModeleDepot;
 
-    public OkHttpClient getHttpClient() {
+    public synchronized OkHttpClient getHttpClient() {
         return this.httpClient;
     }
 
     public synchronized UtilisateurModeleDepot getUtilisateurModeleDepot() {
+        if (this.utilisateurModeleDepot == null) {
+            this.utilisateurModeleDepot = new UtilisateurModeleDepot(this, this.httpClient);
+        }
         return this.utilisateurModeleDepot;
     }
 
     public synchronized OrganismeModeleDepot getOrganismeModeleDepot() {
+        if (this.organismeModeleDepot == null) {
+            this.organismeModeleDepot = new OrganismeModeleDepot(this, this.httpClient);
+        }
         return this.organismeModeleDepot;
     }
 
     public synchronized TransactionModeleDepot getTransactionModeleDepot() {
+        if (this.transactionModeleDepot == null) {
+            this.transactionModeleDepot = new TransactionModeleDepot(this, this.httpClient);
+        }
         return this.transactionModeleDepot;
     }
 
-    public AlimentaireModeleDepot getAlimentaireModeleDepot() {
+    public synchronized AlimentaireModeleDepot getAlimentaireModeleDepot() {
+        if (this.alimentaireModeleDepot == null) {
+            this.alimentaireModeleDepot = new AlimentaireModeleDepot(this, this.httpClient);
+        }
         return this.alimentaireModeleDepot;
-    }
-
-    public PersistentCookieStore getBoiteAbiscuit() {
-        return this.boiteAbiscuit;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        // Manager de cookie.
-        // Les cookies sont sauvegardé dans shared preference.
-        this.boiteAbiscuit = new PersistentCookieStore(this);
-        CookieManager cookieManager = new CookieManager(this.boiteAbiscuit,
-                                                        CookiePolicy.ACCEPT_ALL
-        );
         // Configuration du client Http.
-        this.httpClient.setAuthenticator(Authentificateur.newInstance(this, this.boiteAbiscuit))
-                       .setCookieHandler(cookieManager);
-        this.httpClient.networkInterceptors().add(AcceptJsonInterceptor.newInstance());
+        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+        httpClientBuilder.authenticator(Authentificateur.newInstance(this))
+                         .addNetworkInterceptor(AcceptJsonInterceptor.newInstance());
         if (BuildConfig.DEBUG) {
             // Rapport de debug pour les requêtes.
-            this.httpClient.networkInterceptors().add(new HttpDebugInterceptor());
+            httpClientBuilder.addNetworkInterceptor(new HttpDebugInterceptor());
         }
+        this.httpClient = httpClientBuilder.build();
+
     }
 }
