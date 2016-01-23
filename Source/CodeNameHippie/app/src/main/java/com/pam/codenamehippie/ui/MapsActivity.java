@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.ui.adapter.CarteAdapterOption;
 import com.pam.codenamehippie.ui.adapter.CarteOrganismeAdapter;
 import com.pam.codenamehippie.ui.view.trianglemenu.TestDonneeCentre;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -177,11 +178,12 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                                                   }
                                               }
                                               final TestDonneeCentre.Organisme mOrganisme = listOrganisme.get(ordre);
-                                              if(viewID!=R.id.main_organisme_image){
-                                              expandableListView.setAdapter(new CarteOrganismeAdapter(MapsActivity.this, mOrganisme, viewID));}
-                                              else{
 
-                                              }
+                                            //  expandableListView.setAdapter(new CarteOrganismeAdapter(MapsActivity.this, mOrganisme, viewID));
+                                              expandableListView.setAdapter(new CarteAdapterOption(MapsActivity.this, mOrganisme, viewID));
+
+
+
                                               return false;
                                           }
                                       }
