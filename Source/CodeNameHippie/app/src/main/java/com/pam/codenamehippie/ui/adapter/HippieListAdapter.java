@@ -114,6 +114,15 @@ public class HippieListAdapter extends BaseAdapter {
         ibDonSupprimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final Runnable showToast = new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(HippieListAdapter.this.context,
+                                       R.string.msg_produit_supprime,
+                                       Toast.LENGTH_LONG
+                                      ).show();
+                    }
+                };
                 // Confirmer la suppression du don
                 // Pour sauver de la mémoire, on instancie un seul click listener pour les deux
                 // bouton.
@@ -123,11 +132,9 @@ public class HippieListAdapter extends BaseAdapter {
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
                                     case DialogInterface.BUTTON_POSITIVE:
-                                        HippieListAdapter.this.depot.supprimerModele(modele);
-                                        Toast.makeText(HippieListAdapter.this.context,
-                                                       R.string.msg_produit_supprime,
-                                                       Toast.LENGTH_LONG
-                                                      ).show();
+                                        HippieListAdapter.this.depot.supprimerModele(modele,
+                                                                                     showToast
+                                                                                    );
                                         dialog.dismiss();
                                         break;
                                     default:

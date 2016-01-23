@@ -17,14 +17,16 @@ import com.pam.codenamehippie.controleur.validation.ValidateurCourriel;
 import com.pam.codenamehippie.controleur.validation.ValidateurDeChampTexte;
 import com.pam.codenamehippie.controleur.validation.ValidateurMotDePasse;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.HttpUrl;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class RegisterActivity extends HippieActivity
         implements ValidateurObserver, EditText.OnEditorActionListener {
@@ -160,18 +162,18 @@ public class RegisterActivity extends HippieActivity
         // TODO: RAJOUTER LES ORGANISME
         //FIXME: Utiliser depot
         RequestBody body =
-                new FormEncodingBuilder().add("nom", this.validateurNom.getTextString())
-                                         .add("prenom", this.validateurPrenom.getTextString())
-                                         .add("mot_de_passe",
-                                              this.validateurMotDePasse.getTextString()
-                                             )
-                                         .add("courriel", this.validateurCourriel.getTextString())
-                                         .build();
+                new FormBody.Builder().add("nom", this.validateurNom.getTextString())
+                                      .add("prenom", this.validateurPrenom.getTextString())
+                                      .add("mot_de_passe",
+                                           this.validateurMotDePasse.getTextString()
+                                          )
+                                      .add("courriel", this.validateurCourriel.getTextString())
+                                      .build();
         HttpUrl url = HippieApplication.baseUrl.newBuilder().addPathSegment("utilisateur").build();
         Request request = new Request.Builder().url(url).post(body).build();
         this.httpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 RegisterActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -184,7 +186,7 @@ public class RegisterActivity extends HippieActivity
             }
 
             @Override
-            public void onResponse(Response response) {
+            public void onResponse(Call call, Response response) {
                 if (!response.isSuccessful()) {
                     switch (response.code()) {
                         case 409:
