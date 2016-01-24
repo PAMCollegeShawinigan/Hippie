@@ -231,13 +231,9 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
             layout1.addView(textView1);
             layout1.addView(textView2);
             layout1.addView(textView4);
-
         }
 
-
         return layout1;
-
-
     }
 
     @Override
