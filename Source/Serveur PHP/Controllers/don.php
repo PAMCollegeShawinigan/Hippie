@@ -63,9 +63,10 @@ class don extends Controller
 		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev		
 		
 		$req = $bdd -> query('SELECT ali.nom, ali.alimentaire_id,
-		ali.description_alimentaire, ali.quantite, marunit.description_marchandise_unite, ali.date_peremption,
+		ali.description_alimentaire, ali.quantite, marunit.description_marchandise_unite, ali.date_peremption, 
 		ali.valeur, marstat.description_marchandise_statut, org.organisme_id, org.nom, org.telephone, org.poste, 
-		adr.adresse_id, adr.no_civique, typrue.description_type_rue, adr.nom, adr.ville, adr.province, adr.code_postal, adr.pays
+		adr.adresse_id, adr.no_civique, typrue.description_type_rue, adr.nom, adr.ville, adr.province, adr.code_postal, adr.pays,
+		typali.description_type_aliment
 		
 		FROM transaction trx
 		
@@ -112,7 +113,7 @@ class don extends Controller
 						$organisme = array('id' => $resultat[8], 'nom' => $resultat[9], 'telephone' => $resultat[10], 'poste' => $resultat[11], 'adresse' => $adresse );
 						
 						$arr = array('id' => $resultat[1], 'nom' => $resultat[0], 'description' => $resultat[2], 'quantite' => $resultat[3],
-										'unite' => $resultat['4'], 'date_peremption' => $date_peremption, 'marchandise_statut' => $resultat[7], 
+										'unite' => $resultat['4'], 'date_peremption' => $date_peremption, 'marchandise_statut' => $resultat[7], 'type_alimentaire' => $resultat[20], 
 											'organisme' => $organisme);
 						
 						array_push($array, $arr);
