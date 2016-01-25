@@ -19,12 +19,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Created by Catherine on 2016-01-13.
- *
- * Activité pour faire affiché la liste des réservations des receveurs (organismes communautaires)
- *
+ * Cette classe permet de récupérer la liste des réservations personnalisée selon l'id du receveur
+ * et de l'afficher dans l'interface utilisateur.
  */
-public class ListeMesReservationsActivity extends HippieActivity implements ObservateurDeDepot<AlimentaireModele> {
+public class ListeMesReservationsActivity extends HippieActivity
+        implements ObservateurDeDepot<AlimentaireModele> {
 
     private ListView listeMesReservations;
     private MesReservationsAdapter mesReservationsAdapter;
@@ -35,15 +34,14 @@ public class ListeMesReservationsActivity extends HippieActivity implements Obse
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.liste_reservations);
 
-        AlimentaireModeleDepot alimentaireModeleDepot = ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-
-        // Filtre pour récupérer les items dont le statut est réservé par le receveur (AKA organisme)
-        ArrayList<AlimentaireModele> modeles = new ArrayList<>();
+        AlimentaireModeleDepot alimentaireModeleDepot =
+                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
 
         this.mesReservationsAdapter = new MesReservationsAdapter(this, alimentaireModeleDepot);
         listeMesReservations = (ListView) findViewById(R.id.lv_reservation);
         listeMesReservations.setItemsCanFocus(false);
         listeMesReservations.setAdapter(mesReservationsAdapter);
+        //this. mesReservationsAdapter.notifyDataSetChanged();
 
     }
 
@@ -67,7 +65,7 @@ public class ListeMesReservationsActivity extends HippieActivity implements Obse
                 -1
         );
         alimentaireModeleDepot.ajouterUnObservateur(this);
-        // Filtre pour récupérer les items dont le statut est Disponible ou Réservé
+        // Filtre pour récupérer les items dont le statut est Réservé
         alimentaireModeleDepot.setFiltreDeListe(new FiltreDeListe<AlimentaireModele>() {
 
             @Override

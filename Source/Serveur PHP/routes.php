@@ -18,7 +18,7 @@ Route:: get('liste/{type}', 'liste@liste');
 
 Route:: get('adresse/{id}', 'adresse@adresse');
 
-Route:: get('organisme/', 'organisme@nomid');
+Route:: get('organisme/', 'organisme@listeorganisme');
 
 Route:: get('organisme/{id}', 'organisme@organismeid');
 
@@ -41,6 +41,8 @@ Route:: post('utilisateur/', 'utilisateur@enregistrement');
 Route:: post('reservation/ajouter','reservation@reservationajout');
 
 Route:: get('reservation/annuler/{marchandise_id}','reservation@annulerreservation');
+
+Route:: get('reservation/liste/{id_organisme}','reservation@listereservation');
 
 Route:: get('don/listedon/{id}','don@listedonid');
 

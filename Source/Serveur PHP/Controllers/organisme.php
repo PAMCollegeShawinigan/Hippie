@@ -99,9 +99,11 @@ use App\Http\Controllers\organisme;
 										  adr.pays,
 										  util.prenom,
 										  util.nom,
+										  util.courriel,
+										  util.telephone,
 										  org.telephone,
-										  org.poste,
-										  util.courriel
+										  org.poste
+										  
 										  
 										FROM organisme org
 										INNER JOIN adresse adr ON adr.adresse_id = org.adresse
@@ -110,9 +112,13 @@ use App\Http\Controllers\organisme;
 										WHERE org.no_osbl IS NOT NULL;'); 
 
 					$array = array();
-					while($reponse = $req->fetch()){
+					while($resultat = $req->fetch()){
+						$adresse = array('no_civique' => $resultat[1], 'type_rue' => $resultat[2], 'nom' => $resultat[3], 'ville' => $resultat[4], 'province' => $resultat[5], 'code_postal' => $resultat[6], 'pays' =>$resultat[7]);
 						
-						$arr = array('id' => $reponse['organisme_id'], 'nom' => $reponse['nom']);
+						$contact = array('prenom'=> $resultat[8], 'nom' => $resultat[9], 'courriel' => $resultat[10], 'telephone' => $resultat[11]);
+						
+						
+						$arr = array('telephone' => $resultat['12'], 'nom' => $resultat['0'], 'poste' => $resultat[13], 'adresse' => $adresse, 'contact' => $contact);
 						
 						array_push($array, $arr);
 
@@ -121,6 +127,6 @@ use App\Http\Controllers\organisme;
 					return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE);
 			
 		}
-		}
+		
  
 	}
