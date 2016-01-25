@@ -239,6 +239,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
         // Réserver la marchandise (pour les organismes seulement)
         ImageButton ibSupprimer = (ImageButton) convertView.findViewById(R.id.ib_md_ajouter);
+        ibSupprimer.setFocusable(false);
         ibSupprimer.setOnClickListener(new View.OnClickListener() {
 
             @Override
