@@ -33,7 +33,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     private Context context;
     private ArrayList<AlimentaireModele> groupItems = new ArrayList<>();
-    private ArrayList<AlimentaireModele> detailsItems;
+    private ArrayList<AlimentaireModele> detailsItems = new ArrayList<>();
     private AlimentaireModeleDepot alimentaireDepot;
 
     /**
@@ -43,11 +43,9 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
      */
 
     public ListeMarchandisesDisponiblesAdapter(Context context,
-                                               AlimentaireModeleDepot alimentaireDepot,
-                                                ArrayList<AlimentaireModele> detailsItems) {
+                                               AlimentaireModeleDepot alimentaireDepot) {
         this.context = context;
         this.alimentaireDepot = alimentaireDepot;
-        this.detailsItems = detailsItems;
     }
 
     /**
@@ -64,8 +62,8 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
      */
 
     @Override
-    public OrganismeModele getChild(int groupPosition, int childPosition) {
-        return this.groupItems.get(groupPosition).getOrganisme();
+    public Object getChild(int groupPosition, int childPosition) {
+        return groupItems.get(groupPosition);
     }
 
     /**
@@ -102,7 +100,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
         // Fait afficher le layout modèle Details, afin de voir les infos de l'entreprise
         // Lorsque l'on clique sur la marchandise pour voir plus d'informations.
         // C'est le "child" modèle.
-        OrganismeModele modele = this.getChild(groupPosition, childPosition);
+        AlimentaireModele modele = (AlimentaireModele) this.getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater inflater =
@@ -111,11 +109,11 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
         }
 
         // Fait afficher le nom de l'entreprise
-        ((TextView) convertView.findViewById(R.id.tv_md_nom_entreprise)).setText(modele.getNom());
+        ((TextView) convertView.findViewById(R.id.tv_md_nom_entreprise)).setText(modele.getOrganisme().getNom());
 
         // Fait afficher l'adresse de l'entreprise
         // TODO: Arranger l'erreur du CharSequence, pour le moment, on le laisse commenté.
-        ((TextView) convertView.findViewById(R.id.tv_md_adresse_entreprise)).setText(modele.getAdresse().toString());
+        ((TextView) convertView.findViewById(R.id.tv_md_adresse_entreprise)).setText(modele.getOrganisme().getAdresse().toString());
         return convertView;
     }
 
@@ -144,8 +142,8 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
      */
 
     @Override
-    public AlimentaireModele getGroup(int groupPosition) {
-        return this.groupItems.get(groupPosition);
+    public Object getGroup(int groupPosition) {
+        return groupItems.get(groupPosition);
     }
 
     /**
@@ -186,12 +184,12 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
                              final boolean isExpanded,
                              View convertView,
                              ViewGroup parent) {
-        final AlimentaireModele modele = this.getGroup(groupPosition);
+        final AlimentaireModele modele = (AlimentaireModele) this.getGroup(groupPosition);
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.liste_marchandise_dispo_group, null);
+            convertView = infalInflater.inflate(R.layout.liste_marchandise_dispo_group, parent, false);
         }
 
         // Fait afficher l'icône correspondant au bon type alimentaire à côté du texte
@@ -253,6 +251,8 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
             }
         });
 
+
+
         return convertView;
     }
 
@@ -265,7 +265,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 
     /**
@@ -279,6 +279,36 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    @Override
+    public boolean areAllItemsEnabled() {
+        return false;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public void onGroupExpanded(int groupPosition) {
+
+    }
+
+    @Override
+    public void onGroupCollapsed(int groupPosition) {
+
+    }
+
+    @Override
+    public long getCombinedChildId(long groupId, long childId) {
+        return 0;
+    }
+
+    @Override
+    public long getCombinedGroupId(long groupId) {
+        return 0;
     }
 
     public void setGroupItems(ArrayList<AlimentaireModele> groupItems) {

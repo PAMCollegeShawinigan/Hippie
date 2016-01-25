@@ -48,12 +48,12 @@ public class ListeMarchandisesDisponiblesActivity extends HippieActivity impleme
 
         // Filtre pour récupérer les données des entreprises dans l'enfant
         // Enfant = liste_marchandise_dispo_details
-        final ArrayList<AlimentaireModele> modelesDetails = new ArrayList<>();
+        ArrayList<AlimentaireModele> modelesDetails = new ArrayList<>();
 
 
         // On va chercher l'expendable listView
         maListeMarchandisesDisponibles = (ExpandableListView) findViewById(R.id.marchandise_dispo);
-        listeMarchandisesDisponiblesAdapter = new ListeMarchandisesDisponiblesAdapter(this, alimentaireModeleDepot, modelesDetails);
+        listeMarchandisesDisponiblesAdapter = new ListeMarchandisesDisponiblesAdapter(this, alimentaireModeleDepot);
         // On set l'adapter pour la liste.
         maListeMarchandisesDisponibles.setAdapter(listeMarchandisesDisponiblesAdapter);
 
@@ -95,7 +95,6 @@ public class ListeMarchandisesDisponiblesActivity extends HippieActivity impleme
     @Override
     public void surChangementDeDonnees(ArrayList<AlimentaireModele> modeles) {
         this.listeMarchandisesDisponiblesAdapter.setGroupItems(modeles);
-        this.listeMarchandisesDisponiblesAdapter.setDetailsItems(modeles);
     }
 
     @Override
