@@ -2,7 +2,10 @@ package com.pam.codenamehippie.ui;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
@@ -53,6 +56,7 @@ public class ListeMarchandisesDisponiblesActivity extends HippieActivity impleme
         listeMarchandisesDisponiblesAdapter = new ListeMarchandisesDisponiblesAdapter(this, alimentaireModeleDepot);
         // On set l'adapter pour la liste.
         maListeMarchandisesDisponibles.setAdapter(listeMarchandisesDisponiblesAdapter);
+
     }
 
     @Override
@@ -61,6 +65,7 @@ public class ListeMarchandisesDisponiblesActivity extends HippieActivity impleme
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         alimentaireModeleDepot.setFiltreDeListe(null);
+        //FIXME: TOUS et non TOUT è.é
         alimentaireModeleDepot.supprimerToutLesObservateurs();
 
     }
@@ -70,12 +75,8 @@ public class ListeMarchandisesDisponiblesActivity extends HippieActivity impleme
         super.onResume();
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        // TODO: Déplacer les deux ligne qui suivent dans l'activité de liste
-        int orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
-                -1
-        );
         alimentaireModeleDepot.ajouterUnObservateur(this);
-        // Filtre pour récupérer les items dont le statut est Disponible ou Réservé
+        // Filtre pour récupérer les items dont le statut est Disponible
         alimentaireModeleDepot.setFiltreDeListe(new FiltreDeListe<AlimentaireModele>() {
             @Override
             public boolean appliquer(AlimentaireModele item) {
