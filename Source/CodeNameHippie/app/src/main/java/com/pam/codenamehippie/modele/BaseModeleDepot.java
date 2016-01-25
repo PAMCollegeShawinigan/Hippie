@@ -14,11 +14,6 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.http.exception.HttpReponseException;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -26,6 +21,13 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Classe patron représentant un dépôt d'objet de type {@link BaseModele}.
@@ -268,17 +270,16 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
         this.surDebutDeRequete();
         this.httpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
-                Log.e(TAG, "Request failed: " + request.toString(), e);
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
                 BaseModeleDepot.this.surErreur(e);
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                     BaseModeleDepot.this.surErreur(new HttpReponseException(response));
-                    BaseModeleDepot.this.surFinDeRequete();
                 } else {
                     synchronized (BaseModeleDepot.this.lock) {
                         // On vide le dépôt pour faire place au nouveau stock.
@@ -402,14 +403,32 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     }
 
     /**
-     * Supprime un modele présent dans le dépôt.
+     * Envoi une commande de suppression de données au serveur.
+     * <p/>
+     * Cette méthode est asynchrone et retourne immédiatement.<br/>
+     * Cette méthode est équivalente à {@code supprimerModele(modele, null)}.
+     *
+     * @param modele
+     *         l'objet à supprimer.
+     *
+     * @see BaseModeleDepot#supprimerModele(BaseModele, Runnable)
+     */
+    public void supprimerModele(T modele) {
+        this.supprimerModele(modele, null);
+    }
+
+    /**
+     * Envoi une commande de suppression de données au serveur.
      * <p/>
      * Cette méthode est asynchrone et retourne immédiatement.
      *
      * @param modele
-     *         de l'objet
+     *         l'objet à supprimer
+     * @param action
+     *         une action à executer en cas de succès. Cette action est exécutée sur le main
+     *         thread.
      */
-    public void supprimerModele(T modele) {
+    public void supprimerModele(T modele, @Nullable final Runnable action) {
         if (this.supprimerUrl == null) {
             throw new UnsupportedOperationException("Ce dépot ne supporte pas la suppression");
         }
@@ -420,17 +439,20 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
         this.httpClient.newCall(request)
                        .enqueue(new Callback() {
                            @Override
-                           public void onFailure(Request request, IOException e) {
+                           public void onFailure(Call call, IOException e) {
                                BaseModeleDepot.this.surErreur(e);
                            }
 
                            @Override
-                           public void onResponse(Response response) {
+                           public void onResponse(Call call, Response response) {
                                if (!response.isSuccessful()) {
                                    HttpReponseException e = new HttpReponseException(response);
                                    BaseModeleDepot.this.surErreur(e);
                                } else {
                                    BaseModeleDepot.this.repeuplerLedepot();
+                                   if (action != null) {
+                                       BaseModeleDepot.this.runOnUiThread(action);
+                                   }
                                }
 
                            }
