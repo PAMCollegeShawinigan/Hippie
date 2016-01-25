@@ -29,21 +29,18 @@ import java.util.Calendar;
  */
 public class MesReservationsAdapter extends BaseAdapter {
 
-    private final ArrayList<AlimentaireModele> items;
+    private volatile ArrayList<AlimentaireModele> items = new ArrayList<>();
     private final Context context;
     private final AlimentaireModeleDepot depot;
 
     /**
      * On ajoute les paramètres.
-     * @param items
      * @param context
      * @param depot
      */
 
-    public MesReservationsAdapter(ArrayList<AlimentaireModele> items,
-                                  Context context,
+    public MesReservationsAdapter(Context context,
                                   AlimentaireModeleDepot depot) {
-        this.items = items;
         this.context = context;
         this.depot = depot;
     }
@@ -163,4 +160,10 @@ public class MesReservationsAdapter extends BaseAdapter {
         });
         return row;
     }
+
+    public void setItems(ArrayList<AlimentaireModele> items) {
+        this.items = items;
+        this.notifyDataSetChanged();
+    }
+
 }
