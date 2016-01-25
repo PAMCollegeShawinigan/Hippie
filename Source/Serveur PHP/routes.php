@@ -18,7 +18,7 @@ Route:: get('liste/{type}', 'liste@liste');
 
 Route:: get('adresse/{id}', 'adresse@adresse');
 
-Route:: get('organisme/', 'organisme@nomid');
+Route:: get('organisme/', 'organisme@listeorganisme');
 
 Route:: get('organisme/{id}', 'organisme@organismeid');
 

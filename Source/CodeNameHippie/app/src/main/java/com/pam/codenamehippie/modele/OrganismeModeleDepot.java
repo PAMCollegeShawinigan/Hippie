@@ -69,6 +69,9 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
         });
 
     }
+    public void peuplerListeOrganisme() {
+        this.peuplerLeDepot(this.url);
+    }
 
     //    /**
 //     * Rechercher un OrganismeModele par ID dans le dépôt
