@@ -42,6 +42,8 @@ Route:: post('reservation/ajouter','reservation@reservationajout');
 
 Route:: get('reservation/annuler/{marchandise_id}','reservation@annulerreservation');
 
+Route:: get('reservation/liste/{id_organisme}','reservation@listereservation');
+
 Route:: get('don/listedon/{id}','don@listedonid');
 
 Route:: get('don/listedondispo','don@listedondispo');

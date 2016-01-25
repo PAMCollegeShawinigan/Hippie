@@ -25,6 +25,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
     private final HttpUrl listeDonUrl;
     private final HttpUrl listeDonDispoUrl;
     private final HttpUrl reservationUrl;
+    private final HttpUrl listeReservation;
 
     private volatile ArrayList<DescriptionModel> listeUnitee;
     private volatile ArrayList<TypeAlimentaireModele> listeTypeAlimentaire;
@@ -39,7 +40,8 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                 baseListeUrl.newBuilder().addPathSegment("alimentaire").build();
         this.listeDonUrl =
                 this.url.newBuilder().addPathSegment("don").addPathSegment("listedon").build();
-
+        this.listeReservation =
+                this.url.newBuilder().addPathSegment("reservation").addPathSegment("liste").build();
         this.listeDonDispoUrl =
                 this.url.newBuilder().addPathSegment("don").addPathSegment("listedondispo").build();
         this.reservationUrl = this.url.newBuilder().addPathSegment("reservation").build();
@@ -227,6 +229,12 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
     public void annulerReservation(AlimentaireModele modele, Runnable action) {
 
+    }
+
+    public void peuplerListeReservation(Integer idOrganisme) {
+        HttpUrl url =
+                this.listeDonUrl.newBuilder().addPathSegment(idOrganisme.toString()).build();
+        this.peuplerLeDepot(url);
     }
 
 //    /**
