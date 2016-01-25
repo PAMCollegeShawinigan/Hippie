@@ -37,7 +37,6 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
         triangleMenu.setOnRotationFinishedListener(this);
         triangleMenu.setOnCenterClickListener(this);
 
-
 //        selectedTextView = (TextView) findViewById(R.id.main_selected_textView);
 //        selectedTextView.setText(((TriangleImageView) triangleMenu
 //                .getSelectedItem()).getName());
@@ -79,9 +78,9 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                 // clic sur image profil
                 startActivity(new Intent(this, ListeMesDonsActivity.class));
                 Toast.makeText(this.getApplicationContext(),
-                        " Mes dons ",
-                        Toast.LENGTH_SHORT
-                ).show();
+                               " Mes dons ",
+                               Toast.LENGTH_SHORT
+                              ).show();
                 break;
 
             case R.id.main_organisme_image:
@@ -90,49 +89,49 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
 
                 // clic sur image carte des organismes
                 Toast.makeText(this.getApplicationContext(),
-                        " Carte des organismes ",
-                        Toast.LENGTH_SHORT
-                ).show();
+                               " Carte des organismes ",
+                               Toast.LENGTH_SHORT
+                              ).show();
                 break;
 
             case R.id.main_statistique_image:
                 // clic sur image des statistiques
                 Toast.makeText(this.getApplicationContext(),
-                        " Statistiques ",
-                        Toast.LENGTH_SHORT
-                ).show();
+                               " Statistiques ",
+                               Toast.LENGTH_SHORT
+                              ).show();
 
                 break;
 
             case R.id.main_carte_image:
                 // clic sur la carte
-                intent =new Intent(this, MapsActivity.class);
-              intent.setFlags(view.getId());
+                intent = new Intent(this, MapsActivity.class);
+                intent.setFlags(view.getId());
                 startActivity(intent);
                 //startActivity(new Intent(this, MapsActivity.class));
                 Toast.makeText(this.getApplicationContext(),
-                        " Carte ",
-                        Toast.LENGTH_SHORT
-                ).show();
+                               " Carte ",
+                               Toast.LENGTH_SHORT
+                              ).show();
                 break;
 
             case R.id.main_reservation_image:
                 // clic sur les réservations
-                intent =new Intent(this, ListeMesReservationsActivity.class);
-              //  intent.setFlags(view.getId());
+                intent = new Intent(this, ListeMesReservationsActivity.class);
+                //  intent.setFlags(view.getId());
                 startActivity(intent);
-              //  startActivity(new Intent(this, MapsActivity.class));
+                //  startActivity(new Intent(this, MapsActivity.class));
                 Toast.makeText(this.getApplicationContext(),
-                        " Mes réservations ",
-                        Toast.LENGTH_SHORT
-                ).show();
+                               " Mes réservations ",
+                               Toast.LENGTH_SHORT
+                              ).show();
                 break;
             case R.id.plus:
                 startActivity(new Intent(this, AjoutMarchandiseActivity.class));
                 Toast.makeText(this.getApplicationContext(),
-                        " Ajout d'une nouvelle marchandise ",
-                        Toast.LENGTH_SHORT
-                ).show();
+                               " Ajout d'une nouvelle marchandise ",
+                               Toast.LENGTH_SHORT
+                              ).show();
                 // clic sur les catégories
                 break;
         }

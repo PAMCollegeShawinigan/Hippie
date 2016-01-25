@@ -7,7 +7,6 @@ import android.widget.TextView;
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
-import com.pam.codenamehippie.modele.OrganismeModeleDepot;
 
 public class MainActivity extends HippieActivity {
 
@@ -30,17 +29,10 @@ public class MainActivity extends HippieActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        // FIXME: Load be more lazy about it.
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         alimentaireModeleDepot.peuplerLesListes();
-        // TODO: Déplacer les deux ligne qui suivent dans l'activité de liste
-        int orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
-                                                  -1
-                                                 );
-        //alimentaireModeleDepot.peuplerListeDon(orgId);
-        OrganismeModeleDepot organismeModeleDepot =
-                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
-        organismeModeleDepot.peuplerListeDonneur();
 
     }
 }
