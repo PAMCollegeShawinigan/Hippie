@@ -105,7 +105,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
         if (convertView == null) {
             LayoutInflater inflater =
                     (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.liste_marchandise_dispo_details, parent, false);
+            convertView = inflater.inflate(R.layout.liste_marchandise_dispo_details, null);
         }
 
         // Fait afficher le nom de l'entreprise
@@ -113,7 +113,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
         // Fait afficher l'adresse de l'entreprise
         // TODO: Arranger l'erreur du CharSequence, pour le moment, on le laisse commenté.
-        ((TextView) convertView.findViewById(R.id.tv_md_adresse_entreprise)).setText(modele.getAdresse().toString());
+        // ((TextView) convertView.findViewById(R.id.tv_md_adresse_entreprise)).setText(modele.getAdresse().toString());
         return convertView;
     }
 
