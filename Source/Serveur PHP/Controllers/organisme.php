@@ -80,5 +80,47 @@ use App\Http\Controllers\organisme;
 					
 					
 		}
+		public function listeorganisme(){
+			$header = array (
+                'Content-Type' => 'application/json; charset=UTF-8',
+                'charset' => 'utf-8'
+            );
+			
+			include('Connection/bdlogin.php');
+			
+			
+			$req = $bdd->query('SELECT  org.nom, 
+										  adr.no_civique, 
+										  typrue.description_type_rue, 
+										  adr.nom, 
+										  adr.ville, 
+										  adr.province, 
+										  adr.code_postal, 
+										  adr.pays,
+										  util.prenom,
+										  util.nom,
+										  org.telephone,
+										  org.poste,
+										  util.courriel
+										  
+										FROM organisme org
+										INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+										INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+										INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
+										WHERE org.no_osbl IS NOT NULL;'); 
+
+					$array = array();
+					while($reponse = $req->fetch()){
+						
+						$arr = array('id' => $reponse['organisme_id'], 'nom' => $reponse['nom']);
+						
+						array_push($array, $arr);
+
+					}
+					
+					return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE);
+			
+		}
+		}
  
 	}
