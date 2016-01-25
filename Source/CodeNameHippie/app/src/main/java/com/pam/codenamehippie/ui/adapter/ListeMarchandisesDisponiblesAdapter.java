@@ -33,7 +33,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     private Context context;
     private ArrayList<AlimentaireModele> groupItems = new ArrayList<>();
-    private ArrayList<ArrayList<OrganismeModele>> detailsItems = new ArrayList<>();
+    private ArrayList<AlimentaireModele> detailsItems;
     private AlimentaireModeleDepot alimentaireDepot;
 
     /**
@@ -43,9 +43,11 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
      */
 
     public ListeMarchandisesDisponiblesAdapter(Context context,
-                                               AlimentaireModeleDepot alimentaireDepot) {
+                                               AlimentaireModeleDepot alimentaireDepot,
+                                                ArrayList<AlimentaireModele> detailsItems) {
         this.context = context;
         this.alimentaireDepot = alimentaireDepot;
+        this.detailsItems = detailsItems;
     }
 
     /**
@@ -63,7 +65,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     @Override
     public OrganismeModele getChild(int groupPosition, int childPosition) {
-        return this.detailsItems.get(groupPosition).get(childPosition);
+        return this.groupItems.get(groupPosition).getOrganisme();
     }
 
     /**
@@ -76,7 +78,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return this.getChild(groupPosition, childPosition).getId();
+        return childPosition;
     }
 
     /**
@@ -181,7 +183,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     @Override
     public View getGroupView(final int groupPosition,
-                             boolean isExpanded,
+                             final boolean isExpanded,
                              View convertView,
                              ViewGroup parent) {
         final AlimentaireModele modele = this.getGroup(groupPosition);
@@ -283,16 +285,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
         this.groupItems = groupItems;
     }
 
-    public void setDetailsItems(ArrayList<ArrayList<OrganismeModele>> detailsItems) {
+    public void setDetailsItems(ArrayList<AlimentaireModele> detailsItems) {
         this.detailsItems = detailsItems;
-    }
-
-    @Override
-    public void onGroupExpanded(int groupPosition) {
-
-    }
-
-    public boolean areAllItemsEnabled() {
-        return false;
     }
 }
