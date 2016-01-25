@@ -96,6 +96,7 @@ public class MesReservationsAdapter extends BaseAdapter {
                 break;
         }
 
+        Log.i("ITEM_RES", "Count = " + this.items.size());
         // Assigner les valeurs nom, description, quantités, unité et ajouter deux ImageButton par
         // rangée selon le nombre d'items contenus dans l'ArrayList.
         ((TextView) row.findViewById(R.id.tv_res_nom_marchandise)).setText(modele.getNom());

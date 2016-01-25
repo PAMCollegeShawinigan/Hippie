@@ -1,84 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:orientation="vertical"
-                                                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    <include layout="@layout/content_appbar_main"/>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.ListeMesReservationsActivity">
+    <include layout="@layout/content_appbar_main" />
     <ViewSwitcher
         android:id="@+id/main_view_switcher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_mes_reservations"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="25dp"
-                android:text="MES RÉSERVATIONS"
-                android:textSize="25sp"/>
-
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#ffffff"
+            android:focusableInTouchMode="false"
+            android:orientation="vertical"
+            android:scrollIndicators="left|top">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingLeft="35dp"
-                android:paddingTop="10dp"
-                android:weightSum="1">
-
+                android:orientation="vertical">
                 <TextView
-                    android:id="@+id/tv_res_nom"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_mes_reservations"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_weight="0.1"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="25dp"
+                    android:text="MES RÉSERVATIONS"
+                    android:textSize="25sp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
                     android:paddingLeft="35dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/res_nom"/>
-
-                <TextView
-                    android:id="@+id/tv_res_qtee"
-                    android:layout_width="wrap_content"
+                    android:paddingTop="10dp"
+                    android:weightSum="1">
+                    <TextView
+                        android:id="@+id/tv_res_nom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_weight="0.1"
+                        android:paddingLeft="35dp"
+                        android:paddingRight="10dp"
+                        android:text="@string/res_nom"/>
+                    <TextView
+                        android:id="@+id/tv_res_qtee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="0.10"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="@string/res_qtee"/>
+                    <TextView
+                        android:id="@+id/tv_res_reservation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_weight="0.5"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="@string/res_reservation"
+                        />
+                </LinearLayout>
+                <ListView
+                    android:id="@+id/lv_reservation"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight="0.10"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/res_qtee"/>
-
-                <TextView
-                    android:id="@+id/tv_res_reservation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_weight="0.5"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/res_reservation"
-                    />
-
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="70dp"/>
             </LinearLayout>
-
-            <ListView
-                android:id="@+id/lv_reservation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="70dp"/>
-
         </LinearLayout>
-
         <include layout="@layout/loading"/>
     </ViewSwitcher>
-
 </android.support.design.widget.CoordinatorLayout>
