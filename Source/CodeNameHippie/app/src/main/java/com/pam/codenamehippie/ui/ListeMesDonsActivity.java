@@ -104,7 +104,6 @@ public class ListeMesDonsActivity extends HippieActivity
     public void surFinDeRequete() {
         this.cacherLaProgressbar();
     }
-
     @Override
     public void surErreur(IOException e) {
         //TODO: Toast

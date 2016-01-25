@@ -209,7 +209,7 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
         synchronized (this.mObservers) {
             if (!this.mObservers.isEmpty()) {
                 for (ValidateurObserver observer : this.mObservers) {
-                    observer.enValidatant(this, estValide);
+                    observer.enValidant(this, estValide);
                 }
             }
         }
