@@ -33,7 +33,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     private Context context;
     private ArrayList<AlimentaireModele> groupItems = new ArrayList<>();
-    private ArrayList<AlimentaireModele> detailsItems = new ArrayList<>();
+    private ArrayList<ArrayList<OrganismeModele>> detailsItems = new ArrayList<>();
     private AlimentaireModeleDepot alimentaireDepot;
 
     /**
@@ -63,7 +63,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     @Override
     public OrganismeModele getChild(int groupPosition, int childPosition) {
-        return this.groupItems.get(groupPosition).getOrganisme();
+        return this.detailsItems.get(groupPosition).get(childPosition);
     }
 
     /**
@@ -76,7 +76,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
+        return this.getChild(groupPosition, childPosition).getId();
     }
 
     /**
@@ -105,7 +105,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
         if (convertView == null) {
             LayoutInflater inflater =
                     (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.liste_marchandise_dispo_details, null);
+            convertView = inflater.inflate(R.layout.liste_marchandise_dispo_details, parent, false);
         }
 
         // Fait afficher le nom de l'entreprise
@@ -113,7 +113,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
         // Fait afficher l'adresse de l'entreprise
         // TODO: Arranger l'erreur du CharSequence, pour le moment, on le laisse commenté.
-        // ((TextView) convertView.findViewById(R.id.tv_md_adresse_entreprise)).setText(modele.getAdresse().toString());
+        ((TextView) convertView.findViewById(R.id.tv_md_adresse_entreprise)).setText(modele.getAdresse().toString());
         return convertView;
     }
 
@@ -283,7 +283,16 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
         this.groupItems = groupItems;
     }
 
-    public void setDetailsItems(ArrayList<AlimentaireModele> detailsItems) {
+    public void setDetailsItems(ArrayList<ArrayList<OrganismeModele>> detailsItems) {
         this.detailsItems = detailsItems;
+    }
+
+    @Override
+    public void onGroupExpanded(int groupPosition) {
+
+    }
+
+    public boolean areAllItemsEnabled() {
+        return false;
     }
 }

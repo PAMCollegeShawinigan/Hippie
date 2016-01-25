@@ -2,6 +2,8 @@ package com.pam.codenamehippie.ui;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 
 import com.pam.codenamehippie.HippieApplication;
@@ -45,7 +47,7 @@ public class ListeMarchandisesDisponiblesActivity extends HippieActivity impleme
 
         // Filtre pour récupérer les données des entreprises dans l'enfant
         // Enfant = liste_marchandise_dispo_details
-        ArrayList<AlimentaireModele> modelesDetails = new ArrayList<>();
+        final ArrayList<ArrayList<OrganismeModele>> modelesDetails = new ArrayList<>();
 
 
         // On va chercher l'expendable listView
@@ -53,6 +55,19 @@ public class ListeMarchandisesDisponiblesActivity extends HippieActivity impleme
         listeMarchandisesDisponiblesAdapter = new ListeMarchandisesDisponiblesAdapter(this, alimentaireModeleDepot);
         // On set l'adapter pour la liste.
         maListeMarchandisesDisponibles.setAdapter(listeMarchandisesDisponiblesAdapter);
+
+        maListeMarchandisesDisponibles.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+
+            @Override
+            public boolean onGroupClick(ExpandableListView parent,
+                                        View v,
+                                        int groupPosition,
+                                        long id) {
+                listeMarchandisesDisponiblesAdapter.setDetailsItems(modelesDetails);
+                parent.expandGroup(groupPosition);
+                return false;
+            }
+        });
     }
 
     @Override
