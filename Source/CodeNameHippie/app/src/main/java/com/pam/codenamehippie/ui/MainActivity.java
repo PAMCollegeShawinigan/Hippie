@@ -37,7 +37,7 @@ public class MainActivity extends HippieActivity {
         int orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
                                                   -1
                                                  );
-        alimentaireModeleDepot.peuplerListeDon(orgId);
+        //alimentaireModeleDepot.peuplerListeDon(orgId);
         OrganismeModeleDepot organismeModeleDepot =
                 ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
         organismeModeleDepot.peuplerListeDonneur();
