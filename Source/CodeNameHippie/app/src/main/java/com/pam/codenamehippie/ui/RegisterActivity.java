@@ -97,7 +97,7 @@ public class RegisterActivity extends HippieActivity
     }
 
     @Override
-    public void enValidatant(Validateur validateur, boolean estValide) {
+    public void enValidant(Validateur validateur, boolean estValide) {
         if (validateur.equals(this.validateurPrenom)) {
             this.prenomEstValide = estValide;
         } else if (validateur.equals(this.validateurNom)) {
