@@ -16,6 +16,15 @@ public class AlimentaireModele extends MarchandiseModele<AlimentaireModele> {
     private String typeAlimentaire;
     @SerializedName("date_peremption")
     private Date datePeremption;
+    @SerializedName("date_reservation")
+    private Date dateReservation;
+
+    public Date getDateReservation(){return this.dateReservation;}
+
+    public AlimentaireModele setDateReservation(Date dateReservation){
+        this.dateReservation= dateReservation;
+        return this;
+    }
 
     public String getUnite() {
         return this.unite;
@@ -47,6 +56,12 @@ public class AlimentaireModele extends MarchandiseModele<AlimentaireModele> {
     public Calendar getCalendarDatePeremption() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(this.datePeremption);
+        return calendar;
+    }
+
+    public Calendar getCalendarDateReservation() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(this.dateReservation);
         return calendar;
     }
 }
