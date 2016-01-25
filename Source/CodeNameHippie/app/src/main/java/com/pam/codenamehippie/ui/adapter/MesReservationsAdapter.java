@@ -140,9 +140,9 @@ public class MesReservationsAdapter extends BaseAdapter {
                                 switch (which) {
                                     case DialogInterface.BUTTON_POSITIVE:
                                         // FIXME : Devrait supprimer une réservation en mettant le statut à Disponible
-//                                        MesReservationsAdapter.this.depot.supprimerModele(modele,
-//                                                showToast
-//                                        );
+                                        MesReservationsAdapter.this.depot.annulerReservation(modele,
+                                                showToast
+                                        );
                                         dialog.dismiss();
                                         break;
                                     default:
@@ -190,9 +190,9 @@ public class MesReservationsAdapter extends BaseAdapter {
                                 switch (which) {
                                     case DialogInterface.BUTTON_POSITIVE:
                                         // FIXME : Devrait modifier une réservation en mmettant le statut à Collecté
-//                                        MesReservationsAdapter.this.depot.supprimerModele(modele,
-//                                                showToast
-//                                        );
+                                        MesReservationsAdapter.this.depot.collecter(modele,
+                                                showToast
+                                        );
                                         dialog.dismiss();
                                         break;
                                     default:
