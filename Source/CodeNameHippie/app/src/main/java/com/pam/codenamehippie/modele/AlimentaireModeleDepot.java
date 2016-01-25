@@ -1,19 +1,20 @@
 package com.pam.codenamehippie.modele;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
@@ -56,13 +57,24 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         return this.listeTypeAlimentaire;
     }
 
+    /**
+     * Accesseur pour la liste des dons reçu lors de l'appel de
+     * {@link AlimentaireModeleDepot#peuplerListeDon(Integer)}
+     *
+     * @return La liste des dons
+     *
+     * @deprecated Veuillez utiliser un {@link ObservateurDeDepot} et
+     * {@link AlimentaireModeleDepot#peuplerListeDon(Integer)} pour obtenir cette liste. Pour
+     * plus de détail voir {@link com.pam.codenamehippie.ui.ListeMesDonsActivity}
+     */
+    @Deprecated
     public synchronized ArrayList<AlimentaireModele> getListeDon() {
         return this.listeDon;
     }
 
     /**
      * Permet de peupler les items pour les spinner.
-     * <p/>
+     * <p>
      * Cette methode est asynchrone et retourne immédiatement
      */
     public void peuplerLesListes() {
@@ -72,13 +84,13 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                 new Request.Builder().url(this.listeTypeAlimentaireUrl).get().build();
         this.httpClient.newCall(listeUniteRequete).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 // TODO: Mettre un toast ou whatever
-                Log.e(TAG, "Request failed: " + request.toString(), e);
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                 } else {
@@ -99,13 +111,13 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         });
         this.httpClient.newCall(listeTypeAlimentaireRequete).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 // TODO: Mettre un toast ou whatever
-                Log.e(TAG, "Request failed: " + request.toString(), e);
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                 } else {
@@ -127,7 +139,8 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
     }
 
     /**
-     * retourne la liste de tout les dons de l'entreprise qui sont disponibles ou reservé
+     * Peuple le dépot avec la liste de tous les dons de l'entreprise qui sont disponibles ou
+     * reservé
      *
      * @param id
      *         id de l'organisme dont on veut obtenir la liste des dons.
@@ -139,14 +152,14 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         Request listeDonRequete = new Request.Builder().url(url).get().build();
         this.httpClient.newCall(listeDonRequete).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
 
                 //TODO: Toast ou whatever
-                Log.e(TAG, "Request failed: " + request.toString(), e);
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
 
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
@@ -180,14 +193,14 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
         this.httpClient.newCall(listeDonDispoRequete).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 //TODO toast
 
-                Log.e(TAG, "Request failed: " + request.toString(), e);
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                 } else {
@@ -267,34 +280,17 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 //        }
 //    }
 
-    /**
-     * Supprimer un MarchandiseModele présent dans le dépôt
-     *
-     * @param modele
-     *         de l'objet MarchandiseModele
-     *
-     * @return un MarchandiseModele ou null si inexistant dans le dépôt
-     */
-    @Override
-    public void supprimerModele(@NonNull AlimentaireModele modele) {
-        // TODO: requête au serveur pour suppression de la marchandise
-        HttpUrl url = this.supprimerUrl.newBuilder()
-                                       .addPathSegment(modele.getId().toString())
-                                       .build();
-        this.httpClient.newCall(new Request.Builder().url(url).get().build())
-                       .enqueue(new Callback() {
-                           @Override
-                           public void onFailure(Request request, IOException e) {
-                               //TODO: Toast ou whatever
-                               Log.e(TAG, "Request failed: " + request.toString(), e);
-                           }
-
-                           @Override
-                           public void onResponse(Response response) throws IOException {
-
-                               // TODO: Callback
-
-                           }
-                       });
-    }
+//    /**
+//     * Supprimer un MarchandiseModele présent dans le dépôt
+//     *
+//     * @param modele
+//     *         de l'objet MarchandiseModele
+//     *
+//     * @return un MarchandiseModele ou null si inexistant dans le dépôt
+//     */
+//    @Override
+//    public void supprimerModele(@NonNull AlimentaireModele modele) {
+//        // TODO: requête au serveur pour suppression de la marchandise
+//
+//    }
 }

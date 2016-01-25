@@ -4,15 +4,17 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Créé par Carl St-Louis le 23-11-2015.
@@ -22,11 +24,9 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
 
     private static final String TAG = OrganismeModeleDepot.class.getSimpleName();
 
+    private final HttpUrl listeOrganismeDonneur;
 
-    private HttpUrl listeOrganismeDonneur;
-
-
-    private volatile ArrayList<OrganismeModele> listeDonneur;
+    private volatile ArrayList<OrganismeModele> listeDonneur = new ArrayList<>();
 
     /**
      * Construction du dépot pour modèle Organisme
@@ -35,23 +35,23 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
         super(context, httpClient);
         this.listeOrganismeDonneur = this.url.newBuilder().addPathSegment("carte").build();
         this.url = this.url.newBuilder().addPathSegment("organisme").build();
-
     }
 
-
     public void peuplerListeDonneur() {
-        Request listeOrganismeDonneur = new Request.Builder().url(this.listeOrganismeDonneur).get().build();
-
+        this.peuplerLeDepot(this.listeOrganismeDonneur);
+        //TODO: Enlever le code en dessous et listeDon quand le nouvel api sera en place
+        Request listeOrganismeDonneur =
+                new Request.Builder().url(this.listeOrganismeDonneur).get().build();
         this.httpClient.newCall(listeOrganismeDonneur).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 //TODO toast ou whatever
 
-                Log.e(TAG, "Request failed: " + request.toString(), e);
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                 } else {
@@ -61,9 +61,9 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
                             gson.fromJson(response.body().charStream(), type);
 
                     Log.d(TAG,
-                            "Liste Donneur: " +
-                                    OrganismeModeleDepot.this.listeDonneur.toString()
-                    );
+                          "Liste Donneur: " +
+                          OrganismeModeleDepot.this.listeDonneur.toString()
+                         );
                 }
             }
         });

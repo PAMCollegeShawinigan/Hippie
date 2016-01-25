@@ -2,6 +2,7 @@ com.pam.codenamehippie
 com.pam.codenamehippie.controleur
 com.pam.codenamehippie.controleur.validation
 com.pam.codenamehippie.http
+com.pam.codenamehippie.http.exception
 com.pam.codenamehippie.http.intercepteur
 com.pam.codenamehippie.modele
 com.pam.codenamehippie.parametre

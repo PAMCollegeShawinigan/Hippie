@@ -4,12 +4,7 @@ import android.os.Bundle;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 
-import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
-import com.pam.codenamehippie.modele.AlimentaireModele;
-import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
-import com.pam.codenamehippie.ui.HippieActivity;
-import com.pam.codenamehippie.ui.Organisme;
 import com.pam.codenamehippie.ui.adapter.CarteListeOrganismeAdapter;
 import com.pam.codenamehippie.ui.adapter.MesReservationsAdapter;
 import com.pam.codenamehippie.ui.view.trianglemenu.TestDonneeCentre;
@@ -26,7 +21,7 @@ public class ListeOrganismesActivity extends HippieActivity {
 
     ListView listeMesReservations;
     MesReservationsAdapter mesReservationsAdapter;
-    ArrayList<Organisme> listOrganisme;
+    ArrayList<TestDonneeCentre.Organisme> listOrganisme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

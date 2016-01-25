@@ -2,12 +2,12 @@ package com.pam.codenamehippie.http.intercepteur;
 
 import android.util.Log;
 
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
 import java.io.IOException;
 import java.util.Locale;
+
+import okhttp3.Interceptor;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Classe d'aide qui intercepte le traffic HTTP et qui Log le contenu dans Logcat
