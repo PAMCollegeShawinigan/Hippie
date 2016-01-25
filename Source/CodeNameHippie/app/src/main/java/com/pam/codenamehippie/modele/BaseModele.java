@@ -37,6 +37,7 @@ public abstract class BaseModele<T extends BaseModele<T>> {
     /**
      * Accesseur de l'id du modèle
      *
+     *
      * @return l'id de l'objet
      */
     public Integer getId() {

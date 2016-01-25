@@ -6,7 +6,7 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 
 /**
- * Created by Carl St-Louis le 2015-12-16.
+ * Classe de base pour valider les Spinner
  */
 public class ValidateurDeSpinner extends Observable<ValidateurObserver>
         implements AdapterView.OnItemSelectedListener, Validateur {
@@ -78,7 +78,7 @@ public class ValidateurDeSpinner extends Observable<ValidateurObserver>
         synchronized (this.mObservers) {
             if (!this.mObservers.isEmpty()) {
                 for (ValidateurObserver observer : this.mObservers) {
-                    observer.enValidatant(this, estValide);
+                    observer.enValidant(this, estValide);
                 }
             }
         }

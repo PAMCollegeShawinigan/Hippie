@@ -21,31 +21,54 @@ import java.util.Calendar;
 
 /**
  * Created by Catherine on 2016-01-19.
+ *
+ * L'adapter pour faire fonctionner la liste de mes réservations.
+ *
+ * Cette classe est pour but d'afficher les reservations de l'utilisateur.
+ *
  */
 public class MesReservationsAdapter extends BaseAdapter {
 
-    private final ArrayList<AlimentaireModele> items;
+    private volatile ArrayList<AlimentaireModele> items = new ArrayList<>();
     private final Context context;
     private final AlimentaireModeleDepot depot;
 
-    public MesReservationsAdapter(ArrayList<AlimentaireModele> items,
-                                  Context context,
+    /**
+     * On ajoute les paramètres.
+     * @param context
+     * @param depot
+     */
+
+    public MesReservationsAdapter(Context context,
                                   AlimentaireModeleDepot depot) {
-        this.items = items;
         this.context = context;
         this.depot = depot;
     }
 
+    /**
+     * On ajoute les paramètres.
+     * @return
+     */
     @Override
     public int getCount() {
         return this.items.size();
     }
 
+    /**
+     * On ajoute les paramètres.
+     * @param position
+     * @return
+     */
     @Override
     public AlimentaireModele getItem(int position) {
         return this.items.get(position);
     }
 
+    /**
+     * On ajoute les paramètres.
+     * @param position
+     * @return
+     */
     @Override
     public long getItemId(int position) {
         return this.getItem(position).getId();
@@ -99,15 +122,17 @@ public class MesReservationsAdapter extends BaseAdapter {
                 break;
         }
 
+        // Affiche le nom de la marchandise
         ((TextView) row.findViewById(R.id.tv_res_nom_marchandise)).setText(modele.getNom());
+        // Affiche la description de la marchandise
         ((TextView) row.findViewById(R.id.tv_res_description)).setText(modele.getDescription());
 
         // On affiche la quantité + l'unité de la marchandise
         String quantiteString = modele.getQuantite().toString() + " " + modele.getUnite();
         ((TextView) row.findViewById(R.id.tv_res_qtee_marchandise)).setText(quantiteString);
 
-        // Faire afficher la date de péremption.
         // TODO: Faire afficher la date de réservation. Présentement, il y a un mélange entre Date de réservation et date de péremption.
+        // Affiche la date de péremption.
         if (modele.getDatePeremption() != null) {
             DateFormat format = android.text.format.DateFormat.getLongDateFormat(this.context);
             String date = format.format(modele.getDatePeremption());
@@ -135,4 +160,10 @@ public class MesReservationsAdapter extends BaseAdapter {
         });
         return row;
     }
+
+    public void setItems(ArrayList<AlimentaireModele> items) {
+        this.items = items;
+        this.notifyDataSetChanged();
+    }
+
 }

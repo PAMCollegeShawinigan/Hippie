@@ -22,13 +22,15 @@ import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class LoginActivity extends HippieActivity
         implements EditText.OnEditorActionListener, ValidateurObserver {
@@ -106,7 +108,7 @@ public class LoginActivity extends HippieActivity
     }
 
     @Override
-    public void enValidatant(Validateur validateur, boolean estValide) {
+    public void enValidant(Validateur validateur, boolean estValide) {
         if (validateur.equals(this.validateurCourriel)) {
             this.courrielEstValide = estValide;
         } else if (validateur.equals(this.validateurMotDePasse)) {
@@ -131,19 +133,17 @@ public class LoginActivity extends HippieActivity
      */
     public void onClickLogin(final View v) {
         RequestBody requestBody =
-                new FormEncodingBuilder().add("courriel",
-                                              this.validateurCourriel.getText().toString()
-                                             )
-                                         .add("mot_de_passe",
-                                              this.validateurMotDePasse.getText().toString()
-                                             )
-                                         .build();
+                new FormBody.Builder().add("courriel", this.validateurCourriel.getText().toString())
+                                      .add("mot_de_passe",
+                                           this.validateurMotDePasse.getText().toString()
+                                          )
+                                      .build();
         Request request =
                 new Request.Builder().url(HippieApplication.baseUrl).post(requestBody).build();
         this.httpClient.newCall(request).enqueue(new Callback() {
 
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 LoginActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -155,7 +155,7 @@ public class LoginActivity extends HippieActivity
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     switch (response.code()) {
                         case 403:

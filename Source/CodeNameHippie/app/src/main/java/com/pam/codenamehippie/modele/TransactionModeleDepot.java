@@ -2,7 +2,7 @@ package com.pam.codenamehippie.modele;
 
 import android.content.Context;
 
-import com.squareup.okhttp.OkHttpClient;
+import okhttp3.OkHttpClient;
 
 /**
  * Créé par Carl St-Louis le 23-11-2015.

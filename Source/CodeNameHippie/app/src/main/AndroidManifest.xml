@@ -60,11 +60,15 @@
 		</activity>
 
 		<activity
-			android:name=".ui.view.trianglemenu.ListeOrganismesActivity"
+			android:name=".ui.ListeOrganismesActivity"
 			android:label="Mes Dons">
 		</activity>
 		<activity
 			android:name=".ui.ListeMesReservationsActivity"
+			android:label="Mes Réservations">
+		</activity>
+		<activity
+			android:name=".ui.ListeMarchandisesDisponiblesActivity"
 			android:label="Mes Réservations">
 		</activity>
 		<activity android:name=".ui.AjoutMarchandiseActivity" />
