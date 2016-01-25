@@ -32,28 +32,20 @@ import java.util.HashMap;
 public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private ArrayList<AlimentaireModele> groupItems;
-    private ArrayList<OrganismeModele> detailsItems;
+    private ArrayList<AlimentaireModele> groupItems = new ArrayList<>();
+    private ArrayList<AlimentaireModele> detailsItems = new ArrayList<>();
     private AlimentaireModeleDepot alimentaireDepot;
-    private OrganismeModeleDepot organismeDepot;
 
     /**
      * On ajoute les paramètres.
-     *  @param context
-     * @param groupItems
-     * @param detailsItems
+     * @param context
+     * @param alimentaireDepot
      */
 
     public ListeMarchandisesDisponiblesAdapter(Context context,
-                                               ArrayList<AlimentaireModele> groupItems,
-                                               ArrayList<OrganismeModele> detailsItems,
-                                               AlimentaireModeleDepot alimentaireDepot,
-                                               OrganismeModeleDepot organismeDepot) {
+                                               AlimentaireModeleDepot alimentaireDepot) {
         this.context = context;
-        this.groupItems = groupItems;
-        this.detailsItems = detailsItems;
         this.alimentaireDepot = alimentaireDepot;
-        this.organismeDepot = organismeDepot;
     }
 
     /**
@@ -70,8 +62,8 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
      */
 
     @Override
-    public Object getChild(int groupPosition, int childPosition) {
-        return this.detailsItems.get(groupPosition);
+    public OrganismeModele getChild(int groupPosition, int childPosition) {
+        return this.groupItems.get(groupPosition).getOrganisme();
     }
 
     /**
@@ -108,8 +100,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
         // Fait afficher le layout modèle Details, afin de voir les infos de l'entreprise
         // Lorsque l'on clique sur la marchandise pour voir plus d'informations.
         // C'est le "child" modèle.
-        final OrganismeModele modele =
-                (OrganismeModele) this.getChild(groupPosition, childPosition);
+        OrganismeModele modele = this.getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater inflater =
@@ -122,7 +113,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
         // Fait afficher l'adresse de l'entreprise
         // TODO: Arranger l'erreur du CharSequence, pour le moment, on le laisse commenté.
-        // ((TextView) convertView.findViewById(R.id.tv_md_adresse_entreprise)).setText(modele.getAdresse());
+        ((TextView) convertView.findViewById(R.id.tv_md_adresse_entreprise)).setText(modele.getAdresse().toString());
         return convertView;
     }
 
@@ -151,7 +142,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
      */
 
     @Override
-    public Object getGroup(int groupPosition) {
+    public AlimentaireModele getGroup(int groupPosition) {
         return this.groupItems.get(groupPosition);
     }
 
@@ -193,7 +184,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
                              boolean isExpanded,
                              View convertView,
                              ViewGroup parent) {
-        final AlimentaireModele modele = (AlimentaireModele) this.getGroup(groupPosition);
+        final AlimentaireModele modele = this.getGroup(groupPosition);
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
@@ -286,5 +277,13 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    public void setGroupItems(ArrayList<AlimentaireModele> groupItems) {
+        this.groupItems = groupItems;
+    }
+
+    public void setDetailsItems(ArrayList<AlimentaireModele> detailsItems) {
+        this.detailsItems = detailsItems;
     }
 }
