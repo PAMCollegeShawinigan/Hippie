@@ -98,16 +98,7 @@ class don extends Controller
 			{
 				$date_peremption = null;
 			}	
-						if($resultat['date_peremption'] != null )
-			{
-			$date = date_create($resultat[5]);
-			
-			$date_peremption = date_format($date, DATE_ATOM);
-			}
-			else
-			{
-				$date_peremption = null;
-			}	
+
 						
 						$adresse = array('id' => $resultat[12], 'no_civique' => $resultat[13], 'type_rue' => $resultat[14], 'nom' => $resultat[15], 'ville' => $resultat[16], 'province' => $resultat[17], 'code_postal' => $resultat[18], 'pays' =>$resultat[19]);
 						
