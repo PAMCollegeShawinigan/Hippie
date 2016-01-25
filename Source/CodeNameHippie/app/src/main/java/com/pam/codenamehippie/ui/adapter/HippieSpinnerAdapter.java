@@ -14,7 +14,8 @@ import com.pam.codenamehippie.modele.DescriptionModel;
 import java.util.ArrayList;
 
 /**
- * Created by Carl St-Louis le 2015-12-15.
+ * Cette classe permet de récupérer les descriptions contenues dans une ArrayList<DescriptionModele>
+ * et, selon le type, les afficher à l'intérieur du Spinner correspondant.
  */
 public class HippieSpinnerAdapter implements SpinnerAdapter {
 
@@ -28,6 +29,8 @@ public class HippieSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        // On vérifie le type avant de faire un type cast. Ensuite, on affecte les descriptions
+        // selon la position.
         CheckedTextView view =
                 (convertView instanceof CheckedTextView) ? (CheckedTextView) convertView : null;
         if (view != null) {
@@ -76,7 +79,8 @@ public class HippieSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // On check le type avant de faire un type cast.
+        // On vérifie le type avant de faire un type cast. Ensuite, on affecte les descriptions
+        // selon la position.
         TextView view = (convertView instanceof TextView) ? (TextView) convertView : null;
         if (view != null) {
             view.setText(this.getItem(position).getDescription());
