@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
@@ -28,15 +27,11 @@ public class ListeMesDonsActivity extends HippieActivity
 
     private static final String TAG = ListeMesDonsActivity.class.getSimpleName();
     private HippieListAdapter mesDonsAdapter;
-    private ViewSwitcher viewSwitcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.liste_dons);
-        this.viewSwitcher = ((ViewSwitcher) this.findViewById(R.id.main_view_switcher));
-        this.viewSwitcher.setInAnimation(this, android.R.anim.fade_in);
-        this.viewSwitcher.setOutAnimation(this, android.R.anim.fade_out);
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
 
@@ -95,7 +90,7 @@ public class ListeMesDonsActivity extends HippieActivity
 
     @Override
     public void surDebutDeRequete() {
-        this.viewSwitcher.showNext();
+        this.afficherLaProgressBar();
     }
 
     @Override
@@ -107,7 +102,7 @@ public class ListeMesDonsActivity extends HippieActivity
 
     @Override
     public void surFinDeRequete() {
-        this.viewSwitcher.showPrevious();
+        this.cacherLaProgressbar();
     }
 
     @Override
