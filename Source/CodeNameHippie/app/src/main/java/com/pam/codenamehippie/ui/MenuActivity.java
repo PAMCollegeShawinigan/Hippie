@@ -15,8 +15,6 @@ import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnItemClickLis
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnItemSelectedListener;
 import com.pam.codenamehippie.ui.view.trianglemenu.TriangleLayout.OnRotationFinishedListener;
 
-import java.io.Serializable;
-
 public class MenuActivity extends HippieActivity implements OnItemSelectedListener,
                                                             OnItemClickListener,
                                                             OnRotationFinishedListener,
@@ -111,6 +109,9 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                 break;
 
             case R.id.main_organisme_image:
+                intent=new Intent(this,ListeOrganismesActivity.class);
+                startActivity(intent);
+
                 // clic sur image carte des organismes
                 Toast.makeText(this.getApplicationContext(),
                         " Carte des organismes ",
@@ -141,8 +142,8 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
 
             case R.id.main_reservation_image:
                 // clic sur les réservations
-                intent=new Intent(this,MapsActivity.class);
-                intent.setFlags(view.getId());
+                intent=new Intent(this,ListeMesReservationsActivity.class);
+              //  intent.setFlags(view.getId());
                 startActivity(intent);
               //  startActivity(new Intent(this, MapsActivity.class));
                 Toast.makeText(this.getApplicationContext(),

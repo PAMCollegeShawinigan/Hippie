@@ -75,5 +75,25 @@
 	<string name="iv_logo">Logo</string>
 	<string name="loading">Un moment s\'il-vous-plaît.</string>
 
+	<!--Ressource pour ajoutMarchandiseActivity et layout ajout_marchandise -->
+	<string name="ajouter_marchandise">ADD COMMODITY</string>
+	<string name="modifier_marchandise">MODIFY COMMODITY</string>
+	<string name="bouton_ajouter">ADD</string>
+	<string name="bouton_modifier">MODIFY</string>
+	<string name="msg_produit_ajoute">Commodity added</string>
+	<string name="msg_produit_modifie">Commodity modified</string>
+	<string name="marchandise_nom">Name</string>
+	<string name="marchandise_description">Description</string>
+	<string name="marchandise_quantites">Quantity</string>
+	<string name="marchandise_unite">Unit</string>
+	<string name="marchandise_valeur">Value</string>
+	<string name="marchandise_type_alimentaire">Food type</string>
+	<string name="marchandise_date_peremption">Expiration date</string>
+
+	<!--Ressource pour HippieListAdapter -->
+	<string name="msg_produit_supprime">Commodity deleted</string>
+	<string name="msg_confirme_suppression">Are you sure that you want to delete this donation ?</string>
+	<string name="bouton_confirme_suppression_oui">YES</string>
+	<string name="bouton_confirme_suppression_non">NO</string>
 
 </resources>

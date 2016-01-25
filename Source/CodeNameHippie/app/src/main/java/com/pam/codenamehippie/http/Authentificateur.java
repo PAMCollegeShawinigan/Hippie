@@ -27,22 +27,24 @@
 
 package com.pam.codenamehippie.http;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
-import com.squareup.okhttp.Authenticator;
-import com.squareup.okhttp.Challenge;
-import com.squareup.okhttp.Credentials;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.net.HttpRetryException;
-import java.net.Proxy;
+
+import okhttp3.Authenticator;
+import okhttp3.Challenge;
+import okhttp3.Credentials;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.Route;
 
 /**
  * Classe servant de délégué au client HTTP pour les authentification de type Basic.
@@ -51,29 +53,26 @@ public final class Authentificateur implements Authenticator {
 
     private static final String TAG = Authentificateur.class.getSimpleName();
     private final Context context;
-    private final PersistentCookieStore boiteABiscuit;
     private final SharedPreferences preferences;
     private volatile String motDePasse;
 
     /**
      * Constructeur de l'authentificateur
      */
-    private Authentificateur(Context context, PersistentCookieStore boiteABiscuit) {
+    private Authentificateur(Context context) {
         this.context = context;
         this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        this.boiteABiscuit = boiteABiscuit;
     }
 
     /**
      * Méthode usine statique pour créer une nouvelle instance.
      **/
-    public static Authentificateur newInstance(Context context,
-                                               PersistentCookieStore boiteABiscuit) {
-        return new Authentificateur(context, boiteABiscuit);
+    public static Authentificateur newInstance(Context context) {
+        return new Authentificateur(context);
     }
 
     @Override
-    public Request authenticate(Proxy proxy, Response response) throws IOException {
+    public Request authenticate(Route route, Response response) throws IOException {
         String email =
                 this.preferences.getString(this.context.getString(R.string.pref_email_key), null);
         Log.d(TAG, "Authenticating for resp: " + response.toString());
@@ -87,14 +86,9 @@ public final class Authentificateur implements Authenticator {
             // On lance une exeception si le combo mot de passe/email est pas bon.
             throw new HttpRetryException(response.message(),
                                          response.code(),
-                                         response.request().urlString()
+                                         response.request().url().toString()
             );
         }
-    }
-
-    @Override
-    public Request authenticateProxy(Proxy proxy, Response response) throws IOException {
-        return null;
     }
 
     /**
@@ -104,19 +98,27 @@ public final class Authentificateur implements Authenticator {
      * @return vrai si on est authentifié faux sinon.
      */
     public boolean estAuthentifie() {
+        // On check seulement si on a un user id en mémoire.
+        //TODO: Un vrai syst
         return ((this.motDePasse != null) ||
-                (!this.boiteABiscuit.get(HippieApplication.baseUrl.uri()).isEmpty()));
+                (this.preferences.contains(this.context.getString(R.string.pref_user_id_key))));
     }
 
+    @SuppressLint("CommitPrefEdits")
     public synchronized void deconnecte() {
-        this.boiteABiscuit.removeAll();
         // TODO: Mieux gérer l'authentification.
+        String userIdKey = this.context.getString(R.string.pref_user_id_key);
+        String orgIdKey = this.context.getString(R.string.pref_org_id_key);
+        Editor editor = this.preferences.edit();
         // On supprime l'ID d'organisme.
-        if (this.preferences.contains(this.context.getString(R.string.pref_org_id_key))) {
-            this.preferences.edit()
-                            .remove(this.context.getString(R.string.pref_org_id_key))
-                            .commit();
+        if (this.preferences.contains(orgIdKey)) {
+            editor.remove(orgIdKey);
         }
+        // On supprime l'ID de l'utilisateur.
+        if (this.preferences.contains(userIdKey)) {
+            editor.remove(userIdKey);
+        }
+        editor.commit();
         this.motDePasse = null;
     }
 

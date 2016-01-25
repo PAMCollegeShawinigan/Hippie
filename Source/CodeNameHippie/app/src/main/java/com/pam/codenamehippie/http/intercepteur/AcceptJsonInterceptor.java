@@ -1,12 +1,12 @@
 package com.pam.codenamehippie.http.intercepteur;
 
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import com.squareup.okhttp.internal.Util;
-
 import java.io.IOException;
+
+import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.internal.Util;
 
 /**
  * Classe servant à ajouter les en-têtes http pour déclarer que l'application n'accepte que du

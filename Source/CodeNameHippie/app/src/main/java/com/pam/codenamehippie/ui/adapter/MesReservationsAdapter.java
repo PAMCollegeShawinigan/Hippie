@@ -21,12 +21,24 @@ import java.util.Calendar;
 
 /**
  * Created by Catherine on 2016-01-19.
+ *
+ * L'adapter pour faire fonctionner la liste de mes réservations.
+ *
+ * Cette classe est pour but d'afficher les reservations de l'utilisateur.
+ *
  */
 public class MesReservationsAdapter extends BaseAdapter {
 
     private final ArrayList<AlimentaireModele> items;
     private final Context context;
     private final AlimentaireModeleDepot depot;
+
+    /**
+     * On ajoute les paramètres.
+     * @param items
+     * @param context
+     * @param depot
+     */
 
     public MesReservationsAdapter(ArrayList<AlimentaireModele> items,
                                   Context context,
@@ -36,16 +48,30 @@ public class MesReservationsAdapter extends BaseAdapter {
         this.depot = depot;
     }
 
+    /**
+     * On ajoute les paramètres.
+     * @return
+     */
     @Override
     public int getCount() {
         return this.items.size();
     }
 
+    /**
+     * On ajoute les paramètres.
+     * @param position
+     * @return
+     */
     @Override
     public AlimentaireModele getItem(int position) {
         return this.items.get(position);
     }
 
+    /**
+     * On ajoute les paramètres.
+     * @param position
+     * @return
+     */
     @Override
     public long getItemId(int position) {
         return this.getItem(position).getId();
@@ -65,54 +91,52 @@ public class MesReservationsAdapter extends BaseAdapter {
         View row = convertView;
 
         final AlimentaireModele modele = this.getItem(position);
+        // Affiche un item personnalisé à la liste
         if (row == null) {
-            LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater =
+                    (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.liste_reservations_row, parent, false);
         }
 
-        // TODO: Faire afficher l'icône correspondant au bon type alimentaire à côté du texte
-       /* if(modele.getTypeAlimentaire()!= null) {
-            String image = modele.getTypeAlimentaire();
-            ImageView ivResCategorie = (ImageView) row.findViewById(R.id.iv_res_categorie);
-            switch(image) {
-                case "1":
-                    ivResCategorie.setImageResource(R.drawable.surgele);
-                    break;
-                case "2":
-                    ivResCategorie.setImageResource(R.drawable.fruit_legume);
-                    break;
-                case "3":
-                    ivResCategorie.setImageResource(R.drawable.boulangerie);
-                    break;
-                case "4":
-                    ivResCategorie.setImageResource(R.drawable.laitier);
-                    break;
-                case "5":
-                    ivResCategorie.setImageResource(R.drawable.viande);
-                    break;
-                case "6":
-                    ivResCategorie.setImageResource(R.drawable.non_perissable);
-                    break;
-                default:
-                    ivResCategorie.setImageResource(R.drawable.non_comestible);
-                    break;
-            }
-        } else {
-            ((ImageView) row.findViewById(R.id.iv_res_categorie)).setImageResource(R.drawable.non_comestible);
-        }*/
+        // Fait afficher l'icône correspondant au bon type alimentaire à côté du texte
+        String image = modele.getTypeAlimentaire();
+        ImageView ivResCategorie = (ImageView) row.findViewById(R.id.iv_res_categorie);
+        switch (image) {
+            case "Surgelés":
+                ivResCategorie.setImageResource(R.drawable.map_surgele);
+                break;
+            case "Fruits et Légumes":
+                ivResCategorie.setImageResource(R.drawable.map_fruit_legume);
+                break;
+            case "Boulangerie":
+                ivResCategorie.setImageResource(R.drawable.map_boulangerie);
+                break;
+            case "Produits laitiers":
+                ivResCategorie.setImageResource(R.drawable.map_laitier);
+                break;
+            case "Viandes":
+                ivResCategorie.setImageResource(R.drawable.map_viande);
+                break;
+            case "Non Périssable":
+                ivResCategorie.setImageResource(R.drawable.map_non_perissable);
+                break;
+            default:
+                ivResCategorie.setImageResource(R.drawable.map_non_comestible);
+                break;
+        }
 
-
-        //((ImageView) row.findViewById(R.id.iv_res_categorie)).setTransitionName(modele.getTypeAlimentaire());
-
+        // Affiche le nom de la marchandise
         ((TextView) row.findViewById(R.id.tv_res_nom_marchandise)).setText(modele.getNom());
+        // Affiche la description de la marchandise
         ((TextView) row.findViewById(R.id.tv_res_description)).setText(modele.getDescription());
 
         // On affiche la quantité + l'unité de la marchandise
         String quantiteString = modele.getQuantite().toString() + " " + modele.getUnite();
         ((TextView) row.findViewById(R.id.tv_res_qtee_marchandise)).setText(quantiteString);
 
-        // Faire afficher la date de péremption.
-        if(modele.getDatePeremption() != null){
+        // TODO: Faire afficher la date de réservation. Présentement, il y a un mélange entre Date de réservation et date de péremption.
+        // Affiche la date de péremption.
+        if (modele.getDatePeremption() != null) {
             DateFormat format = android.text.format.DateFormat.getLongDateFormat(this.context);
             String date = format.format(modele.getDatePeremption());
             ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setText(date);
@@ -122,13 +146,18 @@ public class MesReservationsAdapter extends BaseAdapter {
 
         // Supprimer une réservation de la liste
         ImageButton ibSupprimer = (ImageButton) row.findViewById(R.id.ib_res_supprimer);
-        ibSupprimer.setOnClickListener(new View.OnClickListener(){
+        ibSupprimer.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                // TODO: faire ce qui faut pour supprimer une marchandise de la liste.
+                // TODO: faire ce qui faut pour supprimer une réservation de la liste. Ou bien mettre la réservation de Réservé à disponible.
                 Log.i("Boutton supprimé cliqué", "**********" + position);
 
-                Toast.makeText(context, "Réservation supprimé de la liste",
+                /**
+                 * String statut = modele.getStatut();
+                 */
+
+                Toast.makeText(context, "Réservation supprimé",
                         Toast.LENGTH_LONG).show();
             }
         });
