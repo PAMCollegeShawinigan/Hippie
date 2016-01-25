@@ -57,6 +57,13 @@
         android:paddingRight="10dp"
         android:layout_weight="0.1"/>
 
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/ib_res_collecter"
+        android:background="@drawable/modifier"
+        android:layout_marginRight="5dp"
+        android:contentDescription="@string/ib_dons_collecter"/>
 
     <ImageButton
         android:layout_width="40dp"

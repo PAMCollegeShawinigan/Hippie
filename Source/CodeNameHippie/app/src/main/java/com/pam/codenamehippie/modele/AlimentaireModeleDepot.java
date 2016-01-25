@@ -24,11 +24,13 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
     private final HttpUrl listeTypeAlimentaireUrl;
     private final HttpUrl listeDonUrl;
     private final HttpUrl listeDonDispoUrl;
+    private final HttpUrl listeReservation;
 
     private volatile ArrayList<DescriptionModel> listeUnitee;
     private volatile ArrayList<TypeAlimentaireModele> listeTypeAlimentaire;
     private volatile ArrayList<AlimentaireModele> listeDon;
     private volatile ArrayList<AlimentaireModele> listeDonDispo;
+
 
     public AlimentaireModeleDepot(Context context, OkHttpClient httpClient) {
         super(context, httpClient);
@@ -38,7 +40,8 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                 baseListeUrl.newBuilder().addPathSegment("alimentaire").build();
         this.listeDonUrl =
                 this.url.newBuilder().addPathSegment("don").addPathSegment("listedon").build();
-
+        this.listeReservation =
+                this.url.newBuilder().addPathSegment("reservation").addPathSegment("liste").build();
         this.listeDonDispoUrl =
                 this.url.newBuilder().addPathSegment("don").addPathSegment("listedondispo").build();
 
@@ -218,6 +221,11 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
             }
         });
 
+    }
+
+    public void peuplerListeReservation(Integer idOrganisme){
+        HttpUrl url = this.listeDonUrl.newBuilder().addPathSegment(idOrganisme.toString()).build();
+        this.peuplerLeDepot(url);
     }
 
 //    /**
