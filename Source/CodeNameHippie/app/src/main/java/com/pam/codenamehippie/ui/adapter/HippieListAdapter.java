@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +75,34 @@ public class HippieListAdapter extends BaseAdapter {
                     (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.liste_dons_row, parent, false);
         }
+
+        // Fait afficher l'icône correspondant au bon type alimentaire à côté du texte
+        String image = modele.getTypeAlimentaire();
+        ImageView ivDonsCategorie = (ImageView) row.findViewById(R.id.iv_dons_categorie);
+        switch (image) {
+            case "Surgelés":
+                ivDonsCategorie.setImageResource(R.drawable.map_surgele);
+                break;
+            case "Fruits et Légumes":
+                ivDonsCategorie.setImageResource(R.drawable.map_fruit_legume);
+                break;
+            case "Boulangerie":
+                ivDonsCategorie.setImageResource(R.drawable.map_boulangerie);
+                break;
+            case "Produits laitiers":
+                ivDonsCategorie.setImageResource(R.drawable.map_laitier);
+                break;
+            case "Viandes":
+                ivDonsCategorie.setImageResource(R.drawable.map_viande);
+                break;
+            case "Non Périssable":
+                ivDonsCategorie.setImageResource(R.drawable.map_non_perissable);
+                break;
+            default:
+                ivDonsCategorie.setImageResource(R.drawable.map_non_comestible);
+                break;
+        }
+
         // Assigner les valeurs nom, description, quantités, unité et ajouter deux ImageButton par
         // rangée selon le nombre d'items contenus dans l'ArrayList.
         ((TextView) row.findViewById(R.id.tv_dons_nom_marchandise)).setText(modele.getNom());
@@ -144,6 +173,7 @@ public class HippieListAdapter extends BaseAdapter {
                             }
                         };
 
+                // Construction du message pour suppression d'un don
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(HippieListAdapter.this.context);
                 builder.setMessage(R.string.msg_confirme_suppression)
