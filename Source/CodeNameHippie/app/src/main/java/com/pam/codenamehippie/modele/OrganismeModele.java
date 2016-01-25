@@ -16,7 +16,7 @@ public class OrganismeModele extends BaseModele<OrganismeModele> {
     @SerializedName("poste")
     private Integer poste;
     @SerializedName("contact")
-    private String contact;
+    private UtilisateurModele contact;
     @SerializedName("no_entreprise")
     private String noEntreprise;
     @SerializedName("no_osbl")
@@ -58,11 +58,11 @@ public class OrganismeModele extends BaseModele<OrganismeModele> {
         return this;
     }
 
-    public String getContact() {
+    public UtilisateurModele getContact() {
         return this.contact;
     }
 
-    public OrganismeModele setContact(String contact) {
+    public OrganismeModele setContact(UtilisateurModele contact) {
         this.contact = contact;
         return this;
     }

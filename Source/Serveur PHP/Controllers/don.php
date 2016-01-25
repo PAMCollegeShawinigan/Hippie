@@ -66,7 +66,7 @@ class don extends Controller
 		ali.description_alimentaire, ali.quantite, marunit.description_marchandise_unite, ali.date_peremption, 
 		ali.valeur, marstat.description_marchandise_statut, org.organisme_id, org.nom, org.telephone, org.poste, 
 		adr.adresse_id, adr.no_civique, typrue.description_type_rue, adr.nom, adr.ville, adr.province, adr.code_postal, adr.pays,
-		typali.description_type_aliment
+		typali.description_type_aliment, 
 		
 		FROM transaction trx
 		
@@ -109,6 +109,8 @@ class don extends Controller
 			}	
 						
 						$adresse = array('id' => $resultat[12], 'no_civique' => $resultat[13], 'type_rue' => $resultat[14], 'nom' => $resultat[15], 'ville' => $resultat[16], 'province' => $resultat[17], 'code_postal' => $resultat[18], 'pays' =>$resultat[19]);
+						
+						$contact = array(''=>);
 						
 						$organisme = array('id' => $resultat[8], 'nom' => $resultat[9], 'telephone' => $resultat[10], 'poste' => $resultat[11], 'adresse' => $adresse );
 						
