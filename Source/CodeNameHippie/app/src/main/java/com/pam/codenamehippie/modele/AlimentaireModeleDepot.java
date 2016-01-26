@@ -91,6 +91,35 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         Request listeUniteRequete = new Request.Builder().url(this.listeUniteUrl).get().build();
         Request listeTypeAlimentaireRequete =
                 new Request.Builder().url(this.listeTypeAlimentaireUrl).get().build();
+        Request listeDonDispoRequete =
+                new Request.Builder().url(this.listeDonDispoUrl).get().build();
+        this.httpClient.newCall(listeDonDispoRequete).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // TODO: Mettre un toast ou whatever
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    Log.e(TAG, "Request failed: " + response.toString());
+                } else {
+                    Type type = new TypeToken<ArrayList<AlimentaireModele>>() { }.getType();
+                    // Ajouter un String "Faites votre choix..." à l'indice 0
+                    ArrayList<AlimentaireModele> temp = new ArrayList<AlimentaireModele>();
+                    temp.add(new AlimentaireModele());
+                    AlimentaireModeleDepot.this.listeDonDispo =
+                            gson.fromJson(response.body().charStream(), type);
+                    temp.addAll(AlimentaireModeleDepot.this.listeDonDispo);
+                    AlimentaireModeleDepot.this.listeDonDispo = temp;
+                    Log.d(TAG,
+                          "Liste type alimentaire: " +
+                          AlimentaireModeleDepot.this.listeDonDispo.toString()
+                         );
+                }
+            }
+        });
         this.httpClient.newCall(listeUniteRequete).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
