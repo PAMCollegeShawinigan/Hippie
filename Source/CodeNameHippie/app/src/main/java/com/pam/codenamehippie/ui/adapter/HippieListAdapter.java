@@ -177,10 +177,10 @@ public class HippieListAdapter extends BaseAdapter {
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(HippieListAdapter.this.context);
                 builder.setMessage(R.string.msg_confirme_suppression)
-                       .setPositiveButton(R.string.bouton_confirme_suppression_oui,
+                       .setPositiveButton(R.string.bouton_confirme_oui,
                                           dialogOnClickListener
                                          )
-                       .setNegativeButton(R.string.bouton_confirme_suppression_non,
+                       .setNegativeButton(R.string.bouton_confirme_non,
                                           dialogOnClickListener
                                          )
                        .create()
