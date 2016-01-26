@@ -2,6 +2,8 @@ package com.pam.codenamehippie.modele;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 /**
  * Créé par Carl St-Louis le 23-11-2015.
  */
@@ -21,7 +23,7 @@ public class OrganismeModele extends BaseModele<OrganismeModele> {
     private String noEntreprise;
     @SerializedName("no_osbl")
     private String noOsbl;
-
+    
     public String getNom() {
         return this.nom;
     }
