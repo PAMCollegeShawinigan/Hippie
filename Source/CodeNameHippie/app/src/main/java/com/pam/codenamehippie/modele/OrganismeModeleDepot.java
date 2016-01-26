@@ -1,20 +1,9 @@
 package com.pam.codenamehippie.modele;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Créé par Carl St-Louis le 23-11-2015.
