@@ -57,23 +57,12 @@ public class ListeMesReservationsActivity extends HippieActivity
         super.onResume();
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        // TODO: Déplacer les deux ligne qui suivent dans l'activité de liste
         int orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
                                                   -1
                                                  );
         alimentaireModeleDepot.ajouterUnObservateur(this);
-        // Filtre pour récupérer les items dont le statut est Réservé
-        alimentaireModeleDepot.setFiltreDeListe(new FiltreDeListe<AlimentaireModele>() {
 
-            @Override
-            public boolean appliquer(AlimentaireModele item) {
-                String statut = item.getStatut();
-                return (statut.equalsIgnoreCase("Réservé"));
-            }
-        });
-
-        // FIXME: Devrais appeler peupler réservation
-        alimentaireModeleDepot.peuplerListeDon(orgId);
+        alimentaireModeleDepot.peuplerListeReservation(orgId);
     }
 
     @Override

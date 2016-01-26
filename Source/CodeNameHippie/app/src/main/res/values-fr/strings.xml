@@ -46,8 +46,8 @@
 	<string name="error_bad_credentials">Cette combinaison de courriel et mot de passe n\'existe pas dans nos archives. Veuillez vérifier votre mot de passe ou vous enregistrer vous si vous n\'avez pas de compte.</string>
 
   <!--Ressource pour ajoutMarchandiseActivity et layout ajout_marchandise -->
-  <string name="ajouter_marchandise">AJOUTER MARCHANDISE</string>
-  <string name="modifier_marchandise">MODIFIER MARCHANDISE</string>
+  <string name="ajouter_marchandise">AJOUTER UNE MARCHANDISE</string>
+  <string name="modifier_marchandise">MODIFIER UNE MARCHANDISE</string>
   <string name="bouton_ajouter">AJOUTER</string>
   <string name="bouton_modifier">MODIFIER</string>
   <string name="msg_produit_ajoute">Marchandise ajoutée</string>
@@ -63,11 +63,36 @@
   <!--Ressource pour HippieListAdapter et ListeMesDonsActivity-->
   <string name="msg_produit_supprime">Marchandise supprimée</string>
   <string name="msg_confirme_suppression">Êtes-vous sur de vouloir supprimer ce don ?</string>
-  <string name="bouton_confirme_suppression_oui">OUI</string>
-  <string name="bouton_confirme_suppression_non">NON</string>
+  <string name="bouton_confirme_oui">OUI</string>
+  <string name="bouton_confirme_non">NON</string>
+  <!--Ressource pour Layout liste_dons et liste_dons_row-->
   <string name="tv_mes_dons">MES DONS</string>
+  <string name="dons_nom">NOM</string>
+  <string name="dons_description">DESCRIPTION</string>
+  <string name="dons_qtee">QTÉE</string>
+  <string name="iv_dons_categorie">Catégorie</string>
+  <string name="tv_dons_nom_marchandise">Nom produit ici</string>
+  <string name="tv_dons_description_marchandise">Description produit ici</string>
+  <string name="tv_dons_qtee_marchandise">99999 unités</string>
+  <string name="ib_dons_modifier">Modifier</string>
+  <string name="ib_dons_supprimer">Supprimer</string>
 
   <!--Ressource pour MesReservationsAdapter et ListeMesReservationsActivity-->
+  <string name="msg_reservation_supprime">Réservation supprimée</string>
+  <string name="msg_reservation_confirme_suppression">Êtes-vous sur de vouloir supprimer cette réservation ?</string>
+  <string name="msg_reservation_collecte">Réservation collectée</string>
+  <string name="msg_reservation_confirme_collecte">Êtes-vous sur de vouloir collecter cette réservation ?</string>
+  <!--Ressource pour Layout liste_reservations et liste_reservations_row-->
   <string name="tv_mes_reservations">MES RÉSERVATIONS</string>
+  <string name="res_nom">NOM</string>
+  <string name="res_qtee">QTÉE</string>
+  <string name="res_reservation">MEILLEUR AVANT</string>
+  <string name="iv_res_categorie">Catégorie</string>
+  <string name="tv_res_nom_marchandise">Nom du produit ici</string>
+  <string name="tv_res_description">Description du produit ici</string>
+  <string name="tv_res_qtee_marchandise">99999 unités</string>
+  <string name="tv_res_date_marchandise">99/99/9999</string>
+  <string name="ib_res_collecter">Collecter</string>
+  <string name="ib_res_supprimer">Supprimer</string>
 
 </resources>

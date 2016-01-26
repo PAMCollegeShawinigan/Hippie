@@ -251,7 +251,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
     }
 
     public void ajouterReservation(AlimentaireModele modele, final Runnable action) {
-        HttpUrl url = this.reservationUrl.newBuilder().addPathSegment("ajout").build();
+        HttpUrl url = this.reservationUrl.newBuilder().addPathSegment("ajouter").build();
         Integer receveurId =
                 PreferenceManager.getDefaultSharedPreferences(this.context)
                                  .getInt(this.context.getString(R.string.pref_org_id_key), -1);
@@ -260,11 +260,11 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                                               .add("receveur_id", receveurId.toString())
                                               .build();
         Request request = new Request.Builder().url(url).post(body).build();
-        this.surDebutDeRequete();
         this.httpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 AlimentaireModeleDepot.this.surErreur(e);
+                AlimentaireModeleDepot.this.surFinDeRequete();
             }
 
             @Override
@@ -272,6 +272,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                 if (!response.isSuccessful()) {
                     HttpReponseException e = new HttpReponseException(response);
                     AlimentaireModeleDepot.this.surErreur(e);
+                    AlimentaireModeleDepot.this.surFinDeRequete();
                 } else {
                     AlimentaireModeleDepot.this.repeuplerLedepot();
                     if (action != null) {
@@ -289,12 +290,12 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                                          .addPathSegment(modele.getId().toString())
                                          .build();
         Request request = new Request.Builder().url(url).get().build();
-        this.surDebutDeRequete();
         this.httpClient.newCall(request)
                        .enqueue(new Callback() {
                            @Override
                            public void onFailure(Call call, IOException e) {
                                AlimentaireModeleDepot.this.surErreur(e);
+                               AlimentaireModeleDepot.this.surFinDeRequete();
                            }
 
                            @Override
