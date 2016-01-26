@@ -118,10 +118,16 @@ class alimentaire extends Controller
 		}
 		
 		
-		$req = $bdd->prepare('UPDATE alimentaire SET nom = :nom, description_alimentaire = :description_alimentaire, quantite = :quantite,
-								marchandise_etat = :marchandise_etat, marchandise_unite = :marchandise_unite, valeur = :valeur,
-								type_alimentaire = :type_alimentaire, date_peremption = :date_peremption
-								WHERE alimentaire_id = :aliment_id');
+		$req = $bdd->prepare('UPDATE alimentaire SET nom = :nom,
+													description_alimentaire = :description_alimentaire,
+													quantite = :quantite,
+													marchandise_etat = :marchandise_etat,
+													marchandise_unite = :marchandise_unite,
+													valeur = :valeur,
+													type_alimentaire = :type_alimentaire,
+													date_peremption = :date_peremption
+													
+													WHERE alimentaire_id = :aliment_id');
 			$req->execute(array(
 				'nom' => $_POST['nom'], 
 				'description_alimentaire' => $_POST['description_alimentaire'],
