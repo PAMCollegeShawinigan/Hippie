@@ -62,11 +62,31 @@ class don extends Controller
 		
 		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev		
 		
-		$req = $bdd -> query('SELECT ali.nom, ali.alimentaire_id,
-		ali.description_alimentaire, ali.quantite, marunit.description_marchandise_unite, ali.date_peremption, 
-		ali.valeur, marstat.description_marchandise_statut, org.organisme_id, org.nom, org.telephone, org.poste, 
-		adr.adresse_id, adr.no_civique, typrue.description_type_rue, adr.nom, adr.ville, adr.province, adr.code_postal, adr.pays,
-		typali.description_type_aliment, util.nom, util.prenom, util.courriel, util.telephone
+		$req = $bdd -> query('SELECT ali.nom,
+		ali.alimentaire_id,
+		ali.description_alimentaire,
+		ali.quantite,
+		marunit.description_marchandise_unite,
+		ali.date_peremption, 
+		ali.valeur,
+		marstat.description_marchandise_statut,
+		org.organisme_id,
+		org.nom,
+		org.telephone,
+		org.poste, 
+		adr.adresse_id, 
+		adr.no_civique,
+		typrue.description_type_rue,
+		adr.nom, 
+		adr.ville,
+		adr.province,
+		adr.code_postal, 
+		adr.pays,
+		typali.description_type_aliment,
+		util.nom,
+		util.prenom,
+		util.courriel,
+		util.telephone
 		
 		FROM transaction trx
 		
@@ -77,7 +97,6 @@ class don extends Controller
 		INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
 		INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
 		INNER JOIN marchandise_statut marstat ON marstat.statut_id = ali.marchandise_statut
-		INNER JOIN marchandise_etat maretat ON maretat.etat_id = ali.marchandise_etat
 		INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite 
 		
 		WHERE ali.marchandise_statut = 3 
@@ -98,7 +117,16 @@ class don extends Controller
 			{
 				$date_peremption = null;
 			}	
-
+						if($resultat['date_peremption'] != null )
+			{
+			$date = date_create($resultat[5]);
+			
+			$date_peremption = date_format($date, DATE_ATOM);
+			}
+			else
+			{
+				$date_peremption = null;
+			}	
 						
 						$adresse = array('id' => $resultat[12], 'no_civique' => $resultat[13], 'type_rue' => $resultat[14], 'nom' => $resultat[15], 'ville' => $resultat[16], 'province' => $resultat[17], 'code_postal' => $resultat[18], 'pays' =>$resultat[19]);
 						
