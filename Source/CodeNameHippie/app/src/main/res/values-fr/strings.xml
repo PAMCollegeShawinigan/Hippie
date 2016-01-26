@@ -46,8 +46,8 @@
 	<string name="error_bad_credentials">Cette combinaison de courriel et mot de passe n\'existe pas dans nos archives. Veuillez vérifier votre mot de passe ou vous enregistrer vous si vous n\'avez pas de compte.</string>
 
   <!--Ressource pour ajoutMarchandiseActivity et layout ajout_marchandise -->
-  <string name="ajouter_marchandise">AJOUTER MARCHANDISE</string>
-  <string name="modifier_marchandise">MODIFIER MARCHANDISE</string>
+  <string name="ajouter_marchandise">AJOUTER UNE MARCHANDISE</string>
+  <string name="modifier_marchandise">MODIFIER UNE MARCHANDISE</string>
   <string name="bouton_ajouter">AJOUTER</string>
   <string name="bouton_modifier">MODIFIER</string>
   <string name="msg_produit_ajoute">Marchandise ajoutée</string>
