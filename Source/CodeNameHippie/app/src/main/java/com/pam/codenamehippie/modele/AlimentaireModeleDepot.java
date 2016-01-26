@@ -48,8 +48,6 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
     private volatile ArrayList<DescriptionModel> listeUnitee;
     private volatile ArrayList<TypeAlimentaireModele> listeTypeAlimentaire;
-    private volatile ArrayList<AlimentaireModele> listeDon;
-    private volatile ArrayList<AlimentaireModele> listeDonDispo;
 
     public AlimentaireModeleDepot(Context context, OkHttpClient httpClient) {
         super(context, httpClient);
@@ -212,72 +210,17 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
     public void peuplerListeDon(Integer id) {
         HttpUrl url = this.listeDonUrl.newBuilder().addPathSegment(id.toString()).build();
         this.peuplerLeDepot(url);
-        //TODO: Enlever le code en dessous et listeDon quand le nouvel api sera en place
-        Request listeDonRequete = new Request.Builder().url(url).get().build();
-        this.httpClient.newCall(listeDonRequete).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-                //TODO: Toast ou whatever
-                Log.e(TAG, "Request failed: " + call.request().toString(), e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) {
-
-                if (!response.isSuccessful()) {
-                    Log.e(TAG, "Request failed: " + response.toString());
-                } else {
-                    Type type = new TypeToken<ArrayList<AlimentaireModele>>() {
-                    }.getType();
-
-                    AlimentaireModeleDepot.this.listeDon =
-                            gson.fromJson(response.body().charStream(), type);
-
-                    Log.d(TAG,
-                          "Liste don: " +
-                          AlimentaireModeleDepot.this.listeDon.toString()
-                         );
-                }
-
-            }
-        });
-
     }
 
     public void peuplerListeDonDispo() {
         this.peuplerLeDepot(this.listeDonDispoUrl);
-        //TODO: Enlever le code en dessous et listeDonDispo quand le nouvel api sera en place
-        Request listeDonDispoRequete =
-                new Request.Builder().url(this.listeDonDispoUrl).get().build();
+    }
 
-        this.httpClient.newCall(listeDonDispoRequete).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                //TODO toast
-
-                Log.e(TAG, "Request failed: " + call.request().toString(), e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (!response.isSuccessful()) {
-                    Log.e(TAG, "Request failed: " + response.toString());
-                } else {
-                    Type type = new TypeToken<ArrayList<AlimentaireModele>>() { }.getType();
-
-                    AlimentaireModeleDepot.this.listeDonDispo =
-                            gson.fromJson(response.body().charStream(), type);
-
-                    Log.d(TAG,
-                          "Liste don dispo: " +
-                          AlimentaireModeleDepot.this.listeDonDispo.toString()
-                         );
-                }
-
-            }
-        });
-
+    public void peuplerListeReservation(Integer idOrganisme) {
+        HttpUrl url = this.listeReservationUrl.newBuilder()
+                                              .addPathSegment(idOrganisme.toString())
+                                              .build();
+        this.peuplerLeDepot(url);
     }
 
     public void collecter(AlimentaireModele modele, final Runnable action) {
@@ -368,12 +311,5 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
                            }
                        });
-    }
-
-    public void peuplerListeReservation(Integer idOrganisme) {
-        HttpUrl url = this.listeReservationUrl.newBuilder()
-                                              .addPathSegment(idOrganisme.toString())
-                                              .build();
-        this.peuplerLeDepot(url);
     }
 }
