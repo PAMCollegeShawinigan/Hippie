@@ -121,13 +121,11 @@ public class MesReservationsAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                // TODO: faire ce qui faut pour supprimer une réservation de la liste. Ou bien mettre la réservation de Réservé à disponible.
-                Log.i("Boutton supprimé cliqué", "**********" + position);
                 final Runnable showToast = new Runnable() {
                     @Override
                     public void run() {
                         Toast.makeText(MesReservationsAdapter.this.context,
-                                "Réservation supprimée", Toast.LENGTH_LONG).show();
+                                R.string.msg_reservation_supprime, Toast.LENGTH_LONG).show();
                     }
                 };
                 // Confirmer la suppression de la réservation
@@ -139,7 +137,6 @@ public class MesReservationsAdapter extends BaseAdapter {
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
                                     case DialogInterface.BUTTON_POSITIVE:
-                                        // FIXME : Devrait supprimer une réservation en mettant le statut à Disponible
                                         MesReservationsAdapter.this.depot.annulerReservation(modele,
                                                 showToast
                                         );
@@ -155,11 +152,11 @@ public class MesReservationsAdapter extends BaseAdapter {
                 // Construction du message pour suppression d'une réservation
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(MesReservationsAdapter.this.context);
-                builder.setMessage("Confirmation de la suppression de la réservation")
-                        .setPositiveButton(R.string.bouton_confirme_suppression_oui,
+                builder.setMessage(R.string.msg_reservation_confirme_suppression)
+                        .setPositiveButton(R.string.bouton_confirme_oui,
                                 dialogOnClickListener
                         )
-                        .setNegativeButton(R.string.bouton_confirme_suppression_non,
+                        .setNegativeButton(R.string.bouton_confirme_non,
                                 dialogOnClickListener
                         )
                         .create()
@@ -171,13 +168,11 @@ public class MesReservationsAdapter extends BaseAdapter {
 
             @Override
             public void onClick(View v) {
-                // TODO: faire ce qui faut pour collecter une réservation de la liste. Ou bien mettre la réservation de Réservé à Ccollecté.
-                Log.i("Boutton collecté cliqué", "**********" + position);
                 final Runnable showToast = new Runnable() {
                     @Override
                     public void run() {
                         Toast.makeText(MesReservationsAdapter.this.context,
-                                "Réservation collectée", Toast.LENGTH_LONG).show();
+                                R.string.msg_reservation_collecte, Toast.LENGTH_LONG).show();
                     }
                 };
                 // Confirmer la collecte de la réservation
@@ -189,7 +184,6 @@ public class MesReservationsAdapter extends BaseAdapter {
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
                                     case DialogInterface.BUTTON_POSITIVE:
-                                        // FIXME : Devrait modifier une réservation en mmettant le statut à Collecté
                                         MesReservationsAdapter.this.depot.collecter(modele,
                                                 showToast
                                         );
@@ -205,11 +199,11 @@ public class MesReservationsAdapter extends BaseAdapter {
                 // Construction du message pour collecte d'une reservation
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(MesReservationsAdapter.this.context);
-                builder.setMessage("Confirmation de la collecte de la réservation")
-                        .setPositiveButton(R.string.bouton_confirme_suppression_oui,
+                builder.setMessage(R.string.msg_reservation_confirme_collecte)
+                        .setPositiveButton(R.string.bouton_confirme_oui,
                                 dialogOnClickListener
                         )
-                        .setNegativeButton(R.string.bouton_confirme_suppression_non,
+                        .setNegativeButton(R.string.bouton_confirme_non,
                                 dialogOnClickListener
                         )
                         .create()
