@@ -12,7 +12,17 @@ class reservation extends Controller
 	{
 	 /// je recoit id marchandise
 	 
-	 
+			$req = $bdd ->prepare('SELECT marchandise_statut ON alimentaire WHERE alimentaire_id = :alimentaire_id');
+					$req->execute(array(
+						'alimentaire_id' => $_POST['marchandise_id']
+					));
+					$resultat = $req->fetch();
+			if(!$resultat['marchandise_statut'] = 3 ) // si le status n'est plus a disponible
+			{
+				return response('La requete n\'a pas pu être exécuté', 409);
+			}		
+			else // fait la reservation et la transaction
+			{
 			include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
 			// recupere les informations de la derniere transaction fait pour le compte
 			$req1 = $bdd -> prepare('SELECT donneur_id, date_disponible, MAX(date_transaction) FROM transaction WHERE marchandise_id = :marchndise_id');
@@ -39,7 +49,7 @@ class reservation extends Controller
 				
 				return response('La reservation a ete fait',200);
 	
-	
+			}
 	}
 	
 	public function annulerreservation($marchandise_id){
