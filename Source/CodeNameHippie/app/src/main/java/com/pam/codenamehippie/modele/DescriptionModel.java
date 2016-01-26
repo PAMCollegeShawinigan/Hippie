@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 public class DescriptionModel extends BaseModele<DescriptionModel> {
 
     @SerializedName("description")
-    private final String description = "Faites votre choix...";
+    private String description = "Faites votre choix...";
 
     /**
      * Accesseur la description

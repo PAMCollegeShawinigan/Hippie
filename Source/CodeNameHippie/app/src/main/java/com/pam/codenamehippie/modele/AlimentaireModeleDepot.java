@@ -22,6 +22,20 @@ import okhttp3.Response;
 
 public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
+    public interface PeuplerListesDeSpinnerListener {
+
+        void surDebut();
+
+        void surErreur(IOException e);
+
+        void surListeUnite(ArrayList<DescriptionModel> items);
+
+        void surListeType(ArrayList<TypeAlimentaireModele> items);
+
+        void surFin();
+
+    }
+
     private static final String TAG = AlimentaireModeleDepot.class.getSimpleName();
 
     private final HttpUrl listeUniteUrl;
@@ -69,65 +83,120 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
     /**
      * Permet de peupler les items pour les spinner.
-     * <p>
+     * <p/>
      * Cette methode est asynchrone et retourne immédiatement
      */
-    public void peuplerLesListes() {
-        //TODO: Refactoriser la méthode pour passer en paramètre des callbacks
+    public void peuplerLesListesDeSpinners(final PeuplerListesDeSpinnerListener listener) {
         Request listeUniteRequete = new Request.Builder().url(this.listeUniteUrl).get().build();
         Request listeTypeAlimentaireRequete =
                 new Request.Builder().url(this.listeTypeAlimentaireUrl).get().build();
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                listener.surDebut();
+            }
+        });
         this.httpClient.newCall(listeUniteRequete).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(Call call, final IOException e) {
                 // TODO: Mettre un toast ou whatever
                 Log.e(TAG, "Request failed: " + call.request().toString(), e);
+                AlimentaireModeleDepot.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.surErreur(e);
+                    }
+                });
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, final Response response) {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
+                    AlimentaireModeleDepot.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.surErreur(new HttpReponseException(response));
+                            listener.surFin();
+                        }
+                    });
                 } else {
-                    Type type = new TypeToken<ArrayList<DescriptionModel>>() { }.getType();
-                    // Ajouter un String "Faites votre choix..." à l'indice 0
-                    ArrayList<DescriptionModel> temp = new ArrayList<DescriptionModel>();
-                    temp.add(new DescriptionModel());
-                    AlimentaireModeleDepot.this.listeUnitee =
-                            gson.fromJson(response.body().charStream(), type);
-                    temp.addAll(AlimentaireModeleDepot.this.listeUnitee);
-                    AlimentaireModeleDepot.this.listeUnitee = temp;
-                    Log.d(TAG,
-                          "Liste type alimentaire: " +
-                          AlimentaireModeleDepot.this.listeUnitee.toString()
-                         );
+                    synchronized (AlimentaireModeleDepot.this.lock) {
+                        Type type = new TypeToken<ArrayList<DescriptionModel>>() { }.getType();
+                        // Ajouter un String "Faites votre choix..." à l'indice 0
+                        ArrayList<DescriptionModel> temp = new ArrayList<>();
+                        temp.add(new DescriptionModel());
+                        AlimentaireModeleDepot.this.listeUnitee =
+                                gson.fromJson(response.body().charStream(), type);
+                        temp.addAll(AlimentaireModeleDepot.this.listeUnitee);
+                        AlimentaireModeleDepot.this.listeUnitee = temp;
+                        Log.d(TAG,
+                              "Liste type alimentaire: " +
+                              AlimentaireModeleDepot.this.listeUnitee.toString()
+                             );
+                    }
+                    AlimentaireModeleDepot.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            synchronized (AlimentaireModeleDepot.this.lock) {
+                                listener.surListeUnite(AlimentaireModeleDepot.this.listeUnitee);
+                            }
+                        }
+                    });
                 }
             }
         });
         this.httpClient.newCall(listeTypeAlimentaireRequete).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(Call call, final IOException e) {
                 // TODO: Mettre un toast ou whatever
                 Log.e(TAG, "Request failed: " + call.request().toString(), e);
+                AlimentaireModeleDepot.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.surErreur(e);
+                        listener.surFin();
+                    }
+                });
+
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, final Response response) {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
+                    AlimentaireModeleDepot.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.surErreur(new HttpReponseException(response));
+                            listener.surFin();
+                        }
+                    });
                 } else {
-                    Type type = new TypeToken<ArrayList<TypeAlimentaireModele>>() { }.getType();
-                    // Ajouter un String "Faites votre choix..." à l'indice 0
-                    ArrayList<TypeAlimentaireModele> temp = new ArrayList<>();
-                    temp.add(new TypeAlimentaireModele());
-                    AlimentaireModeleDepot.this.listeTypeAlimentaire =
-                            gson.fromJson(response.body().charStream(), type);
-                    temp.addAll(AlimentaireModeleDepot.this.listeTypeAlimentaire);
-                    AlimentaireModeleDepot.this.listeTypeAlimentaire = temp;
-                    Log.d(TAG,
-                          "Liste type alimentaire: " +
-                          AlimentaireModeleDepot.this.listeTypeAlimentaire.toString()
-                         );
+                    synchronized (AlimentaireModeleDepot.this.lock) {
+                        Type type = new TypeToken<ArrayList<TypeAlimentaireModele>>() { }.getType();
+                        // Ajouter un String "Faites votre choix..." à l'indice 0
+                        ArrayList<TypeAlimentaireModele> temp = new ArrayList<>();
+                        temp.add(new TypeAlimentaireModele());
+                        AlimentaireModeleDepot.this.listeTypeAlimentaire =
+                                gson.fromJson(response.body().charStream(), type);
+                        temp.addAll(AlimentaireModeleDepot.this.listeTypeAlimentaire);
+                        AlimentaireModeleDepot.this.listeTypeAlimentaire = temp;
+                        Log.d(TAG,
+                              "Liste type alimentaire: " +
+                              AlimentaireModeleDepot.this.listeTypeAlimentaire.toString()
+                             );
+                    }
+                    AlimentaireModeleDepot.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            synchronized (AlimentaireModeleDepot.this.lock) {
+                                listener.surListeType(AlimentaireModeleDepot.this
+                                                              .listeTypeAlimentaire);
+                                listener.surFin();
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -154,7 +223,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response) {
 
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
@@ -191,7 +260,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response) {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                 } else {
