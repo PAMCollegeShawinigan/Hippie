@@ -23,7 +23,7 @@ public class OrganismeModele extends BaseModele<OrganismeModele> {
     private String noEntreprise;
     @SerializedName("no_osbl")
     private String noOsbl;
-    
+
     public String getNom() {
         return this.nom;
     }
