@@ -113,7 +113,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
         ((TextView) convertView.findViewById(R.id.tv_md_nom_entreprise)).setText(modele.getNom());
 
         // Fait afficher l'adresse de l'entreprise
-        // TODO: Arranger l'erreur du CharSequence, pour le moment, on le laisse commenté.
+        // TODO: Faire afficher l'adresse correctement et non en JSON.
         String addresse = modele.getAdresse().toString();
         ((TextView) convertView.findViewById(R.id.tv_md_adresse_entreprise)).setText(addresse);
         return convertView;
