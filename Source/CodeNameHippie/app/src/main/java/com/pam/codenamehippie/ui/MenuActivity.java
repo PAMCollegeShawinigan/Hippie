@@ -1,7 +1,6 @@
 package com.pam.codenamehippie.ui;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -19,30 +18,6 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                                                             OnItemClickListener,
                                                             OnRotationFinishedListener,
                                                             OnCenterClickListener {
-    Intent intent;
-
-//    private TextView selectedTextView;
-//    private OnFragmentInteractionListener mListener;
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
-    public MenuActivity() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +36,6 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
         triangleMenu.setOnItemClickListener(this);
         triangleMenu.setOnRotationFinishedListener(this);
         triangleMenu.setOnCenterClickListener(this);
-
 
 //        selectedTextView = (TextView) findViewById(R.id.main_selected_textView);
 //        selectedTextView.setText(((TriangleImageView) triangleMenu
@@ -97,66 +71,67 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
 
     @Override
     public void onItemClick(View view, String name) {
+        Intent intent;
 
         switch (view.getId()) {
             case R.id.main_mes_dons_image:
                 // clic sur image profil
                 startActivity(new Intent(this, ListeMesDonsActivity.class));
                 Toast.makeText(this.getApplicationContext(),
-                        " Mes dons ",
-                        Toast.LENGTH_SHORT
-                ).show();
+                               " Mes dons ",
+                               Toast.LENGTH_SHORT
+                              ).show();
                 break;
 
             case R.id.main_organisme_image:
-                intent=new Intent(this,ListeOrganismesActivity.class);
+                intent = new Intent(this, ListeOrganismesActivity.class);
                 startActivity(intent);
 
                 // clic sur image carte des organismes
                 Toast.makeText(this.getApplicationContext(),
-                        " Carte des organismes ",
-                        Toast.LENGTH_SHORT
-                ).show();
+                               " Carte des organismes ",
+                               Toast.LENGTH_SHORT
+                              ).show();
                 break;
 
             case R.id.main_statistique_image:
                 // clic sur image des statistiques
                 Toast.makeText(this.getApplicationContext(),
-                        " Statistiques ",
-                        Toast.LENGTH_SHORT
-                ).show();
+                               " Statistiques ",
+                               Toast.LENGTH_SHORT
+                              ).show();
 
                 break;
 
             case R.id.main_carte_image:
                 // clic sur la carte
-                intent=new Intent(this,MapsActivity.class);
-              intent.setFlags(view.getId());
+                intent = new Intent(this, MapsActivity.class);
+                intent.setFlags(view.getId());
                 startActivity(intent);
                 //startActivity(new Intent(this, MapsActivity.class));
                 Toast.makeText(this.getApplicationContext(),
-                        " Carte ",
-                        Toast.LENGTH_SHORT
-                ).show();
+                               " Carte ",
+                               Toast.LENGTH_SHORT
+                              ).show();
                 break;
 
             case R.id.main_reservation_image:
                 // clic sur les réservations
-                intent=new Intent(this,ListeMesReservationsActivity.class);
-              //  intent.setFlags(view.getId());
+                intent = new Intent(this, ListeMesReservationsActivity.class);
+                //  intent.setFlags(view.getId());
                 startActivity(intent);
-              //  startActivity(new Intent(this, MapsActivity.class));
+                //  startActivity(new Intent(this, MapsActivity.class));
                 Toast.makeText(this.getApplicationContext(),
-                        " Mes réservations ",
-                        Toast.LENGTH_SHORT
-                ).show();
+                               " Mes réservations ",
+                               Toast.LENGTH_SHORT
+                              ).show();
                 break;
             case R.id.plus:
                 startActivity(new Intent(this, AjoutMarchandiseActivity.class));
                 Toast.makeText(this.getApplicationContext(),
-                        " Ajout d'une nouvelle marchandise ",
-                        Toast.LENGTH_SHORT
-                ).show();
+                               " Ajout d'une nouvelle marchandise ",
+                               Toast.LENGTH_SHORT
+                              ).show();
                 // clic sur les catégories
                 break;
         }

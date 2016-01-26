@@ -358,7 +358,7 @@ public class MapsActivity extends HippieActivity
         OrganismeModeleDepot depot =
                 ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
         depot.setFiltreDeListe(null);
-        depot.supprimerToutLesObservateurs();
+        depot.supprimerTousLesObservateurs();
 
     }
     @Override

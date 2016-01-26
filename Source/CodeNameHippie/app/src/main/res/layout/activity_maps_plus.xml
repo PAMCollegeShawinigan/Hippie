@@ -22,7 +22,7 @@
             android:gravity="bottom"
             app:umanoDragView="@+id/dragView"
             app:umanoOverlay="false"
-            app:umanoPanelHeight="54dp"
+            app:umanoPanelHeight="60dp"
             app:umanoParalaxOffset="100dp"
             app:umanoShadowHeight="4dp">
 
@@ -89,7 +89,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#e2e1bb"
+                android:background="#ffffff"
                 android:clickable="true"
                 android:focusable="false"
                 android:orientation="vertical">
@@ -100,7 +100,8 @@
                     android:layout_height="match_parent"
                     android:childDivider="@drawable/divider2"
                     android:divider="@drawable/divider1"
-                    android:visibility="visible"/>
+                    android:visibility="visible"
+                    android:padding="5dp"/>
             </LinearLayout>
 
         </com.sothree.slidinguppanel.SlidingUpPanelLayout>

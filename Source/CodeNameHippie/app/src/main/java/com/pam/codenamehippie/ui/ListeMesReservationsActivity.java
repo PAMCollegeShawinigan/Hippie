@@ -2,10 +2,7 @@ package com.pam.codenamehippie.ui;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
@@ -25,9 +22,9 @@ import java.util.ArrayList;
 public class ListeMesReservationsActivity extends HippieActivity
         implements ObservateurDeDepot<AlimentaireModele> {
 
+    private static final String TAG = ListeMesReservationsActivity.class.getSimpleName();
     private ListView listeMesReservations;
     private MesReservationsAdapter mesReservationsAdapter;
-    private static final String TAG = ListeMesReservationsActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +48,7 @@ public class ListeMesReservationsActivity extends HippieActivity
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         alimentaireModeleDepot.setFiltreDeListe(null);
-        alimentaireModeleDepot.supprimerToutLesObservateurs();
+        alimentaireModeleDepot.supprimerTousLesObservateurs();
 
     }
 
@@ -60,10 +57,9 @@ public class ListeMesReservationsActivity extends HippieActivity
         super.onResume();
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        // TODO: Déplacer les deux ligne qui suivent dans l'activité de liste
         int orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
-                -1
-        );
+                                                  -1
+                                                 );
         alimentaireModeleDepot.ajouterUnObservateur(this);
         // Filtre pour récupérer les items dont le statut est Réservé
         alimentaireModeleDepot.setFiltreDeListe(new FiltreDeListe<AlimentaireModele>() {
@@ -75,8 +71,7 @@ public class ListeMesReservationsActivity extends HippieActivity
             }
         });
 
-        // FIXME: Devrais appeler peupler réservation
-        alimentaireModeleDepot.peuplerListeDon(orgId);
+        alimentaireModeleDepot.peuplerListeReservation(orgId);
     }
 
     @Override
@@ -86,6 +81,7 @@ public class ListeMesReservationsActivity extends HippieActivity
 
     @Override
     public void surChangementDeDonnees(ArrayList<AlimentaireModele> modeles) {
+        Log.d("test", "Count= " + modeles.size());
         this.mesReservationsAdapter.setItems(modeles);
     }
 
