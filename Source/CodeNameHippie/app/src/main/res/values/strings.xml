@@ -106,5 +106,6 @@
 	<string name="tv_res_date_marchandise">99/99/9999</string>
 	<string name="ib_res_collecter">Collect</string>
 	<string name="ib_res_supprimer">Delete</string>
+	<string name="tv_liste_marchandises_dispo">NOS MARCHANDISES DISPONIBLES</string>
 
 </resources>
