@@ -98,7 +98,7 @@
 	<string name="tv_mes_reservations">MY RESERVATIONS</string>
 	<string name="res_nom">NAME</string>
 	<string name="res_qtee">QTY</string>
-	<string name="res_reservation">RESERVATION DATE</string>
+	<string name="res_reservation">BEST BEFORE</string>
 	<string name="iv_res_categorie">Category</string>
 	<string name="tv_res_nom_marchandise">Product name here</string>
 	<string name="tv_res_description">Product description here</string>
@@ -106,5 +106,8 @@
 	<string name="tv_res_date_marchandise">99/99/9999</string>
 	<string name="ib_res_collecter">Collect</string>
 	<string name="ib_res_supprimer">Delete</string>
+
+	<!-- TODO: Placer les strings aux bonnes places et les mettres en ordre et les mettres en anglais, Catherine -->
+	<string name="tv_liste_marchandises_dispo">NOS MARCHANDISES DISPONIBLES</string>
 
 </resources>

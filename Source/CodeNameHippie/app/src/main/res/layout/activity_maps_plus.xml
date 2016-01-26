@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:weightSum="1">
+
     <include layout="@layout/content_appbar_main"/>
 
     <ViewSwitcher
@@ -21,7 +22,7 @@
             android:gravity="bottom"
             app:umanoDragView="@+id/dragView"
             app:umanoOverlay="false"
-            app:umanoPanelHeight="60dp"
+            app:umanoPanelHeight="65dp"
             app:umanoParalaxOffset="100dp"
             app:umanoShadowHeight="4dp">
 
@@ -100,7 +101,7 @@
                     android:childDivider="@drawable/divider2"
                     android:divider="@drawable/divider1"
                     android:visibility="visible"
-                    android:padding="5dp"/>
+                    android:padding="7dp" />
             </LinearLayout>
 
         </com.sothree.slidinguppanel.SlidingUpPanelLayout>

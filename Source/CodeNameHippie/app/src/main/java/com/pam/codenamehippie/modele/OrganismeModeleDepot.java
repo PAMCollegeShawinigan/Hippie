@@ -15,7 +15,6 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
 
     private final HttpUrl listeOrganismeDonneur;
 
-
     /**
      * Construction du dépot pour modèle Organisme
      */
@@ -27,8 +26,8 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
 
     public void peuplerListeDonneur() {
         this.peuplerLeDepot(this.listeOrganismeDonneur);
-    }
 
+    }
     public void peuplerListeOrganisme() {
         this.peuplerLeDepot(this.url);
     }
