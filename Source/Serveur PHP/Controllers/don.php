@@ -15,7 +15,7 @@ class don extends Controller
 		
 		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev		
 		
-		$req = $bdd -> prepare('SELECT ali.nom, ali.alimentaire_id,typali.description_type_aliment,
+		$req = $bdd -> prepare('SELECT DISTINCT ali.nom, ali.alimentaire_id,typali.description_type_aliment,
 		ali.description_alimentaire, ali.quantite, marunit.description_marchandise_unite,ali.date_peremption, ali.valeur, marstat.description_marchandise_statut
 		FROM transaction trx
 		
@@ -62,7 +62,7 @@ class don extends Controller
 		
 		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev		
 		
-		$req = $bdd -> query('SELECT ali.nom,
+		$req = $bdd -> query('SELECT DISTINCT ali.nom,
 		ali.alimentaire_id,
 		ali.description_alimentaire,
 		ali.quantite,

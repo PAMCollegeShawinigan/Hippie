@@ -11,21 +11,22 @@ class reservation extends Controller
 	public function reservationajout()
 	{
 	 /// je recoit id marchandise
-	 
-			$req = $bdd ->prepare('SELECT marchandise_statut ON alimentaire WHERE alimentaire_id = :alimentaire_id');
-					$req->execute(array(
+		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
+			$req = $bdd -> prepare('SELECT marchandise_statut FROM alimentaire WHERE alimentaire_id = :alimentaire_id');
+					$req-> execute(array(
 						'alimentaire_id' => $_POST['marchandise_id']
 					));
 					$resultat = $req->fetch();
-			if(!$resultat['marchandise_statut'] = 3 ) // si le status n'est plus a disponible
+			if($resultat['marchandise_statut'] != 3 ) // si le status n'est plus a disponible
 			{
 				return response('La requete n\'a pas pu être exécuté', 409);
 			}		
 			else // fait la reservation et la transaction
 			{
-			include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
+			
+			
 			// recupere les informations de la derniere transaction fait pour le compte
-			$req1 = $bdd -> prepare('SELECT donneur_id, date_disponible, MAX(date_transaction) FROM transaction WHERE marchandise_id = :marchndise_id');
+			$req1 = $bdd -> prepare('SELECT transaction_id, donneur_id, date_disponible FROM transaction WHERE marchandise_id = :marchandise_id ORDER BY transaction_id DESC LIMIT 1 ');
 						$req1->execute(array(
 						'marchandise_id' => $_POST['marchandise_id'] 
 						));
@@ -45,7 +46,7 @@ class reservation extends Controller
 			$req3 = $bdd -> prepare('UPDATE alimentaire SET marchandise_statut = :marchandise_statut WHERE alimentaire_id = :id'); 
 				$req3->execute(array(
 				'id' => $_POST['marchandise_id'],
-				'marchandise_statut' => '2' ));  // TO_DO modifier le hard-coding ( 2 = reserve)
+				'marchandise_statut' => '2' ));  // TODO modifier le hard-coding ( 2 = reserve)
 				
 				return response('La reservation a ete fait',200);
 	
@@ -55,7 +56,7 @@ class reservation extends Controller
 	public function annulerreservation($marchandise_id){
 		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
 		
-					$req1 = $bdd -> prepare('SELECT donneur_id, receveur_id, date_disponible, MAX(date_transaction) FROM transaction WHERE marchandise_id = :marchandise_id');
+					$req1 = $bdd -> prepare('SELECT transaction_id, donneur_id, receveur_id, date_disponible FROM transaction WHERE marchandise_id = :marchandise_id ORDER BY transaction_id DESC LIMIT 1');
 						$req1->execute(array(
 						'marchandise_id' => $marchandise_id
 						));
@@ -63,14 +64,12 @@ class reservation extends Controller
 						$transaction = $req1->fetch();
 						
 						
-					$req2 = $bdd ->prepare('INSERT INTO transaction (donneur_id, receveur_id, marchandise_id, date_disponible, date_reservation)
-											VALUES(:donneur_id, :receveur_id, :marchandise_id, :date_disponible, :date_reservation)');
+					$req2 = $bdd ->prepare('INSERT INTO transaction (donneur_id, receveur_id, marchandise_id, date_disponible, date_transaction)
+											VALUES(:donneur_id, :receveur_id, :marchandise_id, NOW(), NOW())');
 						$req2->execute(array(
 							'donneur_id'=>  $transaction['donneur_id'],
 							'receveur_id' => $transaction['receveur_id'],
-							'marchandise_id' => $marchandise_id,
-							'date_disponible' => $transaction['date_disponible'] ,
-							'date_reservation' => '0000-00-00 00:00:00'
+							'marchandise_id' => $marchandise_id
 							));
 						
 					$req3 = $bdd ->prepare('UPDATE alimentaire SET marchandise_statut = :marchandise_statut WHERE alimentaire_id = :id');
@@ -85,12 +84,11 @@ class reservation extends Controller
 		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
 		$header = array ('Content-Type' => 'application/json; charset=UTF-8', 'charset' => 'utf-8' );
 		
-		$req = $bdd -> prepare('SELECT	typali.description_type_aliment, 
+		$req = $bdd -> prepare('SELECT DISTINCT	typali.description_type_aliment, 
 											ali.nom,
 											ali.description_alimentaire,
 											ali.quantite,
 											marunit.description_marchandise_unite,
-											trx.date_reservation,
 											ali.date_peremption,
 											org.nom,
 											adr.no_civique, 
@@ -105,7 +103,8 @@ class reservation extends Controller
 											util.courriel,
 											util.nom,
 											util.prenom,
-											util.telephone
+											util.telephone,
+											ali.alimentaire_id
 											
 		
 											FROM type_aliment typali
@@ -128,9 +127,9 @@ class reservation extends Controller
 						$array = array();
 				while($resultat = $req->fetch()){
 					
-			if($resultat[6] != null )
+			if($resultat[5] != null )
 			{
-			$date = date_create($resultat[6]);
+			$date = date_create($resultat[5]);
 			
 			$date_peremption = date_format($date, DATE_ATOM);
 			}
@@ -138,26 +137,15 @@ class reservation extends Controller
 			{
 				$date_peremption = null;
 			}	
-					
-			if($resultat[5] != null )
-			{
-			$dater = date_create($resultat[5]);
-			
-			$date_reservation = date_format($dater, DATE_ATOM);
-			}
-			else
-			{
-				$date_reservation = null;
-			}	
-					
-					
-						$adresse = array('no_civique' => $resultat[8], 'type_rue' => $resultat[9], 'nom' => $resultat[10], 'ville' => $resultat[11], 'province' => $resultat[12], 'code_postal' => $resultat[13], 'pays' =>$resultat[14]);
 						
-						$contact = array('nom'=> $resultat[18], 'prenom' => $resultat[19], 'courriel' => $resultat[17], 'telephone' => $resultat[20] );
+					
+						$adresse = array('no_civique' => $resultat[7], 'type_rue' => $resultat[8], 'nom' => $resultat[9], 'ville' => $resultat[10], 'province' => $resultat[11], 'code_postal' => $resultat[12], 'pays' =>$resultat[13]);
 						
-						$organisme = array('nom' => $resultat[7], 'telephone' => $resultat[15], 'poste' => $resultat[16], 'adresse' => $adresse, 'contact' => $contact );
+						$contact = array('nom'=> $resultat[17], 'prenom' => $resultat[18], 'courriel' => $resultat[16], 'telephone' => $resultat[19] );
 						
-						$arr = array('nom' => $resultat[0], 'description' => $resultat[1], 'quantite' => $resultat[2], 'unite' => $resultat[3], 'date_peremption' => $date_peremption, 'date_reservation' => $date_reservation, 'organisme' => $organisme  );
+						$organisme = array('nom' => $resultat[6], 'telephone' => $resultat[14], 'poste' => $resultat[15], 'adresse' => $adresse, 'contact' => $contact );
+						
+						$arr = array('id' => $resultat[20], 'type_alimentaire' => $resultat[0], 'nom' => $resultat[1], 'description' => $resultat[2], 'quantite' => $resultat[3], 'unite' => $resultat[4], 'date_peremption' => $date_peremption, 'organisme' => $organisme  );
 						
 						array_push($array, $arr);
 				}

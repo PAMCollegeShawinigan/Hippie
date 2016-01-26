@@ -8,46 +8,48 @@ use App\Http\Controllers\alimentaire;
 class alimentaire extends Controller
 {
 
-	public function alimentaireid($id)
+	public function alimentaireid($id) // retourne l'objet aliment selon l'id
 	{
 	
-    $header = array (
-                'Content-Type' => 'application/json; charset=UTF-8',
-                'charset' => 'utf-8'
-            );
-			
-		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
-		
-		$req = $bdd->prepare('Select * From alimentaire 
-		INNER JOIN marchandise_etat ON alimentaire.marchandise_etat = marchandise_etat.etat_id
-		INNER JOIN marchandise_unite ON alimentaire.marchandise_unite = marchandise_unite.unite_id
-		INNER JOIN marchandise_statut ON alimentaire.marchandise_statut = marchandise_statut.statut_id
-		INNER JOIN type_aliment ON alimentaire.type_alimentaire = type_aliment.aliment_id
-		WHERE alimentaire_id = :id AND marchandise_statut = 3'); // Requête de tout les champs d'organisme
+		$header = array ('Content-Type' => 'application/json; charset=UTF-8','charset' => 'utf-8'); 
 				
-				
-				$req->execute(array(
-					'id' => $id));
-		$resultat = $req->fetch();
-		
-		if($resultat['date_peremption'] != null ){
-		
-		$date = date_create($resultat['date_peremption']);
+			include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
 			
-		$date_peremption = date_format($date, DATE_ATOM);
-		}
-		else
-		{
-			$date_peremption = 'null';
-		}
-		
-		$arr = array('nom' => $resultat['nom'], 'description' => $resultat['description_alimentaire'], 'quantite' => $resultat['quantite'],
-					'marchandise_etat'=> $resultat['description_marchandise_etat'], 'marchandise_unite' => $resultat['description_marchandise_unite'],
-					'valeur' => $resultat['valeur'], 'marchandise_statut' =>$resultat['description_marchandise_statut'], 'type_alimentaire' => $resultat['description_type_aliment'], 	
-					'date_peremption' => $date_peremption);
+			$req = $bdd->prepare('Select * 
+									FROM alimentaire 
+									
+									INNER JOIN marchandise_etat ON alimentaire.marchandise_etat = marchandise_etat.etat_id
+									INNER JOIN marchandise_unite ON alimentaire.marchandise_unite = marchandise_unite.unite_id
+									INNER JOIN marchandise_statut ON alimentaire.marchandise_statut = marchandise_statut.statut_id
+									INNER JOIN type_aliment ON alimentaire.type_alimentaire = type_aliment.aliment_id
+									
+									WHERE alimentaire_id = :id 
+										AND marchandise_statut = 3'); // Requête de tout les champs d'organisme
+					
+					
+					$req->execute(array(
+							'id' => $id));
 						
-						return response() -> json($arr,200,$header,JSON_UNESCAPED_UNICODE);
-	}
+						$resultat = $req->fetch();
+				
+				if($resultat['date_peremption'] != null ){
+				
+				$date = date_create($resultat['date_peremption']);
+					
+				$date_peremption = date_format($date, DATE_ATOM);
+				}
+				else
+				{
+					$date_peremption = 'null';
+				}
+			
+			$array = array('nom' => $resultat['nom'], 'description' => $resultat['description_alimentaire'], 'quantite' => $resultat['quantite'],
+						'marchandise_etat'=> $resultat['description_marchandise_etat'], 'marchandise_unite' => $resultat['description_marchandise_unite'],
+						'valeur' => $resultat['valeur'], 'marchandise_statut' =>$resultat['description_marchandise_statut'], 
+						'type_alimentaire' => $resultat['description_type_aliment'], 'date_peremption' => $date_peremption );
+							
+				return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE);
+	} 
 	
 	public function ajoutalimentaire(){
 		
@@ -150,15 +152,15 @@ class alimentaire extends Controller
 	{ 
 		include('Connection/bdlogin.php'); // inclus le fichier de connection à la bd
 		
-		$req1 = $bdd ->prepare('SELECT donneur_id, MAX(date_transaction) ON transaction WHERE marchandise_id = :marchandise_id'); // selectionne l'id du donneur dans transaction
-			$req1->execute(array(
+		$req1 = $bdd -> prepare('SELECT donneur_id, MAX(date_transaction) FROM transaction WHERE marchandise_id = :marchandise_id'); // selectionne l'id du donneur dans transaction
+			$req1 -> execute(array(
 				'marchandise_id' => $id_alimentaire
 			));
 			
 			$resultat = $req1-> fetch();
 			
 			$transaction = $bdd -> prepare('INSERT INTO transaction (donneur_id, marchandise_id, date_transaction) VALUES (:donneur_id, :marchandise_id, NOW())');
-			$transaction->execute(array(
+			$transaction -> execute(array(
 				'donneur_id' => $resultat['donneur_id'],
 				'marchandise_id' => $id_alimentaire
 			));
@@ -175,20 +177,21 @@ class alimentaire extends Controller
 	public function collecteralimentaire($id_alimentaire){ //TO-DO FAIRE UNE TRANSACTION
 		include('Connection/bdlogin.php');
 		
-				$req1 = $bdd ->prepare('SELECT receveur_id, donneur_id, date_reservation, date_disponible MAX(date_transaction) ON transaction WHERE marchandise_id = :marchandise_id'); // selectionne les informations de la derniere transaction relié a l'aliment
+				$req1 = $bdd ->prepare('SELECT transaction_id, receveur_id, donneur_id, date_reservation, date_disponible FROM transaction WHERE marchandise_id = :marchandise_id ORDER BY transaction_id DESC LIMIT 1'); // selectionne les informations de la derniere transaction relié a l'aliment
 			$req1->execute(array(
 				'marchandise_id' => $id_alimentaire
 			));
 			
 			$resultat = $req1-> fetch();
 		
-			$transaction = $bdd -> prepare('INSERT INTO transaction (receveur_id, donneur_id, marchandise_id, date_reservation, date_disponible, date_transaction, date_collecte) VALUES (:receveur_id, :donneur_id, :marchandise_id, :date_reservation, :date_disponible, NOW(), NOW())');
+			$transaction = $bdd -> prepare('INSERT INTO transaction (receveur_id, donneur_id, marchandise_id, date_reservation, date_disponible, date_transaction, date_collecte) 
+															VALUES (:receveur_id, :donneur_id, :marchandise_id, :date_reservation, :date_disponible, NOW(), NOW())');
 			$transaction->execute(array(
 				'receveur_id'=>$resultat['receveur_id'],
 				'donneur_id' => $resultat['donneur_id'],
 				'marchandise_id' => $id_alimentaire,
 				'date_reservation' => $resultat['date_reservation'],
-				'date_disponible' => $resultat['date_dispoible']
+				'date_disponible' => $resultat['date_disponible']
 			));
 		
 		

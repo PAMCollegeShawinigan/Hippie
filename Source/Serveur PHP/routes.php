@@ -16,7 +16,7 @@ Route:: post('/', 'connection@connect');
 
 Route:: get('liste/{type}', 'liste@liste');
 
-Route:: get('adresse/{id}', 'adresse@adresse');
+Route:: get('adresse/{id}', 'adresse@adresse'); // Retourne l'adresse selon l'id
 
 Route:: get('organisme/', 'organisme@listeorganisme');
 
