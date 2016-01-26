@@ -167,7 +167,8 @@ ORDER BY ali.date_peremption ASC;
 - Courriel de l'organisme communautaire
 */
 -- PA vérifie si les champs que je mets conviennent à l'idée d'objet que tu souhaites utilisé.
-SELECT 	org.nom, 
+-- Avec les ajouts de PA (2016-01-25)
+SELECT	org.nom, 
 		adr.no_civique, 
 		typrue.description_type_rue, 
 		adr.nom, 
@@ -177,9 +178,11 @@ SELECT 	org.nom,
 		adr.pays,
 		util.prenom,
 		util.nom,
+		util.courriel,
+		util.telephone,
 		org.telephone,
-		org.poste,
-		util.courriel
+		org.poste
+	  	  
 FROM organisme org
 INNER JOIN adresse adr ON adr.adresse_id = org.adresse
 INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
@@ -323,6 +326,7 @@ UPDATE alimentaire SET marchandise_statut = :marchandise_statut WHERE alimentair
     Numéro de téléphone du donneur (s'il y a)
     Courriel du donneur (s'il y a)
 */
+-- Avec les ajouts de PA (2016-01-25)
 
 SELECT	typali.description_type_aliment, 
 		ali.nom,
@@ -332,7 +336,6 @@ SELECT	typali.description_type_aliment,
 		trx.date_reservation,
 		ali.date_peremption,
 		org.nom,
-		adr.adresse_id, 
 		adr.no_civique, 
 		typrue.description_type_rue, 
 		adr.nom, 
@@ -342,17 +345,20 @@ SELECT	typali.description_type_aliment,
 		adr.pays,
 		org.telephone,
 		org.poste,
-		util.courriel
+		util.courriel,
+		util.nom,
+		util.prenom,
+		util.telephone
 		
 FROM type_aliment typali
 INNER JOIN alimentaire ali ON ali.type_alimentaire = typali.aliment_id
 INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite
 INNER JOIN transaction trx ON trx.marchandise_id = ali.alimentaire_id
-INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
+INNER JOIN organisme org ON org.organisme_id = trx.receveur_id
 INNER JOIN adresse adr ON adr.adresse_id = org.adresse
 INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
 INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
 WHERE 	ali.marchandise_statut = 2
-AND (ali.date_peremption > CURRENT_DATE OR ali.date_peremption IS NULL) 
+AND trx.receveur_id = :id_organisme
 ORDER BY typali.aliment_id DESC;		
 

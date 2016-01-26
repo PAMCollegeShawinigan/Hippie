@@ -62,7 +62,7 @@ public class ListeMesDonsActivity extends HippieActivity
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         alimentaireModeleDepot.setFiltreDeListe(null);
-        alimentaireModeleDepot.supprimerToutLesObservateurs();
+        alimentaireModeleDepot.supprimerTousLesObservateurs();
 
     }
 
