@@ -49,7 +49,7 @@
                     android:id="@+id/tv_md_peremption"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.025"
+                    android:layout_weight="0.25"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:text="@string/md_peremption"/>
@@ -59,7 +59,7 @@
             <ExpandableListView
                 android:id="@+id/marchandise_dispo"
                 android:layout_width="match_parent"
-                android:layout_height="505dp"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <include layout="@layout/loading"/>

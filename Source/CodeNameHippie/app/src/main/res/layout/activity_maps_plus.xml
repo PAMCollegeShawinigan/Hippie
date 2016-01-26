@@ -21,7 +21,7 @@
             android:gravity="bottom"
             app:umanoDragView="@+id/dragView"
             app:umanoOverlay="false"
-            app:umanoPanelHeight="60dp"
+            app:umanoPanelHeight="65dp"
             app:umanoParalaxOffset="100dp"
             app:umanoShadowHeight="4dp">
 
