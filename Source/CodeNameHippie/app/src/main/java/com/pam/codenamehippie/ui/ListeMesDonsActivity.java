@@ -62,7 +62,7 @@ public class ListeMesDonsActivity extends HippieActivity
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         alimentaireModeleDepot.setFiltreDeListe(null);
-        alimentaireModeleDepot.supprimerToutLesObservateurs();
+        alimentaireModeleDepot.supprimerTousLesObservateurs();
 
     }
 
@@ -104,6 +104,7 @@ public class ListeMesDonsActivity extends HippieActivity
     public void surFinDeRequete() {
         this.cacherLaProgressbar();
     }
+
     @Override
     public void surErreur(IOException e) {
         //TODO: Toast
