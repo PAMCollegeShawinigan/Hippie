@@ -260,7 +260,6 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                                               .add("receveur_id", receveurId.toString())
                                               .build();
         Request request = new Request.Builder().url(url).post(body).build();
-        this.surDebutDeRequete();
         this.httpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -291,7 +290,6 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                                          .addPathSegment(modele.getId().toString())
                                          .build();
         Request request = new Request.Builder().url(url).get().build();
-        this.surDebutDeRequete();
         this.httpClient.newCall(request)
                        .enqueue(new Callback() {
                            @Override
