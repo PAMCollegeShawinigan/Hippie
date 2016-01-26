@@ -30,14 +30,14 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:padding="16dp"
-                android:scrollIndicators="top">
+                android:scrollIndicators="top"
+                android:weightSum="1">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <GridLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:paddingLeft="40dp">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tvAjoutMarchandise"
@@ -47,17 +47,21 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="#70A843"
                         android:textSize="30sp"
-                        android:paddingTop="65dp"/>
+                        android:layout_row="0"
+                        android:layout_column="0"
+                        android:layout_marginTop="65dp" />
 
                     <TextView
                         android:id="@+id/tvNomMarchandise"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:paddingBottom="10dp"
                         android:paddingTop="10dp"
                         android:text="@string/marchandise_nom"
                         android:textColor="#000000"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+                        android:layout_row="1"
+                        android:layout_column="0" />
 
                     <EditText
                         android:id="@+id/etNomMarchandise"
@@ -69,17 +73,21 @@
                         android:maxLength="50"
                         android:nextFocusForward="@+id/etDescMarchandise"
                         android:padding="10dp"
-                        android:textColorHint="#c6c6c6"/>
+                        android:textColorHint="#c6c6c6"
+                        android:layout_row="1"
+                        android:layout_column="1"/>
 
                     <TextView
                         android:id="@+id/tvDescMarchandise"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:paddingBottom="10dp"
                         android:paddingTop="10dp"
                         android:text="@string/marchandise_description"
                         android:textColor="#000000"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+                        android:layout_row="2"
+                        android:layout_column="0" />
 
                     <EditText
                         android:id="@+id/etDescMarchandise"
@@ -91,17 +99,21 @@
                         android:maxLength="100"
                         android:nextFocusForward="@+id/etQteeMarchandise"
                         android:padding="10dp"
-                        android:textColorHint="#c6c6c6"/>
+                        android:textColorHint="#c6c6c6"
+                        android:layout_row="2"
+                        android:layout_column="1" />
 
                     <TextView
                         android:id="@+id/tvQteeMarchandise"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:paddingBottom="10dp"
                         android:paddingTop="10dp"
                         android:text="@string/marchandise_quantites"
                         android:textColor="#000000"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+                        android:layout_row="4"
+                        android:layout_column="0" />
 
                     <EditText
                         android:id="@+id/etQteeMarchandise"
@@ -114,18 +126,22 @@
                         android:maxLength="10"
                         android:nextFocusForward="@+id/etUniteMarchandise"
                         android:padding="10dp"
-                        android:textColorHint="#c6c6c6"/>
+                        android:textColorHint="#c6c6c6"
+                        android:layout_row="4"
+                        android:layout_column="1" />
 
                     <TextView
                         android:id="@+id/tvUniteMarchandise"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:paddingBottom="10dp"
                         android:paddingTop="10dp"
                         android:text="@string/marchandise_unite"
                         android:textColor="#000000"
                         android:textColorHint="#c6c6c6"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+                        android:layout_row="6"
+                        android:layout_column="0" />
 
                     <Spinner
                         android:id="@+id/spinnerUniteMarchandise"
@@ -134,17 +150,21 @@
                         android:layout_marginBottom="10dp"
                         android:background="@drawable/element"
                         android:entries="@array/UniteMarchandiseListe"
-                        android:nextFocusForward="@+id/etValeurMarchandise"/>
+                        android:nextFocusForward="@+id/etValeurMarchandise"
+                        android:layout_row="6"
+                        android:layout_column="1" />
 
                     <TextView
                         android:id="@+id/tvValeurMarchandise"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:paddingBottom="10dp"
                         android:paddingTop="10dp"
                         android:text="@string/marchandise_valeur"
                         android:textColor="#000000"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+                        android:layout_row="7"
+                        android:layout_column="0" />
 
                     <EditText
                         android:id="@+id/etValeurMarchandise"
@@ -158,17 +178,21 @@
                         android:nextFocusForward="@+id/etTypeMarchandise"
                         android:numeric="integer"
                         android:padding="10dp"
-                        android:textColorHint="#c6c6c6"/>
+                        android:textColorHint="#c6c6c6"
+                        android:layout_row="7"
+                        android:layout_column="1" />
 
                     <TextView
                         android:id="@+id/tvTypeMarchandise"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:paddingBottom="10dp"
                         android:paddingTop="10dp"
                         android:text="@string/marchandise_type_alimentaire"
                         android:textColor="#000000"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+                        android:layout_row="10"
+                        android:layout_column="0" />
 
                     <Spinner
                         android:id="@+id/spinnerTypeMarchandise"
@@ -176,35 +200,46 @@
                         android:layout_height="40dp"
                         android:layout_marginBottom="10dp"
                         android:background="@drawable/element"
-                        android:imeOptions="actionDone"/>
+                        android:imeOptions="actionDone"
+                        android:layout_row="10"
+                        android:layout_column="1" />
 
                     <TextView
                         android:id="@+id/tvDatePeremption"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:paddingBottom="10dp"
                         android:paddingTop="10dp"
                         android:text="@string/marchandise_date_peremption"
                         android:textColor="#000000"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+                        android:layout_row="12"
+                        android:layout_column="0" />
+
 
                     <DatePicker
                         android:id="@+id/datePicker"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"/>
+                        android:layout_row="12"
+                        android:layout_column="1" />
 
-                    <Button
-                        android:id="@+id/bAjoutMarchandise"
-                        android:layout_width="300dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="30dp"
-                        android:background="@drawable/button"
-                        android:onClick="soumettreMarchandise"
-                        android:textColor="#FFFFFF"
-                        android:focusable="true"
-                        android:text="@string/bouton_ajouter"/>
-                </LinearLayout>
+                </GridLayout>
+
+                <Button
+                    android:id="@+id/bAjoutMarchandise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="230dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/button"
+                    android:onClick="soumettreMarchandise"
+                    android:text="@string/bouton_ajouter"
+                    android:textColor="#FFFFFF"
+                    android:layout_row="13"
+                    android:layout_column="1"
+                    android:layout_weight="0.35"
+                    android:layout_gravity="center_vertical" />
+
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 
