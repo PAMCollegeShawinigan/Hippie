@@ -96,6 +96,7 @@ public class MesReservationsAdapter extends BaseAdapter {
                 break;
         }
 
+        Log.i("ITEM_RES", "Count = " + this.items.size());
         // Assigner les valeurs nom, description, quantités, unité et ajouter deux ImageButton par
         // rangée selon le nombre d'items contenus dans l'ArrayList.
         ((TextView) row.findViewById(R.id.tv_res_nom_marchandise)).setText(modele.getNom());
@@ -139,9 +140,9 @@ public class MesReservationsAdapter extends BaseAdapter {
                                 switch (which) {
                                     case DialogInterface.BUTTON_POSITIVE:
                                         // FIXME : Devrait supprimer une réservation en mettant le statut à Disponible
-//                                        MesReservationsAdapter.this.depot.supprimerModele(modele,
-//                                                showToast
-//                                        );
+                                        MesReservationsAdapter.this.depot.annulerReservation(modele,
+                                                showToast
+                                        );
                                         dialog.dismiss();
                                         break;
                                     default:
@@ -189,9 +190,9 @@ public class MesReservationsAdapter extends BaseAdapter {
                                 switch (which) {
                                     case DialogInterface.BUTTON_POSITIVE:
                                         // FIXME : Devrait modifier une réservation en mmettant le statut à Collecté
-//                                        MesReservationsAdapter.this.depot.supprimerModele(modele,
-//                                                showToast
-//                                        );
+                                        MesReservationsAdapter.this.depot.collecter(modele,
+                                                showToast
+                                        );
                                         dialog.dismiss();
                                         break;
                                     default:
