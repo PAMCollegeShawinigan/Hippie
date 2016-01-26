@@ -57,7 +57,6 @@ public class ListeMesReservationsActivity extends HippieActivity
         super.onResume();
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        // TODO: Déplacer les deux ligne qui suivent dans l'activité de liste
         int orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
                                                   -1
                                                  );
@@ -72,8 +71,7 @@ public class ListeMesReservationsActivity extends HippieActivity
             }
         });
 
-        // FIXME: Devrais appeler peupler réservation
-        alimentaireModeleDepot.peuplerListeDon(orgId);
+        alimentaireModeleDepot.peuplerListeReservation(orgId);
     }
 
     @Override
