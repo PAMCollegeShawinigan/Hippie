@@ -1,6 +1,6 @@
 package com.pam.codenamehippie.ui.adapter;
+
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.modele.AlimentaireModele;
+import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.ui.view.trianglemenu.TestDonneeCentre;
 
 
-import java.util.Calendar;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Created by BEG-163 on 2016-01-18.
@@ -24,18 +25,20 @@ import java.util.HashMap;
  */
 public class CarteAdapterOption extends BaseExpandableListAdapter {
     Context context;
-    TestDonneeCentre.Organisme mOrganisme;
-   int viewID;
+    OrganismeModele mOrganisme;
+    ArrayList<AlimentaireModele> listedon = new ArrayList<>();
+    int viewID;
 
-    public CarteAdapterOption(Context context,TestDonneeCentre.Organisme mOrganisme,int viewID){
-        this.context=context;
-        this.mOrganisme=mOrganisme;
-        this.viewID=viewID;
+    public CarteAdapterOption(Context context, OrganismeModele mOrganisme, ArrayList<AlimentaireModele> listedon, int viewID) {
+        this.context = context;
+        this.mOrganisme = mOrganisme;
+        this.listedon = listedon;
+        this.viewID = viewID;
     }
 
     @Override
     public int getGroupCount() {
-        return 2+mOrganisme.getListDenree().size();
+        return 1 + listedon.size();
     }
 
     @Override
@@ -43,11 +46,10 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
         int count;
         if (groupPosition == 0) {
             count = 2;
-        } else if (groupPosition == 1) {
-            count = 7;
         } else {
             count = 1;
         }
+
         return count;
     }
 
@@ -55,13 +57,10 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
     public Object getGroup(int groupPosition) {
         Object info;
         if (groupPosition == 0) {
-            info = mOrganisme.getNomOrganisme();
-        } else if (groupPosition == 1) {
-            info = mOrganisme.getMapCollectTime();
-
+            info = mOrganisme.getNom();
         } else {
 
-            info = mOrganisme.getListDenree().get(groupPosition-2);
+            info = listedon.get(groupPosition - 2);
         }
 
         return info;
@@ -77,47 +76,17 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
 
             switch (childPosition) {
                 case 0:
-                    info = mOrganisme.getAddresse();
+                    info = mOrganisme.getAdresse();
                     break;
                 case 1:
                     info = mOrganisme.getTelephone();
                     break;
             }
-        } else if (groupPosition == 1) {
-            switch (childPosition) {
-                case 0:
-                    info = mOrganisme.getMapCollectTime().get("lundi");
-                    break;
-                case 1:
-                    info = mOrganisme.getMapCollectTime().get("mardi");
-                    break;
-                case 2:
-                    info = mOrganisme.getMapCollectTime().get("mercredi");
-                    break;
-                case 3:
-                    info = mOrganisme.getMapCollectTime().get("jeudi");
-                    break;
-                case 4:
-                    info = mOrganisme.getMapCollectTime().get("vendredi");
-                    break;
-                case 5:
-                    info = mOrganisme.getMapCollectTime().get("samdi");
-                    break;
-                case 6:
-                    info = mOrganisme.getMapCollectTime().get("dimanche");
-                    break;
-            }
+
 
         } else {
-//            switch (childPosition) {
-//                case 0:
-//                    String[] str = {"nom", "quantite", "date de peremption"};
-//                    info = str;
-//                    break;
-//                default:
-//                    info = mOrganisme.getListDenree().get(childPosition - 1);
-//            }
-            info = mOrganisme.getListDenree().get(groupPosition-2).getDescription();
+
+            info = listedon.get(groupPosition - 2).getDescription();
 
         }
         return info;
@@ -156,38 +125,16 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
 
             logo.setImageResource(R.drawable.adresse);
 
-            textView.setText(mOrganisme.getAddresse());
-            layout1.addView(logo);
-            layout1.addView(textView);
-
-        } else if (groupPosition == 1) {
-
-            logo.setImageResource(R.drawable.horaire);
-            final Calendar c = Calendar.getInstance();
-            int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-            if (dayOfWeek == 2) {
-                //  textView.setText(mOrganisme.getMapCollectTime().get("lundi"));
-                textView.setText("Collecte Aujourd'hui:" + ((HashMap) getGroup(groupPosition)).get("lundi"));
-            } else if (dayOfWeek == 3) {
-                textView.setText("Collecte Aujourd'hui:" + ((HashMap) getGroup(groupPosition)).get("mardi"));
-            } else if (dayOfWeek == 4) {
-                textView.setText("Collecte Aujourd'hui:" + ((HashMap) getGroup(groupPosition)).get("mercredi"));
-            } else if (dayOfWeek == 5) {
-                textView.setText("Collecte Aujourd'hui:" + ((HashMap) getGroup(groupPosition)).get("jeudi"));
-            } else if (dayOfWeek == 6) {
-                textView.setText("Collecte Aujourd'hui:" + ((HashMap) getGroup(groupPosition)).get("vendredi"));
-            } else if (dayOfWeek == 7) {
-                textView.setText("Collecte Aujourd'hui:" + ((HashMap) getGroup(groupPosition)).get("samdi"));
-            } else {
-                textView.setText("Collecte Aujourd'hui:" + ((HashMap) getGroup(groupPosition)).get("dimanche"));
-
-            }
+            textView.setText(mOrganisme.getAdresse().getNoCivique() + mOrganisme.getAdresse().getTypeRue() +
+                    mOrganisme.getAdresse().getNom() + mOrganisme.getAdresse().getApp() +
+                    mOrganisme.getAdresse().getVille() + mOrganisme.getAdresse().getProvince() +
+                    mOrganisme.getAdresse().getCodePostal() + mOrganisme.getAdresse().getPays());
             layout1.addView(logo);
             layout1.addView(textView);
 
         } else {
 
-            TestDonneeCentre.Denree.TypeDenree typeDenree = mOrganisme.getListDenree().get(groupPosition-2).getTypeDenree();
+            String typeDenree = listedon.get(groupPosition - 2).getTypeAlimentaire();
 
             if ((typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.fruit_legume))) {
                 logo.setImageResource(R.drawable.map_fruit_legume);
@@ -212,21 +159,21 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
             textView1.setTextSize(20);
             textView1.setWidth(200);
             textView1.setPadding(5, 17, 5, 17);
-            textView1.setText(mOrganisme.getListDenree().get(groupPosition-2).getNomDenree());
+            textView1.setText(listedon.get(groupPosition - 2).getNom());
 
             TextView textView2 = new TextView(context);
             textView2.setTextColor(Color.BLACK);
             textView2.setTextSize(20);
             textView2.setWidth(200);
             textView2.setPadding(0, 17, 5, 17);
-            textView2.setText(mOrganisme.getListDenree().get(groupPosition-2).getQuantiteDenree()+mOrganisme.getListDenree().get(groupPosition-2).getTypeUnite());
+            textView2.setText(listedon.get(groupPosition - 2).getQuantite() + listedon.get(groupPosition - 2).getUnite());
 
             TextView textView4 = new TextView(context);
             textView4.setTextColor(Color.BLACK);
             textView4.setTextSize(20);
             textView4.setWidth(400);
             textView4.setPadding(65, 17, 5, 17);
-            textView4.setText(mOrganisme.getListDenree().get(groupPosition-2).getDatePeremption());
+            textView4.setText((CharSequence) listedon.get(groupPosition - 2).getDatePeremption());
             layout1.addView(logo);
             layout1.addView(textView1);
             layout1.addView(textView2);
@@ -252,7 +199,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
             switch (childPosition) {
                 case 0:
                     logo.setImageResource(R.drawable.trademarks);
-                    textView.setText(mOrganisme.getNomOrganisme());
+                    textView.setText(mOrganisme.getNom());
                     break;
                 case 1:
 
@@ -264,88 +211,40 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
             layout.addView(logo);
             layout.addView(textView);
 
-        } else if (groupPosition == 1) {
-            TextView textViewDay = new TextView(context);
-            textViewDay.setTextColor(Color.BLACK);
-            textViewDay.setTextSize(20);
-            textViewDay.setPadding(55, 17, 5, 5);
-            textViewDay.setWidth(300);
-
-            TextView textViewTime = new TextView(context);
-            textViewTime.setTextColor(Color.BLACK);
-            textViewTime.setTextSize(20);
-            textViewTime.setPadding(95, 17, 5, 5);
-            textViewTime.setWidth(300);
-            switch (childPosition) {
-
-                case 0:
-                    textViewTime.setText("lundi");
-                    textViewDay.setText(mOrganisme.getMapCollectTime().get("lundi"));
-                    break;
-                case 1:
-                    textViewTime.setText("mardi");
-                    textViewDay.setText(mOrganisme.getMapCollectTime().get("mardi"));
-                    break;
-                case 2:
-                    textViewTime.setText("mercredi");
-                    textViewDay.setText(mOrganisme.getMapCollectTime().get("mercredi"));
-                    break;
-                case 3:
-                    textViewTime.setText("jeudi");
-                    textViewDay.setText(mOrganisme.getMapCollectTime().get("jeudi"));
-                    break;
-                case 4:
-                    textViewTime.setText("vendredi");
-                    textViewDay.setText(mOrganisme.getMapCollectTime().get("vendredi"));
-                    break;
-                case 5:
-                    textViewTime.setText("samdi");
-                    textViewDay.setText(mOrganisme.getMapCollectTime().get("samdi"));
-                    break;
-                case 6:
-                    textViewTime.setText("dimanche");
-                    textViewDay.setText(mOrganisme.getMapCollectTime().get("dimanche"));
-                    break;
-
-            }
-
-            layout.addView(textViewTime);    layout.addView(textViewDay);
         } else {
 
 
-                TextView textView1 = new TextView(context);
-                textView1.setTextColor(Color.BLACK);
-                textView1.setTextSize(20);
-                textView1.setWidth(1000);
-                textView1.setPadding(300, 17, 5, 17);
-                textView1.setText(mOrganisme.getListDenree().get(groupPosition-2).getDescription());
+            TextView textView1 = new TextView(context);
+            textView1.setTextColor(Color.BLACK);
+            textView1.setTextSize(20);
+            textView1.setWidth(1000);
+            textView1.setPadding(300, 17, 5, 17);
+            textView1.setText(listedon.get(groupPosition - 2).getDescription());
 
 
-                Button btn = new Button(context);
-                if(viewID==R.id.marchandiseDisponible||viewID==R.id.main_carte_image){
-                    btn.setText("Reserver");
-                    btn.setBackgroundColor(Color.GREEN);}
-                else{
-                    btn.setText("Annuler");
-                    btn.setBackgroundColor(Color.RED);
+            Button btn = new Button(context);
+            if (viewID == R.id.marchandiseDisponible || viewID == R.id.main_carte_image) {
+                btn.setText("Reserver");
+                btn.setBackgroundColor(Color.GREEN);
+            } else {
+                btn.setText("Annuler");
+                btn.setBackgroundColor(Color.RED);
+            }
+
+            btn.setPadding(5, 5, 5, 5);
+
+
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
                 }
 
-                btn.setPadding(5, 5, 5, 5);
-
-
-
-
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-
-                });
+            });
             layout.addView(textView1);
             layout.addView(btn);
 
-            }
+        }
 
 
         return layout;

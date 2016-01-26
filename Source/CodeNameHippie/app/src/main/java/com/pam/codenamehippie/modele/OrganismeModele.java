@@ -2,6 +2,8 @@ package com.pam.codenamehippie.modele;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 /**
  * Créé par Carl St-Louis le 23-11-2015.
  */
@@ -16,12 +18,12 @@ public class OrganismeModele extends BaseModele<OrganismeModele> {
     @SerializedName("poste")
     private Integer poste;
     @SerializedName("contact")
-    private String contact;
+    private UtilisateurModele contact;
     @SerializedName("no_entreprise")
     private String noEntreprise;
     @SerializedName("no_osbl")
     private String noOsbl;
-
+    
     public String getNom() {
         return this.nom;
     }
@@ -58,11 +60,11 @@ public class OrganismeModele extends BaseModele<OrganismeModele> {
         return this;
     }
 
-    public String getContact() {
+    public UtilisateurModele getContact() {
         return this.contact;
     }
 
-    public OrganismeModele setContact(String contact) {
+    public OrganismeModele setContact(UtilisateurModele contact) {
         this.contact = contact;
         return this;
     }

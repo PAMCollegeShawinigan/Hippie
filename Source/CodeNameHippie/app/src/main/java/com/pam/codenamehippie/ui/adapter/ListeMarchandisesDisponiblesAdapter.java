@@ -15,63 +15,54 @@ import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.OrganismeModele;
-import com.pam.codenamehippie.modele.OrganismeModeleDepot;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Catherine on 2016-01-21.
- *
+ * <p/>
  * L'adapter pour faire afficher la liste des marchandises disponibles par date
  * (et non avec google maps)
- *
  */
 
 public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private ArrayList<AlimentaireModele> groupItems;
-    private ArrayList<OrganismeModele> detailsItems;
+    private ArrayList<AlimentaireModele> groupItems = new ArrayList<>();
     private AlimentaireModeleDepot alimentaireDepot;
-    private OrganismeModeleDepot organismeDepot;
 
     /**
      * On ajoute les paramètres.
-     *  @param context
-     * @param groupItems
-     * @param detailsItems
+     *
+     * @param context
+     * @param alimentaireDepot
      */
 
     public ListeMarchandisesDisponiblesAdapter(Context context,
-                                               ArrayList<AlimentaireModele> groupItems,
-                                               ArrayList<OrganismeModele> detailsItems,
-                                               AlimentaireModeleDepot alimentaireDepot,
-                                               OrganismeModeleDepot organismeDepot) {
+                                               AlimentaireModeleDepot alimentaireDepot) {
         this.context = context;
-        this.groupItems = groupItems;
-        this.detailsItems = detailsItems;
         this.alimentaireDepot = alimentaireDepot;
-        this.organismeDepot = organismeDepot;
     }
 
     /**
      * Ici, on ajoute les élements pour faire afficher la liste expendable
-     * Donc, on affiche le layout : liste_marchandises_dispo_details, afin de faire afficher l'adresse
+     * Donc, on affiche le layout : liste_marchandises_dispo_details, afin de faire afficher
+     * l'adresse
      * et le nom de l'entreprise (du donneur en fait) qui donne la marchandise ciblée.
-     *
-     *
+     * <p/>
+     * <p/>
      * On ajoute les paramètres.
      *
      * @param groupPosition
      * @param childPosition
+     *
      * @return
      */
 
     @Override
-    public Object getChild(int groupPosition, int childPosition) {
-        return this.detailsItems.get(groupPosition);
+    public OrganismeModele getChild(int groupPosition, int childPosition) {
+        return groupItems.get(groupPosition).getOrganisme();
     }
 
     /**
@@ -79,6 +70,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
      *
      * @param groupPosition
      * @param childPosition
+     *
      * @return
      */
 
@@ -95,6 +87,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
      * @param isLastChild
      * @param convertView
      * @param parent
+     *
      * @return
      */
 
@@ -108,8 +101,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
         // Fait afficher le layout modèle Details, afin de voir les infos de l'entreprise
         // Lorsque l'on clique sur la marchandise pour voir plus d'informations.
         // C'est le "child" modèle.
-        final OrganismeModele modele =
-                (OrganismeModele) this.getChild(groupPosition, childPosition);
+        OrganismeModele modele = this.getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater inflater =
@@ -121,8 +113,9 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
         ((TextView) convertView.findViewById(R.id.tv_md_nom_entreprise)).setText(modele.getNom());
 
         // Fait afficher l'adresse de l'entreprise
-        // TODO: Arranger l'erreur du CharSequence, pour le moment, on le laisse commenté.
-        // ((TextView) convertView.findViewById(R.id.tv_md_adresse_entreprise)).setText(modele.getAdresse());
+        // TODO: Faire afficher l'adresse correctement et non en JSON.
+        String addresse = modele.getAdresse().toString();
+        ((TextView) convertView.findViewById(R.id.tv_md_adresse_entreprise)).setText(addresse);
         return convertView;
     }
 
@@ -130,6 +123,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
      * On ajoute les paramètres.
      *
      * @param groupPosition
+     *
      * @return
      */
 
@@ -139,20 +133,20 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
     }
 
     /**
-     *
      * Ici, on ajoute les élements pour faire afficher les informations de la marchandise.
      * On affiche donc le layout liste_marchandises_dispo_group
-     *
-     *
+     * <p/>
+     * <p/>
      * On ajoute les paramètres.
      *
      * @param groupPosition
+     *
      * @return
      */
 
     @Override
-    public Object getGroup(int groupPosition) {
-        return this.groupItems.get(groupPosition);
+    public AlimentaireModele getGroup(int groupPosition) {
+        return groupItems.get(groupPosition);
     }
 
     /**
@@ -170,12 +164,13 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
      * On ajoute les paramètres.
      *
      * @param groupPosition
+     *
      * @return
      */
 
     @Override
     public long getGroupId(int groupPosition) {
-        return groupPosition;
+        return this.getGroup(groupPosition).getId();
     }
 
     /**
@@ -185,20 +180,22 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
      * @param isExpanded
      * @param convertView
      * @param parent
+     *
      * @return
      */
 
     @Override
     public View getGroupView(final int groupPosition,
-                             boolean isExpanded,
+                             final boolean isExpanded,
                              View convertView,
                              ViewGroup parent) {
-        final AlimentaireModele modele = (AlimentaireModele) this.getGroup(groupPosition);
+        final AlimentaireModele modele = this.getGroup(groupPosition);
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this.context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.liste_marchandise_dispo_group, null);
+            LayoutInflater infalInflater =
+                    (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView =
+                    infalInflater.inflate(R.layout.liste_marchandise_dispo_group, parent, false);
         }
 
         // Fait afficher l'icône correspondant au bon type alimentaire à côté du texte
@@ -248,6 +245,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
         // Réserver la marchandise (pour les organismes seulement)
         ImageButton ibSupprimer = (ImageButton) convertView.findViewById(R.id.ib_md_ajouter);
+        ibSupprimer.setFocusable(false);
         ibSupprimer.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -256,13 +254,13 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
                 Log.i("Boutton ajouté cliqué", "**********" + groupPosition);
 
                 Toast.makeText(context, "Marchandise réservée",
-                        Toast.LENGTH_LONG).show();
+                               Toast.LENGTH_LONG
+                              ).show();
             }
         });
 
         return convertView;
     }
-
 
     /**
      * On ajoute les paramètres.
@@ -272,7 +270,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 
     /**
@@ -280,11 +278,46 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
      *
      * @param groupPosition
      * @param childPosition
+     *
      * @return
      */
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    @Override
+    public boolean areAllItemsEnabled() {
+        return false;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public void onGroupExpanded(int groupPosition) {
+
+    }
+
+    @Override
+    public void onGroupCollapsed(int groupPosition) {
+
+    }
+
+    @Override
+    public long getCombinedChildId(long groupId, long childId) {
+        return 0;
+    }
+
+    @Override
+    public long getCombinedGroupId(long groupId) {
+        return 0;
+    }
+
+    public void setGroupItems(ArrayList<AlimentaireModele> groupItems) {
+        this.groupItems = groupItems;
     }
 }

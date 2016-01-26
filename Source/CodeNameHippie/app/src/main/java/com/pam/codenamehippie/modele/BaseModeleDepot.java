@@ -31,7 +31,7 @@ import okhttp3.Response;
 
 /**
  * Classe patron représentant un dépôt d'objet de type {@link BaseModele}.
- * <p/>
+ * <p>
  * Cette classe est définie comme abstraite pour 2 raisons:
  * <ol>
  * <li>
@@ -43,7 +43,7 @@ import okhttp3.Response;
  * fournir des une implémentation par défaut quand c'est possible.
  * </li>
  * </ol>
- * <p/>
+ * <p>
  * L'initialisation d'un dépôt requiert une inspection de sa hiearchie de classe en utilisant
  * le mécanisme de réflection de Java. Ceci est une opération relativement dispendieuse, par
  * conséquent nous recommandons de limiter le nombre d'allocation d'instances d'objet de type
@@ -131,6 +131,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *         le client http pour utiliser par les dépots pour faire des requêtes au
      *         serveur
      */
+
     public BaseModeleDepot(Context context, OkHttpClient httpClient) {
         Class clazz = this.getClass();
         ParameterizedType genericType;
@@ -172,6 +173,8 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
             return this.modeles;
         }
     }
+
+    
 
     public FiltreDeListe<T> getFiltreDeListe() {
         synchronized (this.lock) {
@@ -250,7 +253,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
 
     /**
      * Permet de peupler le dépot.
-     * <p/>
+     * <p>
      * Cette methode est asynchrone et retourne immédiatement.
      *
      * @param url
@@ -321,7 +324,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
 
     /**
      * Méthode qui recherche un modèle selon l'id de l'objet reçu en paramètre.
-     * <p/>
+     * <p>
      * Cette methode est asynchrone et retourne immédiatement.
      *
      * @param id
@@ -369,9 +372,9 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                     field.setAccessible(true);
                     try {
                         Log.d(TAG,
-                              field.getName()     +
-                              ": "                +
-                              field.get(modele)   +
+                              field.getName() +
+                              ": " +
+                              field.get(modele) +
                               " serializedName: " +
                               serializedName
                                       .value()
@@ -404,7 +407,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
 
     /**
      * Envoi une commande de suppression de données au serveur.
-     * <p/>
+     * <p>
      * Cette méthode est asynchrone et retourne immédiatement.<br/>
      * Cette méthode est équivalente à {@code supprimerModele(modele, null)}.
      *
@@ -419,7 +422,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
 
     /**
      * Envoi une commande de suppression de données au serveur.
-     * <p/>
+     * <p>
      * Cette méthode est asynchrone et retourne immédiatement.
      *
      * @param modele
@@ -504,7 +507,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @see {@link DataSetObservable#unregisterAll()}
      */
-    public void supprimerToutLesObservateurs() {
+    public void supprimerTousLesObservateurs() {
         synchronized (this.lock) {
             this.observateurs.clear();
         }

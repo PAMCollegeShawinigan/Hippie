@@ -167,7 +167,8 @@ ORDER BY ali.date_peremption ASC;
 - Courriel de l'organisme communautaire
 */
 -- PA vérifie si les champs que je mets conviennent à l'idée d'objet que tu souhaites utilisé.
-SELECT 	org.nom, 
+-- Avec les ajouts de PA (2016-01-25)
+SELECT	org.nom, 
 		adr.no_civique, 
 		typrue.description_type_rue, 
 		adr.nom, 
@@ -177,9 +178,11 @@ SELECT 	org.nom,
 		adr.pays,
 		util.prenom,
 		util.nom,
+		util.courriel,
+		util.telephone,
 		org.telephone,
-		org.poste,
-		util.courriel
+		org.poste
+	  	  
 FROM organisme org
 INNER JOIN adresse adr ON adr.adresse_id = org.adresse
 INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
@@ -323,6 +326,7 @@ UPDATE alimentaire SET marchandise_statut = :marchandise_statut WHERE alimentair
     Numéro de téléphone du donneur (s'il y a)
     Courriel du donneur (s'il y a)
 */
+-- Avec les ajouts de PA (2016-01-25)
 
 SELECT	typali.description_type_aliment, 
 		ali.nom,
@@ -332,7 +336,6 @@ SELECT	typali.description_type_aliment,
 		trx.date_reservation,
 		ali.date_peremption,
 		org.nom,
-		adr.adresse_id, 
 		adr.no_civique, 
 		typrue.description_type_rue, 
 		adr.nom, 
@@ -342,17 +345,71 @@ SELECT	typali.description_type_aliment,
 		adr.pays,
 		org.telephone,
 		org.poste,
-		util.courriel
+		util.courriel,
+		util.nom,
+		util.prenom,
+		util.telephone
 		
 FROM type_aliment typali
 INNER JOIN alimentaire ali ON ali.type_alimentaire = typali.aliment_id
 INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite
 INNER JOIN transaction trx ON trx.marchandise_id = ali.alimentaire_id
-INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
+INNER JOIN organisme org ON org.organisme_id = trx.receveur_id
 INNER JOIN adresse adr ON adr.adresse_id = org.adresse
 INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
 INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
 WHERE 	ali.marchandise_statut = 2
-AND (ali.date_peremption > CURRENT_DATE OR ali.date_peremption IS NULL) 
-ORDER BY typali.aliment_id DESC;		
+AND trx.receveur_id = :id_organisme
+ORDER BY typali.aliment_id DESC;	
+
+-- Profil - requêtes - information utilisateur
+-- Avant de faire la modification sur le profil, il faut envoyer toute l'information sur le profil de l'utilisateur
+-- Pour le utilisateur_id, REMPLACER utilisateur_id par une valeur valide.
+
+SELECT 	utilisateur_id,
+		mot_de_passe,
+		nom,
+		prenom,
+		courriel,
+		telephone,
+		moyen_contact,
+		organisme_id,
+		derniere_connexion
+FROM utilisateur
+WHERE utilisateur_id = :utilisateur_id;
+
+-- Test
+SELECT 	utilisateur_id,
+		mot_de_passe,
+		nom,
+		prenom,
+		courriel,
+		telephone,
+		moyen_contact,
+		organisme_id,
+		derniere_connexion
+FROM utilisateur
+WHERE utilisateur_id = 5;
+
+-- Modification profil à créer, fichier utilisateur.php, fonction: modifierutilisateur()
+-- REMPLACER les variables PHP par des valeurs valides.
+-- Je n'ai pas mis organisme_id, derniere_connexion, utilisateur_id car l'usager n'a pas à le faire.
+-- Il manque le champ 'poste' pour rejoindre l'usager. Quelque chose qui aura lieu d'ajouter une fois mis.
+
+UPDATE utilisateur SET 	mot_de_passe = :mot_de_passe, 
+						nom = :nom,
+						prenom = :prenom,
+						courriel = :courriel, 
+						telephone = :telephone, 
+						moyen_contact = :moyen_contact					
+WHERE utilisateur_id = :utilisateur_id;
+
+-- Test
+UPDATE utilisateur SET 	mot_de_passe = 'test', 
+						nom = 'Calille',
+						prenom = 'Sylvie',
+						courriel = 'test@test.com', 
+						telephone = '8195378851', 
+						moyen_contact = 1					
+WHERE utilisateur_id = 5;
 

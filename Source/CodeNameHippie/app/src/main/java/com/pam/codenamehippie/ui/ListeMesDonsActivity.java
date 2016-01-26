@@ -62,7 +62,7 @@ public class ListeMesDonsActivity extends HippieActivity
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         alimentaireModeleDepot.setFiltreDeListe(null);
-        alimentaireModeleDepot.supprimerToutLesObservateurs();
+        alimentaireModeleDepot.supprimerTousLesObservateurs();
 
     }
 
@@ -71,7 +71,6 @@ public class ListeMesDonsActivity extends HippieActivity
         super.onResume();
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        // TODO: Déplacer les deux ligne qui suivent dans l'activité de liste
         int orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
                                                   -1
                                                  );
@@ -104,6 +103,7 @@ public class ListeMesDonsActivity extends HippieActivity
     public void surFinDeRequete() {
         this.cacherLaProgressbar();
     }
+
     @Override
     public void surErreur(IOException e) {
         //TODO: Toast

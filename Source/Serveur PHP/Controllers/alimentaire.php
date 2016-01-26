@@ -118,10 +118,16 @@ class alimentaire extends Controller
 		}
 		
 		
-		$req = $bdd->prepare('UPDATE alimentaire SET nom = :nom, description = :description_alimentaire, quantite = :quantite,
-								marchandise_etat = :marchandise_etat, marchandise_unite = :marchandise_unite, valeur = :valeur
-								type_alimentaire = :type_alimentaire, date_peremption = :date_peremption
-								WHERE alimentaire_id = :alimentaire_id');
+		$req = $bdd->prepare('UPDATE alimentaire SET nom = :nom,
+													description_alimentaire = :description_alimentaire,
+													quantite = :quantite,
+													marchandise_etat = :marchandise_etat,
+													marchandise_unite = :marchandise_unite,
+													valeur = :valeur,
+													type_alimentaire = :type_alimentaire,
+													date_peremption = :date_peremption
+													
+													WHERE alimentaire_id = :aliment_id');
 			$req->execute(array(
 				'nom' => $_POST['nom'], 
 				'description_alimentaire' => $_POST['description_alimentaire'],
@@ -131,7 +137,7 @@ class alimentaire extends Controller
 				'valeur' =>$_POST['valeur'], 
 				'type_alimentaire'=> $_POST['type_alimentaire'], 
 				'date_peremption' =>$date_peremption,
-				'aliment_id' => $_POST['alimentaire_id']));	
+				'aliment_id' => $_POST['id']));	
 			
 			
 			
@@ -140,35 +146,54 @@ class alimentaire extends Controller
 		
 	}
 	
-	public function cancelleraliment($id_alimentaire){ // TO-DO, FAIRE UNE TRANSACTION
-		include('Connection/bdlogin.php');
+	public function cancelleraliment($id_alimentaire)
+	{ 
+		include('Connection/bdlogin.php'); // inclus le fichier de connection à la bd
+		
+		$req1 = $bdd ->prepare('SELECT donneur_id, MAX(date_transaction) ON transaction WHERE marchandise_id = :marchandise_id'); // selectionne l'id du donneur dans transaction
+			$req1->execute(array(
+				'marchandise_id' => $id_alimentaire
+			));
+			
+			$resultat = $req1-> fetch();
+			
+			$transaction = $bdd -> prepare('INSERT INTO transaction (donneur_id, marchandise_id, date_transaction) VALUES (:donneur_id, :marchandise_id, NOW())');
+			$transaction->execute(array(
+				'donneur_id' => $resultat['donneur_id'],
+				'marchandise_id' => $id_alimentaire
+			));
+			
 		
 		$req = $bdd -> prepare('UPDATE alimentaire SET marchandise_statut = 7 WHERE alimentaire_id = :id_alimentaire');
 			$req->execute(array(
 			'id_alimentaire' => $id_alimentaire
 			));
-			
-			
-			//select la bd transaction pour avoir les infos
-			
-				
-			//$req2 = $bdd ->prepare('INSERT INTO transaction (donneur_id, marchandise_id, date_disponible, date_transaction)
-			//VALUES(:donneur_id, :marchandise_id,  NOW(), NOW())');
-			//	$req2->execute(array(
-			//	'donneur_id'=>  $_POST['donneur_id'],
-			//	'marchandise_id' => $last_index
-			//	));
-			
-			
+
 			return response('La cancellation a ete fait',200);
 	}
 	
 	public function collecteralimentaire($id_alimentaire){ //TO-DO FAIRE UNE TRANSACTION
 		include('Connection/bdlogin.php');
 		
-				$req = $bdd -> prepare('UPDATE alimentaire SET marchandise_statut = :marchandise_statut WHERE alimentaire_id = :id_alimentaire');
+				$req1 = $bdd ->prepare('SELECT receveur_id, donneur_id, date_reservation, date_disponible MAX(date_transaction) ON transaction WHERE marchandise_id = :marchandise_id'); // selectionne les informations de la derniere transaction relié a l'aliment
+			$req1->execute(array(
+				'marchandise_id' => $id_alimentaire
+			));
+			
+			$resultat = $req1-> fetch();
+		
+			$transaction = $bdd -> prepare('INSERT INTO transaction (receveur_id, donneur_id, marchandise_id, date_reservation, date_disponible, date_transaction, date_collecte) VALUES (:receveur_id, :donneur_id, :marchandise_id, :date_reservation, :date_disponible, NOW(), NOW())');
+			$transaction->execute(array(
+				'receveur_id'=>$resultat['receveur_id'],
+				'donneur_id' => $resultat['donneur_id'],
+				'marchandise_id' => $id_alimentaire,
+				'date_reservation' => $resultat['date_reservation'],
+				'date_disponible' => $resultat['date_dispoible']
+			));
+		
+		
+				$req = $bdd -> prepare('UPDATE alimentaire SET marchandise_statut = 4 WHERE alimentaire_id = :id_alimentaire');
 			$req->execute(array(
-			'marchandise_statut' => '4',
 			'id_alimentaire' => $id_alimentaire
 			));
 		

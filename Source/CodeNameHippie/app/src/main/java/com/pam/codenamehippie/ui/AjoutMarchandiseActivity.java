@@ -3,6 +3,7 @@ package com.pam.codenamehippie.ui;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -18,6 +19,7 @@ import com.pam.codenamehippie.controleur.validation.ValidateurDeSpinner;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.AlimentaireModeleDepot.PeuplerListesDeSpinnerListener;
 import com.pam.codenamehippie.modele.DescriptionModel;
 import com.pam.codenamehippie.modele.TypeAlimentaireModele;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
@@ -27,6 +29,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -42,7 +45,11 @@ import okhttp3.Response;
  * via l'interface utilisateur. La date du jour sera utilisée comme date de disponibilité.
  * Si un produit n'a pas de date de péremption, la date sera mise à null du côté du serveur.
  */
-public class AjoutMarchandiseActivity extends HippieActivity implements ValidateurObserver {
+public class AjoutMarchandiseActivity extends HippieActivity
+        implements ValidateurObserver, PeuplerListesDeSpinnerListener {
+
+    private static final String SELECTED_SPINNER_TYPE_POSITION = "position_type";
+    private static final String SELECTED_SPINNER_UNITE_POSITION = "position_unite";
 
     private ValidateurDeChampTexte validateurNom;
     private boolean nomEstValide;
@@ -64,6 +71,8 @@ public class AjoutMarchandiseActivity extends HippieActivity implements Validate
     private Integer idModele = null;
     // Id de l'organisme dont l'utilisateur est membre.
     private Integer organismeId;
+    private int selectedSpinnerUnitePosition;
+    private int selectedSpinnerTypePosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,11 +114,11 @@ public class AjoutMarchandiseActivity extends HippieActivity implements Validate
         EditText etValeurMarchandise = (EditText) this.findViewById(R.id.etValeurMarchandise);
         this.validateurValeur =
                 ValidateurDeChampTexte.newInstance(this,
-                        etValeurMarchandise,
-                        true,
-                        ValidateurDeChampTexte
-                                .VALEUR_ALIMENTAIRE_LONGUEUR_MAX
-                );
+                                                   etValeurMarchandise,
+                                                   true,
+                                                   ValidateurDeChampTexte
+                                                           .VALEUR_ALIMENTAIRE_LONGUEUR_MAX
+                                                  );
         this.validateurValeur.registerObserver(this);
         // ***************************************************************************************
         // Chaque Spinner passe par le ValidateurDeSpinner et le choix doit être différent de la *
@@ -122,8 +131,7 @@ public class AjoutMarchandiseActivity extends HippieActivity implements Validate
         // Binder les descriptions d'uniteMarchandise au spinnerUniteMarchandise
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        HippieSpinnerAdapter uniteAdapter =
-                new HippieSpinnerAdapter(this, alimentaireModeleDepot.getListeUnitee());
+        HippieSpinnerAdapter uniteAdapter = new HippieSpinnerAdapter(this);
         spinnerUniteMarchandise.setAdapter(uniteAdapter);
 
         Spinner spinnerTypeMarchandise = (Spinner) this.findViewById(R.id.spinnerTypeMarchandise);
@@ -132,10 +140,7 @@ public class AjoutMarchandiseActivity extends HippieActivity implements Validate
         this.validateurSpinnerTypeMarchandise.registerObserver(this);
         // Binder les descriptions de typeMarchandise au spinnerTypeMarchandise
         TypeAlimentaireModeleSpinnerAdapter typeAdapter =
-                new TypeAlimentaireModeleSpinnerAdapter(this,
-                                                        alimentaireModeleDepot
-                                                                .getListeTypeAlimentaire()
-                );
+                new TypeAlimentaireModeleSpinnerAdapter(this);
         spinnerTypeMarchandise.setAdapter(typeAdapter);
         this.tvDatePeremption = (TextView) this.findViewById(R.id.tvDatePeremption);
         this.datePeremption = (DatePicker) this.findViewById(R.id.datePicker);
@@ -164,29 +169,6 @@ public class AjoutMarchandiseActivity extends HippieActivity implements Validate
             etDescMarchandise.setText(bundle.getCharSequence("description"));
             etQteeMarchandise.setText(bundle.getCharSequence("quantite"));
             etValeurMarchandise.setText(bundle.getCharSequence("valeur"));
-            // Récupérer la position du spinnerUniteMarchandise selon la description
-            String bundleDesc = bundle.getString("unite");
-            if (bundleDesc != null) {
-                for (int i = 0; i < uniteAdapter.getCount(); i++) {
-                    String uniteDescription = uniteAdapter.getItem(i).getDescription();
-                    if (bundleDesc.equalsIgnoreCase(uniteDescription)) {
-                        spinnerUniteMarchandise.setSelection(i);
-                        break;
-                    }
-                }
-            }
-
-            // Récupérer la position du spinnerTypeMarchandise selon la description
-            String bundleTypeAlimentaire = bundle.getString("typeAlimentaire");
-            if (bundleTypeAlimentaire != null) {
-                for (int i = 0; i < typeAdapter.getCount(); i++) {
-                    String typeDescription = typeAdapter.getItem(i).getDescription();
-                    if (bundleTypeAlimentaire.equalsIgnoreCase(typeDescription)) {
-                        spinnerTypeMarchandise.setSelection(i);
-                        break;
-                    }
-                }
-            }
 
             // Récupérer la datePeremption du bundle pour fixer la date du DatePicker
             String dateString = bundle.getString("datePeremption");
@@ -210,6 +192,23 @@ public class AjoutMarchandiseActivity extends HippieActivity implements Validate
                 }
             }
         }
+        if (savedInstanceState != null) {
+            this.selectedSpinnerTypePosition =
+                    savedInstanceState.getInt(SELECTED_SPINNER_TYPE_POSITION, 0);
+            this.selectedSpinnerUnitePosition =
+                    savedInstanceState.getInt(SELECTED_SPINNER_UNITE_POSITION, 0);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SELECTED_SPINNER_UNITE_POSITION,
+                        this.validateurSpinnerUniteMarchandise.getSelectedItemPosition()
+                       );
+        outState.putInt(SELECTED_SPINNER_TYPE_POSITION,
+                        this.validateurSpinnerTypeMarchandise.getSelectedItemPosition()
+                       );
     }
 
     @Override
@@ -230,8 +229,9 @@ public class AjoutMarchandiseActivity extends HippieActivity implements Validate
         this.validateurDescription.onResume();
         this.validateurQuantite.onResume();
         this.validateurValeur.onResume();
-        this.validateurSpinnerUniteMarchandise.onResume();
-        this.validateurSpinnerTypeMarchandise.onResume();
+        AlimentaireModeleDepot depot =
+                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
+        depot.peuplerLesListesDeSpinners(this);
     }
 
     /**
@@ -422,5 +422,69 @@ public class AjoutMarchandiseActivity extends HippieActivity implements Validate
                                       );
         this.tvDatePeremption.setVisibility(View.VISIBLE);
         this.datePeremption.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void surDebut() {
+        this.afficherLaProgressBar();
+    }
+
+    @Override
+    public void surErreur(IOException e) {
+        Log.e(this.getClass().getSimpleName(), "Erreur peuplement spinner", e);
+    }
+
+    @Override
+    public void surListeUnite(ArrayList<DescriptionModel> items) {
+        Spinner spinner = this.validateurSpinnerUniteMarchandise.getSpinner();
+        HippieSpinnerAdapter adapter = ((HippieSpinnerAdapter) spinner.getAdapter());
+        adapter.setItems(items);
+        Bundle bundle = this.getIntent().getExtras();
+        // Récupérer la position du spinnerUniteMarchandise selon la description si mode modifier
+        if (bundle != null) {
+            String s = bundle.getString("unite");
+            if (s != null) {
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    String description = adapter.getItem(i).getDescription();
+                    if (s.equalsIgnoreCase(description)) {
+                        spinner.setSelection(i);
+                        break;
+                    }
+                }
+            }
+        } else {
+            spinner.setSelection(this.selectedSpinnerUnitePosition);
+        }
+    }
+
+    @Override
+    public void surListeType(ArrayList<TypeAlimentaireModele> items) {
+        Spinner spinner = this.validateurSpinnerTypeMarchandise.getSpinner();
+        TypeAlimentaireModeleSpinnerAdapter adapter =
+                ((TypeAlimentaireModeleSpinnerAdapter) spinner.getAdapter());
+        adapter.setItems(items);
+        // Récupérer la position du spinnerTypeMarchandise selon la description si mode modifier
+        Bundle bundle = this.getIntent().getExtras();
+        if (bundle != null) {
+            String s = bundle.getString("typeAlimentaire");
+            if (s != null) {
+                for (int i = 0; i < adapter.getCount(); i++) {
+                    String description = adapter.getItem(i).getDescription();
+                    if (s.equalsIgnoreCase(description)) {
+                        spinner.setSelection(i);
+                        break;
+                    }
+                }
+            }
+        } else {
+            spinner.setSelection(this.selectedSpinnerTypePosition);
+        }
+    }
+
+    @Override
+    public void surFin() {
+        this.cacherLaProgressbar();
+        this.validateurSpinnerUniteMarchandise.onResume();
+        this.validateurSpinnerTypeMarchandise.onResume();
     }
 }

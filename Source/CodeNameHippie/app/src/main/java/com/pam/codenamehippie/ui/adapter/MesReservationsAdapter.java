@@ -1,6 +1,8 @@
 package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,72 +22,41 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * Created by Catherine on 2016-01-19.
- *
- * L'adapter pour faire fonctionner la liste de mes réservations.
- *
- * Cette classe est pour but d'afficher les reservations de l'utilisateur.
- *
+ * Cette classe permet de faire le lien entre les composantes de l'interface utilisateur et
+ * la source de données afin de relier les données aux vues correctement.
  */
 public class MesReservationsAdapter extends BaseAdapter {
 
-    private final ArrayList<AlimentaireModele> items;
+    private volatile ArrayList<AlimentaireModele> items = new ArrayList<>();
     private final Context context;
     private final AlimentaireModeleDepot depot;
 
-    /**
-     * On ajoute les paramètres.
-     * @param items
-     * @param context
-     * @param depot
-     */
-
-    public MesReservationsAdapter(ArrayList<AlimentaireModele> items,
-                                  Context context,
-                                  AlimentaireModeleDepot depot) {
-        this.items = items;
+    public MesReservationsAdapter(Context context, AlimentaireModeleDepot depot) {
         this.context = context;
         this.depot = depot;
     }
 
-    /**
-     * On ajoute les paramètres.
-     * @return
-     */
     @Override
     public int getCount() {
         return this.items.size();
     }
 
-    /**
-     * On ajoute les paramètres.
-     * @param position
-     * @return
-     */
     @Override
     public AlimentaireModele getItem(int position) {
         return this.items.get(position);
     }
 
-    /**
-     * On ajoute les paramètres.
-     * @param position
-     * @return
-     */
     @Override
     public long getItemId(int position) {
         return this.getItem(position).getId();
     }
 
     /**
-     * Donc, on crée une méthode pour lier les données aux composantes de l'interface utilisateur.
+     * Méthode pour lier les données aux composantes de l'interface utilisateur.
+     * Implémentation de {@link android.widget.Adapter#getView(int, View, ViewGroup)}
      *
-     * @param position
-     * @param convertView
-     * @param parent
-     * @return row
+     * @return Retourne une instance de {@link View} gonfler de liste_reservations_row.xml
      */
-
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View row = convertView;
@@ -125,16 +96,16 @@ public class MesReservationsAdapter extends BaseAdapter {
                 break;
         }
 
-        // Affiche le nom de la marchandise
+        Log.i("ITEM_RES", "Count = " + this.items.size());
+        // Assigner les valeurs nom, description, quantités, unité et ajouter deux ImageButton par
+        // rangée selon le nombre d'items contenus dans l'ArrayList.
         ((TextView) row.findViewById(R.id.tv_res_nom_marchandise)).setText(modele.getNom());
-        // Affiche la description de la marchandise
         ((TextView) row.findViewById(R.id.tv_res_description)).setText(modele.getDescription());
-
-        // On affiche la quantité + l'unité de la marchandise
-        String quantiteString = modele.getQuantite().toString() + " " + modele.getUnite();
+         String quantiteString = modele.getQuantite().toString() + " " + modele.getUnite();
         ((TextView) row.findViewById(R.id.tv_res_qtee_marchandise)).setText(quantiteString);
+        ImageButton ibSupprimerReservation = (ImageButton) row.findViewById(R.id.ib_res_supprimer);
+        ImageButton ibCollecterReservation = (ImageButton) row.findViewById(R.id.ib_res_collecter);
 
-        // TODO: Faire afficher la date de réservation. Présentement, il y a un mélange entre Date de réservation et date de péremption.
         // Affiche la date de péremption.
         if (modele.getDatePeremption() != null) {
             DateFormat format = android.text.format.DateFormat.getLongDateFormat(this.context);
@@ -145,22 +116,107 @@ public class MesReservationsAdapter extends BaseAdapter {
         }
 
         // Supprimer une réservation de la liste
-        ImageButton ibSupprimer = (ImageButton) row.findViewById(R.id.ib_res_supprimer);
-        ibSupprimer.setOnClickListener(new View.OnClickListener() {
+
+        ibSupprimerReservation.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // TODO: faire ce qui faut pour supprimer une réservation de la liste. Ou bien mettre la réservation de Réservé à disponible.
-                Log.i("Boutton supprimé cliqué", "**********" + position);
+                final Runnable showToast = new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MesReservationsAdapter.this.context,
+                                R.string.msg_reservation_supprime, Toast.LENGTH_LONG).show();
+                    }
+                };
+                // Confirmer la suppression de la réservation
+                // Pour sauver de la mémoire, on instancie un seul click listener pour les deux
+                // bouton.
+                DialogInterface.OnClickListener dialogOnClickListener =
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case DialogInterface.BUTTON_POSITIVE:
+                                        MesReservationsAdapter.this.depot.annulerReservation(modele,
+                                                showToast
+                                        );
+                                        dialog.dismiss();
+                                        break;
+                                    default:
+                                        dialog.dismiss();
+                                        break;
+                                }
+                            }
+                        };
 
-                /**
-                 * String statut = modele.getStatut();
-                 */
-
-                Toast.makeText(context, "Réservation supprimé",
-                        Toast.LENGTH_LONG).show();
+                // Construction du message pour suppression d'une réservation
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(MesReservationsAdapter.this.context);
+                builder.setMessage(R.string.msg_reservation_confirme_suppression)
+                        .setPositiveButton(R.string.bouton_confirme_oui,
+                                dialogOnClickListener
+                        )
+                        .setNegativeButton(R.string.bouton_confirme_non,
+                                dialogOnClickListener
+                        )
+                        .create()
+                        .show();
             }
         });
+
+        ibCollecterReservation.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                final Runnable showToast = new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MesReservationsAdapter.this.context,
+                                R.string.msg_reservation_collecte, Toast.LENGTH_LONG).show();
+                    }
+                };
+                // Confirmer la collecte de la réservation
+                // Pour sauver de la mémoire, on instancie un seul click listener pour les deux
+                // bouton.
+                DialogInterface.OnClickListener dialogOnClickListener =
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case DialogInterface.BUTTON_POSITIVE:
+                                        MesReservationsAdapter.this.depot.collecter(modele,
+                                                showToast
+                                        );
+                                        dialog.dismiss();
+                                        break;
+                                    default:
+                                        dialog.dismiss();
+                                        break;
+                                }
+                            }
+                        };
+
+                // Construction du message pour collecte d'une reservation
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(MesReservationsAdapter.this.context);
+                builder.setMessage(R.string.msg_reservation_confirme_collecte)
+                        .setPositiveButton(R.string.bouton_confirme_oui,
+                                dialogOnClickListener
+                        )
+                        .setNegativeButton(R.string.bouton_confirme_non,
+                                dialogOnClickListener
+                        )
+                        .create()
+                        .show();
+            }
+        });
+
         return row;
     }
+
+    public void setItems(ArrayList<AlimentaireModele> items) {
+        this.items = items;
+        this.notifyDataSetChanged();
+    }
+
 }

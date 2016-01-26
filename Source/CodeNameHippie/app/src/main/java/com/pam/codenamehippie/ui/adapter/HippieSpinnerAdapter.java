@@ -1,12 +1,11 @@
 package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.pam.codenamehippie.modele.DescriptionModel;
@@ -14,17 +13,22 @@ import com.pam.codenamehippie.modele.DescriptionModel;
 import java.util.ArrayList;
 
 /**
- * Cette classe permet de récupérer les descriptions contenues dans une ArrayList<DescriptionModele>
+ * Cette classe permet de récupérer les descriptions contenues dans une
+ * ArrayList<DescriptionModele>
  * et, selon le type, les afficher à l'intérieur du Spinner correspondant.
  */
-public class HippieSpinnerAdapter implements SpinnerAdapter {
+public class HippieSpinnerAdapter extends BaseAdapter {
 
-    private final ArrayList<DescriptionModel> items;
     private final Context context;
+    private volatile ArrayList<DescriptionModel> items = new ArrayList<>();
 
-    public HippieSpinnerAdapter(Context context, ArrayList<DescriptionModel> items) {
+    public HippieSpinnerAdapter(Context context) {
         this.context = context;
+    }
+
+    public void setItems(ArrayList<DescriptionModel> items) {
         this.items = items;
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -45,16 +49,6 @@ public class HippieSpinnerAdapter implements SpinnerAdapter {
             view.setText(this.getItem(position).getDescription());
         }
         return view;
-    }
-
-    @Override
-    public void registerDataSetObserver(DataSetObserver observer) {
-
-    }
-
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) {
-
     }
 
     @Override

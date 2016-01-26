@@ -80,5 +80,53 @@ use App\Http\Controllers\organisme;
 					
 					
 		}
+		public function listeorganisme(){
+			$header = array (
+                'Content-Type' => 'application/json; charset=UTF-8',
+                'charset' => 'utf-8'
+            );
+			
+			include('Connection/bdlogin.php');
+			
+			
+			$req = $bdd->query('SELECT  org.nom, 
+										  adr.no_civique, 
+										  typrue.description_type_rue, 
+										  adr.nom, 
+										  adr.ville, 
+										  adr.province, 
+										  adr.code_postal, 
+										  adr.pays,
+										  util.prenom,
+										  util.nom,
+										  util.courriel,
+										  util.telephone,
+										  org.telephone,
+										  org.poste
+										  
+										  
+										FROM organisme org
+										INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+										INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+										INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
+										WHERE org.no_osbl IS NOT NULL;'); 
+
+					$array = array();
+					while($resultat = $req->fetch()){
+						$adresse = array('no_civique' => $resultat[1], 'type_rue' => $resultat[2], 'nom' => $resultat[3], 'ville' => $resultat[4], 'province' => $resultat[5], 'code_postal' => $resultat[6], 'pays' =>$resultat[7]);
+						
+						$contact = array('prenom'=> $resultat[8], 'nom' => $resultat[9], 'courriel' => $resultat[10], 'telephone' => $resultat[11]);
+						
+						
+						$arr = array('telephone' => $resultat['12'], 'nom' => $resultat['0'], 'poste' => $resultat[13], 'adresse' => $adresse, 'contact' => $contact);
+						
+						array_push($array, $arr);
+
+					}
+					
+					return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE);
+			
+		}
+		
  
 	}
