@@ -86,6 +86,7 @@ public class ListeMesReservationsActivity extends HippieActivity
 
     @Override
     public void surChangementDeDonnees(ArrayList<AlimentaireModele> modeles) {
+        Log.d("test", "Count= " + modeles.size());
         this.mesReservationsAdapter.setItems(modeles);
     }
 
