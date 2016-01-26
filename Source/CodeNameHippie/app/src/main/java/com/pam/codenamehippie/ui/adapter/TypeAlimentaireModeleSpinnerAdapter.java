@@ -1,12 +1,11 @@
 package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.pam.codenamehippie.modele.TypeAlimentaireModele;
@@ -14,20 +13,27 @@ import com.pam.codenamehippie.modele.TypeAlimentaireModele;
 import java.util.ArrayList;
 
 /**
- * Created by Carl St-Louis le 2016-01-12.
+ * Cette classe permet de récupérer les descriptions contenues dans une
+ * ArrayList<TypeAlimentaireModele> et les afficher à l'intérieur du Spinner correspondant.
  */
-public class TypeAlimentaireModeleSpinnerAdapter implements SpinnerAdapter {
+public class TypeAlimentaireModeleSpinnerAdapter extends BaseAdapter {
 
-    private final ArrayList<TypeAlimentaireModele> items;
     private final Context context;
+    private volatile ArrayList<TypeAlimentaireModele> items = new ArrayList<>();
 
-    public TypeAlimentaireModeleSpinnerAdapter(Context context, ArrayList<TypeAlimentaireModele> items) {
+    public TypeAlimentaireModeleSpinnerAdapter(Context context) {
         this.context = context;
+    }
+
+    public void setItems(ArrayList<TypeAlimentaireModele> items) {
         this.items = items;
+        this.notifyDataSetChanged();
     }
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        // On vérifie le type avant de faire un type cast. Ensuite, on affecte les descriptions
+        // selon la position.
         CheckedTextView view =
                 (convertView instanceof CheckedTextView) ? (CheckedTextView) convertView : null;
         if (view != null) {
@@ -36,22 +42,12 @@ public class TypeAlimentaireModeleSpinnerAdapter implements SpinnerAdapter {
             LayoutInflater inflater =
                     (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = (CheckedTextView) inflater.inflate(android.R.layout.simple_spinner_dropdown_item,
-                    parent,
-                    false
-            );
+                                                      parent,
+                                                      false
+                                                     );
             view.setText(this.getItem(position).getDescription());
         }
         return view;
-    }
-
-    @Override
-    public void registerDataSetObserver(DataSetObserver observer) {
-
-    }
-
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) {
-
     }
 
     @Override
@@ -76,7 +72,8 @@ public class TypeAlimentaireModeleSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // On check le type avant de faire un type cast.
+        // On vérifie le type avant de faire un type cast. Ensuite, on affecte les descriptions
+        // selon la position.
         TextView view = (convertView instanceof TextView) ? (TextView) convertView : null;
         if (view != null) {
             view.setText(this.getItem(position).getDescription());
@@ -84,9 +81,9 @@ public class TypeAlimentaireModeleSpinnerAdapter implements SpinnerAdapter {
             LayoutInflater inflater =
                     (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = (TextView) inflater.inflate(android.R.layout.simple_spinner_item,
-                    parent,
-                    false
-            );
+                                               parent,
+                                               false
+                                              );
             view.setText(this.getItem(position).getDescription());
         }
         return view;

@@ -1,8 +1,8 @@
 package com.pam.codenamehippie.http.exception;
 
-import com.squareup.okhttp.Response;
-
 import java.io.IOException;
+
+import okhttp3.Response;
 
 /**
  * Classe d'exception pour les erreurs de réponse HTTP.

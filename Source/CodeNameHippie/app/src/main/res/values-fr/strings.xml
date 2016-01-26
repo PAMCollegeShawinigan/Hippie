@@ -60,7 +60,14 @@
   <string name="marchandise_type_alimentaire">Type alimentaire</string>
   <string name="marchandise_date_peremption">Date de péremption</string>
 
-  <!--Ressource pour HippieListAdapter -->
+  <!--Ressource pour HippieListAdapter et ListeMesDonsActivity-->
   <string name="msg_produit_supprime">Marchandise supprimée</string>
+  <string name="msg_confirme_suppression">Êtes-vous sur de vouloir supprimer ce don ?</string>
+  <string name="bouton_confirme_suppression_oui">OUI</string>
+  <string name="bouton_confirme_suppression_non">NON</string>
+  <string name="tv_mes_dons">MES DONS</string>
+
+  <!--Ressource pour MesReservationsAdapter et ListeMesReservationsActivity-->
+  <string name="tv_mes_reservations">MES RÉSERVATIONS</string>
 
 </resources>

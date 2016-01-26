@@ -33,6 +33,7 @@
 	<string name="md_qtee">QTÉE</string>
 	<string name="md_nom">NOM</string>
 	<string name="res_reservation">DATE DE RÉSERVATION</string>
+	<string name="res_peremption">DATE DE PÉREMPTION</string>
 	<string name="res_qtee">QTÉE</string>
 	<string name="res_nom">NOM</string>
 	<string name="tv_organisme_communautaire">LES ORGANISMES COMMUNAUTAIRES</string>
@@ -50,6 +51,7 @@
 	<string name="tv_dons_qtee_marchandise">99999 unités</string>
 	<string name="ib_dons_modifier">Modifier</string>
 	<string name="ib_dons_supprimer">Supprimer</string>
+	<string name="ib_dons_collecter">Collecter</string>
 	<string name="iv_md_categorie">Catégorie</string>
 	<string name="tv_md_nom_marchandise">Nom du produit ici</string>
 	<string name="tv_md_description">Description du produit ici</string>
@@ -90,8 +92,14 @@
 	<string name="marchandise_type_alimentaire">Food type</string>
 	<string name="marchandise_date_peremption">Expiration date</string>
 
-	<!--Ressource pour HippieListAdapter -->
+	<!--Ressource pour HippieListAdapter et ListeMesDonsActivity-->
 	<string name="msg_produit_supprime">Commodity deleted</string>
+	<string name="msg_confirme_suppression">Are you sure that you want to delete this donation ?</string>
+	<string name="bouton_confirme_suppression_oui">YES</string>
+	<string name="bouton_confirme_suppression_non">NO</string>
+	<string name="tv_mes_dons">MY DONATIONS</string>
 
+	<!--Ressource pour MesReservationsAdapter et ListeMesReservationsActivity-->
+	<string name="tv_mes_reservations">MY RESERVATIONS</string>
 
 </resources>

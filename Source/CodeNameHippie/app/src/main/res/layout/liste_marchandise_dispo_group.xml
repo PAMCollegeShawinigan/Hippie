@@ -11,7 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/iv_md_categorie"
-        android:contentDescription="@string/iv_md_categorie"/>
+        android:contentDescription="@string/iv_md_categorie"
+        android:focusable="false"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -20,6 +21,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:layout_weight="0.1"
+        android:focusable="false"
         >
 
         <TextView
@@ -27,6 +29,7 @@
             android:layout_height="wrap_content"
             android:text="@string/tv_md_nom_marchandise"
             android:id="@+id/tv_md_nom_marchandise"
+            android:focusable="false"
             />
 
         <TextView
@@ -35,6 +38,7 @@
             android:text="@string/tv_md_description"
             android:id="@+id/tv_md_description"
             android:layout_weight="0.1"
+            android:focusable="false"
             />
 
     </LinearLayout>
@@ -46,7 +50,8 @@
         android:id="@+id/tv_md_qtee_marchandise"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:layout_weight="0.1"/>
+        android:layout_weight="0.1"
+        android:focusable="false"/>
 
     <TextView
         android:layout_width="0dp"
@@ -55,7 +60,8 @@
         android:id="@+id/tv_md_date_marchandise"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:layout_weight="0.1"/>
+        android:layout_weight="0.1"
+        android:focusable="false"/>
 
 
     <ImageButton
@@ -63,6 +69,7 @@
         android:layout_height="40dp"
         android:id="@+id/ib_md_ajouter"
         android:background="@drawable/crochet"
-        android:contentDescription="@string/ib_md_ajouter"/>
+        android:contentDescription="@string/ib_md_ajouter"
+        android:focusable="false"/>
 
 </LinearLayout>

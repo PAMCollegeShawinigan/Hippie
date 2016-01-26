@@ -1,12 +1,11 @@
 package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.pam.codenamehippie.modele.DescriptionModel;
@@ -14,20 +13,28 @@ import com.pam.codenamehippie.modele.DescriptionModel;
 import java.util.ArrayList;
 
 /**
- * Created by Carl St-Louis le 2015-12-15.
+ * Cette classe permet de récupérer les descriptions contenues dans une
+ * ArrayList<DescriptionModele>
+ * et, selon le type, les afficher à l'intérieur du Spinner correspondant.
  */
-public class HippieSpinnerAdapter implements SpinnerAdapter {
+public class HippieSpinnerAdapter extends BaseAdapter {
 
-    private final ArrayList<DescriptionModel> items;
     private final Context context;
+    private volatile ArrayList<DescriptionModel> items = new ArrayList<>();
 
-    public HippieSpinnerAdapter(Context context, ArrayList<DescriptionModel> items) {
+    public HippieSpinnerAdapter(Context context) {
         this.context = context;
+    }
+
+    public void setItems(ArrayList<DescriptionModel> items) {
         this.items = items;
+        this.notifyDataSetChanged();
     }
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        // On vérifie le type avant de faire un type cast. Ensuite, on affecte les descriptions
+        // selon la position.
         CheckedTextView view =
                 (convertView instanceof CheckedTextView) ? (CheckedTextView) convertView : null;
         if (view != null) {
@@ -42,16 +49,6 @@ public class HippieSpinnerAdapter implements SpinnerAdapter {
             view.setText(this.getItem(position).getDescription());
         }
         return view;
-    }
-
-    @Override
-    public void registerDataSetObserver(DataSetObserver observer) {
-
-    }
-
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) {
-
     }
 
     @Override
@@ -76,7 +73,8 @@ public class HippieSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // On check le type avant de faire un type cast.
+        // On vérifie le type avant de faire un type cast. Ensuite, on affecte les descriptions
+        // selon la position.
         TextView view = (convertView instanceof TextView) ? (TextView) convertView : null;
         if (view != null) {
             view.setText(this.getItem(position).getDescription());

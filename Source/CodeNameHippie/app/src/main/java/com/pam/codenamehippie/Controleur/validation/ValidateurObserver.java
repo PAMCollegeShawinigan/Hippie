@@ -6,5 +6,5 @@ package com.pam.codenamehippie.controleur.validation;
  */
 public interface ValidateurObserver {
 
-    void enValidatant(Validateur validateur, boolean estValide);
+    void enValidant(Validateur validateur, boolean estValide);
 }
