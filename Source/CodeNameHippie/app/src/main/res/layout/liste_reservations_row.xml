@@ -63,7 +63,7 @@
         android:id="@+id/ib_res_collecter"
         android:background="@drawable/modifier"
         android:layout_marginRight="5dp"
-        android:contentDescription="@string/ib_dons_collecter"/>
+        android:contentDescription="@string/ib_res_collecter"/>
 
     <ImageButton
         android:layout_width="40dp"
