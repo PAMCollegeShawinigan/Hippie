@@ -15,21 +15,26 @@ import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.ui.view.trianglemenu.TestDonneeCentre;
 
-
 import java.util.ArrayList;
 
 /**
  * Created by BEG-163 on 2016-01-18.
  * cette classe est cours de construction,une version modifiee de CarteOrganismeAdapter,
- * pour afficher les details de liste marchandise directement,pas besoin de cliquer sur le groupview pour les voir.
+ * pour afficher les details de liste marchandise directement,pas besoin de cliquer sur le
+ * groupview
+ * pour les voir.
  */
 public class CarteAdapterOption extends BaseExpandableListAdapter {
+
     Context context;
     OrganismeModele mOrganisme;
     ArrayList<AlimentaireModele> listedon = new ArrayList<>();
     int viewID;
 
-    public CarteAdapterOption(Context context, OrganismeModele mOrganisme, ArrayList<AlimentaireModele> listedon, int viewID) {
+    public CarteAdapterOption(Context context,
+                              OrganismeModele mOrganisme,
+                              ArrayList<AlimentaireModele> listedon,
+                              int viewID) {
         this.context = context;
         this.mOrganisme = mOrganisme;
         this.listedon = listedon;
@@ -71,7 +76,6 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
     public Object getChild(int groupPosition, int childPosition) {
         Object info = null;
 
-
         if (groupPosition == 0) {
 
             switch (childPosition) {
@@ -82,7 +86,6 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
                     info = mOrganisme.getTelephone();
                     break;
             }
-
 
         } else {
 
@@ -108,7 +111,10 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(int groupPosition,
+                             boolean isExpanded,
+                             View convertView,
+                             ViewGroup parent) {
 
         LinearLayout layout1 = new LinearLayout(context);
         layout1.setOrientation(LinearLayout.HORIZONTAL);
@@ -125,10 +131,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
 
             logo.setImageResource(R.drawable.adresse);
 
-            textView.setText(mOrganisme.getAdresse().getNoCivique() + mOrganisme.getAdresse().getTypeRue() +
-                    mOrganisme.getAdresse().getNom() + mOrganisme.getAdresse().getApp() +
-                    mOrganisme.getAdresse().getVille() + mOrganisme.getAdresse().getProvince() +
-                    mOrganisme.getAdresse().getCodePostal() + mOrganisme.getAdresse().getPays());
+            textView.setText(mOrganisme.getAdresse().toFormattedString());
             layout1.addView(logo);
             layout1.addView(textView);
 
@@ -166,7 +169,8 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
             textView2.setTextSize(20);
             textView2.setWidth(200);
             textView2.setPadding(0, 17, 5, 17);
-            textView2.setText(listedon.get(groupPosition - 2).getQuantite() + listedon.get(groupPosition - 2).getUnite());
+            textView2.setText(listedon.get(groupPosition - 2).getQuantite() +
+                              listedon.get(groupPosition - 2).getUnite());
 
             TextView textView4 = new TextView(context);
             textView4.setTextColor(Color.BLACK);
@@ -184,7 +188,11 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int groupPosition,
+                             final int childPosition,
+                             boolean isLastChild,
+                             View convertView,
+                             ViewGroup parent) {
 
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.HORIZONTAL);
@@ -204,7 +212,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
                 case 1:
 
                     logo.setImageResource(R.drawable.telephone2);
-                    textView.setText(mOrganisme.getTelephone());
+                    textView.setText(mOrganisme.getFormattedTelephone());
                     break;
             }
 
@@ -213,14 +221,12 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
 
         } else {
 
-
             TextView textView1 = new TextView(context);
             textView1.setTextColor(Color.BLACK);
             textView1.setTextSize(20);
             textView1.setWidth(1000);
             textView1.setPadding(300, 17, 5, 17);
             textView1.setText(listedon.get(groupPosition - 2).getDescription());
-
 
             Button btn = new Button(context);
             if (viewID == R.id.marchandiseDisponible || viewID == R.id.main_carte_image) {
@@ -233,7 +239,6 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
 
             btn.setPadding(5, 5, 5, 5);
 
-
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -245,7 +250,6 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
             layout.addView(btn);
 
         }
-
 
         return layout;
     }

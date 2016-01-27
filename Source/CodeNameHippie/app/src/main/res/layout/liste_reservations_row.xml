@@ -69,7 +69,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:id="@+id/ib_res_supprimer"
-        android:background="@drawable/poubelle2"
+        android:background="@drawable/x_rouge"
         android:contentDescription="@string/ib_res_supprimer"/>
 
 </LinearLayout>

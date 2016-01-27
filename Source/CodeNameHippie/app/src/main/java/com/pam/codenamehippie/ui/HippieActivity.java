@@ -14,6 +14,10 @@ import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.ViewSwitcher;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.http.Authentificateur;
@@ -24,13 +28,15 @@ import okhttp3.OkHttpClient;
  * Classe de base pour toutes les {@link android.app.Activity} du projet. Sert principalement à
  * propager le menu principal dans l'action bar.
  */
-public class HippieActivity extends AppCompatActivity {
+public class HippieActivity extends AppCompatActivity implements ConnectionCallbacks,
+                                                                 OnConnectionFailedListener {
 
     protected Authentificateur authentificateur;
     protected OkHttpClient httpClient;
     protected SharedPreferences sharedPreferences;
     protected ViewSwitcher viewSwitcher;
     protected ProgressBar progressBar;
+    protected GoogleApiClient googleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,22 @@ public class HippieActivity extends AppCompatActivity {
         this.httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
         this.authentificateur = ((Authentificateur) this.httpClient.authenticator());
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+    }
+
+    @Override
+    protected void onStart() {
+        if (this.googleApiClient != null) {
+            this.googleApiClient.connect();
+        }
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        if (this.googleApiClient != null) {
+            this.googleApiClient.disconnect();
+        }
+        super.onStop();
     }
 
     @Override
@@ -151,5 +173,20 @@ public class HippieActivity extends AppCompatActivity {
                                             "progressbar");
         }
         this.viewSwitcher.showPrevious();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 }
