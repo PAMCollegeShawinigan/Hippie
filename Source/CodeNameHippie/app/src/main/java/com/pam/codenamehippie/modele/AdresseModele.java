@@ -83,8 +83,21 @@ public class AdresseModele extends BaseModele {
     }
 
     public AdresseModele setCodePostal(String codePostal) {
-        this.codePostal = codePostal;
+        if (codePostal == null) {
+            this.codePostal = null;
+        } else {
+            this.codePostal = codePostal.replaceAll("\\s+", "");
+        }
         return this;
+    }
+
+    public String getFormattedCodePostal() {
+        if (this.codePostal == null) {
+            return null;
+        }
+        StringBuilder stringBuilder = new StringBuilder(this.codePostal);
+        stringBuilder.insert(3, " ");
+        return stringBuilder.toString();
     }
 
     public String getPays() {
@@ -94,5 +107,35 @@ public class AdresseModele extends BaseModele {
     public AdresseModele setPays(String pays) {
         this.pays = pays;
         return this;
+    }
+
+    public String toFormattedString() {
+        StringBuilder stringBuilder = new StringBuilder(200);
+        if (this.noCivique != null) {
+            stringBuilder.append(this.noCivique).append(" ");
+        }
+        if (this.nom != null) {
+            stringBuilder.append(this.nom).append(" ");
+        }
+        if (this.typeRue != null) {
+            stringBuilder.append(this.typeRue).append(" ");
+        }
+        if (this.app != null) {
+            stringBuilder.append("Appartement ").append(this.app).append(" ");
+        }
+        if (this.ville != null) {
+            stringBuilder.append(this.ville).append(" ");
+        }
+        if (this.province != null) {
+            stringBuilder.append(this.province).append(" ");
+        }
+        if (this.codePostal != null) {
+            stringBuilder.append(this.getFormattedCodePostal()).append(" ");
+
+        }
+        if (this.pays != null) {
+            stringBuilder.append(this.pays).append(" ");
+        }
+        return stringBuilder.toString();
     }
 }
