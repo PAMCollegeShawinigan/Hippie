@@ -1,7 +1,8 @@
 package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,29 +21,19 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 
 /**
- * Created by Catherine on 2016-01-21.
- * <p/>
- * L'adapter pour faire afficher la liste des marchandises disponibles par date
- * (et non avec google maps)
+ * Cette classe permet de faire le lien entre les composantes de l'interface utilisateur et
+ * la source de données afin de relier les données aux vues correctement.
  */
-
 public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private ArrayList<AlimentaireModele> groupItems = new ArrayList<>();
-    private AlimentaireModeleDepot alimentaireDepot;
-
-    /**
-     * On ajoute les paramètres.
-     *
-     * @param context
-     * @param alimentaireDepot
-     */
+    private AlimentaireModeleDepot depot;
 
     public ListeMarchandisesDisponiblesAdapter(Context context,
                                                AlimentaireModeleDepot alimentaireDepot) {
         this.context = context;
-        this.alimentaireDepot = alimentaireDepot;
+        this.depot = alimentaireDepot;
     }
 
     /**
@@ -50,8 +41,8 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
      * Donc, on affiche le layout : liste_marchandises_dispo_details, afin de faire afficher
      * l'adresse
      * et le nom de l'entreprise (du donneur en fait) qui donne la marchandise ciblée.
-     * <p/>
-     * <p/>
+     * <p>
+     * <p>
      * On ajoute les paramètres.
      *
      * @param groupPosition
@@ -113,8 +104,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
         ((TextView) convertView.findViewById(R.id.tv_md_nom_entreprise)).setText(modele.getNom());
 
         // Fait afficher l'adresse de l'entreprise
-        // TODO: Faire afficher l'adresse correctement et non en JSON.
-        String addresse = modele.getAdresse().toString();
+        String addresse = modele.getAdresse().toFormattedString();
         ((TextView) convertView.findViewById(R.id.tv_md_adresse_entreprise)).setText(addresse);
         return convertView;
     }
@@ -135,8 +125,8 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
     /**
      * Ici, on ajoute les élements pour faire afficher les informations de la marchandise.
      * On affiche donc le layout liste_marchandises_dispo_group
-     * <p/>
-     * <p/>
+     * <p>
+     * <p>
      * On ajoute les paramètres.
      *
      * @param groupPosition
@@ -244,18 +234,56 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
         }
 
         // Réserver la marchandise (pour les organismes seulement)
-        ImageButton ibSupprimer = (ImageButton) convertView.findViewById(R.id.ib_md_ajouter);
-        ibSupprimer.setFocusable(false);
-        ibSupprimer.setOnClickListener(new View.OnClickListener() {
-
+        ImageButton ibAjouter = (ImageButton) convertView.findViewById(R.id.ib_md_ajouter);
+        ibAjouter.setFocusable(false);
+        ibAjouter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: faire ce qui faut pour reserver une marchandise.
-                Log.i("Boutton ajouté cliqué", "**********" + groupPosition);
+                final Runnable showToast = new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(ListeMarchandisesDisponiblesAdapter.this.context,
+                                       "Marchandise réservée",
+                                       Toast.LENGTH_LONG
+                                      ).show();
+                    }
+                };
 
-                Toast.makeText(context, "Marchandise réservée",
-                               Toast.LENGTH_LONG
-                              ).show();
+                // Confirmer la collecte de la réservation
+                // Pour sauver de la mémoire, on instancie un seul click listener pour les deux
+                // bouton.
+                DialogInterface.OnClickListener dialogOnClickListener =
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case DialogInterface.BUTTON_POSITIVE:
+                                        ListeMarchandisesDisponiblesAdapter.this.depot
+                                                .ajouterReservation(
+                                                        modele,
+                                                        showToast
+                                                                   );
+                                        dialog.dismiss();
+                                        break;
+                                    default:
+                                        dialog.dismiss();
+                                        break;
+                                }
+                            }
+                        };
+
+                // Construction du message pour collecte d'une reservation
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(ListeMarchandisesDisponiblesAdapter.this.context);
+                builder.setMessage("Êtes-vous sur de réserver ce produit ?")
+                       .setPositiveButton(R.string.bouton_confirme_oui,
+                                          dialogOnClickListener
+                                         )
+                       .setNegativeButton(R.string.bouton_confirme_non,
+                                          dialogOnClickListener
+                                         )
+                       .create()
+                       .show();
             }
         });
 
@@ -319,5 +347,6 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     public void setGroupItems(ArrayList<AlimentaireModele> groupItems) {
         this.groupItems = groupItems;
+        this.notifyDataSetChanged();
     }
 }
