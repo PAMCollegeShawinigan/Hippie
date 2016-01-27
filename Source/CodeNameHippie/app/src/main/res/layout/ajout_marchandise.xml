@@ -49,7 +49,8 @@
                         android:textSize="30sp"
                         android:layout_row="0"
                         android:layout_column="0"
-                        android:layout_marginTop="65dp" />
+                        android:layout_marginTop="55dp"
+                        android:layout_marginBottom="10dp"/>
 
                     <TextView
                         android:id="@+id/tvNomMarchandise"
@@ -224,21 +225,22 @@
                         android:layout_row="12"
                         android:layout_column="1" />
 
+                    <Button
+                        android:id="@+id/bAjoutMarchandise"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="@drawable/button"
+                        android:onClick="soumettreMarchandise"
+                        android:text="@string/bouton_ajouter"
+                        android:textColor="#FFFFFF"
+                        android:layout_row="13"
+                        android:layout_column="1"
+                        android:layout_gravity="center_vertical" />
+
                 </GridLayout>
 
-                <Button
-                    android:id="@+id/bAjoutMarchandise"
-                    android:layout_width="wrap_content"
-                    android:layout_height="230dp"
-                    android:layout_marginTop="30dp"
-                    android:background="@drawable/button"
-                    android:onClick="soumettreMarchandise"
-                    android:text="@string/bouton_ajouter"
-                    android:textColor="#FFFFFF"
-                    android:layout_row="13"
-                    android:layout_column="1"
-                    android:layout_weight="0.35"
-                    android:layout_gravity="center_vertical" />
+
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

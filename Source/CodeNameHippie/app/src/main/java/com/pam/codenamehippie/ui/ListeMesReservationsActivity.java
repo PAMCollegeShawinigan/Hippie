@@ -61,15 +61,6 @@ public class ListeMesReservationsActivity extends HippieActivity
                                                   -1
                                                  );
         alimentaireModeleDepot.ajouterUnObservateur(this);
-        // Filtre pour récupérer les items dont le statut est Réservé
-        alimentaireModeleDepot.setFiltreDeListe(new FiltreDeListe<AlimentaireModele>() {
-
-            @Override
-            public boolean appliquer(AlimentaireModele item) {
-                String statut = item.getStatut();
-                return (statut.equalsIgnoreCase("Réservé"));
-            }
-        });
 
         alimentaireModeleDepot.peuplerListeReservation(orgId);
     }
