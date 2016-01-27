@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pam.codenamehippie.R;
-import com.pam.codenamehippie.ui.view.trianglemenu.TestDonneeCentre;
+import com.pam.codenamehippie.modele.OrganismeModele;
 
 import java.util.ArrayList;
 
@@ -18,19 +18,24 @@ import java.util.ArrayList;
  * cette class est pour but de affichier les organismes communautaires
  */
 public class CarteListeOrganismeAdapter extends BaseExpandableListAdapter {
-    Context context;
-    ArrayList<TestDonneeCentre.Organisme> listOrganisme;
 
+    private Context context;
+    private volatile ArrayList<OrganismeModele> items = new ArrayList<>();
 
-    public CarteListeOrganismeAdapter(Context context, ArrayList<TestDonneeCentre.Organisme> listOrganisme ) {
+    public CarteListeOrganismeAdapter(Context context) {
         this.context = context;
-        this.listOrganisme = listOrganisme;
+        this.items = items;
 
+    }
+
+    public void setItems(ArrayList<OrganismeModele> listOrgan) {
+        this.items = listOrgan;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getGroupCount() {
-        return listOrganisme.size();
+        return items.size();
     }
 
     @Override
@@ -42,15 +47,14 @@ public class CarteListeOrganismeAdapter extends BaseExpandableListAdapter {
     @Override
     public Object getGroup(int groupPosition) {
 
-
-        return listOrganisme.get(groupPosition);
+        return items.get(groupPosition);
 
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
 
-        return listOrganisme.get(groupPosition);
+        return items.get(groupPosition);
     }
 
     @Override
@@ -69,25 +73,31 @@ public class CarteListeOrganismeAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(int groupPosition,
+                             boolean isExpanded,
+                             View convertView,
+                             ViewGroup parent) {
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.HORIZONTAL);
-        ImageView logo=new ImageView(context);
+        ImageView logo = new ImageView(context);
         TextView textView = new TextView(context);
-        textView.setText(listOrganisme.get(groupPosition).getNomOrganisme());
+        textView.setText(items.get(groupPosition).getNom());
 
         layout.addView(logo);
         layout.addView(textView);
         textView.setTextSize(20);
         logo.setImageResource(R.drawable.trademarks);
-        logo.setPadding(40,0,40,0);
+        logo.setPadding(40, 0, 40, 0);
         return layout;
-
 
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int groupPosition,
+                             final int childPosition,
+                             boolean isLastChild,
+                             View convertView,
+                             ViewGroup parent) {
 
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.HORIZONTAL);
@@ -95,7 +105,6 @@ public class CarteListeOrganismeAdapter extends BaseExpandableListAdapter {
         ImageView logo1 = new ImageView(context);
 
         TextView textView1 = new TextView(context);
-
 
         LinearLayout layout1 = new LinearLayout(context);
         layout1.setOrientation(LinearLayout.VERTICAL);
@@ -111,33 +120,32 @@ public class CarteListeOrganismeAdapter extends BaseExpandableListAdapter {
         layout2.addView(logo2);
         layout2.addView(textView2);
 
-
         ImageView logo3 = new ImageView(context);
         TextView textView3 = new TextView(context);
         layout3.addView(logo3);
         layout3.addView(textView3);
 
-
         layout1.addView(layout2);
         layout1.addView(layout3);
-
 
         layout.addView(logo1);
         layout.addView(textView1);
         layout.addView(layout1);
         logo1.setImageResource(R.drawable.adresse);
-        logo1.setPadding(40,0,40,0);
+        logo1.setPadding(40, 0, 40, 0);
         logo2.setImageResource(R.drawable.personne_contact);
         logo3.setImageResource(R.drawable.telephone2);
-        textView1.setText(listOrganisme.get(groupPosition).getAddresse());
-        textView2.setText(listOrganisme.get(groupPosition).getContact());
-        textView3.setText(listOrganisme.get(groupPosition).getTelephone());
+        textView1.setText(items.get(groupPosition).getAdresse().toFormattedString());
+        String nomContact = items.get(groupPosition).getContact().getPrenom() +
+                            " " +
+                            items.get(groupPosition).getContact().getNom();
+        textView2.setText(nomContact);
+        textView3.setText(items.get(groupPosition).getFormattedTelephone());
         textView1.setTextSize(20);
         textView1.setMaxWidth(700);
 
         textView2.setTextSize(20);
         textView3.setTextSize(20);
-
 
         return layout;
     }
