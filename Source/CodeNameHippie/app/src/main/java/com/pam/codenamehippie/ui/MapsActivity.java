@@ -34,6 +34,7 @@ import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.OrganismeModeleDepot;
 import com.pam.codenamehippie.ui.adapter.CarteAdapterOption;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -172,35 +173,34 @@ public class MapsActivity extends HippieActivity
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 600, 800, 1);
         mMap.moveCamera(cu);
         mMap.animateCamera(cu);
-        this.
-                    mMap.getUiSettings().setMapToolbarEnabled(false);
+        this.mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
 
-                                          @Override
-                                          public boolean onMarkerClick(Marker marker) {
+                for (int i = 0; i < listeOrganisme.size(); i++) {
+                    if (listMarker.get(i).equals(marker)) {
+                        ordre = i;
+                    }
+                }
+                final OrganismeModele mOrganisme = listeOrganisme
+                                                           .get(ordre);
 
-                                              for (int i = 0; i < listeOrganisme.size(); i++) {
-                                                  if (listMarker.get(i).equals(marker)) {
-                                                      ordre = i;
-                                                  }
-                                              }
-                                              final OrganismeModele mOrganisme = listeOrganisme
-                                                                                         .get(ordre);
-
-                                              //  expandableListView.setAdapter(new
-                                              // CarteOrganismeAdapter(MapsActivity.this,
-                                              // mOrganisme, viewID));
-                                              expandableListView.setAdapter(new CarteAdapterOption(MapsActivity.this,
-                                                                                                   mOrganisme,
-                                                                                                   listedon,
-                                                                                                   viewID
-                                              ));
-
-                                              return false;
-                                          }
-                                      }
-
-                                     );
+                //  expandableListView.setAdapter(new
+                // CarteOrganismeAdapter(MapsActivity.this,
+                // mOrganisme, viewID));
+                expandableListView.setAdapter(new CarteAdapterOption(MapsActivity.this,
+                                                                     mOrganisme,
+                                                                     listedon,
+                                                                     viewID
+                ));
+                if (slidingLayout.getPanelState() == PanelState.ANCHORED ||
+                    slidingLayout.getPanelState() == PanelState.EXPANDED) {
+                    expandableListView.expandGroup(0, true);
+                }
+                return true;
+            }
+        });
         // Pour désactiver les logo de googlemap
         mMap.getUiSettings().setMapToolbarEnabled(false);
         //  mMap.moveCamera(CameraUpdateFactory.newLatLng(shawiniganLatLng));
@@ -213,9 +213,12 @@ public class MapsActivity extends HippieActivity
     public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
         if (!parent.isGroupExpanded(groupPosition)) {
             parent.expandGroup(groupPosition);
-            return true;
+            this.slidingLayout.setPanelState(PanelState.ANCHORED);
+        } else {
+            parent.collapseGroup(groupPosition);
+            this.slidingLayout.setPanelState(PanelState.COLLAPSED);
         }
-        return false;
+        return true;
     }
 
     /**
