@@ -86,6 +86,7 @@ public class MapsActivity extends HippieActivity
             public void onPanelCollapsed(View view) {
                 mapView.setVisibility(View.VISIBLE);
                 toolbar.setVisibility(View.VISIBLE);
+                expandableListView.collapseGroup(0);
             }
 
             @Override
@@ -96,12 +97,15 @@ public class MapsActivity extends HippieActivity
 
             @Override
             public void onPanelAnchored(View view) {
+                toolbar.setVisibility(View.VISIBLE);
+                mapView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onPanelHidden(View view) {
             }
         });
+        slidingLayout.setPanelState(PanelState.HIDDEN);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 //        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
 //                .findFragmentById(R.id.map);
