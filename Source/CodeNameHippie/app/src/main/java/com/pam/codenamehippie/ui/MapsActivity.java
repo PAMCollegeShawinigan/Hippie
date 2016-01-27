@@ -29,7 +29,6 @@ import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AdresseModele;
 import com.pam.codenamehippie.modele.AlimentaireModele;
-import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.ObservateurDeDepot;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.OrganismeModeleDepot;
@@ -43,7 +42,9 @@ import java.util.List;
 import okhttp3.OkHttpClient;
 
 public class MapsActivity extends HippieActivity
-        implements OnMapReadyCallback, ExpandableListView.OnGroupClickListener,ObservateurDeDepot<OrganismeModele> {
+        implements OnMapReadyCallback,
+                   ExpandableListView.OnGroupClickListener,
+                   ObservateurDeDepot<OrganismeModele> {
 
     private SlidingUpPanelLayout slidingLayout;
     private ExpandableListView expandableListView;
@@ -110,7 +111,6 @@ public class MapsActivity extends HippieActivity
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -119,26 +119,25 @@ public class MapsActivity extends HippieActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-         intent = getIntent();
-      int  viewID = intent.getFlags();
+        intent = getIntent();
+        int viewID = intent.getFlags();
 
         if (viewID == R.id.main_carte_image) {
-           /// listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
+            /// listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
 
-        }
-        else if(viewID==R.id.main_reservation_image)
-        {
-           // listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
+        } else if (viewID == R.id.main_reservation_image) {
+            // listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
 
-        }else{
+        } else {
 
-           // listOrganisme=TestDonneeCentre.prepareDonnees_organismes();
+            // listOrganisme=TestDonneeCentre.prepareDonnees_organismes();
         }
 
         prepareMarkers(listOrganisme, viewID);
 
 //        switch (viewID){
-//            case R.id.marchandiseDisponible:listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
+//            case R.id.marchandiseDisponible:listOrganisme = TestDonneeCentre
+// .prepareDonnees_disponible();
 //               break;
 //            case R.id.mesReservation: listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
 //                break;
@@ -148,49 +147,20 @@ public class MapsActivity extends HippieActivity
     }
 
     /**
-     * selon list d'organisme,positionner les markers d'organisme,etablir le border de markers et set adapter et listener pour markers
+     * selon list d'organisme,positionner les markers d'organisme,etablir le border de markers et
+     * set adapter et listener pour markers
      *
      * @param listeOrganisme
      */
     private void prepareMarkers(final ArrayList<OrganismeModele> listeOrganisme, final int viewID) {
-        if(mMap!=null){
+        if (mMap != null) {
             mMap.clear();
         }
-        Log.d("Map", "LISTE ORGANISME: "+listeOrganisme.toString());
+        Log.d("Map", "LISTE ORGANISME: " + listeOrganisme.toString());
         ArrayList<LatLng> latLngList = new ArrayList<>();
-        StringBuilder stringBuilder = new StringBuilder(200);
         for (OrganismeModele organisme : listeOrganisme) {
             AdresseModele adresse = organisme.getAdresse();
-            if (adresse.getNoCivique() != null) {
-                stringBuilder.append(adresse.getNoCivique() + " ");
-            }
-            if (adresse.getTypeRue() != null) {
-                stringBuilder.append(adresse.getTypeRue() + " ");
-            }
-            if (adresse.getNom() != null) {
-                stringBuilder.append(adresse.getNom() + " ");
-            }
-            if (adresse.getTypeRue() != null) {
-                stringBuilder.append(adresse.getTypeRue() + " ");
-            }
-            if (adresse.getApp() != null) {
-                stringBuilder.append(adresse.getApp() + " ");
-            }
-            if (adresse.getVille() != null) {
-                stringBuilder.append(adresse.getVille() + " ");
-            }
-            if (adresse.getProvince() != null) {
-                stringBuilder.append(adresse.getProvince() + " ");
-            }
-            if (adresse.getCodePostal() != null) {
-                stringBuilder.append(adresse.getCodePostal() + " ");
-
-            } if (adresse.getPays() != null) {
-                stringBuilder.append(adresse.getPays() + " ");
-            }
-
-            latLngList.add(getLocationFromAddress(stringBuilder.toString()));
-            stringBuilder.delete(0, stringBuilder.capacity());
+            latLngList.add(getLocationFromAddress(adresse.toFormattedString()));
         }
         final ArrayList<Marker> listMarker = new ArrayList<>();
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -203,7 +173,7 @@ public class MapsActivity extends HippieActivity
         mMap.moveCamera(cu);
         mMap.animateCamera(cu);
         this.
-        mMap.getUiSettings().setMapToolbarEnabled(false);
+                    mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 
                                           @Override
@@ -214,16 +184,23 @@ public class MapsActivity extends HippieActivity
                                                       ordre = i;
                                                   }
                                               }
-                                              final OrganismeModele mOrganisme = listeOrganisme.get(ordre);
+                                              final OrganismeModele mOrganisme = listeOrganisme
+                                                                                         .get(ordre);
 
-                                            //  expandableListView.setAdapter(new CarteOrganismeAdapter(MapsActivity.this, mOrganisme, viewID));
-                                              expandableListView.setAdapter(new CarteAdapterOption(MapsActivity.this, mOrganisme,listedon, viewID));
+                                              //  expandableListView.setAdapter(new
+                                              // CarteOrganismeAdapter(MapsActivity.this,
+                                              // mOrganisme, viewID));
+                                              expandableListView.setAdapter(new CarteAdapterOption(MapsActivity.this,
+                                                                                                   mOrganisme,
+                                                                                                   listedon,
+                                                                                                   viewID
+                                              ));
 
                                               return false;
                                           }
                                       }
 
-        );
+                                     );
         // Pour désactiver les logo de googlemap
         mMap.getUiSettings().setMapToolbarEnabled(false);
         //  mMap.moveCamera(CameraUpdateFactory.newLatLng(shawiniganLatLng));
@@ -245,6 +222,7 @@ public class MapsActivity extends HippieActivity
      * obtenir lattitude et longitude par string d'adresse .
      *
      * @param strAddress
+     *
      * @return LatLng
      */
     public LatLng getLocationFromAddress(String strAddress) {
@@ -278,12 +256,12 @@ public class MapsActivity extends HippieActivity
                 // affiche denree disponible sur la carte
 
                 Toast.makeText(this.getApplicationContext(),
-                        " Denrées disponible ",
-                        Toast.LENGTH_SHORT
-                ).show();
-             //   mMap.clear();
+                               " Denrées disponible ",
+                               Toast.LENGTH_SHORT
+                              ).show();
+                //   mMap.clear();
 
-              //  listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
+                //  listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
                 prepareMarkers(listOrganisme, v.getId());
                 break;
 
@@ -291,11 +269,11 @@ public class MapsActivity extends HippieActivity
                 // affiche mes reservations sur la carte
                 // just pour tester,deuxiem clique va causer planter.
                 Toast.makeText(this.getApplicationContext(),
-                        " Mes réservations ",
-                        Toast.LENGTH_SHORT
-                ).show();
-              //  mMap.clear();
-              //  listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
+                               " Mes réservations ",
+                               Toast.LENGTH_SHORT
+                              ).show();
+                //  mMap.clear();
+                //  listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
                 prepareMarkers(listOrganisme, v.getId());
 
                 break;
@@ -311,7 +289,6 @@ public class MapsActivity extends HippieActivity
         }
 
     }
-
 
     @Override
     public void onStart() {
@@ -329,7 +306,7 @@ public class MapsActivity extends HippieActivity
                 Uri.parse("http://host/path"),
                 // TODO: Make sure this auto-generated app deep link URI is correct.
                 Uri.parse("android-app://com.pam.codenamehippie.ui/http/host/path")
-        );
+                                            );
         // AppIndex.AppIndexApi.start(client, viewAction);
     }
 
@@ -348,10 +325,11 @@ public class MapsActivity extends HippieActivity
                 Uri.parse("http://host/path"),
                 // TODO: Make sure this auto-generated app deep link URI is correct.
                 Uri.parse("android-app://com.pam.codenamehippie.ui/http/host/path")
-        );
+                                            );
 //        AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -361,6 +339,7 @@ public class MapsActivity extends HippieActivity
         depot.supprimerTousLesObservateurs();
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -368,7 +347,6 @@ public class MapsActivity extends HippieActivity
                 ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
         depot.ajouterUnObservateur(this);
         depot.peuplerListeOrganisme();
-
 
     }
 
@@ -381,7 +359,7 @@ public class MapsActivity extends HippieActivity
     public void surChangementDeDonnees(ArrayList<OrganismeModele> modeles) {
         this.listOrganisme = modeles;
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                                                                      .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
     }
