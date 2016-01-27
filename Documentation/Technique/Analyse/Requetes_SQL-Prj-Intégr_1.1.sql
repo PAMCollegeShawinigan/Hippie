@@ -360,5 +360,56 @@ INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
 INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
 WHERE 	ali.marchandise_statut = 2
 AND trx.receveur_id = :id_organisme
-ORDER BY typali.aliment_id DESC;		
+ORDER BY typali.aliment_id DESC;	
+
+-- Profil - requêtes - information utilisateur
+-- Avant de faire la modification sur le profil, il faut envoyer toute l'information sur le profil de l'utilisateur
+-- Pour le utilisateur_id, REMPLACER utilisateur_id par une valeur valide.
+
+SELECT 	utilisateur_id,
+		mot_de_passe,
+		nom,
+		prenom,
+		courriel,
+		telephone,
+		moyen_contact,
+		organisme_id,
+		derniere_connexion
+FROM utilisateur
+WHERE utilisateur_id = :utilisateur_id;
+
+-- Test
+SELECT 	utilisateur_id,
+		mot_de_passe,
+		nom,
+		prenom,
+		courriel,
+		telephone,
+		moyen_contact,
+		organisme_id,
+		derniere_connexion
+FROM utilisateur
+WHERE utilisateur_id = 5;
+
+-- Modification profil à créer, fichier utilisateur.php, fonction: modifierutilisateur()
+-- REMPLACER les variables PHP par des valeurs valides.
+-- Je n'ai pas mis organisme_id, derniere_connexion, utilisateur_id car l'usager n'a pas à le faire.
+-- Il manque le champ 'poste' pour rejoindre l'usager. Quelque chose qui aura lieu d'ajouter une fois mis.
+
+UPDATE utilisateur SET 	mot_de_passe = :mot_de_passe, 
+						nom = :nom,
+						prenom = :prenom,
+						courriel = :courriel, 
+						telephone = :telephone, 
+						moyen_contact = :moyen_contact					
+WHERE utilisateur_id = :utilisateur_id;
+
+-- Test
+UPDATE utilisateur SET 	mot_de_passe = 'test', 
+						nom = 'Calille',
+						prenom = 'Sylvie',
+						courriel = 'test@test.com', 
+						telephone = '8195378851', 
+						moyen_contact = 1					
+WHERE utilisateur_id = 5;
 
