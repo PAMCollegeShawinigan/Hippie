@@ -369,9 +369,7 @@ public class MapsActivity extends HippieActivity
         depot.ajouterUnObservateur(this);
         depot.peuplerListeOrganisme();
 
-AlimentaireModeleDepot alimentaireModeleDepot = ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-alimentaireModeleDepot.ajouterUnObservateur(this);
-        alimentaireModeleDepot.peuplerListeDonDispo();
+
     }
 
     @Override

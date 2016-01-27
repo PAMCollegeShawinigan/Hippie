@@ -2,8 +2,6 @@ package com.pam.codenamehippie.modele;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-
 /**
  * Créé par Carl St-Louis le 23-11-2015.
  */
@@ -47,8 +45,21 @@ public class OrganismeModele extends BaseModele<OrganismeModele> {
     }
 
     public OrganismeModele setTelephone(String telephone) {
-        this.telephone = telephone;
+        if (telephone == null) {
+            this.telephone = null;
+        } else {
+            this.telephone = telephone.replaceAll("[\\s()-\\.]+", "");
+        }
         return this;
+    }
+
+    public String getFormattedTelephone() {
+        if (this.telephone == null) {
+            return null;
+        }
+        StringBuilder stringBuilder = new StringBuilder(this.telephone);
+        stringBuilder.insert(6, "-").insert(0, "(").insert(4, ") ");
+        return stringBuilder.toString();
     }
 
     public Integer getPoste() {
