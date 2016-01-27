@@ -43,7 +43,7 @@ import java.util.List;
 import okhttp3.OkHttpClient;
 
 public class MapsActivity extends HippieActivity
-        implements OnMapReadyCallback, ExpandableListView.OnGroupClickListener,ObservateurDeDepot<OrganismeModele> {
+        implements OnMapReadyCallback, ExpandableListView.OnGroupClickListener,ObservateurDeDepot<OrganismeModele>{
 
     private SlidingUpPanelLayout slidingLayout;
     private ExpandableListView expandableListView;
@@ -369,7 +369,9 @@ public class MapsActivity extends HippieActivity
         depot.ajouterUnObservateur(this);
         depot.peuplerListeOrganisme();
 
-
+AlimentaireModeleDepot alimentaireModeleDepot = ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
+alimentaireModeleDepot.ajouterUnObservateur(this);
+        alimentaireModeleDepot.peuplerListeDonDispo();
     }
 
     @Override
