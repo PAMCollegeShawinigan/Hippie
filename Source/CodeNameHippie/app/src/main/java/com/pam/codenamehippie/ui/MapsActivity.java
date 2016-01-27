@@ -278,6 +278,17 @@ public class MapsActivity extends HippieActivity
 
                 break;
 
+            case R.id.listeMarchandise:
+                if (!this.getClass().equals(ListeMarchandisesDisponiblesActivity.class)) {
+                    this.startActivity(new Intent(this,
+                            ListeMarchandisesDisponiblesActivity.class
+                    ));
+                }
+              break;
+            default:
+               break;
+
+
          /*   case R.id.main_liste_denree_disponible:
                 // affiche les denrees disponible en liste
                 Toast.makeText(this.getApplicationContext(),
