@@ -20,7 +20,6 @@ import com.pam.codenamehippie.modele.OrganismeModele;
 import java.text.DateFormat;
 import java.util.ArrayList;
 
-
 /**
  * Cette classe permet de faire le lien entre les composantes de l'interface utilisateur et
  * la source de données afin de relier les données aux vues correctement.
@@ -30,7 +29,6 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
     private Context context;
     private ArrayList<AlimentaireModele> groupItems = new ArrayList<>();
     private AlimentaireModeleDepot depot;
-
 
     public ListeMarchandisesDisponiblesAdapter(Context context,
                                                AlimentaireModeleDepot alimentaireDepot) {
@@ -43,8 +41,8 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
      * Donc, on affiche le layout : liste_marchandises_dispo_details, afin de faire afficher
      * l'adresse
      * et le nom de l'entreprise (du donneur en fait) qui donne la marchandise ciblée.
-     * <p/>
-     * <p/>
+     * <p>
+     * <p>
      * On ajoute les paramètres.
      *
      * @param groupPosition
@@ -106,8 +104,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
         ((TextView) convertView.findViewById(R.id.tv_md_nom_entreprise)).setText(modele.getNom());
 
         // Fait afficher l'adresse de l'entreprise
-        // TODO: Faire afficher l'adresse correctement et non en JSON.
-        String addresse = modele.getAdresse().toString();
+        String addresse = modele.getAdresse().toFormattedString();
         ((TextView) convertView.findViewById(R.id.tv_md_adresse_entreprise)).setText(addresse);
         return convertView;
     }
@@ -128,8 +125,8 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
     /**
      * Ici, on ajoute les élements pour faire afficher les informations de la marchandise.
      * On affiche donc le layout liste_marchandises_dispo_group
-     * <p/>
-     * <p/>
+     * <p>
+     * <p>
      * On ajoute les paramètres.
      *
      * @param groupPosition
@@ -245,8 +242,10 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
                 final Runnable showToast = new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(ListeMarchandisesDisponiblesAdapter.this.context, "Marchandise réservée",
-                                Toast.LENGTH_LONG).show();
+                        Toast.makeText(ListeMarchandisesDisponiblesAdapter.this.context,
+                                       "Marchandise réservée",
+                                       Toast.LENGTH_LONG
+                                      ).show();
                     }
                 };
 
@@ -259,9 +258,11 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
                                     case DialogInterface.BUTTON_POSITIVE:
-                                        ListeMarchandisesDisponiblesAdapter.this.depot.ajouterReservation(modele,
-                                                showToast
-                                        );
+                                        ListeMarchandisesDisponiblesAdapter.this.depot
+                                                .ajouterReservation(
+                                                        modele,
+                                                        showToast
+                                                                   );
                                         dialog.dismiss();
                                         break;
                                     default:
@@ -275,14 +276,14 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(ListeMarchandisesDisponiblesAdapter.this.context);
                 builder.setMessage("Êtes-vous sur de réserver ce produit ?")
-                        .setPositiveButton(R.string.bouton_confirme_oui,
-                                dialogOnClickListener
-                        )
-                        .setNegativeButton(R.string.bouton_confirme_non,
-                                dialogOnClickListener
-                        )
-                        .create()
-                        .show();
+                       .setPositiveButton(R.string.bouton_confirme_oui,
+                                          dialogOnClickListener
+                                         )
+                       .setNegativeButton(R.string.bouton_confirme_non,
+                                          dialogOnClickListener
+                                         )
+                       .create()
+                       .show();
             }
         });
 

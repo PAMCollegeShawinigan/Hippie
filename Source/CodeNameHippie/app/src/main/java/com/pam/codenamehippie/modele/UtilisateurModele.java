@@ -69,8 +69,14 @@ public class UtilisateurModele extends BaseModele<UtilisateurModele> {
     }
 
     public UtilisateurModele setTelephone(String telephone) {
-        this.telephone = telephone;
+        this.telephone = telephone.replaceAll("[\\s()-\\.]+", "");
         return this;
+    }
+
+    public String getFormattedTelephone() {
+        StringBuilder stringBuilder = new StringBuilder(this.telephone);
+        stringBuilder.insert(7, " ").insert(3, " ");
+        return stringBuilder.toString();
     }
 
     public Integer getMoyenContact() {
