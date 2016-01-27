@@ -1,5 +1,6 @@
 package com.pam.codenamehippie.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -24,22 +25,36 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.modele.AdresseModele;
+import com.pam.codenamehippie.modele.AlimentaireModele;
+import com.pam.codenamehippie.modele.ObservateurDeDepot;
+import com.pam.codenamehippie.modele.OrganismeModele;
+import com.pam.codenamehippie.modele.OrganismeModeleDepot;
 import com.pam.codenamehippie.ui.adapter.CarteAdapterOption;
-import com.pam.codenamehippie.ui.adapter.CarteOrganismeAdapter;
-import com.pam.codenamehippie.ui.view.trianglemenu.TestDonneeCentre;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends HippieActivity implements OnMapReadyCallback, ExpandableListView.OnGroupClickListener {
+import okhttp3.OkHttpClient;
+
+public class MapsActivity extends HippieActivity
+        implements OnMapReadyCallback,
+                   ExpandableListView.OnGroupClickListener,
+                   ObservateurDeDepot<OrganismeModele> {
+
     private SlidingUpPanelLayout slidingLayout;
     private ExpandableListView expandableListView;
-    private ArrayList<TestDonneeCentre.Organisme> listOrganisme=new ArrayList<>();
+    private ArrayList<OrganismeModele> listOrganisme = new ArrayList<>();
+    private ArrayList<AlimentaireModele> listedon = new ArrayList<>();
+    private Context context;
+    private OkHttpClient httpClient;
     private int ordre;
     private Intent intent;
-    GoogleMap mMap;
+    private GoogleMap mMap;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -87,53 +102,42 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
             }
         });
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
-    /**
-     * preparer les donnees pour list marchandises reservees.
-     * @return
-     */
 
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
      */
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-         intent = getIntent();
-      int  viewID = intent.getFlags();
+        intent = getIntent();
+        int viewID = intent.getFlags();
 
         if (viewID == R.id.main_carte_image) {
-            listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
+            /// listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
 
-        }
-        else if(viewID==R.id.main_reservation_image)
-        {
-            listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
+        } else if (viewID == R.id.main_reservation_image) {
+            // listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
 
-        }else{
+        } else {
 
-            listOrganisme=TestDonneeCentre.prepareDonnees_organismes();
+            // listOrganisme=TestDonneeCentre.prepareDonnees_organismes();
         }
 
         prepareMarkers(listOrganisme, viewID);
 
 //        switch (viewID){
-//            case R.id.marchandiseDisponible:listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
+//            case R.id.marchandiseDisponible:listOrganisme = TestDonneeCentre
+// .prepareDonnees_disponible();
 //               break;
 //            case R.id.mesReservation: listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
 //                break;
@@ -143,17 +147,20 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
     }
 
     /**
-     * selon list d'organisme,positionner les markers d'organisme,etablir le border de markers et set adapter et listener pour markers
+     * selon list d'organisme,positionner les markers d'organisme,etablir le border de markers et
+     * set adapter et listener pour markers
      *
-     * @param listOrganisme
+     * @param listeOrganisme
      */
-    private void prepareMarkers(final ArrayList<TestDonneeCentre.Organisme> listOrganisme, final int viewID) {
-        if(mMap!=null){
+    private void prepareMarkers(final ArrayList<OrganismeModele> listeOrganisme, final int viewID) {
+        if (mMap != null) {
             mMap.clear();
         }
+        Log.d("Map", "LISTE ORGANISME: " + listeOrganisme.toString());
         ArrayList<LatLng> latLngList = new ArrayList<>();
-        for (int i = 0; i < listOrganisme.size(); i++) {
-            latLngList.add(getLocationFromAddress(listOrganisme.get(i).getAddresse()));
+        for (OrganismeModele organisme : listeOrganisme) {
+            AdresseModele adresse = organisme.getAdresse();
+            latLngList.add(getLocationFromAddress(adresse.toFormattedString()));
         }
         final ArrayList<Marker> listMarker = new ArrayList<>();
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -165,29 +172,35 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 600, 800, 1);
         mMap.moveCamera(cu);
         mMap.animateCamera(cu);
-        mMap.getUiSettings().setMapToolbarEnabled(false);
+        this.
+                    mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 
                                           @Override
                                           public boolean onMarkerClick(Marker marker) {
 
-                                              for (int i = 0; i < listOrganisme.size(); i++) {
+                                              for (int i = 0; i < listeOrganisme.size(); i++) {
                                                   if (listMarker.get(i).equals(marker)) {
                                                       ordre = i;
-                                                      break;
                                                   }
                                               }
-                                              final TestDonneeCentre.Organisme mOrganisme = listOrganisme.get(ordre);
+                                              final OrganismeModele mOrganisme = listeOrganisme
+                                                                                         .get(ordre);
 
-                                            //  expandableListView.setAdapter(new CarteOrganismeAdapter(MapsActivity.this, mOrganisme, viewID));
-                                              expandableListView.setAdapter(new CarteAdapterOption(MapsActivity.this, mOrganisme, viewID));
-
-
+                                              //  expandableListView.setAdapter(new
+                                              // CarteOrganismeAdapter(MapsActivity.this,
+                                              // mOrganisme, viewID));
+                                              expandableListView.setAdapter(new CarteAdapterOption(MapsActivity.this,
+                                                                                                   mOrganisme,
+                                                                                                   listedon,
+                                                                                                   viewID
+                                              ));
 
                                               return false;
                                           }
                                       }
-        );
+
+                                     );
         // Pour désactiver les logo de googlemap
         mMap.getUiSettings().setMapToolbarEnabled(false);
         //  mMap.moveCamera(CameraUpdateFactory.newLatLng(shawiniganLatLng));
@@ -209,6 +222,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
      * obtenir lattitude et longitude par string d'adresse .
      *
      * @param strAddress
+     *
      * @return LatLng
      */
     public LatLng getLocationFromAddress(String strAddress) {
@@ -216,7 +230,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
         Geocoder coder = new Geocoder(this);
         List<Address> address;
         LatLng pоint = null;
-
+        Log.d("MAP", strAddress);
         try {
             address = coder.getFromLocationName(strAddress, 5);
             if (address == null) {
@@ -242,12 +256,12 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                 // affiche denree disponible sur la carte
 
                 Toast.makeText(this.getApplicationContext(),
-                        " Denrées disponible ",
-                        Toast.LENGTH_SHORT
-                ).show();
-             //   mMap.clear();
+                               " Denrées disponible ",
+                               Toast.LENGTH_SHORT
+                              ).show();
+                //   mMap.clear();
 
-                listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
+                //  listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
                 prepareMarkers(listOrganisme, v.getId());
                 break;
 
@@ -255,11 +269,11 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                 // affiche mes reservations sur la carte
                 // just pour tester,deuxiem clique va causer planter.
                 Toast.makeText(this.getApplicationContext(),
-                        " Mes réservations ",
-                        Toast.LENGTH_SHORT
-                ).show();
-              //  mMap.clear();
-                listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
+                               " Mes réservations ",
+                               Toast.LENGTH_SHORT
+                              ).show();
+                //  mMap.clear();
+                //  listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
                 prepareMarkers(listOrganisme, v.getId());
 
                 break;
@@ -275,7 +289,6 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
         }
 
     }
-
 
     @Override
     public void onStart() {
@@ -293,7 +306,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                 Uri.parse("http://host/path"),
                 // TODO: Make sure this auto-generated app deep link URI is correct.
                 Uri.parse("android-app://com.pam.codenamehippie.ui/http/host/path")
-        );
+                                            );
         // AppIndex.AppIndexApi.start(client, viewAction);
     }
 
@@ -312,9 +325,54 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback, 
                 Uri.parse("http://host/path"),
                 // TODO: Make sure this auto-generated app deep link URI is correct.
                 Uri.parse("android-app://com.pam.codenamehippie.ui/http/host/path")
-        );
+                                            );
 //        AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        OrganismeModeleDepot depot =
+                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
+        depot.setFiltreDeListe(null);
+        depot.supprimerTousLesObservateurs();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        OrganismeModeleDepot depot =
+                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
+        depot.ajouterUnObservateur(this);
+        depot.peuplerListeOrganisme();
+
+    }
+
+    @Override
+    public void surDebutDeRequete() {
+        this.afficherLaProgressBar();
+    }
+
+    @Override
+    public void surChangementDeDonnees(ArrayList<OrganismeModele> modeles) {
+        this.listOrganisme = modeles;
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                                                                      .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+    }
+
+    @Override
+    public void surFinDeRequete() {
+        this.cacherLaProgressbar();
+    }
+
+    @Override
+    public void surErreur(IOException e) {
+        Log.e("carte", "Error", e);
+
     }
 }
 
