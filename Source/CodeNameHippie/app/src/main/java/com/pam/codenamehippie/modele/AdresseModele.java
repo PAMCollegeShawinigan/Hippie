@@ -83,13 +83,20 @@ public class AdresseModele extends BaseModele {
     }
 
     public AdresseModele setCodePostal(String codePostal) {
-        this.codePostal = codePostal.replaceAll("\\s+", "");
+        if (codePostal == null) {
+            this.codePostal = null;
+        } else {
+            this.codePostal = codePostal.replaceAll("\\s+", "");
+        }
         return this;
     }
 
     public String getFormattedCodePostal() {
+        if (this.codePostal == null) {
+            return null;
+        }
         StringBuilder stringBuilder = new StringBuilder(this.codePostal);
-        stringBuilder.insert(4, " ");
+        stringBuilder.insert(3, " ");
         return stringBuilder.toString();
     }
 
@@ -106,9 +113,6 @@ public class AdresseModele extends BaseModele {
         StringBuilder stringBuilder = new StringBuilder(200);
         if (this.noCivique != null) {
             stringBuilder.append(this.noCivique).append(" ");
-        }
-        if (this.typeRue != null) {
-            stringBuilder.append(this.typeRue).append(" ");
         }
         if (this.nom != null) {
             stringBuilder.append(this.nom).append(" ");

@@ -69,13 +69,20 @@ public class UtilisateurModele extends BaseModele<UtilisateurModele> {
     }
 
     public UtilisateurModele setTelephone(String telephone) {
-        this.telephone = telephone.replaceAll("[\\s()-\\.]+", "");
+        if (telephone == null) {
+            this.telephone = null;
+        } else {
+            this.telephone = telephone.replaceAll("[\\s()-\\.]+", "");
+        }
         return this;
     }
 
     public String getFormattedTelephone() {
+        if (this.telephone == null) {
+            return null;
+        }
         StringBuilder stringBuilder = new StringBuilder(this.telephone);
-        stringBuilder.insert(7, " ").insert(3, " ");
+        stringBuilder.insert(6, "-").insert(0, "(").insert(4, ") ");
         return stringBuilder.toString();
     }
 
