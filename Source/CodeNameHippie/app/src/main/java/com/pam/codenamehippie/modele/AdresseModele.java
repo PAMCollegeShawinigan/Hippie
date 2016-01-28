@@ -2,6 +2,8 @@ package com.pam.codenamehippie.modele;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.regex.Pattern;
+
 /**
  * Créé par Carl St-Louis le 2015-12-01.
  */
@@ -83,8 +85,21 @@ public class AdresseModele extends BaseModele {
     }
 
     public AdresseModele setCodePostal(String codePostal) {
-        this.codePostal = codePostal;
+        if (codePostal == null) {
+            this.codePostal = null;
+        } else {
+            this.codePostal = codePostal.replaceAll("\\s+", "");
+        }
         return this;
+    }
+
+    public String getFormattedCodePostal() {
+        if (this.codePostal == null) {
+            return null;
+        }
+        StringBuilder stringBuilder = new StringBuilder(this.codePostal);
+        stringBuilder.insert(3, " ");
+        return stringBuilder.toString();
     }
 
     public String getPays() {
@@ -94,5 +109,36 @@ public class AdresseModele extends BaseModele {
     public AdresseModele setPays(String pays) {
         this.pays = pays;
         return this;
+    }
+
+    public String toFormattedString() {
+        StringBuilder stringBuilder = new StringBuilder(200);
+        if (this.noCivique != null) {
+            stringBuilder.append(this.noCivique).append(" ");
+        }
+        if ((this.nom != null) && (this.typeRue != null)) {
+            String first = (Pattern.matches("^([0-9+]).+$", this.nom)) ? this.nom : this.typeRue;
+            String second = (first.equals(this.typeRue)) ? this.nom : this.typeRue;
+            stringBuilder.append(first).append(" ").append(second);
+        }
+        stringBuilder.append(", ");
+        if (this.app != null) {
+            stringBuilder.append("Apt. ").append(this.app);
+        }
+        stringBuilder.append("\n");
+        if (this.ville != null) {
+            stringBuilder.append(this.ville).append(", ");
+        }
+        if (this.province != null) {
+            stringBuilder.append(this.province).append(" ");
+        }
+        if (this.codePostal != null) {
+            stringBuilder.append(this.getFormattedCodePostal()).append("\n");
+
+        }
+        if (this.pays != null) {
+            stringBuilder.append(this.pays).append(" ");
+        }
+        return stringBuilder.toString();
     }
 }
