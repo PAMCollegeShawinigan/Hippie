@@ -11,7 +11,7 @@ import com.pam.codenamehippie.R;
 public class SplashScreenActivity extends HippieActivity {
 
     // minuterie d'écran du Splash screen 10000 = 10 sec
-    private static final int SPLASH_TIME_OUT = 1;
+    private static final int SPLASH_TIME_OUT = 10000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
