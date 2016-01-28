@@ -14,7 +14,8 @@
         android:text="nom"
         android:id="@+id/tv_nom"
         android:padding="10dp"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,7 +23,8 @@
         android:text="quantite"
         android:id="@+id/tv_quantite"
         android:padding="10dp"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -30,5 +32,6 @@
         android:text="date de peremption"
         android:id="@+id/tv_date"
         android:padding="10dp"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:textStyle="bold" />
 </LinearLayout>
