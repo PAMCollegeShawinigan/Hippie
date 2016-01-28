@@ -5,9 +5,11 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -41,16 +44,17 @@ import java.util.List;
 public class MapsActivity extends HippieActivity
         implements OnMapReadyCallback,
                    ExpandableListView.OnGroupClickListener,
+                   SlidingUpPanelLayout.PanelSlideListener,
                    ObservateurDeDepot<OrganismeModele> {
 
+    private static final String TAG = MapsActivity.class.getSimpleName();
+    private final ArrayList<AlimentaireModele> listedon = new ArrayList<>();
     private SlidingUpPanelLayout slidingLayout;
     private ExpandableListView expandableListView;
     private volatile ArrayList<OrganismeModele> listOrganisme = new ArrayList<>();
-    private ArrayList<AlimentaireModele> listedon = new ArrayList<>();
-    private int ordre;
-    private Intent intent;
     private GoogleMap mMap;
     private Location lastKnownLocation;
+    private RelativeLayout mapView;
 
     /**
      * preparer la carte google et des donnees.
@@ -60,41 +64,14 @@ public class MapsActivity extends HippieActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_plus);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        slidingLayout.setAnchorPoint(0.6f);
-        final RelativeLayout mapView = (RelativeLayout) findViewById(R.id.mapView);
-        slidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
-
-            @Override
-            public void onPanelSlide(View view, float v) {
-            }
-
-            @Override
-            public void onPanelCollapsed(View view) {
-                mapView.setVisibility(View.VISIBLE);
-                toolbar.setVisibility(View.VISIBLE);
-                expandableListView.collapseGroup(0);
-            }
-
-            @Override
-            public void onPanelExpanded(View view) {
-                mapView.setVisibility(View.GONE);
-                toolbar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onPanelAnchored(View view) {
-                toolbar.setVisibility(View.VISIBLE);
-                mapView.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onPanelHidden(View view) {
-            }
-        });
-        slidingLayout.setPanelState(PanelState.HIDDEN);
+        this.setContentView(R.layout.activity_maps_plus);
+        this.slidingLayout = (SlidingUpPanelLayout) this.findViewById(R.id.sliding_layout);
+        this.slidingLayout.setAnchorPoint(0.6f);
+        this.expandableListView = (ExpandableListView) this.findViewById(R.id.expandableListView);
+        // mettre le listener pour le click de group de l'expandablelistview
+        this.expandableListView.setOnGroupClickListener(this);
+        this.mapView = (RelativeLayout) this.findViewById(R.id.mapView);
+        this.slidingLayout.setPanelSlideListener(this);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 //        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
 //                .findFragmentById(R.id.map);
@@ -108,15 +85,44 @@ public class MapsActivity extends HippieActivity
                                                                 .build();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        OrganismeModeleDepot depot =
+                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
+        depot.ajouterUnObservateur(this);
+        depot.peuplerListeDonneur();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        OrganismeModeleDepot depot =
+                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
+        depot.setFiltreDeListe(null);
+        depot.supprimerTousLesObservateurs();
+
+    }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
      */
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        intent = getIntent();
+        this.mMap = googleMap;
+        Intent intent = this.getIntent();
         int viewID = intent.getFlags();
 
         if (viewID == R.id.main_carte_image) {
@@ -129,16 +135,42 @@ public class MapsActivity extends HippieActivity
 
             // listOrganisme=TestDonneeCentre.prepareDonnees_organismes();
         }
-        if ((listOrganisme != null) && (!listOrganisme.isEmpty())) {
-            prepareMarkers(listOrganisme, viewID);
-        } else if (lastKnownLocation != null) {
-            LatLng lastKnownLocationPoint =
-                    new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-            LatLngBounds bounds = LatLngBounds.builder().include(lastKnownLocationPoint).build();
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, 600, 800, 1);
-            mMap.moveCamera(cameraUpdate);
-            mMap.animateCamera(cameraUpdate);
+        LatLngBounds bounds = null;
+        CameraUpdate cameraUpdate = null;
+        if ((this.listOrganisme != null) && (!this.listOrganisme.isEmpty())) {
+            bounds = this.prepareMarkers(this.listOrganisme, viewID);
         }
+        if (this.lastKnownLocation != null) {
+            LatLng lastKnownLocationPoint = new LatLng(this.lastKnownLocation.getLatitude(),
+                                                       this.lastKnownLocation.getLongitude()
+            );
+            CameraPosition position = CameraPosition.builder()
+                                                    .target(lastKnownLocationPoint)
+                                                    .zoom(12.5f)
+                                                    .build();
+            cameraUpdate = CameraUpdateFactory.newCameraPosition(position);
+        } else if (bounds != null) {
+            Float padding = 30.0f;
+            TypedValue outValue = new TypedValue();
+            if (this.getTheme().resolveAttribute(R.attr.actionBarSize, outValue, true)) {
+                DisplayMetrics metrics = new DisplayMetrics();
+                metrics.setToDefaults();
+                padding = outValue.getDimension(metrics);
+            }
+            cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds,
+                                                               this.mapView.getWidth(),
+                                                               this.mapView.getHeight(),
+                                                               padding.intValue()
+                                                              );
+        }
+        if (cameraUpdate != null) {
+            this.mMap.animateCamera(cameraUpdate);
+        }
+        // Configuration de la carte.
+        this.mMap.setMyLocationEnabled(true);
+        this.mMap.setBuildingsEnabled(true);
+        this.mMap.getUiSettings().setMapToolbarEnabled(false);
+        this.mMap.getUiSettings().setMyLocationButtonEnabled(true);
 //        switch (viewID){
 //            case R.id.marchandiseDisponible:listOrganisme = TestDonneeCentre
 // .prepareDonnees_disponible();
@@ -156,65 +188,62 @@ public class MapsActivity extends HippieActivity
      *
      * @param listeOrganisme
      */
-    private void prepareMarkers(final ArrayList<OrganismeModele> listeOrganisme, final int viewID) {
-        if (mMap != null) {
-            mMap.clear();
+    private LatLngBounds prepareMarkers(final ArrayList<OrganismeModele> listeOrganisme,
+                                        final int viewID) {
+        if (this.mMap != null) {
+            this.mMap.clear();
         }
-        Log.d("Map", "LISTE ORGANISME: " + listeOrganisme.toString());
-        ArrayList<LatLng> latLngList = new ArrayList<>();
+        LatLngBounds.Builder builder = LatLngBounds.builder();
         for (OrganismeModele organisme : listeOrganisme) {
             AdresseModele adresse = organisme.getAdresse();
-            latLngList.add(getLocationFromAddress(adresse.toFormattedString()));
+            LatLng point = this.getLocationFromAddress(adresse.toFormattedString());
+            MarkerOptions markerOptions = new MarkerOptions().position(point)
+                                                             .title(organisme.getNom());
+            this.mMap.addMarker(markerOptions);
+            builder.include(point);
         }
-        final ArrayList<Marker> listMarker = new ArrayList<>();
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (int i = 0; i < latLngList.size(); i++) {
-            listMarker.add(mMap.addMarker(new MarkerOptions().position(latLngList.get(i))));
-            builder.include(latLngList.get(i));
-        }
-        if (lastKnownLocation != null) {
+        if (this.lastKnownLocation != null) {
             LatLng lastKnownLocationPoint =
-                    new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-            builder.include(lastKnownLocationPoint).build();
+                    new LatLng(this.lastKnownLocation.getLatitude(),
+                               this.lastKnownLocation.getLongitude()
+                    );
+            builder.include(lastKnownLocationPoint);
         }
-        LatLngBounds bounds = builder.build();
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 600, 800, 1);
-        mMap.moveCamera(cu);
-        mMap.animateCamera(cu);
-        this.mMap.getUiSettings().setMapToolbarEnabled(false);
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        this.mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-
-                for (int i = 0; i < listeOrganisme.size(); i++) {
-                    if (listMarker.get(i).equals(marker)) {
-                        ordre = i;
+                OrganismeModele mOrganisme = null;
+                for (OrganismeModele organisme : listeOrganisme) {
+                    if (organisme.getNom().compareToIgnoreCase((marker.getTitle())) == 0) {
+                        mOrganisme = organisme;
+                        break;
                     }
                 }
-                final OrganismeModele mOrganisme = listeOrganisme
-                                                           .get(ordre);
-
                 //  expandableListView.setAdapter(new
                 // CarteOrganismeAdapter(MapsActivity.this,
                 // mOrganisme, viewID));
-                expandableListView.setAdapter(new CarteAdapterOption(MapsActivity.this,
-                                                                     mOrganisme,
-                                                                     listedon,
-                                                                     viewID
-                ));
-                if (slidingLayout.getPanelState() == PanelState.ANCHORED ||
-                    slidingLayout.getPanelState() == PanelState.EXPANDED) {
-                    expandableListView.expandGroup(0, true);
+                CarteAdapterOption adapterOption =
+                        new CarteAdapterOption(MapsActivity.this,
+                                               mOrganisme,
+                                               MapsActivity.this.listedon,
+                                               viewID
+                        );
+                MapsActivity.this.expandableListView.setAdapter(adapterOption);
+                if (MapsActivity.this.slidingLayout.getPanelState() == PanelState.ANCHORED ||
+                    MapsActivity.this.slidingLayout.getPanelState() == PanelState.EXPANDED) {
+                    MapsActivity.this.expandableListView.expandGroup(0, true);
                 }
+                CameraPosition position =
+                        CameraPosition.builder(MapsActivity.this.mMap.getCameraPosition())
+                                      .target(marker.getPosition())
+                                      .build();
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(position);
+                MapsActivity.this.mMap.animateCamera(cameraUpdate);
                 return true;
             }
         });
-        // Pour désactiver les logo de googlemap
-        mMap.getUiSettings().setMapToolbarEnabled(false);
         //  mMap.moveCamera(CameraUpdateFactory.newLatLng(shawiniganLatLng));
-        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
-        //mettre le listener pour group de l'expandablelistview
-        expandableListView.setOnGroupClickListener(this);
+        return builder.build();
     }
 
     @Override
@@ -237,27 +266,24 @@ public class MapsActivity extends HippieActivity
      * @return LatLng
      */
     public LatLng getLocationFromAddress(String strAddress) {
-
-        Geocoder coder = new Geocoder(this);
-        List<Address> address;
-        LatLng pоint = null;
-        Log.d("MAP", strAddress);
+        Geocoder geocoder = new Geocoder(this);
+        Log.d(TAG, strAddress);
         try {
-            address = coder.getFromLocationName(strAddress, 5);
+            List<Address> address = geocoder.getFromLocationName(strAddress, 5);
             if (address == null) {
                 return null;
             }
             Address location = address.get(0);
-
-            pоint = new LatLng(location.getLatitude(), location.getLongitude());
+            if (location == null) {
+                return null;
+            }
+            return new LatLng(location.getLatitude(), location.getLongitude());
 
         } catch (Exception ex) {
-
-            ex.printStackTrace();
-            Log.d("Wrong address", ex.toString());
+            Log.e(TAG, "Erreur au géocoding", ex);
         }
 
-        return pоint;
+        return null;
     }
 
     public void onButtonClick(View v) {
@@ -273,7 +299,7 @@ public class MapsActivity extends HippieActivity
                 //   mMap.clear();
 
                 //  listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
-                prepareMarkers(listOrganisme, v.getId());
+                this.prepareMarkers(this.listOrganisme, v.getId());
                 break;
 
             case R.id.mesReservation:
@@ -285,14 +311,13 @@ public class MapsActivity extends HippieActivity
                               ).show();
                 //  mMap.clear();
                 //  listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
-                prepareMarkers(listOrganisme, v.getId());
+                this.prepareMarkers(this.listOrganisme, v.getId());
 
                 break;
 
             case R.id.listeMarchandise:
                 if (!this.getClass().equals(ListeMarchandisesDisponiblesActivity.class)) {
-                    this.startActivity(new Intent(this,
-                                                  ListeMarchandisesDisponiblesActivity.class
+                    this.startActivity(new Intent(this, ListeMarchandisesDisponiblesActivity.class
                     ));
                 }
                 break;
@@ -313,36 +338,6 @@ public class MapsActivity extends HippieActivity
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        OrganismeModeleDepot depot =
-                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
-        depot.setFiltreDeListe(null);
-        depot.supprimerTousLesObservateurs();
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        OrganismeModeleDepot depot =
-                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
-        depot.ajouterUnObservateur(this);
-        depot.peuplerListeDonneur();
-
-    }
-
-    @Override
     public void surDebutDeRequete() {
         this.afficherLaProgressBar();
     }
@@ -350,8 +345,8 @@ public class MapsActivity extends HippieActivity
     @Override
     public void surChangementDeDonnees(ArrayList<OrganismeModele> modeles) {
         this.listOrganisme = modeles;
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                                                                      .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager()
+                                                                  .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
     }
@@ -363,7 +358,7 @@ public class MapsActivity extends HippieActivity
 
     @Override
     public void surErreur(IOException e) {
-        Log.e("carte", "Error", e);
+        Log.e(TAG, "Erreur de dépot", e);
 
     }
 
@@ -372,6 +367,35 @@ public class MapsActivity extends HippieActivity
         super.onConnected(bundle);
         this.lastKnownLocation =
                 LocationServices.FusedLocationApi.getLastLocation(this.googleApiClient);
+    }
+
+    @Override
+    public void onPanelSlide(View view, float v) {
+    }
+
+    @Override
+    public void onPanelCollapsed(View view) {
+        this.mapView.setVisibility(View.VISIBLE);
+        ExpandableListAdapter adapter = this.expandableListView.getExpandableListAdapter();
+        if (adapter != null) {
+            for (int i = adapter.getGroupCount(); i >= 0; i -= 1) {
+                this.expandableListView.collapseGroup(i);
+            }
+        }
+    }
+
+    @Override
+    public void onPanelExpanded(View view) {
+        this.mapView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onPanelAnchored(View view) {
+        this.mapView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onPanelHidden(View view) {
     }
 }
 
