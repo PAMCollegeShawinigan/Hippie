@@ -2,6 +2,8 @@ package com.pam.codenamehippie.modele;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.regex.Pattern;
+
 /**
  * Créé par Carl St-Louis le 2015-12-01.
  */
@@ -114,23 +116,24 @@ public class AdresseModele extends BaseModele {
         if (this.noCivique != null) {
             stringBuilder.append(this.noCivique).append(" ");
         }
-        if (this.nom != null) {
-            stringBuilder.append(this.nom).append(" ");
+        if ((this.nom != null) && (this.typeRue != null)) {
+            String first = (Pattern.matches("^([0-9+]).+$", this.nom)) ? this.nom : this.typeRue;
+            String second = (first.equals(this.typeRue)) ? this.nom : this.typeRue;
+            stringBuilder.append(first).append(" ").append(second);
         }
-        if (this.typeRue != null) {
-            stringBuilder.append(this.typeRue).append(" ");
-        }
+        stringBuilder.append(", ");
         if (this.app != null) {
-            stringBuilder.append("Appartement ").append(this.app).append(" ");
+            stringBuilder.append("Apt. ").append(this.app);
         }
+        stringBuilder.append("\n");
         if (this.ville != null) {
-            stringBuilder.append(this.ville).append(" ");
+            stringBuilder.append(this.ville).append(", ");
         }
         if (this.province != null) {
             stringBuilder.append(this.province).append(" ");
         }
         if (this.codePostal != null) {
-            stringBuilder.append(this.getFormattedCodePostal()).append(" ");
+            stringBuilder.append(this.getFormattedCodePostal()).append("\n");
 
         }
         if (this.pays != null) {
