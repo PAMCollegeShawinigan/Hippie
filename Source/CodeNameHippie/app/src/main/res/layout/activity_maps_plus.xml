@@ -6,7 +6,8 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:fitsSystemWindows="true"
-	android:weightSum="1">
+	android:weightSum="1"
+	tools:context=".ui.MapsActivity">
 	<include layout="@layout/content_appbar_main" />
 	<ViewSwitcher
 		android:id="@+id/main_view_switcher"
@@ -16,6 +17,7 @@
 			android:id="@+id/sliding_layout"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
+			android:layout_marginTop="?actionBarSize"
 			android:gravity="bottom"
 			app:umanoDragView="@+id/dragView"
 			app:umanoFadeColor="@android:color/transparent"
@@ -26,16 +28,12 @@
 			<RelativeLayout
 				android:id="@+id/mapView"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:layout_marginTop="?attr/actionBarSize">
+				android:layout_height="match_parent">
 				<fragment
 					android:id="@+id/map"
 					android:name="com.google.android.gms.maps.SupportMapFragment"
-					xmlns:android="http://schemas.android.com/apk/res/android"
-					xmlns:tools="http://schemas.android.com/tools"
 					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					tools:context=".MapsActivity" />
+					android:layout_height="match_parent" />
 				<ImageButton
 					android:id="@+id/marchandiseDisponible"
 					android:layout_width="60dp"
