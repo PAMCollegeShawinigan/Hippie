@@ -14,6 +14,7 @@ import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,6 +35,7 @@ import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.OrganismeModeleDepot;
 import com.pam.codenamehippie.ui.adapter.CarteAdapterOption;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,6 +72,10 @@ public class MapsActivity extends HippieActivity
         this.expandableListView.setOnGroupClickListener(this);
         this.mapView = (RelativeLayout) this.findViewById(R.id.mapView);
         this.slidingLayout.setPanelSlideListener(this);
+        this.googleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this)
+                                                                .addOnConnectionFailedListener(this)
+                                                                .addApi(LocationServices.API)
+                                                                .build();
     }
 
     @Override
@@ -212,8 +218,8 @@ public class MapsActivity extends HippieActivity
                                                viewID
                         );
                 MapsActivity.this.expandableListView.setAdapter(adapterOption);
-                if (MapsActivity.this.slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED ||
-                    MapsActivity.this.slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                if (MapsActivity.this.slidingLayout.getPanelState() == PanelState.ANCHORED ||
+                    MapsActivity.this.slidingLayout.getPanelState() == PanelState.EXPANDED) {
                     MapsActivity.this.expandableListView.expandGroup(0, true);
                 }
                 CameraPosition position =
@@ -233,9 +239,12 @@ public class MapsActivity extends HippieActivity
     public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
         if (!parent.isGroupExpanded(groupPosition)) {
             parent.expandGroup(groupPosition);
-            return true;
+            this.slidingLayout.setPanelState(PanelState.ANCHORED);
+        } else {
+            parent.collapseGroup(groupPosition);
+            this.slidingLayout.setPanelState(PanelState.COLLAPSED);
         }
-        return false;
+        return true;
     }
 
     /**
