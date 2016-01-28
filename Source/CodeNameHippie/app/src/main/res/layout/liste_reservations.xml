@@ -68,7 +68,8 @@
                         android:layout_weight="0.1"
                         android:paddingRight="10dp"
                         android:text="@string/res_reservation"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginRight="54dp" />
                 </LinearLayout>
                 <ListView
                     android:id="@+id/lv_reservation"
