@@ -44,7 +44,8 @@
                     android:layout_weight="0.1"
                     android:paddingLeft="65dp"
                     android:paddingRight="10dp"
-                    android:text="@string/md_nom"/>
+                    android:text="@string/md_nom"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_md_qtee"
@@ -53,7 +54,8 @@
                     android:layout_weight="0.1"
                     android:paddingLeft="30dp"
                     android:paddingRight="10dp"
-                    android:text="@string/md_qtee"/>
+                    android:text="@string/md_qtee"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_md_peremption"
@@ -61,7 +63,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.1"
                     android:paddingRight="10dp"
-                    android:text="@string/md_peremption"/>
+                    android:text="@string/md_peremption"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
