@@ -253,6 +253,30 @@
 
                     <!-- Adresse de l'entreprise -->
                     <TextView
+                        android:id="@+id/tv_profil_nom_entreprise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="Nom:"
+                        android:textStyle="bold"
+                        android:layout_column="0"
+                        android:layout_row="8"
+                        android:textSize="12sp"
+                        />
+
+                    <!-- PLACEHOLDER : Adresse de l'entreprise -->
+                    <TextView
+                        android:id="@+id/tv_profil_nom_entreprise_placeholder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Placeholder"
+                        android:layout_column="1"
+                        android:layout_row="8"
+                        android:textSize="12sp"
+                        android:layout_margin="5dp"/>
+
+                    <!-- Adresse de l'entreprise -->
+                    <TextView
                         android:id="@+id/tv_profil_adresse"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -260,7 +284,7 @@
                         android:text="@string/tv_profil_adresse"
                         android:textStyle="bold"
                         android:layout_column="0"
-                        android:layout_row="8"
+                        android:layout_row="9"
                         android:textSize="12sp"
                         />
 
@@ -271,7 +295,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/tv_profil_adresse_placeholder"
                         android:layout_column="1"
-                        android:layout_row="8"
+                        android:layout_row="9"
                         android:textSize="12sp"
                         android:layout_margin="5dp"/>
 
@@ -284,7 +308,7 @@
                         android:text="@string/tv_profil_phone"
                         android:textStyle="bold"
                         android:layout_column="0"
-                        android:layout_row="9"
+                        android:layout_row="10"
                         android:textSize="12sp"
                         />
 
@@ -295,7 +319,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/tv_profil_phone2_placeholder"
                         android:layout_column="1"
-                        android:layout_row="9"
+                        android:layout_row="10"
                         android:textSize="12sp"
                         android:layout_margin="5dp"/>
 
@@ -308,7 +332,7 @@
                         android:text="@string/tv_profil_osbl"
                         android:textStyle="bold"
                         android:layout_column="0"
-                        android:layout_row="10"
+                        android:layout_row="11"
                         android:textSize="12sp"
                         />
 
@@ -319,7 +343,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/tv_profil_osbl_placeholder"
                         android:layout_column="1"
-                        android:layout_row="10"
+                        android:layout_row="11"
                         android:textSize="12sp"
                         android:layout_margin="5dp"/>
 
@@ -332,7 +356,7 @@
                         android:text="@string/tv_profil_neq"
                         android:textStyle="bold"
                         android:layout_column="0"
-                        android:layout_row="11"
+                        android:layout_row="12"
                         android:textSize="12sp"
                         />
 
@@ -343,7 +367,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/tv_profil_neq_placeholder"
                         android:layout_column="1"
-                        android:layout_row="11"
+                        android:layout_row="12"
                         android:textSize="12sp"
                         android:layout_margin="5dp"/>
 
@@ -358,7 +382,7 @@
                         android:drawablePadding="5dp"
                         android:layout_column="0"
                         android:layout_columnSpan="2"
-                        android:layout_row="12"
+                        android:layout_row="13"
                         android:text="@string/btn_edit_password"
                         android:textSize="10sp"
                         android:layout_columnWeight="1"/>
