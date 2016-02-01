@@ -113,12 +113,6 @@
 	<string name="ib_res_collecter">Collect</string>
 	<string name="ib_res_supprimer">Delete</string>
 
-    <!-- Autres ressources-->
-    <string name="iv_logo">Logo</string>
-    <string name="loading">A moment please.</string>
-    <string name="app_name">Codename: Hippie</string>
-    <string name="title_activity_preference">Settings</string>
-
     <!-- Ressource pour la page profil-->
     <string name="tv_profil_name">PROFILE</string>
     <string name="iv_image_profile">Image profile</string>
@@ -142,4 +136,9 @@
     <string name="tv_profil_neq_placeholder">Placeholder</string>
     <string name="btn_edit_password">EDIT PASSWORD</string>
 
+    <!-- Autres ressources-->
+    <string name="iv_logo">Logo</string>
+    <string name="loading">A moment please.</string>
+    <string name="app_name">Codename: Hippie</string>
+    <string name="title_activity_preference">Settings</string>
 </resources>
