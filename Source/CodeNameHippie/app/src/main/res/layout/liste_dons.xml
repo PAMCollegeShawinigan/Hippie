@@ -49,7 +49,8 @@
 						android:layout_weight="0.1"
 						android:paddingLeft="5dp"
 						android:paddingRight="10dp"
-						android:text="@string/dons_nom" />
+						android:text="@string/dons_nom"
+						android:textStyle="bold" />
 					<TextView
 						android:id="@+id/tv_dons_description"
 						android:layout_width="wrap_content"
@@ -58,7 +59,8 @@
 						android:layout_weight="0.10"
 						android:paddingLeft="10dp"
 						android:paddingRight="10dp"
-						android:text="@string/dons_description" />
+						android:text="@string/dons_description"
+						android:textStyle="bold" />
 					<TextView
 						android:id="@+id/tv_dons_qtee"
 						android:layout_width="0dp"
@@ -67,7 +69,8 @@
 						android:layout_weight="0.5"
 						android:paddingLeft="10dp"
 						android:paddingRight="10dp"
-						android:text="@string/dons_qtee" />
+						android:text="@string/dons_qtee"
+						android:textStyle="bold" />
 				</LinearLayout>
 				<ListView
 					android:id="@+id/lv_dons"
