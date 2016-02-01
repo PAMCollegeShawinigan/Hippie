@@ -113,10 +113,32 @@
 	<string name="ib_res_collecter">Collect</string>
 	<string name="ib_res_supprimer">Delete</string>
 
+    <!-- Ressource pour la page profil-->
+    <string name="tv_profil_name">PROFILE</string>
+    <string name="iv_image_profile">Image profile</string>
+    <string name="btn_edit_profile">EDIT PROFILE</string>
+    <string name="tv_user_section">USER</string>
+    <string name="tv_contact_name">Contact name :</string>
+    <string name="tv_contact_name_placeholder">Placeholder</string>
+    <string name="tv_profil_email">Email :</string>
+    <string name="tv_profil_email_placeholder">Placeholder</string>
+    <string name="tv_profil_phone">Phone :</string>
+    <string name="tv_profil_phone_placeholder">Placeholder</string>
+    <string name="tv_profil_moyen_contact">How to contact :</string>
+    <string name="tv_profil_moyen_contact_placeholder">Placeholder</string>
+    <string name="tv_entreprise_section">ORGANIZATION</string>
+    <string name="tv_profil_adresse">Adress :</string>
+    <string name="tv_profil_adresse_placeholder">Placeholder</string>
+    <string name="tv_profil_phone2_placeholder">Placeholder</string>
+    <string name="tv_profil_osbl">OSBL :</string>
+    <string name="tv_profil_osbl_placeholder">Placeholder</string>
+    <string name="tv_profil_neq">NEQ :</string>
+    <string name="tv_profil_neq_placeholder">Placeholder</string>
+    <string name="btn_edit_password">EDIT PASSWORD</string>
+
     <!-- Autres ressources-->
     <string name="iv_logo">Logo</string>
     <string name="loading">A moment please.</string>
     <string name="app_name">Codename: Hippie</string>
     <string name="title_activity_preference">Settings</string>
-
 </resources>

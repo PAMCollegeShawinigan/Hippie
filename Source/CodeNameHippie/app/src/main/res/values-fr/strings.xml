@@ -120,6 +120,18 @@
   <string name="ib_res_collecter">Collecter</string>
   <string name="ib_res_supprimer">Supprimer</string>
 
+    <!-- Ressource pour la page profil-->
+    <string name="tv_profil_name">PROFIL</string>
+    <string name="btn_edit_profile">MODIFIER LE PROFIL</string>
+    <string name="tv_user_section">UTILISATEUR</string>
+    <string name="tv_contact_name">Nom du contact :</string>
+    <string name="tv_profil_email">Courriel :</string>
+    <string name="tv_profil_phone">Téléphone :</string>
+    <string name="tv_profil_moyen_contact">Moyen de contact :</string>
+    <string name="tv_entreprise_section">ENTREPRISE</string>
+    <string name="tv_profil_adresse">Addresse :</string>
+    <string name="btn_edit_password">MODIFIER LE MOT DE PASSE</string>
+
     <!-- Autres ressources-->
     <string name="loading">Un moment s\'il-vous-plaît.</string>
     <string name="app_name">Nom de code: Hippie</string>
