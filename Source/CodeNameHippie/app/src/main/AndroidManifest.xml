@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pam.codenamehippie">
+<manifest package="com.pam.codenamehippie"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- client -->
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
     <!-- Authenticator -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
     <!-- <uses-permission android:name="android.permission.READ_PROFILE" /> -->
     <!-- <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
     <!--
@@ -17,7 +17,7 @@
 	 location permissions for the 'MyLocation' functionality.
     -->
     <!-- Trouver la location -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:name=".HippieApplication"
@@ -32,9 +32,8 @@
             android:name=".ui.SplashScreenActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
@@ -50,25 +49,27 @@
         <activity
             android:name=".ui.MapsActivity"
             android:label="@string/title_activity_maps"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".ui.MenuActivity"
             android:label="@string/menu"
-            android:logo="@drawable/logo"></activity>
+            android:logo="@drawable/logo"/>
         <activity
             android:name=".ui.ListeMesDonsActivity"
-            android:label="Mes Dons"></activity>
+            android:label="Mes Dons"/>
         <activity
             android:name=".ui.ListeOrganismesActivity"
-            android:label="Mes Dons"></activity>
+            android:label="Mes Dons"/>
         <activity
             android:name=".ui.ListeMesReservationsActivity"
-            android:label="Mes Réservations"></activity>
+            android:label="Mes Réservations"/>
         <activity
             android:name=".ui.ListeMarchandisesDisponiblesActivity"
-            android:label="Mes Réservations"></activity>
+            android:label="Mes Réservations"/>
         <activity android:name=".ui.AjoutMarchandiseActivity" />
-        <activity android:name=".ui.AideActivity"></activity>
+        <activity android:name=".ui.AideActivity"/>
+        <activity android:name=".ui.ProfilActivity"/>
+
         <!--
 			 The API key for Google Maps-based APIs is defined as a string resource.
 			 (See the file "res/values/google_maps_api.xml").
@@ -79,16 +80,10 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDtk8OGKFqi5cMnevN2HHUFhjvpDEHMIpw" />
-        <!--
-             ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
-        -->
+            android:value="@string/google_maps_key" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
-
     </application>
 
 </manifest>
