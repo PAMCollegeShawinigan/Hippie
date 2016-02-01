@@ -177,6 +177,7 @@ public class MapsActivity extends HippieActivity
 //            default:break;
 //        }
 //        prepareMarkers(listOrganisme,viewID);
+        this.cacherLaProgressbar();
     }
 
     private LatLngBounds prepareMarkers(final ArrayList<OrganismeModele> listeOrganisme,
@@ -188,10 +189,12 @@ public class MapsActivity extends HippieActivity
         for (OrganismeModele organisme : listeOrganisme) {
             AdresseModele adresse = organisme.getAdresse();
             LatLng point = this.getLocationFromAddress(adresse.toFormattedString());
-            MarkerOptions markerOptions = new MarkerOptions().position(point)
-                                                             .title(organisme.getNom());
-            this.mMap.addMarker(markerOptions);
-            builder.include(point);
+            if (point != null) {
+                MarkerOptions markerOptions = new MarkerOptions().position(point)
+                        .title(organisme.getNom());
+                this.mMap.addMarker(markerOptions);
+                builder.include(point);
+            }
         }
         if (this.lastKnownLocation != null) {
             LatLng lastKnownLocationPoint =
@@ -340,7 +343,7 @@ public class MapsActivity extends HippieActivity
 
     @Override
     public void surFinDeRequete() {
-        this.cacherLaProgressbar();
+
     }
 
     @Override

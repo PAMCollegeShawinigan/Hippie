@@ -124,6 +124,8 @@ SELECT ali.nom,
     Prénom et Nom de la personne contact de l'entreprise donneur (s'il y a)
     Courriel de l'entreprise donneur (s'il y a)
 */  
+-- Changement dans la clause WHERE, remplacement par AND trx.date_reservation IS NULL
+
 SELECT	typali.description_type_aliment, 
 		ali.nom,
 		ali.description_alimentaire,
@@ -154,7 +156,7 @@ INNER JOIN adresse adr ON adr.adresse_id = org.adresse
 INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
 INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
 WHERE 	ali.marchandise_statut = 3
-AND (ali.date_peremption > CURRENT_DATE OR ali.date_peremption IS NULL) 
+AND 	trx.date_reservation IS NULL 
 ORDER BY ali.date_peremption ASC; 
 
  
@@ -327,6 +329,8 @@ UPDATE alimentaire SET marchandise_statut = :marchandise_statut WHERE alimentair
     Courriel du donneur (s'il y a)
 */
 -- Avec les ajouts de PA (2016-01-25)
+-- J'ai ajouté (2016-01-30) dans la condition du WHERE : AND date_reservation IS NOT NULL
+-- Une autre condition a besoin d'être ajoutée qui réfère marchandise_id et date_transaction 
 
 SELECT	typali.description_type_aliment, 
 		ali.nom,
@@ -360,6 +364,7 @@ INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
 INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
 WHERE 	ali.marchandise_statut = 2
 AND trx.receveur_id = :id_organisme
+AND trx.date_reservation IS NOT NULL 
 ORDER BY typali.aliment_id DESC;	
 
 -- Profil - requêtes - information utilisateur
@@ -412,4 +417,107 @@ UPDATE utilisateur SET 	mot_de_passe = 'test',
 						telephone = '8195378851', 
 						moyen_contact = 1					
 WHERE utilisateur_id = 5;
+
+-- Profil - requêtes - information organisme
+-- Avant de faire la modification sur le profil, il faut envoyer toute l'information sur le profil de l'organisme
+-- Pour le organisme_id, REMPLACER organisme_id par une valeur valide.
+-- Fonction existante par PA. Fichier : organisme.php, fonction: organismeid($id)
+-- qui inclut trois requêtes.
+
+SELECT * FROM organisme WHERE organisme_id = :id;
+SELECT * FROM utilisateur WHERE utilisateur_id = :id;
+SELECT * FROM adresse INNER JOIN type_rue on adresse.type_rue = type_rue.type_rue_id WHERE adresse_id = :id;
+
+-- Une autre requête pourrait être proposée qui toucherait seulement l'organisme et l'adresse.
+
+SELECT 	adr.adresse_id, 
+		adr.no_civique, 
+		typrue.description_type_rue,
+		adr.nom,
+		adr.app,
+		adr.ville,
+		adr.province,
+		adr.code_postal,
+		adr.pays,
+		org.organisme_id,
+		org.nom,
+		org.telephone,
+		org.poste,
+		org.utilisateur_contact,
+		org.no_entreprise,
+		org.no_osbl
+FROM organisme org
+INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+WHERE org.organisme_id = :org.organisme_id;
+
+-- REMPLACER :org.organisme_id par une valeur.
+
+SELECT   adr.adresse_id,
+    adr.no_civique,
+    typrue.description_type_rue,
+    adr.nom,
+    adr.app,
+    adr.ville,
+    adr.province,
+    adr.code_postal,
+    adr.pays,
+    org.organisme_id,
+    org.nom,
+    org.telephone,
+    org.poste,
+    org.utilisateur_contact,
+    org.no_entreprise,
+    org.no_osbl
+FROM organisme org
+INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+WHERE org.organisme_id = 4;
+
+-- Modification profil à créer, 
+-- REMPLACER les variables PHP par des valeurs valides.
+
+UPDATE adresse SET 	no_civique = :no_civique,
+					type_rue = :type_rue,
+					nom = :nom,
+					app = :app,
+					ville = :ville,
+					province = :province,
+					code_postal = :code_postal,
+					pays = :pays
+						
+WHERE adresse_id = :adresse_id; 
+
+UPDATE organisme SET 	nom = :nom,
+						telephone = :telephone,
+						poste = :telephone,
+						no_entreprise = :no_entreprise,
+						no_osbl = :no_osbl
+						
+WHERE organisme_id = :organisme_id;
+
+-- Test
+UPDATE adresse SET 	no_civique = '543',
+					type_rue = 2,
+					nom = 'Talbot',
+					app = NULL,
+					ville = 'Chicoutimi',
+					province = 'Québec',
+					code_postal = 'G7H4A4',
+					pays = 'Canada'
+						
+WHERE adresse_id = 19; 
+
+-- Test
+
+UPDATE organisme SET 	nom = 'La Tablée Élisabeth Bruyère',
+						telephone = '8195374884',
+						poste = NULL,
+						no_entreprise = '1143475094',
+						no_osbl = '119009199RR0001 '
+						
+WHERE organisme_id = 1;
+
+
+
 

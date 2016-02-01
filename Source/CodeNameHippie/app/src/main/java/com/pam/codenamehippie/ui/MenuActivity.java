@@ -106,7 +106,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
             case R.id.main_carte_image:
                 // clic sur la carte
                 intent = new Intent(this, MapsActivity.class);
-                intent.setFlags(view.getId());
+                //intent.setFlags(view.getId());
                 startActivity(intent);
                 //startActivity(new Intent(this, MapsActivity.class));
                 Toast.makeText(this.getApplicationContext(),
