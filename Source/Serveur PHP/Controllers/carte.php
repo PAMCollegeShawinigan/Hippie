@@ -62,7 +62,7 @@ class carte extends Controller
 		
 		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev		
 		
-		$req = $bdd -> prepare('SELECT ali.nom,
+		$req = $bdd -> prepare('SELECT DISTINCT ali.nom,
 										ali.alimentaire_id,
 										ali.description_alimentaire, 
 										ali.quantite, 
