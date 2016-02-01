@@ -1,92 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-	package="com.pam.codenamehippie"
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	<!-- client -->
-	<uses-permission android:name="android.permission.USE_CREDENTIALS" />
-	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
-	<uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-	<!-- Authenticator -->
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-	<!-- <uses-permission android:name="android.permission.READ_PROFILE" /> -->
-	<!-- <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
-	<!--
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pam.codenamehippie">
+
+    <!-- client -->
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <!-- Authenticator -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <!-- <uses-permission android:name="android.permission.READ_PROFILE" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
+    <!--
 	 The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
 	 Google Maps Android API v2, but you must specify either coarse or fine
 	 location permissions for the 'MyLocation' functionality.
-	-->
-	<!-- Trouver la location -->
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-	<application
-		android:name=".HippieApplication"
-		android:allowBackup="true"
-		android:icon="@mipmap/ic_launcher"
-		android:logo="@drawable/logo"
-		android:supportsRtl="true"
-		android:theme="@style/AppTheme">
-		<!-- Splash screen -->
-		<activity
-			android:name=".ui.SplashScreenActivity"
-			android:label="@string/app_name">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		<activity
-			android:name=".ui.MainActivity"
-			android:label="@string/app_name" />
-		<activity
-			android:name=".ui.RegisterActivity"
-			android:label="@string/title_activity_register" />
-		<activity
-			android:name=".ui.LoginActivity"
-			android:label="@string/title_activity_login"
-			android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-		<activity
-			android:name=".ui.MapsActivity"
-			android:label="@string/title_activity_maps"
-			android:theme="@style/AppTheme">
-		</activity>
-		<activity
-			android:name=".ui.MenuActivity"
-			android:label="@string/menu"
-			android:logo="@drawable/logo">
-		</activity>
-		<activity
-			android:name=".ui.ListeMesDonsActivity"
-			android:label="Mes Dons">
-		</activity>
+    -->
+    <!-- Trouver la location -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-		<activity
-			android:name=".ui.ListeOrganismesActivity"
-			android:label="Mes Dons">
-		</activity>
-		<activity
-			android:name=".ui.ListeMesReservationsActivity"
-			android:label="Mes Réservations">
-		</activity>
-		<activity
-			android:name=".ui.ListeMarchandisesDisponiblesActivity"
-			android:label="Mes Réservations">
-		</activity>
-		<activity android:name=".ui.AjoutMarchandiseActivity" />
-		<!--
+    <application
+        android:name=".HippieApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:logo="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- Splash screen -->
+        <activity
+            android:name=".ui.SplashScreenActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.MainActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".ui.RegisterActivity"
+            android:label="@string/title_activity_register" />
+        <activity
+            android:name=".ui.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".ui.MapsActivity"
+            android:label="@string/title_activity_maps"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".ui.MenuActivity"
+            android:label="@string/menu"
+            android:logo="@drawable/logo"></activity>
+        <activity
+            android:name=".ui.ListeMesDonsActivity"
+            android:label="Mes Dons"></activity>
+        <activity
+            android:name=".ui.ListeOrganismesActivity"
+            android:label="Mes Dons"></activity>
+        <activity
+            android:name=".ui.ListeMesReservationsActivity"
+            android:label="Mes Réservations"></activity>
+        <activity
+            android:name=".ui.ListeMarchandisesDisponiblesActivity"
+            android:label="Mes Réservations"></activity>
+        <activity android:name=".ui.AjoutMarchandiseActivity" />
+        <activity android:name=".ui.AideActivity"></activity>
+        <!--
 			 The API key for Google Maps-based APIs is defined as a string resource.
 			 (See the file "res/values/google_maps_api.xml").
 			 Note that the API key is linked to the encryption key used to sign the APK.
 			 You need a different API key for each encryption key, including the release key that is used to
 			 sign the APK for publishing.
 			 You can define the keys for the debug and release targets in src/debug/ and src/release/.
-		-->
-		<meta-data
-			android:name="com.google.android.geo.API_KEY"
-			android:value="AIzaSyDtk8OGKFqi5cMnevN2HHUFhjvpDEHMIpw" />
-		<!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
-		<meta-data
-			android:name="com.google.android.gms.version"
-			android:value="@integer/google_play_services_version" />
-	</application>
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDtk8OGKFqi5cMnevN2HHUFhjvpDEHMIpw" />
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+
+    </application>
+
 </manifest>
