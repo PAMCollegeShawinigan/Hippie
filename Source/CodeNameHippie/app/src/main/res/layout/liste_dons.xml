@@ -31,8 +31,16 @@
 					android:layout_marginLeft="20dp"
 					android:layout_marginRight="10dp"
 					android:layout_marginTop="25dp"
+					android:layout_marginBottom="5dp"
 					android:text="@string/tv_mes_dons"
 					android:textSize="25sp"/>
+				<!-- Divider, pour diviser le titre et les informations -->
+				<ImageView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:background="@drawable/divider1"
+					android:layout_marginLeft="15dp"
+					android:layout_marginRight="15dp"/>
 				<LinearLayout
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"

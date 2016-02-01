@@ -113,6 +113,9 @@
 	<string name="ib_res_collecter">Collect</string>
 	<string name="ib_res_supprimer">Delete</string>
 
+	<!-- Ressource pour la page profil-->
+    <string name="tv_profil_name">PROFILE</string>
+
     <!-- Autres ressources-->
     <string name="iv_logo">Logo</string>
     <string name="loading">A moment please.</string>

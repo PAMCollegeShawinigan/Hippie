@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.pam.codenamehippie.ui.ProfilActivity">
+
+    <!-- Fait afficher l'action bar -->
+    <include layout="@layout/content_appbar_main"/>
+
+    <!-- Fait afficher la bar de progression -->
+    <ViewSwitcher
+        android:id="@+id/main_view_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!-- Wrap pour les informations tel que voulu, ainsi parce que le view switcher
+            n'accepte qu'un seul enfant =( -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:orientation="vertical"
+                android:scrollIndicators="left|top">
+
+                <!-- TITRE: PROFIL -->
+                <TextView
+                    android:id="@+id/tv_profil"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_profil_name"
+                    android:textSize="25sp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="5dp"/>
+
+                <!-- Divider, pour diviser le titre et les informations -->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/divider1"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"/>
+
+                <!-- Wrap pour placer les informations tel que voulu -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Contient la photo de profil et l'option de modifier le profil -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_margin="20dp">
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:id="@+id/iv_profil_image"
+                            android:background="@drawable/profil_2x"/>
+
+                    </LinearLayout>
+
+                    <!-- Contient les informations d'utilisateur, ainsi que les informations sur
+                        sur l'entreprise s'il y a -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        <!-- Bar de progression -->
+        <include layout="@layout/loading"/>
+    </ViewSwitcher>
+
+</android.support.design.widget.CoordinatorLayout>
