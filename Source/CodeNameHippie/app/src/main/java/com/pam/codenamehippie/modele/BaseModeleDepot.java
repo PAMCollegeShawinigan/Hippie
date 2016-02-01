@@ -60,6 +60,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      */
     protected final static Gson gson =
             new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").serializeNulls().create();
+
     private static final String TAG = BaseModeleDepot.class.getSimpleName();
     /**
      * Contenant qui renferme les objets entretenus par le dépôt.
@@ -134,7 +135,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
 
     public BaseModeleDepot(Context context, OkHttpClient httpClient) {
         Class clazz = this.getClass();
-        ParameterizedType genericType;
+      ParameterizedType genericType;
         // Recherche la première classe générique dans l'heritage.
         do {
             genericType = ((ParameterizedType) clazz.getGenericSuperclass());
