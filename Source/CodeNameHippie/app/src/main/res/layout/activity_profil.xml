@@ -58,11 +58,20 @@
                         android:orientation="vertical"
                         android:layout_margin="20dp">
 
+                        <!-- Fait afficher la photo de profil de l'utilisateur, s'il y a (donc, le logo?)
+                            la photo de profil était dans un nice to have je crois, mais je voulais l'implémenter maintenant,
+                            il suffira simplement de faire les ajouts nécessaires au code pour le faire afficher. -->
                         <ImageView
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:id="@+id/iv_profil_image"
                             android:background="@drawable/profil_2x"/>
+
+                        <!-- Bouton pour faire modifier le profil -->
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/modifier"/>
 
                     </LinearLayout>
 

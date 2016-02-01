@@ -34,6 +34,7 @@
 					android:layout_marginBottom="5dp"
 					android:text="@string/tv_mes_dons"
 					android:textSize="25sp"/>
+
 				<!-- Divider, pour diviser le titre et les informations -->
 				<ImageView
 					android:layout_width="match_parent"
