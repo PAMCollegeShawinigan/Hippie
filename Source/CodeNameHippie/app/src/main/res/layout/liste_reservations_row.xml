@@ -61,7 +61,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:id="@+id/ib_res_collecter"
-        android:background="@drawable/modifier"
+        android:background="@drawable/collecter"
         android:layout_marginRight="5dp"
         android:contentDescription="@string/ib_res_collecter"/>
 
