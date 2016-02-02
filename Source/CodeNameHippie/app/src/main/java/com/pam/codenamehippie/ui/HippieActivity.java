@@ -106,6 +106,13 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
                     ));
                 }
                 return true;
+            case R.id.menu_aide:
+                if (!this.getClass().equals(AideActivity.class)) {
+                    this.startActivity(new Intent(this,
+                            AideActivity.class
+                    ));
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

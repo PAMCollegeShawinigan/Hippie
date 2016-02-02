@@ -120,6 +120,19 @@
   <string name="ib_res_collecter">Collecter</string>
   <string name="ib_res_supprimer">Supprimer</string>
 
+    <!--Ressource pour Layout activity_aide-->
+    <string name="tv_aide_titre_entete">Aide</string>
+    <string name="tv_aide_titre_denree">Denrée Ô Suivant</string>
+    <string name="tv_aide_titre_connexion">Connexion</string>
+    <string name="tv_aide_titre_menu">Menu &amp; Navigation</string>
+    <string name="tv_aide_titre_organisme">Organismes</string>
+    <string name="tv_aide_titre_produits_disponibles">Produits disponibles</string>
+    <string name="tv_aide_titre_mes_reservations">Mes réservations</string>
+    <string name="tv_aide_titre_faire_un_don">Faire un don</string>
+    <string name="tv_aide_titre_mes_dons">Mes dons</string>
+    <string name="tv_aide_titre_statistiques">Statistiques</string>
+    <string name="tv_aide_titre_profil">Profil</string>
+
     <!-- Ressource pour la page profil-->
     <string name="tv_profil_name">PROFIL</string>
     <string name="btn_edit_profile">MODIFIER LE PROFIL</string>
@@ -131,6 +144,7 @@
     <string name="tv_entreprise_section">ENTREPRISE</string>
     <string name="tv_profil_adresse">Addresse :</string>
     <string name="btn_edit_password">MODIFIER LE MOT DE PASSE</string>
+
 
     <!-- Autres ressources-->
     <string name="loading">Un moment s\'il-vous-plaît.</string>
