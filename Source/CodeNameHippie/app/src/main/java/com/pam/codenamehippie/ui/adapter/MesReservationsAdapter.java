@@ -15,11 +15,10 @@ import android.widget.Toast;
 
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
-import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * Cette classe permet de faire le lien entre les composantes de l'interface utilisateur et
@@ -27,9 +26,9 @@ import java.util.Calendar;
  */
 public class MesReservationsAdapter extends BaseAdapter {
 
-    private volatile ArrayList<AlimentaireModele> items = new ArrayList<>();
     private final Context context;
     private final AlimentaireModeleDepot depot;
+    private volatile ArrayList<AlimentaireModele> items = new ArrayList<>();
 
     public MesReservationsAdapter(Context context, AlimentaireModeleDepot depot) {
         this.context = context;
@@ -101,7 +100,7 @@ public class MesReservationsAdapter extends BaseAdapter {
         // rangée selon le nombre d'items contenus dans l'ArrayList.
         ((TextView) row.findViewById(R.id.tv_res_nom_marchandise)).setText(modele.getNom());
         ((TextView) row.findViewById(R.id.tv_res_description)).setText(modele.getDescription());
-         String quantiteString = modele.getQuantite().toString() + " " + modele.getUnite();
+        String quantiteString = modele.getQuantite().toString() + " " + modele.getUnite();
         ((TextView) row.findViewById(R.id.tv_res_qtee_marchandise)).setText(quantiteString);
         ImageButton ibSupprimerReservation = (ImageButton) row.findViewById(R.id.ib_res_supprimer);
         ImageButton ibCollecterReservation = (ImageButton) row.findViewById(R.id.ib_res_collecter);
@@ -125,7 +124,8 @@ public class MesReservationsAdapter extends BaseAdapter {
                     @Override
                     public void run() {
                         Toast.makeText(MesReservationsAdapter.this.context,
-                                R.string.msg_reservation_supprime, Toast.LENGTH_LONG).show();
+                                       R.string.msg_reservation_supprime, Toast.LENGTH_LONG
+                                      ).show();
                     }
                 };
                 // Confirmer la suppression de la réservation
@@ -138,8 +138,8 @@ public class MesReservationsAdapter extends BaseAdapter {
                                 switch (which) {
                                     case DialogInterface.BUTTON_POSITIVE:
                                         MesReservationsAdapter.this.depot.annulerReservation(modele,
-                                                showToast
-                                        );
+                                                                                             showToast
+                                                                                            );
                                         dialog.dismiss();
                                         break;
                                     default:
@@ -153,14 +153,14 @@ public class MesReservationsAdapter extends BaseAdapter {
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(MesReservationsAdapter.this.context);
                 builder.setMessage(R.string.msg_reservation_confirme_suppression)
-                        .setPositiveButton(R.string.bouton_confirme_oui,
-                                dialogOnClickListener
-                        )
-                        .setNegativeButton(R.string.bouton_confirme_non,
-                                dialogOnClickListener
-                        )
-                        .create()
-                        .show();
+                       .setPositiveButton(R.string.bouton_confirme_oui,
+                                          dialogOnClickListener
+                                         )
+                       .setNegativeButton(R.string.bouton_confirme_non,
+                                          dialogOnClickListener
+                                         )
+                       .create()
+                       .show();
             }
         });
 
@@ -172,7 +172,8 @@ public class MesReservationsAdapter extends BaseAdapter {
                     @Override
                     public void run() {
                         Toast.makeText(MesReservationsAdapter.this.context,
-                                R.string.msg_reservation_collecte, Toast.LENGTH_LONG).show();
+                                       R.string.msg_reservation_collecte, Toast.LENGTH_LONG
+                                      ).show();
                     }
                 };
                 // Confirmer la collecte de la réservation
@@ -185,8 +186,8 @@ public class MesReservationsAdapter extends BaseAdapter {
                                 switch (which) {
                                     case DialogInterface.BUTTON_POSITIVE:
                                         MesReservationsAdapter.this.depot.collecter(modele,
-                                                showToast
-                                        );
+                                                                                    showToast
+                                                                                   );
                                         dialog.dismiss();
                                         break;
                                     default:
@@ -200,14 +201,14 @@ public class MesReservationsAdapter extends BaseAdapter {
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(MesReservationsAdapter.this.context);
                 builder.setMessage(R.string.msg_reservation_confirme_collecte)
-                        .setPositiveButton(R.string.bouton_confirme_oui,
-                                dialogOnClickListener
-                        )
-                        .setNegativeButton(R.string.bouton_confirme_non,
-                                dialogOnClickListener
-                        )
-                        .create()
-                        .show();
+                       .setPositiveButton(R.string.bouton_confirme_oui,
+                                          dialogOnClickListener
+                                         )
+                       .setNegativeButton(R.string.bouton_confirme_non,
+                                          dialogOnClickListener
+                                         )
+                       .create()
+                       .show();
             }
         });
 
