@@ -596,6 +596,9 @@ UPDATE organisme SET 	nom = 'La Tablée Élisabeth Bruyère',
 WHERE organisme_id = 1;
 
 -- Demande à PA
+-- Avec sa correction sur la jointure touchant
+-- INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
+-- remplacée par :
 SELECT 	adr.adresse_id, 
 		adr.no_civique, 
 		typrue.description_type_rue,
@@ -624,7 +627,7 @@ SELECT 	adr.adresse_id,
 		org.no_entreprise,
 		org.no_osbl
 FROM organisme org
-INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
+INNER JOIN utilisateur util ON util.organisme_id = org.organisme_id
 INNER JOIN adresse adr ON adr.adresse_id = org.adresse
 INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
 WHERE courriel = :courriel 
@@ -660,7 +663,7 @@ SELECT 	adr.adresse_id,
 		org.no_entreprise,
 		org.no_osbl
 FROM organisme org
-INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
+INNER JOIN utilisateur util ON util.organisme_id = org.organisme_id
 INNER JOIN adresse adr ON adr.adresse_id = org.adresse
 INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
 WHERE courriel = 'org1@1.ca' 
