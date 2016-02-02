@@ -2,184 +2,35 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".ui.AideActivity">
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
     <include layout="@layout/content_appbar_main"/>
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="@dimen/activity_vertical_margin"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:background="#ffffff">
+            android:orientation="vertical"
+            android:layout_marginTop="?actionBarSize">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/tv_aide_titre_entete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/tv_aide_titre_entete"
-                android:textSize="40sp"
-                android:textColor="#70A843"
-                android:gravity="center_horizontal" />
+                android:textSize="25sp"/>
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#70A843" />
-
-            <TextView
+            <ExpandableListView
+                android:id="@+id/list_aide_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_aide_titre_denree"
-                android:text="@string/tv_aide_titre_denree"
-                android:textSize="25sp"
-                android:textColor="#70A843"
-                android:layout_marginTop="10dp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#70A843" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_aide_titre_connexion"
-                android:text="@string/tv_aide_titre_connexion"
-                android:textSize="25sp"
-                android:textColor="#70A843"
-                android:layout_marginTop="10dp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#70A843" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_aide_titre_menu"
-                android:text="@string/tv_aide_titre_menu"
-                android:textSize="25sp"
-                android:textColor="#70A843"
-                android:layout_marginTop="10dp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#70A843" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_aide_titre_organisme"
-                android:text="@string/tv_aide_titre_organisme"
-                android:textSize="25sp"
-                android:textColor="#70A843"
-                android:layout_marginTop="10dp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#70A843" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_aide_titre_produits_disponibles"
-                android:text="@string/tv_aide_titre_produits_disponibles"
-                android:textSize="25sp"
-                android:textColor="#70A843"
-                android:layout_marginTop="10dp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#70A843" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_aide_titre_mes_reservations"
-                android:text="@string/tv_aide_titre_mes_reservations"
-                android:textSize="25sp"
-                android:textColor="#70A843"
-                android:layout_marginTop="10dp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#70A843" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_aide_titre_faire_un_don"
-                android:text="@string/tv_aide_titre_faire_un_don"
-                android:textSize="25sp"
-                android:textColor="#70A843"
-                android:layout_marginTop="10dp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#70A843" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_aide_titre_mes_dons"
-                android:text="@string/tv_aide_titre_mes_dons"
-                android:textSize="25sp"
-                android:textColor="#70A843"
-                android:layout_marginTop="10dp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#70A843" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_aide_titre_statistiques"
-                android:text="@string/tv_aide_titre_statistiques"
-                android:textSize="25sp"
-                android:textColor="#70A843"
-                android:layout_marginTop="10dp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#70A843" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_aide_titre_profil"
-                android:text="@string/tv_aide_titre_profil"
-                android:textSize="25sp"
-                android:textColor="#70A843"
-                android:layout_marginTop="10dp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="2dp"
-                android:background="#70A843" />
-
-
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="65dp"/>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-</android.support.design.widget.CoordinatorLayout>
 
+</android.support.design.widget.CoordinatorLayout>

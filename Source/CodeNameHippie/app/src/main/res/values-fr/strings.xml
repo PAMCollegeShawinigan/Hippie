@@ -132,6 +132,8 @@
     <string name="tv_aide_titre_mes_dons">Mes dons</string>
     <string name="tv_aide_titre_statistiques">Statistiques</string>
     <string name="tv_aide_titre_profil">Profil</string>
+    <string name="tv_list_aide_group">PlaceHolder</string>
+    <string name="tv_list_aide_detail">PlaceHolder</string>
 
     <!-- Ressource pour la page profil-->
     <string name="tv_profil_name">PROFIL</string>
