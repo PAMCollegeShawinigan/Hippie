@@ -12,12 +12,7 @@ public class MainActivity extends HippieActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
-
-        final String openSansBold = this.getResources().getString(R.string.arialrounded);
-        Typeface font = Typeface.createFromAsset(this.getAssets(), openSansBold);
-
-
-
+        
         Typeface typeface;
         typeface = Typeface.createFromAsset(this.getAssets(), "fonts/arialrounded.ttf");
         ((TextView) this.findViewById(R.id.textView5)).setTypeface(typeface);

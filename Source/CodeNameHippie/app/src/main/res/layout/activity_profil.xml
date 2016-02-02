@@ -130,8 +130,7 @@
                         android:layout_row="1"
                         android:layout_marginLeft="5dp"
                         android:layout_columnSpan="2"
-                        android:layout_columnWeight="1"
-                        styles="@styles/CustomFontTextView"/>
+                        android:layout_columnWeight="1"/>
 
                     <!-- Nom et prénom de la personne contact -->
                     <TextView
