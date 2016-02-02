@@ -35,9 +35,4 @@
     <style name="Base.AppThemeOverlay.ActionBar"
         parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <!-- Valeurs des fonts, afin de les faire afficher -->
-    <style name="textview" parent="@android:style/Widget.TextView">
-        <item name="com.pam.codenamehippie:font">fonts/arialrounded.ttf</item>
-    </style>
-
 </resources>

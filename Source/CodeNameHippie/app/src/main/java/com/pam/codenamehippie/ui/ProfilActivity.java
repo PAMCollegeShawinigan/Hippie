@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.pam.codenamehippie.R;
 
-public class ProfilActivity extends AppCompatActivity {
+public class ProfilActivity extends HippieActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
