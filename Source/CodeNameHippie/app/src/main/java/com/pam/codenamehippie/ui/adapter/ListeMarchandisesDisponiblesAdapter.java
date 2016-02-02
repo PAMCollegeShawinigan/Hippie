@@ -180,7 +180,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
                              View convertView,
                              ViewGroup parent) {
         final AlimentaireModele modele = this.getGroup(groupPosition);
-        modele.s
+
 
         if (convertView == null) {
             LayoutInflater infalInflater =

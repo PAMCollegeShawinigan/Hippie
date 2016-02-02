@@ -13,19 +13,19 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
 
     private static final String TAG = OrganismeModeleDepot.class.getSimpleName();
 
-    private final HttpUrl listeOrganismeDonneur;
+    private final HttpUrl listeOrganismeDonneurUrl;
 
     /**
      * Construction du dépot pour modèle Organisme
      */
     public OrganismeModeleDepot(Context context, OkHttpClient httpClient) {
         super(context, httpClient);
-        this.listeOrganismeDonneur = this.url.newBuilder().addPathSegment("carte").build();
+        this.listeOrganismeDonneurUrl = this.url.newBuilder().addPathSegment("carte").build();
         this.url = this.url.newBuilder().addPathSegment("organisme").build();
     }
 
     public void peuplerListeDonneur() {
-        this.peuplerLeDepot(this.listeOrganismeDonneur);
+        this.peuplerLeDepot(this.listeOrganismeDonneurUrl);
 
     }
     public void peuplerListeOrganisme() {

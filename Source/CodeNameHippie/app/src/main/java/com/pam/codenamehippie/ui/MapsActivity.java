@@ -47,7 +47,7 @@ public class MapsActivity extends HippieActivity
         implements OnMapReadyCallback,
                    ExpandableListView.OnGroupClickListener,
                    SlidingUpPanelLayout.PanelSlideListener,
-                   ObservateurDeDepot<OrganismeModele> {
+                   ObservateurDeDepot<OrganismeModele>{
 
     private static final String TAG = MapsActivity.class.getSimpleName();
     private final ArrayList<AlimentaireModele> listedon = new ArrayList<>();
@@ -96,7 +96,7 @@ public class MapsActivity extends HippieActivity
         OrganismeModeleDepot depot =
                 ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
         depot.ajouterUnObservateur(this);
-        depot.peuplerListeDonneur();
+        depot.peuplerListeOrganisme();
 
     }
 
