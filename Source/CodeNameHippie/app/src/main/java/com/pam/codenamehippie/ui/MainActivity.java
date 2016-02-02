@@ -14,7 +14,7 @@ public class MainActivity extends HippieActivity {
         this.setContentView(R.layout.activity_main);
 
         Typeface typeface;
-        typeface = Typeface.createFromAsset(this.getAssets(), "opensans_regular.ttf");
+        typeface = Typeface.createFromAsset(this.getAssets(), "fonts/arialrounded.ttf");
         ((TextView) this.findViewById(R.id.textView5)).setTypeface(typeface);
         ((TextView) this.findViewById(R.id.textView10)).setTypeface(typeface);
         ((TextView) this.findViewById(R.id.textView17)).setTypeface(typeface);

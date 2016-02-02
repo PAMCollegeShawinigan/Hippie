@@ -84,6 +84,17 @@
                         android:text="@string/btn_edit_profile"
                         android:textSize="10sp"/>
 
+                    <!-- Bouton pour modifier le mot de passe -->
+                    <Button
+                        android:id="@+id/btn_edit_password"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:drawableLeft="@drawable/modifier_2x"
+                        android:drawablePadding="5dp"
+                        android:text="@string/btn_edit_password"
+                        android:textSize="10sp"/>
+
                 </LinearLayout>
 
                 <!-- Divider, pour diviser les informations -->
@@ -108,7 +119,7 @@
                     Information sur l'utilisateur (personne contact)
                     </p>
                     - - - - - - - - - - - - - - - - - - - - - - - - -->
-                    <TextView
+                    <com.pam.codenamehippie.ui.fonts.ArialRounded
                         android:id="@+id/tv_user_section"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -370,22 +381,6 @@
                         android:layout_row="12"
                         android:textSize="12sp"
                         android:layout_margin="5dp"/>
-
-                    <!-- Bouton pour modifier le mot de passe -->
-                    <Button
-                        android:id="@+id/btn_edit_password"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:drawableLeft="@drawable/modifier_3x"
-                        android:drawablePadding="5dp"
-                        android:layout_column="0"
-                        android:layout_columnSpan="2"
-                        android:layout_row="13"
-                        android:text="@string/btn_edit_password"
-                        android:textSize="10sp"
-                        android:layout_columnWeight="1"/>
 
                 </GridLayout>
             </LinearLayout>
