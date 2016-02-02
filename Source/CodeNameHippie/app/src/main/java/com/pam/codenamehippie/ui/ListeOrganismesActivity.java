@@ -7,9 +7,9 @@ import android.widget.ListView;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
-import com.pam.codenamehippie.modele.ObservateurDeDepot;
 import com.pam.codenamehippie.modele.OrganismeModele;
-import com.pam.codenamehippie.modele.OrganismeModeleDepot;
+import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
+import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
 import com.pam.codenamehippie.ui.adapter.CarteListeOrganismeAdapter;
 import com.pam.codenamehippie.ui.adapter.MesReservationsAdapter;
 

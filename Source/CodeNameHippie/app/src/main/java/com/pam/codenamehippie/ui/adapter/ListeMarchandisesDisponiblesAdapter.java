@@ -14,8 +14,8 @@ import android.widget.Toast;
 
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
-import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.OrganismeModele;
+import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
