@@ -64,11 +64,10 @@ class reservation extends Controller
 						$transaction = $req1->fetch();
 						
 						
-					$req2 = $bdd ->prepare('INSERT INTO transaction (donneur_id, receveur_id, marchandise_id, date_disponible, date_transaction)
-											VALUES(:donneur_id, :receveur_id, :marchandise_id, NOW(), NOW())');
+					$req2 = $bdd ->prepare('INSERT INTO transaction (donneur_id, marchandise_id, date_disponible, date_transaction)
+											VALUES(:donneur_id, :marchandise_id, NOW(), NOW())');
 						$req2->execute(array(
 							'donneur_id'=>  $transaction['donneur_id'],
-							'receveur_id' => $transaction['receveur_id'],
 							'marchandise_id' => $marchandise_id
 							));
 						
