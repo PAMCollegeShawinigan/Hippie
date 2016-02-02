@@ -30,11 +30,9 @@ import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AdresseModele;
 import com.pam.codenamehippie.modele.AlimentaireModele;
-import com.pam.codenamehippie.modele.BaseModele;
-import com.pam.codenamehippie.modele.BaseModeleDepot;
-import com.pam.codenamehippie.modele.ObservateurDeDepot;
 import com.pam.codenamehippie.modele.OrganismeModele;
-import com.pam.codenamehippie.modele.OrganismeModeleDepot;
+import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
+import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
 import com.pam.codenamehippie.ui.adapter.CarteAdapterOption;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
@@ -191,7 +189,7 @@ public class MapsActivity extends HippieActivity
             LatLng point = this.getLocationFromAddress(adresse.toFormattedString());
             if (point != null) {
                 MarkerOptions markerOptions = new MarkerOptions().position(point)
-                        .title(organisme.getNom());
+                                                                 .title(organisme.getNom());
                 this.mMap.addMarker(markerOptions);
                 builder.include(point);
             }

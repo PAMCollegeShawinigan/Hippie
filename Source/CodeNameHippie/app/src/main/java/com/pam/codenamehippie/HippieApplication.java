@@ -5,10 +5,10 @@ import android.app.Application;
 import com.pam.codenamehippie.http.Authentificateur;
 import com.pam.codenamehippie.http.intercepteur.AcceptJsonInterceptor;
 import com.pam.codenamehippie.http.intercepteur.HttpDebugInterceptor;
-import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
-import com.pam.codenamehippie.modele.OrganismeModeleDepot;
-import com.pam.codenamehippie.modele.TransactionModeleDepot;
-import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
+import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
+import com.pam.codenamehippie.modele.depot.TransactionModeleDepot;
+import com.pam.codenamehippie.modele.depot.UtilisateurModeleDepot;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
