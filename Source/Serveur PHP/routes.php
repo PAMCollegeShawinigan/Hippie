@@ -38,6 +38,8 @@ Route:: get('utilisateur/{id}','utilisateur@utilisateurid');
 
 Route:: post('utilisateur/', 'utilisateur@enregistrement');
 
+Route:: post('utilisateur/modifier','utilisateur@modifierutilisateur');
+
 Route:: post('reservation/ajouter','reservation@reservationajout');
 
 Route:: get('reservation/annuler/{marchandise_id}','reservation@annulerreservation');

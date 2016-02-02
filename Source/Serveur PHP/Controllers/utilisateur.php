@@ -105,4 +105,11 @@ class utilisateur extends Controller
 		
 	}
 	
+	public function modifierutilisateur(){
+		
+		// mettre la requete et la fonction ici
+		
+	}
+	
+	
 }	
