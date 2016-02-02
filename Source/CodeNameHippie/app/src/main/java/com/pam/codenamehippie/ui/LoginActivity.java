@@ -21,7 +21,7 @@ import com.pam.codenamehippie.controleur.validation.ValidateurMotDePasse;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.UtilisateurModele;
-import com.pam.codenamehippie.modele.UtilisateurModeleDepot;
+import com.pam.codenamehippie.modele.depot.UtilisateurModeleDepot;
 
 import java.io.IOException;
 
