@@ -18,10 +18,10 @@ import com.pam.codenamehippie.controleur.validation.ValidateurDeChampTexte;
 import com.pam.codenamehippie.controleur.validation.ValidateurDeSpinner;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
 import com.pam.codenamehippie.modele.AlimentaireModele;
-import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
-import com.pam.codenamehippie.modele.AlimentaireModeleDepot.PeuplerListesDeSpinnerListener;
 import com.pam.codenamehippie.modele.DescriptionModel;
 import com.pam.codenamehippie.modele.TypeAlimentaireModele;
+import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot.PeuplerListesDeSpinnerListener;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
 import com.pam.codenamehippie.ui.adapter.TypeAlimentaireModeleSpinnerAdapter;
 
