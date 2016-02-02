@@ -124,29 +124,35 @@ SELECT ali.nom,
     Prénom et Nom de la personne contact de l'entreprise donneur (s'il y a)
     Courriel de l'entreprise donneur (s'il y a)
 */  
--- Changement dans la clause WHERE, remplacement par AND trx.date_reservation IS NULL
 
-SELECT	typali.description_type_aliment, 
-		ali.nom,
-		ali.description_alimentaire,
-		ali.quantite,
-		marunit.description_marchandise_unite,
-		ali.date_peremption,
-		org.nom,
-		adr.adresse_id, 
-		adr.no_civique, 
-		typrue.description_type_rue, 
-		adr.nom, 
-		adr.ville, 
-		adr.province, 
-		adr.code_postal, 
-		adr.pays,
-		org.telephone,
-		org.poste,
-		util.prenom,
-		util.nom,
-		util.courriel
-		
+
+-- Changement dans la clause WHERE,2016-02-01
+-- Enlever du WHERE : AND (ali.date_peremption > CURRENT_DATE OR ali.date_peremption IS NULL)
+-- Pour avoir les marchandises périmées, car elles peuvent être données et encore bonnes.
+-- L'ordre dans le GROUP BY est le même que dans l'énoncé de Catherine plus haut.
+
+SELECT MAX(trx.date_disponible) as date_disponible,
+    typali.description_type_aliment,
+    ali.nom,
+    ali.description_alimentaire,
+    ali.quantite,
+    marunit.description_marchandise_unite,
+    ali.date_peremption,
+    org.nom,
+    adr.adresse_id,
+    adr.no_civique,
+    typrue.description_type_rue,
+    adr.nom,
+    adr.ville,
+    adr.province,
+    adr.code_postal,
+    adr.pays,
+    org.telephone,
+    org.poste,
+    util.prenom,
+    util.nom,
+    util.courriel
+
 FROM type_aliment typali
 INNER JOIN alimentaire ali ON ali.type_alimentaire = typali.aliment_id
 INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite
@@ -154,12 +160,31 @@ INNER JOIN transaction trx ON trx.marchandise_id = ali.alimentaire_id
 INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
 INNER JOIN adresse adr ON adr.adresse_id = org.adresse
 INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
-INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
-WHERE 	ali.marchandise_statut = 3
-AND 	trx.date_reservation IS NULL 
-ORDER BY ali.date_peremption ASC; 
+INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact  
+WHERE ali.marchandise_statut = 3
+AND  trx.marchandise_id in (SELECT DISTINCT marchandise_id FROM transaction)
+AND   trx.date_reservation IS NULL  
+GROUP BY typali.description_type_aliment,
+    ali.nom,
+    ali.description_alimentaire,
+    ali.quantite,
+    marunit.description_marchandise_unite,
+    ali.date_peremption,
+    org.nom,
+    adr.adresse_id,
+    adr.no_civique,
+    typrue.description_type_rue,
+    adr.nom,
+    adr.ville,
+    adr.province,
+    adr.code_postal,
+    adr.pays,
+    org.telephone,
+    org.poste,
+    util.prenom,
+    util.nom,
+    util.courriel; 
 
- 
 -- Fonction Liste des oranismes communautaires
 /*
 - Nom du receveur (organisme qui reçoit)
@@ -330,42 +355,90 @@ UPDATE alimentaire SET marchandise_statut = :marchandise_statut WHERE alimentair
 */
 -- Avec les ajouts de PA (2016-01-25)
 -- J'ai ajouté (2016-01-30) dans la condition du WHERE : AND date_reservation IS NOT NULL
--- Une autre condition a besoin d'être ajoutée qui réfère marchandise_id et date_transaction 
+-- Une autre condition a besoin d'être ajoutée qui réfère marchandise_id et date_transaction
+-- Pour enlever la possibilité d'avoir la même marchandise_id pour 2 usagers différents, une sous-requête
+-- est nécessaire.
 
-SELECT	typali.description_type_aliment, 
-		ali.nom,
-		ali.description_alimentaire,
-		ali.quantite,
-		marunit.description_marchandise_unite,
-		trx.date_reservation,
-		ali.date_peremption,
-		org.nom,
-		adr.no_civique, 
-		typrue.description_type_rue, 
-		adr.nom, 
-		adr.ville, 
-		adr.province, 
-		adr.code_postal, 
-		adr.pays,
-		org.telephone,
-		org.poste,
-		util.courriel,
-		util.nom,
-		util.prenom,
-		util.telephone
-		
+SELECT typali.description_type_aliment,
+    ali.nom,
+    ali.description_alimentaire,
+    ali.quantite,
+    marunit.description_marchandise_unite,
+    ali.date_peremption,
+    org.nom,
+    adr.adresse_id,
+    adr.no_civique,
+    typrue.description_type_rue,
+    adr.nom,
+    adr.ville,
+    adr.province,
+    adr.code_postal,
+    adr.pays,
+    org.telephone,
+    org.poste,
+    util.prenom,
+    util.nom,
+    util.courriel
+   
 FROM type_aliment typali
 INNER JOIN alimentaire ali ON ali.type_alimentaire = typali.aliment_id
 INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite
 INNER JOIN transaction trx ON trx.marchandise_id = ali.alimentaire_id
-INNER JOIN organisme org ON org.organisme_id = trx.receveur_id
+INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
 INNER JOIN adresse adr ON adr.adresse_id = org.adresse
 INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
 INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
-WHERE 	ali.marchandise_statut = 2
-AND trx.receveur_id = :id_organisme
-AND trx.date_reservation IS NOT NULL 
-ORDER BY typali.aliment_id DESC;	
+WHERE ali.marchandise_statut = 2
+AND trx.receveur_id = :receveur_id 
+AND (trx.date_reservation, trx.marchandise_id) in
+                                    (SELECT MAX(trx.date_reservation) as date_réservation,
+                                            trx.marchandise_id  
+                                     FROM transaction trx
+                                     WHERE trx.marchandise_id in (SELECT DISTINCT marchandise_id FROM transaction)
+                                     AND trx.date_reservation IS NOT NULL  
+                                     GROUP BY trx.marchandise_id)                                     
+  ORDER BY typali.description_type_aliment, ali.nom, ali.description_alimentaire, ali.quantite;	
+
+-- Test
+SELECT typali.description_type_aliment,
+    ali.nom,
+    ali.description_alimentaire,
+    ali.quantite,
+    marunit.description_marchandise_unite,
+    ali.date_peremption,
+    org.nom,
+    adr.adresse_id,
+    adr.no_civique,
+    typrue.description_type_rue,
+    adr.nom,
+    adr.ville,
+    adr.province,
+    adr.code_postal,
+    adr.pays,
+    org.telephone,
+    org.poste,
+    util.prenom,
+    util.nom,
+    util.courriel
+   
+FROM type_aliment typali
+INNER JOIN alimentaire ali ON ali.type_alimentaire = typali.aliment_id
+INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite
+INNER JOIN transaction trx ON trx.marchandise_id = ali.alimentaire_id
+INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
+INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
+WHERE ali.marchandise_statut = 2
+AND trx.receveur_id = 5 
+AND (trx.date_reservation, trx.marchandise_id) in
+                                    (SELECT MAX(trx.date_reservation) as date_réservation,
+                                            trx.marchandise_id  
+                                     FROM transaction trx
+                                     WHERE trx.marchandise_id in (SELECT DISTINCT marchandise_id FROM transaction)
+                                     AND trx.date_reservation IS NOT NULL  
+                                     GROUP BY trx.marchandise_id)                                     
+  ORDER BY typali.description_type_aliment, ali.nom, ali.description_alimentaire, ali.quantite;	
 
 -- Profil - requêtes - information utilisateur
 -- Avant de faire la modification sur le profil, il faut envoyer toute l'information sur le profil de l'utilisateur
@@ -433,6 +506,7 @@ SELECT * FROM adresse INNER JOIN type_rue on adresse.type_rue = type_rue.type_ru
 SELECT 	adr.adresse_id, 
 		adr.no_civique, 
 		typrue.description_type_rue,
+		adr.type_rue,
 		adr.nom,
 		adr.app,
 		adr.ville,
@@ -441,6 +515,7 @@ SELECT 	adr.adresse_id,
 		adr.pays,
 		org.organisme_id,
 		org.nom,
+		org.adresse,
 		org.telephone,
 		org.poste,
 		org.utilisateur_contact,
@@ -456,6 +531,7 @@ WHERE org.organisme_id = :org.organisme_id;
 SELECT   adr.adresse_id,
     adr.no_civique,
     typrue.description_type_rue,
+	adr.type_rue,
     adr.nom,
     adr.app,
     adr.ville,
@@ -464,6 +540,7 @@ SELECT   adr.adresse_id,
     adr.pays,
     org.organisme_id,
     org.nom,
+	org.adresse,
     org.telephone,
     org.poste,
     org.utilisateur_contact,
@@ -517,6 +594,77 @@ UPDATE organisme SET 	nom = 'La Tablée Élisabeth Bruyère',
 						no_osbl = '119009199RR0001 '
 						
 WHERE organisme_id = 1;
+
+-- Demande à PA
+SELECT 	adr.adresse_id, 
+		adr.no_civique, 
+		typrue.description_type_rue,
+		adr.type_rue,
+		adr.nom,
+		adr.app,
+		adr.ville,
+		adr.province,
+		adr.code_postal,
+		adr.pays,
+		util.utilisateur_id,
+		util.mot_de_passe,
+		util.nom,
+		util.prenom,
+		util.courriel,
+		util.telephone,
+		util.moyen_contact,
+		util.organisme_id,
+		util.derniere_connexion,
+		org.organisme_id,
+		org.nom,
+		org.adresse,
+		org.telephone,
+		org.poste,
+		org.utilisateur_contact,
+		org.no_entreprise,
+		org.no_osbl
+FROM organisme org
+INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
+INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+WHERE courriel = :courriel 
+AND mot_de_passe = :mdp;
+
+-- Test
+
+SELECT 	adr.adresse_id, 
+		adr.no_civique, 
+		typrue.description_type_rue,
+		adr.type_rue,
+		adr.nom,
+		adr.app,
+		adr.ville,
+		adr.province,
+		adr.code_postal,
+		adr.pays,
+		util.utilisateur_id,
+		util.mot_de_passe,
+		util.nom,
+		util.prenom,
+		util.courriel,
+		util.telephone,
+		util.moyen_contact,
+		util.organisme_id,
+		util.derniere_connexion,
+		org.organisme_id,
+		org.nom,
+		org.adresse,
+		org.telephone,
+		org.poste,
+		org.utilisateur_contact,
+		org.no_entreprise,
+		org.no_osbl
+FROM organisme org
+INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
+INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+WHERE courriel = 'org1@1.ca' 
+AND mot_de_passe = '123';
 
 
 
