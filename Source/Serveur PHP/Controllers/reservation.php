@@ -84,52 +84,60 @@ class reservation extends Controller
 		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
 		$header = array ('Content-Type' => 'application/json; charset=UTF-8', 'charset' => 'utf-8' );
 		
-		$req = $bdd -> prepare('SELECT DISTINCT	typali.description_type_aliment, 
-											ali.nom,
-											ali.description_alimentaire,
-											ali.quantite,
-											marunit.description_marchandise_unite,
-											ali.date_peremption,
-											org.nom,
-											adr.no_civique, 
-											typrue.description_type_rue, 
-											adr.nom, 
-											adr.ville, 
-											adr.province, 
-											adr.code_postal, 
-											adr.pays,
-											org.telephone,
-											org.poste,
-											util.courriel,
-											util.nom,
-											util.prenom,
-											util.telephone,
-											ali.alimentaire_id
-											
-		
-											FROM type_aliment typali
-											INNER JOIN alimentaire ali ON ali.type_alimentaire = typali.aliment_id
-											INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite
-											INNER JOIN transaction trx ON trx.marchandise_id = ali.alimentaire_id
-											INNER JOIN organisme org ON org.organisme_id = trx.receveur_id
-											INNER JOIN adresse adr ON adr.adresse_id = org.adresse
-											INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
-											INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
-											WHERE 	ali.marchandise_statut = 2
-											AND trx.receveur_id = :id_organisme
-											ORDER BY typali.aliment_id DESC');	
+		$req = $bdd -> prepare('SELECT ali.alimentaire_id,
+								typali.description_type_aliment,
+								ali.nom,
+								ali.description_alimentaire,
+								ali.quantite,
+								marunit.description_marchandise_unite,
+								ali.date_peremption,
+								org.nom,
+								adr.adresse_id,
+								adr.no_civique,
+								typrue.description_type_rue,
+								adr.nom,
+								adr.ville,
+								adr.province,
+								adr.code_postal,
+								adr.pays,
+								adr.app,
+								org.telephone,
+								org.poste,
+								util.prenom,
+								util.nom,
+								util.courriel,
+								util.telephone
+							   
+							FROM type_aliment typali
+							INNER JOIN alimentaire ali ON ali.type_alimentaire = typali.aliment_id
+							INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite
+							INNER JOIN transaction trx ON trx.marchandise_id = ali.alimentaire_id
+							INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
+							INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+							INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+							INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
+							WHERE ali.marchandise_statut = 2
+							AND trx.receveur_id = :receveur_id 
+							AND (trx.date_reservation, trx.marchandise_id) in
+																(SELECT MAX(trx.date_reservation) as date_réservation,
+																		trx.marchandise_id  
+																 FROM transaction trx
+																 WHERE trx.marchandise_id in (SELECT DISTINCT marchandise_id FROM transaction)
+																 AND trx.date_reservation IS NOT NULL  
+																 GROUP BY trx.marchandise_id)                                     
+							  ORDER BY typali.description_type_aliment, ali.nom, ali.description_alimentaire, ali.quantite');	
 
 											
 								$req->execute(array(
-						'id_organisme' => $id_organisme
+						'receveur_id' => $id_organisme
 						));
 						
 						$array = array();
 				while($resultat = $req->fetch()){
 					
-			if($resultat[5] != null )
+			if($resultat[6] != null )
 			{
-			$date = date_create($resultat[5]);
+			$date = date_create($resultat[6]);
 			
 			$date_peremption = date_format($date, DATE_ATOM);
 			}
@@ -139,13 +147,13 @@ class reservation extends Controller
 			}	
 						
 					
-						$adresse = array('no_civique' => $resultat[7], 'type_rue' => $resultat[8], 'nom' => $resultat[9], 'ville' => $resultat[10], 'province' => $resultat[11], 'code_postal' => $resultat[12], 'pays' =>$resultat[13]);
+						$adresse = array('id' => $resultat[8], 'no_civique' => $resultat[9], 'type_rue' => $resultat[10], 'nom' => $resultat[11],'app' => $resultat[16], 'ville' => $resultat[12], 'province' => $resultat[13], 'code_postal' => $resultat[14], 'pays' =>$resultat[15]);
 						
-						$contact = array('nom'=> $resultat[17], 'prenom' => $resultat[18], 'courriel' => $resultat[16], 'telephone' => $resultat[19] );
+						$contact = array('nom'=> $resultat[20], 'prenom' => $resultat[19], 'courriel' => $resultat[21], 'telephone' => $resultat[22] );
 						
-						$organisme = array('nom' => $resultat[6], 'telephone' => $resultat[14], 'poste' => $resultat[15], 'adresse' => $adresse, 'contact' => $contact );
+						$organisme = array('nom' => $resultat[7], 'telephone' => $resultat[17], 'poste' => $resultat[18], 'adresse' => $adresse, 'contact' => $contact );
 						
-						$arr = array('id' => $resultat[20], 'type_alimentaire' => $resultat[0], 'nom' => $resultat[1], 'description' => $resultat[2], 'quantite' => $resultat[3], 'unite' => $resultat[4], 'date_peremption' => $date_peremption, 'organisme' => $organisme  );
+						$arr = array('id' => $resultat[0], 'type_alimentaire' => $resultat[1], 'nom' => $resultat[2], 'description' => $resultat[3], 'quantite' => $resultat[4], 'unite' => $resultat[5], 'date_peremption' => $date_peremption, 'organisme' => $organisme  );
 						
 						array_push($array, $arr);
 				}
