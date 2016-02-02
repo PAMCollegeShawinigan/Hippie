@@ -84,7 +84,7 @@
             android:textColor="#70A843"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="30dp"
-            fontPath="fonts/.ttf"
+            fontPath="fonts/opensans_semibold.ttf"
             tools:ignore="MissingPrefix"/>
 
         <TextView
@@ -104,7 +104,9 @@
             android:textSize="25dp"
             android:textColor="#70A843"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="30dp" />
+            android:layout_marginLeft="30dp"
+            fontPath="fonts/opensans_semibold.ttf"
+            tools:ignore="MissingPrefix"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -123,7 +125,9 @@
             android:textSize="25dp"
             android:textColor="#70A843"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="30dp" />
+            android:layout_marginLeft="30dp"
+            fontPath="fonts/opensans_semibold.ttf"
+            tools:ignore="MissingPrefix"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -143,7 +147,9 @@
             android:textSize="40dp"
             android:textColor="#70A843"
             android:textStyle="bold"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            fontPath="fonts/arialrounded.ttf"
+            tools:ignore="MissingPrefix"/>
 
         <TextView
             android:layout_width="wrap_content"
