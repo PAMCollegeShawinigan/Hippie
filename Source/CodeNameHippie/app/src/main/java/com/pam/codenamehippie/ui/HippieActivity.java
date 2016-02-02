@@ -78,9 +78,9 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
 
             // FIXME: Utilisation temporaire pour afficher ListeMesDonsActivity
             case R.id.menu_profil:
-                /*if (!this.getClass().equals(ListeMesDonsActivity.class)) {
-                    this.startActivity(new Intent(this, ListeMesDonsActivity.class));
-                }*/
+                if (!this.getClass().equals(ProfilActivity.class)) {
+                    this.startActivity(new Intent(this, ProfilActivity.class));
+                }
                 return true;
             case R.id.menu_un:
                 // Invoque le menu si on est pas déjà dedans
