@@ -9,8 +9,6 @@
     tools:context=".ui.AideActivity">
     <include layout="@layout/content_appbar_main"/>
 
-    <!-- TODO: Commenter le texte et mettre des custom fonts -->
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
