@@ -1,7 +1,6 @@
 package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,18 +9,17 @@ import android.widget.TextView;
 
 import com.pam.codenamehippie.R;
 
-import java.util.HashMap;
-import java.util.List;
-
 /**
- * Created by Carl St-Louis le 2016-02-02.
+ * Cette classe permet de faire le lien entre les composantes de l'interface utilisateur et
+ * les données afin de relier les données aux vues correctement.
  */
 public class AideAdapter extends BaseExpandableListAdapter {
 
+    // Nombre de sections ou groupe
     private static final int GROUP_ITEMS_COUNT = 10;
+    // Nombre d'item à afficher sous chaque section ou groupe
     private static final int CHILD_ITEMS_COUNT = 1;
     private Context context;
-
 
     public AideAdapter(Context context){
         this.context = context;
@@ -39,6 +37,7 @@ public class AideAdapter extends BaseExpandableListAdapter {
 
     @Override
     public String getGroup(int groupPosition) {
+        // Afficher les différentes sections de l'aide
         switch (groupPosition) {
             case 0:
                 return this.context.getString(R.string.tv_aide_titre_denree);
@@ -67,6 +66,8 @@ public class AideAdapter extends BaseExpandableListAdapter {
 
     @Override
     public String getChild(int groupPosition, int childPosition) {
+        // Afficher les détails de chaque section de l'aide
+        //TODO: changer les ressources string lorsque disponible
         switch (groupPosition) {
             case 0:
                 return this.context.getString(R.string.tv_aide_titre_denree) + " Détail";

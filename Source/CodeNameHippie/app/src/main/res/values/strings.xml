@@ -115,6 +115,7 @@
 
     <!--Ressource pour Layout activity_aide-->
     <string name="tv_aide_titre_entete">Help</string>
+    <string name="tv_aide_titre_entete_maj">HELP</string>
     <string name="tv_aide_titre_denree">Denrée Ô Suivant</string>
     <string name="tv_aide_titre_connexion">Connection</string>
     <string name="tv_aide_titre_menu">Menu &amp; Navigation</string>

@@ -15,6 +15,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Cette classe permet d'afficher l'aide pour l'utilisateur et de l'afficher dans un
+ * ExpendableListView avec différentes sections.
+ */
 public class AideActivity extends HippieActivity {
 
     private ExpandableListAdapter listAdapter;
