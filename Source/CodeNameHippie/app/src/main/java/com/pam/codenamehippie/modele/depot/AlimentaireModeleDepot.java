@@ -80,6 +80,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
     private volatile ArrayList<TypeAlimentaireModele> listeTypeAlimentaire;
 
     public AlimentaireModeleDepot(Context context, OkHttpClient httpClient) {
+
         super(context, httpClient);
         HttpUrl baseListeUrl = this.url.newBuilder().addPathSegment("liste").build();
         this.listeUniteUrl = baseListeUrl.newBuilder().addPathSegment("unite").build();
@@ -251,96 +252,96 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                                               .addPathSegment(idOrganisme.toString())
                                               .build();
         this.peuplerLeDepot(url);
-    }
+}
 
-    public void collecter(AlimentaireModele modele, final Runnable action) {
+public void collecter(AlimentaireModele modele, final Runnable action) {
         HttpUrl url = this.collecterUrl.newBuilder().addPathSegment(modele.getId().toString())
-                                       .build();
+        .build();
         Request request = new Request.Builder().url(url).get().build();
         this.httpClient.newCall(request)
-                       .enqueue(new Callback() {
-                           @Override
-                           public void onFailure(Call call, IOException e) {
-                               AlimentaireModeleDepot.this.surErreur(e);
-                           }
+        .enqueue(new Callback() {
+@Override
+public void onFailure(Call call, IOException e) {
+        AlimentaireModeleDepot.this.surErreur(e);
+        }
 
-                           @Override
-                           public void onResponse(Call call, Response response) {
-                               if (!response.isSuccessful()) {
-                                   HttpReponseException e = new HttpReponseException(response);
-                                   AlimentaireModeleDepot.this.surErreur(e);
-                               } else {
-                                   AlimentaireModeleDepot.this.repeuplerLedepot();
-                                   if (action != null) {
-                                       AlimentaireModeleDepot.this.runOnUiThread(action);
-                                   }
-                               }
+@Override
+public void onResponse(Call call, Response response) {
+        if (!response.isSuccessful()) {
+        HttpReponseException e = new HttpReponseException(response);
+        AlimentaireModeleDepot.this.surErreur(e);
+        } else {
+        AlimentaireModeleDepot.this.repeuplerLedepot();
+        if (action != null) {
+        AlimentaireModeleDepot.this.runOnUiThread(action);
+        }
+        }
 
-                           }
-                       });
-    }
+        }
+        });
+        }
 
-    public void ajouterReservation(AlimentaireModele modele, final Runnable action) {
+public void ajouterReservation(AlimentaireModele modele, final Runnable action) {
         HttpUrl url = this.reservationUrl.newBuilder().addPathSegment("ajouter").build();
         Integer receveurId =
-                PreferenceManager.getDefaultSharedPreferences(this.context)
-                                 .getInt(this.context.getString(R.string.pref_org_id_key), -1);
+        PreferenceManager.getDefaultSharedPreferences(this.context)
+        .getInt(this.context.getString(R.string.pref_org_id_key), -1);
 
         FormBody body = new FormBody.Builder().add("marchandise_id", modele.getId().toString())
-                                              .add("receveur_id", receveurId.toString())
-                                              .build();
+        .add("receveur_id", receveurId.toString())
+        .build();
         Request request = new Request.Builder().url(url).post(body).build();
         this.httpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                AlimentaireModeleDepot.this.surErreur(e);
-                AlimentaireModeleDepot.this.surFinDeRequete();
-            }
+@Override
+public void onFailure(Call call, IOException e) {
+        AlimentaireModeleDepot.this.surErreur(e);
+        AlimentaireModeleDepot.this.surFinDeRequete();
+        }
 
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (!response.isSuccessful()) {
-                    HttpReponseException e = new HttpReponseException(response);
-                    AlimentaireModeleDepot.this.surErreur(e);
-                    AlimentaireModeleDepot.this.surFinDeRequete();
-                } else {
-                    AlimentaireModeleDepot.this.repeuplerLedepot();
-                    if (action != null) {
-                        AlimentaireModeleDepot.this.runOnUiThread(action);
-                    }
-                }
+@Override
+public void onResponse(Call call, Response response) {
+        if (!response.isSuccessful()) {
+        HttpReponseException e = new HttpReponseException(response);
+        AlimentaireModeleDepot.this.surErreur(e);
+        AlimentaireModeleDepot.this.surFinDeRequete();
+        } else {
+        AlimentaireModeleDepot.this.repeuplerLedepot();
+        if (action != null) {
+        AlimentaireModeleDepot.this.runOnUiThread(action);
+        }
+        }
 
-            }
+        }
         });
-    }
+        }
 
-    public void annulerReservation(AlimentaireModele modele, final Runnable action) {
+public void annulerReservation(AlimentaireModele modele, final Runnable action) {
         HttpUrl url = this.reservationUrl.newBuilder()
-                                         .addPathSegment("annuler")
-                                         .addPathSegment(modele.getId().toString())
-                                         .build();
+        .addPathSegment("annuler")
+        .addPathSegment(modele.getId().toString())
+        .build();
         Request request = new Request.Builder().url(url).get().build();
         this.httpClient.newCall(request)
-                       .enqueue(new Callback() {
-                           @Override
-                           public void onFailure(Call call, IOException e) {
-                               AlimentaireModeleDepot.this.surErreur(e);
-                               AlimentaireModeleDepot.this.surFinDeRequete();
-                           }
+        .enqueue(new Callback() {
+@Override
+public void onFailure(Call call, IOException e) {
+        AlimentaireModeleDepot.this.surErreur(e);
+        AlimentaireModeleDepot.this.surFinDeRequete();
+        }
 
-                           @Override
-                           public void onResponse(Call call, Response response) {
-                               if (!response.isSuccessful()) {
-                                   HttpReponseException e = new HttpReponseException(response);
-                                   AlimentaireModeleDepot.this.surErreur(e);
-                               } else {
-                                   AlimentaireModeleDepot.this.repeuplerLedepot();
-                                   if (action != null) {
-                                       AlimentaireModeleDepot.this.runOnUiThread(action);
-                                   }
-                               }
+@Override
+public void onResponse(Call call, Response response) {
+        if (!response.isSuccessful()) {
+        HttpReponseException e = new HttpReponseException(response);
+        AlimentaireModeleDepot.this.surErreur(e);
+        } else {
+        AlimentaireModeleDepot.this.repeuplerLedepot();
+        if (action != null) {
+        AlimentaireModeleDepot.this.runOnUiThread(action);
+        }
+        }
 
-                           }
-                       });
-    }
-}
+        }
+        });
+        }
+        }

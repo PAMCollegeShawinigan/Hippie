@@ -34,6 +34,7 @@ import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
 import com.pam.codenamehippie.ui.adapter.CarteAdapterOption;
+import com.pam.codenamehippie.ui.view.trianglemenu.TestDonneeCentre;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 
@@ -45,7 +46,7 @@ public class MapsActivity extends HippieActivity
         implements OnMapReadyCallback,
                    ExpandableListView.OnGroupClickListener,
                    SlidingUpPanelLayout.PanelSlideListener,
-                   ObservateurDeDepot<OrganismeModele> {
+                   ObservateurDeDepot<OrganismeModele>{
 
     private static final String TAG = MapsActivity.class.getSimpleName();
     private final ArrayList<AlimentaireModele> listedon = new ArrayList<>();
@@ -64,7 +65,7 @@ public class MapsActivity extends HippieActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.activity_maps_plus);
+        setContentView(R.layout.activity_maps_plus);
         this.slidingLayout = (SlidingUpPanelLayout) this.findViewById(R.id.sliding_layout);
         this.slidingLayout.setAnchorPoint(0.6f);
         this.expandableListView = (ExpandableListView) this.findViewById(R.id.expandableListView);
@@ -72,13 +73,6 @@ public class MapsActivity extends HippieActivity
         this.expandableListView.setOnGroupClickListener(this);
         this.mapView = (RelativeLayout) this.findViewById(R.id.mapView);
         this.slidingLayout.setPanelSlideListener(this);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         this.googleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this)
                                                                 .addOnConnectionFailedListener(this)
                                                                 .addApi(LocationServices.API)
@@ -101,7 +95,7 @@ public class MapsActivity extends HippieActivity
         OrganismeModeleDepot depot =
                 ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
         depot.ajouterUnObservateur(this);
-        depot.peuplerListeDonneur();
+        depot.peuplerListeOrganisme();
 
     }
 
@@ -126,12 +120,15 @@ public class MapsActivity extends HippieActivity
         int viewID = intent.getFlags();
 
         if (viewID == R.id.main_carte_image) {
-            /// listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
+           /// listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
 
-        } else if (viewID == R.id.main_reservation_image) {
-            // listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
+        }
+        else if(viewID==R.id.main_reservation_image)
+        {
+           // listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
 
-        } else {
+        }else{
+
 
             // listOrganisme=TestDonneeCentre.prepareDonnees_organismes();
         }
@@ -172,8 +169,7 @@ public class MapsActivity extends HippieActivity
         this.mMap.getUiSettings().setMapToolbarEnabled(false);
         this.mMap.getUiSettings().setMyLocationButtonEnabled(true);
 //        switch (viewID){
-//            case R.id.marchandiseDisponible:listOrganisme = TestDonneeCentre
-// .prepareDonnees_disponible();
+//            case R.id.marchandiseDisponible:listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
 //               break;
 //            case R.id.mesReservation: listOrganisme = TestDonneeCentre.prepareDonnees_reservees();
 //                break;
@@ -183,12 +179,6 @@ public class MapsActivity extends HippieActivity
         this.cacherLaProgressbar();
     }
 
-    /**
-     * selon list d'organisme,positionner les markers d'organisme,etablir le border de markers et
-     * set adapter et listener pour markers
-     *
-     * @param listeOrganisme
-     */
     private LatLngBounds prepareMarkers(final ArrayList<OrganismeModele> listeOrganisme,
                                         final int viewID) {
         if (this.mMap != null) {
@@ -225,6 +215,7 @@ public class MapsActivity extends HippieActivity
                 //  expandableListView.setAdapter(new
                 // CarteOrganismeAdapter(MapsActivity.this,
                 // mOrganisme, viewID));
+
                 CarteAdapterOption adapterOption =
                         new CarteAdapterOption(MapsActivity.this,
                                                mOrganisme,
@@ -265,7 +256,6 @@ public class MapsActivity extends HippieActivity
      * obtenir lattitude et longitude par string d'adresse .
      *
      * @param strAddress
-     *
      * @return LatLng
      */
     public LatLng getLocationFromAddress(String strAddress) {
@@ -296,11 +286,10 @@ public class MapsActivity extends HippieActivity
                 // affiche denree disponible sur la carte
 
                 Toast.makeText(this.getApplicationContext(),
-                               " Denrées disponible ",
-                               Toast.LENGTH_SHORT
-                              ).show();
-                //   mMap.clear();
-
+                        " Denrées disponible ",
+                        Toast.LENGTH_SHORT
+                ).show();
+             //   mMap.clear();
                 //  listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
                 this.prepareMarkers(this.listOrganisme, v.getId());
                 break;
@@ -326,8 +315,6 @@ public class MapsActivity extends HippieActivity
                 break;
             default:
                 break;
-
-
          /*   case R.id.main_liste_denree_disponible:
                 // affiche les denrees disponible en liste
                 Toast.makeText(this.getApplicationContext(),
@@ -364,7 +351,6 @@ public class MapsActivity extends HippieActivity
         Log.e(TAG, "Erreur de dépot", e);
 
     }
-
     @Override
     public void onConnected(Bundle bundle) {
         super.onConnected(bundle);

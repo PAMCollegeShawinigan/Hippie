@@ -22,6 +22,7 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.http.Authentificateur;
+import com.pam.codenamehippie.modele.UtilisateurModele;
 
 import okhttp3.OkHttpClient;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -40,7 +41,6 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
     protected ViewSwitcher viewSwitcher;
     protected ProgressBar progressBar;
     protected GoogleApiClient googleApiClient;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
