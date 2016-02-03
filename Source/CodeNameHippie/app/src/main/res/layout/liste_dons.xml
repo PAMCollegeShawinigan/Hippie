@@ -67,7 +67,7 @@
 					android:paddingTop="10dp"
 					android:weightSum="1">
 
-					<!--ENTETE: NOM -->
+					<!--ENTETE: NOM MARCHANDISE -->
 					<TextView
 						android:id="@+id/tv_dons_nom"
 						android:layout_width="wrap_content"
@@ -81,7 +81,7 @@
 						fontPath="fonts/opensans_semibold.ttf"
 						tools:ignore="MissingPrefix"/>
 
-					<!--ENTETE: DESCRIPTION -->
+					<!--ENTETE: DESCRIPTION MARCHANDISE-->
 					<TextView
 						android:id="@+id/tv_dons_description"
 						android:layout_width="wrap_content"
@@ -95,7 +95,7 @@
 						fontPath="fonts/opensans_semibold.ttf"
 						tools:ignore="MissingPrefix"/>
 
-					<!--ENTETE: QUANTITÉ -->
+					<!--ENTETE: QUANTITÉ MARCHANDISE -->
 					<TextView
 						android:id="@+id/tv_dons_qtee"
 						android:layout_width="0dp"
@@ -110,13 +110,13 @@
 						tools:ignore="MissingPrefix"/>
 				</LinearLayout>
 
-				<!--Contenant servant à afficher les items(dons) du donneur-->
+				<!--Contenant servant à afficher les items(MES DONS)-->
 				<ListView
 					android:id="@+id/lv_dons"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="10dp"
-					android:layout_marginBottom="70dp" />
+					android:layout_marginBottom="70dp"
+					android:layout_marginTop="10dp"/>
 			</LinearLayout>
 		</LinearLayout>
 
