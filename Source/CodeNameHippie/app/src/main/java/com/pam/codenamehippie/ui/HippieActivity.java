@@ -1,5 +1,6 @@
 package com.pam.codenamehippie.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,8 +22,11 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.http.Authentificateur;
+import com.pam.codenamehippie.modele.UtilisateurModele;
 
 import okhttp3.OkHttpClient;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Classe de base pour toutes les {@link android.app.Activity} du projet. Sert principalement à
@@ -37,7 +41,6 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
     protected ViewSwitcher viewSwitcher;
     protected ProgressBar progressBar;
     protected GoogleApiClient googleApiClient;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,9 +81,9 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
 
             // FIXME: Utilisation temporaire pour afficher ListeMesDonsActivity
             case R.id.menu_profil:
-                /*if (!this.getClass().equals(ListeMesDonsActivity.class)) {
-                    this.startActivity(new Intent(this, ListeMesDonsActivity.class));
-                }*/
+                if (!this.getClass().equals(ProfilActivity.class)) {
+                    this.startActivity(new Intent(this, ProfilActivity.class));
+                }
                 return true;
             case R.id.menu_un:
                 // Invoque le menu si on est pas déjà dedans
@@ -195,5 +198,10 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

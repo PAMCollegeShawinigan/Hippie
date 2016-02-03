@@ -55,6 +55,10 @@
             android:label="@string/menu"
             android:logo="@drawable/logo"/>
         <activity
+            android:name=".ui.ProfilActivity"
+            android:label="profil d'utilisateur"
+            />
+        <activity
             android:name=".ui.ListeMesDonsActivity"
             android:label="Mes Dons"/>
         <activity
@@ -68,7 +72,7 @@
             android:label="Mes Réservations"/>
         <activity android:name=".ui.AjoutMarchandiseActivity" />
         <activity android:name=".ui.AideActivity"/>
-        <activity android:name=".ui.ProfilActivity"/>
+
 
         <!--
 			 The API key for Google Maps-based APIs is defined as a string resource.

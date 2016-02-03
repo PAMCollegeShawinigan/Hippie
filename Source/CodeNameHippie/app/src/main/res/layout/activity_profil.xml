@@ -36,7 +36,9 @@
                 android:layout_marginTop="15dp"
                 android:text="@string/tv_profil_name"
                 android:textColor="#000000"
-                android:textSize="25sp"/>
+                android:textSize="25sp"
+                fontPath="fonts/arialrounded.ttf"
+                tools:ignore="MissingPrefix"/>
 
             <!-- Divider, pour diviser le titre et les informations -->
             <ImageView
@@ -78,11 +80,30 @@
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:background="?android:attr/selectableItemBackground"
                         android:drawableLeft="@drawable/modifier_2x"
                         android:drawablePadding="5dp"
                         android:text="@string/btn_edit_profile"
-                        android:textSize="10sp"/>
+                        android:textSize="10sp"
+                        fontPath="fonts/opensans_regular.ttf"
+                        tools:ignore="MissingPrefix"/>
+
+                    <!-- Bouton pour modifier le mot de passe -->
+                    <Button
+                        android:id="@+id/btn_edit_password"
+                        android:layout_width="120dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:drawableLeft="@drawable/modifier_2x"
+                        android:drawablePadding="5dp"
+                        android:text="@string/btn_edit_password"
+                        android:textSize="10sp"
+                        fontPath="fonts/opensans_regular.ttf"
+                        tools:ignore="MissingPrefix"/>
 
                 </LinearLayout>
 
@@ -119,7 +140,9 @@
                         android:layout_row="1"
                         android:layout_marginLeft="5dp"
                         android:layout_columnSpan="2"
-                        android:layout_columnWeight="1"/>
+                        android:layout_columnWeight="1"
+                        fontPath="fonts/arialrounded.ttf"
+                        tools:ignore="MissingPrefix"/>
 
                     <!-- Nom et prénom de la personne contact -->
                     <TextView
@@ -132,6 +155,8 @@
                         android:layout_column="0"
                         android:layout_row="2"
                         android:textSize="12sp"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix"
                         />
 
                     <!-- PLACEHOLDER : Nom et prénom de la personne contact -->
@@ -157,6 +182,8 @@
                         android:layout_column="0"
                         android:layout_row="3"
                         android:textSize="12sp"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix"
                         />
 
                     <!-- PLACEHOLDER : Courriel de l'utilisateur -->
@@ -182,6 +209,8 @@
                         android:layout_column="0"
                         android:layout_row="4"
                         android:textSize="12sp"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix"
                         />
 
                     <!-- PLACEHOLDER : Numéro de téléphone de l'utilisateur -->
@@ -207,6 +236,8 @@
                         android:layout_column="0"
                         android:layout_row="5"
                         android:textSize="12sp"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix"
                         />
 
                     <!-- PLACEHOLDER : Numéro de téléphone de l'utilisateur -->
@@ -249,7 +280,9 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_columnSpan="2"
-                        android:layout_columnWeight="1"/>
+                        android:layout_columnWeight="1"
+                        fontPath="fonts/arialrounded.ttf"
+                        tools:ignore="MissingPrefix"/>
 
                     <!-- Adresse de l'entreprise -->
                     <TextView
@@ -262,6 +295,8 @@
                         android:layout_column="0"
                         android:layout_row="8"
                         android:textSize="12sp"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix"
                         />
 
                     <!-- PLACEHOLDER : Adresse de l'entreprise -->
@@ -286,6 +321,8 @@
                         android:layout_column="0"
                         android:layout_row="9"
                         android:textSize="12sp"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix"
                         />
 
                     <!-- PLACEHOLDER : Adresse de l'entreprise -->
@@ -310,6 +347,8 @@
                         android:layout_column="0"
                         android:layout_row="10"
                         android:textSize="12sp"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix"
                         />
 
                     <!-- PLACEHOLDER : Numéro de téléphone de l'entreprise -->
@@ -334,6 +373,8 @@
                         android:layout_column="0"
                         android:layout_row="11"
                         android:textSize="12sp"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix"
                         />
 
                     <!-- PLACEHOLDER : Numéro d'OSBL -->
@@ -358,6 +399,8 @@
                         android:layout_column="0"
                         android:layout_row="12"
                         android:textSize="12sp"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix"
                         />
 
                     <!-- PLACEHOLDER : Numéro d'entreprise -->
@@ -371,10 +414,11 @@
                         android:textSize="12sp"
                         android:layout_margin="5dp"/>
 
+
                     <!-- Bouton pour modifier le mot de passe -->
-                    <Button
+                    <!--Button
                         android:id="@+id/btn_edit_password"
-                        android:layout_width="wrap_content"
+                        android:layout_width="331dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:background="?android:attr/selectableItemBackground"
@@ -385,7 +429,8 @@
                         android:layout_row="13"
                         android:text="@string/btn_edit_password"
                         android:textSize="10sp"
-                        android:layout_columnWeight="1"/>
+                        android:layout_columnWeight="1"/-->
+
 
                 </GridLayout>
             </LinearLayout>
