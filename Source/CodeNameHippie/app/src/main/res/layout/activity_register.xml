@@ -7,12 +7,17 @@
 		android:layout_height="match_parent"
 		android:fitsSystemWindows="true"
 		tools:context=".ui.RegisterActivity">
+
+	<!-- Viewswitcher pour faire afficher la progress bar -->
 	<ViewSwitcher
 		android:id="@+id/main_view_switcher"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!-- Inflate le layout content_register -->
 		<include layout="@layout/content_register" />
+        <!-- Progress bar -->
 		<include layout="@layout/loading" />
 	</ViewSwitcher>
 </android.support.design.widget.CoordinatorLayout>
