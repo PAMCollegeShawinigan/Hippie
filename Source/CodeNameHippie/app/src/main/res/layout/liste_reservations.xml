@@ -7,12 +7,15 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".ui.ListeMesReservationsActivity">
-    <include layout="@layout/content_appbar_main" />
+
+    <include layout="@layout/content_appbar_main"/>
+
     <ViewSwitcher
         android:id="@+id/main_view_switcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -20,19 +23,30 @@
             android:focusableInTouchMode="false"
             android:orientation="vertical"
             android:scrollIndicators="left|top">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tv_mes_reservations"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="15dp"
                     android:text="@string/tv_mes_reservations"
                     android:textSize="25sp"/>
+                <!-- Divider, pour diviser le titre et les informations -->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/divider1"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -40,6 +54,7 @@
                     android:paddingBottom="10dp"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp">
+
                     <TextView
                         android:id="@+id/tv_res_nom"
                         android:layout_width="0dp"
@@ -48,7 +63,9 @@
                         android:layout_weight="0.1"
                         android:paddingLeft="65dp"
                         android:paddingRight="10dp"
-                        android:text="@string/res_nom"/>
+                        android:text="@string/res_nom"
+                        android:textStyle="bold"/>
+
                     <TextView
                         android:id="@+id/tv_res_qtee"
                         android:layout_width="0dp"
@@ -57,25 +74,30 @@
                         android:layout_weight="0.10"
                         android:paddingLeft="30dp"
                         android:paddingRight="10dp"
-                        android:text="@string/res_qtee"/>
+                        android:text="@string/res_qtee"
+                        android:textStyle="bold"/>
+
                     <TextView
                         android:id="@+id/tv_res_reservation"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
+                        android:layout_marginRight="54dp"
                         android:layout_weight="0.1"
                         android:paddingRight="10dp"
                         android:text="@string/res_reservation"
-                        />
+                        android:textStyle="bold"/>
                 </LinearLayout>
+
                 <ListView
                     android:id="@+id/lv_reservation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="70dp"/>
+                    android:layout_marginBottom="70dp"
+                    android:layout_marginTop="10dp"/>
             </LinearLayout>
         </LinearLayout>
+
         <include layout="@layout/loading"/>
     </ViewSwitcher>
 </android.support.design.widget.CoordinatorLayout>

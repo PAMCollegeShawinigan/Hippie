@@ -26,7 +26,7 @@
   ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 <resources>
-	<string name="app_name">Nom de code: Hippie</string>
+    <!-- Ressources pour la page connexion -->
 	<string name="action_sign_in">"Se connecter ou s\'enregistrer"</string>
 	<string name="action_sign_in_short">Se connecter</string>
 	<string name="error_invalid_password">Ce mot de passe est invalide</string>
@@ -44,6 +44,36 @@
 	<string name="error_confirm_password">Ce mot de passe ne correspond pas a celui entré</string>
 	<string name="error_field_too_long">Le contenu de ce champ est trop long</string>
 	<string name="error_bad_credentials">Cette combinaison de courriel et mot de passe n\'existe pas dans nos archives. Veuillez vérifier votre mot de passe ou vous enregistrer vous si vous n\'avez pas de compte.</string>
+    <string name="tv_inscription">S\'INSCRIRE</string>
+    <string name="tv_separation">|</string>
+    <string name="tv_mpo">MOT DE PASSE OUBLIÉ?</string>
+    <string name="bguest">Compte invité</string>
+
+    <!-- Ressources pour la liste des marchandises(denrées, dons, etc.) disponibles (layout) -->
+    <string name="marchandise_reservees">Marchandises Réservées</string>
+    <string name="marchandise_disponible">Marchandises Disponibles</string>
+    <string name="md_donneur">DONNEUR</string>
+    <string name="md_peremption">MEILLEUR AVANT</string>
+    <string name="md_qtee">QTÉE</string>
+    <string name="md_nom">NOM</string>
+    <string name="iv_md_categorie">Catégorie</string>
+    <string name="ib_md_ajouter">Ajouter</string>
+    <string name="iv_md_adresse_mini">Adresse</string>
+    <string name="tv_liste_marchandises_dispo">NOS MARCHANDISES DISPONIBLES</string>
+
+    <!-- Ressource pour l'actionbar, le menu "settings" et le menu normal -->
+    <string name="profil">Profil</string>
+    <string name="title_activity_menu">Paramètres</string>
+    <string name="menu">Menu</string>
+    <string name="info">À propos</string>
+    <string name="title_activity_maps">Carte</string>
+    <string name="title_activity_maps2">Carte</string>
+
+    <!-- Ressources pour les organismes communautaires (les layout) -->
+    <string name="tv_organisme_communautaire">LES ORGANISMES COMMUNAUTAIRES</string>
+    <string name="iv_org_personne_contact">Personne Contact</string>
+    <string name="iv_org_telephone">Numero de telephone</string>
+    <string name="iv_org_adresse">Adresse</string>
 
   <!--Ressource pour ajoutMarchandiseActivity et layout ajout_marchandise -->
   <string name="ajouter_marchandise">AJOUTER UNE MARCHANDISE</string>
@@ -65,15 +95,13 @@
   <string name="msg_confirme_suppression">Êtes-vous sur de vouloir supprimer ce don ?</string>
   <string name="bouton_confirme_oui">OUI</string>
   <string name="bouton_confirme_non">NON</string>
-  <!--Ressource pour Layout liste_dons et liste_dons_row-->
+
+    <!--Ressource pour Layout liste_dons et liste_dons_row-->
   <string name="tv_mes_dons">MES DONS</string>
   <string name="dons_nom">NOM</string>
   <string name="dons_description">DESCRIPTION</string>
   <string name="dons_qtee">QTÉE</string>
   <string name="iv_dons_categorie">Catégorie</string>
-  <string name="tv_dons_nom_marchandise">Nom produit ici</string>
-  <string name="tv_dons_description_marchandise">Description produit ici</string>
-  <string name="tv_dons_qtee_marchandise">99999 unités</string>
   <string name="ib_dons_modifier">Modifier</string>
   <string name="ib_dons_supprimer">Supprimer</string>
 
@@ -82,17 +110,47 @@
   <string name="msg_reservation_confirme_suppression">Êtes-vous sur de vouloir supprimer cette réservation ?</string>
   <string name="msg_reservation_collecte">Réservation collectée</string>
   <string name="msg_reservation_confirme_collecte">Êtes-vous sur de vouloir collecter cette réservation ?</string>
-  <!--Ressource pour Layout liste_reservations et liste_reservations_row-->
+
+    <!--Ressource pour Layout liste_reservations et liste_reservations_row-->
   <string name="tv_mes_reservations">MES RÉSERVATIONS</string>
   <string name="res_nom">NOM</string>
   <string name="res_qtee">QTÉE</string>
   <string name="res_reservation">MEILLEUR AVANT</string>
   <string name="iv_res_categorie">Catégorie</string>
-  <string name="tv_res_nom_marchandise">Nom du produit ici</string>
-  <string name="tv_res_description">Description du produit ici</string>
-  <string name="tv_res_qtee_marchandise">99999 unités</string>
-  <string name="tv_res_date_marchandise">99/99/9999</string>
   <string name="ib_res_collecter">Collecter</string>
   <string name="ib_res_supprimer">Supprimer</string>
+
+    <!--Ressource pour Layout activity_aide-->
+    <string name="tv_aide_titre_entete">Aide</string>
+    <string name="tv_aide_titre_entete_maj">AIDE</string>
+    <string name="tv_aide_titre_denree">Denrée Ô Suivant</string>
+    <string name="tv_aide_titre_connexion">Connexion</string>
+    <string name="tv_aide_titre_menu">Menu &amp; Navigation</string>
+    <string name="tv_aide_titre_organisme">Organismes</string>
+    <string name="tv_aide_titre_produits_disponibles">Produits disponibles</string>
+    <string name="tv_aide_titre_mes_reservations">Mes réservations</string>
+    <string name="tv_aide_titre_faire_un_don">Faire un don</string>
+    <string name="tv_aide_titre_mes_dons">Mes dons</string>
+    <string name="tv_aide_titre_statistiques">Statistiques</string>
+    <string name="tv_aide_titre_profil">Profil</string>
+    <string name="tv_list_aide_group">PlaceHolder</string>
+    <string name="tv_list_aide_detail">PlaceHolder</string>
+
+    <!-- Ressource pour la page profil-->
+    <string name="tv_profil_name">PROFIL</string>
+    <string name="btn_edit_profile">MODIFIER LE PROFIL</string>
+    <string name="tv_user_section">UTILISATEUR</string>
+    <string name="tv_contact_name">Nom du contact :</string>
+    <string name="tv_profil_email">Courriel :</string>
+    <string name="tv_profil_phone">Téléphone :</string>
+    <string name="tv_profil_moyen_contact">Moyen de contact :</string>
+    <string name="tv_entreprise_section">ENTREPRISE</string>
+    <string name="tv_profil_adresse">Addresse :</string>
+    <string name="btn_edit_password">MODIFIER LE MOT DE PASSE</string>
+
+
+    <!-- Autres ressources-->
+    <string name="loading">Un moment s\'il-vous-plaît.</string>
+    <string name="app_name">Nom de code: Hippie</string>
 
 </resources>
