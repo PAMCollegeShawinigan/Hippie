@@ -34,6 +34,7 @@ import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
 import com.pam.codenamehippie.ui.adapter.CarteAdapterOption;
+import com.pam.codenamehippie.ui.view.trianglemenu.TestDonneeCentre;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 
@@ -214,6 +215,7 @@ public class MapsActivity extends HippieActivity
                 //  expandableListView.setAdapter(new
                 // CarteOrganismeAdapter(MapsActivity.this,
                 // mOrganisme, viewID));
+
                 CarteAdapterOption adapterOption =
                         new CarteAdapterOption(MapsActivity.this,
                                                mOrganisme,
