@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +7,8 @@
     tools:context="com.pam.codenamehippie.ui.ProfilActivity">
 
     <!-- Fait afficher l'action bar -->
-    <include layout="@layout/content_appbar_main"/>
+    <include layout="@layout/content_appbar_main" />
+
 
     <!-- Fait afficher la bar de progression -->
     <ViewSwitcher
@@ -17,427 +17,426 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- Wrap pour les informations tel que voulu, ainsi parce que le view switcher
-            n'accepte qu'un seul enfant =( -->
-        <LinearLayout
+        <!--Fait scrollview pour s'adapter les pareils au petit ecran-->
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="false"
-            android:orientation="vertical"
-            android:scrollIndicators="left|top">
+            android:layout_height="match_parent">
 
-            <!-- TITRE: PROFIL -->
-            <TextView
-                android:id="@+id/tv_profil"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/tv_profil_name"
-                android:textColor="#000000"
-                android:textSize="25sp"
-                fontPath="fonts/arialrounded.ttf"
-                tools:ignore="MissingPrefix"/>
-
-            <!-- Divider, pour diviser le titre et les informations -->
-            <ImageView
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/divider1"
-                android:contentDescription="@null"/>
-
-            <!-- Wrap pour placer les informations tel que voulu -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="1"
-                android:layout_gravity="center_horizontal">
-
-                <!-- Contient la photo de profil et l'option de modifier le profil -->
+                android:layout_height="match_parent">
+                <!-- Wrap pour les informations tel que voulu, ainsi parce que le view switcher
+                    n'accepte qu'un seul enfant =( -->
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:orientation="vertical">
+                    android:focusableInTouchMode="false"
+                    android:orientation="vertical"
+                    android:scrollIndicators="left|top">
 
-                    <!-- Fait afficher la photo de profil de l'utilisateur, s'il y a (donc, le logo?)
-                        la photo de profil était dans un nice to have je crois, mais je voulais l'implémenter maintenant,
-                        il suffira simplement de faire les ajouts nécessaires au code pour le faire afficher. -->
-                    <ImageView
-                        android:id="@+id/iv_profil_image"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:background="@drawable/profil_2x"
-                        android:contentDescription="@string/iv_image_profile"/>
-
-                    <!-- Bouton pour faire modifier le profil -->
-                    <Button
-                        android:id="@+id/btn_edit_profile"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:drawableLeft="@drawable/modifier_2x"
-                        android:drawablePadding="5dp"
-                        android:text="@string/btn_edit_profile"
-                        android:textSize="10sp"
-                        fontPath="fonts/opensans_regular.ttf"
-                        tools:ignore="MissingPrefix"/>
-
-                    <!-- Bouton pour modifier le mot de passe -->
-                    <Button
-                        android:id="@+id/btn_edit_password"
-                        android:layout_width="120dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_height="wrap_content"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:drawableLeft="@drawable/modifier_2x"
-                        android:drawablePadding="5dp"
-                        android:text="@string/btn_edit_password"
-                        android:textSize="10sp"
-                        fontPath="fonts/opensans_regular.ttf"
-                        tools:ignore="MissingPrefix"/>
-
-                </LinearLayout>
-
-                <!-- Divider, pour diviser les informations -->
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/divider3"
-                    android:contentDescription="@null"/>
-
-                <!-- Contient les informations d'utilisateur, ainsi que les informations sur
-                    sur l'entreprise s'il y a -->
-                <GridLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:layout_weight="0.49">
-
-                    <!-- - - - - - - - - - - - - - - - - - - - - - - -
-                    </p>
-                    Information sur l'utilisateur (personne contact)
-                    </p>
-                    - - - - - - - - - - - - - - - - - - - - - - - - -->
+                    <!-- TITRE: PROFIL -->
                     <TextView
-                        android:id="@+id/tv_user_section"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tv_user_section"
-                        android:textColor="#000000"
-                        android:textStyle="bold"
-                        android:layout_column="0"
-                        android:layout_row="1"
-                        android:layout_marginLeft="5dp"
-                        android:layout_columnSpan="2"
-                        android:layout_columnWeight="1"
+                        android:id="@+id/tv_profil"
                         fontPath="fonts/arialrounded.ttf"
-                        tools:ignore="MissingPrefix"/>
-
-                    <!-- Nom et prénom de la personne contact -->
-                    <TextView
-                        android:id="@+id/tv_profil_contact_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="@string/tv_contact_name"
-                        android:textStyle="bold"
-                        android:layout_column="0"
-                        android:layout_row="2"
-                        android:textSize="12sp"
-                        fontPath="fonts/opensans_semibold.ttf"
-                        tools:ignore="MissingPrefix"
-                        />
-
-                    <!-- PLACEHOLDER : Nom et prénom de la personne contact -->
-                    <TextView
-                        android:id="@+id/tv_profil_contact_name_placeholder"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tv_contact_name_placeholder"
-                        android:layout_margin="5dp"
-                        android:layout_column="1"
-                        android:layout_row="2"
-                        android:textSize="12sp"
-                        />
-
-                    <!-- Courriel de l'utilisateur -->
-                    <TextView
-                        android:id="@+id/tv_profil_email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="@string/tv_profil_email"
-                        android:textStyle="bold"
-                        android:layout_column="0"
-                        android:layout_row="3"
-                        android:textSize="12sp"
-                        fontPath="fonts/opensans_semibold.ttf"
-                        tools:ignore="MissingPrefix"
-                        />
-
-                    <!-- PLACEHOLDER : Courriel de l'utilisateur -->
-                    <TextView
-                        android:id="@+id/tv_profil_email_placeholder"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="@string/tv_profil_email_placeholder"
-                        android:layout_column="1"
-                        android:layout_row="3"
-                        android:textSize="12sp"
-                        />
-
-                    <!-- Numéro de téléphone de l'utilisateur -->
-                    <TextView
-                        android:id="@+id/tv_profil_phone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="@string/tv_profil_phone"
-                        android:textStyle="bold"
-                        android:layout_column="0"
-                        android:layout_row="4"
-                        android:textSize="12sp"
-                        fontPath="fonts/opensans_semibold.ttf"
-                        tools:ignore="MissingPrefix"
-                        />
-
-                    <!-- PLACEHOLDER : Numéro de téléphone de l'utilisateur -->
-                    <TextView
-                        android:id="@+id/tv_profil_phone_placeholder"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="@string/tv_profil_phone_placeholder"
-                        android:layout_column="1"
-                        android:layout_row="4"
-                        android:textSize="12sp"
-                        />
-
-                    <!-- Moyen de contact de l'utilisateur -->
-                    <TextView
-                        android:id="@+id/tv_profil_moyen_contact"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="@string/tv_profil_moyen_contact"
-                        android:textStyle="bold"
-                        android:layout_column="0"
-                        android:layout_row="5"
-                        android:textSize="12sp"
-                        fontPath="fonts/opensans_semibold.ttf"
-                        tools:ignore="MissingPrefix"
-                        />
-
-                    <!-- PLACEHOLDER : Numéro de téléphone de l'utilisateur -->
-                    <TextView
-                        android:id="@+id/tv_profil_moyen_contact_placeholder"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="@string/tv_profil_moyen_contact_placeholder"
-                        android:layout_column="1"
-                        android:layout_row="5"
-                        android:textSize="12sp"
-                        />
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/tv_profil_name"
+                        android:textColor="#000000"
+                        android:textSize="25sp"
+                        tools:ignore="MissingPrefix" />
 
                     <!-- Divider, pour diviser le titre et les informations -->
                     <ImageView
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:background="@drawable/divider1"
-                        android:contentDescription="@null"
-                        android:layout_column="0"
-                        android:layout_row="6"
-                        android:layout_columnSpan="2"
-                        android:layout_columnWeight="1"/>
+                        android:contentDescription="@null" />
 
-                    <!-- - - - - - - - - - - - - - - - - - - - - - - -
-                   </p>
-                   Information sur l'entreprise
-                   </p>
-                   - - - - - - - - - - - - - - - - - - - - - - - - -->
-                    <TextView
-                        android:id="@+id/tv_enterprise_section"
+                    <!-- Wrap pour placer les informations tel que voulu -->
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tv_entreprise_section"
-                        android:textColor="#000000"
-                        android:textStyle="bold"
-                        android:layout_column="0"
-                        android:layout_row="7"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_columnSpan="2"
-                        android:layout_columnWeight="1"
-                        fontPath="fonts/arialrounded.ttf"
-                        tools:ignore="MissingPrefix"/>
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
-                    <!-- Adresse de l'entreprise -->
-                    <TextView
-                        android:id="@+id/tv_profil_nom_entreprise"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="Nom:"
-                        android:textStyle="bold"
-                        android:layout_column="0"
-                        android:layout_row="8"
-                        android:textSize="12sp"
-                        fontPath="fonts/opensans_semibold.ttf"
-                        tools:ignore="MissingPrefix"
-                        />
+                        <!-- Contient la photo de profil et l'option de modifier le profil -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:orientation="vertical">
 
-                    <!-- PLACEHOLDER : Adresse de l'entreprise -->
-                    <TextView
-                        android:id="@+id/tv_profil_nom_entreprise_placeholder"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Placeholder"
-                        android:layout_column="1"
-                        android:layout_row="8"
-                        android:textSize="12sp"
-                        android:layout_margin="5dp"/>
+                            <!-- Fait afficher la photo de profil de l'utilisateur, s'il y a (donc, le logo?)
+                                la photo de profil était dans un nice to have je crois, mais je voulais l'implémenter maintenant,
+                                il suffira simplement de faire les ajouts nécessaires au code pour le faire afficher. -->
+                            <ImageView
+                                android:id="@+id/iv_profil_image"
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:background="@drawable/profil_2x"
+                                android:contentDescription="@string/iv_image_profile" />
 
-                    <!-- Adresse de l'entreprise -->
-                    <TextView
-                        android:id="@+id/tv_profil_adresse"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="@string/tv_profil_adresse"
-                        android:textStyle="bold"
-                        android:layout_column="0"
-                        android:layout_row="9"
-                        android:textSize="12sp"
-                        fontPath="fonts/opensans_semibold.ttf"
-                        tools:ignore="MissingPrefix"
-                        />
+                            <!-- Bouton pour faire modifier le profil -->
+                            <Button
+                                android:id="@+id/btn_edit_profile"
+                                fontPath="fonts/opensans_regular.ttf"
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginTop="15dp"
+                                android:background="?android:attr/selectableItemBackground"
+                                android:drawableLeft="@drawable/modifier_2x"
+                                android:drawablePadding="5dp"
+                                android:text="@string/btn_edit_profile"
+                                android:textSize="10sp"
+                                tools:ignore="MissingPrefix" />
 
-                    <!-- PLACEHOLDER : Adresse de l'entreprise -->
-                    <TextView
-                        android:id="@+id/tv_profil_adresse_placeholder"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tv_profil_adresse_placeholder"
-                        android:layout_column="1"
-                        android:layout_row="9"
-                        android:textSize="12sp"
-                        android:layout_margin="5dp"/>
+                            <!-- Bouton pour modifier le mot de passe -->
+                            <Button
+                                android:id="@+id/btn_edit_password"
+                                fontPath="fonts/opensans_regular.ttf"
+                                android:layout_width="120dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:background="?android:attr/selectableItemBackground"
+                                android:drawableLeft="@drawable/modifier_2x"
+                                android:drawablePadding="5dp"
+                                android:text="@string/btn_edit_password"
+                                android:textSize="10sp"
+                                tools:ignore="MissingPrefix" />
 
-                    <!-- Numéro de téléphone de l'entreprise -->
-                    <TextView
-                        android:id="@+id/tv_profil_phone2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="@string/tv_profil_phone"
-                        android:textStyle="bold"
-                        android:layout_column="0"
-                        android:layout_row="10"
-                        android:textSize="12sp"
-                        fontPath="fonts/opensans_semibold.ttf"
-                        tools:ignore="MissingPrefix"
-                        />
+                        </LinearLayout>
 
-                    <!-- PLACEHOLDER : Numéro de téléphone de l'entreprise -->
-                    <TextView
-                        android:id="@+id/tv_profil_phone2_placeholder"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tv_profil_phone2_placeholder"
-                        android:layout_column="1"
-                        android:layout_row="10"
-                        android:textSize="12sp"
-                        android:layout_margin="5dp"/>
+                        <!-- Divider, pour diviser les informations -->
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_marginBottom="15dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/divider3"
+                            android:contentDescription="@null" />
 
-                    <!-- Numéro d'OSBL -->
-                    <TextView
-                        android:id="@+id/tv_profil_osbl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="@string/tv_profil_osbl"
-                        android:textStyle="bold"
-                        android:layout_column="0"
-                        android:layout_row="11"
-                        android:textSize="12sp"
-                        fontPath="fonts/opensans_semibold.ttf"
-                        tools:ignore="MissingPrefix"
-                        />
+                        <!-- Contient les informations d'utilisateur, ainsi que les informations sur
+                            sur l'entreprise s'il y a -->
+                        <GridLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:layout_weight="0.49">
 
-                    <!-- PLACEHOLDER : Numéro d'OSBL -->
-                    <TextView
-                        android:id="@+id/tv_profil_osbl_placeholder"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tv_profil_osbl_placeholder"
-                        android:layout_column="1"
-                        android:layout_row="11"
-                        android:textSize="12sp"
-                        android:layout_margin="5dp"/>
+                            <!-- - - - - - - - - - - - - - - - - - - - - - - -
+                            </p>
+                            Information sur l'utilisateur (personne contact)
+                            </p>
+                            - - - - - - - - - - - - - - - - - - - - - - - - -->
+                            <TextView
+                                android:id="@+id/tv_user_section"
+                                fontPath="fonts/arialrounded.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="0"
+                                android:layout_columnSpan="2"
+                                android:layout_columnWeight="1"
+                                android:layout_marginLeft="5dp"
+                                android:layout_row="1"
+                                android:text="@string/tv_user_section"
+                                android:textColor="#000000"
+                                android:textStyle="bold"
+                                tools:ignore="MissingPrefix" />
 
-                    <!-- Numéro d'entreprise -->
-                    <TextView
-                        android:id="@+id/tv_profil_neq"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="@string/tv_profil_neq"
-                        android:textStyle="bold"
-                        android:layout_column="0"
-                        android:layout_row="12"
-                        android:textSize="12sp"
-                        fontPath="fonts/opensans_semibold.ttf"
-                        tools:ignore="MissingPrefix"
-                        />
+                            <!-- Nom et prénom de la personne contact -->
+                            <TextView
+                                android:id="@+id/tv_profil_contact_name"
+                                fontPath="fonts/opensans_semibold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="0"
+                                android:layout_margin="5dp"
+                                android:layout_row="2"
+                                android:text="@string/tv_contact_name"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:ignore="MissingPrefix" />
 
-                    <!-- PLACEHOLDER : Numéro d'entreprise -->
-                    <TextView
-                        android:id="@+id/tv_profil_neq_placeholder"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tv_profil_neq_placeholder"
-                        android:layout_column="1"
-                        android:layout_row="12"
-                        android:textSize="12sp"
-                        android:layout_margin="5dp"/>
+                            <!-- PLACEHOLDER : Nom et prénom de la personne contact -->
+                            <TextView
+                                android:id="@+id/tv_profil_contact_name_placeholder"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="1"
+                                android:layout_margin="5dp"
+                                android:layout_row="2"
+                                android:text="@string/tv_contact_name_placeholder"
+                                android:textSize="12sp" />
+
+                            <!-- Courriel de l'utilisateur -->
+                            <TextView
+                                android:id="@+id/tv_profil_email"
+                                fontPath="fonts/opensans_semibold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="0"
+                                android:layout_margin="5dp"
+                                android:layout_row="3"
+                                android:text="@string/tv_profil_email"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:ignore="MissingPrefix" />
+
+                            <!-- PLACEHOLDER : Courriel de l'utilisateur -->
+                            <TextView
+                                android:id="@+id/tv_profil_email_placeholder"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="1"
+                                android:layout_margin="5dp"
+                                android:layout_row="3"
+                                android:text="@string/tv_profil_email_placeholder"
+                                android:textSize="12sp" />
+
+                            <!-- Numéro de téléphone de l'utilisateur -->
+                            <TextView
+                                android:id="@+id/tv_profil_phone"
+                                fontPath="fonts/opensans_semibold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="0"
+                                android:layout_margin="5dp"
+                                android:layout_row="4"
+                                android:text="@string/tv_profil_phone"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:ignore="MissingPrefix" />
+
+                            <!-- PLACEHOLDER : Numéro de téléphone de l'utilisateur -->
+                            <TextView
+                                android:id="@+id/tv_profil_phone_placeholder"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="1"
+                                android:layout_margin="5dp"
+                                android:layout_row="4"
+                                android:text="@string/tv_profil_phone_placeholder"
+                                android:textSize="12sp" />
+
+                            <!-- Moyen de contact de l'utilisateur -->
+                            <TextView
+                                android:id="@+id/tv_profil_moyen_contact"
+                                fontPath="fonts/opensans_semibold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="0"
+                                android:layout_margin="5dp"
+                                android:layout_row="5"
+                                android:text="@string/tv_profil_moyen_contact"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:ignore="MissingPrefix" />
+
+                            <!-- PLACEHOLDER : Numéro de téléphone de l'utilisateur -->
+                            <TextView
+                                android:id="@+id/tv_profil_moyen_contact_placeholder"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="1"
+                                android:layout_margin="5dp"
+                                android:layout_row="5"
+                                android:text="@string/tv_profil_moyen_contact_placeholder"
+                                android:textSize="12sp" />
+
+                            <!-- Divider, pour diviser le titre et les informations -->
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_column="0"
+                                android:layout_columnSpan="2"
+                                android:layout_columnWeight="1"
+                                android:layout_row="6"
+                                android:background="@drawable/divider1"
+                                android:contentDescription="@null" />
+
+                            <!-- - - - - - - - - - - - - - - - - - - - - - - -
+                           </p>
+                           Information sur l'entreprise
+                           </p>
+                           - - - - - - - - - - - - - - - - - - - - - - - - -->
+                            <TextView
+                                android:id="@+id/tv_enterprise_section"
+                                fontPath="fonts/arialrounded.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="0"
+                                android:layout_columnSpan="2"
+                                android:layout_columnWeight="1"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_row="7"
+                                android:text="@string/tv_entreprise_section"
+                                android:textColor="#000000"
+                                android:textStyle="bold"
+                                tools:ignore="MissingPrefix" />
+
+                            <!-- Adresse de l'entreprise -->
+                            <TextView
+                                android:id="@+id/tv_profil_nom_entreprise"
+                                fontPath="fonts/opensans_semibold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="0"
+                                android:layout_margin="5dp"
+                                android:layout_row="8"
+                                android:text="Nom:"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:ignore="MissingPrefix" />
+
+                            <!-- PLACEHOLDER : Adresse de l'entreprise -->
+                            <TextView
+                                android:id="@+id/tv_profil_nom_entreprise_placeholder"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="1"
+                                android:layout_margin="5dp"
+                                android:layout_row="8"
+                                android:text="Placeholder"
+                                android:textSize="12sp" />
+
+                            <!-- Adresse de l'entreprise -->
+                            <TextView
+                                android:id="@+id/tv_profil_adresse"
+                                fontPath="fonts/opensans_semibold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="0"
+                                android:layout_margin="5dp"
+                                android:layout_row="9"
+                                android:text="@string/tv_profil_adresse"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:ignore="MissingPrefix" />
+
+                            <!-- PLACEHOLDER : Adresse de l'entreprise -->
+                            <TextView
+                                android:id="@+id/tv_profil_adresse_placeholder"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="1"
+                                android:layout_margin="5dp"
+                                android:layout_row="9"
+                                android:text="@string/tv_profil_adresse_placeholder"
+                                android:textSize="12sp" />
+
+                            <!-- Numéro de téléphone de l'entreprise -->
+                            <TextView
+                                android:id="@+id/tv_profil_phone2"
+                                fontPath="fonts/opensans_semibold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="0"
+                                android:layout_margin="5dp"
+                                android:layout_row="10"
+                                android:text="@string/tv_profil_phone"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:ignore="MissingPrefix" />
+
+                            <!-- PLACEHOLDER : Numéro de téléphone de l'entreprise -->
+                            <TextView
+                                android:id="@+id/tv_profil_phone2_placeholder"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="1"
+                                android:layout_margin="5dp"
+                                android:layout_row="10"
+                                android:text="@string/tv_profil_phone2_placeholder"
+                                android:textSize="12sp" />
+
+                            <!-- Numéro d'OSBL -->
+                            <TextView
+                                android:id="@+id/tv_profil_osbl"
+                                fontPath="fonts/opensans_semibold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="0"
+                                android:layout_margin="5dp"
+                                android:layout_row="11"
+                                android:text="@string/tv_profil_osbl"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:ignore="MissingPrefix" />
+
+                            <!-- PLACEHOLDER : Numéro d'OSBL -->
+                            <TextView
+                                android:id="@+id/tv_profil_osbl_placeholder"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="1"
+                                android:layout_margin="5dp"
+                                android:layout_row="11"
+                                android:text="@string/tv_profil_osbl_placeholder"
+                                android:textSize="12sp" />
+
+                            <!-- Numéro d'entreprise -->
+                            <TextView
+                                android:id="@+id/tv_profil_neq"
+                                fontPath="fonts/opensans_semibold.ttf"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="0"
+                                android:layout_margin="5dp"
+                                android:layout_row="12"
+                                android:text="@string/tv_profil_neq"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:ignore="MissingPrefix" />
+
+                            <!-- PLACEHOLDER : Numéro d'entreprise -->
+                            <TextView
+                                android:id="@+id/tv_profil_neq_placeholder"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_column="1"
+                                android:layout_margin="5dp"
+                                android:layout_row="12"
+                                android:text="@string/tv_profil_neq_placeholder"
+                                android:textSize="12sp" />
 
 
-                    <!-- Bouton pour modifier le mot de passe -->
-                    <!--Button
-                        android:id="@+id/btn_edit_password"
-                        android:layout_width="331dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:drawableLeft="@drawable/modifier_3x"
-                        android:drawablePadding="5dp"
-                        android:layout_column="0"
-                        android:layout_columnSpan="2"
-                        android:layout_row="13"
-                        android:text="@string/btn_edit_password"
-                        android:textSize="10sp"
-                        android:layout_columnWeight="1"/-->
+                            <!-- Bouton pour modifier le mot de passe -->
+                            <!--Button
+                                android:id="@+id/btn_edit_password"
+                                android:layout_width="331dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15dp"
+                                android:background="?android:attr/selectableItemBackground"
+                                android:drawableLeft="@drawable/modifier_3x"
+                                android:drawablePadding="5dp"
+                                android:layout_column="0"
+                                android:layout_columnSpan="2"
+                                android:layout_row="13"
+                                android:text="@string/btn_edit_password"
+                                android:textSize="10sp"
+                                android:layout_columnWeight="1"/-->
 
 
-                </GridLayout>
-            </LinearLayout>
-        </LinearLayout>
+                        </GridLayout>
+                    </LinearLayout>
+                </LinearLayout>
 
+            </HorizontalScrollView>
+
+        </ScrollView>
         <!-- Bar de progression -->
-        <include layout="@layout/loading"/>
+        <include layout="@layout/loading" />
+
     </ViewSwitcher>
 
 </android.support.design.widget.CoordinatorLayout>
