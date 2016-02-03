@@ -351,7 +351,8 @@ public class Stats_Activity extends Activity
 
         // add a new series' to the xyplot:
         if (series1CheckBox.isChecked()) plot.addSeries(series1, formatter1);
-        if (series2CheckBox.isChecked()) plot.addSeries(series2, formatter2); 
+        if (series2CheckBox.isChecked()) plot.addSeries(series2, formatter2);
+
 
         // Setup the BarRenderer with our selected options
         MyBarRenderer renderer = ((MyBarRenderer)plot.getRenderer(MyBarRenderer.class));
