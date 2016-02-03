@@ -33,7 +33,6 @@ public class ProfilActivity extends HippieActivity {
         ((Button) findViewById(R.id.btn_edit_password)).setText(R.string.btn_edit_password);
 
 
-
     }
 
 
