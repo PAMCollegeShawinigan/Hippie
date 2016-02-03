@@ -1,6 +1,5 @@
 package com.pam.codenamehippie.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.test.mock.MockApplication;
 import android.widget.Button;
@@ -11,7 +10,6 @@ import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.depot.UtilisateurModeleDepot;
 
 public class ProfilActivity extends HippieActivity {
-UtilisateurModele utilisateur;
 
 
     @Override
