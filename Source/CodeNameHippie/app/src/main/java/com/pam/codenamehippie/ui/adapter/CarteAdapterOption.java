@@ -134,14 +134,14 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
         @LayoutRes
         int resId = (childPosition < ORGANISME_INFO_CHILD_COUNT)
                     ? R.layout.liste_organisme_detail
-                    : R.layout.liste_dons_row;
+                    : R.layout.liste_marchandise_dispo_group;
         if (row == null) {
             row = this.inflater.inflate(resId, parent, false);
         }
         switch (resId) {
             case R.layout.liste_organisme_detail:
                 break;
-            case R.layout.liste_dons_row:
+            case R.layout.liste_marchandise_dispo_group:
                 break;
             default:
                 break;
@@ -170,7 +170,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
     @Override
     public void onGroupCollapsed(int groupPosition) {
-        
+
     }
 
     @Override
