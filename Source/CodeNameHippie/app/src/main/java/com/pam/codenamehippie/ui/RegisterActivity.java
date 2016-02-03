@@ -63,6 +63,7 @@ public class RegisterActivity extends HippieActivity
                                                    ValidateurDeChampTexte.PRENOM_LONGUEUR_MAX
                                                   );
         this.validateurPrenom.registerObserver(this);
+
         EditText etCourriel = ((EditText) this.findViewById(R.id.etCourriel));
         this.validateurCourriel = ValidateurCourriel.newInstance(this, etCourriel, true);
         this.validateurCourriel.registerObserver(this);
@@ -233,6 +234,7 @@ public class RegisterActivity extends HippieActivity
                                          this.validateurCourriel.getText().toString()
                                         )
                               .commit();
+
     }
 
     /**
