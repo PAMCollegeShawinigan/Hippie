@@ -1,6 +1,7 @@
 package com.pam.codenamehippie.modele;
 
 import com.google.gson.annotations.SerializedName;
+import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -14,8 +15,8 @@ public class TransactionModele extends BaseModele<TransactionModele> {
     private OrganismeModele idReceveur;
     @SerializedName("donneur_id")
     private OrganismeModele idDonneur;
-    @SerializedName("marchandise_id")
-    private MarchandiseModele idMarchandise;
+    @SerializedName("alimentaire")
+    private AlimentaireModele alimentaire;
     @SerializedName("date_collecte")
     private Date dateCollecte;
     @SerializedName("date_reservation")
@@ -42,12 +43,12 @@ public class TransactionModele extends BaseModele<TransactionModele> {
         return this;
     }
 
-    public MarchandiseModele getIdMarchandise() {
-        return this.idMarchandise;
+    public AlimentaireModele getAlimentaire() {
+        return this.alimentaire;
     }
 
-    public TransactionModele setIdMarchandise(MarchandiseModele idMarchandise) {
-        this.idMarchandise = idMarchandise;
+    public TransactionModele setAlimentaire(AlimentaireModele alimentaire) {
+        this.alimentaire = alimentaire;
         return this;
     }
 
