@@ -12,9 +12,9 @@ import java.util.Date;
 public class TransactionModele extends BaseModele<TransactionModele> {
 
     @SerializedName("receveur_id")
-    private OrganismeModele idReceveur;
+    private OrganismeModele receveur;
     @SerializedName("donneur_id")
-    private OrganismeModele idDonneur;
+    private OrganismeModele donneur;
     @SerializedName("alimentaire")
     private AlimentaireModele alimentaire;
     @SerializedName("date_collecte")
@@ -25,21 +25,21 @@ public class TransactionModele extends BaseModele<TransactionModele> {
     private Date dateDisponible;
 
     // ------------------------------ Début Accesseur et Mutateur
-    public OrganismeModele getIdReceveur() {
-        return this.idReceveur;
+    public OrganismeModele getReceveur() {
+        return this.receveur;
     }
 
-    public TransactionModele setIdReceveur(OrganismeModele idReceveur) {
-        this.idReceveur = idReceveur;
+    public TransactionModele setReceveur(OrganismeModele receveur) {
+        this.receveur = receveur;
         return this;
     }
 
-    public OrganismeModele getIdDonneur() {
-        return this.idDonneur;
+    public OrganismeModele donneur() {
+        return this.donneur;
     }
 
-    public TransactionModele setIdDonneur(OrganismeModele idDonneur) {
-        this.idDonneur = idDonneur;
+    public TransactionModele setDonneur(OrganismeModele donneur) {
+        this.donneur = donneur;
         return this;
     }
 
