@@ -33,4 +33,5 @@ dependencies {
     compile 'com.google.android.gms:play-services:8.3.0'
     compile 'com.sothree.slidinguppanel:library:3.0.0'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+    compile 'com.androidplot:androidplot-core:0.9.6'
 }
