@@ -370,7 +370,6 @@ public class MapsActivity extends HippieActivity
 
     @Override
     public void surChangementDeDonnees(ArrayList<OrganismeModele> modeles) {
-
         SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager()
                                                                   .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
