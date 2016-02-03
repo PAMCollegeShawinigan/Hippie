@@ -83,7 +83,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
                     info = mOrganisme.getAdresse();
                     break;
                 case 1:
-                    info = mOrganisme.getTelephone();
+                    info = mOrganisme.getFormattedTelephone();
                     break;
             }
 
@@ -211,7 +211,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
                     break;
                 case 1:
                     logo.setImageResource(R.drawable.telephone2);
-                    textView.setText(mOrganisme.getTelephone());
+                    textView.setText(mOrganisme.getFormattedTelephone());
                     break;
             }
 
