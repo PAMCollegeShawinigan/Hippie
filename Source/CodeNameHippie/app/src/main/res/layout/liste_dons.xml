@@ -7,12 +7,19 @@
 	android:layout_height="match_parent"
 	android:fitsSystemWindows="true"
 	tools:context=".ui.ListeMesDonsActivity">
+
+	<!-- Fait afficher l'action bar -->
 	<include layout="@layout/content_appbar_main" />
+
+	<!-- Fait afficher la bar de progression -->
 	<ViewSwitcher
 		android:id="@+id/main_view_switcher"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+		<!-- Wrap pour les informations tel que voulu, ainsi parce que le view switcher
+    		 n'accepte qu'un seul enfant =( -->
 		<LinearLayout
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
@@ -20,28 +27,37 @@
 			android:focusableInTouchMode="false"
 			android:orientation="vertical"
 			android:scrollIndicators="left|top">
+
+			<!-- Wrap pour placer les informations tel que voulu -->
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical">
+
+				<!-- TITRE: MES DONS -->
 				<TextView
 					android:id="@+id/tv_mes_dons"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginLeft="20dp"
-					android:layout_marginRight="10dp"
-					android:layout_marginTop="25dp"
 					android:layout_marginBottom="5dp"
+					android:layout_marginLeft="15dp"
+					android:layout_marginTop="15dp"
 					android:text="@string/tv_mes_dons"
-					android:textSize="25sp"/>
+					android:textColor="#000000"
+					android:textSize="25sp"
+					fontPath="fonts/arialrounded.ttf"
+					tools:ignore="MissingPrefix"/>
 
 				<!-- Divider, pour diviser le titre et les informations -->
 				<ImageView
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:layout_marginLeft="10dp"
+					android:layout_marginRight="10dp"
 					android:background="@drawable/divider1"
-					android:layout_marginLeft="15dp"
-					android:layout_marginRight="15dp"/>
+					android:contentDescription="@null"/>
+
+				<!-- Wrap pour placer les informations tel que voulu -->
 				<LinearLayout
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -50,6 +66,8 @@
 					android:paddingLeft="35dp"
 					android:paddingTop="10dp"
 					android:weightSum="1">
+
+					<!--ENTETE: NOM -->
 					<TextView
 						android:id="@+id/tv_dons_nom"
 						android:layout_width="wrap_content"
@@ -59,7 +77,11 @@
 						android:paddingLeft="5dp"
 						android:paddingRight="10dp"
 						android:text="@string/dons_nom"
-						android:textStyle="bold" />
+						android:textStyle="bold"
+						fontPath="fonts/opensans_semibold.ttf"
+						tools:ignore="MissingPrefix"/>
+
+					<!--ENTETE: DESCRIPTION -->
 					<TextView
 						android:id="@+id/tv_dons_description"
 						android:layout_width="wrap_content"
@@ -69,7 +91,11 @@
 						android:paddingLeft="10dp"
 						android:paddingRight="10dp"
 						android:text="@string/dons_description"
-						android:textStyle="bold" />
+						android:textStyle="bold"
+						fontPath="fonts/opensans_semibold.ttf"
+						tools:ignore="MissingPrefix"/>
+
+					<!--ENTETE: QUANTITÉ -->
 					<TextView
 						android:id="@+id/tv_dons_qtee"
 						android:layout_width="0dp"
@@ -79,8 +105,12 @@
 						android:paddingLeft="10dp"
 						android:paddingRight="10dp"
 						android:text="@string/dons_qtee"
-						android:textStyle="bold" />
+						android:textStyle="bold"
+						fontPath="fonts/opensans_semibold.ttf"
+						tools:ignore="MissingPrefix"/>
 				</LinearLayout>
+
+				<!--Contenant servant à afficher les items(dons) du donneur-->
 				<ListView
 					android:id="@+id/lv_dons"
 					android:layout_width="match_parent"
@@ -89,6 +119,8 @@
 					android:layout_marginBottom="70dp" />
 			</LinearLayout>
 		</LinearLayout>
+
+		<!-- Bar de progression -->
 		<include layout="@layout/loading" />
 	</ViewSwitcher>
 </android.support.design.widget.CoordinatorLayout>
