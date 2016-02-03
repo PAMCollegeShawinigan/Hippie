@@ -31,6 +31,12 @@
         <item name="popupTheme">@style/AppThemeOverlay.Light</item>
     </style>
 
+    <!-- Style pour le diagramme des Statistiques -->
+    <style name="sample_activity">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+    </style>
+
     <!-- Boutton setting en blanc  -->
     <style name="Base.AppThemeOverlay.ActionBar"
         parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
