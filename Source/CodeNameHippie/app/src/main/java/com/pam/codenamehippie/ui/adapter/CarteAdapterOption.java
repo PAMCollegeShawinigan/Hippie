@@ -8,11 +8,15 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
+import com.pam.codenamehippie.ui.HippieActivity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -22,34 +26,32 @@ import java.util.ArrayList;
  * groupview
  * pour les voir.
  */
-public class CarteAdapterOption extends BaseExpandableListAdapter {
+public class CarteAdapterOption extends BaseExpandableListAdapter
+        implements ObservateurDeDepot<AlimentaireModele> {
 
     /**
      * Nombre de child view destinées à afficher les info de l'organisme
      */
     private static final int ORGANISME_INFO_CHILD_COUNT = 1;
-    private final Context context;
+    private final HippieActivity context;
     private final AlimentaireModeleDepot alimentaireModeleDepot;
     private volatile ArrayList<AlimentaireModele> listedon = new ArrayList<>();
     private OrganismeModele organisme;
 
-    public CarteAdapterOption(Context context,
-                              AlimentaireModeleDepot depot) {
+    public CarteAdapterOption(HippieActivity context) {
         this.context = context;
-        this.alimentaireModeleDepot = depot;
+        this.alimentaireModeleDepot =
+                ((HippieApplication) context.getApplication()).getAlimentaireModeleDepot();
     }
 
     public ArrayList<AlimentaireModele> getListedon() {
         return this.listedon;
     }
 
-    public void setListedon(ArrayList<AlimentaireModele> listedon) {
-        this.listedon = listedon;
-        this.notifyDataSetChanged();
-    }
-
     public void setOrganisme(OrganismeModele organisme) {
         this.organisme = organisme;
+        this.listedon.clear();
+        this.notifyDataSetChanged();
         this.alimentaireModeleDepot.peuplerListeDon(this.organisme.getId());
     }
 
@@ -134,7 +136,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
             resId = R.layout.liste_dons_row;
         }
 
-        return convertView;
+        return row;
     }
 
     @Override
@@ -170,5 +172,26 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
     @Override
     public long getCombinedGroupId(long groupId) {
         return groupId;
+    }
+
+    @Override
+    public void surDebutDeRequete() {
+
+    }
+
+    @Override
+    public void surChangementDeDonnees(ArrayList<AlimentaireModele> modeles) {
+        this.listedon = modeles;
+        this.notifyDataSetChanged();
+    }
+
+    @Override
+    public void surFinDeRequete() {
+
+    }
+
+    @Override
+    public void surErreur(IOException e) {
+
     }
 }

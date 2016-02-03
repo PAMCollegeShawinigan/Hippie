@@ -31,8 +31,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AdresseModele;
-import com.pam.codenamehippie.modele.AlimentaireModele;
-import com.pam.codenamehippie.modele.BaseModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
@@ -57,7 +55,7 @@ public class MapsActivity extends HippieActivity
         private final boolean initialIsIndeterminate;
         LatLngBounds.Builder builder = LatLngBounds.builder();
 
-        PrepareMarkerAsyncTask(@NonNull MapsActivity activity) {
+        public PrepareMarkerAsyncTask(@NonNull MapsActivity activity) {
             super();
             this.activity = activity;
             this.initialIsIndeterminate = activity.progressBar.isIndeterminate();
@@ -94,9 +92,9 @@ public class MapsActivity extends HippieActivity
                 AdresseModele adresse = organisme.getAdresse();
                 LatLng point = this.activity.getLocationFromAddress(adresse.toFormattedString());
                 if (point != null) {
-                    MarkerOptions markerOptions = new MarkerOptions().position(point)
-                                                                     .title(organisme.getNom());
-                    this.activity.map.addMarker(markerOptions);
+                    MarkerOptions marker = new MarkerOptions().position(point)
+                                                              .title(organisme.getNom());
+                    this.addMarker(marker);
                     this.builder.include(point);
                 }
                 this.publishProgress(i);
@@ -162,13 +160,21 @@ public class MapsActivity extends HippieActivity
                 this.activity.progressBar.setProgress(values[0]);
             }
         }
+
+        private void addMarker(final MarkerOptions marker) {
+            this.activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    PrepareMarkerAsyncTask.this.activity.map.addMarker(marker);
+                }
+            });
+        }
     }
 
     private static final String TAG = MapsActivity.class.getSimpleName();
-    private final ArrayList<AlimentaireModele> listedon = new ArrayList<>();
+    private volatile ArrayList<OrganismeModele> listOrganisme = new ArrayList<>();
     private SlidingUpPanelLayout slidingLayout;
     private ExpandableListView expandableListView;
-    private volatile ArrayList<OrganismeModele> listOrganisme = new ArrayList<>();
     private GoogleMap map;
     private Location lastKnownLocation;
     private RelativeLayout mapView;
@@ -182,10 +188,11 @@ public class MapsActivity extends HippieActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_plus);
+        this.setContentView(R.layout.activity_maps_plus);
         this.slidingLayout = (SlidingUpPanelLayout) this.findViewById(R.id.sliding_layout);
         this.slidingLayout.setAnchorPoint(0.6f);
         this.expandableListView = (ExpandableListView) this.findViewById(R.id.expandableListView);
+        this.adapter = new CarteAdapterOption(this);
         // mettre le listener pour le click de group de l'expandablelistview
         this.expandableListView.setOnGroupClickListener(this);
         this.mapView = (RelativeLayout) this.findViewById(R.id.mapView);
@@ -220,17 +227,24 @@ public class MapsActivity extends HippieActivity
         super.onResume();
         OrganismeModeleDepot organismeModeleDepot =
                 ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
+        AlimentaireModeleDepot alimentaireModeleDepot =
+                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         organismeModeleDepot.ajouterUnObservateur(this);
+        alimentaireModeleDepot.ajouterUnObservateur(this.adapter);
         organismeModeleDepot.peuplerListeDonneur();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        OrganismeModeleDepot depot =
+        AlimentaireModeleDepot alimentaireModeleDepot =
+                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
+        OrganismeModeleDepot organismeModeleDepot =
                 ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
-        depot.setFiltreDeListe(null);
-        depot.supprimerTousLesObservateurs();
+        organismeModeleDepot.setFiltreDeListe(null);
+        organismeModeleDepot.supprimerTousLesObservateurs();
+        alimentaireModeleDepot.setFiltreDeListe(null);
+        alimentaireModeleDepot.supprimerTousLesObservateurs();
 
     }
 
@@ -344,10 +358,7 @@ public class MapsActivity extends HippieActivity
                 break;
 
             case R.id.listeMarchandise:
-                if (!this.getClass().equals(ListeMarchandisesDisponiblesActivity.class)) {
-                    this.startActivity(new Intent(this, ListeMarchandisesDisponiblesActivity.class
-                    ));
-                }
+                this.startActivity(new Intent(this, ListeMarchandisesDisponiblesActivity.class));
                 break;
             default:
                 break;
@@ -370,6 +381,7 @@ public class MapsActivity extends HippieActivity
 
     @Override
     public void surChangementDeDonnees(ArrayList<OrganismeModele> modeles) {
+        this.listOrganisme = modeles;
         SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager()
                                                                   .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
