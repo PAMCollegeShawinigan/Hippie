@@ -100,8 +100,7 @@ public class MesReservationsAdapter extends BaseAdapter {
         // rangée selon le nombre d'items contenus dans l'ArrayList.
         ((TextView) row.findViewById(R.id.tv_res_nom_marchandise)).setText(modele.getNom());
         ((TextView) row.findViewById(R.id.tv_res_description)).setText(modele.getDescription());
-        String quantiteString = modele.getQuantite().toString() + " " + modele.getUnite();
-        ((TextView) row.findViewById(R.id.tv_res_qtee_marchandise)).setText(quantiteString);
+        ((TextView) row.findViewById(R.id.tv_res_qtee_marchandise)).setText(modele.getQuantiteString());
         ImageButton ibSupprimerReservation = (ImageButton) row.findViewById(R.id.ib_res_supprimer);
         ImageButton ibCollecterReservation = (ImageButton) row.findViewById(R.id.ib_res_collecter);
 

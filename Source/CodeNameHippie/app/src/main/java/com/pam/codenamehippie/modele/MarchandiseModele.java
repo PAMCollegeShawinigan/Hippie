@@ -17,17 +17,19 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
     @SerializedName("description")
     private String description;
     @SerializedName("quantite")
-    private Double quantite;
+    private Double quantite = 0.00d;
+    @SerializedName("unite")
+    private String uniteDeQuantite;
     @SerializedName("marchandise_etat")
     private String etat;
     @SerializedName("valeur")
-    private Integer valeur;
+    private Integer valeur = 0;
     @SerializedName("marchandise_statut")
     private String statut;
     @SerializedName("organisme")
     private OrganismeModele organisme;
 
-    public OrganismeModele getOrganisme(){return this.organisme;}
+    public OrganismeModele getOrganisme() {return this.organisme;}
 
     @SuppressWarnings(value = {"unchecked"})
     public T setOrganisme(OrganismeModele organisme) {
@@ -62,6 +64,24 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
     @SuppressWarnings(value = {"unchecked"})
     public T setQuantite(Double quantite) {
         this.quantite = quantite;
+        return (T) this;
+    }
+
+    public String getQuantiteString() {
+        if (this.uniteDeQuantite != null) {
+            return this.quantite.toString() + this.uniteDeQuantite;
+        } else {
+            return this.quantite.toString();
+        }
+    }
+
+    public String getUniteDeQuantite() {
+        return this.uniteDeQuantite;
+    }
+
+    @SuppressWarnings(value = {"unchecked"})
+    public T setUniteDeQuantite(String uniteDeQuantite) {
+        this.uniteDeQuantite = uniteDeQuantite;
         return (T) this;
     }
 
