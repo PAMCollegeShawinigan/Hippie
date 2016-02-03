@@ -1,6 +1,7 @@
 package com.pam.codenamehippie;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.pam.codenamehippie.http.Authentificateur;
 import com.pam.codenamehippie.http.intercepteur.AcceptJsonInterceptor;
@@ -10,8 +11,11 @@ import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
 import com.pam.codenamehippie.modele.depot.TransactionModeleDepot;
 import com.pam.codenamehippie.modele.depot.UtilisateurModeleDepot;
 
+import java.io.IOException;
+
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * Sous classe de {@link Application} qui sert à initialiser l'application et à stocker les
@@ -89,5 +93,10 @@ public class HippieApplication extends Application {
         }
         this.httpClient = httpClientBuilder.build();
 
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/opensans_light.ttf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
     }
 }
