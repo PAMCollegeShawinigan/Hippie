@@ -166,12 +166,11 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
     @Override
     public void onGroupExpanded(int groupPosition) {
-
     }
 
     @Override
     public void onGroupCollapsed(int groupPosition) {
-
+        
     }
 
     @Override
