@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.pam.codenamehippie"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.pam.codenamehippie">
 	<!-- client -->
 	<uses-permission android:name="android.permission.USE_CREDENTIALS" />
 	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -70,6 +70,12 @@
 		<activity
 			android:name=".ui.ListeMarchandisesDisponiblesActivity"
 			android:label="Mes Réservations" />
+		<activity
+			android:name=".ui.Stats_Activity"
+			android:allowBackup="true"
+			android:label="@string/app_name"
+			android:supportsRtl="true"
+			android:theme="@style/AppTheme" />
 		<activity android:name=".ui.AjoutMarchandiseActivity" />
 		<activity android:name=".ui.AideActivity" />
 		<!--

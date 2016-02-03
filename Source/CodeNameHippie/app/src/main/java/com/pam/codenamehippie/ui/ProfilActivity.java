@@ -29,7 +29,6 @@ public class ProfilActivity extends HippieActivity {
         ((TextView) findViewById(R.id.tv_profil_neq_placeholder)).setText(R.string.tv_profil_neq);
         ((Button) findViewById(R.id.btn_edit_profile)).setText(R.string.btn_edit_profile);
         ((Button) findViewById(R.id.btn_edit_password)).setText(R.string.btn_edit_password);
-
     }
 
 }
