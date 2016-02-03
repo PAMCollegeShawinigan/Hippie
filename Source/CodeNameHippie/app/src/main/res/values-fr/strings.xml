@@ -148,6 +148,14 @@
     <string name="tv_profil_adresse">Addresse :</string>
     <string name="btn_edit_password">MODIFIER LE MOT DE PASSE</string>
 
+    <!-- Ressource pour les catégories-->
+    <string name="cat_boulangerie">Boulangeries</string>
+    <string name="cat_fruits_et_legumes">Fruits et Légumes</string>
+    <string name="cat_Produits_laitiers">Produits laitiers</string>
+    <string name="cat_viandes">Viandes</string>
+    <string name="cat_surgelés">Surgelés</string>
+    <string name="cat_non_périssable">Non-périssable</string>
+    <string name="cat_non_comestible">Non-comestible</string>
 
     <!-- Autres ressources-->
     <string name="loading">Un moment s\'il-vous-plaît.</string>
