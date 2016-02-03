@@ -1,37 +1,37 @@
 <resources>
     <!-- Ressources pour la page connexion -->
-	<string name="action_sign_in">Sign in or register</string>
-	<string name="action_sign_in_short">Sign in</string>
-	<string name="action_sign_out">Sign out</string>
-	<string name="error_invalid_email">This email address is invalid</string>
-	<string name="error_invalid_password">This password is invalid</string>
-	<string name="error_incorrect_password">This password is incorrect</string>
-	<string name="error_field_required">This field is required</string>
-	<string name="error_connection">Could not connect</string>
-	<string name="prompt_email">Email</string>
-	<string name="prompt_password">Password</string>
-	<string name="title_activity_login">Login</string>
-	<string name="title_activity_register">Register</string>
-	<string name="message_welcome">Welcome %1$s</string>
-	<string name="error_confirm_password">"This password doesn\'t match the previous one"</string>
-	<string name="error_field_too_long">The content of this field is too long</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_out">Sign out</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is invalid</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_connection">Could not connect</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_register">Register</string>
+    <string name="message_welcome">Welcome %1$s</string>
+    <string name="error_confirm_password">"This password doesn\'t match the previous one"</string>
+    <string name="error_field_too_long">The content of this field is too long</string>
     <string name="error_bad_credentials">This email and password combo do not match anything in our records. Please check your password or register if you don\'t have an account.</string>
     <string name="tv_inscription">REGISTER</string>
     <string name="tv_separation">|</string>
     <string name="tv_mpo">FORGOT YOUR PASSWORD?</string>
     <string name="bguest">Guest account</string>
 
-	<!-- Ressources pour les fonts -->
-	<string name="font_name_fontawesome">fontawesome</string>
-	<string name="font_name_source_sans_pro">SourceSansPro</string>
+    <!-- Ressources pour les fonts -->
+    <string name="font_name_fontawesome">fontawesome</string>
+    <string name="font_name_source_sans_pro">SourceSansPro</string>
 
-	<!-- Ressources pour la liste des marchandises(denrées, dons, etc.) disponibles (layout) -->
-	<string name="marchandise_reservees">Commodity booked</string>
-	<string name="marchandise_disponible">Commodity available</string>
-	<string name="md_donneur">GIVER</string>
-	<string name="md_peremption">BEST BEFORE</string>
-	<string name="md_qtee">QTY</string>
-	<string name="md_nom">NAME</string>
+    <!-- Ressources pour la liste des marchandises(denrées, dons, etc.) disponibles (layout) -->
+    <string name="marchandise_reservees">Commodity booked</string>
+    <string name="marchandise_disponible">Commodity available</string>
+    <string name="md_donneur">GIVER</string>
+    <string name="md_peremption">BEST BEFORE</string>
+    <string name="md_qtee">QTY</string>
+    <string name="md_nom">NAME</string>
     <string name="iv_md_categorie">Category</string>
     <string name="tv_md_nom_marchandise">Placeholder</string>
     <string name="tv_md_description">Placeholder</string>
@@ -43,80 +43,118 @@
     <string name="tv_md_adresse_entreprise">Placeholder</string>
     <string name="tv_liste_marchandises_dispo">OUR COMMODITIES AVAILABLE</string>
 
-	<!-- Ressource pour l'actionbar, le menu "settings" et le menu normal -->
-	<string name="profil">Profil</string>
-	<string name="title_activity_menu">Settings</string>
-	<string name="menu">Menu</string>
+    <!-- Ressource pour l'actionbar, le menu "settings" et le menu normal -->
+    <string name="profil">Profil</string>
+    <string name="title_activity_menu">Settings</string>
+    <string name="menu">Menu</string>
     <string name="info">About</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_maps2">Map</string>
 
-	<!-- Ressources pour les organismes communautaires (les layout) -->
-	<string name="tv_organisme_communautaire">COMMUNAL ORGANIZATIONS</string>
-	<string name="iv_org_personne_contact">Contact person</string>
-	<string name="tv_org_personne_contact">Placeholder</string>
-	<string name="iv_org_telephone">Phone number</string>
-	<string name="tv_org_telephone">1 888 888-8888</string>
-	<string name="iv_org_adresse">Adress</string>
-	<string name="tv_org_nom_organisme">Placeholder</string>
-	<string name="tv_org_adresse">Placeholder</string>
+    <!-- Ressources pour les organismes communautaires (les layout) -->
+    <string name="tv_organisme_communautaire">COMMUNAL ORGANIZATIONS</string>
+    <string name="iv_org_personne_contact">Contact person</string>
+    <string name="tv_org_personne_contact">Placeholder</string>
+    <string name="iv_org_telephone">Phone number</string>
+    <string name="tv_org_telephone">1 888 888-8888</string>
+    <string name="iv_org_adresse">Adress</string>
+    <string name="tv_org_nom_organisme">Placeholder</string>
+    <string name="tv_org_adresse">Placeholder</string>
 
-	<!--Ressource pour ajoutMarchandiseActivity et layout ajout_marchandise -->
-	<string name="ajouter_marchandise">ADD COMMODITY</string>
-	<string name="modifier_marchandise">MODIFY COMMODITY</string>
-	<string name="bouton_ajouter">ADD</string>
-	<string name="bouton_modifier">MODIFY</string>
-	<string name="msg_produit_ajoute">Commodity added</string>
-	<string name="msg_produit_modifie">Commodity modified</string>
-	<string name="marchandise_nom">Name</string>
-	<string name="marchandise_description">Description</string>
-	<string name="marchandise_quantites">Quantity</string>
-	<string name="marchandise_unite">Unit</string>
-	<string name="marchandise_valeur">Value</string>
-	<string name="marchandise_type_alimentaire">Food type</string>
-	<string name="marchandise_date_peremption">Expiration date</string>
+    <!--Ressource pour ajoutMarchandiseActivity et layout ajout_marchandise -->
+    <string name="ajouter_marchandise">ADD COMMODITY</string>
+    <string name="modifier_marchandise">MODIFY COMMODITY</string>
+    <string name="bouton_ajouter">ADD</string>
+    <string name="bouton_modifier">MODIFY</string>
+    <string name="msg_produit_ajoute">Commodity added</string>
+    <string name="msg_produit_modifie">Commodity modified</string>
+    <string name="marchandise_nom">Name</string>
+    <string name="marchandise_description">Description</string>
+    <string name="marchandise_quantites">Quantity</string>
+    <string name="marchandise_unite">Unit</string>
+    <string name="marchandise_valeur">Value</string>
+    <string name="marchandise_type_alimentaire">Food type</string>
+    <string name="marchandise_date_peremption">Expiration date</string>
 
-	<!--Ressource pour HippieListAdapter et ListeMesDonsActivity-->
-	<string name="msg_produit_supprime">Commodity was deleted</string>
-	<string name="msg_confirme_suppression">Are you sure that you want to delete this donation ?</string>
-	<string name="bouton_confirme_oui">YES</string>
-	<string name="bouton_confirme_non">NO</string>
+    <!--Ressource pour HippieListAdapter et ListeMesDonsActivity-->
+    <string name="msg_produit_supprime">Commodity was deleted</string>
+    <string name="msg_confirme_suppression">Are you sure that you want to delete this donation ?</string>
+    <string name="bouton_confirme_oui">YES</string>
+    <string name="bouton_confirme_non">NO</string>
 
     <!--Ressource pour Layout liste_dons et liste_dons_row-->
-	<string name="tv_mes_dons">MY DONATIONS</string>
-	<string name="dons_nom">NAME</string>
-	<string name="dons_description">DESCRIPTION</string>
-	<string name="dons_qtee">QTY</string>
-	<string name="iv_dons_categorie">Category</string>
-	<string name="tv_dons_nom_marchandise">Product name here</string>
-	<string name="tv_dons_description_marchandise">Product description here</string>
-	<string name="tv_dons_qtee_marchandise">99999 units</string>
-	<string name="ib_dons_modifier">Modify</string>
-	<string name="ib_dons_supprimer">Delete</string>
+    <string name="tv_mes_dons">MY DONATIONS</string>
+    <string name="dons_nom">NAME</string>
+    <string name="dons_description">DESCRIPTION</string>
+    <string name="dons_qtee">QTY</string>
+    <string name="iv_dons_categorie">Category</string>
+    <string name="tv_dons_nom_marchandise">Product name here</string>
+    <string name="tv_dons_description_marchandise">Product description here</string>
+    <string name="tv_dons_qtee_marchandise">99999 units</string>
+    <string name="ib_dons_modifier">Modify</string>
+    <string name="ib_dons_supprimer">Delete</string>
 
-	<!--Ressource pour MesReservationsAdapter et ListeMesReservationsActivity-->
-	<string name="msg_reservation_supprime">Reservation was deleted</string>
-	<string name="msg_reservation_confirme_suppression">Are you sure that you want to delete this reservation ?</string>
-	<string name="msg_reservation_collecte">Reservation was collected</string>
-	<string name="msg_reservation_confirme_collecte">Are you sure that you want to collect this reservation ?</string>
+    <!--Ressource pour MesReservationsAdapter et ListeMesReservationsActivity-->
+    <string name="msg_reservation_supprime">Reservation was deleted</string>
+    <string name="msg_reservation_confirme_suppression">Are you sure that you want to delete this reservation ?</string>
+    <string name="msg_reservation_collecte">Reservation was collected</string>
+    <string name="msg_reservation_confirme_collecte">Are you sure that you want to collect this reservation ?</string>
 
-	<!--Ressource pour Layout liste_reservations et liste_reservations_row-->
-	<string name="tv_mes_reservations">MY RESERVATIONS</string>
-	<string name="res_nom">NAME</string>
-	<string name="res_qtee">QTY</string>
-	<string name="res_reservation">BEST BEFORE</string>
-	<string name="iv_res_categorie">Category</string>
-	<string name="tv_res_nom_marchandise">Product name here</string>
-	<string name="tv_res_description">Product description here</string>
-	<string name="tv_res_qtee_marchandise">99999 units</string>
-	<string name="tv_res_date_marchandise">99/99/9999</string>
-	<string name="ib_res_collecter">Collect</string>
-	<string name="ib_res_supprimer">Delete</string>
+    <!--Ressource pour Layout liste_reservations et liste_reservations_row-->
+    <string name="tv_mes_reservations">MY RESERVATIONS</string>
+    <string name="res_nom">NAME</string>
+    <string name="res_qtee">QTY</string>
+    <string name="res_reservation">BEST BEFORE</string>
+    <string name="iv_res_categorie">Category</string>
+    <string name="tv_res_nom_marchandise">Product name here</string>
+    <string name="tv_res_description">Product description here</string>
+    <string name="tv_res_qtee_marchandise">99999 units</string>
+    <string name="tv_res_date_marchandise">99/99/9999</string>
+    <string name="ib_res_collecter">Collect</string>
+    <string name="ib_res_supprimer">Delete</string>
+
+    <!--Ressource pour Layout activity_aide-->
+    <string name="tv_aide_titre_entete">Help</string>
+    <string name="tv_aide_titre_entete_maj">HELP</string>
+    <string name="tv_aide_titre_denree">Denrée Ô Suivant</string>
+    <string name="tv_aide_titre_connexion">Connection</string>
+    <string name="tv_aide_titre_menu">Menu &amp; Navigation</string>
+    <string name="tv_aide_titre_organisme">Organization</string>
+    <string name="tv_aide_titre_produits_disponibles">Products available</string>
+    <string name="tv_aide_titre_mes_reservations">My reservations</string>
+    <string name="tv_aide_titre_faire_un_don">Donate</string>
+    <string name="tv_aide_titre_mes_dons">My donations</string>
+    <string name="tv_aide_titre_statistiques">Statistics</string>
+    <string name="tv_aide_titre_profil">Profile</string>
+    <string name="tv_list_aide_group">PlaceHolder</string>
+    <string name="tv_list_aide_detail">PlaceHolder</string>
+
+    <!-- Ressource pour la page profil-->
+    <string name="tv_profil_name">PROFILE</string>
+    <string name="iv_image_profile">Image profile</string>
+    <string name="btn_edit_profile">EDIT PROFILE</string>
+    <string name="tv_user_section">USER</string>
+    <string name="tv_contact_name">Contact name :</string>
+    <string name="tv_contact_name_placeholder">Placeholder</string>
+    <string name="tv_profil_email">Email :</string>
+    <string name="tv_profil_email_placeholder">Placeholder</string>
+    <string name="tv_profil_phone">Phone :</string>
+    <string name="tv_profil_phone_placeholder">Placeholder</string>
+    <string name="tv_profil_moyen_contact">How to contact :</string>
+    <string name="tv_profil_moyen_contact_placeholder">Placeholder</string>
+    <string name="tv_entreprise_section">ORGANIZATION</string>
+    <string name="tv_profil_adresse">Adress :</string>
+    <string name="tv_profil_adresse_placeholder">Placeholder</string>
+    <string name="tv_profil_phone2_placeholder">Placeholder</string>
+    <string name="tv_profil_osbl">OSBL :</string>
+    <string name="tv_profil_osbl_placeholder">Placeholder</string>
+    <string name="tv_profil_neq">NEQ :</string>
+    <string name="tv_profil_neq_placeholder">Placeholder</string>
+    <string name="btn_edit_password">EDIT PASSWORD</string>
 
     <!-- Autres ressources-->
     <string name="iv_logo">Logo</string>
     <string name="loading">A moment please.</string>
     <string name="app_name">Codename: Hippie</string>
     <string name="title_activity_preference">Settings</string>
-
 </resources>

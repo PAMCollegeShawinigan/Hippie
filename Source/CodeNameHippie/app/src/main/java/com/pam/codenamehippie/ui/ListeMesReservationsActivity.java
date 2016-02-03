@@ -7,9 +7,8 @@ import android.widget.ListView;
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
-import com.pam.codenamehippie.modele.AlimentaireModeleDepot;
-import com.pam.codenamehippie.modele.FiltreDeListe;
-import com.pam.codenamehippie.modele.ObservateurDeDepot;
+import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.ui.adapter.MesReservationsAdapter;
 
 import java.io.IOException;

@@ -8,11 +8,17 @@
 	android:fitsSystemWindows="true"
 	android:weightSum="1"
 	tools:context=".ui.MapsActivity">
+
+	<!-- Action bar -->
 	<include layout="@layout/content_appbar_main" />
+
+	<!-- ViewSwitcher pour la progressbar -->
 	<ViewSwitcher
 		android:id="@+id/main_view_switcher"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
+
+		<!-- Panel pour faire afficher les entreprises et qui "slide" -->
 		<com.sothree.slidinguppanel.SlidingUpPanelLayout
 			android:id="@+id/sliding_layout"
 			android:layout_width="match_parent"
@@ -25,15 +31,22 @@
 			app:umanoPanelHeight="65dp"
 			app:umanoParalaxOffset="100dp"
 			app:umanoShadowHeight="4dp">
+
+			<!-- Vue de la carte google -->
 			<RelativeLayout
 				android:id="@+id/mapView"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
+
+				<!-- Fragment pour la map -->
 				<fragment
 					android:id="@+id/map"
 					android:name="com.google.android.gms.maps.SupportMapFragment"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent" />
+
+				<!-- Bouton pour la carte des marchandises disponibles -->
+				<!-- FIXME: Enlever le bouton de la carte des marchandises disponibles, car elle serait inutile. À vérifier -->
 				<ImageButton
 					android:id="@+id/marchandiseDisponible"
 					android:layout_width="60dp"
@@ -46,6 +59,9 @@
 					android:contentDescription="@null"
 					android:hapticFeedbackEnabled="false"
 					android:onClick="onButtonClick" />
+
+				<!-- Bouton pour la liste de mes réservations -->
+				<!-- TODO: Faire une "animation" au onClick du bouton mesReservations-->
 				<ImageButton
 					android:id="@+id/mesReservation"
 					android:layout_width="60dp"
@@ -61,6 +77,9 @@
 					android:minHeight="50dp"
 					android:minWidth="50dp"
 					android:onClick="onButtonClick" />
+
+				<!-- Bouton pour la liste des marchandises disponibles -->
+				<!-- TODO: Faire une "animation" au onClick du bouton marchandiseDisponible-->
 				<ImageButton
 					android:id="@+id/listeMarchandise"
 					android:layout_width="60dp"
@@ -75,6 +94,8 @@
 					android:minWidth="50dp"
 					android:onClick="onButtonClick" />
 			</RelativeLayout>
+
+			<!-- Intègre l'expandable listview -->
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
@@ -82,6 +103,9 @@
 				android:clickable="true"
 				android:focusable="false"
 				android:orientation="vertical">
+
+                <!-- Expandable list view qui fait afficher les entreprises et les denrées -->
+                <!-- TODO : Faire affiché le nom de l'entreprise en premier au lieu de l'adresse -->
 				<ExpandableListView
 					android:id="@+id/expandableListView"
 					android:layout_width="match_parent"
@@ -92,6 +116,8 @@
 					android:visibility="visible" />
 			</LinearLayout>
 		</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+        <!-- Progress bar -->
 		<include layout="@layout/loading" />
 	</ViewSwitcher>
 </android.support.design.widget.CoordinatorLayout>

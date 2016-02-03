@@ -4,15 +4,11 @@ import android.os.Bundle;
 
 import com.pam.codenamehippie.R;
 
-public class MainActivity extends HippieActivity {
+public class ProfilActivity extends HippieActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_profil);
     }
 }
-
-
-
