@@ -2,21 +2,25 @@ package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
+import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.ui.HippieActivity;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
 
 /**
@@ -53,6 +57,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
     public void setOrganisme(OrganismeModele organisme) {
         this.organisme = organisme;
+        Log.d("ORG", this.organisme.toString());
         this.listedon.clear();
         this.notifyDataSetChanged();
         this.alimentaireModeleDepot.peuplerListeDon(this.organisme.getId());
@@ -138,10 +143,84 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
         if (row == null) {
             row = this.inflater.inflate(resId, parent, false);
         }
+        AlimentaireModele modele = null;
         switch (resId) {
             case R.layout.liste_organisme_detail:
+                // Fait afficher l'adresse de l'entreprise
+                String addresse = this.organisme.getAdresse().toFormattedString();
+                ((TextView) row.findViewById(R.id.tv_org_adresse)).setText(addresse);
+                // Fait afficher le nom de la personne contact de l'entreprise
+                UtilisateurModele contact = this.organisme.getContact();
+                TextView textView = ((TextView) row.findViewById(R.id.tv_org_personne_contact));
+                if (textView != null) {
+                    if (contact != null) {
+                        ((View) textView.getParent()).setVisibility(View.VISIBLE);
+                        textView.setText(contact.getNomComplet());
+                    } else {
+                        ((View) textView.getParent()).setVisibility(View.GONE);
+                    }
+                }
+                textView = ((TextView) row.findViewById(R.id.tv_org_telephone));
+                if (textView != null) {
+                    if (contact != null) {
+                        ((View) textView.getParent()).setVisibility(View.VISIBLE);
+                        textView.setText(this.organisme.getFormattedTelephone());
+                    } else {
+                        ((View) textView.getParent()).setVisibility(View.GONE);
+                    }
+                }
                 break;
             case R.layout.liste_marchandise_dispo_group:
+                modele = this.getChild(groupPosition, childPosition);
+                if (modele != null) {
+                    // Fait afficher l'icône correspondant au bon type alimentaire à côté du texte
+                    String image = modele.getTypeAlimentaire();
+                    ImageView ivResCategorie =
+                            (ImageView) row.findViewById(R.id.iv_md_categorie);
+                    switch (image) {
+                        case "Surgelés":
+                            ivResCategorie.setImageResource(R.drawable.map_surgele);
+                            break;
+                        case "Fruits et Légumes":
+                            ivResCategorie.setImageResource(R.drawable.map_fruit_legume);
+                            break;
+                        case "Boulangerie":
+                            ivResCategorie.setImageResource(R.drawable.map_boulangerie);
+                            break;
+                        case "Produits laitiers":
+                            ivResCategorie.setImageResource(R.drawable.map_laitier);
+                            break;
+                        case "Viandes":
+                            ivResCategorie.setImageResource(R.drawable.map_viande);
+                            break;
+                        case "Non Périssable":
+                            ivResCategorie.setImageResource(R.drawable.map_non_perissable);
+                            break;
+                        default:
+                            ivResCategorie.setImageResource(R.drawable.map_non_comestible);
+                            break;
+                    }
+                    // Affiche le nom de la marchandise
+                    ((TextView) row.findViewById(R.id.tv_md_nom_marchandise)).setText(modele.getNom());
+                    // Affiche la description de la marchandise
+
+                    ((TextView) row.findViewById(R.id.tv_md_description)).setText(modele.getDescription());
+
+                    // On affiche la quantité + l'unité de la marchandise
+                    ((TextView) row.findViewById(R.id.tv_md_qtee_marchandise)).setText(modele.getQuantiteString());
+
+                    // Affiche la date de péremption, quand c'est valable.
+                    if (modele.getDatePeremption() != null) {
+                        DateFormat format =
+                                android.text.format.DateFormat.getLongDateFormat(this.context);
+                        String date = format.format(modele.getDatePeremption());
+                        ((TextView) row.findViewById(R.id.tv_md_date_marchandise)).setText(date);
+                    } else {
+                        row.findViewById(R.id.tv_md_date_marchandise)
+                           .setVisibility(View.INVISIBLE);
+                    }
+                    row.findViewById(R.id.ib_md_ajouter).setFocusable(false);
+                }
                 break;
             default:
                 break;
@@ -156,7 +235,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
     @Override
     public boolean areAllItemsEnabled() {
-        return false;
+        return true;
     }
 
     @Override
@@ -185,7 +264,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
     @Override
     public void surDebutDeRequete() {
-
+        this.context.afficherLaProgressBar();
     }
 
     @Override
@@ -196,6 +275,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
     @Override
     public void surFinDeRequete() {
+        this.context.cacherLaProgressbar();
 
     }
 
