@@ -35,11 +35,14 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
     private static final int ORGANISME_INFO_CHILD_COUNT = 1;
     private final HippieActivity context;
     private final AlimentaireModeleDepot alimentaireModeleDepot;
+    private final LayoutInflater inflater;
     private volatile ArrayList<AlimentaireModele> listedon = new ArrayList<>();
     private OrganismeModele organisme;
 
     public CarteAdapterOption(HippieActivity context) {
         this.context = context;
+        this.inflater =
+                ((LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
         this.alimentaireModeleDepot =
                 ((HippieApplication) context.getApplication()).getAlimentaireModeleDepot();
     }
@@ -82,17 +85,20 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
     @Override
     public AlimentaireModele getChild(int groupPosition, int childPosition) {
-        return this.listedon.get((childPosition - 1));
+        int pos = (childPosition == 0) ? 0 : childPosition - ORGANISME_INFO_CHILD_COUNT;
+        return (!this.listedon.isEmpty()) ? this.listedon.get(pos) : null;
     }
 
     @Override
     public long getGroupId(int groupPosition) {
-        return groupPosition;
+        OrganismeModele modele = this.getGroup(groupPosition);
+        return (modele != null) ? modele.getId() : groupPosition;
     }
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
+        AlimentaireModele modele = this.getChild(groupPosition, childPosition);
+        return (modele != null) ? modele.getId() : childPosition;
     }
 
     @Override
@@ -108,16 +114,13 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
         View group = convertView;
         if (group == null) {
-            LayoutInflater inflater =
-                    ((LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
-            group = inflater.inflate(R.layout.liste_organisme_group, parent, false);
+            group = this.inflater.inflate(R.layout.liste_organisme_group, parent, false);
         }
         View v = group.findViewById(R.id.tv_org_nom_organisme);
         if ((v != null) && (v instanceof TextView)) {
             TextView textView = ((TextView) v);
-            textView.setText("BOB");
+            textView.setText(this.organisme.getNom());
         }
-
         return group;
     }
 
@@ -129,13 +132,20 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                              ViewGroup parent) {
         View row = convertView;
         @LayoutRes
-        int resId;
-        if (childPosition < ORGANISME_INFO_CHILD_COUNT) {
-            resId = R.layout.liste_organisme_detail;
-        } else {
-            resId = R.layout.liste_dons_row;
+        int resId = (childPosition < ORGANISME_INFO_CHILD_COUNT)
+                    ? R.layout.liste_organisme_detail
+                    : R.layout.liste_dons_row;
+        if (row == null) {
+            row = this.inflater.inflate(resId, parent, false);
         }
-
+        switch (resId) {
+            case R.layout.liste_organisme_detail:
+                break;
+            case R.layout.liste_dons_row:
+                break;
+            default:
+                break;
+        }
         return row;
     }
 

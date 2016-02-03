@@ -21,6 +21,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -43,30 +44,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends HippieActivity
-        implements OnMapReadyCallback,
-                   ExpandableListView.OnGroupClickListener,
-                   SlidingUpPanelLayout.PanelSlideListener,
-                   ObservateurDeDepot<OrganismeModele> {
+public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
+                                                            ExpandableListView.OnGroupClickListener,
+                                                            SlidingUpPanelLayout.PanelSlideListener,
+                                                            ObservateurDeDepot<OrganismeModele>,
+                                                            OnMarkerClickListener {
 
-    private static class PrepareMarkerAsyncTask extends AsyncTask<OrganismeModele, Integer, Void> {
+    private static class PrepareMarkerAsyncTask
+            extends AsyncTask<OrganismeModele, MarkerOptions, Void> {
 
         private final MapsActivity activity;
-        private final boolean initialIsIndeterminate;
         LatLngBounds.Builder builder = LatLngBounds.builder();
 
         public PrepareMarkerAsyncTask(@NonNull MapsActivity activity) {
             super();
             this.activity = activity;
-            this.initialIsIndeterminate = activity.progressBar.isIndeterminate();
         }
 
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
-            if (this.activity.progressBar != null) {
-                this.activity.progressBar.setIndeterminate(false);
-            }
             if (this.activity.map != null) {
                 this.activity.map.clear();
             }
@@ -74,19 +70,8 @@ public class MapsActivity extends HippieActivity
 
         @Override
         protected Void doInBackground(OrganismeModele... organismes) {
-            final int count = organismes.length;
-            if (this.activity.progressBar != null) {
-                this.activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        PrepareMarkerAsyncTask.this.activity.progressBar.setMax(count);
-                    }
-                });
-            }
-            for (int i = 0; i < count; i += 1) {
-                OrganismeModele organisme = organismes[i];
-                if (organisme == null) {
-                    this.builder = null;
+            for (OrganismeModele organisme : organismes) {
+                if (this.isCancelled()) {
                     break;
                 }
                 AdresseModele adresse = organisme.getAdresse();
@@ -94,12 +79,8 @@ public class MapsActivity extends HippieActivity
                 if (point != null) {
                     MarkerOptions marker = new MarkerOptions().position(point)
                                                               .title(organisme.getNom());
-                    this.addMarker(marker);
+                    this.publishProgress(marker);
                     this.builder.include(point);
-                }
-                this.publishProgress(i);
-                if (this.isCancelled()) {
-                    break;
                 }
             }
             return null;
@@ -107,7 +88,6 @@ public class MapsActivity extends HippieActivity
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
             if ((this.activity.lastKnownLocation != null) && (this.builder != null)) {
                 LatLng lastKnownLocationPoint =
                         new LatLng(this.activity.lastKnownLocation.getLatitude(),
@@ -117,9 +97,6 @@ public class MapsActivity extends HippieActivity
             }
             LatLngBounds bounds = (this.builder != null) ? this.builder.build() : null;
             CameraUpdate cameraUpdate = null;
-            if (this.activity.progressBar != null) {
-                this.activity.progressBar.setIndeterminate(this.initialIsIndeterminate);
-            }
             this.activity.cacherLaProgressbar();
             if (this.activity.lastKnownLocation != null) {
                 LatLng lastKnownLocationPoint =
@@ -154,20 +131,10 @@ public class MapsActivity extends HippieActivity
         }
 
         @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            if (this.activity.progressBar != null) {
-                this.activity.progressBar.setProgress(values[0]);
+        protected void onProgressUpdate(MarkerOptions... markers) {
+            for (MarkerOptions marker : markers) {
+                this.activity.map.addMarker(marker);
             }
-        }
-
-        private void addMarker(final MarkerOptions marker) {
-            this.activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    PrepareMarkerAsyncTask.this.activity.map.addMarker(marker);
-                }
-            });
         }
     }
 
@@ -193,6 +160,7 @@ public class MapsActivity extends HippieActivity
         this.slidingLayout.setAnchorPoint(0.6f);
         this.expandableListView = (ExpandableListView) this.findViewById(R.id.expandableListView);
         this.adapter = new CarteAdapterOption(this);
+        this.expandableListView.setAdapter(this.adapter);
         // mettre le listener pour le click de group de l'expandablelistview
         this.expandableListView.setOnGroupClickListener(this);
         this.mapView = (RelativeLayout) this.findViewById(R.id.mapView);
@@ -261,33 +229,7 @@ public class MapsActivity extends HippieActivity
         this.map.setBuildingsEnabled(true);
         this.map.getUiSettings().setMapToolbarEnabled(false);
         this.map.getUiSettings().setMyLocationButtonEnabled(true);
-        this.map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                OrganismeModele adapterOrganisme = null;
-                for (OrganismeModele organisme : MapsActivity.this.listOrganisme) {
-                    if (organisme.getNom().compareToIgnoreCase((marker.getTitle())) == 0) {
-                        adapterOrganisme = organisme;
-                        break;
-                    }
-                }
-                //  expandableListView.setAdapter(new
-                // CarteOrganismeAdapter(MapsActivity.this,
-                // mOrganisme, viewID));
-
-                if (MapsActivity.this.slidingLayout.getPanelState() == PanelState.ANCHORED ||
-                    MapsActivity.this.slidingLayout.getPanelState() == PanelState.EXPANDED) {
-                    MapsActivity.this.expandableListView.expandGroup(0, true);
-                }
-                CameraPosition position =
-                        CameraPosition.builder(MapsActivity.this.map.getCameraPosition())
-                                      .target(marker.getPosition())
-                                      .build();
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(position);
-                MapsActivity.this.map.animateCamera(cameraUpdate);
-                return true;
-            }
-        });
+        this.map.setOnMarkerClickListener(this);
     }
 
     @Override
@@ -432,6 +374,33 @@ public class MapsActivity extends HippieActivity
 
     @Override
     public void onPanelHidden(View view) {
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        OrganismeModele adapterOrganisme = null;
+        Log.d(TAG, "Marker: " + marker.getTitle());
+        for (OrganismeModele organisme : this.listOrganisme) {
+            if (organisme.getNom().compareToIgnoreCase((marker.getTitle())) == 0) {
+                adapterOrganisme = organisme;
+                break;
+            }
+        }
+        //  expandableListView.setAdapter(new
+        // CarteOrganismeAdapter(MapsActivity.this,
+        // mOrganisme, viewID));
+        this.adapter.setOrganisme(adapterOrganisme);
+        if (this.slidingLayout.getPanelState() == PanelState.ANCHORED ||
+            this.slidingLayout.getPanelState() == PanelState.EXPANDED) {
+            this.expandableListView.expandGroup(0, true);
+        }
+        CameraPosition position =
+                CameraPosition.builder(MapsActivity.this.map.getCameraPosition())
+                              .target(marker.getPosition())
+                              .build();
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(position);
+        this.map.animateCamera(cameraUpdate);
+        return true;
     }
 }
 
