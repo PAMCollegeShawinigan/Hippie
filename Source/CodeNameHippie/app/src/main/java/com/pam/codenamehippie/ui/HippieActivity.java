@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -41,6 +42,7 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
     protected OkHttpClient httpClient;
     protected SharedPreferences sharedPreferences;
     protected ViewSwitcher viewSwitcher;
+    protected TextView progressBarTextView;
     protected ProgressBar progressBar;
     protected GoogleApiClient googleApiClient;
 
@@ -165,8 +167,8 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
             this.viewSwitcher.setInAnimation(this, android.R.anim.fade_in);
             this.viewSwitcher.setOutAnimation(this, android.R.anim.fade_out);
         }
-
         this.progressBar = ((ProgressBar) this.findViewById(R.id.main_progress));
+        this.progressBarTextView = ((TextView) this.findViewById(R.id.tv_main_progress));
     }
 
     /**

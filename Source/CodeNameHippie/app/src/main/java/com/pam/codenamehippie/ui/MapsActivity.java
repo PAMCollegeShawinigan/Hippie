@@ -83,9 +83,9 @@ public class MapsActivity extends HippieActivity
                     }
                 });
             }
-            for (int i = 0; i <= count; i += 1) {
+            for (int i = 0; i < count; i += 1) {
                 OrganismeModele organisme = organismes[i];
-                if (count == 0 || organisme == null) {
+                if (organisme == null) {
                     this.builder = null;
                     break;
                 }
@@ -288,7 +288,6 @@ public class MapsActivity extends HippieActivity
                 return true;
             }
         });
-        this.cacherLaProgressbar();
     }
 
     @Override
