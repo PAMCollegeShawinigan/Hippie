@@ -1,6 +1,8 @@
 package com.pam.codenamehippie.ui.view.trianglemenu;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.pam.codenamehippie.modele.OrganismeModele;
+import com.pam.codenamehippie.modele.UtilisateurModele;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +14,26 @@ import java.util.Map;
  * et toutes les organismes communautaire
  */
 public class TestDonneeCentre {
+
+    public static UtilisateurModele prepareDonnees_utilisateur() {
+        UtilisateurModele utilisateur=new UtilisateurModele();
+        OrganismeModele organisme=new OrganismeModele();
+        organisme.setTelephone("81998989800")
+                .setNom("IGA")
+
+                .setNoEntreprise("qc764599")
+                .setNoOsbl("2345");
+
+        utilisateur.setCourriel("test@yahoo.ca")
+             //   .setDernConnexion()
+                .setMotDePasse("123456")
+                .setNom("Yongshun")
+                .setPrenom("Li")
+                .setTelephone("8198668888")
+                .setOrganisme(organisme);
+
+        return utilisateur;
+    }
 
     public static ArrayList<Organisme> prepareDonnees_reservees() {
 

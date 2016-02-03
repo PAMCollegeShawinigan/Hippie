@@ -181,6 +181,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
                              ViewGroup parent) {
         final AlimentaireModele modele = this.getGroup(groupPosition);
 
+
         if (convertView == null) {
             LayoutInflater infalInflater =
                     (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
