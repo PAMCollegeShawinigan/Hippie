@@ -211,7 +211,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
                     break;
                 case 1:
                     logo.setImageResource(R.drawable.telephone2);
-                    textView.setText(mOrganisme.getFormattedTelephone());
+                    textView.setText(mOrganisme.getTelephone());
                     break;
             }
 
