@@ -69,7 +69,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
 
     public String getQuantiteString() {
         if (this.uniteDeQuantite != null) {
-            return this.quantite.toString() + this.uniteDeQuantite;
+            return this.quantite.toString() + " " + this.uniteDeQuantite;
         } else {
             return this.quantite.toString();
         }
