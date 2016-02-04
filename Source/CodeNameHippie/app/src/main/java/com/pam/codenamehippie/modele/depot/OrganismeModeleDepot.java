@@ -59,6 +59,7 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
     }
 
     public void peuplerListeOrganisme() {
+
         this.peuplerLeDepot(this.url);
     }
 }
