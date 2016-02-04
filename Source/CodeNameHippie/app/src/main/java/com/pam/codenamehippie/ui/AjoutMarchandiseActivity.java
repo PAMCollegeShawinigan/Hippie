@@ -2,7 +2,6 @@ package com.pam.codenamehippie.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,12 +32,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Cette classe permet à un donneur d'ajouter et modifier des produits à la base de données
@@ -303,10 +299,10 @@ public class AjoutMarchandiseActivity extends HippieActivity
         AlimentaireModele modele =
                 new AlimentaireModele().setNom(this.validateurNom.getTextString())
                                        .setDescription(this.validateurDescription.getTextString())
-                                       .setValeur(Integer.valueOf(this.validateurValeur
-                                                                          .getTextString()))
-                                       .setQuantite(Double.valueOf(this.validateurQuantite
+                                       .setValeur(Integer.parseInt(this.validateurValeur
                                                                            .getTextString()))
+                                       .setQuantite(Double.parseDouble(this.validateurQuantite
+                                                                               .getTextString()))
                                        .setTypeAlimentaire(typeAlimentaire.getDescription())
                                        .setDatePeremption(date.getTime());
 
@@ -333,7 +329,6 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                       .add("marchandise_etat", "3")
                                       .add("date_peremption", dateString)
                                       .add("donneur_id", this.organismeId.toString());
-
         if (this.idModele != null) {
             // Si le idModele est différent de null, il s'agit d'une modification sur le produit
             // et il faut ajouter ce idModele à la requête et modifier le url en conséquence
@@ -341,68 +336,69 @@ public class AjoutMarchandiseActivity extends HippieActivity
             url = depot.getUrl().newBuilder().addPathSegment("modifier").build();
         }
         // Construire et envoyer la requête au serveur avec un Callback
+        Log.d(this.getClass().getSimpleName(), "body" + body.build().toString());
         Request request = new Request.Builder().url(url).post(body.build()).build();
-        this.httpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (!response.isSuccessful()) {
-                    switch (response.code()) {
-                        default:
-                            AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Snackbar.make(v,
-                                                  R.string.error_connection,
-                                                  Snackbar.LENGTH_SHORT
-                                                 )
-                                            .show();
-                                }
-                            });
-                            break;
-                    }
-                } else {
-                    AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (AjoutMarchandiseActivity.this.idModele != null) {
-                                // C'est une modification au produit
-                                Snackbar snackbar = Snackbar.make(v,
-                                                                  R.string.msg_produit_modifie,
-                                                                  Snackbar.LENGTH_SHORT
-                                                                 );
-
-                                snackbar.setCallback(new Snackbar.Callback() {
-                                    @Override
-                                    public void onDismissed(Snackbar snackbar, int event) {
-                                        if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
-                                            AjoutMarchandiseActivity.this.finish();
-                                        }
-                                    }
-                                }).show();
-
-                            } else {
-                                // C'est un ajout de produit
-                                Snackbar.make(v,
-                                              R.string.msg_produit_ajoute,
-                                              Snackbar.LENGTH_SHORT
-                                             ).show();
-                                AjoutMarchandiseActivity.this.effacerFormulaire();
-                            }
-                        }
-                    });
-                }
-            }
-        });
+//        this.httpClient.newCall(request).enqueue(new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) {
+//                if (!response.isSuccessful()) {
+//                    switch (response.code()) {
+//                        default:
+//                            AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    Snackbar.make(v,
+//                                                  R.string.error_connection,
+//                                                  Snackbar.LENGTH_SHORT
+//                                                 )
+//                                            .show();
+//                                }
+//                            });
+//                            break;
+//                    }
+//                } else {
+//                    AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            if (AjoutMarchandiseActivity.this.idModele != null) {
+//                                // C'est une modification au produit
+//                                Snackbar snackbar = Snackbar.make(v,
+//                                                                  R.string.msg_produit_modifie,
+//                                                                  Snackbar.LENGTH_SHORT
+//                                                                 );
+//
+//                                snackbar.setCallback(new Snackbar.Callback() {
+//                                    @Override
+//                                    public void onDismissed(Snackbar snackbar, int event) {
+//                                        if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+//                                            AjoutMarchandiseActivity.this.finish();
+//                                        }
+//                                    }
+//                                }).show();
+//
+//                            } else {
+//                                // C'est un ajout de produit
+//                                Snackbar.make(v,
+//                                              R.string.msg_produit_ajoute,
+//                                              Snackbar.LENGTH_SHORT
+//                                             ).show();
+//                                AjoutMarchandiseActivity.this.effacerFormulaire();
+//                            }
+//                        }
+//                    });
+//                }
+//            }
+//        });
 
     }
 
