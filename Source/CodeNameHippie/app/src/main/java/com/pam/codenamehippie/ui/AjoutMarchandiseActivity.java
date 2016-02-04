@@ -303,10 +303,10 @@ public class AjoutMarchandiseActivity extends HippieActivity
         AlimentaireModele modele =
                 new AlimentaireModele().setNom(this.validateurNom.getTextString())
                                        .setDescription(this.validateurDescription.getTextString())
-                                       .setValeur(Integer.valueOf(this.validateurValeur
-                                                                          .getTextString()))
-                                       .setQuantite(Double.valueOf(this.validateurQuantite
-                                                                           .getTextString()))
+                                       .setValeur(Long.parseLong(this.validateurValeur
+                                                                         .getTextString()))
+                                       .setQuantite(Double.parseDouble(this.validateurQuantite
+                                                                               .getTextString()))
                                        .setTypeAlimentaire(typeAlimentaire.getDescription())
                                        .setDatePeremption(date.getTime());
 
@@ -333,7 +333,6 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                       .add("marchandise_etat", "3")
                                       .add("date_peremption", dateString)
                                       .add("donneur_id", this.organismeId.toString());
-
         if (this.idModele != null) {
             // Si le idModele est différent de null, il s'agit d'une modification sur le produit
             // et il faut ajouter ce idModele à la requête et modifier le url en conséquence
@@ -403,7 +402,6 @@ public class AjoutMarchandiseActivity extends HippieActivity
                 }
             }
         });
-
     }
 
     /**

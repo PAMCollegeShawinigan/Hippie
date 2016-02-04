@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!--Chaque ligne contenu dans la liste MES DONS contient les éléments suivants-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
@@ -7,32 +7,34 @@
               android:gravity="center_vertical"
               android:padding="10dp">
 
-
+    <!--Afficher l'icône de la catégorie-->
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/iv_dons_categorie"
         android:contentDescription="@string/iv_dons_categorie"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/tv_dons_nom_marchandise"
-            android:id="@+id/tv_dons_nom_marchandise"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_weight="0.1"
-            />
+    <!--Afficher le nom de la marchandise-->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_dons_nom_marchandise"
+        android:id="@+id/tv_dons_nom_marchandise"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_weight="0.1"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/tv_dons_description_marchandise"
-            android:id="@+id/tv_dons_description_marchandise"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:layout_weight="0.1"/>
+    <!--Afficher la description de la marchandise-->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_dons_description_marchandise"
+        android:id="@+id/tv_dons_description_marchandise"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_weight="0.1"/>
 
+    <!--Afficher la quantité de la marchandise-->
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -42,7 +44,7 @@
         android:paddingRight="10dp"
         android:layout_weight="0.1"/>
 
-
+    <!--Afficher le bouton pour modifier un don-->
     <ImageButton
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -51,6 +53,7 @@
         android:layout_marginRight="5dp"
         android:contentDescription="@string/ib_dons_modifier"/>
 
+    <!--Afficher le bouton pour supprimer un don-->
     <ImageButton
         android:layout_width="40dp"
         android:layout_height="40dp"

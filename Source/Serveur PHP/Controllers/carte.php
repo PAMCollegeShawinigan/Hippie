@@ -23,7 +23,9 @@ class carte extends Controller
 												adr.province,
 												adr.code_postal,
 												adr.pays,
-												adr.adresse_id 
+												adr.adresse_id,
+												org.telephone,
+												org.poste		
 											FROM alimentaire ali
 											
 											INNER JOIN marchandise_statut marstat ON marstat.statut_id = ali.marchandise_statut
@@ -46,7 +48,7 @@ class carte extends Controller
 									'nom' => $resultat[3], 'type_rue' => $resultat[4], 'ville' => $resultat[5],
 										'province' => $resultat[6], 'code_postal' => $resultat[7], 'pays' => $resultat[8], 'id' => $resultat[9]);
 						//création d'un array d'objet aliment contenant adresse
-						$arr = array('id' =>$resultat[0], 'nom' => $resultat[1], 'adresse' => $adresse );
+						$arr = array('id' =>$resultat[0], 'nom' => $resultat[1], 'telephone' => $resultat[10], 'poste' => $resultat[11], 'adresse' => $adresse );
 						
 						array_push($array, $arr);
 						}
@@ -62,7 +64,7 @@ class carte extends Controller
 		
 		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev		
 		
-		$req = $bdd -> prepare('SELECT ali.nom,
+		$req = $bdd -> prepare('SELECT DISTINCT ali.nom,
 										ali.alimentaire_id,
 										ali.description_alimentaire, 
 										ali.quantite, 

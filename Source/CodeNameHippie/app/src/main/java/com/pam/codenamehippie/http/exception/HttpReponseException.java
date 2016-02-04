@@ -11,6 +11,8 @@ public class HttpReponseException extends IOException {
 
     private static final long serialVersionUID = 5262084840890202457L;
 
+    private final Integer code;
+
     /**
      * Construit une exception dont le message est le paramètre est la valeur de la méthode
      * {@link Response#toString()} de la réponse passée en paramètre.
@@ -20,6 +22,8 @@ public class HttpReponseException extends IOException {
      */
     public HttpReponseException(Response response) {
         super(response.toString());
+        this.code = response.code();
+
     }
 
     /**
@@ -33,5 +37,10 @@ public class HttpReponseException extends IOException {
      */
     public HttpReponseException(Response response, String detailMessage) {
         super(detailMessage + "\nresponse: " + response.toString());
+        this.code = response.code();
+    }
+
+    public Integer getCode() {
+        return this.code;
     }
 }
