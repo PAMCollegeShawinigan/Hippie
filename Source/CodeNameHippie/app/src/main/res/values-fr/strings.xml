@@ -169,6 +169,9 @@
     <string name="stats_titre_graphique">Répartition de la valeur des denrées par catégorie selon les donneurs</string>
     <string name="stats_axe_y">Valeur des dons </string>
     <string name="stats_axe_x">Entreprises</string>
+    <string name="stats_non_selectionne">Veuiller sélectionner une barre </string>
+    <string name="stats_selection">Selectionné : </string>
+    <string name="stats_valeur">Valeur : </string>
 
 
     <!-- Autres ressources-->
