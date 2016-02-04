@@ -147,6 +147,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
         int resId = (childPosition < ORGANISME_INFO_CHILD_COUNT)
                     ? R.layout.liste_organisme_detail
                     : R.layout.liste_marchandise_dispo_group;
+
         if (row == null) {
             row = this.inflater.inflate(resId, parent, false);
         }
@@ -162,19 +163,19 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                 TextView textView = ((TextView) row.findViewById(R.id.tv_org_personne_contact));
                 if (textView != null) {
                     if (contact != null) {
-                        ((View) textView.getParent()).setVisibility(View.VISIBLE);
+                        textView.setVisibility(View.VISIBLE);
                         textView.setText(contact.getNomComplet());
                     } else {
-                        ((View) textView.getParent()).setVisibility(View.GONE);
+                        textView.setVisibility(View.GONE);
                     }
                 }
                 textView = ((TextView) row.findViewById(R.id.tv_org_telephone));
                 if (textView != null) {
                     if (contact != null) {
-                        ((View) textView.getParent()).setVisibility(View.VISIBLE);
+                        textView.setVisibility(View.VISIBLE);
                         textView.setText(this.organisme.getFormattedTelephone());
                     } else {
-                        ((View) textView.getParent()).setVisibility(View.GONE);
+                        textView.setVisibility(View.GONE);
                     }
                 }
                 break;

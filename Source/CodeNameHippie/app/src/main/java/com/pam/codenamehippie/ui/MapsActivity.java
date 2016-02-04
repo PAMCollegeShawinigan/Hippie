@@ -419,9 +419,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 break;
             }
         }
-        //  expandableListView.setAdapter(new
-        // CarteOrganismeAdapter(MapsActivity.this,
-        // mOrganisme, viewID));
+
         this.adapter.setOrganisme(adapterOrganisme);
         if (this.slidingLayout.getPanelState() == PanelState.ANCHORED ||
             this.slidingLayout.getPanelState() == PanelState.EXPANDED) {
