@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
@@ -37,18 +38,23 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
      * Nombre de child view destinées à afficher les info de l'organisme
      */
     private static final int ORGANISME_INFO_CHILD_COUNT = 1;
-    private final HippieActivity context;
+    private final HippieActivity activity;
     private final AlimentaireModeleDepot alimentaireModeleDepot;
+    private final ViewSwitcher viewSwitcher;
     private final LayoutInflater inflater;
     private volatile ArrayList<AlimentaireModele> listedon = new ArrayList<>();
     private OrganismeModele organisme;
 
-    public CarteAdapterOption(HippieActivity context) {
-        this.context = context;
+    public CarteAdapterOption(HippieActivity activity) {
+        this.activity = activity;
         this.inflater =
-                ((LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+                ((LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
         this.alimentaireModeleDepot =
-                ((HippieApplication) context.getApplication()).getAlimentaireModeleDepot();
+                ((HippieApplication) activity.getApplication()).getAlimentaireModeleDepot();
+        this.viewSwitcher = ((ViewSwitcher) this.activity.findViewById(R.id.panel_view_switcher));
+        if (this.viewSwitcher != null) {
+
+        }
     }
 
     public ArrayList<AlimentaireModele> getListedon() {
@@ -143,7 +149,8 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
         if (row == null) {
             row = this.inflater.inflate(resId, parent, false);
         }
-        AlimentaireModele modele = null;
+        AlimentaireModele modele = this.getChild(groupPosition, childPosition);
+        ;
         switch (resId) {
             case R.layout.liste_organisme_detail:
                 // Fait afficher l'adresse de l'entreprise
@@ -171,7 +178,6 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                 }
                 break;
             case R.layout.liste_marchandise_dispo_group:
-                modele = this.getChild(groupPosition, childPosition);
                 if (modele != null) {
                     // Fait afficher l'icône correspondant au bon type alimentaire à côté du texte
                     String image = modele.getTypeAlimentaire();
@@ -203,7 +209,6 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                     // Affiche le nom de la marchandise
                     ((TextView) row.findViewById(R.id.tv_md_nom_marchandise)).setText(modele.getNom());
                     // Affiche la description de la marchandise
-
                     ((TextView) row.findViewById(R.id.tv_md_description)).setText(modele.getDescription());
 
                     // On affiche la quantité + l'unité de la marchandise
@@ -212,7 +217,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                     // Affiche la date de péremption, quand c'est valable.
                     if (modele.getDatePeremption() != null) {
                         DateFormat format =
-                                android.text.format.DateFormat.getLongDateFormat(this.context);
+                                android.text.format.DateFormat.getLongDateFormat(this.activity);
                         String date = format.format(modele.getDatePeremption());
                         ((TextView) row.findViewById(R.id.tv_md_date_marchandise)).setText(date);
                     } else {
@@ -264,7 +269,9 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
     @Override
     public void surDebutDeRequete() {
-        this.context.afficherLaProgressBar();
+        if (this.viewSwitcher != null) {
+            this.viewSwitcher.showNext();
+        }
     }
 
     @Override
@@ -275,8 +282,9 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
     @Override
     public void surFinDeRequete() {
-        this.context.cacherLaProgressbar();
-
+        if (this.viewSwitcher != null) {
+            this.viewSwitcher.showPrevious();
+        }
     }
 
     @Override
