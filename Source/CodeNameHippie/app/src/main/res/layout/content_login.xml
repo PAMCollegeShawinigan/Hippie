@@ -9,6 +9,7 @@
 	app:layout_behavior="@string/appbar_scrolling_view_behavior"
 	tools:context=".ui.LoginActivity"
 	tools:showIn="@layout/activity_login">
+
 	<RelativeLayout
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
@@ -19,6 +20,8 @@
 		android:paddingRight="@dimen/activity_horizontal_margin"
 		android:paddingTop="@dimen/activity_vertical_margin"
 		android:weightSum="1">
+
+        <!-- Affiche le logo -->
 		<ImageView
 			android:id="@+id/iv_logo"
 			android:layout_width="300dp"
@@ -28,6 +31,8 @@
 			android:layout_marginTop="90dp"
 			android:background="@drawable/logo_2x"
 			android:contentDescription="@string/iv_logo"/>
+
+        <!-- EDITTEXT : Entrez un nom d'utilisateur -->
 		<EditText
 			android:id="@+id/etCourriel"
 			android:layout_width="300dp"
@@ -41,6 +46,8 @@
 			android:nextFocusForward="@+id/etPassword"
 			android:paddingLeft="70dp"
 			android:textColorHint="#c6c6c6" />
+
+        <!-- EDITTEXT : Entrez le mot de passe -->
 		<EditText
 			android:id="@+id/etPassword"
 			android:layout_width="300dp"
@@ -54,6 +61,8 @@
 			android:inputType="textPassword"
 			android:paddingLeft="70dp"
 			android:textColorHint="#c6c6c6" />
+
+        <!-- TEXTVIEW clickable : S'inscrire -->
 		<TextView
 			android:id="@+id/tvInscription"
 			android:layout_width="100dp"
@@ -67,6 +76,8 @@
 			android:textSize="12sp"
 			android:textAlignment="textEnd"
 			/>
+
+        <!-- Séparation -->
 		<TextView
 			android:id="@+id/tv_separation"
 			android:layout_width="wrap_content"
@@ -81,6 +92,8 @@
 			android:textColor="#ffffff"
 			android:textSize="12sp"
 			/>
+
+        <!-- TEXTVIEW clickable : Mot de passe oublié -->
 		<TextView
 			android:id="@+id/tv_mpo"
 			android:layout_width="wrap_content"
@@ -93,6 +106,8 @@
 			android:textIsSelectable="false"
 			android:textSize="12sp"
 			android:layout_marginTop="10dp"/>
+
+        <!-- BOUTON : Se connecter -->
 		<Button
 			android:id="@+id/bLogin"
 			android:layout_width="300dp"
@@ -106,13 +121,6 @@
 			android:textAlignment="center"
 			android:textColor="#555951"
 			android:textSize="20sp" />
-		<Button
-			android:id="@+id/bGuest"
-			android:layout_width="300dp"
-			android:layout_height="wrap_content"
-			android:layout_alignParentBottom="true"
-			android:layout_alignStart="@+id/iv_logo"
-			android:text="@string/bguest"
-			android:visibility="invisible" />
+        
 	</RelativeLayout>
 </android.support.v4.widget.NestedScrollView>
