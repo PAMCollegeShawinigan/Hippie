@@ -10,8 +10,6 @@ import java.util.Date;
  */
 public class AlimentaireModele extends MarchandiseModele<AlimentaireModele> {
 
-    @SerializedName("unite")
-    private String unite;
     @SerializedName("type_alimentaire")
     private String typeAlimentaire;
     @SerializedName("date_peremption")
@@ -19,19 +17,10 @@ public class AlimentaireModele extends MarchandiseModele<AlimentaireModele> {
     @SerializedName("date_reservation")
     private Date dateReservation;
 
-    public Date getDateReservation(){return this.dateReservation;}
+    public Date getDateReservation() {return this.dateReservation;}
 
-    public AlimentaireModele setDateReservation(Date dateReservation){
-        this.dateReservation= dateReservation;
-        return this;
-    }
-
-    public String getUnite() {
-        return this.unite;
-    }
-
-    public AlimentaireModele setUnite(String unite) {
-        this.unite = unite;
+    public AlimentaireModele setDateReservation(Date dateReservation) {
+        this.dateReservation = dateReservation;
         return this;
     }
 
