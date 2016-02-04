@@ -8,14 +8,18 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.ListeMesReservationsActivity">
 
+    <!-- Fait afficher l'action bar -->
     <include layout="@layout/content_appbar_main"/>
 
+    <!-- Fait afficher la bar de progression -->
     <ViewSwitcher
         android:id="@+id/main_view_switcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <!-- Wrap pour les informations tel que voulu, ainsi parce que le view switcher
+         n'accepte qu'un seul enfant =( -->
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -24,29 +28,36 @@
             android:orientation="vertical"
             android:scrollIndicators="left|top">
 
+            <!-- Wrap pour placer les informations tel que voulu -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <!-- TITRE: MES RÉSERVATIONS -->
                 <TextView
                     android:id="@+id/tv_mes_reservations"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp"
                     android:text="@string/tv_mes_reservations"
-                    android:textSize="25sp"/>
+                    android:textColor="#000000"
+                    android:textSize="25sp"
+                    fontPath="fonts/arialrounded.ttf"
+                    tools:ignore="MissingPrefix"/>
+
                 <!-- Divider, pour diviser le titre et les informations -->
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/divider1"/>
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/divider1"
+                    android:contentDescription="@null"/>
 
+                <!-- Wrap pour placer les informations tel que voulu -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -55,6 +66,7 @@
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp">
 
+                    <!--ENTETE: NOM MARCHANDISE-->
                     <TextView
                         android:id="@+id/tv_res_nom"
                         android:layout_width="0dp"
@@ -64,8 +76,11 @@
                         android:paddingLeft="65dp"
                         android:paddingRight="10dp"
                         android:text="@string/res_nom"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix"/>
 
+                    <!--ENTETE: QUANTITÉ MARCHANDISE-->
                     <TextView
                         android:id="@+id/tv_res_qtee"
                         android:layout_width="0dp"
@@ -75,20 +90,26 @@
                         android:paddingLeft="30dp"
                         android:paddingRight="10dp"
                         android:text="@string/res_qtee"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix"/>
 
+                    <!--ENTETE: MEILEUR AVANT-->
                     <TextView
                         android:id="@+id/tv_res_reservation"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:layout_marginRight="54dp"
                         android:layout_weight="0.1"
+                        android:layout_marginRight="54dp"
                         android:paddingRight="10dp"
                         android:text="@string/res_reservation"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix"/>
                 </LinearLayout>
 
+                <!--Contenant servant à afficher les items(MES RÉSERVATIONS)-->
                 <ListView
                     android:id="@+id/lv_reservation"
                     android:layout_width="match_parent"
@@ -98,6 +119,7 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!-- Bar de progression -->
         <include layout="@layout/loading"/>
     </ViewSwitcher>
 </android.support.design.widget.CoordinatorLayout>
