@@ -6,36 +6,43 @@
               android:padding="10dp"
     >
 
+    <!-- Affiche l'adresse de l'organisme -->
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/tv_org_adresse"
         android:id="@+id/tv_org_adresse"
         android:layout_weight="0.5"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="50dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-
+            <!-- Affiche le nom de la personne contact -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/personne_contact"
                 android:drawablePadding="10dp"
                 android:text="@string/tv_org_personne_contact"
-                android:id="@+id/tv_org_personne_contact" />
+                android:id="@+id/tv_org_personne_contact"
+                android:paddingRight="10dp"
+                android:layout_marginBottom="5dp"/>
 
-
+            <!-- Affiche le numéro de téléphone de l'organisme -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/telephone2"
                 android:drawablePadding="10dp"
                 android:text="@string/tv_org_telephone"
-                android:id="@+id/tv_org_telephone" />
+                android:id="@+id/tv_org_telephone"
+                android:layout_marginTop="5dp"
+                android:paddingRight="10dp"
+                />
 
     </LinearLayout>
 
