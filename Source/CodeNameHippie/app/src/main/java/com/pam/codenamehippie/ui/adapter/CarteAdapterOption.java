@@ -2,11 +2,13 @@ package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
@@ -35,6 +37,12 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
         implements ObservateurDeDepot<AlimentaireModele> {
 
     /**
+     *
+     */
+    public static final int LIST_TYPE_MARCHANDISE_DISPO = 0;
+    public static final int LIST_TYPE_MARCHANDISE_RESERVEE = 1;
+
+    /**
      * Nombre de child view destinées à afficher les info de l'organisme
      */
     private static final int ORGANISME_INFO_CHILD_COUNT = 1;
@@ -44,6 +52,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
     private final LayoutInflater inflater;
     private volatile ArrayList<AlimentaireModele> listedon = new ArrayList<>();
     private OrganismeModele organisme;
+    private int listType = 0;
 
     public CarteAdapterOption(HippieActivity activity) {
         this.activity = activity;
@@ -62,12 +71,30 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
         return this.listedon;
     }
 
-    public void setOrganisme(OrganismeModele organisme) {
+    public void setOrganisme(@Nullable OrganismeModele organisme) {
         this.organisme = organisme;
-        Log.d("ORG", this.organisme.toString());
         this.listedon.clear();
         this.notifyDataSetChanged();
-        this.alimentaireModeleDepot.peuplerListeDon(this.organisme.getId());
+        if (organisme != null) {
+            Log.d("ORG", this.organisme.toString());
+            switch (this.listType) {
+                case LIST_TYPE_MARCHANDISE_DISPO:
+                    // FIXME: Vérifier si c'est le bon peupler liste don :)
+                    this.alimentaireModeleDepot.peuplerListeDon(this.organisme.getId());
+                    break;
+                case LIST_TYPE_MARCHANDISE_RESERVEE:
+                    this.alimentaireModeleDepot.peuplerListeReservation(this.organisme.getId());
+                    break;
+                default:
+                    this.alimentaireModeleDepot.peuplerListeDon(this.organisme.getId());
+                    break;
+            }
+        }
+
+    }
+
+    public void setListType(int listType) {
+        this.listType = listType;
     }
 
     @Override
@@ -146,7 +173,8 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
         @LayoutRes
         int resId = (childPosition < ORGANISME_INFO_CHILD_COUNT)
                     ? R.layout.liste_organisme_detail
-                    : R.layout.liste_marchandise_dispo_group;
+                    : (this.listType == LIST_TYPE_MARCHANDISE_DISPO) ?
+                R.layout.liste_marchandise_dispo_group : R.layout.liste_reservations_row;
 
         if (row == null) {
             row = this.inflater.inflate(resId, parent, false);
@@ -227,7 +255,53 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                            .setVisibility(View.INVISIBLE);
                     }
                     row.findViewById(R.id.ib_md_ajouter).setFocusable(false);
+                    //FIXME: Arranger le bouton réserver, afin de les faire fonctionner
                 }
+                break;
+            case  R.layout.liste_reservations_row:
+                // Fait afficher l'icône correspondant au bon type alimentaire à côté du texte
+                String image = modele.getTypeAlimentaire();
+                ImageView ivResCategorie = (ImageView) row.findViewById(R.id.iv_res_categorie);
+                switch (image) {
+                    case "Surgelés":
+                        ivResCategorie.setImageResource(R.drawable.map_surgele);
+                        break;
+                    case "Fruits et Légumes":
+                        ivResCategorie.setImageResource(R.drawable.map_fruit_legume);
+                        break;
+                    case "Boulangerie":
+                        ivResCategorie.setImageResource(R.drawable.map_boulangerie);
+                        break;
+                    case "Produits laitiers":
+                        ivResCategorie.setImageResource(R.drawable.map_laitier);
+                        break;
+                    case "Viandes":
+                        ivResCategorie.setImageResource(R.drawable.map_viande);
+                        break;
+                    case "Non Périssable":
+                        ivResCategorie.setImageResource(R.drawable.map_non_perissable);
+                        break;
+                    default:
+                        ivResCategorie.setImageResource(R.drawable.map_non_comestible);
+                        break;
+                }
+
+                // Assigner les valeurs nom, description, quantités, unité et ajouter deux ImageButton par
+                // rangée selon le nombre d'items contenus dans l'ArrayList.
+                ((TextView) row.findViewById(R.id.tv_res_nom_marchandise)).setText(modele.getNom());
+                ((TextView) row.findViewById(R.id.tv_res_description)).setText(modele.getDescription());
+                ((TextView) row.findViewById(R.id.tv_res_qtee_marchandise)).setText(modele.getQuantiteString());
+
+                // Affiche la date de péremption.
+                if (modele.getDatePeremption() != null) {
+                    DateFormat format = android.text.format.DateFormat.getLongDateFormat(this.activity);
+                    String date = format.format(modele.getDatePeremption());
+                    ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setText(date);
+                } else {
+                    ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setVisibility(View.INVISIBLE);
+                }
+
+                //FIXME: Arranger bouton supprimer réservation et collecte, afin de les faires fonctionner
                 break;
             default:
                 break;
