@@ -121,6 +121,6 @@
 			android:textAlignment="center"
 			android:textColor="#555951"
 			android:textSize="20sp" />
-        
+
 	</RelativeLayout>
 </android.support.v4.widget.NestedScrollView>
