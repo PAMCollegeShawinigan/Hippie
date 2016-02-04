@@ -7,13 +7,11 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.DisplayMetrics;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -22,8 +20,8 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -50,15 +48,18 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                                             ObservateurDeDepot<OrganismeModele>,
                                                             OnMarkerClickListener {
 
-    private static class PrepareMarkerAsyncTask
-            extends AsyncTask<OrganismeModele, MarkerOptions, Void> {
+    private static final class PrepareMarkerAsyncTask
+            extends AsyncTask<OrganismeModele, MarkerOptions, LatLngBounds.Builder> {
 
         private final MapsActivity activity;
-        LatLngBounds.Builder builder = LatLngBounds.builder();
 
         public PrepareMarkerAsyncTask(@NonNull MapsActivity activity) {
             super();
             this.activity = activity;
+        }
+
+        public static PrepareMarkerAsyncTask newInstance(MapsActivity activity) {
+            return new PrepareMarkerAsyncTask(activity);
         }
 
         @Override
@@ -69,7 +70,23 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         }
 
         @Override
-        protected Void doInBackground(OrganismeModele... organismes) {
+        protected LatLngBounds.Builder doInBackground(OrganismeModele... organismes) {
+            if ((this.isCancelled()) || (organismes.length == 0)) {
+                return null;
+            }
+            synchronized (this.activity.mapLock) {
+                while (this.activity.map == null) {
+                    if (this.isCancelled()) {
+                        return null;
+                    }
+                    try {
+                        this.activity.mapLock.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            LatLngBounds.Builder boundsBuilder = LatLngBounds.builder();
             for (OrganismeModele organisme : organismes) {
                 if (this.isCancelled()) {
                     break;
@@ -80,22 +97,15 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                     MarkerOptions marker = new MarkerOptions().position(point)
                                                               .title(organisme.getNom());
                     this.publishProgress(marker);
-                    this.builder.include(point);
+                    boundsBuilder.include(point);
                 }
             }
-            return null;
+            return boundsBuilder;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            if ((this.activity.lastKnownLocation != null) && (this.builder != null)) {
-                LatLng lastKnownLocationPoint =
-                        new LatLng(this.activity.lastKnownLocation.getLatitude(),
-                                   this.activity.lastKnownLocation.getLongitude()
-                        );
-                this.builder.include(lastKnownLocationPoint);
-            }
-            LatLngBounds bounds = (this.builder != null) ? this.builder.build() : null;
+        protected void onPostExecute(LatLngBounds.Builder boundsBuilder) {
+            LatLngBounds bounds = (boundsBuilder != null) ? boundsBuilder.build() : null;
             CameraUpdate cameraUpdate = null;
             this.activity.cacherLaProgressbar();
             if (this.activity.lastKnownLocation != null) {
@@ -109,43 +119,37 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                                         .build();
                 cameraUpdate = CameraUpdateFactory.newCameraPosition(position);
             } else if (bounds != null) {
-                Float padding = 30.0f;
-                TypedValue outValue = new TypedValue();
-                if (this.activity.getTheme()
-                                 .resolveAttribute(R.attr.actionBarSize, outValue, true)) {
-                    DisplayMetrics metrics = new DisplayMetrics();
-                    metrics.setToDefaults();
-                    padding = outValue.getDimension(metrics);
+                int width = this.activity.mapView.getWidth();
+                int height = this.activity.mapView.getHeight();
+                int padding = 30;
+                ActionBar actionBar = this.activity.getSupportActionBar();
+                if (actionBar != null) {
+                    padding = actionBar.getHeight();
                 }
-
-                cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds,
-                                                                   this.activity.mapView.getWidth(),
-                                                                   this.activity.mapView
-                                                                           .getHeight(),
-                                                                   padding.intValue()
-                                                                  );
+                cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
             }
             if (cameraUpdate != null) {
                 this.activity.map.animateCamera(cameraUpdate);
             }
+            this.activity.prepareMarkerAsyncTask = null;
         }
 
         @Override
         protected void onProgressUpdate(MarkerOptions... markers) {
-            for (MarkerOptions marker : markers) {
-                this.activity.map.addMarker(marker);
-            }
+            this.activity.map.addMarker(markers[0]);
         }
     }
 
     private static final String TAG = MapsActivity.class.getSimpleName();
+    private final Object mapLock = new Object();
     private volatile ArrayList<OrganismeModele> listOrganisme = new ArrayList<>();
     private SlidingUpPanelLayout slidingLayout;
     private ExpandableListView expandableListView;
-    private GoogleMap map;
-    private Location lastKnownLocation;
-    private RelativeLayout mapView;
+    private volatile GoogleMap map;
+    private volatile Location lastKnownLocation;
+    private MapView mapView;
     private CarteAdapterOption adapter;
+    private AsyncTask prepareMarkerAsyncTask;
 
     /**
      * preparer la carte google et des donnees.
@@ -156,14 +160,16 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_maps_plus);
+        this.mapView = ((MapView) this.findViewById(R.id.map));
+        this.mapView.onCreate(savedInstanceState);
         this.slidingLayout = (SlidingUpPanelLayout) this.findViewById(R.id.sliding_layout);
         this.slidingLayout.setAnchorPoint(0.6f);
+        this.slidingLayout.setVisibility(View.GONE);
         this.expandableListView = (ExpandableListView) this.findViewById(R.id.expandableListView);
         this.adapter = new CarteAdapterOption(this);
         this.expandableListView.setAdapter(this.adapter);
         // mettre le listener pour le click de group de l'expandablelistview
         this.expandableListView.setOnGroupClickListener(this);
-        this.mapView = (RelativeLayout) this.findViewById(R.id.mapView);
         this.slidingLayout.setPanelSlideListener(this);
         // FIXME: Checker dans this.getIntent().getExtras() pour afficher les bonnes listes.
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -186,13 +192,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
+        this.mapView.onResume();
         OrganismeModeleDepot organismeModeleDepot =
                 ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
         AlimentaireModeleDepot alimentaireModeleDepot =
@@ -205,6 +207,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     @Override
     protected void onPause() {
         super.onPause();
+        this.mapView.onPause();
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         OrganismeModeleDepot organismeModeleDepot =
@@ -213,7 +216,33 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         organismeModeleDepot.supprimerTousLesObservateurs();
         alimentaireModeleDepot.setFiltreDeListe(null);
         alimentaireModeleDepot.supprimerTousLesObservateurs();
+        if (this.prepareMarkerAsyncTask != null) {
+            this.prepareMarkerAsyncTask.cancel(true);
+        }
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.mapView.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        this.mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        this.mapView.onLowMemory();
     }
 
     /**
@@ -222,9 +251,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        this.map = googleMap;
-        PrepareMarkerAsyncTask task = new PrepareMarkerAsyncTask(this);
-        task.execute(this.listOrganisme.toArray(new OrganismeModele[this.listOrganisme.size()]));
+        synchronized (this.mapLock) {
+            this.map = googleMap;
+            this.mapLock.notifyAll();
+        }
         this.map.setMyLocationEnabled(true);
         this.map.setBuildingsEnabled(true);
         this.map.getUiSettings().setMapToolbarEnabled(false);
@@ -237,6 +267,8 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         if (!parent.isGroupExpanded(groupPosition)) {
             parent.expandGroup(groupPosition);
             this.slidingLayout.setPanelState(PanelState.ANCHORED);
+        } else if (this.slidingLayout.getPanelState() == PanelState.ANCHORED) {
+            this.slidingLayout.setPanelState(PanelState.EXPANDED);
         } else {
             parent.collapseGroup(groupPosition);
             this.slidingLayout.setPanelState(PanelState.COLLAPSED);
@@ -268,7 +300,6 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         } catch (Exception ex) {
             Log.e(TAG, "Erreur au géocoding", ex);
         }
-
         return null;
     }
 
@@ -323,15 +354,16 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     @Override
     public void surChangementDeDonnees(ArrayList<OrganismeModele> modeles) {
         this.listOrganisme = modeles;
-        SupportMapFragment mapFragment = (SupportMapFragment) this.getSupportFragmentManager()
-                                                                  .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
+        OrganismeModele[] array = modeles.toArray(new OrganismeModele[modeles.size()]);
+        this.prepareMarkerAsyncTask = PrepareMarkerAsyncTask.newInstance(this)
+                                                            .execute(array);
     }
 
     @Override
     public void surFinDeRequete() {
-
+        if (this.map == null) {
+            this.mapView.getMapAsync(this);
+        }
     }
 
     @Override
@@ -374,6 +406,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
 
     @Override
     public void onPanelHidden(View view) {
+
     }
 
     @Override

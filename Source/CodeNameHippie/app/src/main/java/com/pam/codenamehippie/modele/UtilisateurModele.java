@@ -64,6 +64,20 @@ public class UtilisateurModele extends BaseModele<UtilisateurModele> {
         return this;
     }
 
+    public String getNomComplet() {
+        StringBuilder resultat = new StringBuilder(50);
+        if (this.prenom != null) {
+            resultat.append(this.prenom);
+        }
+        if (this.nom != null) {
+            if (this.prenom != null) {
+                resultat.append(" ");
+            }
+            resultat.append(this.nom);
+        }
+        return resultat.toString();
+    }
+
     public String getTelephone() {
         return this.telephone;
     }
