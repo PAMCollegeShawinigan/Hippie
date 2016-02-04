@@ -127,7 +127,7 @@
     <string name="tv_aide_titre_statistiques">Statistics</string>
     <string name="tv_aide_titre_profil">Profile</string>
     <string name="tv_list_aide_group">PlaceHolder</string>
-    <string name="tv_list_aide_detail">PlaceHolder</string<
+    <string name="tv_list_aide_detail">PlaceHolder</string>
 
     <!-- Ressource pour la page profil-->
     <string name="tv_profil_name">PROFILE</string>
