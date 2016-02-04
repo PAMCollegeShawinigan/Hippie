@@ -6,6 +6,7 @@ import android.widget.ListView;
 
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.http.exception.HttpReponseException;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
@@ -83,6 +84,18 @@ public class ListeMesReservationsActivity extends HippieActivity
     @Override
     public void surErreur(IOException e) {
         // TODO: Faire un toast.
-        Log.e(TAG, "Requête échouée", e);
+        if (e instanceof HttpReponseException) {
+            Integer code = ((HttpReponseException) e).getCode();
+            switch (code) {
+                case 409:
+                    Log.e(TAG, "Conflit: déjà reservé", e);
+                    break;
+                default:
+                    Log.e(TAG, "code d'erreur:" + code, e);
+                    break;
+            }
+        } else {
+            Log.e(TAG, "Requête échouée", e);
+        }
     }
 }

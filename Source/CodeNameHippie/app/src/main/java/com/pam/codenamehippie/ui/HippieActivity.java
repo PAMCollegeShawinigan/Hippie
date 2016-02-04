@@ -3,6 +3,9 @@ package com.pam.codenamehippie.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
@@ -10,9 +13,11 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -22,10 +27,8 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.http.Authentificateur;
-import com.pam.codenamehippie.modele.UtilisateurModele;
 
 import okhttp3.OkHttpClient;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
@@ -39,14 +42,17 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
     protected OkHttpClient httpClient;
     protected SharedPreferences sharedPreferences;
     protected ViewSwitcher viewSwitcher;
+    protected TextView progressBarTextView;
     protected ProgressBar progressBar;
     protected GoogleApiClient googleApiClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
         this.authentificateur = ((Authentificateur) this.httpClient.authenticator());
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
     }
 
     @Override
@@ -55,6 +61,18 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
             this.googleApiClient.connect();
         }
         super.onStart();
+        ConnectivityManager connectivityManager =
+                ((ConnectivityManager) this.getSystemService(CONNECTIVITY_SERVICE));
+        if (connectivityManager != null) {
+            NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+            if (((activeNetwork != null) && !activeNetwork.isConnected()) ||
+                (activeNetwork == null)) {
+                WifiManager wifiManager = ((WifiManager) this.getSystemService(WIFI_SERVICE));
+                if (((wifiManager != null) && !wifiManager.isWifiEnabled())) {
+                    wifiManager.setWifiEnabled(true);
+                }
+            }
+        }
     }
 
     @Override
@@ -112,7 +130,7 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
             case R.id.menu_aide:
                 if (!this.getClass().equals(AideActivity.class)) {
                     this.startActivity(new Intent(this,
-                            AideActivity.class
+                                                  AideActivity.class
                     ));
                 }
                 return true;
@@ -149,8 +167,8 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
             this.viewSwitcher.setInAnimation(this, android.R.anim.fade_in);
             this.viewSwitcher.setOutAnimation(this, android.R.anim.fade_out);
         }
-
         this.progressBar = ((ProgressBar) this.findViewById(R.id.main_progress));
+        this.progressBarTextView = ((TextView) this.findViewById(R.id.tv_main_progress));
     }
 
     /**
@@ -197,7 +215,7 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
+        Log.d("Connection", "Google client failed to connect" + connectionResult.getErrorMessage());
     }
 
     @Override
