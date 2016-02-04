@@ -12,21 +12,52 @@ class Connection extends Controller
     {
         include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
 	
-	$req = $bdd->prepare('SELECT * FROM utilisateur WHERE courriel = :courriel AND mot_de_passe = :mdp');
+	$req = $bdd->prepare('SELECT  adr.adresse_id, 
+								  adr.no_civique, 
+								  typrue.description_type_rue,
+								  adr.type_rue,
+								  adr.nom,
+								  adr.app,
+								  adr.ville,
+								  adr.province,
+								  adr.code_postal,
+								  adr.pays,
+								  util.utilisateur_id,
+								  util.nom,
+								  util.prenom,
+								  util.courriel,
+								  util.telephone,
+								  util.moyen_contact,
+								  org.organisme_id,
+								  org.nom,
+								  org.adresse,
+								  org.telephone,
+								  org.poste,
+								  org.utilisateur_contact,
+								  org.no_entreprise,
+								  org.no_osbl
+								FROM organisme org
+								INNER JOIN utilisateur util ON util.organisme_id = org.organisme_id
+								INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+								INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+								WHERE util.courriel = :courriel 
+								AND util.mot_de_passe = :mdp');
 			$req->execute(array(
 				'courriel' => $_POST['courriel'],
 					'mdp' => $_POST['mot_de_passe'])); 
 
 				$resultat = $req->fetch();
 	
-	if($resultat){ //si il y a un resultat c'est que le nom_utilisateur et mot_de_passe sont correct
-		//session_start();
-		//$_SESION['id'] = $resultat['utilisateur_id'];
+	if($resultat){
+				//si il y a un resultat c'est que le nom_utilisateur et mot_de_passe sont correct
 		
-		$organisme = array('id' => $resultat['organisme_id']);
+		$adresse = array('id' => $resultat[0], 'no_civique' => $resultat[1], 'type_rue' => $resultat[2], 'nom' => $resultat[4], 'app' => $resultat[5], 'ville' => $resultat[6], 'province' => $resultat[7], 'code_postal' => $resultat[8], 'pays' =>$resultat[9]);
+
 		
-		$arr = array('id' => $resultat['utilisateur_id'],'nom' => $resultat['nom'], 'prenom' => $resultat['prenom'], 'telephone' => $resultat['telephone'], 'moyen_contact' => $resultat['moyen_contact'],
-					'courriel' => $resultat['courriel'], 'organisme' => $organisme);
+		$organisme = array('id' => $resultat[16], 'nom' => $resultat[17], 'telephone' => $resultat[19], 'poste' => $resultat[20], 'no_entreprise' => $resultat[22], 'no_osbl' => $resultat[23], 'adresse' => $adresse );
+		
+		$arr = array('id' => $resultat[10],'nom' => $resultat[11], 'prenom' => $resultat[12], 'telephone' => $resultat[14], 'moyen_contact' => $resultat[15],
+					'courriel' => $resultat[13], 'organisme' => $organisme);
 	
 	return response(json_encode($arr),200);
 	}
