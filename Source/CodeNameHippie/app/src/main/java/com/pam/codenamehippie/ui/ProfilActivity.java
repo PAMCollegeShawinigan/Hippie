@@ -74,15 +74,15 @@ public class ProfilActivity extends HippieActivity implements ObservateurDeDepot
         ((TextView) findViewById(R.id.tv_profil)).setText(R.string.tv_profil_name);
         ((TextView) findViewById(R.id.tv_profil_contact_name_placeholder)).setText(utilisateur.getNom());
         ((TextView) findViewById(R.id.tv_profil_email_placeholder)).setText(utilisateur.getCourriel());
-        ((TextView) findViewById(R.id.tv_profil_phone_placeholder)).setText(utilisateur.getTelephone());
+        ((TextView) findViewById(R.id.tv_profil_phone_placeholder)).setText(utilisateur.getFormattedTelephone());
 //        ((TextView) findViewById(R.id.tv_profil_moyen_contact_placeholder)).setText(utilisateur.getMoyenContact().toString());
         ((TextView) findViewById(R.id.tv_enterprise_section)).setText(R.string.tv_entreprise_section);
         ((TextView) findViewById(R.id.tv_profil_nom_entreprise_placeholder)).setText(
                 utilisateur.getOrganisme().getNom());
-//        ((TextView) findViewById(R.id.tv_profil_adresse_placeholder)).setText(
-//              adresse.getNoCivique()+""+adresse.getTypeRue()+""+adresse.getNom()
-//                      +","+adresse.getVille()+","+adresse.getProvince()+","+adresse.getPays()
-//        +","+adresse.getFormattedCodePostal());
+        ((TextView) findViewById(R.id.tv_profil_adresse_placeholder)).setText(
+              adresse.getNoCivique()+""+adresse.getTypeRue()+""+adresse.getNom()
+                      +","+adresse.getVille()+","+adresse.getProvince()+","+adresse.getPays()
+        +","+adresse.getFormattedCodePostal());
         ((TextView) findViewById(R.id.tv_profil_phone2_placeholder)).setText(utilisateur.getOrganisme().getFormattedTelephone());
         ((TextView) findViewById(R.id.tv_profil_osbl_placeholder)).setText(utilisateur.getOrganisme().getNoOsbl());
         ((TextView) findViewById(R.id.tv_profil_neq_placeholder)).setText(utilisateur.getOrganisme().getNoEntreprise());
