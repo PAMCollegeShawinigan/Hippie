@@ -23,7 +23,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
     @SerializedName("marchandise_etat")
     private String etat;
     @SerializedName("valeur")
-    private Integer valeur = 0;
+    private Long valeur = 0L;
     @SerializedName("marchandise_statut")
     private String statut;
     @SerializedName("organisme")
@@ -95,12 +95,12 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return (T) this;
     }
 
-    public Integer getValeur() {
+    public Long getValeur() {
         return this.valeur;
     }
 
     @SuppressWarnings(value = {"unchecked"})
-    public T setValeur(Integer valeur) {
+    public T setValeur(Long valeur) {
         this.valeur = valeur;
         return (T) this;
     }
