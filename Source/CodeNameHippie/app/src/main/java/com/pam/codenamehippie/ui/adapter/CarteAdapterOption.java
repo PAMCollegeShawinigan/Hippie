@@ -53,7 +53,8 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                 ((HippieApplication) activity.getApplication()).getAlimentaireModeleDepot();
         this.viewSwitcher = ((ViewSwitcher) this.activity.findViewById(R.id.panel_view_switcher));
         if (this.viewSwitcher != null) {
-
+            this.viewSwitcher.setInAnimation(this.activity, android.R.anim.fade_in);
+            this.viewSwitcher.setOutAnimation(this.activity, android.R.anim.fade_out);
         }
     }
 
