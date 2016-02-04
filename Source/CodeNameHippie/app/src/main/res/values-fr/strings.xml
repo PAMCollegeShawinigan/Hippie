@@ -148,6 +148,28 @@
     <string name="tv_profil_adresse">Addresse :</string>
     <string name="btn_edit_password">MODIFIER LE MOT DE PASSE</string>
 
+    <!-- Ressource pour les catégories-->
+    <string name="cat_boulangerie">Boulangeries</string>
+    <string name="cat_fruits_et_legumes">Fruits et Légumes</string>
+    <string name="cat_Produits_laitiers">Produits laitiers</string>
+    <string name="cat_viandes">Viandes</string>
+    <string name="cat_surgelés">Surgelés</string>
+    <string name="cat_non_périssable">Non-périssable</string>
+    <string name="cat_non_comestible">Non-comestible</string>
+
+    <!-- Ressource pour la page statistiques-->
+    <string name="stats_pile">Empilées</string>
+    <string name="stats_cote_a_cote">Côtes à côtes</string>
+    <string name="stats_superrposes">Superposées</string>
+    <string name="stats_nbr_affichage_10">10</string>
+    <string name="stats_nbr_affichage_20">20</string>
+    <string name="stats_nbr_affichage_60">60</string>
+    <string name="stats_largeur_fixe">Largeur fixe</string>
+    <string name="stats_largeur_variable">Largeur variable</string>
+    <string name="stats_titre_graphique">Répartition de la valeur des denrées par catégorie selon les donneurs</string>
+    <string name="stats_axe_y">Valeur des dons </string>
+    <string name="stats_axe_x">Entreprises</string>
+
 
     <!-- Autres ressources-->
     <string name="loading">Un moment s\'il-vous-plaît.</string>
