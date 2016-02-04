@@ -31,10 +31,4 @@
 		android:icon="@drawable/aide"
 		android:title="@string/tv_aide_titre_entete"
 		android:orderInCategory="4"/>
-
-	<!-- TODO: À effacer lorsque ce sera fini, cet item est utilisé à des fins de tests seulement -->
-	<item
-		android:id="@+id/menu_marchandise_disponible"
-		android:title="Liste des marchandises disponibles"
-		android:orderInCategory="1"/>
 </menu>
