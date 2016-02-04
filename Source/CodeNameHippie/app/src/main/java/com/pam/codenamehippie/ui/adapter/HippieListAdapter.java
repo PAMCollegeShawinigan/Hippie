@@ -108,8 +108,7 @@ public class HippieListAdapter extends BaseAdapter {
         ((TextView) row.findViewById(R.id.tv_dons_nom_marchandise)).setText(modele.getNom());
         ((TextView) row.findViewById(R.id.tv_dons_description_marchandise))
                 .setText(modele.getDescription());
-        String quantiteString = modele.getQuantite().toString() + " " + modele.getUnite();
-        ((TextView) row.findViewById(R.id.tv_dons_qtee_marchandise)).setText(quantiteString);
+        ((TextView) row.findViewById(R.id.tv_dons_qtee_marchandise)).setText(modele.getQuantiteString());
         ImageButton ibDonSupprimer = (ImageButton) row.findViewById(R.id.ib_don_supprimer);
         ImageButton ibDonModifier = (ImageButton) row.findViewById(R.id.ib_dons_modifier);
 
@@ -125,7 +124,7 @@ public class HippieListAdapter extends BaseAdapter {
                 bundle.putString("nom", modele.getNom());
                 bundle.putString("description", modele.getDescription());
                 bundle.putString("quantite", modele.getQuantite().toString());
-                bundle.putString("unite", modele.getUnite());
+                bundle.putString("unite", modele.getUniteDeQuantite());
                 bundle.putString("valeur", modele.getValeur().toString());
                 bundle.putString("typeAlimentaire", modele.getTypeAlimentaire());
                 bundle.putInt("id", modele.getId());

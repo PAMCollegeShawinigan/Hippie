@@ -1,20 +1,27 @@
 package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.support.annotation.LayoutRes;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
+import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
-import com.pam.codenamehippie.ui.view.trianglemenu.TestDonneeCentre;
+import com.pam.codenamehippie.modele.UtilisateurModele;
+import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
+import com.pam.codenamehippie.ui.HippieActivity;
 
+import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
 
 /**
@@ -24,85 +31,86 @@ import java.util.ArrayList;
  * groupview
  * pour les voir.
  */
-public class CarteAdapterOption extends BaseExpandableListAdapter {
+public class CarteAdapterOption extends BaseExpandableListAdapter
+        implements ObservateurDeDepot<AlimentaireModele> {
 
-    Context context;
-    OrganismeModele mOrganisme;
-    ArrayList<AlimentaireModele> listedon = new ArrayList<>();
-    int viewID;
+    /**
+     * Nombre de child view destinées à afficher les info de l'organisme
+     */
+    private static final int ORGANISME_INFO_CHILD_COUNT = 1;
+    private final HippieActivity activity;
+    private final AlimentaireModeleDepot alimentaireModeleDepot;
+    private final ViewSwitcher viewSwitcher;
+    private final LayoutInflater inflater;
+    private volatile ArrayList<AlimentaireModele> listedon = new ArrayList<>();
+    private OrganismeModele organisme;
 
-    public CarteAdapterOption(Context context,
-                              OrganismeModele mOrganisme,
-                              ArrayList<AlimentaireModele> listedon,
-                              int viewID) {
-        this.context = context;
-        this.mOrganisme = mOrganisme;
-        this.listedon = listedon;
-        this.viewID = viewID;
+    public CarteAdapterOption(HippieActivity activity) {
+        this.activity = activity;
+        this.inflater =
+                ((LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+        this.alimentaireModeleDepot =
+                ((HippieApplication) activity.getApplication()).getAlimentaireModeleDepot();
+        this.viewSwitcher = ((ViewSwitcher) this.activity.findViewById(R.id.panel_view_switcher));
+        if (this.viewSwitcher != null) {
+            this.viewSwitcher.setInAnimation(this.activity, android.R.anim.fade_in);
+            this.viewSwitcher.setOutAnimation(this.activity, android.R.anim.fade_out);
+        }
+    }
+
+    public ArrayList<AlimentaireModele> getListedon() {
+        return this.listedon;
+    }
+
+    public void setOrganisme(OrganismeModele organisme) {
+        this.organisme = organisme;
+        Log.d("ORG", this.organisme.toString());
+        this.listedon.clear();
+        this.notifyDataSetChanged();
+        this.alimentaireModeleDepot.peuplerListeDon(this.organisme.getId());
     }
 
     @Override
     public int getGroupCount() {
-        return 1 + listedon.size();
+        return (this.organisme != null) ? 1 : 0;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        int count;
-        if (groupPosition == 0) {
-            count = 2;
-        } else {
-            count = 1;
+        int count = 0;
+        if (this.organisme != null) {
+            count += ORGANISME_INFO_CHILD_COUNT;
         }
-
+        if ((this.listedon != null) && (!this.listedon.isEmpty())) {
+            count += this.listedon.size();
+        }
         return count;
     }
 
     @Override
-    public Object getGroup(int groupPosition) {
-        Object info;
-        if (groupPosition == 0) {
-            info = mOrganisme.getNom();
-        } else {
-
-            info = listedon.get(groupPosition - 2);
-        }
-
-        return info;
+    public OrganismeModele getGroup(int groupPosition) {
+        // On fait comme si on avait une liste d'un seul objet qui lance pas d'exception.
+        // Vu qu'on gère juste un organisme à la fois, il me semble…
+        return ((this.organisme != null) && (groupPosition == 0)) ? this.organisme : null;
 
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosition) {
-        Object info = null;
-
-        if (groupPosition == 0) {
-
-            switch (childPosition) {
-                case 0:
-                    info = mOrganisme.getAdresse();
-                    break;
-                case 1:
-                    info = mOrganisme.getTelephone();
-                    break;
-            }
-
-        } else {
-
-            info = listedon.get(groupPosition - 2).getDescription();
-
-        }
-        return info;
+    public AlimentaireModele getChild(int groupPosition, int childPosition) {
+        int pos = (childPosition == 0) ? 0 : childPosition - ORGANISME_INFO_CHILD_COUNT;
+        return (!this.listedon.isEmpty()) ? this.listedon.get(pos) : null;
     }
 
     @Override
     public long getGroupId(int groupPosition) {
-        return groupPosition;
+        OrganismeModele modele = this.getGroup(groupPosition);
+        return (modele != null) ? modele.getId() : groupPosition;
     }
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
+        AlimentaireModele modele = this.getChild(groupPosition, childPosition);
+        return (modele != null) ? modele.getId() : childPosition;
     }
 
     @Override
@@ -116,141 +124,114 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
                              View convertView,
                              ViewGroup parent) {
 
-        LinearLayout layout1 = new LinearLayout(context);
-        layout1.setOrientation(LinearLayout.HORIZONTAL);
-
-        ImageView logo = new ImageView(context);
-        logo.setMinimumWidth(300);
-
-        TextView textView = new TextView(context);
-        textView.setTextColor(Color.BLACK);
-        textView.setTextSize(20);
-        textView.setPadding(15, 15, 15, 15);
-
-        if (groupPosition == 0) {
-
-            logo.setImageResource(R.drawable.adresse);
-
-            textView.setText(mOrganisme.getAdresse().toFormattedString());
-            layout1.addView(logo);
-            layout1.addView(textView);
-
-        } else {
-
-            String typeDenree = listedon.get(groupPosition - 2).getTypeAlimentaire();
-
-            if ((typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.fruit_legume))) {
-                logo.setImageResource(R.drawable.map_fruit_legume);
-            } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.viande)) {
-                logo.setImageResource(R.drawable.map_viande);
-            } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.laitier)) {
-                logo.setImageResource(R.drawable.map_laitier);
-            } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.surgele)) {
-                logo.setImageResource(R.drawable.map_surgele);
-            } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.non_comestible)) {
-                logo.setImageResource(R.drawable.map_non_comestible);
-            } else if (typeDenree.equals(TestDonneeCentre.Denree.TypeDenree.boulangerie)) {
-                logo.setImageResource(R.drawable.map_boulangerie);
-            } else {
-                logo.setImageResource(R.drawable.map_non_perissable);
-            }
-
-            logo.setMinimumWidth(300);
-
-            TextView textView1 = new TextView(context);
-            textView1.setTextColor(Color.BLACK);
-            textView1.setTextSize(20);
-            textView1.setWidth(200);
-            textView1.setPadding(5, 17, 5, 17);
-            textView1.setText(listedon.get(groupPosition - 2).getNom());
-
-            TextView textView2 = new TextView(context);
-            textView2.setTextColor(Color.BLACK);
-            textView2.setTextSize(20);
-            textView2.setWidth(200);
-            textView2.setPadding(0, 17, 5, 17);
-            textView2.setText(listedon.get(groupPosition - 2).getQuantite() +
-                              listedon.get(groupPosition - 2).getUnite());
-
-            TextView textView4 = new TextView(context);
-            textView4.setTextColor(Color.BLACK);
-            textView4.setTextSize(20);
-            textView4.setWidth(400);
-            textView4.setPadding(65, 17, 5, 17);
-            textView4.setText((CharSequence) listedon.get(groupPosition - 2).getDatePeremption());
-            layout1.addView(logo);
-            layout1.addView(textView1);
-            layout1.addView(textView2);
-            layout1.addView(textView4);
+        View group = convertView;
+        if (group == null) {
+            group = this.inflater.inflate(R.layout.liste_organisme_group, parent, false);
         }
-
-        return layout1;
+        View v = group.findViewById(R.id.tv_org_nom_organisme);
+        if ((v != null) && (v instanceof TextView)) {
+            TextView textView = ((TextView) v);
+            textView.setText(this.organisme.getNom());
+        }
+        return group;
     }
 
     @Override
     public View getChildView(int groupPosition,
-                             final int childPosition,
+                             int childPosition,
                              boolean isLastChild,
                              View convertView,
                              ViewGroup parent) {
-
-        LinearLayout layout = new LinearLayout(context);
-        layout.setOrientation(LinearLayout.HORIZONTAL);
-        if (groupPosition == 0) {
-            ImageView logo = new ImageView(context);
-            logo.setMinimumWidth(300);
-            TextView textView = new TextView(context);
-            textView.setTextColor(Color.BLACK);
-            textView.setTextSize(20);
-            textView.setPadding(5, 17, 5, 5);
-
-            switch (childPosition) {
-                case 0:
-                    logo.setImageResource(R.drawable.trademarks);
-                    textView.setText(mOrganisme.getNom());
-                    break;
-                case 1:
-                    logo.setImageResource(R.drawable.telephone2);
-                    textView.setText(mOrganisme.getTelephone());
-                    break;
-            }
-
-            layout.addView(logo);
-            layout.addView(textView);
-
-        } else {
-
-            TextView textView1 = new TextView(context);
-            textView1.setTextColor(Color.BLACK);
-            textView1.setTextSize(20);
-            textView1.setWidth(1000);
-            textView1.setPadding(300, 17, 5, 17);
-            textView1.setText(listedon.get(groupPosition - 2).getDescription());
-
-            Button btn = new Button(context);
-            if (viewID == R.id.marchandiseDisponible || viewID == R.id.main_carte_image) {
-                btn.setText("Reserver");
-                btn.setBackgroundColor(Color.GREEN);
-            } else {
-                btn.setText("Annuler");
-                btn.setBackgroundColor(Color.RED);
-            }
-
-            btn.setPadding(5, 5, 5, 5);
-
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-
-            });
-            layout.addView(textView1);
-            layout.addView(btn);
-
+        View row = convertView;
+        @LayoutRes
+        int resId = (childPosition < ORGANISME_INFO_CHILD_COUNT)
+                    ? R.layout.liste_organisme_detail
+                    : R.layout.liste_marchandise_dispo_group;
+        if (row == null) {
+            row = this.inflater.inflate(resId, parent, false);
         }
+        AlimentaireModele modele = this.getChild(groupPosition, childPosition);
+        ;
+        switch (resId) {
+            case R.layout.liste_organisme_detail:
+                // Fait afficher l'adresse de l'entreprise
+                String addresse = this.organisme.getAdresse().toFormattedString();
+                ((TextView) row.findViewById(R.id.tv_org_adresse)).setText(addresse);
+                // Fait afficher le nom de la personne contact de l'entreprise
+                UtilisateurModele contact = this.organisme.getContact();
+                TextView textView = ((TextView) row.findViewById(R.id.tv_org_personne_contact));
+                if (textView != null) {
+                    if (contact != null) {
+                        ((View) textView.getParent()).setVisibility(View.VISIBLE);
+                        textView.setText(contact.getNomComplet());
+                    } else {
+                        ((View) textView.getParent()).setVisibility(View.GONE);
+                    }
+                }
+                textView = ((TextView) row.findViewById(R.id.tv_org_telephone));
+                if (textView != null) {
+                    if (contact != null) {
+                        ((View) textView.getParent()).setVisibility(View.VISIBLE);
+                        textView.setText(this.organisme.getFormattedTelephone());
+                    } else {
+                        ((View) textView.getParent()).setVisibility(View.GONE);
+                    }
+                }
+                break;
+            case R.layout.liste_marchandise_dispo_group:
+                if (modele != null) {
+                    // Fait afficher l'icône correspondant au bon type alimentaire à côté du texte
+                    String image = modele.getTypeAlimentaire();
+                    ImageView ivResCategorie =
+                            (ImageView) row.findViewById(R.id.iv_md_categorie);
+                    switch (image) {
+                        case "Surgelés":
+                            ivResCategorie.setImageResource(R.drawable.map_surgele);
+                            break;
+                        case "Fruits et Légumes":
+                            ivResCategorie.setImageResource(R.drawable.map_fruit_legume);
+                            break;
+                        case "Boulangerie":
+                            ivResCategorie.setImageResource(R.drawable.map_boulangerie);
+                            break;
+                        case "Produits laitiers":
+                            ivResCategorie.setImageResource(R.drawable.map_laitier);
+                            break;
+                        case "Viandes":
+                            ivResCategorie.setImageResource(R.drawable.map_viande);
+                            break;
+                        case "Non Périssable":
+                            ivResCategorie.setImageResource(R.drawable.map_non_perissable);
+                            break;
+                        default:
+                            ivResCategorie.setImageResource(R.drawable.map_non_comestible);
+                            break;
+                    }
+                    // Affiche le nom de la marchandise
+                    ((TextView) row.findViewById(R.id.tv_md_nom_marchandise)).setText(modele.getNom());
+                    // Affiche la description de la marchandise
+                    ((TextView) row.findViewById(R.id.tv_md_description)).setText(modele.getDescription());
 
-        return layout;
+                    // On affiche la quantité + l'unité de la marchandise
+                    ((TextView) row.findViewById(R.id.tv_md_qtee_marchandise)).setText(modele.getQuantiteString());
+
+                    // Affiche la date de péremption, quand c'est valable.
+                    if (modele.getDatePeremption() != null) {
+                        DateFormat format =
+                                android.text.format.DateFormat.getLongDateFormat(this.activity);
+                        String date = format.format(modele.getDatePeremption());
+                        ((TextView) row.findViewById(R.id.tv_md_date_marchandise)).setText(date);
+                    } else {
+                        row.findViewById(R.id.tv_md_date_marchandise)
+                           .setVisibility(View.INVISIBLE);
+                    }
+                    row.findViewById(R.id.ib_md_ajouter).setFocusable(false);
+                }
+                break;
+            default:
+                break;
+        }
+        return row;
     }
 
     @Override
@@ -260,17 +241,16 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
 
     @Override
     public boolean areAllItemsEnabled() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return (this.getGroupCount() != 0);
     }
 
     @Override
     public void onGroupExpanded(int groupPosition) {
-
     }
 
     @Override
@@ -280,11 +260,36 @@ public class CarteAdapterOption extends BaseExpandableListAdapter {
 
     @Override
     public long getCombinedChildId(long groupId, long childId) {
-        return 0;
+        return groupId + childId;
     }
 
     @Override
     public long getCombinedGroupId(long groupId) {
-        return 0;
+        return groupId;
+    }
+
+    @Override
+    public void surDebutDeRequete() {
+        if (this.viewSwitcher != null) {
+            this.viewSwitcher.showNext();
+        }
+    }
+
+    @Override
+    public void surChangementDeDonnees(ArrayList<AlimentaireModele> modeles) {
+        this.listedon = modeles;
+        this.notifyDataSetChanged();
+    }
+
+    @Override
+    public void surFinDeRequete() {
+        if (this.viewSwitcher != null) {
+            this.viewSwitcher.showPrevious();
+        }
+    }
+
+    @Override
+    public void surErreur(IOException e) {
+
     }
 }
