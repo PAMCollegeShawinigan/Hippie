@@ -8,13 +8,12 @@ import com.google.gson.annotations.SerializedName;
 public class TypeAlimentaireModele extends DescriptionModel {
 
     @SerializedName("perissable")
-    private Integer estPerissable = 0;
+    protected Boolean estPerissable = false;
 
     /**
-     *
      * @return true si le produit est périssable
      */
     public Boolean getEstPerissable() {
-        return !this.estPerissable.equals(0);
+        return this.estPerissable;
     }
 }
