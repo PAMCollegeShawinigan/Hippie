@@ -201,6 +201,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         organismeModeleDepot.ajouterUnObservateur(this);
         alimentaireModeleDepot.ajouterUnObservateur(this.adapter);
+        this.peuplerListeOrganisme(organismeModeleDepot);
     }
 
     @Override
