@@ -11,11 +11,11 @@ import java.util.Date;
 public class AlimentaireModele extends MarchandiseModele<AlimentaireModele> {
 
     @SerializedName("type_alimentaire")
-    private String typeAlimentaire;
+    protected String typeAlimentaire;
     @SerializedName("date_peremption")
-    private Date datePeremption;
+    protected Date datePeremption;
     @SerializedName("date_reservation")
-    private Date dateReservation;
+    protected Date dateReservation;
 
     public Date getDateReservation() {return this.dateReservation;}
 
@@ -52,5 +52,33 @@ public class AlimentaireModele extends MarchandiseModele<AlimentaireModele> {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(this.dateReservation);
         return calendar;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof AlimentaireModele)) {
+            return false;
+        }
+        AlimentaireModele rhs = ((AlimentaireModele) o);
+        return (((this.id == null) ? (rhs.id == null) : this.id.equals(rhs.id)) &&
+                ((this.nom == null) ? (rhs.nom == null) : this.nom.equals(rhs.nom)) &&
+                ((this.description == null)
+                 ? (rhs.description == null)
+                 : this.description.equals(rhs.description)) &&
+                ((this.quantite == null)
+                 ? (rhs.quantite == null)
+                 : this.quantite.equals(rhs.quantite)));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 64;
+        hash = 32 * hash + this.id.hashCode();
+        hash = 32 * hash + this.nom.hashCode();
+        hash = 32 * hash + this.description.hashCode();
+        return hash;
     }
 }

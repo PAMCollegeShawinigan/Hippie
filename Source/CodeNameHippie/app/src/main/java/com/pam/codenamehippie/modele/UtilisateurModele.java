@@ -9,24 +9,22 @@ import java.util.Date;
  */
 public class UtilisateurModele extends BaseModele<UtilisateurModele> {
 
-    // blabla synchro
-
     @SerializedName("courriel")
-    private String courriel;
+    protected String courriel;
     @SerializedName("mot_de_passe")
-    private String motDePasse;
+    protected String motDePasse;
     @SerializedName("nom")
-    private String nom;
+    protected String nom;
     @SerializedName("prenom")
-    private String prenom;
+    protected String prenom;
     @SerializedName("telephone")
-    private String telephone;
+    protected String telephone;
     @SerializedName(value = "moyen_contact")
-    private Integer moyenContact;
+    protected Integer moyenContact;
     @SerializedName("organisme")
-    private OrganismeModele organisme;
+    protected OrganismeModele organisme;
     @SerializedName("dern_connexion")
-    private Date dernConnexion;
+    protected Date dernConnexion;
 
     public String getCourriel() {
         return this.courriel;
