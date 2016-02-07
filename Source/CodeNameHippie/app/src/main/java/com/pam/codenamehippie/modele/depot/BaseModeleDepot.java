@@ -239,6 +239,9 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *         un string formatté en JSON. représentant le modèle
      *
      * @return une instance du modèle.
+     *
+     * @throws JsonSyntaxException
+     *         Si le json n'est pas convertible en modèle
      */
     @SuppressWarnings("unchecked")
     public T fromJson(String json) throws JsonSyntaxException {
@@ -254,10 +257,17 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *         un reader de string formatté en JSON. représentant le modèle
      *
      * @return une instance du modèle ou null si le reader ne contient plus rien.
+     *
+     * @throws IOException
+     *         S'il y a eu un problème de lecture avec le reader
+     * @throws JsonIOException
+     *         S'il y a eu un problème de lecture de json avec le reader
+     * @throws JsonSyntaxException
+     *         Si le reader rencontre du JSON malformé.
      */
     @Nullable
     @SuppressWarnings("unchecked")
-    public T fromJson(JsonReader reader) throws IOException {
+    public T fromJson(JsonReader reader) throws IOException, JsonIOException, JsonSyntaxException {
         synchronized (this.lock) {
             JsonToken token = reader.peek();
             T result = null;
@@ -291,13 +301,15 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @return une instance du modèle.
      *
-     * @throws JsonSyntaxException
-     *         S'il y a eu une erreur de syntaxe avec le contenu du reader
+     * @throws IOException
+     *         S'il y a eu un problème de lecture avec le reader
      * @throws JsonIOException
-     *         S'il y a eu un problème avec le reader
+     *         S'il y a eu un problème de lecture de json avec le reader
+     * @throws JsonSyntaxException
+     *         Si le reader rencontre du JSON malformé.
      */
     @SuppressWarnings("unchecked")
-    public T fromJson(Reader reader) throws IOException {
+    public T fromJson(Reader reader) throws IOException, JsonIOException, JsonSyntaxException {
         return this.fromJson(new JsonReader(reader));
     }
 
