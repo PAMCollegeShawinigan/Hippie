@@ -16,4 +16,31 @@ public class TypeAlimentaireModele extends DescriptionModel {
     public Boolean getEstPerissable() {
         return this.estPerissable;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof TypeAlimentaireModele)) {
+            return false;
+        }
+        TypeAlimentaireModele rhs = (TypeAlimentaireModele) o;
+        return (((this.id == null) ? (rhs.id == null) : this.id.equals(rhs.id)) &&
+                ((this.description == null)
+                 ? (rhs.description == null)
+                 : this.description.equals(rhs.description)) &&
+                ((this.estPerissable == null)
+                 ? (rhs.estPerissable == null)
+                 : this.estPerissable.equals(rhs.estPerissable)));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 18;
+        hash = 31 * hash + this.id.hashCode();
+        hash = 31 * hash + this.description.hashCode();
+        hash = 31 * hash + this.estPerissable.hashCode();
+        return hash;
+    }
 }
