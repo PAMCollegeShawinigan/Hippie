@@ -96,6 +96,7 @@
                                 android:drawablePadding="5dp"
                                 android:text="@string/btn_edit_profile"
                                 android:textSize="10sp"
+                                android:onClick="surEditProfilClick"
                                 tools:ignore="MissingPrefix" />
 
                             <!-- Bouton pour modifier le mot de passe -->

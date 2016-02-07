@@ -380,19 +380,14 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                         // Le serveur retourne un array. Donc pour supporter un énorme array on
                         // utilise des streams.
                         JsonReader reader = new JsonReader(response.body().charStream());
-                        reader.beginObject();
-                        while (reader.hasNext()) {
-                            T modele = BaseModeleDepot.this.fromJson(reader);
-                            if (BaseModeleDepot.this.filtreDeListe != null) {
-                                if (BaseModeleDepot.this.filtreDeListe.appliquer(modele)) {
-                                    BaseModeleDepot.this.modeles.add(modele);
-                                }
-                            } else {
+                        T modele = BaseModeleDepot.this.fromJson(reader);
+                        if (BaseModeleDepot.this.filtreDeListe != null) {
+                            if (BaseModeleDepot.this.filtreDeListe.appliquer(modele)) {
                                 BaseModeleDepot.this.modeles.add(modele);
                             }
+                        } else {
+                            BaseModeleDepot.this.modeles.add(modele);
                         }
-                        reader.endObject();
-                        reader.close();
                     }
                     BaseModeleDepot.this.surChangementDeDonnees();
                 }
