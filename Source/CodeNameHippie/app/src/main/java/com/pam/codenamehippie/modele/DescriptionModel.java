@@ -37,8 +37,8 @@ public class DescriptionModel extends BaseModele<DescriptionModel> {
     @Override
     public int hashCode() {
         int hash = 17;
-        hash = 31 * hash + this.id.hashCode();
-        hash = 31 * hash + this.description.hashCode();
+        hash = (this.id != null) ? 31 * hash + this.id.hashCode() : hash;
+        hash = (this.description != null) ? 31 * hash + this.description.hashCode() : hash;
         return hash;
     }
 }

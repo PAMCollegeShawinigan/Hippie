@@ -38,9 +38,9 @@ public class TypeAlimentaireModele extends DescriptionModel {
     @Override
     public int hashCode() {
         int hash = 18;
-        hash = 31 * hash + this.id.hashCode();
-        hash = 31 * hash + this.description.hashCode();
-        hash = 31 * hash + this.estPerissable.hashCode();
+        hash = (this.id != null) ? 31 * hash + this.id.hashCode() : hash;
+        hash = (this.description != null) ? 31 * hash + this.description.hashCode() : hash;
+        hash = (this.estPerissable != null) ? 31 * hash + this.estPerissable.hashCode() : hash;
         return hash;
     }
 }

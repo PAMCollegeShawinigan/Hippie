@@ -173,14 +173,16 @@ public class AdresseModele extends BaseModele<AdresseModele> {
         return (((this.id == null) ? (rhs.id == null) : this.id.equals(rhs.id)) &&
                 ((this.toFormattedString() == null)
                  ? rhs.toFormattedString() == null
-                 : this.toFormattedString().equals(rhs.toFormattedString())));
+                 : this.formattedString.equals(rhs.toFormattedString())));
     }
 
     @Override
     public int hashCode() {
         int hash = 62;
-        hash = 31 * hash + this.id.hashCode();
-        hash = 31 * hash + this.toFormattedString().hashCode();
+        hash = (this.id != null) ? 31 * hash + this.id.hashCode() : hash;
+        hash = (this.toFormattedString() != null)
+               ? 31 * hash + this.formattedString.hashCode()
+               : hash;
         return hash;
     }
 }
