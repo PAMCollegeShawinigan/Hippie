@@ -51,8 +51,8 @@ public class OrganismeModele extends BaseModele<OrganismeModele> {
             this.telephone = null;
         } else {
             this.telephone = telephone.replaceAll("[\\s()-\\.]+", "");
-            this.formattedTelephone = null;
         }
+        this.formattedTelephone = null;
         return this;
     }
 
@@ -77,6 +77,7 @@ public class OrganismeModele extends BaseModele<OrganismeModele> {
 
     public OrganismeModele setPoste(Integer poste) {
         this.poste = poste;
+        this.formattedTelephone = null;
         return this;
     }
 

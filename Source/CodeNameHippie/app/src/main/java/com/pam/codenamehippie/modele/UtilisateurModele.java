@@ -26,6 +26,8 @@ public class UtilisateurModele extends BaseModele<UtilisateurModele> {
     @SerializedName("dern_connexion")
     protected Date dernConnexion;
 
+    protected transient volatile String formattedTelephone;
+
     public String getCourriel() {
         return this.courriel;
     }
@@ -86,6 +88,7 @@ public class UtilisateurModele extends BaseModele<UtilisateurModele> {
         } else {
             this.telephone = telephone.replaceAll("[\\s()-\\.]+", "");
         }
+        this.formattedTelephone = null;
         return this;
     }
 
@@ -93,9 +96,12 @@ public class UtilisateurModele extends BaseModele<UtilisateurModele> {
         if (this.telephone == null) {
             return null;
         }
-        StringBuilder stringBuilder = new StringBuilder(this.telephone);
-        stringBuilder.insert(6, "-").insert(0, "(").insert(4, ") ");
-        return stringBuilder.toString();
+        if (this.formattedTelephone == null) {
+            StringBuilder stringBuilder = new StringBuilder(this.telephone);
+            stringBuilder.insert(6, "-").insert(0, "(").insert(4, ") ");
+            this.formattedTelephone = stringBuilder.toString();
+        }
+        return this.formattedTelephone;
     }
 
     public Integer getMoyenContact() {

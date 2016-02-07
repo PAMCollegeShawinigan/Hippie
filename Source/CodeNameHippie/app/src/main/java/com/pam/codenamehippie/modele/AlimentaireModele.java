@@ -70,15 +70,41 @@ public class AlimentaireModele extends MarchandiseModele<AlimentaireModele> {
                  : this.description.equals(rhs.description)) &&
                 ((this.quantite == null)
                  ? (rhs.quantite == null)
-                 : this.quantite.equals(rhs.quantite)));
+                 : this.quantite.equals(rhs.quantite)) &&
+                ((this.uniteDeQuantite == null)
+                 ? (rhs.uniteDeQuantite == null)
+                 : this.uniteDeQuantite.equals(rhs.uniteDeQuantite)) &&
+                ((this.etat == null) ? (rhs.etat == null) : this.etat.equals(rhs.etat)) &&
+                ((this.valeur == null) ? (rhs.valeur == null) : this.valeur.equals(rhs.valeur)) &&
+                ((this.statut == null) ? (rhs.statut == null) : this.statut.equals(rhs.statut)) &&
+                ((this.organisme == null)
+                 ? (rhs.organisme == null)
+                 : this.organisme.equals(rhs.organisme)) &&
+                ((this.typeAlimentaire == null)
+                 ? (rhs.typeAlimentaire == null)
+                 : this.typeAlimentaire.equals(rhs.typeAlimentaire)) &&
+                ((this.datePeremption == null)
+                 ? (rhs.datePeremption == null)
+                 : this.datePeremption.equals(rhs.datePeremption)) &&
+                ((this.dateReservation == null)
+                 ? (rhs.dateReservation == null)
+                 : this.dateReservation.equals(rhs.dateReservation)));
     }
 
     @Override
     public int hashCode() {
         int hash = 64;
-        hash = 32 * hash + this.id.hashCode();
-        hash = 32 * hash + this.nom.hashCode();
-        hash = 32 * hash + this.description.hashCode();
+        hash = (this.id != null) ? 32 * hash + this.id.hashCode() : hash;
+        hash = (this.nom != null) ? 32 * hash + this.nom.hashCode() : hash;
+        hash = (this.description != null) ? 32 * hash + this.description.hashCode() : hash;
+        hash = (this.uniteDeQuantite != null) ? 32 * hash + this.uniteDeQuantite.hashCode() : hash;
+        hash = (this.etat != null) ? 32 * hash + this.etat.hashCode() : hash;
+        hash = (this.valeur != null) ? 32 * hash + this.valeur.hashCode() : hash;
+        hash = (this.statut != null) ? 32 * hash + this.statut.hashCode() : hash;
+        hash = (this.organisme != null) ? 32 * hash + this.organisme.hashCode() : hash;
+        hash = (this.typeAlimentaire != null) ? 32 * hash + this.typeAlimentaire.hashCode() : hash;
+        hash = (this.datePeremption != null) ? 32 * hash + this.datePeremption.hashCode() : hash;
+        hash = (this.dateReservation != null) ? 32 * hash + this.dateReservation.hashCode() : hash;
         return hash;
     }
 }
