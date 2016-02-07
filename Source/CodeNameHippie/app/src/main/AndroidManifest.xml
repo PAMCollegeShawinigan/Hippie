@@ -76,7 +76,8 @@
 			android:label="@string/app_name"
 			android:supportsRtl="true"
 			android:theme="@style/AppTheme" />
-		<activity android:name=".ui.AjoutMarchandiseActivity" />
+		<activity android:name=".ui.AjoutMarchandiseActivity"
+			android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 		<activity android:name=".ui.AideActivity" />
 		<!--
 			 The API key for Google Maps-based APIs is defined as a string resource.

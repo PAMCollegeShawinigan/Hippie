@@ -55,7 +55,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
     public T setDescription(String description) {
         this.description = description;
         return (T) this;
-    }
+}
 
     public Double getQuantite() {
         return this.quantite;
