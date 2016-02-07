@@ -5,12 +5,12 @@ android {
     buildToolsVersion '23.0.2'
 
     defaultConfig {
-        applicationId "com.pam.codenamehippie"
+        applicationId 'com.pam.codenamehippie'
         minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
-        generatedDensities = ["mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi"]
+        versionName '1.0'
+        generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
     }
     buildTypes {
         release {
