@@ -228,7 +228,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      */
     public String toJson(T modele) {
         synchronized (this.lock) {
-            return gson.toJson(modele);
+            return gson.toJson(modele, this.classeDeT);
         }
     }
 
@@ -303,7 +303,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
 
     /**
      * Permet de peupler le dépot.
-     * <p>
+     * <p/>
      * Cette methode est asynchrone et retourne immédiatement.
      * </p
      *
@@ -341,7 +341,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                         // Le serveur retourne un array. Donc pour supporter un énorme array on
                         // utilise des streams.
                         JsonReader reader = new JsonReader(response.body().charStream());
-                        T  modele = BaseModeleDepot.this.fromJson(reader);
+                        T modele = BaseModeleDepot.this.fromJson(reader);
                         while (modele != null) {
                             if (BaseModeleDepot.this.filtreDeListe != null) {
                                 if (BaseModeleDepot.this.filtreDeListe.appliquer(modele)) {
