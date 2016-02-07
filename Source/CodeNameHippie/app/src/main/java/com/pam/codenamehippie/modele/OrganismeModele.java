@@ -64,7 +64,7 @@ public class OrganismeModele extends BaseModele<OrganismeModele> {
             StringBuilder stringBuilder = new StringBuilder(this.telephone);
             stringBuilder.insert(6, "-").insert(0, "(").insert(4, ") ");
             if (this.poste != null) {
-                stringBuilder.append("poste: ").append(this.poste);
+                stringBuilder.append(" ").append("poste: ").append(this.poste);
             }
             this.formattedTelephone = stringBuilder.toString();
         }

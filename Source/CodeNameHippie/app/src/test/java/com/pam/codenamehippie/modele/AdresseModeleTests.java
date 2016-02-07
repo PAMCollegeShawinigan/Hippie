@@ -12,10 +12,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-/**
- * To work on unit tests, switch the Test Artifact in the Build Variants view.
- */
-public class AdresseModeleTest {
+public class AdresseModeleTests {
 
     private AdresseModele adresse1;
     private AdresseModele adresse2;
@@ -92,7 +89,7 @@ public class AdresseModeleTest {
                      formattedString
                     );
     }
-    
+
     @Test
     public void setCodePostalShouldInvalidateCachedStrings() throws Exception {
         Field string = this.adresse1.getClass().getDeclaredField("formattedString");
