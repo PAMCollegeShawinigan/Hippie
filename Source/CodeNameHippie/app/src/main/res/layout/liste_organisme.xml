@@ -2,13 +2,16 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <!-- Fait apparaître l'action bar -->
     <include layout="@layout/content_appbar_main"/>
 
+    <!-- Viewswitcher pour la bar de progression -->
     <ViewSwitcher
         android:id="@+id/main_view_switcher"
         android:layout_width="match_parent"
@@ -20,6 +23,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <!-- TITRE : Organisme communautaire -->
             <TextView
                 android:id="@+id/tv_liste_organisme"
                 android:layout_width="wrap_content"
@@ -28,8 +32,20 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="15dp"
                 android:text="@string/tv_organisme_communautaire"
-                android:textSize="25sp"/>
+                android:textSize="25sp"
+                fontPath="fonts/arialrounded.ttf"
+                tools:ignore="MissingPrefix"/>
 
+            <!-- Divider, pour diviser le titre et les informations -->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/divider1"
+                android:contentDescription="@null"/>
+
+            <!-- Liste view pour faire affiché les organismes -->
             <ExpandableListView
                 android:id="@+id/liste_organisme"
                 android:layout_width="match_parent"
@@ -38,6 +54,7 @@
                 android:layout_marginBottom="65dp"/>
         </LinearLayout>
 
+        <!-- Bar de progression -->
         <include layout="@layout/loading"/>
     </ViewSwitcher>
 </android.support.design.widget.CoordinatorLayout>

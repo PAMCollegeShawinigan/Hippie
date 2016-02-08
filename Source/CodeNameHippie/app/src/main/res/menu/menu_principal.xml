@@ -9,32 +9,28 @@
 		android:orderInCategory="1"
 		android:title="@string/menu"
 		app:showAsAction="always" />
+	<item
+		android:id="@+id/menu_profil"
+		android:icon="@drawable/profil"
+		android:title="@string/profil"
+		android:orderInCategory="2"
+		app:showAsAction="always" />
 
 	<item
 		android:id="@+id/info"
 		android:icon="@drawable/aide"
 		android:orderInCategory="2"
 		android:title="@string/info"/>
-	<item
-		android:id="@+id/menu_deconnexion"
-        android:orderInCategory="3"
-		android:title="@string/action_sign_out" />
-
-    <item
-        android:id="@+id/menu_profil"
-        android:icon="@drawable/profil"
-        android:title="@string/profil"
-        android:orderInCategory="1"/>
 
 	<item
 		android:id="@+id/menu_aide"
 		android:icon="@drawable/aide"
 		android:title="@string/tv_aide_titre_entete"
-		android:orderInCategory="4"/>
+		android:orderInCategory="3"/>
 
-	<!-- TODO: À effacer lorsque ce sera fini, cet item est utilisé à des fins de tests seulement -->
 	<item
-		android:id="@+id/menu_marchandise_disponible"
-		android:title="Liste des marchandises disponibles"
-		android:orderInCategory="1"/>
+		android:id="@+id/menu_deconnexion"
+        android:orderInCategory="4"
+		android:title="@string/action_sign_out" />
+
 </menu>
