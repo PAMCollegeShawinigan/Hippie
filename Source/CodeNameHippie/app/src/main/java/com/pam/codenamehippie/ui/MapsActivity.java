@@ -98,8 +98,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                                               .title(organisme.getNom());
                     this.publishProgress(marker);
                     boundsBuilder.include(point);
+
                 }
             }
+
             return boundsBuilder;
         }
 
@@ -132,6 +134,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 this.activity.map.animateCamera(cameraUpdate);
             }
             this.activity.prepareMarkerAsyncTask = null;
+
         }
 
         @Override
@@ -200,6 +203,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         organismeModeleDepot.ajouterUnObservateur(this);
+        //comprend le ligne code dessous-------------------------------------
         alimentaireModeleDepot.ajouterUnObservateur(this.adapter);
         organismeModeleDepot.peuplerListeDonneur();
     }
