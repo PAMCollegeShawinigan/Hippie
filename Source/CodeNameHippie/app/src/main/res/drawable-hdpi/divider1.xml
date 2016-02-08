@@ -4,9 +4,8 @@
        android:insetLeft="5.0sp"
        android:insetRight="5.0sp"
        android:insetTop="8.0sp">
-    <shape xmlns:android="http://schemas.android.com/apk/res/android"
-           android:shape="rectangle">
-        <solid android:color="#40423E"/>
-        <size android:height="1dp"/>
-    </shape>
+	<shape android:shape="rectangle">
+		<solid android:color="#40423E" />
+		<size android:height="1dp" />
+	</shape>
 </inset>

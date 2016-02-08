@@ -37,7 +37,6 @@ import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
 import com.pam.codenamehippie.ui.adapter.CarteAdapterOption;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,8 +63,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
 
         @Override
         protected void onPreExecute() {
-            if (this.activity.map != null) {
-                this.activity.map.clear();
+            synchronized (this.activity.mapLock) {
+                if (this.activity.map != null) {
+                    this.activity.map.clear();
+                }
             }
         }
 
@@ -98,8 +99,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                                               .title(organisme.getNom());
                     this.publishProgress(marker);
                     boundsBuilder.include(point);
+
                 }
             }
+
             return boundsBuilder;
         }
 
@@ -132,11 +135,14 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 this.activity.map.animateCamera(cameraUpdate);
             }
             this.activity.prepareMarkerAsyncTask = null;
+
         }
 
         @Override
         protected void onProgressUpdate(MarkerOptions... markers) {
-            this.activity.map.addMarker(markers[0]);
+            synchronized (this.activity.mapLock) {
+                this.activity.map.addMarker(markers[0]);
+            }
         }
     }
 
@@ -200,8 +206,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         organismeModeleDepot.ajouterUnObservateur(this);
+        //comprend le ligne code dessous-------------------------------------
         alimentaireModeleDepot.ajouterUnObservateur(this.adapter);
-        organismeModeleDepot.peuplerListeDonneur();
+        this.peuplerListeOrganisme(organismeModeleDepot);
     }
 
     @Override
@@ -304,18 +311,25 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     }
 
     public void onButtonClick(View v) {
+        OrganismeModeleDepot organismeModeleDepot =
+                ((HippieApplication) getApplication()).getOrganismeModeleDepot();
+
         switch (v.getId()) {
 
             case R.id.marchandiseDisponible:
                 // affiche denree disponible sur la carte
-
                 Toast.makeText(this.getApplicationContext(),
                                " Denrées disponible ",
                                Toast.LENGTH_SHORT
                               ).show();
+
+                this.adapter.setOrganisme(null);
+                this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_DISPO);
+                this.peuplerListeOrganisme(organismeModeleDepot);
                 //   map.clear();
                 //  listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
                 // FIXME: Connecter alimentaireModeleDepot et partir une requete pour l'organisme
+
                 break;
 
             case R.id.mesReservation:
@@ -325,7 +339,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                " Mes réservations ",
                                Toast.LENGTH_SHORT
                               ).show();
-                //  map.clear();
+
+                this.adapter.setOrganisme(null);
+                this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_RESERVEE);
+                organismeModeleDepot.peuplerListeDonneur();
                 // FIXME: Connecter alimentaireModeleDepot et partir une requete pour l'organisme
                 break;
 
@@ -419,9 +436,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 break;
             }
         }
-        //  expandableListView.setAdapter(new
-        // CarteOrganismeAdapter(MapsActivity.this,
-        // mOrganisme, viewID));
+
         this.adapter.setOrganisme(adapterOrganisme);
         if (this.slidingLayout.getPanelState() == PanelState.ANCHORED ||
             this.slidingLayout.getPanelState() == PanelState.EXPANDED) {
@@ -434,6 +449,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(position);
         this.map.animateCamera(cameraUpdate);
         return true;
+    }
+
+    public void peuplerListeOrganisme(OrganismeModeleDepot depot) {
+        depot.peuplerListeDonneur();
     }
 }
 
