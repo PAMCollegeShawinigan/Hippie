@@ -16,7 +16,7 @@ Route:: post('/', 'connection@connect');
 
 Route:: get('liste/{type}', 'liste@liste');
 
-Route:: get('adresse/{id}', 'adresse@adresse');
+Route:: get('adresse/{id}', 'adresse@adresse'); // Retourne l'adresse selon l'id
 
 Route:: get('organisme/', 'organisme@listeorganisme');
 
@@ -37,6 +37,8 @@ Route:: get('utilisateur/','utilisateur@listeutilisateur');
 Route:: get('utilisateur/{id}','utilisateur@utilisateurid');
 
 Route:: post('utilisateur/', 'utilisateur@enregistrement');
+
+Route:: post('utilisateur/modifier','utilisateur@modifierutilisateur');
 
 Route:: post('reservation/ajouter','reservation@reservationajout');
 

@@ -69,11 +69,22 @@ public class Stats_Activity extends Activity
 
     private CheckBox series1CheckBox;
     private CheckBox series2CheckBox;
+    private CheckBox series3CheckBox;
+    private CheckBox series4CheckBox;
+    private CheckBox series5CheckBox;
+    private CheckBox series6CheckBox;
+    private CheckBox series7CheckBox;
+
     private Spinner spRenderStyle, spWidthStyle, spSeriesSize;
     private SeekBar sbFixedWidth, sbVariableWidth;
     
     private XYSeries series1;
     private XYSeries series2;
+    private XYSeries series3;
+    private XYSeries series4;
+    private XYSeries series5;
+    private XYSeries series6;
+    private XYSeries series7;
     private enum SeriesSize {
         TEN,
         TWENTY,
@@ -91,8 +102,13 @@ public class Stats_Activity extends Activity
     Number[] series2Numbers = series2Numbers10;
 
     private MyBarFormatter formatter1;
-
     private MyBarFormatter formatter2;
+    private MyBarFormatter formatter3;
+    private MyBarFormatter formatter4;
+    private MyBarFormatter formatter5;
+    private MyBarFormatter formatter6;
+    private MyBarFormatter formatter7;
+
 
     private MyBarFormatter selectionFormatter;
 
@@ -112,7 +128,12 @@ public class Stats_Activity extends Activity
 
         formatter1 = new MyBarFormatter(Color.argb(200, 100, 150, 100), Color.LTGRAY);
         formatter2 = new MyBarFormatter(Color.argb(200, 100, 100, 150), Color.LTGRAY);
-        selectionFormatter = new MyBarFormatter(Color.YELLOW, Color.WHITE);
+        formatter3 = new MyBarFormatter(Color.argb(200, 100, 100, 150), Color.LTGRAY);
+        formatter4 = new MyBarFormatter(Color.argb(200, 100, 100, 150), Color.LTGRAY);
+        formatter5 = new MyBarFormatter(Color.argb(200, 100, 100, 150), Color.LTGRAY);
+        formatter6 = new MyBarFormatter(Color.argb(200, 100, 100, 150), Color.LTGRAY);
+        formatter7 = new MyBarFormatter(Color.argb(200, 100, 100, 150), Color.LTGRAY);
+        selectionFormatter = new MyBarFormatter(Color.RED, Color.WHITE);
 
         selectionWidget = new TextLabelWidget(plot.getLayoutManager(), NO_SELECTION_TXT,
                 new Size(
@@ -143,7 +164,7 @@ public class Stats_Activity extends Activity
 
 
         // setup checkbox listers:
-        series1CheckBox = (CheckBox) findViewById(R.id.s1CheckBox);
+        series1CheckBox = (CheckBox) findViewById(R.id.cat_boulangerie);
         series1CheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -151,12 +172,50 @@ public class Stats_Activity extends Activity
             }
         });
 
-        series2CheckBox = (CheckBox) findViewById(R.id.s2CheckBox);
+        series2CheckBox = (CheckBox) findViewById(R.id.cat_fruits_et_legumes);
         series2CheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {onS2CheckBoxClicked(b);
             }
         });
+
+        series3CheckBox = (CheckBox) findViewById(R.id.cat_Produits_laitiers);
+        series3CheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {onS3CheckBoxClicked(b);
+            }
+        });
+
+        series4CheckBox = (CheckBox) findViewById(R.id.cat_surgelés);
+        series4CheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {onS4CheckBoxClicked(b);
+            }
+        });
+
+        series5CheckBox = (CheckBox) findViewById(R.id.cat_viandes);
+        series5CheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {onS5CheckBoxClicked(b);
+            }
+        });
+
+        series6CheckBox = (CheckBox) findViewById(R.id.cat_non_périssable);
+        series6CheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {onS6CheckBoxClicked(b);
+            }
+        });
+
+        series7CheckBox = (CheckBox) findViewById(R.id.cat_non_comestible);
+        series7CheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {onS7CheckBoxClicked(b);
+            }
+        });
+
+
+
 
         plot.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -292,7 +351,8 @@ public class Stats_Activity extends Activity
 
         // add a new series' to the xyplot:
         if (series1CheckBox.isChecked()) plot.addSeries(series1, formatter1);
-        if (series2CheckBox.isChecked()) plot.addSeries(series2, formatter2); 
+        if (series2CheckBox.isChecked()) plot.addSeries(series2, formatter2);
+
 
         // Setup the BarRenderer with our selected options
         MyBarRenderer renderer = ((MyBarRenderer)plot.getRenderer(MyBarRenderer.class));
@@ -383,6 +443,51 @@ public class Stats_Activity extends Activity
             plot.addSeries(series2, formatter2);  
         } else {
             plot.removeSeries(series2);
+        }
+        plot.redraw();
+    }
+
+    private void onS3CheckBoxClicked(boolean checked) {
+        if (checked) {
+            plot.addSeries(series3, formatter3);
+        } else {
+            plot.removeSeries(series3);
+        }
+        plot.redraw();
+    }
+
+    private void onS4CheckBoxClicked(boolean checked) {
+        if (checked) {
+            plot.addSeries(series4, formatter4);
+        } else {
+            plot.removeSeries(series4);
+        }
+        plot.redraw();
+    }
+
+    private void onS5CheckBoxClicked(boolean checked) {
+        if (checked) {
+            plot.addSeries(series5, formatter5);
+        } else {
+            plot.removeSeries(series5);
+        }
+        plot.redraw();
+    }
+
+    private void onS6CheckBoxClicked(boolean checked) {
+        if (checked) {
+            plot.addSeries(series6, formatter6);
+        } else {
+            plot.removeSeries(series6);
+        }
+        plot.redraw();
+    }
+
+    private void onS7CheckBoxClicked(boolean checked) {
+        if (checked) {
+            plot.addSeries(series7, formatter7);
+        } else {
+            plot.removeSeries(series7);
         }
         plot.redraw();
     }
