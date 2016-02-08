@@ -394,7 +394,47 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      */
     public void rechercherParId(@NonNull Integer id) {
         HttpUrl url = this.url.newBuilder().addPathSegment(id.toString()).build();
-        this.peuplerLeDepot(url);
+        Request request = new Request.Builder().url(url).get().build();
+        // FIXME: surDebutDeRequête devrait être caller quand le dispatcher traite la requête.
+        // Il faudrait soummettre manuellement les calls aux dispatcher… Ça demanderait quand
+        // même assez de travail… Pour les besoins de la cause on va tenter de pas soumettre
+        // plusieurs requêtes en même temps au même dépot.
+        this.surDebutDeRequete();
+        this.httpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
+                BaseModeleDepot.this.surErreur(e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    Log.e(TAG, "Request failed: " + response.toString());
+                    BaseModeleDepot.this.surErreur(new HttpReponseException(response));
+                } else {
+                    synchronized (BaseModeleDepot.this.lock) {
+                        // On vide le dépôt pour faire place au nouveau stock.
+                        BaseModeleDepot.this.modeles.clear();
+                        // Le serveur retourne un array. Donc pour supporter un énorme array on
+                        // utilise des streams.
+                        JsonReader reader = new JsonReader(response.body().charStream());
+                        T modele = BaseModeleDepot.this.fromJson(reader);
+                        if (modele != null) {
+                            if (BaseModeleDepot.this.filtreDeListe != null) {
+                                if (BaseModeleDepot.this.filtreDeListe.appliquer(modele)) {
+                                    BaseModeleDepot.this.modeles.add(modele);
+                                }
+                            } else {
+                                BaseModeleDepot.this.modeles.add(modele);
+                            }
+                        }
+                    }
+                    BaseModeleDepot.this.surChangementDeDonnees();
+                }
+                BaseModeleDepot.this.surFinDeRequete();
+            }
+        });
     }
 
     /**
