@@ -8,19 +8,21 @@ import com.google.gson.annotations.SerializedName;
 public class OrganismeModele extends BaseModele<OrganismeModele> {
 
     @SerializedName("nom")
-    private String nom;
+    protected String nom;
     @SerializedName("adresse")
-    private AdresseModele adresse;
+    protected AdresseModele adresse;
     @SerializedName("telephone")
-    private String telephone;
+    protected String telephone;
     @SerializedName("poste")
-    private Integer poste;
+    protected Integer poste;
     @SerializedName("contact")
-    private UtilisateurModele contact;
+    protected UtilisateurModele contact;
     @SerializedName("no_entreprise")
-    private String noEntreprise;
+    protected String noEntreprise;
     @SerializedName("no_osbl")
-    private String noOsbl;
+    protected String noOsbl;
+
+    protected transient volatile String formattedTelephone;
 
     public String getNom() {
         return this.nom;
@@ -50,6 +52,7 @@ public class OrganismeModele extends BaseModele<OrganismeModele> {
         } else {
             this.telephone = telephone.replaceAll("[\\s()-\\.]+", "");
         }
+        this.formattedTelephone = null;
         return this;
     }
 
@@ -57,9 +60,15 @@ public class OrganismeModele extends BaseModele<OrganismeModele> {
         if (this.telephone == null) {
             return null;
         }
-        StringBuilder stringBuilder = new StringBuilder(this.telephone);
-        stringBuilder.insert(6, "-").insert(0, "(").insert(4, ") ");
-        return stringBuilder.toString();
+        if (this.formattedTelephone == null) {
+            StringBuilder stringBuilder = new StringBuilder(this.telephone);
+            stringBuilder.insert(6, "-").insert(0, "(").insert(4, ") ");
+            if (this.poste != null) {
+                stringBuilder.append(" ").append("poste: ").append(this.poste);
+            }
+            this.formattedTelephone = stringBuilder.toString();
+        }
+        return this.formattedTelephone;
     }
 
     public Integer getPoste() {
@@ -68,6 +77,7 @@ public class OrganismeModele extends BaseModele<OrganismeModele> {
 
     public OrganismeModele setPoste(Integer poste) {
         this.poste = poste;
+        this.formattedTelephone = null;
         return this;
     }
 

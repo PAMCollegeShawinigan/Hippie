@@ -43,7 +43,7 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
     /**
      * Longueur maximale du champ quantite pour alimentaire
      */
-    public static final int QUANTITE_ALIMENTAIRE_LONGUEUR_MAX = 12;
+    public static final int QUANTITE_ALIMENTAIRE_LONGUEUR_MAX = 11;
 
     /**
      * Longueur maximale du champ valeur pour alimentaire
@@ -59,7 +59,11 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
      * Longueur maximale du champ no telephone
      */
     public static final int NO_TELEPHONE_LONGUEUR_MAX = 10;
-
+    /**
+     * Longueur maximum pour le champ quantité avec critère ########.##
+     */
+    private static final int PARTIE_ENTIERE = 8;
+    private static final int PARTIE_FRACTIONNAIRE = 2;
     /**
      * {@link Context} pour aller chercher les ressources.
      */
@@ -76,6 +80,11 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
      * Defini si le champ validé est requis.
      */
     protected final boolean estRequis;
+    /**
+     * Défini si le champ validé est numérique
+     */
+    protected boolean estNumerique;
+
 
     protected ValidateurDeChampTexte(@NonNull Context context,
                                      @NonNull EditText champText,
@@ -112,12 +121,28 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
     @Override
     public boolean estValide() {
         Editable text = this.getText();
+        // Si le champ est vide et requis
         if (TextUtils.isEmpty(text) && (this.estRequis)) {
             this.editText.setError(this.context.getString(R.string.error_field_required));
             return false;
+            // Si la longueur maximal du champ est dépassée
         } else if (text.length() > this.longueurMaximale) {
             this.editText.setError(this.context.getString(R.string.error_field_too_long));
             return false;
+            // Si le champ est numérique
+        } else if(this.estNumerique) {
+            String parts []= this.getTextString().split("\\.");
+            // Si le nombre d'élément dans le tableau différent de 0 et la longueur de l'élément
+            // à l'indice 0 est plus grand que la partie entière maximale.
+            if ((parts.length != 0) && (parts[0].length() > PARTIE_ENTIERE)) {
+                this.editText.setError(this.context.getString(R.string.error_field_too_long));
+                return false;
+                // Si le nombre d'élément dans le tableau plus grand que 1 et la longueur de l'élément
+                // à l'indice 1 est plus grand que la partie fractionnaire maximale.
+            } else if ((parts.length > 1) && parts[1].length() > PARTIE_FRACTIONNAIRE){
+                this.editText.setError(this.context.getString(R.string.error_field_too_long));
+                return false;
+            }
         }
         return true;
     }
@@ -155,20 +180,20 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
     /**
      * Mutateur de comodité pour la valeur du champ observé
      *
-     * @see EditText#setText(CharSequence)
+     * @see EditText#setText(int)
      */
-    public final void setText(CharSequence text) {
-        this.editText.setText(text);
+    public final void setText(@StringRes int resId) {
+        this.editText.setText(resId);
         this.afterTextChanged(this.editText.getText());
     }
 
     /**
      * Mutateur de comodité pour la valeur du champ observé
      *
-     * @see EditText#setText(int)
+     * @see EditText#setText(CharSequence)
      */
-    public final void setText(@StringRes int resId) {
-        this.editText.setText(resId);
+    public final void setText(CharSequence text) {
+        this.editText.setText(text);
         this.afterTextChanged(this.editText.getText());
     }
 
@@ -197,6 +222,14 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
      */
     public boolean estRequis() {
         return this.estRequis;
+    }
+
+    public boolean estNumerique() {
+        return this.estNumerique;
+    }
+
+    public void setEstNumerique(boolean estNumerique) {
+        this.estNumerique = estNumerique;
     }
 
     /**
