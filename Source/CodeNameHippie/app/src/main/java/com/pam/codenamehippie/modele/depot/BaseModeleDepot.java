@@ -290,9 +290,11 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                 if (token.equals(JsonToken.END_DOCUMENT)) {
                     reader.close();
                 }
-            } catch (IOException e) {
-                // On le reader est fermé retourne le résultat.
+            } catch (IllegalStateException e) {
+                // Le reader est fermé on retourne le résultat.
                 return result;
+            } catch (IOException e) {
+                this.surErreur(e);
             }
             return result;
         }
