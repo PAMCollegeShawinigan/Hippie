@@ -22,6 +22,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -37,6 +39,7 @@ import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
 import com.pam.codenamehippie.ui.adapter.CarteAdapterOption;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +54,12 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
             extends AsyncTask<OrganismeModele, MarkerOptions, LatLngBounds.Builder> {
 
         private final MapsActivity activity;
+        private final int listeType;
 
         public PrepareMarkerAsyncTask(@NonNull MapsActivity activity) {
             super();
             this.activity = activity;
+            this.listeType = this.activity.adapter.getListType();
         }
 
         public static PrepareMarkerAsyncTask newInstance(MapsActivity activity) {
@@ -88,6 +93,13 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 }
             }
             LatLngBounds.Builder boundsBuilder = LatLngBounds.builder();
+            BitmapDescriptor dispoMarker =
+                    BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory
+                                                                  .HUE_GREEN);
+            BitmapDescriptor reserveeMarker =
+                    BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+            BitmapDescriptor defautMarker =
+                    BitmapDescriptorFactory.defaultMarker();
             for (OrganismeModele organisme : organismes) {
                 if (this.isCancelled()) {
                     break;
@@ -97,6 +109,17 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 if (point != null) {
                     MarkerOptions marker = new MarkerOptions().position(point)
                                                               .title(organisme.getNom());
+                    switch (this.listeType) {
+                        case CarteAdapterOption.LIST_TYPE_MARCHANDISE_DISPO:
+                            marker.icon(dispoMarker);
+                            break;
+                        case CarteAdapterOption.LIST_TYPE_MARCHANDISE_RESERVEE:
+                            marker.icon(reserveeMarker);
+                            break;
+                        default:
+                            marker.icon(defautMarker);
+                            break;
+                    }
                     this.publishProgress(marker);
                     boundsBuilder.include(point);
 
@@ -452,6 +475,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     }
 
     public void peuplerListeOrganisme(OrganismeModeleDepot depot) {
+        
         depot.peuplerListeDonneur();
     }
 }

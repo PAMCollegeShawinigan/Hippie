@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
@@ -68,6 +67,14 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
         }
     }
 
+    public int getListType() {
+        return this.listType;
+    }
+
+    public void setListType(int listType) {
+        this.listType = listType;
+    }
+
     public ArrayList<AlimentaireModele> getListedon() {
         return this.listedon;
     }
@@ -92,10 +99,6 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
             }
         }
 
-    }
-
-    public void setListType(int listType) {
-        this.listType = listType;
     }
 
     @Override
@@ -175,7 +178,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
         int resId = (childPosition < ORGANISME_INFO_CHILD_COUNT)
                     ? R.layout.liste_organisme_detail
                     : (this.listType == LIST_TYPE_MARCHANDISE_DISPO) ?
-                R.layout.liste_marchandise_dispo_group : R.layout.liste_reservations_row;
+                      R.layout.liste_marchandise_dispo_group : R.layout.liste_reservations_row;
 
         if (row == null) {
             row = this.inflater.inflate(resId, parent, false);
@@ -259,7 +262,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                     //FIXME: Arranger le bouton réserver, afin de les faire fonctionner
                 }
                 break;
-            case  R.layout.liste_reservations_row:
+            case R.layout.liste_reservations_row:
                 // Fait afficher l'icône correspondant au bon type alimentaire à côté du texte
                 String image = modele.getTypeAlimentaire();
                 ImageView ivResCategorie = (ImageView) row.findViewById(R.id.iv_res_categorie);
@@ -287,7 +290,8 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                         break;
                 }
 
-                // Assigner les valeurs nom, description, quantités, unité et ajouter deux ImageButton par
+                // Assigner les valeurs nom, description, quantités, unité et ajouter deux
+                // ImageButton par
                 // rangée selon le nombre d'items contenus dans l'ArrayList.
                 ((TextView) row.findViewById(R.id.tv_res_nom_marchandise)).setText(modele.getNom());
                 ((TextView) row.findViewById(R.id.tv_res_description)).setText(modele.getDescription());
@@ -295,14 +299,17 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
                 // Affiche la date de péremption.
                 if (modele.getDatePeremption() != null) {
-                    DateFormat format = android.text.format.DateFormat.getLongDateFormat(this.activity);
+                    DateFormat format =
+                            android.text.format.DateFormat.getLongDateFormat(this.activity);
                     String date = format.format(modele.getDatePeremption());
                     ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setText(date);
                 } else {
-                    ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setVisibility(View.INVISIBLE);
+                    ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setVisibility
+                                                                                        (View.INVISIBLE);
                 }
 
-                //FIXME: Arranger bouton supprimer réservation et collecte, afin de les faires fonctionner
+                //FIXME: Arranger bouton supprimer réservation et collecte, afin de les faires
+                // fonctionner
                 break;
             default:
                 break;
