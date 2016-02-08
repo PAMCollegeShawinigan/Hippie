@@ -25,6 +25,7 @@ public class TransactionModele extends BaseModele<TransactionModele> {
 
     public OrganismeModele getReceveur() {
         return this.receveur;
+    }
 
     public TransactionModele setReceveur(OrganismeModele receveur) {
         this.receveur = receveur;
