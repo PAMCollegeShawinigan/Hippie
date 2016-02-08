@@ -308,8 +308,6 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @return une instance du modèle.
      *
-     * @throws IOException
-     *         S'il y a eu un problème de lecture avec le reader
      * @throws JsonIOException
      *         S'il y a eu un problème de lecture de json avec le reader
      * @throws JsonSyntaxException
