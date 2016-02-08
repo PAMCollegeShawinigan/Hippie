@@ -37,7 +37,6 @@ import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
 import com.pam.codenamehippie.ui.adapter.CarteAdapterOption;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,8 +63,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
 
         @Override
         protected void onPreExecute() {
-            if (this.activity.map != null) {
-                this.activity.map.clear();
+            synchronized (this.activity.mapLock) {
+                if (this.activity.map != null) {
+                    this.activity.map.clear();
+                }
             }
         }
 
@@ -98,8 +99,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                                               .title(organisme.getNom());
                     this.publishProgress(marker);
                     boundsBuilder.include(point);
+
                 }
             }
+
             return boundsBuilder;
         }
 
@@ -132,11 +135,14 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 this.activity.map.animateCamera(cameraUpdate);
             }
             this.activity.prepareMarkerAsyncTask = null;
+
         }
 
         @Override
         protected void onProgressUpdate(MarkerOptions... markers) {
-            this.activity.map.addMarker(markers[0]);
+            synchronized (this.activity.mapLock) {
+                this.activity.map.addMarker(markers[0]);
+            }
         }
     }
 
@@ -200,6 +206,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         organismeModeleDepot.ajouterUnObservateur(this);
+        //comprend le ligne code dessous-------------------------------------
         alimentaireModeleDepot.ajouterUnObservateur(this.adapter);
         this.peuplerListeOrganisme(organismeModeleDepot);
     }

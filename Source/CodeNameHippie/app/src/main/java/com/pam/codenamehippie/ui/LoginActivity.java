@@ -1,11 +1,8 @@
 package com.pam.codenamehippie.ui;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -13,24 +10,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.controleur.validation.Validateur;
 import com.pam.codenamehippie.controleur.validation.ValidateurCourriel;
 import com.pam.codenamehippie.controleur.validation.ValidateurMotDePasse;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
-import com.pam.codenamehippie.modele.OrganismeModele;
+import com.pam.codenamehippie.http.Authentificateur.Callback;
+import com.pam.codenamehippie.http.exception.HttpReponseException;
 import com.pam.codenamehippie.modele.UtilisateurModele;
-import com.pam.codenamehippie.modele.depot.UtilisateurModeleDepot;
 
 import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class LoginActivity extends HippieActivity
         implements EditText.OnEditorActionListener, ValidateurObserver {
@@ -41,7 +30,6 @@ public class LoginActivity extends HippieActivity
     private ValidateurCourriel validateurCourriel;
     private boolean courrielEstValide;
     private Button loginButton;
-    private UtilisateurModele utilisateur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +40,7 @@ public class LoginActivity extends HippieActivity
                                                ((EditText) this.findViewById(R.id.etCourriel)),
                                                true
                                               );
-        String rememberedEmail =
-                this.sharedPreferences.getString(this.getString(R.string.pref_email_key), null);
+        String rememberedEmail = this.authentificateur.getCourriel();
         if ((rememberedEmail != null)) {
             this.validateurCourriel.setText(rememberedEmail);
         }
@@ -132,84 +119,46 @@ public class LoginActivity extends HippieActivity
      *         un objet view qui est en lien avec l'interaction de connection.
      */
     public void onClickLogin(final View v) {
-        RequestBody requestBody =
-                new FormBody.Builder().add("courriel", this.validateurCourriel.getText().toString())
-                                      .add("mot_de_passe",
-                                           this.validateurMotDePasse.getText().toString()
-                                          )
-                                      .build();
-        Request request =
-                new Request.Builder().url(HippieApplication.baseUrl).post(requestBody).build();
-        this.httpClient.newCall(request).enqueue(new Callback() {
-
+        this.sharedPreferences.edit()
+                              .putString(this.getString(R.string.pref_email_key),
+                                         this.validateurCourriel.getTextString()
+                                        )
+                              .commit();
+        this.authentificateur.connecter(this.validateurMotDePasse.getTextString(), new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                LoginActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT).show();
+            public void surErreur(IOException e) {
+                if (e instanceof HttpReponseException) {
+                    switch (((HttpReponseException) e).getCode()) {
+                        case 403:
+                            Snackbar.make(v, R.string.error_bad_credentials, Snackbar.LENGTH_SHORT)
+                                    .show();
+                            break;
+                        default:
+                            Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT)
+                                    .show();
+                            break;
                     }
-                });
-                // On "déconnecte": on a échoué.
-                LoginActivity.this.authentificateur.deconnecte();
+                }
+                Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    switch (response.code()) {
-                        case 403:
-                            LoginActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Snackbar.make(v,
-                                                  R.string.error_bad_credentials,
-                                                  Snackbar.LENGTH_SHORT
-                                                 )
-                                            .show();
-                                }
-                            });
-                            break;
-                        default:
-                            LoginActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Snackbar.make(v,
-                                                  R.string.error_connection,
-                                                  Snackbar.LENGTH_SHORT
-                                                 )
-                                            .show();
-                                }
-                            });
-                            break;
-                    }
-                    // On "déconnecte": on a échoué.
-                    LoginActivity.this.authentificateur.deconnecte();
-                } else {
-                    HippieApplication application =
-                            ((HippieApplication) LoginActivity.this.getApplication());
-                    UtilisateurModeleDepot depotUtilisateur =
-                            application.getUtilisateurModeleDepot();
-                    LoginActivity.this.utilisateur =
-                            depotUtilisateur.fromJson(response.body().charStream());
-                    String nom = LoginActivity.this.utilisateur.getPrenom() +
-                                 " " +
-                                 LoginActivity.this.utilisateur.getNom();
-                    Log.d(TAG, LoginActivity.this.utilisateur.toString());
-                    LoginActivity.this.sauvegarderFormulaire();
-                    Snackbar.make(v,
-                                  LoginActivity.this.getString(R.string.message_welcome, nom),
-                                  Snackbar.LENGTH_SHORT
-                                 )
-                            .setCallback(new Snackbar.Callback() {
-                                @Override
-                                public void onDismissed(Snackbar snackbar, int event) {
-                                    super.onDismissed(snackbar, event);
-                                    LoginActivity.this.navigueAMainActivity();
-                                }
-                            })
-                            .show();
-                }
+            public void surSucces(UtilisateurModele utilisateur) {
+                Snackbar.make(v,
+                              LoginActivity.this.getString(R.string.message_welcome,
+                                                           utilisateur.getNomComplet()
+                                                          ),
+                              Snackbar.LENGTH_SHORT
+                             )
+                        .setCallback(new Snackbar.Callback() {
+                            @Override
+                            public void onDismissed(Snackbar snackbar, int event) {
+                                super.onDismissed(snackbar, event);
+                                LoginActivity.this.navigueAMainActivity();
+                            }
+                        })
+                        .show();
+
             }
         });
     }
@@ -226,24 +175,6 @@ public class LoginActivity extends HippieActivity
                 LoginActivity.this.finish();
             }
         });
-    }
-
-    @SuppressLint("CommitPrefEdits")
-    private void sauvegarderFormulaire() {
-        this.authentificateur.setMotDePasse(this.validateurMotDePasse.getText().toString());
-        SharedPreferences.Editor editor =
-                this.sharedPreferences.edit()
-                                      .putString(this.getString(R.string.pref_email_key),
-                                                 this.validateurCourriel.getText().toString()
-                                                );
-        if (this.utilisateur != null) {
-            OrganismeModele organisme = this.utilisateur.getOrganisme();
-            editor.putInt(this.getString(R.string.pref_user_id_key), this.utilisateur.getId());
-            if (organisme != null) {
-                editor.putInt(this.getString(R.string.pref_org_id_key), organisme.getId());
-            }
-        }
-        editor.commit();
     }
 
 }

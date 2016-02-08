@@ -115,7 +115,7 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
                 }
                 return true;
             case R.id.menu_deconnexion:
-                this.authentificateur.deconnecte();
+                this.authentificateur.deconnecter();
                 this.startActivity(new Intent(this, LoginActivity.class));
                 this.finish();
                 return true;

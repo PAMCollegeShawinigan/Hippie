@@ -110,6 +110,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                                    ValidateurDeChampTexte
                                                            .QUANTITE_ALIMENTAIRE_LONGUEUR_MAX
                                                   );
+        this.validateurQuantite.setEstNumerique(true);
         this.validateurQuantite.registerObserver(this);
         EditText etValeurMarchandise = (EditText) this.findViewById(R.id.etValeurMarchandise);
         this.validateurValeur =

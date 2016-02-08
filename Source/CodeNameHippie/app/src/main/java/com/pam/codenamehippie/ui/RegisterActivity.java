@@ -170,7 +170,7 @@ public class RegisterActivity extends HippieActivity
                                           )
                                       .add("courriel", this.validateurCourriel.getTextString())
                                       .build();
-        HttpUrl url = HippieApplication.baseUrl.newBuilder().addPathSegment("utilisateur").build();
+        HttpUrl url = HippieApplication.BASE_URL.newBuilder().addPathSegment("utilisateur").build();
         Request request = new Request.Builder().url(url).post(body).build();
         this.httpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -182,7 +182,7 @@ public class RegisterActivity extends HippieActivity
                     }
                 });
                 // On "déconnecte": on a échoué.
-                RegisterActivity.this.authentificateur.deconnecte();
+                RegisterActivity.this.authentificateur.deconnecter();
 
             }
 
@@ -217,7 +217,7 @@ public class RegisterActivity extends HippieActivity
                             });
                             break;
                     }
-                    RegisterActivity.this.authentificateur.deconnecte();
+                    RegisterActivity.this.authentificateur.deconnecter();
                 } else {
                     RegisterActivity.this.sauvegarderFormulaire();
                     RegisterActivity.this.navigueAMainActivity();

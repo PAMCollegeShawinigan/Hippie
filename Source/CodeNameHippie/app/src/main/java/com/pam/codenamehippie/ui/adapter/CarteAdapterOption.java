@@ -56,6 +56,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
     public CarteAdapterOption(HippieActivity activity) {
         this.activity = activity;
+
         this.inflater =
                 ((LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
         this.alimentaireModeleDepot =

@@ -9,24 +9,24 @@ import java.util.Date;
  */
 public class UtilisateurModele extends BaseModele<UtilisateurModele> {
 
-    // blabla synchro
-
     @SerializedName("courriel")
-    private String courriel;
+    protected String courriel;
     @SerializedName("mot_de_passe")
-    private String motDePasse;
+    protected String motDePasse;
     @SerializedName("nom")
-    private String nom;
+    protected String nom;
     @SerializedName("prenom")
-    private String prenom;
+    protected String prenom;
     @SerializedName("telephone")
-    private String telephone;
+    protected String telephone;
     @SerializedName(value = "moyen_contact")
-    private Integer moyenContact;
+    protected Integer moyenContact;
     @SerializedName("organisme")
-    private OrganismeModele organisme;
+    protected OrganismeModele organisme;
     @SerializedName("dern_connexion")
-    private Date dernConnexion;
+    protected Date dernConnexion;
+
+    protected transient volatile String formattedTelephone;
 
     public String getCourriel() {
         return this.courriel;
@@ -88,6 +88,7 @@ public class UtilisateurModele extends BaseModele<UtilisateurModele> {
         } else {
             this.telephone = telephone.replaceAll("[\\s()-\\.]+", "");
         }
+        this.formattedTelephone = null;
         return this;
     }
 
@@ -95,9 +96,12 @@ public class UtilisateurModele extends BaseModele<UtilisateurModele> {
         if (this.telephone == null) {
             return null;
         }
-        StringBuilder stringBuilder = new StringBuilder(this.telephone);
-        stringBuilder.insert(6, "-").insert(0, "(").insert(4, ") ");
-        return stringBuilder.toString();
+        if (this.formattedTelephone == null) {
+            StringBuilder stringBuilder = new StringBuilder(this.telephone);
+            stringBuilder.insert(6, "-").insert(0, "(").insert(4, ") ");
+            this.formattedTelephone = stringBuilder.toString();
+        }
+        return this.formattedTelephone;
     }
 
     public Integer getMoyenContact() {
