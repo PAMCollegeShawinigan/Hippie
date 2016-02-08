@@ -50,8 +50,8 @@
     <string name="bguest">Compte invité</string>
 
     <!-- Ressources pour la liste des marchandises(denrées, dons, etc.) disponibles (layout) -->
-    <string name="marchandise_reservees">Marchandises Réservées</string>
-    <string name="marchandise_disponible">Marchandises Disponibles</string>
+    <string name="marchandise_reservees">Produits réservés</string>
+    <string name="marchandise_disponible">Produits disponibles</string>
     <string name="md_donneur">DONNEUR</string>
     <string name="md_peremption">MEILLEUR AVANT</string>
     <string name="md_qtee">QTÉE</string>
@@ -59,7 +59,7 @@
     <string name="iv_md_categorie">Catégorie</string>
     <string name="ib_md_ajouter">Ajouter</string>
     <string name="iv_md_adresse_mini">Adresse</string>
-    <string name="tv_liste_marchandises_dispo">NOS MARCHANDISES DISPONIBLES</string>
+    <string name="tv_liste_marchandises_dispo">PRODUITS DISPONIBLES</string>
 
     <!-- Ressource pour l'actionbar, le menu "settings" et le menu normal -->
     <string name="profil">Profil</string>
@@ -70,14 +70,14 @@
     <string name="title_activity_maps2">Carte</string>
 
     <!-- Ressources pour les organismes communautaires (les layout) -->
-    <string name="tv_organisme_communautaire">LES ORGANISMES COMMUNAUTAIRES</string>
+    <string name="tv_organisme_communautaire">ORGANISMES COMMUNAUTAIRES</string>
     <string name="iv_org_personne_contact">Personne Contact</string>
     <string name="iv_org_telephone">Numero de telephone</string>
     <string name="iv_org_adresse">Adresse</string>
 
   <!--Ressource pour ajoutMarchandiseActivity et layout ajout_marchandise -->
-  <string name="ajouter_marchandise">AJOUTER UNE MARCHANDISE</string>
-  <string name="modifier_marchandise">MODIFIER UNE MARCHANDISE</string>
+  <string name="ajouter_marchandise">GESTION DE PRODUITS</string>
+  <string name="modifier_marchandise">MODIFIER UN PRODUIT</string>
   <string name="bouton_ajouter">AJOUTER</string>
   <string name="bouton_modifier">MODIFIER</string>
   <string name="msg_produit_ajoute">Marchandise ajoutée</string>
