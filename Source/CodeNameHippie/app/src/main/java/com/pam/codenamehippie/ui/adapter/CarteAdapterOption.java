@@ -18,6 +18,7 @@ import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.depot.FiltreDeListe;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.ui.HippieActivity;
 
@@ -52,10 +53,11 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
     private volatile ArrayList<AlimentaireModele> listedon = new ArrayList<>();
     private OrganismeModele organisme;
     private int listType = 0;
+    private int orgId;
 
-    public CarteAdapterOption(HippieActivity activity) {
+    public CarteAdapterOption(HippieActivity activity, int orgId) {
         this.activity = activity;
-
+        this.orgId = orgId;
         this.inflater =
                 ((LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
         this.alimentaireModeleDepot =
@@ -87,15 +89,20 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
             Log.d("ORG", this.organisme.toString());
             switch (this.listType) {
                 case LIST_TYPE_MARCHANDISE_DISPO:
-                    // FIXME: Vérifier si c'est le bon peupler liste don :)
+                    this.alimentaireModeleDepot.setFiltreDeListe(null);
                     this.alimentaireModeleDepot.peuplerListeCarte(this.organisme.getId());
                     break;
                 case LIST_TYPE_MARCHANDISE_RESERVEE:
-                    this.alimentaireModeleDepot.peuplerListeReservation(this.organisme.getId());
+                    this.alimentaireModeleDepot.setFiltreDeListe(new FiltreDeListe<AlimentaireModele>() {
+                        @Override
+                        public boolean appliquer(AlimentaireModele item) {
+                            return item.getOrganisme().equals(CarteAdapterOption.this.organisme);
+                        }
+                    });
+                    this.alimentaireModeleDepot.peuplerListeReservation(this.orgId);
                     break;
                 default:
-                    this.alimentaireModeleDepot.peuplerListeCarte(this.organisme.getId());
-                    break;
+                    throw new IllegalStateException("Type de liste inconnu");
             }
         }
 
