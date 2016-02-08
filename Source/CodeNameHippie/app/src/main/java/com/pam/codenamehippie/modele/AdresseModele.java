@@ -26,7 +26,8 @@ public class AdresseModele extends BaseModele<AdresseModele> {
     @SerializedName("pays")
     protected String pays;
 
-    protected transient volatile String formattedString;
+    protected transient volatile String prettyPrintString;
+    protected transient volatile String cacheString;
     protected transient volatile String formattedCodePostal;
 
     public Integer getNoCivique() {
@@ -35,7 +36,8 @@ public class AdresseModele extends BaseModele<AdresseModele> {
 
     public AdresseModele setNoCivique(Integer noCivique) {
         this.noCivique = noCivique;
-        this.formattedString = null;
+        this.prettyPrintString = null;
+        this.cacheString = null;
         return this;
     }
 
@@ -45,7 +47,8 @@ public class AdresseModele extends BaseModele<AdresseModele> {
 
     public AdresseModele setTypeRue(String typeRue) {
         this.typeRue = typeRue;
-        this.formattedString = null;
+        this.prettyPrintString = null;
+        this.cacheString = null;
         return this;
     }
 
@@ -55,7 +58,8 @@ public class AdresseModele extends BaseModele<AdresseModele> {
 
     public AdresseModele setNom(String nom) {
         this.nom = nom;
-        this.formattedString = null;
+        this.prettyPrintString = null;
+        this.cacheString = null;
         return this;
     }
 
@@ -65,7 +69,8 @@ public class AdresseModele extends BaseModele<AdresseModele> {
 
     public AdresseModele setApp(String app) {
         this.app = app;
-        this.formattedString = null;
+        this.prettyPrintString = null;
+        this.cacheString = null;
         return this;
     }
 
@@ -75,7 +80,8 @@ public class AdresseModele extends BaseModele<AdresseModele> {
 
     public AdresseModele setVille(String ville) {
         this.ville = ville;
-        this.formattedString = null;
+        this.prettyPrintString = null;
+        this.cacheString = null;
         return this;
     }
 
@@ -85,7 +91,8 @@ public class AdresseModele extends BaseModele<AdresseModele> {
 
     public AdresseModele setProvince(String province) {
         this.province = province;
-        this.formattedString = null;
+        this.prettyPrintString = null;
+        this.cacheString = null;
         return this;
     }
 
@@ -99,7 +106,8 @@ public class AdresseModele extends BaseModele<AdresseModele> {
         } else {
             this.codePostal = codePostal.replaceAll("\\s+", "").toUpperCase();
             this.formattedCodePostal = null;
-            this.formattedString = null;
+            this.prettyPrintString = null;
+            this.cacheString = null;
         }
         return this;
     }
@@ -122,43 +130,60 @@ public class AdresseModele extends BaseModele<AdresseModele> {
 
     public AdresseModele setPays(String pays) {
         this.pays = pays;
-        this.formattedString = null;
+        this.prettyPrintString = null;
+        this.cacheString = null;
         return this;
     }
 
-    public String toFormattedString() {
-        if (this.formattedString == null) {
-            StringBuilder stringBuilder = new StringBuilder(200);
-            if (this.noCivique != null) {
-                stringBuilder.append(this.noCivique).append(" ");
-            }
-            if ((this.nom != null) && (this.typeRue != null)) {
-                String first =
-                        (Pattern.matches("^([0-9+]).+$", this.nom)) ? this.nom : this.typeRue;
-                String second = (first.equals(this.typeRue)) ? this.nom : this.typeRue;
-                stringBuilder.append(first).append(" ").append(second);
-            }
-            stringBuilder.append(", ");
-            if (this.app != null) {
-                stringBuilder.append("Apt. ").append(this.app);
-            }
-            stringBuilder.append("\n");
-            if (this.ville != null) {
-                stringBuilder.append(this.ville).append(", ");
-            }
-            if (this.province != null) {
-                stringBuilder.append(this.province).append(" ");
-            }
-            if (this.codePostal != null) {
-                stringBuilder.append(this.getFormattedCodePostal()).append("\n");
-
-            }
-            if (this.pays != null) {
-                stringBuilder.append(this.pays).append(" ");
-            }
-            this.formattedString = (stringBuilder.length() == 0) ? null : stringBuilder.toString();
+    protected String toString(boolean estMultiligne) {
+        StringBuilder stringBuilder = new StringBuilder(200);
+        if (this.noCivique != null) {
+            stringBuilder.append(this.noCivique).append(" ");
         }
-        return this.formattedString;
+        if ((this.nom != null) && (this.typeRue != null)) {
+            String first =
+                    (Pattern.matches("^([0-9+]).+$", this.nom)) ? this.nom : this.typeRue;
+            String second = (first.equals(this.typeRue)) ? this.nom : this.typeRue;
+            stringBuilder.append(first).append(" ").append(second);
+        }
+        stringBuilder.append(", ");
+        if (this.app != null) {
+            stringBuilder.append("Apt. ").append(this.app);
+        }
+        if (estMultiligne) {
+            stringBuilder.append("\n");
+        }
+        if (this.ville != null) {
+            stringBuilder.append(this.ville).append(", ");
+        }
+        if (this.province != null) {
+            stringBuilder.append(this.province).append(" ");
+        }
+        if (this.codePostal != null) {
+            stringBuilder.append(this.getFormattedCodePostal());
+
+        }
+        if (estMultiligne) {
+            stringBuilder.append("\n");
+        }
+        if (this.pays != null) {
+            stringBuilder.append(this.pays).append(" ");
+        }
+        return (stringBuilder.length() == 0) ? null : stringBuilder.toString();
+    }
+
+    public String toFormattedString() {
+        if (this.prettyPrintString == null) {
+            this.prettyPrintString = this.toString(true);
+        }
+        return this.prettyPrintString;
+    }
+
+    public String string() {
+        if (this.cacheString == null) {
+            this.cacheString = this.toString(false);
+        }
+        return this.cacheString;
     }
 
     @Override
@@ -171,17 +196,17 @@ public class AdresseModele extends BaseModele<AdresseModele> {
         }
         AdresseModele rhs = (AdresseModele) o;
         return (((this.id == null) ? (rhs.id == null) : this.id.equals(rhs.id)) &&
-                ((this.toFormattedString() == null)
-                 ? rhs.toFormattedString() == null
-                 : this.formattedString.equals(rhs.toFormattedString())));
+                ((this.string() == null)
+                 ? rhs.string() == null
+                 : this.cacheString.equals(rhs.string())));
     }
 
     @Override
     public int hashCode() {
         int hash = 62;
         hash = (this.id != null) ? 31 * hash + this.id.hashCode() : hash;
-        hash = (this.toFormattedString() != null)
-               ? 31 * hash + this.formattedString.hashCode()
+        hash = (this.string() != null)
+               ? 31 * hash + this.cacheString.hashCode()
                : hash;
         return hash;
     }

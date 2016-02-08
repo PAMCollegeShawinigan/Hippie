@@ -107,7 +107,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                     break;
                 }
                 AdresseModele adresse = organisme.getAdresse();
-                LatLng point = this.activity.getLocationFromAddress(adresse.toFormattedString());
+                LatLng point = this.activity.getLocationFromAddress(adresse.string());
                 if (point != null) {
                     MarkerOptions marker = new MarkerOptions().position(point)
                                                               .title(organisme.getNom());
@@ -206,13 +206,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         this.expandableListView.setOnGroupClickListener(this);
         this.slidingLayout.setPanelSlideListener(this);
         // FIXME: Checker dans this.getIntent().getExtras() pour afficher les bonnes listes.
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         this.googleApiClient = new GoogleApiClient.Builder(this).useDefaultAccount()
                                                                 .addConnectionCallbacks(this)
                                                                 .addOnConnectionFailedListener(this)
