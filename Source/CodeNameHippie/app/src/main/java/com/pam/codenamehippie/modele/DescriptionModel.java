@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 public class DescriptionModel extends BaseModele<DescriptionModel> {
 
     @SerializedName("description")
-    private String description = "Faites votre choix...";
+    protected String description = "Faites votre choix...";
 
     /**
      * Accesseur la description
@@ -17,5 +17,28 @@ public class DescriptionModel extends BaseModele<DescriptionModel> {
      */
     public String getDescription() {
         return this.description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof DescriptionModel)) {
+            return false;
+        }
+        DescriptionModel rhs = ((DescriptionModel) o);
+        return (((this.id == null) ? rhs.id == null : this.id.equals(rhs.id)) &&
+                ((this.description == null)
+                 ? rhs.description == null
+                 : this.description.equals(rhs.description)));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 17;
+        hash = (this.id != null) ? 31 * hash + this.id.hashCode() : hash;
+        hash = (this.description != null) ? 31 * hash + this.description.hashCode() : hash;
+        return hash;
     }
 }
