@@ -63,8 +63,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
 
         @Override
         protected void onPreExecute() {
-            if (this.activity.map != null) {
-                this.activity.map.clear();
+            synchronized (this.activity.mapLock) {
+                if (this.activity.map != null) {
+                    this.activity.map.clear();
+                }
             }
         }
 
@@ -138,7 +140,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
 
         @Override
         protected void onProgressUpdate(MarkerOptions... markers) {
-            this.activity.map.addMarker(markers[0]);
+            synchronized (this.activity.mapLock) {
+                this.activity.map.addMarker(markers[0]);
+            }
         }
     }
 

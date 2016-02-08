@@ -1,5 +1,7 @@
 package com.pam.codenamehippie.modele;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,22 +9,20 @@ import com.google.gson.annotations.SerializedName;
  * Classe de base des modèles. Cette classe est générique afin de pouvoir utiliser un API fluent
  * et éviter de dupliquer du code inutilement, car autrement les classes qui hérite devrait
  * faire des override de mutateurs en changeant le type de retour.
- * <p/>
+ * <p>
  * Par API fluent nous entendons quelque chose comme ceci:
- * <p/>
- * <code>
- * UtilisateurModele modele = new UtilisateurModele();<br/>
+ * </p>
+ * <pre class="prettyprint">
+ * UtilisateurModele modele = new UtilisateurModele();
  * modele.setNom("Lafontaine").setPrenom("Philippe").setTelephone("819 555 8963");
- * </code>
- * <p/>
+ * </pre>
  * Par opposition à:
- * <p/>
- * <code>
- * UtilisateurModele modele = new UtilisateurModele();<br/>
- * modele.setNom("Lafontaine");<br/>
- * modele.setPrenom("Philippe");<br/>
+ * <pre class="prettyprint">
+ * UtilisateurModele modele = new UtilisateurModele();
+ * modele.setNom("Lafontaine");
+ * modele.setPrenom("Philippe");
  * modele.setTelephone("819 555 8963");
- * </code>
+ * </pre>
  *
  * @param <T>
  *         La classe qui hérite de BaseModele
@@ -32,11 +32,10 @@ import com.google.gson.annotations.SerializedName;
 public abstract class BaseModele<T extends BaseModele<T>> {
 
     @SerializedName(value = "id")
-    private Integer id = 0;
+    protected Integer id = 0;
 
     /**
      * Accesseur de l'id du modèle
-     *
      *
      * @return l'id de l'objet
      */
@@ -53,7 +52,7 @@ public abstract class BaseModele<T extends BaseModele<T>> {
      * @return l'instance du modèle.
      */
     @SuppressWarnings(value = {"unchecked"})
-    public T setId(Integer id) {
+    public T setId(@NonNull Integer id) {
         this.id = id;
         return (T) this;
     }
@@ -61,9 +60,10 @@ public abstract class BaseModele<T extends BaseModele<T>> {
     /**
      * Surcharge de la méthode {@link Object#toString()}. Appelle la méthode {@link
      * com.google.gson.Gson#toJson(Object)}.
-     * <p/>
+     * <p>
      * Cette méthode est disponible à des fins de développement, car l'objet JSON
      * résultant est adapté pour un affichage à la console.
+     * </p>
      *
      * @return l'objet en format JSON.
      *
@@ -79,4 +79,5 @@ public abstract class BaseModele<T extends BaseModele<T>> {
                                 .create()
                                 .toJson(this);
     }
+
 }
