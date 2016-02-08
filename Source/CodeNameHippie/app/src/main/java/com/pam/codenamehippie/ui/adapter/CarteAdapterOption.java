@@ -81,13 +81,13 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
             switch (this.listType) {
                 case LIST_TYPE_MARCHANDISE_DISPO:
                     // FIXME: Vérifier si c'est le bon peupler liste don :)
-                    this.alimentaireModeleDepot.peuplerListeDon(this.organisme.getId());
+                    this.alimentaireModeleDepot.peuplerListeCarte(this.organisme.getId());
                     break;
                 case LIST_TYPE_MARCHANDISE_RESERVEE:
                     this.alimentaireModeleDepot.peuplerListeReservation(this.organisme.getId());
                     break;
                 default:
-                    this.alimentaireModeleDepot.peuplerListeDon(this.organisme.getId());
+                    this.alimentaireModeleDepot.peuplerListeCarte(this.organisme.getId());
                     break;
             }
         }
@@ -212,30 +212,33 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                 if (modele != null) {
                     // Fait afficher l'icône correspondant au bon type alimentaire à côté du texte
                     String image = modele.getTypeAlimentaire();
-                    ImageView ivResCategorie =
-                            (ImageView) row.findViewById(R.id.iv_md_categorie);
-                    switch (image) {
-                        case "Surgelés":
-                            ivResCategorie.setImageResource(R.drawable.map_surgele);
-                            break;
-                        case "Fruits et Légumes":
-                            ivResCategorie.setImageResource(R.drawable.map_fruit_legume);
-                            break;
-                        case "Boulangerie":
-                            ivResCategorie.setImageResource(R.drawable.map_boulangerie);
-                            break;
-                        case "Produits laitiers":
-                            ivResCategorie.setImageResource(R.drawable.map_laitier);
-                            break;
-                        case "Viandes":
-                            ivResCategorie.setImageResource(R.drawable.map_viande);
-                            break;
-                        case "Non Périssable":
-                            ivResCategorie.setImageResource(R.drawable.map_non_perissable);
-                            break;
-                        default:
-                            ivResCategorie.setImageResource(R.drawable.map_non_comestible);
-                            break;
+                    if (image != null) {
+                        //FIXME : Envoyer type alimentaire.
+                        ImageView ivResCategorie =
+                                (ImageView) row.findViewById(R.id.iv_md_categorie);
+                        switch (image) {
+                            case "Surgelés":
+                                ivResCategorie.setImageResource(R.drawable.map_surgele);
+                                break;
+                            case "Fruits et Légumes":
+                                ivResCategorie.setImageResource(R.drawable.map_fruit_legume);
+                                break;
+                            case "Boulangerie":
+                                ivResCategorie.setImageResource(R.drawable.map_boulangerie);
+                                break;
+                            case "Produits laitiers":
+                                ivResCategorie.setImageResource(R.drawable.map_laitier);
+                                break;
+                            case "Viandes":
+                                ivResCategorie.setImageResource(R.drawable.map_viande);
+                                break;
+                            case "Non Périssable":
+                                ivResCategorie.setImageResource(R.drawable.map_non_perissable);
+                                break;
+                            default:
+                                ivResCategorie.setImageResource(R.drawable.map_non_comestible);
+                                break;
+                        }
                     }
                     // Affiche le nom de la marchandise
                     ((TextView) row.findViewById(R.id.tv_md_nom_marchandise)).setText(modele.getNom());
