@@ -267,27 +267,34 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      */
     @Nullable
     @SuppressWarnings("unchecked")
-    public T fromJson(JsonReader reader) throws IOException, JsonIOException, JsonSyntaxException {
+    public T fromJson(JsonReader reader) throws JsonIOException, JsonSyntaxException {
         synchronized (this.lock) {
-            JsonToken token = reader.peek();
             T result = null;
-            if (token.equals(JsonToken.BEGIN_ARRAY)) {
-                reader.beginArray();
+            try {
+                JsonToken token = reader.peek();
+                if (token.equals(JsonToken.BEGIN_ARRAY)) {
+                    reader.beginArray();
+                    token = reader.peek();
+                }
+                switch (token) {
+                    case BEGIN_OBJECT:
+                        result = gson.fromJson(reader, this.classeDeT);
+                        break;
+                    case END_ARRAY:
+                        reader.endArray();
+                        break;
+                    case END_DOCUMENT:
+                        reader.close();
+                }
                 token = reader.peek();
-            }
-            switch (token) {
-                case BEGIN_OBJECT:
-                    result = gson.fromJson(reader, this.classeDeT);
-                    break;
-                case END_ARRAY:
-                    reader.endArray();
-                    break;
-                case END_DOCUMENT:
+                if (token.equals(JsonToken.END_DOCUMENT)) {
                     reader.close();
-            }
-            token = reader.peek();
-            if (token.equals(JsonToken.END_DOCUMENT)) {
-                reader.close();
+                }
+            } catch (IllegalStateException e) {
+                // Le reader est fermé on retourne le résultat.
+                return result;
+            } catch (IOException e) {
+                this.surErreur(e);
             }
             return result;
         }
@@ -301,8 +308,6 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @return une instance du modèle.
      *
-     * @throws IOException
-     *         S'il y a eu un problème de lecture avec le reader
      * @throws JsonIOException
      *         S'il y a eu un problème de lecture de json avec le reader
      * @throws JsonSyntaxException
