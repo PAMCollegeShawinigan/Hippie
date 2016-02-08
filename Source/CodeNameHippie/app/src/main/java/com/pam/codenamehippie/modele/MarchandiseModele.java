@@ -13,21 +13,21 @@ import com.google.gson.annotations.SerializedName;
 public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends BaseModele<T> {
 
     @SerializedName("nom")
-    private String nom;
+    protected String nom;
     @SerializedName("description")
-    private String description;
+    protected String description;
     @SerializedName("quantite")
-    private Double quantite = 0.00d;
+    protected Double quantite = 0.00d;
     @SerializedName("unite")
-    private String uniteDeQuantite;
+    protected String uniteDeQuantite;
     @SerializedName("marchandise_etat")
-    private String etat;
+    protected String etat;
     @SerializedName("valeur")
-    private Long valeur = 0L;
+    protected Long valeur = 0L;
     @SerializedName("marchandise_statut")
-    private String statut;
+    protected String statut;
     @SerializedName("organisme")
-    private OrganismeModele organisme;
+    protected OrganismeModele organisme;
 
     public OrganismeModele getOrganisme() {return this.organisme;}
 

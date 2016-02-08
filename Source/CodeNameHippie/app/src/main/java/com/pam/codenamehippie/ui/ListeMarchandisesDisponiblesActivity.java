@@ -19,6 +19,7 @@ import java.util.ArrayList;
  * Created by Catherine on 2016-01-21.
  * <p>
  * Activité pour faire afficher la liste des marchandises disponibles (pas google maps)
+ * </p>
  */
 public class ListeMarchandisesDisponiblesActivity extends HippieActivity implements
                                                                          ObservateurDeDepot<AlimentaireModele> {
