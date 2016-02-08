@@ -46,7 +46,6 @@ public class ProfilActivity extends HippieActivity implements ObservateurDeDepot
         super.onPause();
         utilisateurModeleDepot.setFiltreDeListe(null);
         utilisateurModeleDepot.supprimerTousLesObservateurs();
-
     }
 
     @Override
@@ -56,7 +55,6 @@ public class ProfilActivity extends HippieActivity implements ObservateurDeDepot
         if (userID != -1) {
             utilisateurModeleDepot.rechercherParId(userID);
         }
-
     }
 
 
@@ -70,19 +68,15 @@ public class ProfilActivity extends HippieActivity implements ObservateurDeDepot
         this.utilisateur = modeles.get(0);
         Log.e("--------------------", "SIZE=" + modeles.size());
         Log.d("bob", this.utilisateur.toString());
-//        String addresse = utilisateur.getOrganisme().getAdresse().toFormattedString();
-
-                ((TextView) findViewById(R.id.tv_profil)).setText(R.string.tv_profil_name);
+        ((TextView) findViewById(R.id.tv_profil)).setText(R.string.tv_profil_name);
         ((TextView) findViewById(R.id.tv_profil_contact_name_placeholder)).setText(utilisateur.getNom());
         ((TextView) findViewById(R.id.tv_profil_email_placeholder)).setText(utilisateur.getCourriel());
         ((TextView) findViewById(R.id.tv_profil_phone_placeholder)).setText(utilisateur.getFormattedTelephone());
-       ((TextView) findViewById(R.id.tv_profil_moyen_contact_placeholder)).setText("telephone ou courriel");
+        ((TextView) findViewById(R.id.tv_profil_moyen_contact_placeholder)).setText("telephone ou courriel");
         ((TextView) findViewById(R.id.tv_enterprise_section)).setText(R.string.tv_entreprise_section);
         OrganismeModele organisme = this.utilisateur.getOrganisme();
         if (organisme != null) {
-            ((TextView) findViewById(R.id.tv_profil_nom_entreprise_placeholder)).setText(
-                    organisme.getNom());
-            //     ((TextView) findViewById(R.id.tv_profil_adresse_placeholder)).setText(addresse);
+            ((TextView) findViewById(R.id.tv_profil_nom_entreprise_placeholder)).setText(organisme.getNom());
             ((TextView) findViewById(R.id.tv_profil_phone2_placeholder)).setText(organisme.getFormattedTelephone());
             ((TextView) findViewById(R.id.tv_profil_osbl_placeholder)).setText(organisme.getNoOsbl());
             ((TextView) findViewById(R.id.tv_profil_neq_placeholder)).setText(organisme.getNoEntreprise());
