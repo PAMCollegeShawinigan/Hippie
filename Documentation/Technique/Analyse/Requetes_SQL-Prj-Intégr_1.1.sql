@@ -669,6 +669,164 @@ INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
 WHERE courriel = 'org1@1.ca' 
 AND mot_de_passe = '123';
 
+--					--
+-- REQUÊTE DE STATS --
+--					--
 
+-- Pour le receveur les marchandise reçues
+-- Le premier SELECT le receveur_id = :receveur_id
+-- Données des tables : transaction (tout), organisme (tout sauf adresse, utilisateur_contact)
+-- alimentaire (valeur), type_aliment (description_type_aliment), adresse (tout sauf type_rue), 
+-- type_rue (description_type_rue)
+-- REMPLACER :receveur_id, :date_debut, :date_fin (dans le premier SELECT le ID joue le rôle de receveur
+--	dans le second SELECT le ID joue le rôle de donneur)
 
+SELECT	org.organisme_id,
+		org.nom,
+		org.telephone,
+		org.poste,
+		org.no_entreprise,
+		org.no_osbl,
+		trx.transaction_id,
+		trx.receveur_id,
+		trx.donneur_id,
+		trx.marchandise_id,
+		trx.date_collecte,
+		trx.date_reservation,
+		trx.date_disponible,
+		trx.date_transaction,
+		ali.valeur,
+		typali.description_type_aliment,
+		adr.adresse_id,
+		adr.no_civique,
+		typrue.description_type_rue,
+		adr.nom,
+		adr.app,
+		adr.ville,
+		adr.province,
+		adr.code_postal,
+		adr.pays
+			
+FROM organisme org
+INNER JOIN transaction trx ON trx.receveur_id = org.organisme_id
+INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
+INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
+INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+WHERE 	trx.receveur_id = :receveur_id
+AND		trx.date_collecte BETWEEN :date_debut AND :date_fin
+AND 	trx.date_collecte IS NOT NULL
 
+UNION
+
+SELECT	org.organisme_id,
+		org.nom,
+		org.telephone,
+		org.poste,
+		org.no_entreprise,
+		org.no_osbl,
+		trx.transaction_id,
+		trx.receveur_id,
+		trx.donneur_id,
+		trx.marchandise_id,
+		trx.date_collecte,
+		trx.date_reservation,
+		trx.date_disponible,
+		trx.date_transaction,
+		ali.valeur,
+		typali.description_type_aliment,
+		adr.adresse_id,
+		adr.no_civique,
+		typrue.description_type_rue,
+		adr.nom,
+		adr.app,
+		adr.ville,
+		adr.province,
+		adr.code_postal,
+		adr.pays
+			
+FROM organisme org
+INNER JOIN transaction trx ON trx.donneur_id = org.organisme_id
+INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
+INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
+INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+WHERE 	trx.donneur_id = :receveur_id
+AND		trx.date_collecte BETWEEN :date_debut AND :date_fin
+AND 	trx.date_collecte IS NOT NULL;
+
+-- Test
+
+SELECT    org.organisme_id,
+        org.nom,
+        org.telephone,
+        org.poste,
+        org.no_entreprise,
+        org.no_osbl,
+        trx.transaction_id,
+        trx.receveur_id,
+        trx.donneur_id,
+        trx.marchandise_id,
+        trx.date_collecte,
+        trx.date_reservation,
+        trx.date_disponible,
+        trx.date_transaction,
+        ali.valeur,
+        typali.description_type_aliment,
+        adr.adresse_id,
+        adr.no_civique,
+        typrue.description_type_rue,
+        adr.nom,
+        adr.app,
+        adr.ville,
+        adr.province,
+        adr.code_postal,
+        adr.pays
+            
+FROM organisme org
+INNER JOIN transaction trx ON trx.receveur_id = org.organisme_id
+INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
+INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
+INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+WHERE     trx.receveur_id = 4
+AND        trx.date_collecte BETWEEN '2016-01-25 18:52:33' AND '2016-02-06 18:52:33'
+AND     trx.date_collecte IS NOT NULL
+
+UNION
+
+SELECT  org.organisme_id,
+    org.nom,
+    org.telephone,
+    org.poste,
+    org.no_entreprise,
+    org.no_osbl,
+    trx.transaction_id,
+    trx.receveur_id,
+    trx.donneur_id,
+    trx.marchandise_id,
+    trx.date_collecte,
+    trx.date_reservation,
+    trx.date_disponible,
+    trx.date_transaction,
+    ali.valeur,
+    typali.description_type_aliment,
+    adr.adresse_id,
+    adr.no_civique,
+    typrue.description_type_rue,
+    adr.nom,
+    adr.app,
+    adr.ville,
+    adr.province,
+    adr.code_postal,
+    adr.pays
+      
+FROM organisme org
+INNER JOIN transaction trx ON trx.donneur_id = org.organisme_id
+INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
+INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
+INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+WHERE   trx.donneur_id = 4
+AND     trx.date_collecte BETWEEN '2016-01-25 18:52:33' AND '2016-02-06 18:52:33'
+AND   trx.date_collecte IS NOT NULL;
