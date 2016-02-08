@@ -37,7 +37,6 @@ import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
 import com.pam.codenamehippie.ui.adapter.CarteAdapterOption;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,8 +99,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                                               .title(organisme.getNom());
                     this.publishProgress(marker);
                     boundsBuilder.include(point);
+
                 }
             }
+
             return boundsBuilder;
         }
 
@@ -134,6 +135,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 this.activity.map.animateCamera(cameraUpdate);
             }
             this.activity.prepareMarkerAsyncTask = null;
+
         }
 
         @Override
@@ -204,6 +206,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         organismeModeleDepot.ajouterUnObservateur(this);
+        //comprend le ligne code dessous-------------------------------------
         alimentaireModeleDepot.ajouterUnObservateur(this.adapter);
         organismeModeleDepot.peuplerListeDonneur();
     }
