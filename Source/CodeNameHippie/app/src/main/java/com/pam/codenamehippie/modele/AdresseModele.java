@@ -7,24 +7,27 @@ import java.util.regex.Pattern;
 /**
  * Créé par Carl St-Louis le 2015-12-01.
  */
-public class AdresseModele extends BaseModele {
+public class AdresseModele extends BaseModele<AdresseModele> {
 
     @SerializedName("no_civique")
-    private Integer noCivique;
+    protected Integer noCivique;
     @SerializedName("type_rue")
-    private String typeRue;
+    protected String typeRue;
     @SerializedName("nom")
-    private String nom;
+    protected String nom;
     @SerializedName("app")
-    private String app;
+    protected String app;
     @SerializedName("ville")
-    private String ville;
+    protected String ville;
     @SerializedName("province")
-    private String province;
+    protected String province;
     @SerializedName("code_postal")
-    private String codePostal;
+    protected String codePostal;
     @SerializedName("pays")
-    private String pays;
+    protected String pays;
+
+    protected transient volatile String formattedString;
+    protected transient volatile String formattedCodePostal;
 
     public Integer getNoCivique() {
         return this.noCivique;
@@ -32,6 +35,7 @@ public class AdresseModele extends BaseModele {
 
     public AdresseModele setNoCivique(Integer noCivique) {
         this.noCivique = noCivique;
+        this.formattedString = null;
         return this;
     }
 
@@ -41,6 +45,7 @@ public class AdresseModele extends BaseModele {
 
     public AdresseModele setTypeRue(String typeRue) {
         this.typeRue = typeRue;
+        this.formattedString = null;
         return this;
     }
 
@@ -50,6 +55,7 @@ public class AdresseModele extends BaseModele {
 
     public AdresseModele setNom(String nom) {
         this.nom = nom;
+        this.formattedString = null;
         return this;
     }
 
@@ -59,6 +65,7 @@ public class AdresseModele extends BaseModele {
 
     public AdresseModele setApp(String app) {
         this.app = app;
+        this.formattedString = null;
         return this;
     }
 
@@ -68,6 +75,7 @@ public class AdresseModele extends BaseModele {
 
     public AdresseModele setVille(String ville) {
         this.ville = ville;
+        this.formattedString = null;
         return this;
     }
 
@@ -77,6 +85,7 @@ public class AdresseModele extends BaseModele {
 
     public AdresseModele setProvince(String province) {
         this.province = province;
+        this.formattedString = null;
         return this;
     }
 
@@ -88,7 +97,9 @@ public class AdresseModele extends BaseModele {
         if (codePostal == null) {
             this.codePostal = null;
         } else {
-            this.codePostal = codePostal.replaceAll("\\s+", "");
+            this.codePostal = codePostal.replaceAll("\\s+", "").toUpperCase();
+            this.formattedCodePostal = null;
+            this.formattedString = null;
         }
         return this;
     }
@@ -97,9 +108,12 @@ public class AdresseModele extends BaseModele {
         if (this.codePostal == null) {
             return null;
         }
-        StringBuilder stringBuilder = new StringBuilder(this.codePostal);
-        stringBuilder.insert(3, " ");
-        return stringBuilder.toString();
+        if (this.formattedCodePostal == null) {
+            StringBuilder stringBuilder = new StringBuilder(this.codePostal);
+            stringBuilder.insert(3, " ");
+            this.formattedCodePostal = stringBuilder.toString();
+        }
+        return this.formattedCodePostal;
     }
 
     public String getPays() {
@@ -108,37 +122,67 @@ public class AdresseModele extends BaseModele {
 
     public AdresseModele setPays(String pays) {
         this.pays = pays;
+        this.formattedString = null;
         return this;
     }
 
     public String toFormattedString() {
-        StringBuilder stringBuilder = new StringBuilder(200);
-        if (this.noCivique != null) {
-            stringBuilder.append(this.noCivique).append(" ");
-        }
-        if ((this.nom != null) && (this.typeRue != null)) {
-            String first = (Pattern.matches("^([0-9+]).+$", this.nom)) ? this.nom : this.typeRue;
-            String second = (first.equals(this.typeRue)) ? this.nom : this.typeRue;
-            stringBuilder.append(first).append(" ").append(second);
-        }
-        stringBuilder.append(", ");
-        if (this.app != null) {
-            stringBuilder.append("Apt. ").append(this.app);
-        }
-        stringBuilder.append("\n");
-        if (this.ville != null) {
-            stringBuilder.append(this.ville).append(", ");
-        }
-        if (this.province != null) {
-            stringBuilder.append(this.province).append(" ");
-        }
-        if (this.codePostal != null) {
-            stringBuilder.append(this.getFormattedCodePostal()).append("\n");
+        if (this.formattedString == null) {
+            StringBuilder stringBuilder = new StringBuilder(200);
+            if (this.noCivique != null) {
+                stringBuilder.append(this.noCivique).append(" ");
+            }
+            if ((this.nom != null) && (this.typeRue != null)) {
+                String first =
+                        (Pattern.matches("^([0-9+]).+$", this.nom)) ? this.nom : this.typeRue;
+                String second = (first.equals(this.typeRue)) ? this.nom : this.typeRue;
+                stringBuilder.append(first).append(" ").append(second);
+            }
+            stringBuilder.append(", ");
+            if (this.app != null) {
+                stringBuilder.append("Apt. ").append(this.app);
+            }
+            stringBuilder.append("\n");
+            if (this.ville != null) {
+                stringBuilder.append(this.ville).append(", ");
+            }
+            if (this.province != null) {
+                stringBuilder.append(this.province).append(" ");
+            }
+            if (this.codePostal != null) {
+                stringBuilder.append(this.getFormattedCodePostal()).append("\n");
 
+            }
+            if (this.pays != null) {
+                stringBuilder.append(this.pays).append(" ");
+            }
+            this.formattedString = (stringBuilder.length() == 0) ? null : stringBuilder.toString();
         }
-        if (this.pays != null) {
-            stringBuilder.append(this.pays).append(" ");
+        return this.formattedString;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
         }
-        return stringBuilder.toString();
+        if (!(o instanceof AdresseModele)) {
+            return false;
+        }
+        AdresseModele rhs = (AdresseModele) o;
+        return (((this.id == null) ? (rhs.id == null) : this.id.equals(rhs.id)) &&
+                ((this.toFormattedString() == null)
+                 ? rhs.toFormattedString() == null
+                 : this.formattedString.equals(rhs.toFormattedString())));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 62;
+        hash = (this.id != null) ? 31 * hash + this.id.hashCode() : hash;
+        hash = (this.toFormattedString() != null)
+               ? 31 * hash + this.formattedString.hashCode()
+               : hash;
+        return hash;
     }
 }
