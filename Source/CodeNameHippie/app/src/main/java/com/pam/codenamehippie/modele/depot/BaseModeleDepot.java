@@ -37,8 +37,11 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.http.exception.HttpReponseException;
 import com.pam.codenamehippie.modele.BaseModele;
@@ -61,6 +64,7 @@ import okhttp3.Response;
  * Classe patron représentant un dépôt d'objet de type {@link BaseModele}.
  * <p>
  * Cette classe est définie comme abstraite pour 2 raisons:
+ * </p>
  * <ol>
  * <li>
  * Elle à été conçue avec l'Intention d'être la classe mère de tous les autres dépôt.
@@ -76,6 +80,7 @@ import okhttp3.Response;
  * le mécanisme de réflection de Java. Ceci est une opération relativement dispendieuse, par
  * conséquent nous recommandons de limiter le nombre d'allocation d'instances d'objet de type
  * dépôt.
+ * </p>
  *
  * @param <T>
  *         Type de modèle que le dépot contient.
@@ -87,7 +92,10 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * Ce membre est publique afin de réduire le nombre d'allocation.
      */
     protected final static Gson gson =
-            new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").serializeNulls().create();
+            new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                             .serializeNulls()
+                             .create();
+
     private static final String TAG = BaseModeleDepot.class.getSimpleName();
     /**
      * Contenant qui renferme les objets entretenus par le dépôt.
@@ -106,49 +114,41 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      */
     protected final Object lock = new Object();
     /**
+     * Main thread handler
+     */
+    protected final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+    /**
      * La valeur du paramètre de type T.
      */
     protected Class classeDeT;
-
     /**
      * Url du des objets du dépôt.
      */
-    protected HttpUrl url = HippieApplication.baseUrl;
-
+    protected HttpUrl url = HippieApplication.BASE_URL;
     /**
      * Url de la dernière requête de peuplement effectuée
      */
     protected HttpUrl urlDeRepeuplement = null;
-
     /**
      * Url pour modifications des objets du dépot.
      */
     protected HttpUrl modifierUrl = null;
-
     /**
      * Url pour les ajouts des objets du dépot
      */
     protected HttpUrl ajoutUrl = null;
-
     /**
      * Url pour les suppressions des objets du dépot
      */
     protected HttpUrl supprimerUrl = null;
-
     /**
      * Liste contenant les objets qui observe le dépôt.
      */
     protected volatile ArrayList<ObservateurDeDepot<T>> observateurs = new ArrayList<>();
-
     /**
      * Foncteur pour les listes résultantes des requêtes
      */
     protected FiltreDeListe<T> filtreDeListe = null;
-
-    /**
-     * Main thread handler
-     */
-    protected Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
     /**
      * Initialise les variables commune à tous les dépôts.
@@ -228,7 +228,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      */
     public String toJson(T modele) {
         synchronized (this.lock) {
-            return gson.toJson(modele);
+            return gson.toJson(modele, this.classeDeT);
         }
     }
 
@@ -239,9 +239,12 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *         un string formatté en JSON. représentant le modèle
      *
      * @return une instance du modèle.
+     *
+     * @throws JsonSyntaxException
+     *         Si le json n'est pas convertible en modèle
      */
     @SuppressWarnings("unchecked")
-    public T fromJson(String json) {
+    public T fromJson(String json) throws JsonSyntaxException {
         synchronized (this.lock) {
             return (T) gson.fromJson(json, this.classeDeT);
         }
@@ -253,12 +256,47 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * @param reader
      *         un reader de string formatté en JSON. représentant le modèle
      *
-     * @return une instance du modèle.
+     * @return une instance du modèle ou null si le reader ne contient plus rien.
+     *
+     * @throws IOException
+     *         S'il y a eu un problème de lecture avec le reader
+     * @throws JsonIOException
+     *         S'il y a eu un problème de lecture de json avec le reader
+     * @throws JsonSyntaxException
+     *         Si le reader rencontre du JSON malformé.
      */
+    @Nullable
     @SuppressWarnings("unchecked")
-    public T fromJson(JsonReader reader) {
+    public T fromJson(JsonReader reader) throws JsonIOException, JsonSyntaxException {
         synchronized (this.lock) {
-            return (T) gson.fromJson(reader, this.classeDeT);
+            T result = null;
+            try {
+                JsonToken token = reader.peek();
+                if (token.equals(JsonToken.BEGIN_ARRAY)) {
+                    reader.beginArray();
+                    token = reader.peek();
+                }
+                switch (token) {
+                    case BEGIN_OBJECT:
+                        result = gson.fromJson(reader, this.classeDeT);
+                        break;
+                    case END_ARRAY:
+                        reader.endArray();
+                        break;
+                    case END_DOCUMENT:
+                        reader.close();
+                }
+                token = reader.peek();
+                if (token.equals(JsonToken.END_DOCUMENT)) {
+                    reader.close();
+                }
+            } catch (IllegalStateException e) {
+                // Le reader est fermé on retourne le résultat.
+                return result;
+            } catch (IOException e) {
+                this.surErreur(e);
+            }
+            return result;
         }
     }
 
@@ -269,18 +307,22 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *         un reader de string formatté en JSON. représentant le modèle
      *
      * @return une instance du modèle.
+     *
+     * @throws JsonIOException
+     *         S'il y a eu un problème de lecture de json avec le reader
+     * @throws JsonSyntaxException
+     *         Si le reader rencontre du JSON malformé.
      */
     @SuppressWarnings("unchecked")
-    public T fromJson(Reader reader) {
-        synchronized (this.lock) {
-            return (T) gson.fromJson(reader, this.classeDeT);
-        }
+    public T fromJson(Reader reader) throws IOException, JsonIOException, JsonSyntaxException {
+        return this.fromJson(new JsonReader(reader));
     }
 
     /**
      * Permet de peupler le dépot.
-     * <p>
+     * <p/>
      * Cette methode est asynchrone et retourne immédiatement.
+     * </p
      *
      * @param url
      *         url de la requête.
@@ -316,9 +358,8 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                         // Le serveur retourne un array. Donc pour supporter un énorme array on
                         // utilise des streams.
                         JsonReader reader = new JsonReader(response.body().charStream());
-                        reader.beginArray();
-                        while (reader.hasNext()) {
-                            T modele = BaseModeleDepot.this.fromJson(reader);
+                        T modele = BaseModeleDepot.this.fromJson(reader);
+                        while (modele != null) {
                             if (BaseModeleDepot.this.filtreDeListe != null) {
                                 if (BaseModeleDepot.this.filtreDeListe.appliquer(modele)) {
                                     BaseModeleDepot.this.modeles.add(modele);
@@ -326,9 +367,8 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                             } else {
                                 BaseModeleDepot.this.modeles.add(modele);
                             }
+                            modele = BaseModeleDepot.this.fromJson(reader);
                         }
-                        reader.endArray();
-                        reader.close();
                     }
                     BaseModeleDepot.this.surChangementDeDonnees();
                 }
@@ -352,14 +392,14 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * Méthode qui recherche un modèle selon l'id de l'objet reçu en paramètre.
      * <p>
      * Cette methode est asynchrone et retourne immédiatement.
+     * </p>
      *
      * @param id
      *         de l'objet
      */
     public void rechercherParId(@NonNull Integer id) {
         HttpUrl url = this.url.newBuilder().addPathSegment(id.toString()).build();
-        Request request = new Request.Builder().url(url).build();
-        //TODO: Implémenter la requête + callback?
+        this.peuplerLeDepot(url);
     }
 
     /**
@@ -436,6 +476,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * <p>
      * Cette méthode est asynchrone et retourne immédiatement.<br/>
      * Cette méthode est équivalente à {@code supprimerModele(modele, null)}.
+     * </p>
      *
      * @param modele
      *         l'objet à supprimer.
@@ -450,6 +491,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * Envoi une commande de suppression de données au serveur.
      * <p>
      * Cette méthode est asynchrone et retourne immédiatement.
+     * </p>
      *
      * @param modele
      *         l'objet à supprimer

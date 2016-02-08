@@ -5,11 +5,12 @@ android {
     buildToolsVersion '23.0.2'
 
     defaultConfig {
-        applicationId "com.pam.codenamehippie"
+        applicationId 'com.pam.codenamehippie'
         minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName '1.0'
+        generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
     }
     buildTypes {
         release {
@@ -33,4 +34,5 @@ dependencies {
     compile 'com.google.android.gms:play-services:8.3.0'
     compile 'com.sothree.slidinguppanel:library:3.0.0'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+    compile 'com.androidplot:androidplot-core:0.9.6'
 }

@@ -80,6 +80,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
     private volatile ArrayList<TypeAlimentaireModele> listeTypeAlimentaire;
 
     public AlimentaireModeleDepot(Context context, OkHttpClient httpClient) {
+
         super(context, httpClient);
         HttpUrl baseListeUrl = this.url.newBuilder().addPathSegment("liste").build();
         this.listeUniteUrl = baseListeUrl.newBuilder().addPathSegment("unite").build();
@@ -111,7 +112,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
     /**
      * Permet de peupler les items pour les spinner.
-     * <p>
+     * <p/>
      * Cette methode est asynchrone et retourne immédiatement
      */
     public void peuplerLesListesDeSpinners(final PeuplerListesDeSpinnerListener listener) {
@@ -257,27 +258,26 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         HttpUrl url = this.collecterUrl.newBuilder().addPathSegment(modele.getId().toString())
                                        .build();
         Request request = new Request.Builder().url(url).get().build();
-        this.httpClient.newCall(request)
-                       .enqueue(new Callback() {
-                           @Override
-                           public void onFailure(Call call, IOException e) {
-                               AlimentaireModeleDepot.this.surErreur(e);
-                           }
+        this.httpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                AlimentaireModeleDepot.this.surErreur(e);
+            }
 
-                           @Override
-                           public void onResponse(Call call, Response response) {
-                               if (!response.isSuccessful()) {
-                                   HttpReponseException e = new HttpReponseException(response);
-                                   AlimentaireModeleDepot.this.surErreur(e);
-                               } else {
-                                   AlimentaireModeleDepot.this.repeuplerLedepot();
-                                   if (action != null) {
-                                       AlimentaireModeleDepot.this.runOnUiThread(action);
-                                   }
-                               }
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (!response.isSuccessful()) {
+                    HttpReponseException e = new HttpReponseException(response);
+                    AlimentaireModeleDepot.this.surErreur(e);
+                } else {
+                    AlimentaireModeleDepot.this.repeuplerLedepot();
+                    if (action != null) {
+                        AlimentaireModeleDepot.this.runOnUiThread(action);
+                    }
+                }
 
-                           }
-                       });
+            }
+        });
     }
 
     public void ajouterReservation(AlimentaireModele modele, final Runnable action) {
@@ -320,27 +320,26 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                                          .addPathSegment(modele.getId().toString())
                                          .build();
         Request request = new Request.Builder().url(url).get().build();
-        this.httpClient.newCall(request)
-                       .enqueue(new Callback() {
-                           @Override
-                           public void onFailure(Call call, IOException e) {
-                               AlimentaireModeleDepot.this.surErreur(e);
-                               AlimentaireModeleDepot.this.surFinDeRequete();
-                           }
+        this.httpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                AlimentaireModeleDepot.this.surErreur(e);
+                AlimentaireModeleDepot.this.surFinDeRequete();
+            }
 
-                           @Override
-                           public void onResponse(Call call, Response response) {
-                               if (!response.isSuccessful()) {
-                                   HttpReponseException e = new HttpReponseException(response);
-                                   AlimentaireModeleDepot.this.surErreur(e);
-                               } else {
-                                   AlimentaireModeleDepot.this.repeuplerLedepot();
-                                   if (action != null) {
-                                       AlimentaireModeleDepot.this.runOnUiThread(action);
-                                   }
-                               }
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (!response.isSuccessful()) {
+                    HttpReponseException e = new HttpReponseException(response);
+                    AlimentaireModeleDepot.this.surErreur(e);
+                } else {
+                    AlimentaireModeleDepot.this.repeuplerLedepot();
+                    if (action != null) {
+                        AlimentaireModeleDepot.this.runOnUiThread(action);
+                    }
+                }
 
-                           }
-                       });
+            }
+        });
     }
 }

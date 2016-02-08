@@ -63,6 +63,7 @@ public class RegisterActivity extends HippieActivity
                                                    ValidateurDeChampTexte.PRENOM_LONGUEUR_MAX
                                                   );
         this.validateurPrenom.registerObserver(this);
+
         EditText etCourriel = ((EditText) this.findViewById(R.id.etCourriel));
         this.validateurCourriel = ValidateurCourriel.newInstance(this, etCourriel, true);
         this.validateurCourriel.registerObserver(this);
@@ -169,7 +170,7 @@ public class RegisterActivity extends HippieActivity
                                           )
                                       .add("courriel", this.validateurCourriel.getTextString())
                                       .build();
-        HttpUrl url = HippieApplication.baseUrl.newBuilder().addPathSegment("utilisateur").build();
+        HttpUrl url = HippieApplication.BASE_URL.newBuilder().addPathSegment("utilisateur").build();
         Request request = new Request.Builder().url(url).post(body).build();
         this.httpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -181,7 +182,7 @@ public class RegisterActivity extends HippieActivity
                     }
                 });
                 // On "déconnecte": on a échoué.
-                RegisterActivity.this.authentificateur.deconnecte();
+                RegisterActivity.this.authentificateur.deconnecter();
 
             }
 
@@ -216,7 +217,7 @@ public class RegisterActivity extends HippieActivity
                             });
                             break;
                     }
-                    RegisterActivity.this.authentificateur.deconnecte();
+                    RegisterActivity.this.authentificateur.deconnecter();
                 } else {
                     RegisterActivity.this.sauvegarderFormulaire();
                     RegisterActivity.this.navigueAMainActivity();
@@ -233,6 +234,7 @@ public class RegisterActivity extends HippieActivity
                                          this.validateurCourriel.getText().toString()
                                         )
                               .commit();
+
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.pam.codenamehippie.modele;
 
 import com.google.gson.annotations.SerializedName;
-import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -12,29 +11,27 @@ import java.util.Date;
 public class TransactionModele extends BaseModele<TransactionModele> {
 
     @SerializedName("receveur_id")
-    private OrganismeModele receveur;
+    protected OrganismeModele receveur;
     @SerializedName("donneur_id")
-    private OrganismeModele donneur;
+    protected OrganismeModele donneur;
     @SerializedName("alimentaire")
-    private AlimentaireModele alimentaire;
+    protected AlimentaireModele alimentaire;
     @SerializedName("date_collecte")
-    private Date dateCollecte;
+    protected Date dateCollecte;
     @SerializedName("date_reservation")
-    private Date dateReservation;
+    protected Date dateReservation;
     @SerializedName("date_disponible")
-    private Date dateDisponible;
+    protected Date dateDisponible;
 
-    // ------------------------------ Début Accesseur et Mutateur
     public OrganismeModele getReceveur() {
         return this.receveur;
-    }
 
     public TransactionModele setReceveur(OrganismeModele receveur) {
         this.receveur = receveur;
         return this;
     }
 
-    public OrganismeModele donneur() {
+    public OrganismeModele getDonneur() {
         return this.donneur;
     }
 
@@ -96,5 +93,4 @@ public class TransactionModele extends BaseModele<TransactionModele> {
         calendar.setTime(this.dateCollecte);
         return calendar;
     }
-    // ------------------------------ Fin Accesseur et Mutateur
 }

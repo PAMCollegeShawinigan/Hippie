@@ -41,8 +41,8 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
      * Donc, on affiche le layout : liste_marchandises_dispo_details, afin de faire afficher
      * l'adresse
      * et le nom de l'entreprise (du donneur en fait) qui donne la marchandise ciblée.
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * On ajoute les paramètres.
      *
      * @param groupPosition
@@ -125,8 +125,8 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
     /**
      * Ici, on ajoute les élements pour faire afficher les informations de la marchandise.
      * On affiche donc le layout liste_marchandises_dispo_group
-     * <p>
-     * <p>
+     * <p/>
+     * <p/>
      * On ajoute les paramètres.
      *
      * @param groupPosition
@@ -221,8 +221,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
         ((TextView) convertView.findViewById(R.id.tv_md_description)).setText(modele.getDescription());
 
         // On affiche la quantité + l'unité de la marchandise
-        String quantiteString = modele.getQuantite().toString() + " " + modele.getUnite();
-        ((TextView) convertView.findViewById(R.id.tv_md_qtee_marchandise)).setText(quantiteString);
+        ((TextView) convertView.findViewById(R.id.tv_md_qtee_marchandise)).setText(modele.getQuantiteString());
 
         // Affiche la date de péremption, quand c'est valable.
         if (modele.getDatePeremption() != null) {
@@ -230,7 +229,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
             String date = format.format(modele.getDatePeremption());
             ((TextView) convertView.findViewById(R.id.tv_md_date_marchandise)).setText(date);
         } else {
-            ((TextView) convertView.findViewById(R.id.tv_md_date_marchandise)).setVisibility(View.INVISIBLE);
+            convertView.findViewById(R.id.tv_md_date_marchandise).setVisibility(View.INVISIBLE);
         }
 
         // Réserver la marchandise (pour les organismes seulement)

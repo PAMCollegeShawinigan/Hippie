@@ -1,9 +1,8 @@
 package com.pam.codenamehippie.controleur;
 
-import com.pam.codenamehippie.modele.MarchandiseModele;
+import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.TransactionModele;
-
 
 public class ActionTransaction {
 
@@ -22,10 +21,9 @@ public class ActionTransaction {
      */
     public TransactionModele ajouterMarchandise(TransactionModele transaction,
                                                 OrganismeModele donneur,
-                                                MarchandiseModele marchandise) {
+                                                AlimentaireModele marchandise) {
 
-        transaction.setIdDonneur(donneur)
-                   .setIdMarchandise(marchandise);
+        transaction.setIdDonneur(donneur).setAlimentaire(marchandise);
 
         return transaction;
     }

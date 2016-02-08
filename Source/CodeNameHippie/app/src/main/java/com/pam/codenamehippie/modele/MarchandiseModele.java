@@ -13,21 +13,23 @@ import com.google.gson.annotations.SerializedName;
 public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends BaseModele<T> {
 
     @SerializedName("nom")
-    private String nom;
+    protected String nom;
     @SerializedName("description")
-    private String description;
+    protected String description;
     @SerializedName("quantite")
-    private Double quantite;
+    protected Double quantite = 0.00d;
+    @SerializedName("unite")
+    protected String uniteDeQuantite;
     @SerializedName("marchandise_etat")
-    private String etat;
+    protected String etat;
     @SerializedName("valeur")
-    private Integer valeur;
+    protected Long valeur = 0L;
     @SerializedName("marchandise_statut")
-    private String statut;
+    protected String statut;
     @SerializedName("organisme")
-    private OrganismeModele organisme;
+    protected OrganismeModele organisme;
 
-    public OrganismeModele getOrganisme(){return this.organisme;}
+    public OrganismeModele getOrganisme() {return this.organisme;}
 
     @SuppressWarnings(value = {"unchecked"})
     public T setOrganisme(OrganismeModele organisme) {
@@ -65,6 +67,24 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return (T) this;
     }
 
+    public String getQuantiteString() {
+        if (this.uniteDeQuantite != null) {
+            return this.quantite.toString() + " " + this.uniteDeQuantite;
+        } else {
+            return this.quantite.toString();
+        }
+    }
+
+    public String getUniteDeQuantite() {
+        return this.uniteDeQuantite;
+    }
+
+    @SuppressWarnings(value = {"unchecked"})
+    public T setUniteDeQuantite(String uniteDeQuantite) {
+        this.uniteDeQuantite = uniteDeQuantite;
+        return (T) this;
+    }
+
     public String getEtat() {
         return this.etat;
     }
@@ -75,12 +95,12 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return (T) this;
     }
 
-    public Integer getValeur() {
+    public Long getValeur() {
         return this.valeur;
     }
 
     @SuppressWarnings(value = {"unchecked"})
-    public T setValeur(Integer valeur) {
+    public T setValeur(Long valeur) {
         this.valeur = valeur;
         return (T) this;
     }

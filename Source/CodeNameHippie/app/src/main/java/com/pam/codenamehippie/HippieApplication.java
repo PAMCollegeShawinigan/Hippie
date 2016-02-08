@@ -1,7 +1,8 @@
 package com.pam.codenamehippie;
 
 import android.app.Application;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.pam.codenamehippie.http.Authentificateur;
 import com.pam.codenamehippie.http.intercepteur.AcceptJsonInterceptor;
@@ -10,8 +11,6 @@ import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
 import com.pam.codenamehippie.modele.depot.TransactionModeleDepot;
 import com.pam.codenamehippie.modele.depot.UtilisateurModeleDepot;
-
-import java.io.IOException;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -23,8 +22,9 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  */
 public class HippieApplication extends Application {
 
-    public static final HttpUrl baseUrl =
+    public static final HttpUrl BASE_URL =
             HttpUrl.parse("http://yolainecourteau.com/hippie/laravel/public/");
+    protected final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
     /**
      * Instance du client http pour l'application
      */
@@ -94,9 +94,25 @@ public class HippieApplication extends Application {
         this.httpClient = httpClientBuilder.build();
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/opensans_light.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
-        );
+                                              .setDefaultFontPath("fonts/opensans_light.ttf")
+                                              .setFontAttrId(R.attr.fontPath)
+                                              .build()
+                                     );
+    }
+
+    /**
+     * Réimplémentation de {@link android.app.Activity#runOnUiThread(Runnable)}
+     *
+     * @param action
+     *         truc à rouler sur le main thread
+     *
+     * @see android.app.Activity#runOnUiThread(Runnable)
+     */
+    public void runOnUiThread(Runnable action) {
+        if (Thread.currentThread() != this.mainThreadHandler.getLooper().getThread()) {
+            this.mainThreadHandler.post(action);
+        } else {
+            action.run();
+        }
     }
 }
