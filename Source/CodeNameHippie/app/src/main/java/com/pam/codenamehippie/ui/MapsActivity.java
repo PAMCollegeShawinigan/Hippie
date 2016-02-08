@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -29,6 +32,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.http.exception.HttpReponseException;
 import com.pam.codenamehippie.modele.AdresseModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
@@ -37,6 +41,7 @@ import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
 import com.pam.codenamehippie.ui.adapter.CarteAdapterOption;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,10 +56,12 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
             extends AsyncTask<OrganismeModele, MarkerOptions, LatLngBounds.Builder> {
 
         private final MapsActivity activity;
+        private final int listeType;
 
         public PrepareMarkerAsyncTask(@NonNull MapsActivity activity) {
             super();
             this.activity = activity;
+            this.listeType = this.activity.adapter.getListType();
         }
 
         public static PrepareMarkerAsyncTask newInstance(MapsActivity activity) {
@@ -88,6 +95,13 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 }
             }
             LatLngBounds.Builder boundsBuilder = LatLngBounds.builder();
+            BitmapDescriptor dispoMarker =
+                    BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory
+                                                                  .HUE_GREEN);
+            BitmapDescriptor reserveeMarker =
+                    BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+            BitmapDescriptor defautMarker =
+                    BitmapDescriptorFactory.defaultMarker();
             for (OrganismeModele organisme : organismes) {
                 if (this.isCancelled()) {
                     break;
@@ -97,12 +111,22 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 if (point != null) {
                     MarkerOptions marker = new MarkerOptions().position(point)
                                                               .title(organisme.getNom());
+                    switch (this.listeType) {
+                        case CarteAdapterOption.LIST_TYPE_MARCHANDISE_DISPO:
+                            marker.icon(dispoMarker);
+                            break;
+                        case CarteAdapterOption.LIST_TYPE_MARCHANDISE_RESERVEE:
+                            marker.icon(reserveeMarker);
+                            break;
+                        default:
+                            marker.icon(defautMarker);
+                            break;
+                    }
                     this.publishProgress(marker);
                     boundsBuilder.include(point);
 
                 }
             }
-
             return boundsBuilder;
         }
 
@@ -156,6 +180,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     private MapView mapView;
     private CarteAdapterOption adapter;
     private AsyncTask prepareMarkerAsyncTask;
+    private int orgId;
 
     /**
      * preparer la carte google et des donnees.
@@ -166,13 +191,16 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_maps_plus);
+        this.orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
+                                                   -1
+                                                  );
         this.mapView = ((MapView) this.findViewById(R.id.map));
         this.mapView.onCreate(savedInstanceState);
         this.slidingLayout = (SlidingUpPanelLayout) this.findViewById(R.id.sliding_layout);
         this.slidingLayout.setAnchorPoint(0.6f);
         this.slidingLayout.setVisibility(View.GONE);
         this.expandableListView = (ExpandableListView) this.findViewById(R.id.expandableListView);
-        this.adapter = new CarteAdapterOption(this);
+        this.adapter = new CarteAdapterOption(this, this.orgId);
         this.expandableListView.setAdapter(this.adapter);
         // mettre le listener pour le click de group de l'expandablelistview
         this.expandableListView.setOnGroupClickListener(this);
@@ -312,7 +340,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
 
     public void onButtonClick(View v) {
         OrganismeModeleDepot organismeModeleDepot =
-                ((HippieApplication) getApplication()).getOrganismeModeleDepot();
+                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
 
         switch (v.getId()) {
 
@@ -342,8 +370,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
 
                 this.adapter.setOrganisme(null);
                 this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_RESERVEE);
-                organismeModeleDepot.peuplerListeDonneur();
-                // FIXME: Connecter alimentaireModeleDepot et partir une requete pour l'organisme
+                this.peuplerListeOrganisme(organismeModeleDepot);
                 break;
 
             case R.id.listeMarchandise:
@@ -381,12 +408,32 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         if (this.map == null) {
             this.mapView.getMapAsync(this);
         }
+        if (this.prepareMarkerAsyncTask == null) {
+            this.cacherLaProgressbar();
+        }
     }
 
     @Override
     public void surErreur(IOException e) {
-        Log.e(TAG, "Erreur de dépot", e);
-
+        if (e instanceof HttpReponseException) {
+            switch (((HttpReponseException) e).getCode()) {
+                case 404:
+                    //FIXME: Faire bon message.
+                    Snackbar.make(this.mapView, R.string.error_http_404, Snackbar.LENGTH_LONG)
+                            .show();
+                    break;
+                case 500:
+                    Snackbar.make(this.mapView, R.string.error_http_500, Snackbar.LENGTH_LONG)
+                            .show();
+                    break;
+                default:
+                    Snackbar.make(this.mapView, R.string.error_connection, Snackbar.LENGTH_LONG)
+                            .show();
+                    break;
+            }
+        } else {
+            Snackbar.make(this.mapView, R.string.error_connection, Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -452,7 +499,20 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     }
 
     public void peuplerListeOrganisme(OrganismeModeleDepot depot) {
-        depot.peuplerListeDonneur();
+        switch (this.adapter.getListType()) {
+            case CarteAdapterOption.LIST_TYPE_MARCHANDISE_DISPO:
+                depot.peuplerListeDonneur();
+                break;
+            case CarteAdapterOption.LIST_TYPE_MARCHANDISE_RESERVEE:
+                if (this.orgId != -1) {
+                    depot.peuplerListeDonneurReservation(this.orgId);
+                } else {
+                    Snackbar.make(this.mapView, "Non disponible", Snackbar.LENGTH_LONG).show();
+                }
+                break;
+            default:
+                throw new IllegalStateException("Type de liste inconnu");
+        }
     }
 }
 
