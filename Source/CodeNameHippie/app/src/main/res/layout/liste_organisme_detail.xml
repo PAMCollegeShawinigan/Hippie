@@ -6,7 +6,7 @@
               android:padding="10dp"
     >
 
-    <!-- Affiche l'adresse de l'organisme -->
+    <!-- Affiche l'adresse de l'organisme, c'est l'enfant de la listview -->
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
