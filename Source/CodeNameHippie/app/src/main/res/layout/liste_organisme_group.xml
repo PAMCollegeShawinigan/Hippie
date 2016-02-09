@@ -6,7 +6,7 @@
               android:layout_height="match_parent"
               android:gravity="center_vertical"
               android:padding="10dp">
-
+<!-- Affiche le nom de l'organisme, c'est aussi le parent de la listview -->
     <ImageView
         android:layout_width="45dp"
         android:layout_height="40dp"

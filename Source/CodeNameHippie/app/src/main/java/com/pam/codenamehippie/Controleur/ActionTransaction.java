@@ -23,7 +23,7 @@ public class ActionTransaction {
                                                 OrganismeModele donneur,
                                                 AlimentaireModele marchandise) {
 
-        transaction.setIdDonneur(donneur).setAlimentaire(marchandise);
+        transaction.setDonneur(donneur).setAlimentaire(marchandise);
 
         return transaction;
     }
@@ -49,7 +49,7 @@ public class ActionTransaction {
     public TransactionModele reserverMarchandise(TransactionModele transaction,
                                                  OrganismeModele receveur) {
 
-        transaction.setIdReceveur(receveur);
+        transaction.setReceveur(receveur);
 
         return transaction;
     }
