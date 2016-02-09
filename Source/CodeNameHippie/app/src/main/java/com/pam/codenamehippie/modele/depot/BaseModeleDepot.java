@@ -344,6 +344,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "Request failed: " + call.request().toString(), e);
                 BaseModeleDepot.this.surErreur(e);
+                BaseModeleDepot.this.surFinDeRequete();
             }
 
             @Override

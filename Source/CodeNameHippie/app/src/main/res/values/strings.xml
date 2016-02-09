@@ -152,6 +152,10 @@
     <string name="tv_profil_neq_placeholder">Placeholder</string>
     <string name="btn_edit_password">EDIT PASSWORD</string>
 
+    <!-- Ressource pour Layout Liste Statistiques -->
+    <string name="tv_statistiques_titre">STATISTICS</string>
+    <string name="tv_statistiques_valeur_totale">Total value</string>
+
     <!-- Autres ressources-->
     <string name="iv_logo">Logo</string>
     <string name="loading">A moment please.</string>
