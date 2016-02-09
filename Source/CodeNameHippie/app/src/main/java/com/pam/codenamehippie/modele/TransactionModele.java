@@ -10,10 +10,10 @@ import java.util.Date;
  */
 public class TransactionModele extends BaseModele<TransactionModele> {
 
-    @SerializedName("receveur_id")
-    protected OrganismeModele idReceveur;
-    @SerializedName("donneur_id")
-    protected OrganismeModele idDonneur;
+    @SerializedName("receveur")
+    protected OrganismeModele receveur;
+    @SerializedName("donneur")
+    protected OrganismeModele donneur;
     @SerializedName("alimentaire")
     protected AlimentaireModele alimentaire;
     @SerializedName("date_collecte")
@@ -22,22 +22,35 @@ public class TransactionModele extends BaseModele<TransactionModele> {
     protected Date dateReservation;
     @SerializedName("date_disponible")
     protected Date dateDisponible;
+    @SerializedName("date_transaction")
+    protected Date dateTransaction;
 
-    public OrganismeModele getIdReceveur() {
-        return this.idReceveur;
+    public Date getDateTransaction() {
+        return dateTransaction;
     }
 
-    public TransactionModele setIdReceveur(OrganismeModele idReceveur) {
-        this.idReceveur = idReceveur;
+    public TransactionModele setDateTransaction(Date dateTransaction) {
+        this.dateTransaction = dateTransaction;
         return this;
     }
 
-    public OrganismeModele getIdDonneur() {
-        return this.idDonneur;
+
+
+    public OrganismeModele getReceveur() {
+        return this.receveur;
     }
 
-    public TransactionModele setIdDonneur(OrganismeModele idDonneur) {
-        this.idDonneur = idDonneur;
+    public TransactionModele setReceveur(OrganismeModele receveur) {
+        this.receveur = receveur;
+        return this;
+    }
+
+    public OrganismeModele getDonneur() {
+        return this.donneur;
+    }
+
+    public TransactionModele setDonneur(OrganismeModele donneur) {
+        this.donneur = donneur;
         return this;
     }
 
