@@ -54,6 +54,8 @@ Route:: get('carte/','carte@entreprisedon');
 
 Route:: get('carte/{id}','carte@donid');
 
+Route:: get('transaction/{id}', 'transaction@transactions');
+
 
 
 	
