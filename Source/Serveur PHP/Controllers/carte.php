@@ -34,7 +34,7 @@ class carte extends Controller
 											INNER JOIN adresse adr ON adr.adresse_id = org.adresse
 											INNER JOIN type_rue typrue ON adr.type_rue = typrue.type_rue_id
 											
-											WHERE ali.marchandise_statut = 3 ANd ali.date_peremption > current_date
+											WHERE ali.marchandise_statut = 3 AND (ali.date_peremption > current_date OR ali.date_peremption IS NULL)
 			');
 			
 			$array = array();
@@ -79,7 +79,7 @@ class carte extends Controller
 							INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
 							INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite
 
-							WHERE (ali.marchandise_statut = 3 OR ali.marchandise_statut = 2 )AND trx.donneur_id = :id_donneur AND (ali.date_peremption > current_date OR ali.date_peremption IS NULL) ORDER BY aliment_id DESC');
+							WHERE (ali.marchandise_statut = 3 )AND trx.donneur_id = :id_donneur AND (ali.date_peremption > current_date OR ali.date_peremption IS NULL) ORDER BY aliment_id DESC');
 		
 					$req->execute(array(
 						'id_donneur' => $id_donneur //passe le parametre a la requete MYSQL

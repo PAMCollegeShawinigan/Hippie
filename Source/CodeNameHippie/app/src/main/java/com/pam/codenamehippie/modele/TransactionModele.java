@@ -10,9 +10,9 @@ import java.util.Date;
  */
 public class TransactionModele extends BaseModele<TransactionModele> {
 
-    @SerializedName("receveur_id")
+    @SerializedName("receveur")
     protected OrganismeModele receveur;
-    @SerializedName("donneur_id")
+    @SerializedName("donneur")
     protected OrganismeModele donneur;
     @SerializedName("alimentaire")
     protected AlimentaireModele alimentaire;
@@ -22,6 +22,19 @@ public class TransactionModele extends BaseModele<TransactionModele> {
     protected Date dateReservation;
     @SerializedName("date_disponible")
     protected Date dateDisponible;
+    @SerializedName("date_transaction")
+    protected Date dateTransaction;
+
+    public Date getDateTransaction() {
+        return dateTransaction;
+    }
+
+    public TransactionModele setDateTransaction(Date dateTransaction) {
+        this.dateTransaction = dateTransaction;
+        return this;
+    }
+
+
 
     public OrganismeModele getReceveur() {
         return this.receveur;
