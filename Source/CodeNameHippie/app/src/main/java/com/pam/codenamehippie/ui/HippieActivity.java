@@ -119,14 +119,6 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
                 this.startActivity(new Intent(this, LoginActivity.class));
                 this.finish();
                 return true;
-            // TODO: À effacer plus tard, lorsque les tests avec cette activité sera terminé.
-            case R.id.menu_marchandise_disponible:
-                if (!this.getClass().equals(ListeMarchandisesDisponiblesActivity.class)) {
-                    this.startActivity(new Intent(this,
-                                                  ListeMarchandisesDisponiblesActivity.class
-                    ));
-                }
-                return true;
             case R.id.menu_aide:
                 if (!this.getClass().equals(AideActivity.class)) {
                     this.startActivity(new Intent(this,

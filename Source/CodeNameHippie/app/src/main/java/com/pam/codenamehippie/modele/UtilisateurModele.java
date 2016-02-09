@@ -27,6 +27,7 @@ public class UtilisateurModele extends BaseModele<UtilisateurModele> {
     protected Date dernConnexion;
 
     protected transient volatile String formattedTelephone;
+    protected transient volatile String nomComplet;
 
     public String getCourriel() {
         return this.courriel;
@@ -52,6 +53,7 @@ public class UtilisateurModele extends BaseModele<UtilisateurModele> {
 
     public UtilisateurModele setNom(String nom) {
         this.nom = nom;
+        this.nomComplet = null;
         return this;
     }
 
@@ -61,21 +63,25 @@ public class UtilisateurModele extends BaseModele<UtilisateurModele> {
 
     public UtilisateurModele setPrenom(String prenom) {
         this.prenom = prenom;
+        this.nomComplet = null;
         return this;
     }
 
     public String getNomComplet() {
-        StringBuilder resultat = new StringBuilder(50);
-        if (this.prenom != null) {
-            resultat.append(this.prenom);
-        }
-        if (this.nom != null) {
+        if (this.nomComplet == null) {
+            StringBuilder resultat = new StringBuilder(50);
             if (this.prenom != null) {
-                resultat.append(" ");
+                resultat.append(this.prenom);
             }
-            resultat.append(this.nom);
+            if (this.nom != null) {
+                if (this.prenom != null) {
+                    resultat.append(" ");
+                }
+                resultat.append(this.nom);
+            }
+            this.nomComplet = (resultat.length() != 0) ? resultat.toString() : null;
         }
-        return resultat.toString();
+        return this.nomComplet;
     }
 
     public String getTelephone() {
@@ -129,5 +135,52 @@ public class UtilisateurModele extends BaseModele<UtilisateurModele> {
     public UtilisateurModele setDernConnexion(Date dernConnexion) {
         this.dernConnexion = dernConnexion;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof UtilisateurModele)) {
+            return false;
+        }
+        UtilisateurModele rhs = ((UtilisateurModele) o);
+        return (((this.id == null) ? (rhs.id == null) : this.id.equals(rhs.id)) &&
+                ((this.courriel == null)
+                 ? (rhs.courriel == null)
+                 : this.courriel.equals(rhs.courriel)) &&
+                ((this.motDePasse == null)
+                 ? (rhs.motDePasse == null)
+                 : this.motDePasse.equals(rhs.motDePasse)) &&
+                ((this.getNomComplet() == null)
+                 ? (rhs.getNomComplet() == null)
+                 : this.getNomComplet().equals(rhs.getNomComplet())) &&
+                ((this.telephone == null)
+                 ? (rhs.telephone == null)
+                 : this.telephone.equals(rhs.telephone)) &&
+                ((this.moyenContact == null)
+                 ? (rhs.moyenContact == null)
+                 : this.moyenContact.equals(rhs.moyenContact)) &&
+                ((this.organisme == null)
+                 ? (rhs.organisme == null)
+                 : this.organisme.equals(rhs.organisme)) &&
+                ((this.dernConnexion == null)
+                 ? (rhs.dernConnexion == null)
+                 : this.dernConnexion.equals(rhs.dernConnexion)));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 99;
+        hash = (this.id != null) ? 33 * hash + this.id.hashCode() : hash;
+        hash = (this.courriel != null) ? 33 * hash + this.courriel.hashCode() : hash;
+        hash = (this.motDePasse != null) ? 33 * hash + this.motDePasse.hashCode() : hash;
+        hash = (this.getNomComplet() != null) ? 33 * hash + this.nomComplet.hashCode() : hash;
+        hash = (this.telephone != null) ? 33 * hash + this.telephone.hashCode() : hash;
+        hash = (this.moyenContact != null) ? 33 * hash + this.moyenContact.hashCode() : hash;
+        hash = (this.organisme != null) ? 33 * hash + this.organisme.hashCode() : hash;
+        hash = (this.dernConnexion != null) ? 33 * hash + this.dernConnexion.hashCode() : hash;
+        return hash;
     }
 }

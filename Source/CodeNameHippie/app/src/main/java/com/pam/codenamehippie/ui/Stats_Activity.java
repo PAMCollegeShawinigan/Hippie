@@ -86,20 +86,46 @@ public class Stats_Activity extends HippieActivity
     private XYSeries series6;
     private XYSeries series7;
     private enum SeriesSize {
-        TEN,
-        TWENTY,
-        SIXTY
+        Dix,
+        Vingt,
+        Soixante
     }
 
     // Create a couple arrays of y-values to plot:
     Number[] series1Numbers10 = {2, null, 5, 2, 7, 4, 3, 7, 4, 5};
     Number[] series2Numbers10 = {4, 6, 3, null, 2, 0, 7, 4, 5, 4};
+    Number[] series3Numbers10 = {1, 2, 4, 0, 1, 3, 5, 7, 9, null};
+    Number[] series4Numbers10 = {5, 6, 7, null, 0, 9, 8, 7, 6, 5};
+    Number[] series5Numbers10 = {9, 0, 1, 5, 2, 4, 6, 8, 3, null};
+    Number[] series6Numbers10 = {2, 5, 1, 6, null, 7, 9, 1, 0, 9};
+    Number[] series7Numbers10 = {3, 2, 6, 9, 2, 4, null, 2, 9, 8};
+
     Number[] series1Numbers20 = {2, null, 5, 2, 7, 4, 3, 7, 4, 5, 7, 4, 5, 8, 5, 3, 6, 3, 9, 3};
     Number[] series2Numbers20 = {4, 6, 3, null, 2, 0, 7, 4, 5, 4, 9, 6, 2, 8, 4, 0, 7, 4, 7, 9};
+    Number[] series3Numbers20 = {8, 8, 9, null, 1, 3, 9, 2, 7, 2, 11, 3, 1, 2, 7, 5, 0, 1, 4, 10};
+    Number[] series4Numbers20 = {2, 6, 7, 8, 9, 10, 1, null, 5, 7, 8, 9, 1, 2, 3, 5, 4, 3, 21, 1};
+    Number[] series5Numbers20 = {1, 4, null, 8, 9, 2, 3, 0, 9, 8, 7, 6, 5, 4, 3, 2, 1, 2, 3, 9};
+    Number[] series6Numbers20 = {12, 13, 4, 8, 9, null, 9, 3, 5, 6, 7, 1, 4 , 7, 8, 8, 1, 2, 19, 1};
+    Number[] series7Numbers20 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+
     Number[] series1Numbers60 = {2, null, 5, 2, 7, 4, 3, 7, 4, 5, 7, 4, 5, 8, 5, 3, 6, 3, 9, 3, 2, null, 5, 2, 7, 4, 3, 7, 4, 5, 7, 4, 5, 8, 5, 3, 6, 3, 9, 3, 2, null, 5, 2, 7, 4, 3, 7, 4, 5, 7, 4, 5, 8, 5, 3, 6, 3, 9, 3};
     Number[] series2Numbers60 = {4, 6, 3, null, 2, 0, 7, 4, 5, 4, 9, 6, 2, 8, 4, 0, 7, 4, 7, 9, 4, 6, 3, null, 2, 0, 7, 4, 5, 4, 9, 6, 2, 8, 4, 0, 7, 4, 7, 9, 4, 6, 3, null, 2, 0, 7, 4, 5, 4, 9, 6, 2, 8, 4, 0, 7, 4, 7, 9};
+    Number[] series3Numbers60 = {1, 5, 2, null, 0, 4, 5, 6, 1, 2, 3, 4, 9, 8, 7, 6, 5, 3, 2, 1, 0, 9, 3, null, 1, 2, 3, 7, 6, 5, 4, 3, 2, 9, 1, 3, 8, 1, 2, 3, 5, 8, 9, null, 1, 0, 7, 6, 5, 8, 8, 1, 3, 4, 2, 3, 0, 2, 3, 5};
+    Number[] series4Numbers60 = {7, 4, 5, 4, 9, 6, null, 8, 4, 0, 7, 4, 7, 9, 4, 6, 3, null, 2, 0, 7, 4, 5, 4, 9, 6, 2, 8, 4, 0, 7, 4, 2, 3, 4, 9, 8, 7, 6, 5, 3, 2, 1, 0, 9, 3, null, 1, 2, 3, 7, 6, 5, 4, 3, 2, 9, 1, 7, 7};
+    Number[] series5Numbers60 = {7, 4, 7, 9, 4, 6, 3, null, 2, 0, 7, 4, 5, 4, 9, 6, 2, 8, 4, 0, 7, 4, 2, 3, 4, 9, 8, 7, 6, 5, 3, 2, 1, 0, 9, 3, null, 1, 2, 3, 7, 6, 5, 4, 3, 2, 9, 1, 7, 7, 4, 5, 4, 9, 6, null, 7, 9, 3, 5};
+    Number[] series6Numbers60 = {0, 4, 5, 6, 1, 2, 3, 4, 9, 8, 7, 6, 5, 3, 2, 1, 0, 9, 3, null, 1, 2, 3, 7, 6, 5, 4, 3, 2, 9, 1, 3, 8, 1, 2, 3, 5, 8, 9, null, 1, 0, 7, 6, 5, 8, 8, 1, 3, 4, 2, 3, 0, 2, 3, 5, 7, 4, 8, 1, 8};
+    Number[] series7Numbers60 = {2, null, 5, 2, 7, 4, 3, 7, 4, 5, 7, 4, 5, 8, 5, 3, 6, 3, 9, 3, 2, null, 5, 2, 7, 4, 3, 7, 4, 7, 6, 5, 3, 2, 1, 0, 9, 3, null, 1, 2, 3, 7, 6, 5, 4, 3, 2, 9, 1, 3, 8, 1, 2, 3, 5, 8, 9, 9 ,9};
+
+
     Number[] series1Numbers = series1Numbers10;
     Number[] series2Numbers = series2Numbers10;
+    Number[] series3Numbers = series3Numbers10;
+    Number[] series4Numbers = series4Numbers10;
+    Number[] series5Numbers = series5Numbers10;
+    Number[] series6Numbers = series6Numbers10;
+    Number[] series7Numbers = series7Numbers10;
+
+
 
     private MyBarFormatter formatter1;
     private MyBarFormatter formatter2;
@@ -126,16 +152,36 @@ public class Stats_Activity extends HippieActivity
         // initialize our XYPlot reference:
         plot = (XYPlot) findViewById(R.id.plot);
 
-        formatter1 = new MyBarFormatter(Color.argb(200, 100, 150, 100), Color.LTGRAY);
-        formatter2 = new MyBarFormatter(Color.argb(200, 100, 100, 150), Color.LTGRAY);
-        formatter3 = new MyBarFormatter(Color.argb(200, 100, 100, 150), Color.LTGRAY);
-        formatter4 = new MyBarFormatter(Color.argb(200, 100, 100, 150), Color.LTGRAY);
-        formatter5 = new MyBarFormatter(Color.argb(200, 100, 100, 150), Color.LTGRAY);
-        formatter6 = new MyBarFormatter(Color.argb(200, 100, 100, 150), Color.LTGRAY);
-        formatter7 = new MyBarFormatter(Color.argb(200, 100, 100, 150), Color.LTGRAY);
-        selectionFormatter = new MyBarFormatter(Color.RED, Color.WHITE);
-        selectionWidget = new TextLabelWidget(plot.getLayoutManager(),
-                this.getString(R.string.stats_non_selectionne),
+
+//        formatter1 = new MyBarFormatter(Color.argb(200, 88, 93, 89), Color.LTGRAY);
+//        formatter2 = new MyBarFormatter(Color.argb(200, 145, 169, 145), Color.LTGRAY);
+//        formatter3 = new MyBarFormatter(Color.argb(200, 148, 145, 169), Color.LTGRAY);
+//        formatter4 = new MyBarFormatter(Color.argb(200, 106, 80, 87), Color.LTGRAY);
+//        formatter5 = new MyBarFormatter(Color.argb(200, 169, 154, 128), Color.LTGRAY);
+//        formatter6 = new MyBarFormatter(Color.argb(200, 70, 92, 70), Color.LTGRAY);
+//        formatter7 = new MyBarFormatter(Color.argb(200, 74, 70, 92), Color.LTGRAY);
+//        selectionFormatter = new MyBarFormatter(Color.argb(1000,224,222,84), Color.WHITE);
+
+        formatter1 = new MyBarFormatter(Color.argb(200, 78, 130, 189), Color.LTGRAY);//Bleu
+        formatter2 = new MyBarFormatter(Color.argb(200, 194, 80, 79), Color.LTGRAY);//Rouge
+        formatter3 = new MyBarFormatter(Color.argb(200, 156, 187, 88), Color.LTGRAY);//vert
+        formatter4 = new MyBarFormatter(Color.argb(200, 46, 181, 164), Color.LTGRAY);//lime
+        formatter5 = new MyBarFormatter(Color.argb(200, 128, 100, 162), Color.LTGRAY);//Violet
+        formatter6 = new MyBarFormatter(Color.argb(200, 67, 172, 197), Color.LTGRAY);//Bleu pâle
+        formatter7 = new MyBarFormatter(Color.argb(200, 50, 86, 140), Color.LTGRAY);//Bleu marin
+        selectionFormatter = new MyBarFormatter(Color.argb(1000,224,222,84), Color.WHITE);
+
+        /*formatter1 = new MyBarFormatter(Color.argb(200, 85, 87, 79), Color.LTGRAY);
+        formatter2 = new MyBarFormatter(Color.argb(200, 166, 201, 85), Color.LTGRAY);
+        formatter3 = new MyBarFormatter(Color.argb(200, 207, 215, 194), Color.LTGRAY);
+        formatter4 = new MyBarFormatter(Color.argb(200, 76, 87, 53), Color.LTGRAY);
+        formatter5 = new MyBarFormatter(Color.argb(200, 159, 164, 158), Color.LTGRAY);
+        formatter6 = new MyBarFormatter(Color.argb(200, 93, 134, 59), Color.LTGRAY);
+        formatter7 = new MyBarFormatter(Color.argb(200, 67, 101, 40), Color.LTGRAY);
+        selectionFormatter = new MyBarFormatter(Color.argb(1000,224,222,84), Color.WHITE);*/
+
+        selectionWidget = new TextLabelWidget(plot.getLayoutManager(),this.getString(R.string.stats_non_selectionne),
+
                 new Size(
                         PixelUtils.dpToPix(100), SizeLayoutType.ABSOLUTE,
                         PixelUtils.dpToPix(100), SizeLayoutType.ABSOLUTE),
@@ -268,22 +314,40 @@ public class Stats_Activity extends HippieActivity
         ArrayAdapter <SeriesSize> adapter11 = new ArrayAdapter <SeriesSize> (this, android.R.layout.simple_spinner_item, SeriesSize.values() );
         adapter11.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spSeriesSize.setAdapter(adapter11);
-        spSeriesSize.setSelection(SeriesSize.TEN.ordinal());
+        spSeriesSize.setSelection(SeriesSize.Dix.ordinal());
         spSeriesSize.setOnItemSelectedListener(new OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> arg0, View arg1,int arg2, long arg3) {
                 switch ((SeriesSize)arg0.getSelectedItem()) {
-				case TEN:
+				case Dix:
 					series1Numbers = series1Numbers10;
 					series2Numbers = series2Numbers10;
+                    series3Numbers = series3Numbers10;
+                    series4Numbers = series4Numbers10;
+                    series5Numbers = series5Numbers10;
+                    series6Numbers = series6Numbers10;
+                    series7Numbers = series7Numbers10;
+
 					break;
-				case TWENTY:
+				case Vingt:
 					series1Numbers = series1Numbers20;
 					series2Numbers = series2Numbers20;
-					break;
-				case SIXTY:
+                    series3Numbers = series3Numbers20;
+                    series4Numbers = series4Numbers20;
+                    series5Numbers = series5Numbers20;
+                    series6Numbers = series6Numbers20;
+                    series7Numbers = series7Numbers20;
+
+                    break;
+				case Soixante:
 					series1Numbers = series1Numbers60;
 					series2Numbers = series2Numbers60;
-					break;
+                    series3Numbers = series3Numbers60;
+                    series4Numbers = series4Numbers60;
+                    series5Numbers = series5Numbers60;
+                    series6Numbers = series6Numbers60;
+                    series7Numbers = series7Numbers60;
+
+                    break;
 				default:
 					break;
                 }
@@ -348,12 +412,22 @@ public class Stats_Activity extends HippieActivity
         plot.clear();
 
         // Setup our Series with the selected number of elements
-        series1 = new SimpleXYSeries(Arrays.asList(series1Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Us");
-        series2 = new SimpleXYSeries(Arrays.asList(series2Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Them");
+        series1 = new SimpleXYSeries(Arrays.asList(series1Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "1");
+        series2 = new SimpleXYSeries(Arrays.asList(series2Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "2");
+        series3 = new SimpleXYSeries(Arrays.asList(series3Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "3");
+        series4 = new SimpleXYSeries(Arrays.asList(series4Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "4");
+        series5 = new SimpleXYSeries(Arrays.asList(series5Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "5");
+        series6 = new SimpleXYSeries(Arrays.asList(series6Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "6");
+        series7 = new SimpleXYSeries(Arrays.asList(series7Numbers), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "7");
 
         // add a new series' to the xyplot:
         if (series1CheckBox.isChecked()) plot.addSeries(series1, formatter1);
         if (series2CheckBox.isChecked()) plot.addSeries(series2, formatter2);
+        if (series3CheckBox.isChecked()) plot.addSeries(series3, formatter3);
+        if (series4CheckBox.isChecked()) plot.addSeries(series4, formatter4);
+        if (series5CheckBox.isChecked()) plot.addSeries(series5, formatter5);
+        if (series6CheckBox.isChecked()) plot.addSeries(series6, formatter6);
+        if (series7CheckBox.isChecked()) plot.addSeries(series7, formatter7);
 
 
         // Setup the BarRenderer with our selected options

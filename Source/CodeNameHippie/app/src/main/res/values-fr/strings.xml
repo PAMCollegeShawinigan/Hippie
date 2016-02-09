@@ -26,7 +26,7 @@
   ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 <resources>
-    <!-- Ressources pour la page connexion -->
+	<!-- Ressources pour la page connexion -->
 	<string name="action_sign_in">"Se connecter ou s\'enregistrer"</string>
 	<string name="action_sign_in_short">Se connecter</string>
 	<string name="error_invalid_password">Ce mot de passe est invalide</string>
@@ -172,10 +172,11 @@
     <string name="stats_non_selectionne">Veuiller sélectionner une barre </string>
     <string name="stats_selection">Selectionné : </string>
     <string name="stats_valeur">Valeur : </string>
-
-
+  
     <!-- Autres ressources-->
     <string name="loading">Un moment s\'il-vous-plaît.</string>
     <string name="app_name">Nom de code: Hippie</string>
+	<string name="error_http_404">La ressource que vous essayé n\'a pas été trouvé</string>
+	<string name="error_http_500">Le serveur a rencontré une erreur interne</string>
 
 </resources>
