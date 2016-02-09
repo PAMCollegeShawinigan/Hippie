@@ -6,7 +6,9 @@
               android:gravity="center_vertical"
               android:padding="10dp">
 
+    <!-- Parent de la listview des produits disponibles -->
 
+    <!-- Icône pour faire afficher les différentes catégories -->
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,6 +16,7 @@
         android:contentDescription="@string/iv_md_categorie"
         android:focusable="false"/>
 
+    <!-- Wrapper pour le nom et la description -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -24,6 +27,7 @@
         android:focusable="false"
         >
 
+        <!-- Nom de la marchandise -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,6 +36,7 @@
             android:focusable="false"
             />
 
+        <!-- Description de la marchandise -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -43,6 +48,7 @@
 
     </LinearLayout>
 
+    <!-- Quantité marchandise -->
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -53,6 +59,7 @@
         android:layout_weight="0.1"
         android:focusable="false"/>
 
+    <!-- Date de péremption de la marchandise -->
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -63,7 +70,7 @@
         android:layout_weight="0.1"
         android:focusable="false"/>
 
-
+    <!-- Bouton afin d'ajouter la marchandise -->
     <ImageButton
         android:layout_width="40dp"
         android:layout_height="40dp"
