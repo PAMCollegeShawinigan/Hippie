@@ -41,7 +41,7 @@
     <string name="iv_md_adresse_mini">Adress</string>
     <string name="tv_md_nom_entreprise">Placeholder</string>
     <string name="tv_md_adresse_entreprise">Placeholder</string>
-    <string name="tv_liste_marchandises_dispo">OUR COMMODITIES AVAILABLE</string>
+    <string name="tv_liste_marchandises_dispo">COMMODITIES AVAILABLE</string>
 
     <!-- Ressource pour l'actionbar, le menu "settings" et le menu normal -->
     <string name="profil">Profil</string>
