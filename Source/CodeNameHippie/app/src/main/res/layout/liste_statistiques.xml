@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.ListeMesDonsActivity">
+
+    <!-- Fait afficher l'action bar -->
+    <include layout="@layout/content_appbar_main" />
+
+    <!-- Fait afficher la bar de progression -->
+    <ViewSwitcher
+        android:id="@+id/main_view_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!-- Wrap pour les informations tel que voulu, ainsi parce que le view switcher
+             n'accepte qu'un seul enfant =( -->
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#ffffff"
+            android:focusableInTouchMode="false"
+            android:orientation="vertical"
+            android:scrollIndicators="left|top">
+
+            <!-- Wrap pour placer les informations tel que voulu -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- TITRE: STATISTIQUES -->
+                <TextView
+                    android:id="@+id/tv_statistiques_titre"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/tv_statistiques_titre"
+                    android:textColor="#000000"
+                    android:textSize="25sp"
+                    fontPath="fonts/arialrounded.ttf"
+                    tools:ignore="MissingPrefix"/>
+
+                <!-- Divider, pour diviser le titre et les informations -->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/divider1"
+                    android:contentDescription="@null"/>
+
+                <!-- Wrap pour placer les informations tel que voulu -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <!-- ENTETE: Nom organisme et ou entreprise-->
+                    <TextView
+                        android:id="@+id/tv_statistiques_nom_organisme_titre"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:paddingLeft="65dp"
+                        android:paddingRight="10dp"
+                        android:text="Nom organisme"
+                        android:textStyle="bold"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix" />
+
+                    <!-- ENTETE: Valeur totale des dons -->
+                    <TextView
+                        android:id="@+id/tv_statistiques_valeur_total_titre"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:paddingLeft="30dp"
+                        android:paddingRight="10dp"
+                        android:text="Valeur totale"
+                        android:textStyle="bold"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix" />
+
+                </LinearLayout>
+
+                <!-- Wrap pour placer les informations tel que voulu -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <!-- AFFICHER: Nom organisme et ou entreprise -->
+                    <TextView
+                        android:id="@+id/tv_statistiques_nom_organisme"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:paddingLeft="65dp"
+                        android:paddingRight="10dp"
+                        android:text="Super C" />
+
+                    <!-- AFFICHER: La valeur totale des dons -->
+                    <TextView
+                        android:id="@+id/tv_statistiques_valeur_total"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:paddingLeft="30dp"
+                        android:paddingRight="10dp"
+                        android:text="$ 5000.00" />
+
+                </LinearLayout>
+                <!--Contenant servant à afficher les groupes STATISTIQUES-->
+                <ExpandableListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/list_statistiques_group"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="65dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Bar de progression -->
+        <include layout="@layout/loading" />
+    </ViewSwitcher>
+</android.support.design.widget.CoordinatorLayout>

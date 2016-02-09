@@ -127,6 +127,12 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
                     ));
                 }
                 return true;
+            // FIXME: Utilisation temporaire pour afficher ListeStatistiquesActivity
+            case R.id.menu_statistique:
+                if (!this.getClass().equals(ListeStatistiquesActivity.class)) {
+                    this.startActivity(new Intent(this, ListeStatistiquesActivity.class));
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
