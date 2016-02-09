@@ -276,10 +276,11 @@ public class Stats_Activity extends HippieActivity
         });
 
         spRenderStyle = (Spinner) findViewById(R.id.spRenderStyle);
-        ArrayAdapter <BarRenderer.BarRenderStyle> adapter = new ArrayAdapter <BarRenderer.BarRenderStyle> (this, android.R.layout.simple_spinner_item, BarRenderer.BarRenderStyle.values() );
+        BarRenderer.BarRenderStyle arr[] = {BarRenderer.BarRenderStyle.SIDE_BY_SIDE, BarRenderer.BarRenderStyle.STACKED};
+        ArrayAdapter <BarRenderer.BarRenderStyle> adapter = new ArrayAdapter <BarRenderer.BarRenderStyle> (this, android.R.layout.simple_spinner_item, arr);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spRenderStyle.setAdapter(adapter);
-        spRenderStyle.setSelection(BarRenderer.BarRenderStyle.OVERLAID.ordinal());
+        spRenderStyle.setSelection(BarRenderer.BarRenderStyle.STACKED.ordinal());
         spRenderStyle.setOnItemSelectedListener(new OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> arg0, View arg1,int arg2, long arg3) {
                 updatePlot();
@@ -438,7 +439,7 @@ public class Stats_Activity extends HippieActivity
         renderer.setBarGap(sbVariableWidth.getProgress());
 
         if (BarRenderer.BarRenderStyle.STACKED.equals(spRenderStyle.getSelectedItem())) {
-        	plot.setRangeTopMin(15);
+        	plot.setRangeTopMin(60);
         } else {
         	plot.setRangeTopMin(0);
         }
