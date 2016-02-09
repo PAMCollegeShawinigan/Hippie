@@ -165,6 +165,8 @@ public class AdresseModele extends BaseModele<AdresseModele> {
         }
         if (estMultiligne) {
             stringBuilder.append("\n");
+        } else {
+            stringBuilder.append(" ");
         }
         if (this.pays != null) {
             stringBuilder.append(this.pays).append(" ");
