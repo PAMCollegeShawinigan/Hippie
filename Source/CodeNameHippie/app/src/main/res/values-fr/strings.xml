@@ -170,6 +170,9 @@
     <string name="stats_axe_y">Valeur des dons </string>
     <string name="stats_axe_x">Entreprises</string>
 
+  <!-- Ressource pour Layout Liste Statistiques -->
+  <string name="tv_statistiques_titre">STATISTIQUES</string>
+  <string name="tv_statistiques_valeur_totale">Valeur totale</string>
 
     <!-- Autres ressources-->
     <string name="loading">Un moment s\'il-vous-plaît.</string>

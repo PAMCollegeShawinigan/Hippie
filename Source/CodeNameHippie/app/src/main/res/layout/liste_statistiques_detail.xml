@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Chaque ligne contenu dans la liste MES DONS contient les éléments suivants-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:padding="10dp">
+
+
+    <!--Afficher le nom de la marchandise-->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_dons_nom_marchandise"
+        android:id="@+id/tv_statistiques_nom_marchandise"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_weight="0.1"/>
+
+    <!--Afficher la quantité de la marchandise-->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_dons_qtee_marchandise"
+        android:id="@+id/tv_statistiques_qtee_marchandise"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_weight="0.1"/>
+
+    <!--Afficher la date de collecte du produit-->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_dons_description_marchandise"
+        android:id="@+id/tv_statistiques_date_collecte"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_weight="0.1"/>
+
+    <!--Afficher la valeur du produit-->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_dons_description_marchandise"
+        android:id="@+id/tv_statistiques_valeur_produit"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_weight="0.1"/>
+
+</LinearLayout>
