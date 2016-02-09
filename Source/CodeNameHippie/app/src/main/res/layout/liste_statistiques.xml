@@ -63,28 +63,61 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
+                    <!-- ENTETE: Nom organisme et ou entreprise-->
                     <TextView
-                        android:id="@+id/tv_md_nom"
+                        android:id="@+id/tv_statistiques_nom_organisme_titre"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.1"
                         android:paddingLeft="65dp"
                         android:paddingRight="10dp"
                         android:text="Nom organisme"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix" />
 
+                    <!-- ENTETE: Valeur totale des dons -->
                     <TextView
-                        android:id="@+id/tv_md_qtee"
+                        android:id="@+id/tv_statistiques_valeur_total_titre"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.1"
                         android:paddingLeft="30dp"
                         android:paddingRight="10dp"
                         android:text="Valeur totale"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix" />
 
                 </LinearLayout>
 
+                <!-- Wrap pour placer les informations tel que voulu -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <!-- AFFICHER: Nom organisme et ou entreprise -->
+                    <TextView
+                        android:id="@+id/tv_statistiques_nom_organisme"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:paddingLeft="65dp"
+                        android:paddingRight="10dp"
+                        android:text="Super C" />
+
+                    <!-- AFFICHER: La valeur totale des dons -->
+                    <TextView
+                        android:id="@+id/tv_statistiques_valeur_total"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:paddingLeft="30dp"
+                        android:paddingRight="10dp"
+                        android:text="$ 5000.00" />
+
+                </LinearLayout>
                 <!--Contenant servant à afficher les groupes STATISTIQUES-->
                 <ExpandableListView
                     android:layout_width="match_parent"

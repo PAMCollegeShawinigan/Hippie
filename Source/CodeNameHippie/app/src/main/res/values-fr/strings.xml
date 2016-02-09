@@ -151,4 +151,6 @@
     <!-- Autres ressources-->
     <string name="loading">Un moment s\'il-vous-plaît.</string>
     <string name="app_name">Nom de code: Hippie</string>
+    <string name="error_http_404">La ressource que vous essayé n\'a pas été trouvé</string>
+    <string name="error_http_500">Le serveur a rencontré une erreur interne</string>
 </resources>

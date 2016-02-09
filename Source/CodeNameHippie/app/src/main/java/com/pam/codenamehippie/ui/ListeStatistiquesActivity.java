@@ -2,6 +2,7 @@ package com.pam.codenamehippie.ui;
 
 import android.os.Bundle;
 
+import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 
@@ -18,6 +19,7 @@ public class ListeStatistiquesActivity extends HippieActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setContentView(R.layout.liste_statistiques);
     }
 
 
