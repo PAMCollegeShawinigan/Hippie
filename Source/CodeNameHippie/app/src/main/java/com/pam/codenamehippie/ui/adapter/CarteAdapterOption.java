@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
@@ -19,6 +18,7 @@ import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.depot.FiltreDeListe;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.ui.HippieActivity;
 
@@ -53,10 +53,11 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
     private volatile ArrayList<AlimentaireModele> listedon = new ArrayList<>();
     private OrganismeModele organisme;
     private int listType = 0;
+    private int orgId;
 
-    public CarteAdapterOption(HippieActivity activity) {
+    public CarteAdapterOption(HippieActivity activity, int orgId) {
         this.activity = activity;
-
+        this.orgId = orgId;
         this.inflater =
                 ((LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
         this.alimentaireModeleDepot =
@@ -66,6 +67,14 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
             this.viewSwitcher.setInAnimation(this.activity, android.R.anim.fade_in);
             this.viewSwitcher.setOutAnimation(this.activity, android.R.anim.fade_out);
         }
+    }
+
+    public int getListType() {
+        return this.listType;
+    }
+
+    public void setListType(int listType) {
+        this.listType = listType;
     }
 
     public ArrayList<AlimentaireModele> getListedon() {
@@ -80,22 +89,23 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
             Log.d("ORG", this.organisme.toString());
             switch (this.listType) {
                 case LIST_TYPE_MARCHANDISE_DISPO:
-                    // FIXME: Vérifier si c'est le bon peupler liste don :)
-                    this.alimentaireModeleDepot.peuplerListeDon(this.organisme.getId());
+                    this.alimentaireModeleDepot.setFiltreDeListe(null);
+                    this.alimentaireModeleDepot.peuplerListeCarte(this.organisme.getId());
                     break;
                 case LIST_TYPE_MARCHANDISE_RESERVEE:
-                    this.alimentaireModeleDepot.peuplerListeReservation(this.organisme.getId());
+                    this.alimentaireModeleDepot.setFiltreDeListe(new FiltreDeListe<AlimentaireModele>() {
+                        @Override
+                        public boolean appliquer(AlimentaireModele item) {
+                            return item.getOrganisme().equals(CarteAdapterOption.this.organisme);
+                        }
+                    });
+                    this.alimentaireModeleDepot.peuplerListeReservation(this.orgId);
                     break;
                 default:
-                    this.alimentaireModeleDepot.peuplerListeDon(this.organisme.getId());
-                    break;
+                    throw new IllegalStateException("Type de liste inconnu");
             }
         }
 
-    }
-
-    public void setListType(int listType) {
-        this.listType = listType;
     }
 
     @Override
@@ -175,7 +185,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
         int resId = (childPosition < ORGANISME_INFO_CHILD_COUNT)
                     ? R.layout.liste_organisme_detail
                     : (this.listType == LIST_TYPE_MARCHANDISE_DISPO) ?
-                R.layout.liste_marchandise_dispo_group : R.layout.liste_reservations_row;
+                      R.layout.liste_marchandise_dispo_group : R.layout.liste_reservations_row;
 
         if (row == null) {
             row = this.inflater.inflate(resId, parent, false);
@@ -212,30 +222,33 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                 if (modele != null) {
                     // Fait afficher l'icône correspondant au bon type alimentaire à côté du texte
                     String image = modele.getTypeAlimentaire();
-                    ImageView ivResCategorie =
-                            (ImageView) row.findViewById(R.id.iv_md_categorie);
-                    switch (image) {
-                        case "Surgelés":
-                            ivResCategorie.setImageResource(R.drawable.map_surgele);
-                            break;
-                        case "Fruits et Légumes":
-                            ivResCategorie.setImageResource(R.drawable.map_fruit_legume);
-                            break;
-                        case "Boulangerie":
-                            ivResCategorie.setImageResource(R.drawable.map_boulangerie);
-                            break;
-                        case "Produits laitiers":
-                            ivResCategorie.setImageResource(R.drawable.map_laitier);
-                            break;
-                        case "Viandes":
-                            ivResCategorie.setImageResource(R.drawable.map_viande);
-                            break;
-                        case "Non Périssable":
-                            ivResCategorie.setImageResource(R.drawable.map_non_perissable);
-                            break;
-                        default:
-                            ivResCategorie.setImageResource(R.drawable.map_non_comestible);
-                            break;
+                    if (image != null) {
+                        //FIXME : Envoyer type alimentaire.
+                        ImageView ivResCategorie =
+                                (ImageView) row.findViewById(R.id.iv_md_categorie);
+                        switch (image) {
+                            case "Surgelés":
+                                ivResCategorie.setImageResource(R.drawable.map_surgele);
+                                break;
+                            case "Fruits et Légumes":
+                                ivResCategorie.setImageResource(R.drawable.map_fruit_legume);
+                                break;
+                            case "Boulangerie":
+                                ivResCategorie.setImageResource(R.drawable.map_boulangerie);
+                                break;
+                            case "Produits laitiers":
+                                ivResCategorie.setImageResource(R.drawable.map_laitier);
+                                break;
+                            case "Viandes":
+                                ivResCategorie.setImageResource(R.drawable.map_viande);
+                                break;
+                            case "Non Périssable":
+                                ivResCategorie.setImageResource(R.drawable.map_non_perissable);
+                                break;
+                            default:
+                                ivResCategorie.setImageResource(R.drawable.map_non_comestible);
+                                break;
+                        }
                     }
                     // Affiche le nom de la marchandise
                     ((TextView) row.findViewById(R.id.tv_md_nom_marchandise)).setText(modele.getNom());
@@ -259,7 +272,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                     //FIXME: Arranger le bouton réserver, afin de les faire fonctionner
                 }
                 break;
-            case  R.layout.liste_reservations_row:
+            case R.layout.liste_reservations_row:
                 // Fait afficher l'icône correspondant au bon type alimentaire à côté du texte
                 String image = modele.getTypeAlimentaire();
                 ImageView ivResCategorie = (ImageView) row.findViewById(R.id.iv_res_categorie);
@@ -287,7 +300,8 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                         break;
                 }
 
-                // Assigner les valeurs nom, description, quantités, unité et ajouter deux ImageButton par
+                // Assigner les valeurs nom, description, quantités, unité et ajouter deux
+                // ImageButton par
                 // rangée selon le nombre d'items contenus dans l'ArrayList.
                 ((TextView) row.findViewById(R.id.tv_res_nom_marchandise)).setText(modele.getNom());
                 ((TextView) row.findViewById(R.id.tv_res_description)).setText(modele.getDescription());
@@ -295,14 +309,17 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
                 // Affiche la date de péremption.
                 if (modele.getDatePeremption() != null) {
-                    DateFormat format = android.text.format.DateFormat.getLongDateFormat(this.activity);
+                    DateFormat format =
+                            android.text.format.DateFormat.getLongDateFormat(this.activity);
                     String date = format.format(modele.getDatePeremption());
                     ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setText(date);
                 } else {
-                    ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setVisibility(View.INVISIBLE);
+                    ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setVisibility
+                                                                                        (View.INVISIBLE);
                 }
 
-                //FIXME: Arranger bouton supprimer réservation et collecte, afin de les faires fonctionner
+                //FIXME: Arranger bouton supprimer réservation et collecte, afin de les faires
+                // fonctionner
                 break;
             default:
                 break;
