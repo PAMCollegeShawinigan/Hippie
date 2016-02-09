@@ -226,6 +226,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
         depot.peuplerLesListesDeSpinners(this);
         if (this.idModele != null) {
             depot.rechercherParId(this.idModele);
+        } else {
+            this.modele = new AlimentaireModele();
         }
     }
 
@@ -315,32 +317,32 @@ public class AjoutMarchandiseActivity extends HippieActivity
         String marchandiseUniteId =
                 String.valueOf(this.validateurSpinnerUniteMarchandise.getSelectedItemId());
         // FIXME: Gérer l'état de marchandise. On mets 3(neuf) en attendant
-        AlimentaireModele modele =
-                new AlimentaireModele().setNom(this.validateurNom.getTextString())
-                                       .setDescription(this.validateurDescription.getTextString())
-                                       .setValeur(Long.parseLong(this.validateurValeur
-                                                                         .getTextString()))
-                                       .setQuantite(Double.parseDouble(this.validateurQuantite
-                                                                               .getTextString()))
-                                       .setUniteDeQuantite(marchandiseUniteId)
-                                       .setEtat("3")
-                                       .setTypeAlimentaire(typeAlimentaireId)
-                                       .setTypeAlimentaire(typeAlimentaire.getDescription())
-                                       .setDatePeremption(date.getTime());
+        this.modele.setNom(this.validateurNom.getTextString())
+                   .setDescription(this.validateurDescription.getTextString())
+                   .setValeur(Long.parseLong(this.validateurValeur
+                                                     .getTextString()))
+                   .setQuantite(Double.parseDouble(this.validateurQuantite
+                                                           .getTextString()))
+                   .setUniteDeQuantite(marchandiseUniteId)
+                   .setEtat("3")
+                   .setTypeAlimentaire(typeAlimentaireId)
+                   .setTypeAlimentaire(typeAlimentaire.getDescription())
+                   .setDatePeremption(date.getTime());
 
         AlimentaireModeleDepot depot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         // Construction du url pour un ajout de marchandise
         HttpUrl url = depot.getUrl().newBuilder().addPathSegment("ajout").build();
         FormBody.Builder body =
-                new FormBody.Builder().add("description", modele.getDescription())
-                                      .add("nom", modele.getNom())
-                                      .add("quantite", modele.getQuantite().toString())
-                                      .add("valeur", modele.getValeur().toString())
-                                      .add("type_alimentaire", typeAlimentaireId)
-                                      .add("marchandise_unite", marchandiseUniteId)
+                new FormBody.Builder().add("description", this.modele.getDescription())
+                                      .add("nom", this.modele.getNom())
+                                      .add("quantite", this.modele.getQuantite().toString())
+                                      .add("valeur", this.modele.getValeur().toString())
+                                      .add("type_alimentaire", this.modele.getTypeAlimentaire())
+                                      .add("marchandise_unite", this.modele.getUniteDeQuantite())
                                       .add("marchandise_etat", "3")
-                                      .add("date_peremption", modele.getDatePeremption().toString())
+                                      .add("date_peremption",
+                                           this.modele.getDatePeremption().toString())
                                       .add("donneur_id", this.organismeId.toString());
         if (this.idModele != null) {
             // Si le idModele est différent de null, il s'agit d'une modification sur le produit
@@ -445,10 +447,16 @@ public class AjoutMarchandiseActivity extends HippieActivity
     public void surChangementDeDonnees(ArrayList<AlimentaireModele> modeles) {
         if ((modeles != null) && (modeles.size() != 0)) {
             this.modele = modeles.get(0);
-            this.validateurNom.setText(this.modele.getNom());
-            this.validateurDescription.setText(this.modele.getDescription());
-            this.validateurQuantite.setText(this.modele.getQuantite().toString());
-            this.validateurValeur.setText(this.modele.getValeur().toString());
+//            this.validateurNom.setText(this.modele.getNom());
+//            this.validateurDescription.setText(this.modele.getDescription());
+//            this.validateurQuantite.setText(this.modele.getQuantite().toString());
+//            this.validateurValeur.setText(this.modele.getValeur().toString());
+//            Calendar calendar = this.modele.getCalendarDatePeremption();
+//            this.datePeremption.init(calendar.get(Calendar.YEAR),
+//                                     calendar.get(Calendar.MONTH),
+//                                     calendar.get(Calendar.DAY_OF_MONTH),
+//                                     null
+//                                    );
         }
     }
 
