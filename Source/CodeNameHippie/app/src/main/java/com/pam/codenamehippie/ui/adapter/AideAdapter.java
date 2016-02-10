@@ -16,7 +16,7 @@ import com.pam.codenamehippie.R;
 public class AideAdapter extends BaseExpandableListAdapter {
 
     // Nombre de sections ou groupe
-    private static final int GROUP_ITEMS_COUNT = 10;
+    private static final int GROUP_ITEMS_COUNT = 9;
     // Nombre d'item à afficher sous chaque section ou groupe
     private static final int CHILD_ITEMS_COUNT = 1;
     private Context context;
@@ -42,22 +42,20 @@ public class AideAdapter extends BaseExpandableListAdapter {
             case 0:
                 return this.context.getString(R.string.tv_aide_titre_denree);
             case 1:
-                return this.context.getString(R.string.tv_aide_titre_connexion);
-            case 2:
                 return this.context.getString(R.string.tv_aide_titre_menu);
-            case 3:
+            case 2:
                 return this.context.getString(R.string.tv_aide_titre_organisme);
-            case 4:
+            case 3:
                 return this.context.getString(R.string.tv_aide_titre_produits_disponibles);
-            case 5:
+            case 4:
                 return this.context.getString(R.string.tv_aide_titre_mes_reservations);
-            case 6:
+            case 5:
                 return this.context.getString(R.string.tv_aide_titre_faire_un_don);
-            case 7:
+            case 6:
                 return this.context.getString(R.string.tv_aide_titre_mes_dons);
-            case 8:
+            case 7:
                 return this.context.getString(R.string.tv_aide_titre_statistiques);
-            case 9:
+            case 8:
                 return this.context.getString(R.string.tv_aide_titre_profil);
             default:
                 return "bob";
@@ -67,28 +65,25 @@ public class AideAdapter extends BaseExpandableListAdapter {
     @Override
     public String getChild(int groupPosition, int childPosition) {
         // Afficher les détails de chaque section de l'aide
-        //TODO: changer les ressources string lorsque disponible
         switch (groupPosition) {
             case 0:
-                return this.context.getString(R.string.tv_aide_titre_denree) + " Détail";
+                return this.context.getString(R.string.tv_aide_denree_detail);
             case 1:
-                return this.context.getString(R.string.tv_aide_titre_connexion) + " Détail";
+                return this.context.getString(R.string.tv_aide_menu_detail);
             case 2:
-                return this.context.getString(R.string.tv_aide_titre_menu);
+                return this.context.getString(R.string.tv_aide_organisme_detail);
             case 3:
-                return this.context.getString(R.string.tv_aide_titre_organisme);
+                return this.context.getString(R.string.tv_aide_produits_disponibles_detail);
             case 4:
-                return this.context.getString(R.string.tv_aide_titre_produits_disponibles);
+                return this.context.getString(R.string.tv_aide_mes_reservations_detail);
             case 5:
-                return this.context.getString(R.string.tv_aide_titre_mes_reservations);
+                return this.context.getString(R.string.tv_aide_faire_un_don_detail);
             case 6:
-                return this.context.getString(R.string.tv_aide_titre_faire_un_don);
+                return this.context.getString(R.string.tv_aide_mes_dons_detail);
             case 7:
-                return this.context.getString(R.string.tv_aide_titre_mes_dons);
+                return this.context.getString(R.string.tv_aide_statistiques_detail);
             case 8:
-                return this.context.getString(R.string.tv_aide_titre_statistiques);
-            case 9:
-                return this.context.getString(R.string.tv_aide_titre_profil);
+                return this.context.getString(R.string.tv_aide_profil_detail);
             default:
                 return "bob";
         }
