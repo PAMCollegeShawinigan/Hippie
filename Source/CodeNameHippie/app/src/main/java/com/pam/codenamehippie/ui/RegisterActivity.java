@@ -230,6 +230,17 @@ public class RegisterActivity extends HippieActivity
         this.validateurCourriel.onPause();
         this.validateurMotDePasse.onPause();
         this.validateurConfirmMotDePasse.onPause();
+        this.validateurUsername.onPause();
+        this.validateurNomRue.onPause();
+        this.validateurVille.onPause();
+        this.validateurProvince.onPause();
+        this.validateurCodePostal.onPause();
+        this.validateurNoCivique.onPause();
+        this.validateurNoEntreprise.onPause();
+        this.validateurNoOsbl.onPause();
+        this.validateurTelephone.onPause();
+        this.validateurSpinnerTypeRue.onPause();
+        this.validateurPays.onPause();
     }
 
     protected void onResume() {
@@ -239,6 +250,17 @@ public class RegisterActivity extends HippieActivity
         this.validateurCourriel.onResume();
         this.validateurMotDePasse.onResume();
         this.validateurConfirmMotDePasse.onResume();
+        this.validateurUsername.onResume();
+        this.validateurNomRue.onResume();
+        this.validateurVille.onResume();
+        this.validateurProvince.onResume();
+        this.validateurCodePostal.onResume();
+        this.validateurNoCivique.onResume();
+        this.validateurNoEntreprise.onResume();
+        this.validateurNoOsbl.onResume();
+        this.validateurTelephone.onResume();
+        this.validateurSpinnerTypeRue.onResume();
+        this.validateurPays.onResume();
     }
 
     @Override
@@ -273,7 +295,28 @@ public class RegisterActivity extends HippieActivity
                                                     .setError(error);
                 }
             }
+        } else if (validateur.equals(this.validateurCodePostal)) {
+            this.codePostalEstValide = estValide;
+        } else if (validateur.equals(this.validateurNoCivique)) {
+            this.noCiviqueEstValide = estValide;
+        } else if (validateur.equals(this.validateurNoEntreprise)) {
+            this.noEntrepriseEstValide = estValide;
+        } else if (validateur.equals(this.validateurNomRue)) {
+            this.nomRueEstValide = estValide;
+        } else if (validateur.equals(this.validateurNoOsbl)) {
+            this.noOsblEstValide = estValide;
+        } else if (validateur.equals(this.validateurPays)) {
+            this.paysEstValide = estValide;
+        } else if (validateur.equals(this.validateurSpinnerTypeRue)) {
+            this.spinnerTypeRueEstValide = estValide;
+        } else if (validateur.equals(this.validateurVille)) {
+            this.villeEstValide = estValide;
+        } else if (validateur.equals(this.validateurTelephone)) {
+            this.telephoneEstValide = estValide;
+        } else if (validateur.equals(this.validateurUsername)) {
+            this.usernameEstValide = estValide;
         }
+
         this.loginButton.setEnabled(this.motPasseEstValide &&
                 this.confirmMotdePasseEstValide &&
                 this.prenomEstValide &&
