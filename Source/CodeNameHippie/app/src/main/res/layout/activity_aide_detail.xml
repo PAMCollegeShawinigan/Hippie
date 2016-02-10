@@ -11,10 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tv_list_aide_detail"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="12dp"
         android:id="@+id/tv_list_aide_detail"
         android:textColor="#000000"
         android:textSize="16sp"
+        android:paddingLeft="10dp"
         fontPath="fonts/arial.ttf"
         tools:ignore="MissingPrefix"/>
 

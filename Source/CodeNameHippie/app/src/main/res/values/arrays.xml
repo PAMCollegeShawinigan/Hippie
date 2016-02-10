@@ -19,4 +19,24 @@
         <item>Non Périssable</item>
         <item>Viandes</item>
     </string-array>
+
+    <string-array name="TypeRueListe">
+        <item>Choisir type de rue...</item>
+        <item>Avenue</item>
+        <item>Boulevard</item>
+        <item>Carré</item>
+        <item>Cercle</item>
+        <item>Chemin</item>
+        <item>Concession</item>
+        <item>Côte</item>
+        <item>Croissant</item>
+        <item>Montée</item>
+        <item>Place</item>
+        <item>Promenade</item>
+        <item>Rang</item>
+        <item>Route</item>
+        <item>Rue</item>
+        <item>Ruelle</item>
+        <item>Terrasse</item>
+    </string-array>
 </resources>
