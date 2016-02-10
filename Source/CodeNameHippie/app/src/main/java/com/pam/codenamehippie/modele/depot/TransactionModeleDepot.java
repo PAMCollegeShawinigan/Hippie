@@ -27,9 +27,13 @@
 
 package com.pam.codenamehippie.modele.depot;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.pam.codenamehippie.modele.TransactionModele;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import okhttp3.OkHttpClient;
 
@@ -44,6 +48,26 @@ public class TransactionModeleDepot extends BaseModeleDepot<TransactionModele> {
     public TransactionModeleDepot(Context context, OkHttpClient httpClient) {
         super(context, httpClient);
         this.url = this.url.newBuilder().addPathSegment("transaction").build();
+    }
+
+    /**
+     *
+     * @param id du donneur et du receveur des transactions
+     *           retourne la liste des transaction en tant que donneur et receveur
+     */
+    @SuppressLint("SimpleDateFormat")
+    public void peuplerTransactions(Integer id, Date dateDebut, Date dateFin){
+
+        String dateDebutString =
+                new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(dateDebut);
+
+        String dateFinString =
+                new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(dateFin);
+        this.peuplerLeDepot(this.url.newBuilder().addPathSegment(id.toString())
+                                                 .addQueryParameter("date_du",dateDebutString)
+                                                 .addQueryParameter("date_au", dateFinString)
+                                                 .build()
+                            );
     }
 
 //    /**
