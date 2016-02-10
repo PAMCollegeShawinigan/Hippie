@@ -32,5 +32,9 @@
 		android:id="@+id/menu_deconnexion"
         android:orderInCategory="4"
 		android:title="@string/action_sign_out" />
+	<item
+		android:id="@+id/menu_statistique"
+		android:orderInCategory="4"
+		android:title="Liste Stats Temporaire" />
 
 </menu>

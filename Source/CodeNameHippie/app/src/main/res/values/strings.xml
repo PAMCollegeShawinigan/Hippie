@@ -41,7 +41,7 @@
     <string name="iv_md_adresse_mini">Adress</string>
     <string name="tv_md_nom_entreprise">Placeholder</string>
     <string name="tv_md_adresse_entreprise">Placeholder</string>
-    <string name="tv_liste_marchandises_dispo">OUR COMMODITIES AVAILABLE</string>
+    <string name="tv_liste_marchandises_dispo">COMMODITIES AVAILABLE</string>
 
     <!-- Ressource pour l'actionbar, le menu "settings" et le menu normal -->
     <string name="profil">Profil</string>
@@ -151,6 +151,10 @@
     <string name="tv_profil_neq">NEQ :</string>
     <string name="tv_profil_neq_placeholder">Placeholder</string>
     <string name="btn_edit_password">EDIT PASSWORD</string>
+
+    <!-- Ressource pour Layout Liste Statistiques -->
+    <string name="tv_statistiques_titre">STATISTICS</string>
+    <string name="tv_statistiques_valeur_totale">Total value</string>
 
     <!-- Autres ressources-->
     <string name="iv_logo">Logo</string>
