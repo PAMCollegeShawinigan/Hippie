@@ -7,9 +7,11 @@ namespace App\Http\Controllers;
 
 		class Transaction extends Controller
 			{
-				public function transactions($id){
 				
-					$header = array ('Content-Type' => 'application/json; charset=UTF-8','charset' => 'utf-8');
+				public function transactions($id){
+				require('function.php');
+				
+
 					include('Connection/bdlogin.php');
 					
 					$req = $bdd->prepare('SELECT orgd.organisme_id,
@@ -51,21 +53,31 @@ namespace App\Http\Controllers;
 													  adrr.ville,
 													  adrr.province,
 													  adrr.code_postal,
-													  adrr.pays
+													  adrr.pays,
+													  ali.nom,
+													  ali.description_alimentaire,
+													  ali.quantite,
+													  maru.description_marchandise_unite
+													  
+													  
+													  
 													   
 													FROM transaction trx
-													INNER JOIN organisme orgd ON orgd.organisme_id = trx.receveur_id 
-													INNER JOIN organisme orgr ON orgr.organisme_id = trx.donneur_id
+													INNER JOIN organisme orgd ON orgr.organisme_id = trx.receveur_id 
+													INNER JOIN organisme orgr ON orgd.organisme_id = trx.donneur_id
 													INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
 													INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
 													INNER JOIN adresse adrr ON adrr.adresse_id = orgr.adresse
 													INNER JOIN adresse adrd ON adrd.adresse_id = orgd.adresse
-													INNER JOIN type_rue typruer ON typrue.type_rue_id = adrr.type_rue
-													INNER JOIN type_rue typrued ON typrue.type_rue_id = adrd.type_rue
-													WHERE  trx.receveur_id = :id 
-													OR trx.donneur_id = :id
-													AND  trx.date_collecte BETWEEN :date_debut AND :date_fin
-													AND  trx.date_collecte IS NOT NULL');
+													INNER JOIN type_rue typruer ON typruer.type_rue_id = adrr.type_rue
+													INNER JOIN type_rue typrued ON typrued.type_rue_id = adrd.type_rue
+													INNER JOIN marchandise_unite maru ON maru.unite_id = ali.marchandise_unite
+													
+
+													WHERE trx.date_collecte IS NOT NULL
+
+													AND  trx.receveur_id = :id OR trx.donneur_id = :id
+													AND  trx.date_collecte BETWEEN :date_debut AND :date_fin');
 													
 													//$date_du = date_create($_GET['date_du']);
 													//$date_au = date_create($_GET['date_au']);
@@ -73,8 +85,8 @@ namespace App\Http\Controllers;
 													
 													$req->execute(array(
 															'id' => $id,
-															'date_fin' => date("Y-m-d H:i:s", strtotime($_GET['date_au'])),
-															'date_debut' => date("Y-m-d H:i:s", strtotime($_GET['date_du']))
+															'date_fin' => $_GET['date_au'],
+															'date_debut' => $_GET['date_du']
 															));
 															
 															
@@ -88,7 +100,7 @@ namespace App\Http\Controllers;
 												
 												$organisme_receveur = array('id' => $resultat[6], 'nom' => $resultat[7], 'telephone' => $resultat[8], 'poste' => $resultat[9],'no_entreprise' => $resultat[10], 'no_osbl' => $resultat[11], 'adresse'=> $adresse_receveur);
 												
-												$alimentaire = array('valeur' => $resultat[20], 'type_alimentaire' => $resultat[21]);
+												$alimentaire = array('valeur' => $resultat[20], 'type_alimentaire' => $resultat[21], 'nom' => $resultat[40], 'description' => $resultat[41], 'quantite' => $resultat[42], 'unite' => $resultat[43]);
 												
 												$date_collecte = convertirdate($resultat[16]);
 												
