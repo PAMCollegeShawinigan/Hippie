@@ -129,6 +129,10 @@
     <string name="tv_list_aide_group">PlaceHolder</string>
     <string name="tv_list_aide_detail">PlaceHolder</string>
 
+    <!-- Texte pour la layout activity_aide -->
+    <!-- TODO : à traduire en anglais -->
+    <!-- TODO : insérer le texte aide ici -->
+
     <!-- Ressource pour la page profil-->
     <string name="tv_profil_name">PROFILE</string>
     <string name="iv_image_profile">Image profile</string>
