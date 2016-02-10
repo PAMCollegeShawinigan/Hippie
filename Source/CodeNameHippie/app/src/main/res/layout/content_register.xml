@@ -3,7 +3,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="#737272"
+            android:background="#ffffff"
             android:fillViewport="false"
             android:focusableInTouchMode="false"
             android:scrollIndicators="left|top">
@@ -31,21 +31,35 @@
             <!-- TITRE : Information de connexion -->
 			<TextView
 				android:id="@+id/tv_infoConnexion"
-				android:layout_width="447dp"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="INFORMATIONS DE CONNEXION"
+				android:text="INSCRIPTION"
 				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:textColor="#A1CC39"
-				android:textSize="30sp" />
+				android:textColor="#000000"
+				android:textSize="25sp"
+				fontPath="fonts/arialrounded.ttf"
+				tools:ignore="MissingPrefix"/>
 
             <!-- Divider, pour diviser le titre et les informations -->
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:background="@drawable/divider1"
                 android:contentDescription="@null"/>
+
+            <!-- Section info utilisateur -->
+            <TextView
+                android:id="@+id/tv_inscription_info_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="20dp"
+                android:text="INFORMATIONS SUR L'UTILISATEUR"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#6FA642"
+                android:textSize="20sp"
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix"/>
 
             <!-- TEXTVIEW : Nom -->
 			<TextView
@@ -54,9 +68,10 @@
 				android:paddingBottom="10dp"
 				android:paddingTop="10dp"
 				android:text="Nom"
-				android:textColor="#ffffff"
+				android:textColor="#000000"
 				android:textSize="20sp"
-				android:layout_gravity="center_horizontal|left" />
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix"/>
 
             <!-- EDITTEXT : Nom -->
 			<EditText
@@ -78,8 +93,10 @@
 				android:paddingBottom="10dp"
 				android:paddingTop="10dp"
 				android:text="Prénom"
-				android:textColor="#ffffff"
-				android:textSize="20sp" />
+				android:textColor="#000000"
+				android:textSize="20sp"
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix"/>
 
             <!-- EDITTEXT : Prénom -->
 			<EditText
@@ -102,8 +119,10 @@
 				android:paddingBottom="10dp"
 				android:paddingTop="10dp"
 				android:text="Nom d&apos;utilisateur"
-				android:textColor="#ffffff"
-				android:textSize="20sp" />
+				android:textColor="#000000"
+				android:textSize="20sp"
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix"/>
 
             <!-- EDITTEXT : Nom d'utilisateur -->
 			<EditText
@@ -125,9 +144,11 @@
 				android:paddingBottom="10dp"
 				android:paddingTop="10dp"
 				android:text="Courriel"
-				android:textColor="#ffffff"
+				android:textColor="#000000"
 				android:textColorHint="#c6c6c6"
-				android:textSize="20sp" />
+				android:textSize="20sp"
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix" />
 
             <!-- EDITTEXT : Courriel -->
 			<EditText
@@ -149,8 +170,10 @@
 				android:paddingBottom="10dp"
 				android:paddingTop="10dp"
 				android:text="Mot de passe"
-				android:textColor="#ffffff"
-				android:textSize="20sp" />
+				android:textColor="#000000"
+				android:textSize="20sp"
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix"/>
 
             <!-- EDITTEXT : Mot de passe -->
 			<EditText
@@ -172,8 +195,10 @@
 				android:paddingBottom="10dp"
 				android:paddingTop="10dp"
 				android:text="Confirmer mot de passe"
-				android:textColor="#ffffff"
-				android:textSize="20sp" />
+				android:textColor="#000000"
+				android:textSize="20sp"
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix"/>
 
             <!-- EDITTEXT : Confirmer le mot de passe -->
 			<EditText
@@ -188,54 +213,186 @@
 				android:padding="10dp"
 				android:textColorHint="#c6c6c6" />
 
+            <!-- SECTION ADRESSE -->
+            <TextView
+                android:id="@+id/tv_inscription_adress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="20dp"
+                android:text="ADRESSE"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#6FA642"
+                android:textSize="20sp"
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix"/>
+
+            <!-- TEXTVIEW : NO Civique -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="No civique"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix"/>
+
+            <!-- EDITTEXT : NO Civique -->
+            <EditText
+                android:id="@+id/etNoCivique"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/element"
+                android:hint="NO CIVIQUE"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColorHint="#c6c6c6" />
+
+            <!-- TEXTVIEW : Type de rue -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="Type de rue"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix"/>
+            <!-- SPINNER : Type de rue -->
+
+
+            <!-- TEXTVIEW : Nom de rue -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="Nom de rue"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix"/>
+            <!-- EDITTEXT : Nom de rue -->
+
+            <!-- TEXTVIEW : NO appartement -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="No d'appartement"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix"/>
+            <!-- EDITTEXT : NO appartement -->
+
+            <!-- TEXTVIEW : Ville -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="Ville"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix"/>
+            <!-- EDITTEXT : Ville -->
+
+            <!-- TEXTVIEW : Province -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="Province"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix"/>
+            <!-- EDITTEXT : Province -->
+
+            <!-- TEXTVIEW : Code postal -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="Code postal"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix"/>
+            <!-- EDITTEXT : Code postal -->
+
+            <!-- TEXTVIEW : Pays -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="Pays"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix"/>
+            <!-- EDITTEXT : Pays -->
+
             <!-- TEXTVIEW : Êtes-vous? -->
 			<TextView
-				android:id="@+id/textView"
+				android:id="@+id/tv_inscription_etes_vous"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:paddingBottom="10dp"
 				android:paddingTop="20dp"
 				android:text="ÊTES-VOUS ?"
 				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:textColor="#A1CC39"
-				android:textSize="20sp" />
+				android:textColor="#6FA642"
+				android:textSize="20sp"
+                fontPath="fonts/opensans_semibold.ttf"
+                tools:ignore="MissingPrefix"/>
 
-            <!-- Radiogroup, afin que l'utilisateur choisi s'il est une entreprise, un particulier ou un organisme,
+            <!-- Radiogroup, afin que l'utilisateur choisi s'il est une entreprise ou un organisme,
                 ainsi, le formulaire s'affichera selon ce qu'il aura choisi. -->
 			<RadioGroup
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
-				android:gravity="center_horizontal"
 				android:orientation="horizontal">
 
-                <!-- RADIOBUTTON: Particulier -->
+                <!-- RADIOBUTTON: Particulier
 				<RadioButton
 					android:id="@+id/rbParticulier"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:buttonTint="#ffffff"
+					android:buttonTint="#000000"
 					android:checked="false"
 					android:paddingBottom="10dp"
 					android:paddingLeft="5dp"
 					android:paddingRight="15dp"
 					android:paddingTop="10dp"
 					android:text="Un particulier"
-					android:textColor="#ffffff"
-					android:textSize="15sp" />
+					android:textColor="#000000"
+					android:textSize="15sp" /> -->
 
                 <!-- RADIOBUTTON: Entreprise -->
 				<RadioButton
 					android:id="@+id/rbEntreprise"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:buttonTint="#ffffff"
+					android:buttonTint="#000000"
 					android:checked="false"
 					android:paddingBottom="10dp"
 					android:paddingLeft="5dp"
 					android:paddingRight="15dp"
 					android:paddingTop="10dp"
 					android:text="Une entreprise"
-					android:textColor="#ffffff"
+					android:textColor="#000000"
 					android:textSize="15sp" />
 
                 <!-- RADIOBUTTON: Organisme -->
@@ -243,20 +400,27 @@
 					android:id="@+id/rbOrganisme"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:buttonTint="#ffffff"
+					android:buttonTint="#000000"
 					android:checked="false"
 					android:paddingBottom="10dp"
 					android:paddingLeft="5dp"
 					android:paddingRight="15dp"
 					android:paddingTop="10dp"
 					android:text="Un organisme"
-					android:textColor="#ffffff"
+					android:textColor="#000000"
 					android:textSize="15sp" />
 			</RadioGroup>
 
             <!-- TODO : Ajouter les autres informations sur l'utilisateur ici.
                 Peut-être faire plusieurs gridlayout avec un ID afin de le
                 faire affiché selon le choix du bouton radio? -->
+
+            <!-- TEXTVIEW : No entreprise
+            <TextView
+                android:""
+                />-->
+
+            <!-- TEXTVIEW : No OSBL -->
 
             <!-- Bouton pour soummettre l'inscription -->
 			<Button
@@ -266,6 +430,7 @@
 				android:layout_marginTop="30dp"
 				android:background="@drawable/button"
 				android:onClick="soummettreLaConnexion"
+                android:textColor="#ffffff"
 				android:text="Connexion" />
 		</GridLayout>
 	</LinearLayout>
