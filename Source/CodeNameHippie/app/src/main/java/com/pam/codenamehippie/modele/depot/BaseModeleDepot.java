@@ -27,6 +27,7 @@
 
 package com.pam.codenamehippie.modele.depot;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.DataSetObservable;
 import android.os.Handler;
@@ -51,10 +52,13 @@ import java.io.Reader;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -319,6 +323,71 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     }
 
     /**
+     * Méthode pour transformer un objet modèle en {@link okhttp3.FormBody.Builder}.
+     * <p/>
+     * Cette méthode est du code expérimental/prototype.
+     * L'idée ici c'est d'utiliser la réflection java pour créer une form http.
+     * Il serait plus facile de soumettre du json, mais en ce moment, le serveur ne le
+     * prend pas en ce moment…
+     * </p>
+     *
+     * @param modele
+     *         le modele à transformer.
+     *
+     * @return un nouveau {@link okhttp3.FormBody.Builder} rempli avec les champs.
+     */
+    public FormBody.Builder toFormBodyBuilder(@NonNull T modele) {
+        Class clazz = modele.getClass();
+        FormBody.Builder formBuilder = new FormBody.Builder();
+        do {
+            Field[] fields = clazz.getDeclaredFields();
+            for (Field field : fields) {
+                SerializedName fieldAnnotation = field.getAnnotation(SerializedName.class);
+                boolean old = field.isAccessible();
+                field.setAccessible(true);
+                String serializeName = fieldAnnotation.value();
+                try {
+                    Object value = field.get(modele);
+                    // On saute par dessus pour les champs qui sont des modeles pour le moment.
+                    if ((value != null) && !(value instanceof BaseModele)) {
+                        if (value instanceof Date) {
+                            @SuppressLint("SimpleDateFormat") String dateString =
+                                    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(value);
+                            formBuilder.add(serializeName, dateString);
+                        } else {
+                            formBuilder.add(serializeName, value.toString());
+                        }
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+                field.setAccessible(old);
+
+            }
+            clazz = clazz.getSuperclass();
+        } while (clazz != null);
+        return formBuilder;
+    }
+
+    /**
+     * Méthode pour transformer un objet modèle en {@link okhttp3.FormBody}.
+     * <p/>
+     * Cette méthode est du code expérimental/prototype.
+     * L'idée ici c'est d'utiliser la réflection java pour créer une form http.
+     * Il serait plus facile de soumettre du json, mais en ce moment, le serveur ne le
+     * prend pas en ce moment…
+     * </p>
+     *
+     * @param modele
+     *         le modele à transformer en FormBody.
+     *
+     * @return un nouveau {@link okhttp3.FormBody} rempli avec les champs.
+     */
+    public FormBody toFormBody(@NonNull T modele) {
+        return this.toFormBodyBuilder(modele).build();
+    }
+
+    /**
      * Permet de peupler le dépot.
      * <p/>
      * Cette methode est asynchrone et retourne immédiatement.
@@ -335,7 +404,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
         }
         Request request = new Request.Builder().url(url).get().build();
         // FIXME: surDebutDeRequête devrait être caller quand le dispatcher traite la requête.
-        // Il faudrait soummettre manuellement les calls aux dispatcher… Ça demanderait quand
+        // Il faudrait soumettre manuellement les calls aux dispatcher… Ça demanderait quand
         // même assez de travail… Pour les besoins de la cause on va tenter de pas soumettre
         // plusieurs requêtes en même temps au même dépot.
         this.surDebutDeRequete();
@@ -408,10 +477,8 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @param modele
      *         le modele à ajouter
-     * @param devraitPoster
-     *         determine si le dépôt doit envoyer le paramètre modèle au serveur.
      */
-    public void ajouterModele(T modele, boolean devraitPoster) {
+    public void ajouterModele(T modele) {
         if (this.ajoutUrl == null) {
             if (this.modifierUrl == null) {
                 throw new UnsupportedOperationException("Ce dépôt ne supporte pas l'ajout");
@@ -425,37 +492,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                 this.modeles.add(modele);
             }
         }
-        if (devraitPoster) {
-            // Ceci est du code expérimental/prototype.
-            // L'idee ici c'est d'utiliser la réflection java pour créer une form http.
-            // Il serait plus facile de soumettre du json, mais en ce moment, le serveur ne le
-            // prend pas en ce moment
-            Class clazz = modele.getClass();
-            do {
-                Field[] fields = clazz.getDeclaredFields();
-                for (Field field : fields) {
-                    SerializedName serializedName = field.getAnnotation(SerializedName.class);
-                    boolean old = field.isAccessible();
-                    field.setAccessible(true);
-                    try {
-                        Log.d(TAG,
-                              field.getName() +
-                              ": " +
-                              field.get(modele) +
-                              " serializedName: " +
-                              serializedName
-                                      .value()
-                             );
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                    field.setAccessible(old);
 
-                }
-                clazz = clazz.getSuperclass();
-            } while (clazz != null);
-
-        }
     }
 
     /**

@@ -1,6 +1,5 @@
 package com.pam.codenamehippie.ui;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -22,13 +21,13 @@ import com.pam.codenamehippie.modele.DescriptionModel;
 import com.pam.codenamehippie.modele.TypeAlimentaireModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot.PeuplerListesDeSpinnerListener;
+import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
 import com.pam.codenamehippie.ui.adapter.TypeAlimentaireModeleSpinnerAdapter;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -46,7 +45,9 @@ import okhttp3.Response;
  * Si un produit n'a pas de date de péremption, la date sera mise à null du côté du serveur.
  */
 public class AjoutMarchandiseActivity extends HippieActivity
-        implements ValidateurObserver, PeuplerListesDeSpinnerListener {
+        implements ValidateurObserver,
+                   PeuplerListesDeSpinnerListener,
+                   ObservateurDeDepot<AlimentaireModele> {
 
     private static final String SELECTED_SPINNER_TYPE_POSITION = "position_type";
     private static final String SELECTED_SPINNER_UNITE_POSITION = "position_unite";
@@ -69,6 +70,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
     private TextView tvDatePeremption;
     // Id de alimentaire pour sélection route modifier ou ajouter
     private Integer idModele = null;
+    private AlimentaireModele modele;
     // Id de l'organisme dont l'utilisateur est membre.
     private Integer organismeId;
     private int selectedSpinnerUnitePosition;
@@ -213,17 +215,6 @@ public class AjoutMarchandiseActivity extends HippieActivity
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        this.validateurNom.onPause();
-        this.validateurDescription.onPause();
-        this.validateurQuantite.onPause();
-        this.validateurValeur.onPause();
-        this.validateurSpinnerUniteMarchandise.onPause();
-        this.validateurSpinnerTypeMarchandise.onPause();
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         this.validateurNom.onResume();
@@ -233,6 +224,26 @@ public class AjoutMarchandiseActivity extends HippieActivity
         AlimentaireModeleDepot depot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         depot.peuplerLesListesDeSpinners(this);
+        if (this.idModele != null) {
+            depot.rechercherParId(this.idModele);
+        } else {
+            this.modele = new AlimentaireModele();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.validateurNom.onPause();
+        this.validateurDescription.onPause();
+        this.validateurQuantite.onPause();
+        this.validateurValeur.onPause();
+        this.validateurSpinnerUniteMarchandise.onPause();
+        this.validateurSpinnerTypeMarchandise.onPause();
+        AlimentaireModeleDepot depot =
+                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
+        depot.setFiltreDeListe(null);
+        depot.supprimerTousLesObservateurs();
     }
 
     /**
@@ -301,38 +312,37 @@ public class AjoutMarchandiseActivity extends HippieActivity
 
         DescriptionModel typeAlimentaire =
                 ((DescriptionModel) this.validateurSpinnerTypeMarchandise.getSelectedItem());
-        AlimentaireModele modele =
-                new AlimentaireModele().setNom(this.validateurNom.getTextString())
-                                       .setDescription(this.validateurDescription.getTextString())
-                                       .setValeur(Long.parseLong(this.validateurValeur
-                                                                         .getTextString()))
-                                       .setQuantite(Double.parseDouble(this.validateurQuantite
-                                                                               .getTextString()))
-                                       .setTypeAlimentaire(typeAlimentaire.getDescription())
-                                       .setDatePeremption(date.getTime());
-
         String typeAlimentaireId =
                 String.valueOf(this.validateurSpinnerTypeMarchandise.getSelectedItemId());
         String marchandiseUniteId =
                 String.valueOf(this.validateurSpinnerUniteMarchandise.getSelectedItemId());
+        // FIXME: Gérer l'état de marchandise. On mets 3(neuf) en attendant
+        this.modele.setNom(this.validateurNom.getTextString())
+                   .setDescription(this.validateurDescription.getTextString())
+                   .setValeur(Long.parseLong(this.validateurValeur
+                                                     .getTextString()))
+                   .setQuantite(Double.parseDouble(this.validateurQuantite
+                                                           .getTextString()))
+                   .setUniteDeQuantite(marchandiseUniteId)
+                   .setEtat("3")
+                   .setTypeAlimentaire(typeAlimentaireId)
+                   .setTypeAlimentaire(typeAlimentaire.getDescription())
+                   .setDatePeremption(date.getTime());
 
-        @SuppressLint("SimpleDateFormat")
-        String dateString =
-                new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(modele.getDatePeremption());
         AlimentaireModeleDepot depot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         // Construction du url pour un ajout de marchandise
         HttpUrl url = depot.getUrl().newBuilder().addPathSegment("ajout").build();
-        // FIXME: Gérer l'état de marchandise. On mets 3(neuf) en attendant
         FormBody.Builder body =
-                new FormBody.Builder().add("description_alimentaire", modele.getDescription())
-                                      .add("nom", modele.getNom())
-                                      .add("quantite", modele.getQuantite().toString())
-                                      .add("valeur", modele.getValeur().toString())
-                                      .add("type_alimentaire", typeAlimentaireId)
-                                      .add("marchandise_unite", marchandiseUniteId)
+                new FormBody.Builder().add("description", this.modele.getDescription())
+                                      .add("nom", this.modele.getNom())
+                                      .add("quantite", this.modele.getQuantite().toString())
+                                      .add("valeur", this.modele.getValeur().toString())
+                                      .add("type_alimentaire", this.modele.getTypeAlimentaire())
+                                      .add("marchandise_unite", this.modele.getUniteDeQuantite())
                                       .add("marchandise_etat", "3")
-                                      .add("date_peremption", dateString)
+                                      .add("date_peremption",
+                                           this.modele.getDatePeremption().toString())
                                       .add("donneur_id", this.organismeId.toString());
         if (this.idModele != null) {
             // Si le idModele est différent de null, il s'agit d'une modification sur le produit
@@ -426,6 +436,33 @@ public class AjoutMarchandiseActivity extends HippieActivity
     @Override
     public void surDebut() {
         this.afficherLaProgressBar();
+    }
+
+    @Override
+    public void surDebutDeRequete() {
+
+    }
+
+    @Override
+    public void surChangementDeDonnees(ArrayList<AlimentaireModele> modeles) {
+        if ((modeles != null) && (modeles.size() != 0)) {
+            this.modele = modeles.get(0);
+//            this.validateurNom.setText(this.modele.getNom());
+//            this.validateurDescription.setText(this.modele.getDescription());
+//            this.validateurQuantite.setText(this.modele.getQuantite().toString());
+//            this.validateurValeur.setText(this.modele.getValeur().toString());
+//            Calendar calendar = this.modele.getCalendarDatePeremption();
+//            this.datePeremption.init(calendar.get(Calendar.YEAR),
+//                                     calendar.get(Calendar.MONTH),
+//                                     calendar.get(Calendar.DAY_OF_MONTH),
+//                                     null
+//                                    );
+        }
+    }
+
+    @Override
+    public void surFinDeRequete() {
+
     }
 
     @Override
