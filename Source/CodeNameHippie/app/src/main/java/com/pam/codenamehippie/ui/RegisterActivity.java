@@ -321,7 +321,18 @@ public class RegisterActivity extends HippieActivity
                 this.confirmMotdePasseEstValide &&
                 this.prenomEstValide &&
                 this.nomEstValide &&
-                this.courrielEstValide);
+                this.courrielEstValide &&
+                this.codePostalEstValide &&
+                this.noCiviqueEstValide &&
+                this.noEntrepriseEstValide &&
+                this.nomRueEstValide &&
+                this.noOsblEstValide &&
+                this.paysEstValide &&
+                this.spinnerTypeRueEstValide &&
+                this.villeEstValide &&
+                this.telephoneEstValide &&
+                this.usernameEstValide
+        );
     }
 
     @Override
