@@ -117,8 +117,7 @@
     <string name="tv_aide_titre_entete">Help</string>
     <string name="tv_aide_titre_entete_maj">HELP</string>
     <string name="tv_aide_titre_denree">Denrée Ô Suivant</string>
-    <string name="tv_aide_titre_connexion">Connection</string>
-    <string name="tv_aide_titre_menu">Menu &amp; Navigation</string>
+    <string name="tv_aide_titre_menu">Navigation</string>
     <string name="tv_aide_titre_organisme">Organization</string>
     <string name="tv_aide_titre_produits_disponibles">Products available</string>
     <string name="tv_aide_titre_mes_reservations">My reservations</string>
@@ -131,8 +130,38 @@
 
     <!-- Texte pour la layout activity_aide -->
     <!-- TODO : à traduire en anglais -->
-    <!-- TODO : insérer le texte aide ici -->
-    
+    <string name="tv_aide_denree_detail">Denrée Ô Suivant est une application de gestion de dons de produits. Elle permet aux entreprises d’afficher des produits à donner. Ainsi, les organismes communautaires peuvent réserver des marchandises dont ils ont besoin et d’aller les recueillir auprès de ceux qui donnent.
+\n\nL’application s’assure que les informations du donneur restent confidentielles, s’il le souhaite, auprès du public et n’apparaissent simplement qu’auprès des organismes reconnus.
+\n\nPour accéder à plus d’informations sur Denrée Ô Suivant, nous vous invitons à consulter la page À propos.</string>
+    <string name="tv_aide_menu_detail">La navigation se fait sur la barre d’action. Cette barre regroupe tous les liens utiles vers chaque activité de l’application. La navigation se fait sur trois boutons. De gauche à droite, il y a le menu de navigation et l’accès aux informations de l’application.
+\n\nLe menu de navigation vous permet d’aller voir les statistiques, les produits disponibles (pour les organismes communautaires), afficher vos réservations (pour les organismes communautaires), faire des dons, afficher « Nos dons » ainsi que d’afficher les produits disponibles (pour les organismes communautaires).
+\n\nL’accès aux informations permet d’accéder à la section À propos, d’accéder au profil, d’accéder à l’aide et donnes la possibilité de vous déconnecter.
+</string>
+    <string name="tv_aide_organisme_detail">C’est une fonctionnalité accessible à tous.
+\n\nLes informations sur les organismes communautaires sont affichées sur cette page. On peut y voir le nom et lorsque l’utilisateur souhaite voir plus d’informations sur un organisme souhaité, il suffit d’appuyer sur le nom pour afficher plus d’informations. Les informations affichées sont l’adresse, le nom de la personne contact et le numéro de téléphone de l’organisme.
+</string>
+    <string name="tv_aide_produits_disponibles_detail">C’est une fonctionnalité cachée et seulement disponible pour les entreprises bénéficiant d’un numéro d’OSBL et reconnu comme un organisme communautaire.
+\n\nUne carte affiche les entreprises où on peut y retrouver des produits présentement disponibles. Il suffit d’appuyer sur le marqueur voulu, pour faire afficher le nom de l’entreprise sur l’espace au bas de l’écran. En appuyant sur le nom, les informations sur l’entreprise s’y affichent, ainsi que les produits que l’entreprise donne.
+\n\nLes trois boutons, en bas, à droite de la carte, ont des fonctionnalités différentes. De haut en bas, on y retrouve le bouton qui affiche les produits disponibles par entreprise. Elle est sélectionnée de base.
+\n\nLe deuxième bouton affiche les réservations effectuées par l’organisme. On voit donc à tous les endroits sur la carte où il y a des réservations en attente. Elle facilite donc la gestion d’horaire de collecte et les déplacements à effectuer. On peut annuler les réservations ou indiquer que les produits ont été collectés.
+\n\nLe troisième bouton affiche la liste des produits disponibles, l’organisme a la possibilité de faire des réservations et voir à quelles entreprises ces produits sont associés.
+</string>
+    <string name="tv_aide_mes_reservations_detail">C’est une fonctionnalité cachée et seulement disponible pour les entreprises bénéficiant d’un numéro d’OSBL et reconnu comme un organisme communautaire.
+\n\nÀ partir de cette activité, les organismes peuvent gérer leurs réservations en attente. L’utilisateur peut ensuite, s’il le désire, annuler la réservation ou indiquer que la collecte du produit a été effectué.
+</string>
+    <string name="tv_aide_faire_un_don_detail">C’est une fonctionnalité disponible à tous.
+\n\nAfin de faire un don aux organismes communautaires, les utilisateurs sont invités à utiliser le système de gestion de produits. Il suffit simplement d’insérer toutes les informations demandées dans le formulaire (Attention, tous les champs sont obligatoires) et d’appuyer sur ajouter. L’application introduira donc le produit qui a été ajouté au système et sera visible instantanément aux organismes.
+\n\nSi une erreur a été faite en remplissant le formulaire, il suffit simplement d’accéder à la page Mes dons, disponible dans le menu sur la barre d’action.
+</string>
+    <string name="tv_aide_mes_dons_detail">C’est une fonctionnalité disponible à tous les utilisateurs inscrits et qui ont effectués des dons.
+\n\nLa fonctionnalité Mes dons sert à gérer les dons effectués par l’utilisateur. Ainsi, l’entreprise peut y voir ses dons, s’ils sont disponibles ou réservés. L’utilisateur pourra ainsi modifier le don, s’il y a des changements, ou supprimer le don.
+</string>
+
+    <!-- TODO: Mettre le texte statistique lorsque qu'il sera finalisé -->
+    <string name="tv_aide_statistiques_detail">C’est une fonctionnalité accessible à tous, excepté pour certaines informations qui sont personnalisées à l’utilisateur.
+\n\nÀ venir
+</string>
+    <string name="tv_aide_profil_detail">L’utilisateur voit toutes ses informations de contact et d’entreprise, qu’il a indiquée lors de l’inscription.</string>
 
     <!-- Ressource pour la page profil-->
     <string name="tv_profil_name">PROFILE</string>
