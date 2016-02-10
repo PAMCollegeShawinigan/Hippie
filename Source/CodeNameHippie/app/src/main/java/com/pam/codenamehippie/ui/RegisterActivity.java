@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.pam.codenamehippie.HippieApplication;
@@ -15,6 +16,7 @@ import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.controleur.validation.Validateur;
 import com.pam.codenamehippie.controleur.validation.ValidateurCourriel;
 import com.pam.codenamehippie.controleur.validation.ValidateurDeChampTexte;
+import com.pam.codenamehippie.controleur.validation.ValidateurDeSpinner;
 import com.pam.codenamehippie.controleur.validation.ValidateurMotDePasse;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
 
@@ -30,23 +32,61 @@ import okhttp3.Response;
 
 public class RegisterActivity extends HippieActivity
         implements ValidateurObserver, EditText.OnEditorActionListener {
+    // Variable static final pour le spinner
+    private static final String SELECTED_SPINNER_TYPE_RUE_POSITION = "position_type_rue";
 
+    // Section des informations d'utilisateur
     private ValidateurDeChampTexte validateurNom;
     private boolean nomEstValide;
     private ValidateurDeChampTexte validateurPrenom;
     private boolean prenomEstValide;
+    private ValidateurDeChampTexte validateurUsername;
+    private boolean usernameEstValide;
     private ValidateurMotDePasse validateurMotDePasse;
     private boolean motPasseEstValide;
     private ValidateurMotDePasse validateurConfirmMotDePasse;
     private boolean confirmMotdePasseEstValide;
+
+    // Section des informations sur les moyens de contact
     private ValidateurCourriel validateurCourriel;
     private boolean courrielEstValide;
+    private ValidateurDeChampTexte validateurTelephone;
+    private boolean telephoneEstValide;
+
+    // TODO : Vérifier comment fonctionne les radios button/radio group
+
+    // Section des informations sur l'adresse de l'organisme
+    private ValidateurDeChampTexte validateurNoCivique;
+    private boolean noCiviqueEstValide;
+    private ValidateurDeSpinner validateurSpinnerTypeRue;
+    private boolean spinnerTypeRueEstValide;
+    private ValidateurDeChampTexte validateurNomRue;
+    private boolean nomRueEstValide;
+    private ValidateurDeChampTexte validateurVille;
+    private boolean villeEstValide;
+    private ValidateurDeChampTexte validateurProvince;
+    private boolean provinceEstValide;
+    private ValidateurDeChampTexte validateurCodePostal;
+    private boolean codePostalEstValide;
+    private ValidateurDeChampTexte validateurPays;
+    private boolean paysEstValide;
+
+    // Section information sur l'entreprise (no entreprise et/ou osbl)
+    // TODO : ajout d'une variable pour le radiogroup/radiobutton
+    private ValidateurDeChampTexte validateurNoEntreprise;
+    private boolean noEntrepriseEstValide;
+    private ValidateurDeChampTexte validateurNoOsbl;
+    private boolean noOsblEstValide;
+
     private Button loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_register);
+
+        // SECTION INFORMATIONS D'UTILISATEUR
+        // Validateur pour le nom
         EditText etInscriptionNom = ((EditText) this.findViewById(R.id.etInscriptionNom));
         this.validateurNom =
                 ValidateurDeChampTexte.newInstance(this,
@@ -55,6 +95,8 @@ public class RegisterActivity extends HippieActivity
                                                    ValidateurDeChampTexte.NOM_LONGUEUR_MAX
                                                   );
         this.validateurNom.registerObserver(this);
+
+        // Validateur pour le prénom
         EditText etInscriptionPrenom = ((EditText) this.findViewById(R.id.etInscriptionPrenom));
         this.validateurPrenom =
                 ValidateurDeChampTexte.newInstance(this,
@@ -64,9 +106,15 @@ public class RegisterActivity extends HippieActivity
                                                   );
         this.validateurPrenom.registerObserver(this);
 
-        EditText etCourriel = ((EditText) this.findViewById(R.id.etCourriel));
-        this.validateurCourriel = ValidateurCourriel.newInstance(this, etCourriel, true);
-        this.validateurCourriel.registerObserver(this);
+        // Validateur pour le nom d'utilisateur
+        EditText etUsername = (EditText) this.findViewById(R.id.etUsername);
+        this.validateurUsername =
+                ValidateurDeChampTexte.newInstance(this,
+                                                   etUsername,
+                                                   true,
+                                                   ValidateurDeChampTexte.NOM_LONGUEUR_MAX);
+
+        // Validateur pour le mot de passe et confirmer le mot de passe
         EditText etPassword = ((EditText) this.findViewById(R.id.etPassword));
         this.validateurMotDePasse = ValidateurMotDePasse.newInstance(this, etPassword);
         this.validateurMotDePasse.registerObserver(this);
@@ -75,6 +123,102 @@ public class RegisterActivity extends HippieActivity
         this.validateurConfirmMotDePasse =
                 ValidateurMotDePasse.newInstance(this, etConfirmPassword);
         this.validateurConfirmMotDePasse.registerObserver(this);
+
+        // SECTION INFORMATION SUR LES MOYENS DE CONTACT
+        // Validateur pour le courriel
+        EditText etCourriel = ((EditText) this.findViewById(R.id.etCourriel));
+        this.validateurCourriel = ValidateurCourriel.newInstance(this, etCourriel, true);
+        this.validateurCourriel.registerObserver(this);
+
+        // Validateur pour le téléphone
+        EditText etTelephone = (EditText) this.findViewById(R.id.etTelephone);
+        this.validateurTelephone =
+                ValidateurDeChampTexte.newInstance(this,
+                                                   etTelephone,
+                                                   true,
+                                                   ValidateurDeChampTexte.NO_TELEPHONE_LONGUEUR_MAX);
+
+        // Validateur pour le moyen de contact
+        // TODO: Ajouter le validateur pour le radiogroup des moyens de contact
+        // Radio group ID : rgMoyenContact
+        // Radio button ID : rbCourriel, rbTelephone et rbBoth
+
+        // SECTION ADRESSE
+        // Validateur pour le numéro civique
+        EditText etNoCivique = (EditText) this.findViewById(R.id.etNoCivique);
+        this.validateurNoCivique =
+                ValidateurDeChampTexte.newInstance(this,
+                        etNoCivique,
+                        true,
+                        ValidateurDeChampTexte.NO_TELEPHONE_LONGUEUR_MAX);
+
+        // Validateur pour le spinner du type de rue
+        Spinner spinnerTypeRue = (Spinner) this.findViewById(R.id.spinnerTypeRue);
+        this.validateurSpinnerTypeRue = ValidateurDeSpinner.newInstance(spinnerTypeRue);
+        this.validateurSpinnerTypeRue.registerObserver(this);
+
+        // Validateur pour le nom de rue
+        EditText etNomRue = (EditText) this.findViewById(R.id.etNomRue);
+        this.validateurNomRue =
+                ValidateurDeChampTexte.newInstance(this,
+                        etNomRue,
+                        true,
+                        ValidateurDeChampTexte.NOM_LONGUEUR_MAX);
+
+        // Validateur pour le nom de la ville
+        EditText etVille = (EditText) this.findViewById(R.id.etVille);
+        this.validateurVille =
+                ValidateurDeChampTexte.newInstance(this,
+                        etVille,
+                        true,
+                        ValidateurDeChampTexte.NOM_LONGUEUR_MAX);
+
+        // Validateur pour la province
+        EditText etProvince = (EditText) this.findViewById(R.id.etProvince);
+        this.validateurProvince =
+                ValidateurDeChampTexte.newInstance(this,
+                        etProvince,
+                        true,
+                        ValidateurDeChampTexte.NOM_LONGUEUR_MAX);
+
+        // Validateur pour le code postal
+        EditText etCodePostal = (EditText) this.findViewById(R.id.etCodePostal);
+        this.validateurCodePostal =
+                ValidateurDeChampTexte.newInstance(this,
+                        etCodePostal,
+                        true,
+                        ValidateurDeChampTexte.CODE_POSTAL_LONGUEUR_MAX);
+
+        // Validateur pour le pays
+        EditText etPays = (EditText) this.findViewById(R.id.etPays);
+        this.validateurPays =
+                ValidateurDeChampTexte.newInstance(this,
+                        etPays,
+                        true,
+                        ValidateurDeChampTexte.NOM_LONGUEUR_MAX);
+
+        // SECTION ENTREPRISE / ORGANISME
+        // TODO : Radio button/group, regarder ça.
+        // RadioGroup ID : rgEtesVous
+        // RadioButton ID : rbEntreprise et rbOrganisme
+
+        // Validateur pour le numéro d'entreprise
+        EditText etNoEntreprise = (EditText) this.findViewById(R.id.etNoEntreprise);
+        this.validateurNoEntreprise =
+                ValidateurDeChampTexte.newInstance(this,
+                        etNoEntreprise,
+                        true,
+                        ValidateurDeChampTexte.NEQ_LONGUEUR_MAX);
+
+        // Validateur pour le numéro d'OSBL
+        EditText etNoOsbl = (EditText) this.findViewById(R.id.etNoOsbl);
+        this.validateurNoOsbl =
+                ValidateurDeChampTexte.newInstance(this,
+                        etNoOsbl,
+                        true,
+                        ValidateurDeChampTexte.OSBL_LONGUEUR_MAX);
+
+        // Bouton pour s'inscrire
         this.loginButton = (Button) this.findViewById(R.id.bLogin);
     }
 
@@ -131,10 +275,10 @@ public class RegisterActivity extends HippieActivity
             }
         }
         this.loginButton.setEnabled(this.motPasseEstValide &&
-                                    this.confirmMotdePasseEstValide &&
-                                    this.prenomEstValide &&
-                                    this.nomEstValide &&
-                                    this.courrielEstValide);
+                this.confirmMotdePasseEstValide &&
+                this.prenomEstValide &&
+                this.nomEstValide &&
+                this.courrielEstValide);
     }
 
     @Override

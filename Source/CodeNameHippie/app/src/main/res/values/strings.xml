@@ -249,7 +249,7 @@
     <string name="tv_inscription_etes_vous">ARE-YOU ?</string>
     <string name="rb_inscription_entreprise">A business</string>
     <string name="rb_inscription_organisme">A communal organization</string>
-    <string name="tv_inscription_no_entreprise">Business number</string>
+    <string name="tv_inscription_no_entreprise">Business number (NEQ)</string>
     <string name="tv_inscription_no_osbl">OSBL number</string>
     <string name="btn_inscription_inscription">Sign up</string>
 

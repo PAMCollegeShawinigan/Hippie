@@ -207,7 +207,7 @@
     <string name="tv_inscription_etes_vous">ÊTES-VOUS ?</string>
     <string name="rb_inscription_entreprise">Une entreprise</string>
     <string name="rb_inscription_organisme">Un organisme</string>
-    <string name="tv_inscription_no_entreprise">No d\'entreprise</string>
+    <string name="tv_inscription_no_entreprise">No d\'entreprise (NEQ)</string>
     <string name="tv_inscription_no_osbl">No d\'OSBL</string>
     <string name="btn_inscription_inscription">Inscription</string>
 
