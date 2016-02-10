@@ -24,7 +24,7 @@
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
                 <!-- Wrap pour les informations tel que voulu, ainsi parce que le view switcher
                     n'accepte qu'un seul enfant =( -->
                 <LinearLayout
@@ -32,7 +32,8 @@
                     android:layout_height="wrap_content"
                     android:focusableInTouchMode="false"
                     android:orientation="vertical"
-                    android:scrollIndicators="left|top">
+                    android:scrollIndicators="left|top"
+                    >
 
                     <!-- TITRE: PROFIL -->
                     <TextView

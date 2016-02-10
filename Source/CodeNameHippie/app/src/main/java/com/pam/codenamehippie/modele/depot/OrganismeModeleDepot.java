@@ -43,6 +43,7 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
     private static final String TAG = OrganismeModeleDepot.class.getSimpleName();
 
     private final HttpUrl listeOrganismeDonneur;
+    private final HttpUrl listeOrganismeReservation;
 
     /**
      * Construction du dépot pour modèle Organisme
@@ -50,6 +51,9 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
     public OrganismeModeleDepot(Context context, OkHttpClient httpClient) {
         super(context, httpClient);
         this.listeOrganismeDonneur = this.url.newBuilder().addPathSegment("carte").build();
+        this.listeOrganismeReservation = this.listeOrganismeDonneur.newBuilder()
+                                                                   .addPathSegment("reservation")
+                                                                   .build();
         this.url = this.url.newBuilder().addPathSegment("organisme").build();
     }
 
@@ -58,8 +62,13 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
 
     }
 
-    public void peuplerListeOrganisme() {
+    public void peuplerListeDonneurReservation(Integer id) {
+        HttpUrl url =
+                this.listeOrganismeReservation.newBuilder().addPathSegment(id.toString()).build();
+        this.peuplerLeDepot(url);
+    }
 
+    public void peuplerListeOrganisme() {
         this.peuplerLeDepot(this.url);
     }
 }

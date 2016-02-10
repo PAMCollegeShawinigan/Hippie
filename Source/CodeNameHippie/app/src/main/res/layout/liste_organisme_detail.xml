@@ -6,66 +6,43 @@
               android:padding="10dp"
     >
 
+    <!-- Affiche l'adresse de l'organisme, c'est l'enfant de la listview -->
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/tv_org_adresse"
         android:id="@+id/tv_org_adresse"
         android:layout_weight="0.5"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="50dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp">
-
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="20dp"
-                android:background="@drawable/personne_contact"
-                android:id="@+id/iv_org_personne_contact"
-                android:layout_marginRight="10dp"
-                android:contentDescription="@string/iv_org_personne_contact"/>
-
+            <!-- Affiche le nom de la personne contact -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/personne_contact"
+                android:drawablePadding="10dp"
                 android:text="@string/tv_org_personne_contact"
                 android:id="@+id/tv_org_personne_contact"
-                android:layout_gravity="center_vertical"/>
+                android:paddingRight="10dp"
+                android:layout_marginBottom="5dp"/>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="10dp">
-
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="25dp"
-                android:background="@drawable/telephone2"
-                android:id="@+id/iv_org_telephone"
-                android:layout_marginRight="10dp"
-                android:contentDescription="@string/iv_org_telephone"/>
-
+            <!-- Affiche le numéro de téléphone de l'organisme -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/telephone2"
+                android:drawablePadding="10dp"
                 android:text="@string/tv_org_telephone"
                 android:id="@+id/tv_org_telephone"
-                android:layout_gravity="center_vertical"/>
-
-        </LinearLayout>
+                android:layout_marginTop="5dp"
+                android:paddingRight="10dp"
+                />
 
     </LinearLayout>
 

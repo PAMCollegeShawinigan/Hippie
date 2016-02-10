@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center_vertical"
               android:padding="10dp">
-
+<!-- Affiche le nom de l'organisme, c'est aussi le parent de la listview -->
     <ImageView
         android:layout_width="45dp"
         android:layout_height="40dp"
@@ -18,6 +19,8 @@
         android:layout_height="wrap_content"
         android:text="@string/tv_org_nom_organisme"
         android:layout_marginLeft="10dp"
-        android:id="@+id/tv_org_nom_organisme"/>
+        android:id="@+id/tv_org_nom_organisme"
+        fontPath="fonts/opensans_semibold.ttf"
+        tools:ignore="MissingPrefix"/>
 
 </LinearLayout>
