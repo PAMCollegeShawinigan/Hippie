@@ -10,10 +10,10 @@ import java.util.Date;
  */
 public class TransactionModele extends BaseModele<TransactionModele> {
 
-    @SerializedName("receveur_id")
-    protected OrganismeModele idReceveur;
-    @SerializedName("donneur_id")
-    protected OrganismeModele idDonneur;
+    @SerializedName("receveur")
+    protected OrganismeModele receveur;
+    @SerializedName("donneur")
+    protected OrganismeModele donneur;
     @SerializedName("alimentaire")
     protected AlimentaireModele alimentaire;
     @SerializedName("date_collecte")
@@ -22,22 +22,35 @@ public class TransactionModele extends BaseModele<TransactionModele> {
     protected Date dateReservation;
     @SerializedName("date_disponible")
     protected Date dateDisponible;
+    @SerializedName("date_transaction")
+    protected Date dateTransaction;
 
-    public OrganismeModele getIdReceveur() {
-        return this.idReceveur;
+    public Date getDateTransaction() {
+        return dateTransaction;
     }
 
-    public TransactionModele setIdReceveur(OrganismeModele idReceveur) {
-        this.idReceveur = idReceveur;
+    public TransactionModele setDateTransaction(Date dateTransaction) {
+        this.dateTransaction = dateTransaction;
         return this;
     }
 
-    public OrganismeModele getIdDonneur() {
-        return this.idDonneur;
+
+
+    public OrganismeModele getReceveur() {
+        return this.receveur;
     }
 
-    public TransactionModele setIdDonneur(OrganismeModele idDonneur) {
-        this.idDonneur = idDonneur;
+    public TransactionModele setReceveur(OrganismeModele receveur) {
+        this.receveur = receveur;
+        return this;
+    }
+
+    public OrganismeModele getDonneur() {
+        return this.donneur;
+    }
+
+    public TransactionModele setDonneur(OrganismeModele donneur) {
+        this.donneur = donneur;
         return this;
     }
 
@@ -94,4 +107,48 @@ public class TransactionModele extends BaseModele<TransactionModele> {
         calendar.setTime(this.dateCollecte);
         return calendar;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof TransactionModele)) {
+            return false;
+        }
+        TransactionModele rhs = (TransactionModele) o;
+        return (((this.id == null) ? (rhs.id == null) : this.id.equals(rhs.id)) &&
+                ((this.receveur == null) ? (rhs.receveur == null) : this.receveur.equals(rhs.receveur)) &&
+                ((this.donneur == null)
+                        ? (rhs.donneur == null)
+                        : this.donneur.equals(rhs.donneur)) &&
+                ((this.alimentaire == null) ? (rhs.alimentaire == null) : this.alimentaire.equals(rhs.alimentaire)) &&
+                ((this.dateCollecte == null)
+                        ? (rhs.dateCollecte == null)
+                        : this.dateCollecte.equals(rhs.dateCollecte)) &&
+                ((this.dateReservation == null)
+                        ? (rhs.dateReservation == null)
+                        : this.dateReservation.equals(rhs.dateReservation)) &&
+                ((this.dateDisponible == null)
+                        ? (rhs.dateDisponible == null)
+                        : this.dateDisponible.equals(rhs.dateDisponible)) &&
+                ((this.dateTransaction == null)
+                        ? (rhs.dateTransaction == null)
+                        : this.dateTransaction.equals(rhs.dateTransaction)));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 142;
+        hash = (this.id != null) ? 71 * hash + this.id.hashCode() : hash;
+        hash = (this.receveur != null) ? 71 * hash + this.receveur.hashCode() : hash;
+        hash = (this.donneur != null) ? 71 * hash + this.donneur.hashCode() : hash;
+        hash = (this.alimentaire != null) ? 71 * hash + this.alimentaire.hashCode() : hash;
+        hash = (this.dateCollecte != null) ? 71 * hash + this.dateCollecte.hashCode() : hash;
+        hash = (this.dateReservation != null) ? 71 * hash + this.dateReservation.hashCode() : hash;
+        hash = (this.dateDisponible != null) ? 71 * hash + this.dateDisponible.hashCode() : hash;
+        hash = (this.dateTransaction != null) ? 71 * hash + this.dateTransaction.hashCode() : hash;
+        return hash;
+    }
+
 }

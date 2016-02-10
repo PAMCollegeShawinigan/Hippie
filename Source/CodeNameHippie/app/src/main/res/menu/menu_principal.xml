@@ -11,20 +11,16 @@
 		app:showAsAction="always" />
 	<item
 		android:id="@+id/menu_profil"
-		android:icon="@drawable/profil"
 		android:title="@string/profil"
-		android:orderInCategory="2"
-		app:showAsAction="always" />
+		android:orderInCategory="1"/>
 
 	<item
 		android:id="@+id/info"
-		android:icon="@drawable/aide"
 		android:orderInCategory="2"
 		android:title="@string/info"/>
 
 	<item
 		android:id="@+id/menu_aide"
-		android:icon="@drawable/aide"
 		android:title="@string/tv_aide_titre_entete"
 		android:orderInCategory="3"/>
 
@@ -32,5 +28,9 @@
 		android:id="@+id/menu_deconnexion"
         android:orderInCategory="4"
 		android:title="@string/action_sign_out" />
+	<item
+		android:id="@+id/menu_statistique"
+		android:orderInCategory="5"
+		android:title="Liste Stats Temporaire" />
 
 </menu>

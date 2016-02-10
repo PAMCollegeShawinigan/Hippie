@@ -8,6 +8,8 @@
             android:focusableInTouchMode="false"
             android:scrollIndicators="left|top">
     <!-- TODO : Finalisé cette page afin que les gens puissent s'inscrire -->
+    <!-- TODO : Changer les couleurs de la page inscription -->
+    <!-- TODO : Ajouter les rows et columns pour le gridlayout -->
     <!-- Layout pour avoir un seul children, car le nested scrollview ne prend pas plusieurs child -->
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -17,12 +19,16 @@
 		android:scrollIndicators="top"
 		tools:context="com.pam.codenamehippie.ui.Register"
 		tools:showIn="@layout/activity_register">
+
+        <!-- Gridlayout, plus simple de faire affiché le formulaire avec ce type de layout -->
 		<GridLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:gravity="center_horizontal"
 			android:orientation="vertical"
 			android:paddingLeft="40dp">
+
+            <!-- TITRE : Information de connexion -->
 			<TextView
 				android:id="@+id/tv_infoConnexion"
 				android:layout_width="447dp"
@@ -31,6 +37,17 @@
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:textColor="#A1CC39"
 				android:textSize="30sp" />
+
+            <!-- Divider, pour diviser le titre et les informations -->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/divider1"
+                android:contentDescription="@null"/>
+
+            <!-- TEXTVIEW : Nom -->
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -40,6 +57,8 @@
 				android:textColor="#ffffff"
 				android:textSize="20sp"
 				android:layout_gravity="center_horizontal|left" />
+
+            <!-- EDITTEXT : Nom -->
 			<EditText
 				android:id="@+id/etInscriptionNom"
 				android:layout_width="300dp"
@@ -51,6 +70,8 @@
 				android:nextFocusForward="@+id/etInscriptionPrenom"
 				android:padding="10dp"
 				android:textColorHint="#c6c6c6" />
+
+            <!-- TEXTVIEW : Prénom -->
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -59,6 +80,8 @@
 				android:text="Prénom"
 				android:textColor="#ffffff"
 				android:textSize="20sp" />
+
+            <!-- EDITTEXT : Prénom -->
 			<EditText
 				android:id="@+id/etInscriptionPrenom"
 				android:layout_width="300dp"
@@ -70,6 +93,8 @@
 				android:nextFocusForward="@+id/etUsername"
 				android:padding="10dp"
 				android:textColorHint="#c6c6c6" />
+
+            <!-- TEXTVIEW : Nom d'utilisateur -->
 			<TextView
 				android:id="@+id/tvUsername"
 				android:layout_width="wrap_content"
@@ -79,6 +104,8 @@
 				android:text="Nom d&apos;utilisateur"
 				android:textColor="#ffffff"
 				android:textSize="20sp" />
+
+            <!-- EDITTEXT : Nom d'utilisateur -->
 			<EditText
 				android:id="@+id/etUsername"
 				android:layout_width="300dp"
@@ -90,6 +117,8 @@
 				android:nextFocusForward="@+id/etCourriel"
 				android:padding="10dp"
 				android:textColorHint="#c6c6c6" />
+
+            <!-- TEXTVIEW : Courriel -->
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -99,6 +128,8 @@
 				android:textColor="#ffffff"
 				android:textColorHint="#c6c6c6"
 				android:textSize="20sp" />
+
+            <!-- EDITTEXT : Courriel -->
 			<EditText
 				android:id="@+id/etCourriel"
 				android:layout_width="300dp"
@@ -110,6 +141,8 @@
 				android:nextFocusForward="@+id/etPassword"
 				android:padding="10dp"
 				android:textColorHint="#c6c6c6" />
+
+            <!-- TEXTVIEW : Mot de passe -->
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -118,6 +151,8 @@
 				android:text="Mot de passe"
 				android:textColor="#ffffff"
 				android:textSize="20sp" />
+
+            <!-- EDITTEXT : Mot de passe -->
 			<EditText
 				android:id="@+id/etPassword"
 				android:layout_width="300dp"
@@ -129,6 +164,8 @@
 				android:nextFocusForward="@+id/etConfirmPassword"
 				android:padding="10dp"
 				android:textColorHint="#c6c6c6" />
+
+            <!-- TEXTVIEW : Confirmer le mot de passe -->
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -137,6 +174,8 @@
 				android:text="Confirmer mot de passe"
 				android:textColor="#ffffff"
 				android:textSize="20sp" />
+
+            <!-- EDITTEXT : Confirmer le mot de passe -->
 			<EditText
 				android:id="@+id/etConfirmPassword"
 				android:layout_width="300dp"
@@ -148,6 +187,8 @@
 				android:inputType="textPassword"
 				android:padding="10dp"
 				android:textColorHint="#c6c6c6" />
+
+            <!-- TEXTVIEW : Êtes-vous? -->
 			<TextView
 				android:id="@+id/textView"
 				android:layout_width="wrap_content"
@@ -158,11 +199,16 @@
 				android:textAppearance="?android:attr/textAppearanceLarge"
 				android:textColor="#A1CC39"
 				android:textSize="20sp" />
+
+            <!-- Radiogroup, afin que l'utilisateur choisi s'il est une entreprise, un particulier ou un organisme,
+                ainsi, le formulaire s'affichera selon ce qu'il aura choisi. -->
 			<RadioGroup
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:gravity="center_horizontal"
 				android:orientation="horizontal">
+
+                <!-- RADIOBUTTON: Particulier -->
 				<RadioButton
 					android:id="@+id/rbParticulier"
 					android:layout_width="wrap_content"
@@ -176,6 +222,8 @@
 					android:text="Un particulier"
 					android:textColor="#ffffff"
 					android:textSize="15sp" />
+
+                <!-- RADIOBUTTON: Entreprise -->
 				<RadioButton
 					android:id="@+id/rbEntreprise"
 					android:layout_width="wrap_content"
@@ -189,6 +237,8 @@
 					android:text="Une entreprise"
 					android:textColor="#ffffff"
 					android:textSize="15sp" />
+
+                <!-- RADIOBUTTON: Organisme -->
 				<RadioButton
 					android:id="@+id/rbOrganisme"
 					android:layout_width="wrap_content"
@@ -203,6 +253,12 @@
 					android:textColor="#ffffff"
 					android:textSize="15sp" />
 			</RadioGroup>
+
+            <!-- TODO : Ajouter les autres informations sur l'utilisateur ici.
+                Peut-être faire plusieurs gridlayout avec un ID afin de le
+                faire affiché selon le choix du bouton radio? -->
+
+            <!-- Bouton pour soummettre l'inscription -->
 			<Button
 				android:id="@+id/bLogin"
 				android:layout_width="300dp"
