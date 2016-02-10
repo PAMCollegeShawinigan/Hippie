@@ -102,7 +102,7 @@
             android:id="@+id/textView12"
             android:textSize="20sp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="40dp" />
+            android:layout_marginLeft="45dp" />
 
         <!-- SOUS-TITRE : Vocation sociale et communautaire -->
         <TextView
@@ -125,7 +125,7 @@
             android:id="@+id/textView14"
             android:textSize="20sp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="40dp" />
+            android:layout_marginLeft="45dp" />
 
         <!-- SOUS-TITRE : Environnement et gaspillage -->
         <TextView
@@ -147,9 +147,8 @@
             android:text="@string/tv_texte_mission_3"
             android:id="@+id/textView16"
             android:textSize="20sp"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="40dp" />
+            android:layout_marginLeft="45dp" />
 
         <!-- TITRE : En conclusion -->
         <TextView
