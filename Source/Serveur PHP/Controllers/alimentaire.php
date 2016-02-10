@@ -23,8 +23,7 @@ class alimentaire extends Controller
 									INNER JOIN marchandise_statut ON alimentaire.marchandise_statut = marchandise_statut.statut_id
 									INNER JOIN type_aliment ON alimentaire.type_alimentaire = type_aliment.aliment_id
 									
-									WHERE alimentaire_id = :id 
-										AND marchandise_statut = 3'); // Requête de tout les champs d'organisme
+									WHERE alimentaire_id = :id'); // Requête de tout les champs d'organisme
 					
 					
 					$req->execute(array(
@@ -76,7 +75,7 @@ class alimentaire extends Controller
 												VALUES(:nom, :description_alimentaire, :quantite, :marchandise_etat, :marchandise_unite, :valeur, :marchandise_statut, :type_alimentaire, :date_peremption)');
 			$req->execute(array(
 				'nom' => $_POST['nom'], 
-				'description_alimentaire' => $_POST['description_alimentaire'],
+				'description_alimentaire' => $_POST['description'],
 				'quantite'=> $_POST['quantite'],
 				'marchandise_etat' => $_POST['marchandise_etat'], 
 				'marchandise_unite'=> $_POST['marchandise_unite'],
@@ -132,7 +131,7 @@ class alimentaire extends Controller
 													WHERE alimentaire_id = :aliment_id');
 			$req->execute(array(
 				'nom' => $_POST['nom'], 
-				'description_alimentaire' => $_POST['description_alimentaire'],
+				'description_alimentaire' => $_POST['description'],
 				'quantite'=> $_POST['quantite'],
 				'marchandise_etat' => $_POST['marchandise_etat'], 
 				'marchandise_unite'=> $_POST['marchandise_unite'],
