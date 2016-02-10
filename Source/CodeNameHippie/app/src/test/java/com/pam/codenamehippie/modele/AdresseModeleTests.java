@@ -64,10 +64,10 @@ public class AdresseModeleTests {
         assertNull("formattedCodePostal should be null at start", value);
         String formattedCodePostal = this.adresse1.getFormattedCodePostal();
         value = ((String) field.get(this.adresse1));
-        assertNotNull("getFormattedCodePostal should cache its value",
+        assertNotNull("getFormattedCodePostal() should cache its value",
                       value
                      );
-        assertEquals("toFormattedString should return cached value",
+        assertEquals("toFormattedString() should return cached value",
                      formattedCodePostal,
                      value
                     );
@@ -77,14 +77,28 @@ public class AdresseModeleTests {
     }
 
     @Test
-    public void formattedStringShouldBeLazilyInstantiated() throws Exception {
-        Field field = this.adresse1.getClass().getDeclaredField("formattedString");
+    public void prettyStringShouldBeLazilyInstantiated() throws Exception {
+        Field field = this.adresse1.getClass().getDeclaredField("prettyPrintString");
         String value = ((String) field.get(this.adresse1));
-        assertNull("formattedString should be null at start", value);
+        assertNull("prettyPrintString should be null at start", value);
         String formattedString = this.adresse1.toFormattedString();
         value = ((String) field.get(this.adresse1));
-        assertNotNull("toFormattedString should cache its value", value);
-        assertEquals("toFormattedString should return cached value",
+        assertNotNull("toFormattedString() should cache its value", value);
+        assertEquals("toFormattedString() should return cached value",
+                     value,
+                     formattedString
+                    );
+    }
+
+    @Test
+    public void cacheStringShouldBeLazilyInstantiated() throws Exception {
+        Field field = this.adresse1.getClass().getDeclaredField("cacheString");
+        String value = ((String) field.get(this.adresse1));
+        assertNull("cacheString should be null at start", value);
+        String formattedString = this.adresse1.string();
+        value = ((String) field.get(this.adresse1));
+        assertNotNull("string() should cache its value", value);
+        assertEquals("string() should return cached value",
                      value,
                      formattedString
                     );
@@ -92,13 +106,20 @@ public class AdresseModeleTests {
 
     @Test
     public void setCodePostalShouldInvalidateCachedStrings() throws Exception {
-        Field string = this.adresse1.getClass().getDeclaredField("formattedString");
+        Field string = this.adresse1.getClass().getDeclaredField("prettyPrintString");
+        Field string2 = this.adresse1.getClass().getDeclaredField("cacheString");
         Field code = this.adresse1.getClass().getDeclaredField("formattedCodePostal");
         this.adresse1.toFormattedString();
-        assertNotNull("toFormattedString should fill string cache", string.get(this.adresse1));
-        assertNotNull("toFormattedString should fill string cache", code.get(this.adresse1));
+        assertNotNull("toFormattedString() should fill string cache", string.get(this.adresse1));
+        assertNotNull("toFormattedString() should fill string cache", code.get(this.adresse1));
         this.adresse1.setCodePostal("H0H 0H0");
-        assertNull("setCodePostal should empty string cache", string.get(this.adresse1));
+        assertNull("setCodePostal() should empty string cache", string.get(this.adresse1));
+        assertNull("setCodePostal() should empty string cache", code.get(this.adresse1));
+        this.adresse1.string();
+        assertNotNull("string() should fill string cache", string2.get(this.adresse1));
+        assertNotNull("string() should fill string cache", code.get(this.adresse1));
+        this.adresse1.setCodePostal("H0H 0H0");
+        assertNull("setCodePostal should empty string cache", string2.get(this.adresse1));
         assertNull("setCodePostal should empty string cache", code.get(this.adresse1));
 
     }

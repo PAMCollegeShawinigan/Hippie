@@ -68,10 +68,12 @@ import java.util.Arrays;
 /**
  * The simplest possible example of using AndroidPlot to plot some data.
  */
+
 public class Stats_Activity extends HippieActivity implements ObservateurDeDepot<TransactionModele>
+
 {
 
-    private static final String NO_SELECTION_TXT = "Touch bar to select.";
+   // private static final String NO_SELECTION_TXT = "Touch bar to select.";
     private XYPlot plot;
 
     private CheckBox series1CheckBox;
@@ -84,7 +86,7 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
 
     private Spinner spRenderStyle, spWidthStyle, spSeriesSize;
     private SeekBar sbFixedWidth, sbVariableWidth;
-    
+
     private XYSeries series1;
     private XYSeries series2;
     private XYSeries series3;
@@ -204,14 +206,15 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
         // initialize our XYPlot reference:
         plot = (XYPlot) findViewById(R.id.plot);
 
-        /*formatter1 = new MyBarFormatter(Color.argb(200, 88, 93, 89), Color.LTGRAY);
-        formatter2 = new MyBarFormatter(Color.argb(200, 145, 169, 145), Color.LTGRAY);
-        formatter3 = new MyBarFormatter(Color.argb(200, 148, 145, 169), Color.LTGRAY);
-        formatter4 = new MyBarFormatter(Color.argb(200, 106, 80, 87), Color.LTGRAY);
-        formatter5 = new MyBarFormatter(Color.argb(200, 169, 154, 128), Color.LTGRAY);
-        formatter6 = new MyBarFormatter(Color.argb(200, 70, 92, 70), Color.LTGRAY);
-        formatter7 = new MyBarFormatter(Color.argb(200, 74, 70, 92), Color.LTGRAY);
-        selectionFormatter = new MyBarFormatter(Color.argb(1000,224,222,84), Color.WHITE);*/
+
+//        formatter1 = new MyBarFormatter(Color.argb(200, 88, 93, 89), Color.LTGRAY);
+//        formatter2 = new MyBarFormatter(Color.argb(200, 145, 169, 145), Color.LTGRAY);
+//        formatter3 = new MyBarFormatter(Color.argb(200, 148, 145, 169), Color.LTGRAY);
+//        formatter4 = new MyBarFormatter(Color.argb(200, 106, 80, 87), Color.LTGRAY);
+//        formatter5 = new MyBarFormatter(Color.argb(200, 169, 154, 128), Color.LTGRAY);
+//        formatter6 = new MyBarFormatter(Color.argb(200, 70, 92, 70), Color.LTGRAY);
+//        formatter7 = new MyBarFormatter(Color.argb(200, 74, 70, 92), Color.LTGRAY);
+//        selectionFormatter = new MyBarFormatter(Color.argb(1000,224,222,84), Color.WHITE);
 
         formatter1 = new MyBarFormatter(Color.argb(200, 78, 130, 189), Color.LTGRAY);//Bleu
         formatter2 = new MyBarFormatter(Color.argb(200, 194, 80, 79), Color.LTGRAY);//Rouge
@@ -231,13 +234,16 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
         formatter7 = new MyBarFormatter(Color.argb(200, 67, 101, 40), Color.LTGRAY);
         selectionFormatter = new MyBarFormatter(Color.argb(1000,224,222,84), Color.WHITE);*/
 
-        selectionWidget = new TextLabelWidget(plot.getLayoutManager(), NO_SELECTION_TXT,
+        selectionWidget = new TextLabelWidget(plot.getLayoutManager(),this.getString(R.string.stats_non_selectionne),
+
                 new Size(
                         PixelUtils.dpToPix(100), SizeLayoutType.ABSOLUTE,
                         PixelUtils.dpToPix(100), SizeLayoutType.ABSOLUTE),
                 TextOrientationType.HORIZONTAL);
 
-        selectionWidget.getLabelPaint().setTextSize(PixelUtils.dpToPix(16));
+        selectionWidget.setPaddingLeft(10);
+
+        selectionWidget.getLabelPaint().setTextSize(PixelUtils.dpToPix(20));
 
         // add a dark, semi-transparent background to the selection label widget:
         Paint p = new Paint();
@@ -246,7 +252,7 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
 
         selectionWidget.position(
                 0, XLayoutStyle.RELATIVE_TO_CENTER,
-                PixelUtils.dpToPix(45), YLayoutStyle.ABSOLUTE_FROM_TOP,
+                PixelUtils.dpToPix(60), YLayoutStyle.ABSOLUTE_FROM_TOP,
                 AnchorPosition.TOP_MIDDLE);
         selectionWidget.pack();
 
@@ -322,12 +328,13 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
                 return true;
             }
         });
-        
+
         spRenderStyle = (Spinner) findViewById(R.id.spRenderStyle);
-        ArrayAdapter <BarRenderer.BarRenderStyle> adapter = new ArrayAdapter <BarRenderer.BarRenderStyle> (this, android.R.layout.simple_spinner_item, BarRenderer.BarRenderStyle.values() );
+        BarRenderer.BarRenderStyle arr[] = {BarRenderer.BarRenderStyle.SIDE_BY_SIDE, BarRenderer.BarRenderStyle.STACKED};
+        ArrayAdapter <BarRenderer.BarRenderStyle> adapter = new ArrayAdapter <BarRenderer.BarRenderStyle> (this, android.R.layout.simple_spinner_item, arr);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spRenderStyle.setAdapter(adapter);
-        spRenderStyle.setSelection(BarRenderer.BarRenderStyle.OVERLAID.ordinal());
+        spRenderStyle.setSelection(BarRenderer.BarRenderStyle.STACKED.ordinal());
         spRenderStyle.setOnItemSelectedListener(new OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> arg0, View arg1,int arg2, long arg3) {
                 updatePlot();
@@ -335,8 +342,8 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
-        });             
-        
+        });
+
         spWidthStyle = (Spinner) findViewById(R.id.spWidthStyle);
         ArrayAdapter <BarRenderer.BarWidthStyle> adapter1 = new ArrayAdapter <BarRenderer.BarWidthStyle> (this, android.R.layout.simple_spinner_item, BarRenderer.BarWidthStyle.values() );
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -354,9 +361,9 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
                 updatePlot();
             }
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {    
+			public void onNothingSelected(AdapterView<?> arg0) {
 			}
-        });             
+        });
 
         spSeriesSize = (Spinner) findViewById(R.id.spSeriesSize);
         ArrayAdapter <SeriesSize> adapter11 = new ArrayAdapter <SeriesSize> (this, android.R.layout.simple_spinner_item, SeriesSize.values() );
@@ -404,9 +411,9 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
-        });          
-        
-       
+        });
+
+
         sbFixedWidth = (SeekBar) findViewById(R.id.sbFixed);
         sbFixedWidth.setProgress(50);
         sbFixedWidth.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -418,8 +425,8 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
-        
-        
+
+
         sbVariableWidth = (SeekBar) findViewById(R.id.sbVariable);
         sbVariableWidth.setProgress(1);
         sbVariableWidth.setVisibility(View.INVISIBLE);
@@ -455,7 +462,7 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
     }
 
     private void updatePlot() {
-    	
+
     	// Remove all current series from each plot
         plot.clear();
 
@@ -484,17 +491,17 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
         renderer.setBarWidthStyle((BarRenderer.BarWidthStyle)spWidthStyle.getSelectedItem());
         renderer.setBarWidth(sbFixedWidth.getProgress());
         renderer.setBarGap(sbVariableWidth.getProgress());
-        
+
         if (BarRenderer.BarRenderStyle.STACKED.equals(spRenderStyle.getSelectedItem())) {
-        	plot.setRangeTopMin(15);
+        	plot.setRangeTopMin(60);
         } else {
         	plot.setRangeTopMin(0);
         }
-	        
+
         plot.redraw();
-    	
-    }  
-    
+
+    }
+
     private void onPlotClicked(PointF point) {
 
         // make sure the point lies within the graph area.  we use gridrect
@@ -530,8 +537,7 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
                             yDistance = thisYDistance;
                         } else if (thisXDistance == xDistance &&
                                 thisYDistance < yDistance &&
-                                thisY.doubleValue() >= y.doubleValue()) {
-                            selection = new Pair<Integer, XYSeries>(i, series);
+                                thisY.doubleValue() >= y.doubleValue()) {selection = new Pair<Integer, XYSeries>(i, series);
                             xDistance = thisXDistance;
                             yDistance = thisYDistance;
                         }
@@ -545,10 +551,10 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
         }
 
         if(selection == null) {
-            selectionWidget.setText(NO_SELECTION_TXT);
+            selectionWidget.setText(this.getString(R.string.stats_non_selectionne));
+            selectionWidget.setPaddingRight(35);
         } else {
-            selectionWidget.setText("Selected: " + selection.second.getTitle() +
-                    " Value: " + selection.second.getY(selection.first));
+            selectionWidget.setText(selection.second.getTitle() + " : " + selection.second.getY(selection.first) + " $ ");
         }
         plot.redraw();
     }
@@ -564,7 +570,7 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
 
     private void onS2CheckBoxClicked(boolean checked) {
         if (checked) {
-            plot.addSeries(series2, formatter2);  
+            plot.addSeries(series2, formatter2);
         } else {
             plot.removeSeries(series2);
         }
@@ -648,7 +654,7 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
         @Override
         public MyBarFormatter getFormatter(int index, XYSeries series) {
             if(selection != null &&
-                    selection.second == series && 
+                    selection.second == series &&
                     selection.first == index) {
                 return selectionFormatter;
             } else {
