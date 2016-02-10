@@ -51,9 +51,16 @@ public class TransactionModeleDepot extends BaseModeleDepot<TransactionModele> {
     }
 
     /**
+     *Permet de peupler le dépot transaction.
+     * <p/>
+     * Cette methode est asynchrone et retourne immédiatement la liste des transaction en tant que donneur et receveur.
+     * </p
+     * @param id de l'organisme relié a la personne connecté
      *
-     * @param id du donneur et du receveur des transactions
-     *           retourne la liste des transaction en tant que donneur et receveur
+     *
+     * @param dateDebut Date délimitant le début de la période visée
+     *
+     * @param dateFin Date délimitant la fin de la période visée
      */
     @SuppressLint("SimpleDateFormat")
     public void peuplerTransactions(Integer id, Date dateDebut, Date dateFin){
@@ -64,8 +71,8 @@ public class TransactionModeleDepot extends BaseModeleDepot<TransactionModele> {
         String dateFinString =
                 new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(dateFin);
         this.peuplerLeDepot(this.url.newBuilder().addPathSegment(id.toString())
-                                                 .addQueryParameter("date_du",dateDebutString)
-                                                 .addQueryParameter("date_au", dateFinString)
+                        .addQueryParameter("date_du", dateDebutString)
+                        .addQueryParameter("date_au", dateFinString)
                                                  .build()
                             );
     }
