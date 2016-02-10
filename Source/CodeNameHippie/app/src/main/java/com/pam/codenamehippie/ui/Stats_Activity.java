@@ -64,6 +64,7 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * The simplest possible example of using AndroidPlot to plot some data.
@@ -72,6 +73,10 @@ import java.util.Arrays;
 public class Stats_Activity extends HippieActivity implements ObservateurDeDepot<TransactionModele>
 
 {
+
+    //dans le date picker,choisir la date debut et date fin
+    private Date dateDu;
+    private Date dateAu;
 
    // private static final String NO_SELECTION_TXT = "Touch bar to select.";
     private XYPlot plot;
@@ -111,8 +116,10 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
         TransactionModeleDepot depot =
                 ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
         depot.ajouterUnObservateur(this);
-        //On va recevoir les donnees de TransactionModeleDepot
-     //   depot.peuplerListeOrganisme();
+        //On va recevoir les donnees de TransactionModeleDepot sur serveur
+//       dateDu = ((Date) findViewById(R.id.date_du));
+//       dateAu = ((Date) findViewById(R.id.date_au));
+//        depot.peuplerTransactions(1,dateDu,dateAu);
 
     }
 
@@ -124,6 +131,8 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
 
     @Override
     public void surChangementDeDonnees(ArrayList<TransactionModele> modeles) {
+
+        
 
 
 
