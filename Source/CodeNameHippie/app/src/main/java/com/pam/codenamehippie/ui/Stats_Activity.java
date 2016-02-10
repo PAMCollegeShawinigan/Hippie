@@ -50,18 +50,25 @@ import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 import com.androidplot.xy.XYSeriesFormatter;
+import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.modele.TransactionModele;
+import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
+import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
+import com.pam.codenamehippie.modele.depot.TransactionModeleDepot;
 
+import java.io.IOException;
 import java.text.DateFormatSymbols;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
  * The simplest possible example of using AndroidPlot to plot some data.
  */
-public class Stats_Activity extends Activity
+public class Stats_Activity extends HippieActivity implements ObservateurDeDepot<TransactionModele>
 {
 
     private static final String NO_SELECTION_TXT = "Touch bar to select.";
@@ -85,6 +92,51 @@ public class Stats_Activity extends Activity
     private XYSeries series5;
     private XYSeries series6;
     private XYSeries series7;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TransactionModeleDepot depot =
+                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
+        depot.setFiltreDeListe(null);
+        depot.supprimerTousLesObservateurs();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TransactionModeleDepot depot =
+                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
+        depot.ajouterUnObservateur(this);
+        //On va recevoir les donnees de TransactionModeleDepot
+     //   depot.peuplerListeOrganisme();
+
+    }
+
+
+    @Override
+    public void surDebutDeRequete() {
+
+    }
+
+    @Override
+    public void surChangementDeDonnees(ArrayList<TransactionModele> modeles) {
+
+
+
+    }
+
+    @Override
+    public void surFinDeRequete() {
+
+    }
+
+    @Override
+    public void surErreur(IOException e) {
+
+    }
+
     private enum SeriesSize {
         Dix,
         Vingt,
