@@ -107,8 +107,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                     break;
                 }
                 AdresseModele adresse = organisme.getAdresse();
-                LatLng point = this.activity.getLocationFromName(organisme.getNom() + ", " +
-                                                                 adresse.string());
+                LatLng point = this.activity.getLocationFromName(adresse.string());
                 if (point != null) {
                     MarkerOptions marker = new MarkerOptions().position(point)
                                                               .title(organisme.getNom());
