@@ -63,8 +63,8 @@ namespace App\Http\Controllers;
 													  
 													   
 													FROM transaction trx
-													INNER JOIN organisme orgd ON orgr.organisme_id = trx.receveur_id 
-													INNER JOIN organisme orgr ON orgd.organisme_id = trx.donneur_id
+													INNER JOIN organisme orgr ON orgr.organisme_id = trx.receveur_id 
+													INNER JOIN organisme orgd ON orgd.organisme_id = trx.donneur_id
 													INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
 													INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
 													INNER JOIN adresse adrr ON adrr.adresse_id = orgr.adresse
