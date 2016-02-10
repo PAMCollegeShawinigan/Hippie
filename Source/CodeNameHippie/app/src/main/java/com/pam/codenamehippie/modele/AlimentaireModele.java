@@ -41,7 +41,7 @@ public class AlimentaireModele extends MarchandiseModele<AlimentaireModele> {
         this.datePeremption = datePeremption;
         return this;
     }
-
+    
     public Calendar getCalendarDatePeremption() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(this.datePeremption);
