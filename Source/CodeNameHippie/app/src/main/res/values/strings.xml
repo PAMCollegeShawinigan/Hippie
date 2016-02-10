@@ -212,4 +212,51 @@
     <string name="loading">A moment please.</string>
     <string name="app_name">Codename: Hippie</string>
     <string name="title_activity_preference">Settings</string>
+
+    <!-- Ressources strings pour layout inscription -->
+    <string name="tv_info_inscription">INSCRIPTION</string>
+    <string name="tv_info_user">INFORMATIONS SUR L\'UTILISATEUR</string>
+    <string name="tv_inscription_nom">Nom</string>
+    <string name="et_inscription_nom">NOM</string>
+    <string name="tv_inscription_prenom">Prénom</string>
+    <string name="et_inscription_prenom">PRÉNOM</string>
+    <string name="tv_inscription_username">Nom d\'utilisateur</string>
+    <string name="et_inscription_username">NOM D\'UTILISATEUR</string>
+    <string name="tv_inscription_password">Mot de passe</string>
+    <string name="et_inscription_password">MOT DE PASSE</string>
+    <string name="tv_inscription_confirm_password">Confirmer le mot de passe</string>
+    <string name="et_inscription_confirm_password">CONFIRMER LE MOT DE PASSE</string>
+    <string name="tv_inscription_info_contact">INFORMATIONS SUR LE MOYEN DE CONTACT</string>
+    <string name="tv_inscription_courriel">Courriel</string>
+    <string name="et_inscription_courriel">COURRIEL</string>
+    <string name="tv_inscription_phone">Téléphone</string>
+    <string name="et_inscription_phone">TÉLÉPHONE</string>
+    <string name="tv_inscription_phone_poste">No de poste</string>
+    <string name="et_inscription_phone_poste">NO POSTE</string>
+    <string name="tv_inscription_moyen_contact">Moyen de contact</string>
+    <string name="rb_inscription_courriel">Par courriel</string>
+    <string name="rb_inscription_phone">Par Téléphone</string>
+    <string name="rb_inscription_both">Les deux</string>
+    <string name="tv_inscription_adress">ADRESSE</string>
+    <string name="tv_inscription_no_civique">No civique</string>
+    <string name="tv_inscription_no">NO</string>
+    <string name="tv_inscription_type_rue">Type de rue</string>
+    <string name="tv_inscription_nom_rue">Nom de rue</string>
+    <string name="et_inscription_nom_rue">NOM DE RUE</string>
+    <string name="tv_inscription_no_appartement">No d\'appartement</string>
+    <string name="tv_inscription_ville">Ville</string>
+    <string name="et_inscription_ville">VILLE</string>
+    <string name="tv_inscription_province">Province</string>
+    <string name="et_inscription_province">PROVINCE</string>
+    <string name="tv_inscription_code_postal">Code postal</string>
+    <string name="et_inscription_code_postal">CODE POSTAL</string>
+    <string name="tv_inscription_pays">Pays</string>
+    <string name="et_inscription_pays">PAYS</string>
+    <string name="tv_inscription_etes_vous">ÊTES-VOUS ?</string>
+    <string name="rb_inscription_entreprise">Une entreprise</string>
+    <string name="rb_inscription_organisme">Un organisme</string>
+    <string name="tv_inscription_no_entreprise">No d\'entreprise</string>
+    <string name="tv_inscription_no_osbl">No d\'OSBL</string>
+    <string name="btn_inscription_inscription">Inscription</string>
+
 </resources>
