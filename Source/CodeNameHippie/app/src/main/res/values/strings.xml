@@ -132,6 +132,7 @@
     <!-- Texte pour la layout activity_aide -->
     <!-- TODO : à traduire en anglais -->
     <!-- TODO : insérer le texte aide ici -->
+    
 
     <!-- Ressource pour la page profil-->
     <string name="tv_profil_name">PROFILE</string>
