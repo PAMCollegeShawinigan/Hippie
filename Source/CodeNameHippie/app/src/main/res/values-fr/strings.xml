@@ -99,7 +99,7 @@
     <string name="tv_aide_titre_entete_maj">AIDE</string>
     <string name="tv_aide_titre_denree">Denrée Ô Suivant</string>
     <string name="tv_aide_titre_connexion">Connexion</string>
-    <string name="tv_aide_titre_menu">Menu &amp; Navigation</string>
+    <string name="tv_aide_titre_menu">Navigation</string>
     <string name="tv_aide_titre_organisme">Organismes</string>
     <string name="tv_aide_titre_produits_disponibles">Produits disponibles</string>
     <string name="tv_aide_titre_mes_reservations">Mes réservations</string>
@@ -144,13 +144,78 @@
     <string name="stats_axe_y">Valeur des dons </string>
     <string name="stats_axe_x">Entreprises</string>
 
+
   <!-- Ressource pour Layout Liste Statistiques -->
   <string name="tv_statistiques_titre">STATISTIQUES</string>
   <string name="tv_statistiques_valeur_totale">Valeur totale</string>
+
+    <!-- Ressources strings pour Layout À propos -->
+    <string name="tv_titre_qui_nous_sommes">Qui nous sommes?</string>
+    <string name="tv_texte_qui_nous_sommes">Nous sommes des étudiants du Collège Shawinigan, dans l’attestation d’études collégiales Programmation d’applications mobiles. Nous sommes présentement en résidence au Digihub, qui grâce à eux, notre créativité est des plus développés.</string>
+    <string name="tv_sous_titre_idee">Comment nous est venue l’idée de Denrée Ô Suivant?</string>
+    <string name="tv_texte_idee">L’idée nous est venue d’un des parents à notre collège de classe. C’était une idée de base qui s’est développé au fur et à mesure que les idées nous submergeaient.</string>
+    <string name="tv_texte_idee_2">Nous en avons parlé à notre enseignante qui a trouvé l’idée géniale. Ainsi, comme projet de fin de session, nous avons conçu l’application. Dans notre engouement, nous avons décidés de l’avant et ainsi faire ce projet une réalité. C’est donc avec grand plaisir et une immense fierté que nous vous présentons un projet à vocation sociale et communautaire. Un projet afin d’aider les aidants, la communauté et améliorer notre collectivité.</string>
+    <string name="tv_titre_mission">Notre mission</string>
+    <string name="tv_sous_titre_mission">• Simplifier les dons pour les entreprises</string>
+    <string name="tv_texte_mission">Denrée Ô suivant aide les entreprises à afficher leurs ressources. Ainsi, cela évite les sollicitations inappropriées de la part des organismes. Elle facilite aussi la communication avec les organismes et sers à économiser du temps et des ressources humaines.</string>
+    <string name="tv_sous_titre_mission_2">• Vocation sociale et communautaire</string>
+    <string name="tv_texte_mission_2">L’objectif est d’augmenter potentiellement les dons et ainsi donner une aide directe aux plus démunis et aux organismes œuvrant dans le milieu communautaire et social.</string>
+    <string name="tv_sous_titre_mission_3">• Environnement et gaspillage</string>
+    <string name="tv_texte_mission_3">Denrée Ô suivant se donne pour mission de minimiser les ressources gaspillées. Ainsi favoriser la récupération et le recyclage. Il aura donc une revalorisation et une redistribution des ressources non-utilisées. L’impact environnemental en sera plus que positif.</string>
+    <string name="tv_titre_conclusion">En conclusion</string>
+    <string name="tv_texte_conclusion"><![CDATA[Nous sommes Étudiants, mais nous sommes aussi « Carrément Panda », et Entrepreneurs et surtout, nous sommes Shawinigan tout comme vous l’êtes. Issus d’une génération où l’environnement, le recyclage et le partage sont des priorités afin d’accéder à une meilleure qualité de vie, nous croyons en un monde meilleur, une communauté meilleure, et dirigeons nos efforts dans ce sens. L’action sociale et communautaire peut être compatible avec la technologie et faciliter tous les acteurs concernés. Notre projet d’entreprenariat étudiant en est une preuve, malgré toutes les embuches que nous rencontrons chaque jour, et que nous rencontrerons à l’avenir. Il est important de développer et d’encourager l’entreprenariat, de soutenir les entrepreneurs dans leurs démarches, et le DigiHub est un pionnier en ce sens. Vos efforts et votre dynamisme en valent la peine, continuez à travailler pour améliorer le monde qui vous entoure.]]></string>
+
+    <!-- Ressources strings pour layout inscription -->
+    <string name="tv_info_inscription">INSCRIPTION</string>
+    <string name="tv_info_user">INFORMATIONS SUR L\'UTILISATEUR</string>
+    <string name="tv_inscription_nom">Nom</string>
+    <string name="et_inscription_nom">NOM</string>
+    <string name="tv_inscription_prenom">Prénom</string>
+    <string name="et_inscription_prenom">PRÉNOM</string>
+    <string name="tv_inscription_username">Nom d\'utilisateur</string>
+    <string name="et_inscription_username">NOM D\'UTILISATEUR</string>
+    <string name="tv_inscription_password">Mot de passe</string>
+    <string name="et_inscription_password">MOT DE PASSE</string>
+    <string name="tv_inscription_confirm_password">Confirmer le mot de passe</string>
+    <string name="et_inscription_confirm_password">CONFIRMER LE MOT DE PASSE</string>
+    <string name="tv_inscription_info_contact">INFORMATIONS SUR LE MOYEN DE CONTACT</string>
+    <string name="tv_inscription_courriel">Courriel</string>
+    <string name="et_inscription_courriel">COURRIEL</string>
+    <string name="tv_inscription_phone">Téléphone</string>
+    <string name="et_inscription_phone">TÉLÉPHONE</string>
+    <string name="tv_inscription_phone_poste">No de poste</string>
+    <string name="et_inscription_phone_poste">NO POSTE</string>
+    <string name="tv_inscription_moyen_contact">Moyen de contact</string>
+    <string name="rb_inscription_courriel">Par courriel</string>
+    <string name="rb_inscription_phone">Par Téléphone</string>
+    <string name="rb_inscription_both">Les deux</string>
+    <string name="tv_inscription_adress">ADRESSE</string>
+    <string name="tv_inscription_no_civique">No civique</string>
+    <string name="tv_inscription_no">NO</string>
+    <string name="tv_inscription_type_rue">Type de rue</string>
+    <string name="tv_inscription_nom_rue">Nom de rue</string>
+    <string name="et_inscription_nom_rue">NOM DE RUE</string>
+    <string name="tv_inscription_no_appartement">No d\'appartement</string>
+    <string name="tv_inscription_ville">Ville</string>
+    <string name="et_inscription_ville">VILLE</string>
+    <string name="tv_inscription_province">Province</string>
+    <string name="et_inscription_province">PROVINCE</string>
+    <string name="tv_inscription_code_postal">Code postal</string>
+    <string name="et_inscription_code_postal">CODE POSTAL</string>
+    <string name="tv_inscription_pays">Pays</string>
+    <string name="et_inscription_pays">PAYS</string>
+    <string name="tv_inscription_etes_vous">ÊTES-VOUS ?</string>
+    <string name="rb_inscription_entreprise">Une entreprise</string>
+    <string name="rb_inscription_organisme">Un organisme</string>
+    <string name="tv_inscription_no_entreprise">No d\'entreprise (NEQ)</string>
+    <string name="tv_inscription_no_osbl">No d\'OSBL</string>
+    <string name="btn_inscription_inscription">Inscription</string>
 
     <!-- Autres ressources-->
     <string name="loading">Un moment s\'il-vous-plaît.</string>
     <string name="app_name">Nom de code: Hippie</string>
     <string name="error_http_404">La ressource que vous essayé n\'a pas été trouvé</string>
     <string name="error_http_500">Le serveur a rencontré une erreur interne</string>
+    <string name="stats_non_selectionne">Veuillez sélectionner une colonne</string>
+
 </resources>

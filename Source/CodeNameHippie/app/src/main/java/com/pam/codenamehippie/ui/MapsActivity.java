@@ -107,7 +107,8 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                     break;
                 }
                 AdresseModele adresse = organisme.getAdresse();
-                LatLng point = this.activity.getLocationFromAddress(adresse.toFormattedString());
+                LatLng point = this.activity.getLocationFromName(organisme.getNom() + ", " +
+                                                                 adresse.string());
                 if (point != null) {
                     MarkerOptions marker = new MarkerOptions().position(point)
                                                               .title(organisme.getNom());
@@ -170,7 +171,6 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         }
     }
 
-    private static final String TAG = MapsActivity.class.getSimpleName();
     private final Object mapLock = new Object();
     private volatile ArrayList<OrganismeModele> listOrganisme = new ArrayList<>();
     private SlidingUpPanelLayout slidingLayout;
@@ -181,6 +181,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     private CarteAdapterOption adapter;
     private AsyncTask prepareMarkerAsyncTask;
     private int orgId;
+    private Geocoder geocoder;
 
     /**
      * preparer la carte google et des donnees.
@@ -194,6 +195,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         this.orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
                                                    -1
                                                   );
+        this.geocoder = new Geocoder(this);
         this.mapView = ((MapView) this.findViewById(R.id.map));
         this.mapView.onCreate(savedInstanceState);
         this.slidingLayout = (SlidingUpPanelLayout) this.findViewById(R.id.sliding_layout);
@@ -206,13 +208,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         this.expandableListView.setOnGroupClickListener(this);
         this.slidingLayout.setPanelSlideListener(this);
         // FIXME: Checker dans this.getIntent().getExtras() pour afficher les bonnes listes.
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         this.googleApiClient = new GoogleApiClient.Builder(this).useDefaultAccount()
                                                                 .addConnectionCallbacks(this)
                                                                 .addOnConnectionFailedListener(this)
@@ -312,21 +308,37 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     }
 
     /**
-     * obtenir lattitude et longitude par string d'adresse .
+     * Méthode permettant de soumettre des requete géocoding. Retourne le premier résultat du
+     * géocoder.
      *
-     * @param strAddress
+     * @param name
+     *         une string à chercher
      *
-     * @return LatLng
+     * @return LatLng la longitude et latitude de l'addresse
      */
-    public LatLng getLocationFromAddress(String strAddress) {
-        Geocoder geocoder = new Geocoder(this);
-        Log.d(TAG, strAddress);
+    public LatLng getLocationFromName(String name) {
+        class Local { }
+        String TAG = Local.class.getEnclosingMethod().getName();
+        if (!Geocoder.isPresent()) {
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Snackbar.make(MapsActivity.this.mapView,
+                                  "Geocoder service unavailable",
+                                  Snackbar.LENGTH_LONG
+                                 ).show();
+                }
+            });
+            return null;
+        }
+        Log.d(TAG, name);
         try {
-            List<Address> address = geocoder.getFromLocationName(strAddress, 5);
-            if (address == null) {
+            List<Address> addresses = this.geocoder.getFromLocationName(name, 5);
+            if ((addresses == null) || (addresses.size() == 0)) {
+                Log.e(TAG, "Le géocoder a retourné aucun résultat pour " + name);
                 return null;
             }
-            Address location = address.get(0);
+            Address location = addresses.get(0);
             if (location == null) {
                 return null;
             }
@@ -367,7 +379,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                " Mes réservations ",
                                Toast.LENGTH_SHORT
                               ).show();
-
+                // FIXME: Faire fonctionner la liste de mes réservations.
                 this.adapter.setOrganisme(null);
                 this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_RESERVEE);
                 this.peuplerListeOrganisme(organismeModeleDepot);
@@ -476,7 +488,6 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     @Override
     public boolean onMarkerClick(Marker marker) {
         OrganismeModele adapterOrganisme = null;
-        Log.d(TAG, "Marker: " + marker.getTitle());
         for (OrganismeModele organisme : this.listOrganisme) {
             if (organisme.getNom().compareToIgnoreCase((marker.getTitle())) == 0) {
                 adapterOrganisme = organisme;

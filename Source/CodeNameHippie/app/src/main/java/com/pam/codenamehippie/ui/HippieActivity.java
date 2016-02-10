@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -45,6 +46,7 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
     protected TextView progressBarTextView;
     protected ProgressBar progressBar;
     protected GoogleApiClient googleApiClient;
+    private Boolean progressBarEstAffichee = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,11 +94,20 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // TODO: Gérer le back stack comme du monde
+        // http://developer.android.com/training/implementing-navigation/temporal.html
         switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-
+            case android.R.id.home: {
+                Intent intent = this.getSupportParentActivityIntent();
+                if ((intent != null) && (NavUtils.shouldUpRecreateTask(this, intent))) {
+                    TaskStackBuilder.create(this)
+                                    .addNextIntentWithParentStack(intent)
+                                    .startActivities();
+                } else {
+                    NavUtils.navigateUpFromSameTask(this);
+                }
+            }
+            return true;
             // FIXME: Utilisation temporaire pour afficher ListeMesDonsActivity
             case R.id.menu_profil:
                 if (!this.getClass().equals(ProfilActivity.class)) {
@@ -132,6 +143,13 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
                     this.startActivity(new Intent(this, ListeStatistiquesActivity.class));
                 }
                 return true;
+
+            // FIXME: Utilisation temporaire pour afficher la page inscription
+            case R.id.inscription:
+                if (!this.getClass().equals(RegisterActivity.class)) {
+                    this.startActivity(new Intent(this, RegisterActivity.class));
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -157,6 +175,7 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
                 actionBar.setLogo(R.drawable.logo);
                 actionBar.setDisplayUseLogoEnabled(true);
                 actionBar.setDisplayShowTitleEnabled(false);
+                actionBar.setDisplayHomeAsUpEnabled(this.getSupportParentActivityIntent() != null);
             }
         }
         // Configuration du viewSwitcher
@@ -167,38 +186,37 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
         }
         this.progressBar = ((ProgressBar) this.findViewById(R.id.main_progress));
         this.progressBarTextView = ((TextView) this.findViewById(R.id.tv_main_progress));
+        if ((this.viewSwitcher != null) && (this.progressBar != null)) {
+            this.progressBarEstAffichee = false;
+        }
     }
 
     /**
      * Méthode de comodité pour afficher un layout de progress bar à l'aide d'un view switcher.
      */
     public void afficherLaProgressBar() {
-        if (this.progressBar == null) {
-            throw new IllegalStateException("Le layout de l'activité ne contient pas de " +
-                                            "progressbar.");
-        }
-        if (this.viewSwitcher == null) {
-            throw new IllegalStateException("Le layout de l'activité ne contient pas de " +
-                                            "ViewSwitcher pour gérer l'affichage de la " +
+        if (this.progressBarEstAffichee == null) {
+            throw new IllegalStateException("Le layout de l'activité ne gère pas l'affichage de " +
                                             "progressbar");
         }
-        this.viewSwitcher.showNext();
+        if (!this.progressBarEstAffichee) {
+            this.viewSwitcher.showPrevious();
+            this.progressBarEstAffichee = !this.progressBarEstAffichee;
+        }
     }
 
     /**
      * Méthode de comodité pour cacher un layout de progress bar à l'aide d'un view switcher.
      */
     public void cacherLaProgressbar() {
-        if (this.progressBar == null) {
-            throw new IllegalStateException("Le layout de l'activité ne contient pas de " +
-                                            "progressbar.");
-        }
-        if (this.viewSwitcher == null) {
-            throw new IllegalStateException("Le layout de l'activité ne contient pas de " +
-                                            "ViewSwitcher pour gérer l'affichage de la " +
+        if (this.progressBarEstAffichee == null) {
+            throw new IllegalStateException("Le layout de l'activité ne gère pas l'affichage de " +
                                             "progressbar");
         }
-        this.viewSwitcher.showPrevious();
+        if (this.progressBarEstAffichee) {
+            this.viewSwitcher.showNext();
+            this.progressBarEstAffichee = !this.progressBarEstAffichee;
+        }
     }
 
     @Override
