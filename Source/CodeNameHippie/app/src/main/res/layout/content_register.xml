@@ -345,7 +345,7 @@
                 android:textColorHint="#c6c6c6"
                 android:textSize="20sp"
                 fontPath="fonts/opensans_semibold.ttf"
-                android:nextFocusForward="@+id/rbgMoyenContact"
+                android:nextFocusForward="@+id/rgMoyenContact"
                 tools:ignore="MissingPrefix"
                 android:layout_column="0"
                 android:layout_row="12"
@@ -360,7 +360,7 @@
                 android:layout_row="13"
                 android:layout_columnSpan="2"
                 android:layout_columnWeight="1"
-                android:id="@+id/rbgMoyenContact"
+                android:id="@+id/rgMoyenContact"
                 android:nextFocusForward="@+id/etNoCivique"
                 >
 
@@ -670,7 +670,7 @@
                 android:textColorHint="#c6c6c6"
                 android:layout_column="1"
                 android:layout_row="22"
-                android:nextFocusForward="@+id/rbgEtesVous"/>
+                android:nextFocusForward="@+id/rgEtesVous"/>
 
             <!-- TEXTVIEW : Êtes-vous? -->
 			<TextView
@@ -700,7 +700,7 @@
                 android:layout_row="24"
                 android:layout_columnSpan="2"
                 android:layout_columnWeight="1"
-                android:id="@+id/rbgEtesVous"
+                android:id="@+id/rgEtesVous"
                 android:nextFocusForward="@+id/etNoEntreprise">
 
                 <!-- RADIOBUTTON: Particulier
