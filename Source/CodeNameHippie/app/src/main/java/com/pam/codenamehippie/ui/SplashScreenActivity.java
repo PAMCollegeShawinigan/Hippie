@@ -40,7 +40,7 @@ public class SplashScreenActivity extends HippieActivity {
                 // Start your app main activity
                 Intent i;
                 if (SplashScreenActivity.this.authentificateur.estAuthentifie()) {
-                    i = new Intent(SplashScreenActivity.this, MainActivity.class);
+                    i = new Intent(SplashScreenActivity.this, MenuActivity.class);
                 } else {
                     i = new Intent(SplashScreenActivity.this, LoginActivity.class);
 

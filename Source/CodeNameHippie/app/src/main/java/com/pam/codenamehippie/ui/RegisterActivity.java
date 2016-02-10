@@ -442,7 +442,7 @@ public class RegisterActivity extends HippieActivity
         RegisterActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                Intent intent = new Intent(RegisterActivity.this, InfoActivity.class);
                 RegisterActivity.this.startActivity(intent);
                 RegisterActivity.this.finish();
             }
