@@ -195,4 +195,22 @@
     <string name="loading">A moment please.</string>
     <string name="app_name">Codename: Hippie</string>
     <string name="title_activity_preference">Settings</string>
+
+    <!-- TODO: à traduire en anglais -->
+    <!-- Ressources strings pour Layout À propos -->
+    <string name="tv_titre_qui_nous_sommes">Qui nous sommes?</string>
+    <string name="tv_texte_qui_nous_sommes">Nous sommes des étudiants du Collège Shawinigan, dans l’attestation d’études collégiales Programmation d’applications mobiles. Nous sommes présentement en résidence au Digihub, qui grâce à eux, notre créativité est des plus développés.</string>
+    <string name="tv_sous_titre_idee">Comment nous est venue l’idée de Denrée Ô Suivant?</string>
+    <string name="tv_texte_idee">L’idée nous est venue d’un des parents à notre collège de classe. C’était une idée de base qui s’est développé au fur et à mesure que les idées nous submergeaient.</string>
+    <string name="tv_texte_idee_2">Nous en avons parlé à notre enseignante qui a trouvé l’idée géniale. Ainsi, comme projet de fin de session, nous avons conçu l’application. Dans notre engouement, nous avons décidés de l’avant et ainsi faire ce projet une réalité. C’est donc avec grand plaisir et une immense fierté que nous vous présentons un projet à vocation sociale et communautaire. Un projet afin d’aider les aidants, la communauté et améliorer notre collectivité.</string>
+    <string name="tv_titre_mission">Notre mission</string>
+    <string name="tv_sous_titre_mission">• Simplifier les dons pour les entreprises</string>
+    <string name="tv_texte_mission">Denrée Ô suivant aide les entreprises à afficher leurs ressources. Ainsi, cela évite les sollicitations inappropriées de la part des organismes. Elle facilite aussi la communication avec les organismes et sers à économiser du temps et des ressources humaines.</string>
+    <string name="tv_sous_titre_mission_2">• Vocation sociale et communautaire</string>
+    <string name="tv_texte_mission_2">L’objectif est d’augmenter potentiellement les dons et ainsi donner une aide directe aux plus démunis et aux organismes œuvrant dans le milieu communautaire et social.</string>
+    <string name="tv_sous_titre_mission_3">• Environnement et gaspillage</string>
+    <string name="tv_texte_mission_3">Denrée Ô suivant se donne pour mission de minimiser les ressources gaspillées. Ainsi favoriser la récupération et le recyclage. Il aura donc une revalorisation et une redistribution des ressources non-utilisées. L’impact environnemental en sera plus que positif.</string>
+    <string name="tv_titre_conclusion">En conclusion</string>
+    <string name="tv_texte_conclusion"><![CDATA[Nous sommes Étudiants, mais nous sommes aussi « Carrément Panda », et Entrepreneurs et surtout, nous sommes Shawinigan tout comme vous l’êtes. Issus d’une génération où l’environnement, le recyclage et le partage sont des priorités afin d’accéder à une meilleure qualité de vie, nous croyons en un monde meilleur, une communauté meilleure, et dirigeons nos efforts dans ce sens. L’action sociale et communautaire peut être compatible avec la technologie et faciliter tous les acteurs concernés. Notre projet d’entreprenariat étudiant en est une preuve, malgré toutes les embuches que nous rencontrons chaque jour, et que nous rencontrerons à l’avenir. Il est important de développer et d’encourager l’entreprenariat, de soutenir les entrepreneurs dans leurs démarches, et le DigiHub est un pionnier en ce sens. Vos efforts et votre dynamisme en valent la peine, continuez à travailler pour améliorer le monde qui vous entoure.]]></string>
+
 </resources>
