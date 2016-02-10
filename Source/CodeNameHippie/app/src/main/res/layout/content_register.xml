@@ -7,9 +7,7 @@
             android:fillViewport="false"
             android:focusableInTouchMode="false"
             android:scrollIndicators="left|top">
-    <!-- TODO : Finalisé cette page afin que les gens puissent s'inscrire -->
-    <!-- TODO : Changer les couleurs de la page inscription -->
-    <!-- TODO : Ajouter les rows et columns pour le gridlayout -->
+    
     <!-- Layout pour avoir un seul children, car le nested scrollview ne prend pas plusieurs child -->
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -218,8 +216,9 @@
 				android:layout_marginBottom="10dp"
 				android:background="@drawable/element"
 				android:hint="@string/et_inscription_confirm_password"
-				android:imeOptions="actionDone"
+				 
 				android:inputType="textPassword"
+                android:nextFocusForward="@+id/etCourriel"
 				android:padding="10dp"
 				android:textColorHint="#c6c6c6"
                 android:layout_column="1"
@@ -268,7 +267,7 @@
                 android:background="@drawable/element"
                 android:hint="@string/et_inscription_courriel"
                 android:inputType="textEmailAddress"
-                android:nextFocusForward="@+id/etPassword"
+                android:nextFocusForward="@+id/etTelephone"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
                 android:layout_column="1"
@@ -299,7 +298,7 @@
                 android:background="@drawable/element"
                 android:hint="@string/et_inscription_phone"
                 android:inputType="phone"
-                android:nextFocusForward="@+id/etPassword"
+                android:nextFocusForward="@+id/etTelephonePoste"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
                 android:layout_column="1"
@@ -330,7 +329,6 @@
                 android:background="@drawable/element"
                 android:hint="@string/et_inscription_phone_poste"
                 android:inputType="textEmailAddress"
-                android:nextFocusForward="@+id/etPassword"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
                 android:layout_column="1"
@@ -347,6 +345,7 @@
                 android:textColorHint="#c6c6c6"
                 android:textSize="20sp"
                 fontPath="fonts/opensans_semibold.ttf"
+                android:nextFocusForward="@+id/rbgMoyenContact"
                 tools:ignore="MissingPrefix"
                 android:layout_column="0"
                 android:layout_row="12"
@@ -361,6 +360,8 @@
                 android:layout_row="13"
                 android:layout_columnSpan="2"
                 android:layout_columnWeight="1"
+                android:id="@+id/rbgMoyenContact"
+                android:nextFocusForward="@+id/etNoCivique"
                 >
 
                 <!-- RADIOBUTTON: Par courriel -->
@@ -440,7 +441,8 @@
                 tools:ignore="MissingPrefix"
                 android:layout_column="0"
                 android:layout_row="15"
-                android:layout_marginRight="20dp"/>
+                android:layout_marginRight="20dp"
+                android:nextFocusForward="@+id/spinnerTypeRue"/>
 
             <!-- EDITTEXT : NO Civique -->
             <EditText
@@ -450,7 +452,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
                 android:hint="@string/tv_inscription_no"
-                android:imeOptions="actionDone"
+                 
                 android:inputType="text"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
@@ -507,12 +509,13 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
                 android:hint="@string/et_inscription_nom_rue"
-                android:imeOptions="actionDone"
+                 
                 android:inputType="text"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
                 android:layout_column="1"
-                android:layout_row="17"/>
+                android:layout_row="17"
+                android:nextFocusForward="@+id/etNoAppartment"/>
 
             <!-- TEXTVIEW : NO appartement -->
             <TextView
@@ -537,12 +540,13 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
                 android:hint="@string/tv_inscription_no"
-                android:imeOptions="actionDone"
+                 
                 android:inputType="text"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
                 android:layout_column="1"
-                android:layout_row="18" />
+                android:layout_row="18"
+                android:nextFocusForward="@+id/etVille"/>
 
             <!-- TEXTVIEW : Ville -->
             <TextView
@@ -567,12 +571,13 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
                 android:hint="@string/et_inscription_ville"
-                android:imeOptions="actionDone"
+                 
                 android:inputType="text"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
                 android:layout_column="1"
-                android:layout_row="19"/>
+                android:layout_row="19"
+                android:nextFocusForward="@+id/etProvince"/>
 
             <!-- TEXTVIEW : Province -->
             <TextView
@@ -597,12 +602,13 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
                 android:hint="@string/et_inscription_province"
-                android:imeOptions="actionDone"
+                 
                 android:inputType="text"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
                 android:layout_column="1"
-                android:layout_row="20"/>
+                android:layout_row="20"
+                android:nextFocusForward="@+id/etCodePostal"/>
 
             <!-- TEXTVIEW : Code postal -->
             <TextView
@@ -627,12 +633,13 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
                 android:hint="@string/et_inscription_code_postal"
-                android:imeOptions="actionDone"
+                 
                 android:inputType="text"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
                 android:layout_column="1"
-                android:layout_row="21"/>
+                android:layout_row="21"
+                android:nextFocusForward="@+id/etPays"/>
 
             <!-- TEXTVIEW : Pays -->
             <TextView
@@ -657,12 +664,13 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/element"
                 android:hint="@string/et_inscription_pays"
-                android:imeOptions="actionDone"
+                 
                 android:inputType="text"
                 android:padding="10dp"
                 android:textColorHint="#c6c6c6"
                 android:layout_column="1"
-                android:layout_row="22"/>
+                android:layout_row="22"
+                android:nextFocusForward="@+id/rbgEtesVous"/>
 
             <!-- TEXTVIEW : Êtes-vous? -->
 			<TextView
@@ -691,7 +699,9 @@
                 android:layout_column="0"
                 android:layout_row="24"
                 android:layout_columnSpan="2"
-                android:layout_columnWeight="1">
+                android:layout_columnWeight="1"
+                android:id="@+id/rbgEtesVous"
+                android:nextFocusForward="@+id/etNoEntreprise">
 
                 <!-- RADIOBUTTON: Particulier
 				<RadioButton

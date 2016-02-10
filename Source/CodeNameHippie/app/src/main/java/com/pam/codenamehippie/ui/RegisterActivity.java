@@ -160,7 +160,7 @@ public class RegisterActivity extends HippieActivity
      *         un objet view qui est en lien avec l'interaction de connection.
      */
     public void soummettreLaConnexion(final View v) {
-        // TODO: RAJOUTER LES ORGANISME
+        // TODO: RAJOUTER LES ORGANISMES
         //FIXME: Utiliser depot
         RequestBody body =
                 new FormBody.Builder().add("nom", this.validateurNom.getTextString())
