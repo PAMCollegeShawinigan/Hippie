@@ -379,7 +379,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                " Mes réservations ",
                                Toast.LENGTH_SHORT
                               ).show();
-
+                // FIXME: Faire fonctionner la liste de mes réservations.
                 this.adapter.setOrganisme(null);
                 this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_RESERVEE);
                 this.peuplerListeOrganisme(organismeModeleDepot);
