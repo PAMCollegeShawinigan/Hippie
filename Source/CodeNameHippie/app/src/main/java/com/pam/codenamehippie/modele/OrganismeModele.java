@@ -21,6 +21,8 @@ public class OrganismeModele extends BaseModele<OrganismeModele> {
     protected String noEntreprise;
     @SerializedName("no_osbl")
     protected String noOsbl;
+    @SerializedName("statistique")
+    protected StatsModele statistique;
 
     protected transient volatile String formattedTelephone;
 
