@@ -210,12 +210,12 @@
     <!-- Ressources strings pour layout inscription -->
     <string name="tv_info_inscription">SIGN UP</string>
     <string name="tv_info_user">USER INFORMATION</string>
-    <string name="tv_inscription_nom">Last name</string>
+    <string name="tv_inscription_nom">Contact last name</string>
     <string name="et_inscription_nom">LAST NAME</string>
-    <string name="tv_inscription_prenom">First name</string>
+    <string name="tv_inscription_prenom">Contact first name</string>
     <string name="et_inscription_prenom">FIRST NAME</string>
-    <string name="tv_inscription_username">Username</string>
-    <string name="et_inscription_username">USERNAME</string>
+    <string name="tv_inscription_username">Organization name</string>
+    <string name="et_inscription_username">ORGANIZATION NAME</string>
     <string name="tv_inscription_password">Password</string>
     <string name="et_inscription_password">PASSWORD</string>
     <string name="tv_inscription_confirm_password">Confirm password</string>

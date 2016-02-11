@@ -315,6 +315,8 @@ public class RegisterActivity extends HippieActivity
             this.telephoneEstValide = estValide;
         } else if (validateur.equals(this.validateurUsername)) {
             this.usernameEstValide = estValide;
+        } else if (validateur.equals(this.validateurProvince)) {
+            this.provinceEstValide = estValide;
         }
 
         this.loginButton.setEnabled(this.motPasseEstValide &&
@@ -331,7 +333,8 @@ public class RegisterActivity extends HippieActivity
                 this.spinnerTypeRueEstValide &&
                 this.villeEstValide &&
                 this.telephoneEstValide &&
-                this.usernameEstValide
+                this.usernameEstValide &&
+                this.provinceEstValide
         );
     }
 
