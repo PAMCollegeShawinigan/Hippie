@@ -5,6 +5,7 @@ package com.pam.codenamehippie.modele;
  */
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class StatsModele extends BaseModele<StatsModele>{
@@ -14,7 +15,7 @@ public class StatsModele extends BaseModele<StatsModele>{
     @SerializedName("montant_total")
     protected Long montantTotal = 0L;
     @SerializedName("date")
-    protected Date dateCourant;
+    protected Date date;
 
 
     public Long getMontantTotal() {
@@ -26,12 +27,18 @@ public class StatsModele extends BaseModele<StatsModele>{
         return this;
     }
 
-    public Date getDateCourant() {
-        return dateCourant;
+    public Date getDate() {
+        return date;
     }
 
-    public StatsModele setDateCourant(Date dateCourant) {
-        this.dateCourant = dateCourant;
+    public StatsModele setDate(Date date) {
+        this.date = date;
         return this;
+    }
+
+    public Calendar getCalendarDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(this.date);
+        return calendar;
     }
 }

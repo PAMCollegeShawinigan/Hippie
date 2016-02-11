@@ -27,6 +27,7 @@
 
 package com.pam.codenamehippie.modele.depot;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.pam.codenamehippie.modele.OrganismeModele;
@@ -66,7 +67,7 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
         this.peuplerLeDepot(this.listeOrganismeDonneur);
 
     }
-
+    @SuppressLint("SimpleDateFormat")
     public void peuplerDonneurMois(Date dateDebut, Date dateFin){
 
         String dateDebutdf =
@@ -75,7 +76,10 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
                 new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(dateFin);
 
 
-        this.peuplerLeDepot(this.donneurMois.newBuilder().addQueryParameter("date_debut", dateDebutdf).addQueryParameter("date_fin", dateFindf).build());
+        this.peuplerLeDepot(this.donneurMois.newBuilder()
+                                            .addQueryParameter("date_debut", dateDebutdf)
+                                            .addQueryParameter("date_fin", dateFindf)
+                                            .build());
     }
 
     public void peuplerListeDonneurReservation(Integer id) {

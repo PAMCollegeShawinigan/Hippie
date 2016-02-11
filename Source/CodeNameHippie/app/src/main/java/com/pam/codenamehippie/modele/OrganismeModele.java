@@ -26,6 +26,15 @@ public class OrganismeModele extends BaseModele<OrganismeModele> {
 
     protected transient volatile String formattedTelephone;
 
+    public StatsModele getStatistique() {
+        return statistique;
+    }
+
+    public OrganismeModele setStatistique(StatsModele statistique) {
+        this.statistique = statistique;
+        return this;
+    }
+
     public String getNom() {
         return this.nom;
     }
