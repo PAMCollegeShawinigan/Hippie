@@ -1,135 +1,124 @@
 <resources>
-    <!-- Ressources pour la page connexion -->
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="action_sign_out">Sign out</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is invalid</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="error_connection">Could not connect</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="title_activity_login">Login</string>
-    <string name="title_activity_register">Register</string>
-    <string name="message_welcome">Welcome %1$s</string>
-    <string name="error_confirm_password">"This password doesn\'t match the previous one"</string>
-    <string name="error_field_too_long">The content of this field is too long</string>
-    <string name="error_bad_credentials">This email and password combo do not match anything in our records. Please check your password or register if you don\'t have an account.</string>
-    <string name="tv_inscription">REGISTER</string>
-    <string name="tv_separation">|</string>
-    <string name="tv_mpo">FORGOT YOUR PASSWORD?</string>
-    <string name="bguest">Guest account</string>
-
-    <!-- Ressources pour les fonts -->
-    <string name="font_name_fontawesome">fontawesome</string>
-    <string name="font_name_source_sans_pro">SourceSansPro</string>
-
-    <!-- Ressources pour la liste des marchandises(denrées, dons, etc.) disponibles (layout) -->
-    <string name="marchandise_reservees">Commodity booked</string>
-    <string name="marchandise_disponible">Commodity available</string>
-    <string name="md_donneur">GIVER</string>
-    <string name="md_peremption">BEST BEFORE</string>
-    <string name="md_qtee">QTY</string>
-    <string name="md_nom">NAME</string>
-    <string name="iv_md_categorie">Category</string>
-    <string name="tv_md_nom_marchandise">Placeholder</string>
-    <string name="tv_md_description">Placeholder</string>
-    <string name="tv_md_qtee_marchandise">99999 units</string>
-    <string name="tv_md_date_marchandise">99/99/9999</string>
-    <string name="ib_md_ajouter">Add</string>
-    <string name="iv_md_adresse_mini">Adress</string>
-    <string name="tv_md_nom_entreprise">Placeholder</string>
-    <string name="tv_md_adresse_entreprise">Placeholder</string>
-    <string name="tv_liste_marchandises_dispo">COMMODITIES AVAILABLE</string>
-
-    <!-- Ressource pour l'actionbar, le menu "settings" et le menu normal -->
-    <string name="profil">Profil</string>
-    <string name="title_activity_menu">Settings</string>
-    <string name="menu">Menu</string>
-    <string name="info">About</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="title_activity_maps2">Map</string>
-
-    <!-- Ressources pour les organismes communautaires (les layout) -->
-    <string name="tv_organisme_communautaire">COMMUNAL ORGANIZATIONS</string>
-    <string name="iv_org_personne_contact">Contact person</string>
-    <string name="tv_org_personne_contact">Placeholder</string>
-    <string name="iv_org_telephone">Phone number</string>
-    <string name="tv_org_telephone">1 888 888-8888</string>
-    <string name="iv_org_adresse">Adress</string>
-    <string name="tv_org_nom_organisme">Placeholder</string>
-    <string name="tv_org_adresse">Placeholder</string>
-
-    <!--Ressource pour ajoutMarchandiseActivity et layout ajout_marchandise -->
-    <string name="ajouter_marchandise">ADD COMMODITY</string>
-    <string name="modifier_marchandise">MODIFY COMMODITY</string>
-    <string name="bouton_ajouter">ADD</string>
-    <string name="bouton_modifier">MODIFY</string>
-    <string name="msg_produit_ajoute">Commodity added</string>
-    <string name="msg_produit_modifie">Commodity modified</string>
-    <string name="marchandise_nom">Name</string>
-    <string name="marchandise_description">Description</string>
-    <string name="marchandise_quantites">Quantity</string>
-    <string name="marchandise_unite">Unit</string>
-    <string name="marchandise_valeur">Value</string>
-    <string name="marchandise_type_alimentaire">Food type</string>
-    <string name="marchandise_date_peremption">Expiration date</string>
-
-    <!--Ressource pour HippieListAdapter et ListeMesDonsActivity-->
-    <string name="msg_produit_supprime">Commodity was deleted</string>
-    <string name="msg_confirme_suppression">Are you sure that you want to delete this donation ?</string>
-    <string name="bouton_confirme_oui">YES</string>
-    <string name="bouton_confirme_non">NO</string>
-
-    <!--Ressource pour Layout liste_dons et liste_dons_row-->
-    <string name="tv_mes_dons">MY DONATIONS</string>
-    <string name="dons_nom">NAME</string>
-    <string name="dons_description">DESCRIPTION</string>
-    <string name="dons_qtee">QTY</string>
-    <string name="iv_dons_categorie">Category</string>
-    <string name="tv_dons_nom_marchandise">Product name here</string>
-    <string name="tv_dons_description_marchandise">Product description here</string>
-    <string name="tv_dons_qtee_marchandise">99999 units</string>
-    <string name="ib_dons_modifier">Modify</string>
-    <string name="ib_dons_supprimer">Delete</string>
-
-    <!--Ressource pour MesReservationsAdapter et ListeMesReservationsActivity-->
-    <string name="msg_reservation_supprime">Reservation was deleted</string>
-    <string name="msg_reservation_confirme_suppression">Are you sure that you want to delete this reservation ?</string>
-    <string name="msg_reservation_collecte">Reservation was collected</string>
-    <string name="msg_reservation_confirme_collecte">Are you sure that you want to collect this reservation ?</string>
-
-    <!--Ressource pour Layout liste_reservations et liste_reservations_row-->
-    <string name="tv_mes_reservations">MY RESERVATIONS</string>
-    <string name="res_nom">NAME</string>
-    <string name="res_qtee">QTY</string>
-    <string name="res_reservation">BEST BEFORE</string>
-    <string name="iv_res_categorie">Category</string>
-    <string name="tv_res_nom_marchandise">Product name here</string>
-    <string name="tv_res_description">Product description here</string>
-    <string name="tv_res_qtee_marchandise">99999 units</string>
-    <string name="tv_res_date_marchandise">99/99/9999</string>
-    <string name="ib_res_collecter">Collect</string>
-    <string name="ib_res_supprimer">Delete</string>
-
-    <!--Ressource pour Layout activity_aide-->
-    <string name="tv_aide_titre_entete">Help</string>
-    <string name="tv_aide_titre_entete_maj">HELP</string>
-    <string name="tv_aide_titre_denree">Denrée Ô Suivant</string>
-    <string name="tv_aide_titre_menu">Navigation</string>
-    <string name="tv_aide_titre_organisme">Organization</string>
-    <string name="tv_aide_titre_produits_disponibles">Products available</string>
-    <string name="tv_aide_titre_mes_reservations">My reservations</string>
-    <string name="tv_aide_titre_faire_un_don">Donate</string>
-    <string name="tv_aide_titre_mes_dons">My donations</string>
-    <string name="tv_aide_titre_statistiques">Statistics</string>
-    <string name="tv_aide_titre_profil">Profile</string>
-    <string name="tv_list_aide_group">PlaceHolder</string>
-    <string name="tv_list_aide_detail">PlaceHolder</string>
-
-    <!-- Texte pour la layout activity_aide -->
-    <!-- TODO : à traduire en anglais -->
+	<!-- Ressources pour la page connexion -->
+	<string name="action_sign_in">Sign in or register</string>
+	<string name="action_sign_in_short">Sign in</string>
+	<string name="action_sign_out">Sign out</string>
+	<string name="error_invalid_email">This email address is invalid</string>
+	<string name="error_invalid_password">This password is invalid</string>
+	<string name="error_incorrect_password">This password is incorrect</string>
+	<string name="error_field_required">This field is required</string>
+	<string name="error_connection">Could not connect</string>
+	<string name="prompt_email">Email</string>
+	<string name="prompt_password">Password</string>
+	<string name="title_activity_login">Login</string>
+	<string name="title_activity_register">Register</string>
+	<string name="message_welcome">Welcome %1$s</string>
+	<string name="error_confirm_password">"This password doesn\'t match the previous one"</string>
+	<string name="error_field_too_long">The content of this field is too long</string>
+	<string name="error_bad_credentials">This email and password combo do not match anything in our records. Please check your password or register if you don\'t have an account.</string>
+	<string name="tv_inscription">REGISTER</string>
+	<string name="tv_separation">|</string>
+	<string name="tv_mpo">FORGOT YOUR PASSWORD?</string>
+	<string name="bguest">Guest account</string>
+	<!-- Ressources pour les fonts -->
+	<string name="font_name_fontawesome">fontawesome</string>
+	<string name="font_name_source_sans_pro">SourceSansPro</string>
+	<!-- Ressources pour la liste des marchandises(denrées, dons, etc.) disponibles (layout) -->
+	<string name="marchandise_reservees">Commodity booked</string>
+	<string name="marchandise_disponible">Commodity available</string>
+	<string name="md_donneur">GIVER</string>
+	<string name="md_peremption">BEST BEFORE</string>
+	<string name="md_qtee">QTY</string>
+	<string name="md_nom">NAME</string>
+	<string name="iv_md_categorie">Category</string>
+	<string name="tv_md_nom_marchandise">Placeholder</string>
+	<string name="tv_md_description">Placeholder</string>
+	<string name="tv_md_qtee_marchandise">99999 units</string>
+	<string name="tv_md_date_marchandise">99/99/9999</string>
+	<string name="ib_md_ajouter">Add</string>
+	<string name="iv_md_adresse_mini">Adress</string>
+	<string name="tv_md_nom_entreprise">Placeholder</string>
+	<string name="tv_md_adresse_entreprise">Placeholder</string>
+	<string name="tv_liste_marchandises_dispo">COMMODITIES AVAILABLE</string>
+	<!-- Ressource pour l'actionbar, le menu "settings" et le menu normal -->
+	<string name="profil">Profil</string>
+	<string name="title_activity_menu">Settings</string>
+	<string name="menu">Menu</string>
+	<string name="info">About</string>
+	<string name="title_activity_maps">Map</string>
+	<string name="title_activity_maps2">Map</string>
+	<!-- Ressources pour les organismes communautaires (les layout) -->
+	<string name="tv_organisme_communautaire">COMMUNAL ORGANIZATIONS</string>
+	<string name="iv_org_personne_contact">Contact person</string>
+	<string name="tv_org_personne_contact">Placeholder</string>
+	<string name="iv_org_telephone">Phone number</string>
+	<string name="tv_org_telephone">1 888 888-8888</string>
+	<string name="iv_org_adresse">Adress</string>
+	<string name="tv_org_nom_organisme">Placeholder</string>
+	<string name="tv_org_adresse">Placeholder</string>
+	<!--Ressource pour ajoutMarchandiseActivity et layout ajout_marchandise -->
+	<string name="ajouter_marchandise">ADD COMMODITY</string>
+	<string name="modifier_marchandise">MODIFY COMMODITY</string>
+	<string name="bouton_ajouter">ADD</string>
+	<string name="bouton_modifier">MODIFY</string>
+	<string name="msg_produit_ajoute">Commodity added</string>
+	<string name="msg_produit_modifie">Commodity modified</string>
+	<string name="marchandise_nom">Name</string>
+	<string name="marchandise_description">Description</string>
+	<string name="marchandise_quantites">Quantity</string>
+	<string name="marchandise_unite">Unit</string>
+	<string name="marchandise_valeur">Value</string>
+	<string name="marchandise_type_alimentaire">Food type</string>
+	<string name="marchandise_date_peremption">Expiration date</string>
+	<!--Ressource pour HippieListAdapter et ListeMesDonsActivity-->
+	<string name="msg_produit_supprime">Commodity was deleted</string>
+	<string name="msg_confirme_suppression">Are you sure that you want to delete this donation ?</string>
+	<string name="bouton_confirme_oui">YES</string>
+	<string name="bouton_confirme_non">NO</string>
+	<!--Ressource pour Layout liste_dons et liste_dons_row-->
+	<string name="tv_mes_dons">MY DONATIONS</string>
+	<string name="dons_nom">NAME</string>
+	<string name="dons_description">DESCRIPTION</string>
+	<string name="dons_qtee">QTY</string>
+	<string name="iv_dons_categorie">Category</string>
+	<string name="tv_dons_nom_marchandise">Product name here</string>
+	<string name="tv_dons_description_marchandise">Product description here</string>
+	<string name="tv_dons_qtee_marchandise">99999 units</string>
+	<string name="ib_dons_modifier">Modify</string>
+	<string name="ib_dons_supprimer">Delete</string>
+	<!--Ressource pour MesReservationsAdapter et ListeMesReservationsActivity-->
+	<string name="msg_reservation_supprime">Reservation was deleted</string>
+	<string name="msg_reservation_confirme_suppression">Are you sure that you want to delete this reservation ?</string>
+	<string name="msg_reservation_collecte">Reservation was collected</string>
+	<string name="msg_reservation_confirme_collecte">Are you sure that you want to collect this reservation ?</string>
+	<!--Ressource pour Layout liste_reservations et liste_reservations_row-->
+	<string name="tv_mes_reservations">MY RESERVATIONS</string>
+	<string name="res_nom">NAME</string>
+	<string name="res_qtee">QTY</string>
+	<string name="res_reservation">BEST BEFORE</string>
+	<string name="iv_res_categorie">Category</string>
+	<string name="tv_res_nom_marchandise">Product name here</string>
+	<string name="tv_res_description">Product description here</string>
+	<string name="tv_res_qtee_marchandise">99999 units</string>
+	<string name="tv_res_date_marchandise">99/99/9999</string>
+	<string name="ib_res_collecter">Collect</string>
+	<string name="ib_res_supprimer">Delete</string>
+	<!--Ressource pour Layout activity_aide-->
+	<string name="tv_aide_titre_entete">Help</string>
+	<string name="tv_aide_titre_entete_maj">HELP</string>
+	<string name="tv_aide_titre_denree">Denrée Ô Suivant</string>
+	<string name="tv_aide_titre_menu">Navigation</string>
+	<string name="tv_aide_titre_organisme">Organization</string>
+	<string name="tv_aide_titre_produits_disponibles">Products available</string>
+	<string name="tv_aide_titre_mes_reservations">My reservations</string>
+	<string name="tv_aide_titre_faire_un_don">Donate</string>
+	<string name="tv_aide_titre_mes_dons">My donations</string>
+	<string name="tv_aide_titre_statistiques">Statistics</string>
+	<string name="tv_aide_titre_profil">Profile</string>
+	<string name="tv_list_aide_group">PlaceHolder</string>
+	<string name="tv_list_aide_detail">PlaceHolder</string>
+	<!-- Texte pour la layout activity_aide -->
+	<!-- TODO : à traduire en anglais -->
     <string name="tv_aide_denree_detail">Denrée Ô Suivant est une application de gestion de dons de produits. Elle permet aux entreprises d’afficher des produits à donner. Ainsi, les organismes communautaires peuvent réserver des marchandises dont ils ont besoin et d’aller les recueillir auprès de ceux qui donnent.
 \n\nL’application s’assure que les informations du donneur restent confidentielles, s’il le souhaite, auprès du public et n’apparaissent simplement qu’auprès des organismes reconnus.
 \n\nPour accéder à plus d’informations sur Denrée Ô Suivant, nous vous invitons à consulter la page À propos.</string>
@@ -156,107 +145,102 @@
     <string name="tv_aide_mes_dons_detail">C’est une fonctionnalité disponible à tous les utilisateurs inscrits et qui ont effectués des dons.
 \n\nLa fonctionnalité Mes dons sert à gérer les dons effectués par l’utilisateur. Ainsi, l’entreprise peut y voir ses dons, s’ils sont disponibles ou réservés. L’utilisateur pourra ainsi modifier le don, s’il y a des changements, ou supprimer le don.
 </string>
-
-    <!-- TODO: Mettre le texte statistique lorsque qu'il sera finalisé -->
+	<!-- TODO: Mettre le texte statistique lorsque qu'il sera finalisé -->
     <string name="tv_aide_statistiques_detail">C’est une fonctionnalité accessible à tous, excepté pour certaines informations qui sont personnalisées à l’utilisateur.
 \n\nÀ venir
 </string>
-    <string name="tv_aide_profil_detail">L’utilisateur voit toutes ses informations de contact et d’entreprise, qu’il a indiquée lors de l’inscription.</string>
-
-    <!-- Ressource pour la page profil-->
-    <string name="tv_profil_name">PROFILE</string>
-    <string name="iv_image_profile">Image profile</string>
-    <string name="btn_edit_profile">EDIT PROFILE</string>
-    <string name="tv_user_section">USER</string>
-    <string name="tv_contact_name">Contact name :</string>
-    <string name="tv_contact_name_placeholder">Placeholder</string>
-    <string name="tv_profil_email">Email :</string>
-    <string name="tv_profil_email_placeholder">Placeholder</string>
-    <string name="tv_profil_phone">Phone :</string>
-    <string name="tv_profil_phone_placeholder">Placeholder</string>
-    <string name="tv_profil_moyen_contact">How to contact :</string>
-    <string name="tv_profil_moyen_contact_placeholder">Placeholder</string>
-    <string name="tv_entreprise_section">ORGANIZATION</string>
-    <string name="tv_profil_adresse">Adress :</string>
-    <string name="tv_profil_adresse_placeholder">Placeholder</string>
-    <string name="tv_profil_phone2_placeholder">Placeholder</string>
-    <string name="tv_profil_osbl">OSBL :</string>
-    <string name="tv_profil_osbl_placeholder">Placeholder</string>
-    <string name="tv_profil_neq">NEQ :</string>
-    <string name="tv_profil_neq_placeholder">Placeholder</string>
-    <string name="btn_edit_password">EDIT PASSWORD</string>
-
-    <!-- Ressource pour Layout Liste Statistiques -->
-    <string name="tv_statistiques_titre">STATISTICS</string>
-    <string name="tv_statistiques_valeur_totale">Total value</string>
-
-    <!-- TODO: à traduire en anglais -->
-    <!-- Ressources strings pour Layout À propos -->
-    <string name="tv_titre_qui_nous_sommes">Qui nous sommes?</string>
-    <string name="tv_texte_qui_nous_sommes">Nous sommes des étudiants du Collège Shawinigan, dans l’attestation d’études collégiales Programmation d’applications mobiles. Nous sommes présentement en résidence au Digihub, qui grâce à eux, notre créativité est des plus développés.</string>
-    <string name="tv_sous_titre_idee">Comment nous est venue l’idée de Denrée Ô Suivant?</string>
-    <string name="tv_texte_idee">L’idée nous est venue d’un des parents à notre collège de classe. C’était une idée de base qui s’est développé au fur et à mesure que les idées nous submergeaient.</string>
-    <string name="tv_texte_idee_2">Nous en avons parlé à notre enseignante qui a trouvé l’idée géniale. Ainsi, comme projet de fin de session, nous avons conçu l’application. Dans notre engouement, nous avons décidés de l’avant et ainsi faire ce projet une réalité. C’est donc avec grand plaisir et une immense fierté que nous vous présentons un projet à vocation sociale et communautaire. Un projet afin d’aider les aidants, la communauté et améliorer notre collectivité.</string>
-    <string name="tv_titre_mission">Notre mission</string>
-    <string name="tv_sous_titre_mission"> Simplifier les dons pour les entreprises</string>
-    <string name="tv_texte_mission">Denrée Ô suivant aide les entreprises à afficher leurs ressources. Ainsi, cela évite les sollicitations inappropriées de la part des organismes. Elle facilite aussi la communication avec les organismes et sers à économiser du temps et des ressources humaines.</string>
-    <string name="tv_sous_titre_mission_2">• Vocation sociale et communautaire</string>
-    <string name="tv_texte_mission_2">L’objectif est d’augmenter potentiellement les dons et ainsi donner une aide directe aux plus démunis et aux organismes œuvrant dans le milieu communautaire et social.</string>
-    <string name="tv_sous_titre_mission_3">• Environnement et gaspillage</string>
-    <string name="tv_texte_mission_3">Denrée Ô suivant se donne pour mission de minimiser les ressources gaspillées. Ainsi favoriser la récupération et le recyclage. Il aura donc une revalorisation et une redistribution des ressources non-utilisées. L’impact environnemental en sera plus que positif.</string>
-    <string name="tv_titre_conclusion">En conclusion</string>
-    <string name="tv_texte_conclusion"><![CDATA[Nous sommes Étudiants, mais nous sommes aussi « Carrément Panda », et Entrepreneurs et surtout, nous sommes Shawinigan tout comme vous l’êtes. Issus d’une génération où l’environnement, le recyclage et le partage sont des priorités afin d’accéder à une meilleure qualité de vie, nous croyons en un monde meilleur, une communauté meilleure, et dirigeons nos efforts dans ce sens. L’action sociale et communautaire peut être compatible avec la technologie et faciliter tous les acteurs concernés. Notre projet d’entreprenariat étudiant en est une preuve, malgré toutes les embuches que nous rencontrons chaque jour, et que nous rencontrerons à l’avenir. Il est important de développer et d’encourager l’entreprenariat, de soutenir les entrepreneurs dans leurs démarches, et le DigiHub est un pionnier en ce sens. Vos efforts et votre dynamisme en valent la peine, continuez à travailler pour améliorer le monde qui vous entoure.]]></string>
-
-    <!-- Ressources strings pour layout inscription -->
-    <string name="tv_info_inscription">SIGN UP</string>
-    <string name="tv_info_user">USER INFORMATION</string>
-    <string name="tv_inscription_nom">Last name</string>
-    <string name="et_inscription_nom">LAST NAME</string>
-    <string name="tv_inscription_prenom">First name</string>
-    <string name="et_inscription_prenom">FIRST NAME</string>
-    <string name="tv_inscription_username">Username</string>
-    <string name="et_inscription_username">USERNAME</string>
-    <string name="tv_inscription_password">Password</string>
-    <string name="et_inscription_password">PASSWORD</string>
-    <string name="tv_inscription_confirm_password">Confirm password</string>
-    <string name="et_inscription_confirm_password">CONFIRM PASSWORD</string>
-    <string name="tv_inscription_info_contact">HOW TO CONTACT INFORMATION</string>
-    <string name="tv_inscription_courriel">Email</string>
-    <string name="et_inscription_courriel">EMAIL</string>
-    <string name="tv_inscription_phone">Phone</string>
-    <string name="et_inscription_phone">PHONE</string>
-    <string name="tv_inscription_phone_poste">Extension</string>
-    <string name="et_inscription_phone_poste">EXTENSION</string>
-    <string name="tv_inscription_moyen_contact">How to contact ?</string>
-    <string name="rb_inscription_courriel">Email</string>
-    <string name="rb_inscription_phone">Phone</string>
-    <string name="rb_inscription_both">Both</string>
-    <string name="tv_inscription_adress">ADRESS</string>
-    <string name="tv_inscription_no_civique">Civic number</string>
-    <string name="tv_inscription_no">NO</string>
-    <string name="tv_inscription_type_rue">Street type</string>
-    <string name="tv_inscription_nom_rue">Street name</string>
-    <string name="et_inscription_nom_rue">STREET NAME</string>
-    <string name="tv_inscription_no_appartement">Appartment number</string>
-    <string name="tv_inscription_ville">City</string>
-    <string name="et_inscription_ville">CITY</string>
-    <string name="tv_inscription_province">Province</string>
-    <string name="et_inscription_province">PROVINCE</string>
-    <string name="tv_inscription_code_postal">Postal code</string>
-    <string name="et_inscription_code_postal">POSTAL CODE</string>
-    <string name="tv_inscription_pays">Country</string>
-    <string name="et_inscription_pays">COUNTRY</string>
-    <string name="tv_inscription_etes_vous">ARE-YOU ?</string>
-    <string name="rb_inscription_entreprise">A business</string>
-    <string name="rb_inscription_organisme">A communal organization</string>
-    <string name="tv_inscription_no_entreprise">Business number (NEQ)</string>
-    <string name="tv_inscription_no_osbl">OSBL number</string>
-    <string name="btn_inscription_inscription">Sign up</string>
-
-    <!-- Autres ressources-->
-    <string name="iv_logo">Logo</string>
-    <string name="loading">A moment please.</string>
-    <string name="app_name">Codename: Hippie</string>
-    <string name="title_activity_preference">Settings</string>
-
+	<string name="tv_aide_profil_detail">L’utilisateur voit toutes ses informations de contact et d’entreprise, qu’il a indiquée lors de l’inscription.</string>
+	<!-- Ressource pour la page profil-->
+	<string name="tv_profil_name">PROFILE</string>
+	<string name="iv_image_profile">Image profile</string>
+	<string name="btn_edit_profile">EDIT PROFILE</string>
+	<string name="tv_user_section">USER</string>
+	<string name="tv_contact_name">Contact name :</string>
+	<string name="tv_contact_name_placeholder">Placeholder</string>
+	<string name="tv_profil_email">Email :</string>
+	<string name="tv_profil_email_placeholder">Placeholder</string>
+	<string name="tv_profil_phone">Phone :</string>
+	<string name="tv_profil_phone_placeholder">Placeholder</string>
+	<string name="tv_profil_moyen_contact">How to contact :</string>
+	<string name="tv_profil_moyen_contact_placeholder">Placeholder</string>
+	<string name="tv_entreprise_section">ORGANIZATION</string>
+	<string name="tv_profil_adresse">Adress :</string>
+	<string name="tv_profil_adresse_placeholder">Placeholder</string>
+	<string name="tv_profil_phone2_placeholder">Placeholder</string>
+	<string name="tv_profil_osbl">OSBL :</string>
+	<string name="tv_profil_osbl_placeholder">Placeholder</string>
+	<string name="tv_profil_neq">NEQ :</string>
+	<string name="tv_profil_neq_placeholder">Placeholder</string>
+	<string name="btn_edit_password">EDIT PASSWORD</string>
+	<!-- Ressource pour Layout Liste Statistiques -->
+	<string name="tv_statistiques_titre">STATISTICS</string>
+	<string name="tv_statistiques_valeur_totale">Total value</string>
+	<!-- TODO: à traduire en anglais -->
+	<!-- Ressources strings pour Layout À propos -->
+	<string name="tv_titre_qui_nous_sommes">Qui nous sommes?</string>
+	<string name="tv_texte_qui_nous_sommes">Nous sommes des étudiants du Collège Shawinigan, dans l’attestation d’études collégiales Programmation d’applications mobiles. Nous sommes présentement en résidence au Digihub, qui grâce à eux, notre créativité est des plus développés.</string>
+	<string name="tv_sous_titre_idee">Comment nous est venue l’idée de Denrée Ô Suivant?</string>
+	<string name="tv_texte_idee">L’idée nous est venue d’un des parents à notre collège de classe. C’était une idée de base qui s’est développé au fur et à mesure que les idées nous submergeaient.</string>
+	<string name="tv_texte_idee_2">Nous en avons parlé à notre enseignante qui a trouvé l’idée géniale. Ainsi, comme projet de fin de session, nous avons conçu l’application. Dans notre engouement, nous avons décidés de l’avant et ainsi faire ce projet une réalité. C’est donc avec grand plaisir et une immense fierté que nous vous présentons un projet à vocation sociale et communautaire. Un projet afin d’aider les aidants, la communauté et améliorer notre collectivité.</string>
+	<string name="tv_titre_mission">Notre mission</string>
+	<string name="tv_sous_titre_mission"> Simplifier les dons pour les entreprises</string>
+	<string name="tv_texte_mission">Denrée Ô suivant aide les entreprises à afficher leurs ressources. Ainsi, cela évite les sollicitations inappropriées de la part des organismes. Elle facilite aussi la communication avec les organismes et sers à économiser du temps et des ressources humaines.</string>
+	<string name="tv_sous_titre_mission_2">• Vocation sociale et communautaire</string>
+	<string name="tv_texte_mission_2">L’objectif est d’augmenter potentiellement les dons et ainsi donner une aide directe aux plus démunis et aux organismes œuvrant dans le milieu communautaire et social.</string>
+	<string name="tv_sous_titre_mission_3">• Environnement et gaspillage</string>
+	<string name="tv_texte_mission_3">Denrée Ô suivant se donne pour mission de minimiser les ressources gaspillées. Ainsi favoriser la récupération et le recyclage. Il aura donc une revalorisation et une redistribution des ressources non-utilisées. L’impact environnemental en sera plus que positif.</string>
+	<string name="tv_titre_conclusion">En conclusion</string>
+	<string name="tv_texte_conclusion"><![CDATA[Nous sommes Étudiants, mais nous sommes aussi « Carrément Panda », et Entrepreneurs et surtout, nous sommes Shawinigan tout comme vous l’êtes. Issus d’une génération où l’environnement, le recyclage et le partage sont des priorités afin d’accéder à une meilleure qualité de vie, nous croyons en un monde meilleur, une communauté meilleure, et dirigeons nos efforts dans ce sens. L’action sociale et communautaire peut être compatible avec la technologie et faciliter tous les acteurs concernés. Notre projet d’entreprenariat étudiant en est une preuve, malgré toutes les embuches que nous rencontrons chaque jour, et que nous rencontrerons à l’avenir. Il est important de développer et d’encourager l’entreprenariat, de soutenir les entrepreneurs dans leurs démarches, et le DigiHub est un pionnier en ce sens. Vos efforts et votre dynamisme en valent la peine, continuez à travailler pour améliorer le monde qui vous entoure.]]></string>
+	<!-- Ressources strings pour layout inscription -->
+	<string name="tv_info_inscription">SIGN UP</string>
+	<string name="tv_info_user">USER INFORMATION</string>
+	<string name="tv_inscription_nom">Last name</string>
+	<string name="et_inscription_nom">LAST NAME</string>
+	<string name="tv_inscription_prenom">First name</string>
+	<string name="et_inscription_prenom">FIRST NAME</string>
+	<string name="tv_inscription_username">Username</string>
+	<string name="et_inscription_username">USERNAME</string>
+	<string name="tv_inscription_password">Password</string>
+	<string name="et_inscription_password">PASSWORD</string>
+	<string name="tv_inscription_confirm_password">Confirm password</string>
+	<string name="et_inscription_confirm_password">CONFIRM PASSWORD</string>
+	<string name="tv_inscription_info_contact">HOW TO CONTACT INFORMATION</string>
+	<string name="tv_inscription_courriel">Email</string>
+	<string name="et_inscription_courriel">EMAIL</string>
+	<string name="tv_inscription_phone">Phone</string>
+	<string name="et_inscription_phone">PHONE</string>
+	<string name="tv_inscription_phone_poste">Extension</string>
+	<string name="et_inscription_phone_poste">EXTENSION</string>
+	<string name="tv_inscription_moyen_contact">How to contact ?</string>
+	<string name="rb_inscription_courriel">Email</string>
+	<string name="rb_inscription_phone">Phone</string>
+	<string name="rb_inscription_both">Both</string>
+	<string name="tv_inscription_adress">ADRESS</string>
+	<string name="tv_inscription_no_civique">Civic number</string>
+	<string name="tv_inscription_no">NO</string>
+	<string name="tv_inscription_type_rue">Street type</string>
+	<string name="tv_inscription_nom_rue">Street name</string>
+	<string name="et_inscription_nom_rue">STREET NAME</string>
+	<string name="tv_inscription_no_appartement">Appartment number</string>
+	<string name="tv_inscription_ville">City</string>
+	<string name="et_inscription_ville">CITY</string>
+	<string name="tv_inscription_province">Province</string>
+	<string name="et_inscription_province">PROVINCE</string>
+	<string name="tv_inscription_code_postal">Postal code</string>
+	<string name="et_inscription_code_postal">POSTAL CODE</string>
+	<string name="tv_inscription_pays">Country</string>
+	<string name="et_inscription_pays">COUNTRY</string>
+	<string name="tv_inscription_etes_vous">ARE-YOU ?</string>
+	<string name="rb_inscription_entreprise">A business</string>
+	<string name="rb_inscription_organisme">A communal organization</string>
+	<string name="tv_inscription_no_entreprise">Business number (NEQ)</string>
+	<string name="tv_inscription_no_osbl">OSBL number</string>
+	<string name="btn_inscription_inscription">Sign up</string>
+	<!-- Autres ressources-->
+	<string name="iv_logo">Logo</string>
+	<string name="loading">A moment please.</string>
+	<string name="app_name">Codename: Hippie</string>
+	<string name="title_activity_preference">Settings</string>
+	<string name="error_http_404">The ressource you are trying to reach wasn\'t found</string>
+	<string name="error_http_500">The server has encountered an internal server error</string>
 </resources>
