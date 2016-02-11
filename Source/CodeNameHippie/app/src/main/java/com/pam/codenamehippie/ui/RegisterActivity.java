@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -19,8 +20,11 @@ import com.pam.codenamehippie.controleur.validation.ValidateurDeChampTexte;
 import com.pam.codenamehippie.controleur.validation.ValidateurDeSpinner;
 import com.pam.codenamehippie.controleur.validation.ValidateurMotDePasse;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
+import com.pam.codenamehippie.modele.UtilisateurModele;
+import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -31,7 +35,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RegisterActivity extends HippieActivity
-        implements ValidateurObserver, EditText.OnEditorActionListener {
+        implements ValidateurObserver, EditText.OnEditorActionListener, ObservateurDeDepot<UtilisateurModele> {
     // Variable static final pour le spinner
     private static final String SELECTED_SPINNER_TYPE_RUE_POSITION = "position_type_rue";
 
@@ -72,13 +76,13 @@ public class RegisterActivity extends HippieActivity
     private boolean paysEstValide;
 
     // Section information sur l'entreprise (no entreprise et/ou osbl)
-    // TODO : ajout d'une variable pour le radiogroup/radiobutton
     private ValidateurDeChampTexte validateurNoEntreprise;
     private boolean noEntrepriseEstValide;
     private ValidateurDeChampTexte validateurNoOsbl;
     private boolean noOsblEstValide;
 
     private Button loginButton;
+    private UtilisateurModele modele;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,6 +205,8 @@ public class RegisterActivity extends HippieActivity
         // TODO : Radio button/group, regarder ça.
         // RadioGroup ID : rgEtesVous
         // RadioButton ID : rbEntreprise et rbOrganisme
+        RadioButton rbEntreprise = (RadioButton) this.findViewById(R.id.rbEntreprise);
+        RadioButton rbOrganisme = (RadioButton) this.findViewById(R.id.rbOrganisme);
 
         // Validateur pour le numéro d'entreprise
         EditText etNoEntreprise = (EditText) this.findViewById(R.id.etNoEntreprise);
@@ -450,5 +456,35 @@ public class RegisterActivity extends HippieActivity
                 RegisterActivity.this.finish();
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SELECTED_SPINNER_TYPE_RUE_POSITION,
+                this.validateurSpinnerTypeRue.getSelectedItemPosition()
+        );
+    }
+
+    @Override
+    public void surDebutDeRequete() {
+
+    }
+
+    @Override
+    public void surChangementDeDonnees(ArrayList<UtilisateurModele> modeles) {
+        if ((modeles != null) && (modeles.size() != 0)) {
+            this.modele = modeles.get(0);
+        }
+    }
+
+    @Override
+    public void surFinDeRequete() {
+
+    }
+
+    @Override
+    public void surErreur(IOException e) {
+
     }
 }
