@@ -170,7 +170,7 @@ public class LoginActivity extends HippieActivity
         LoginActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, InfoActivity.class);
                 LoginActivity.this.startActivity(intent);
                 LoginActivity.this.finish();
             }
