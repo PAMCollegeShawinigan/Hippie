@@ -89,7 +89,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
 
                 // clic sur image carte des organismes
                 Toast.makeText(this.getApplicationContext(),
-                               " Carte des organismes ",
+                               " Liste des organismes ",
                                Toast.LENGTH_SHORT
                               ).show();
                 break;
