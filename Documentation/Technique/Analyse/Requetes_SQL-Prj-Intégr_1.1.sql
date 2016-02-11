@@ -1,17 +1,18 @@
--- Par J.F.Noël
--- À noter que dans les fichiers .php les requêtes SQL n'ont pas de point-virgule.
+/*	
+	Par J.F.NoÃ«l et PA
+	Ã€ noter que dans les fichiers .php les requÃªtes SQL peuvent avoir ou non le point-virgule.
+	Pour fin de lisibilitÃ©, chaque champ
+*/
 
--- Comme correction générale, mettre chaque champ de la commande SELECT sur une ligne différente
-
--- Tester les requêtes pour les marchandises disponibles sur la carte
+-- Tester les requÃªtes pour les marchandises disponibles sur la carte
 -- Fichier: carte.php, fonction : entreprisedon() 
--- D'abord l'affichage des entreprises qui ont des marchandises disponibles avec leurs coordonnées
--- Testé le 19 janvier 2016 (avec des commentaires pour PA)
--- Corrections à faire:
+-- D'abord l'affichage des entreprises qui ont des marchandises disponibles avec leurs coordonnÃ©es
+-- TestÃ© le 19 janvier 2016 (avec des commentaires pour PA)
+-- Corrections Ã  faire:
 -- Dans le WHERE remplacer le ANd par AND
 -- Mettre le ANd et le reste de la commande sur une autre ligne
 -- Mettre en majuscule CURRENT_DATE
--- Le champ adr.adresse_id dans la commande du SELECT (pas nécessaire, et nous le gardons pour avoir l'objet complet)
+-- Le champ adr.adresse_id dans la commande du SELECT (pas nÃ©cessaire, et nous le gardons pour avoir l'objet complet)
 SELECT DISTINCT org.organisme_id, 
 				org.nom, 
 				adr.no_civique, 
@@ -30,16 +31,16 @@ WHERE ali.marchandise_statut = 3 ANd ali.date_peremption > current_date;
 
 -- Fonction : donid, REMPLACER :id_donneur mettre une valeur ex: 4
 -- Affiche les informations marchandises disponibles pour une entreprise en particulier
--- Dans le SELECT pas nécessaire (les garder pour les objets) : ali.alimentaire_id, ali.valeur
+-- Dans le SELECT pas nÃ©cessaire (les garder pour les objets) : ali.alimentaire_id, ali.valeur
 -- Mettre en majuscule : CURRENT_DATE
 -- Ajouter pour l'ORDER BY l'alias du champ : ORDER BY typali.aliment_id DESC
--- À enlever (non-nécessaire) - le résultat reste le même
+-- Ã€ enlever (non-nÃ©cessaire) - le rÃ©sultat reste le mÃªme
 -- INNER JOIN marchandise_statut marstat ON marstat.statut_id = ali.marchandise_statut
 -- INNER JOIN marchandise_etat maretat ON maretat.etat_id = ali.marchandise_etat
 -- 
 -- Temps pris 1.90 ms, 15 record(s)
 
--- Requête avant
+-- RequÃªte avant
 SELECT ali.nom, ali.alimentaire_id,
 		ali.description_alimentaire, ali.quantite, marunit.description_marchandise_unite,ali.date_peremption, ali.valeur
 		
@@ -54,7 +55,7 @@ SELECT ali.nom, ali.alimentaire_id,
 
 		WHERE (ali.marchandise_statut = 3 OR ali.marchandise_statut = 2 )AND trx.donneur_id = :id_donneur AND (ali.date_peremption > current_date OR ali.date_peremption IS NULL) ORDER BY aliment_id DESC;
 
--- Requête après, pour tester REMPLACER :id_donneur par 4 (ajout ; à la fin)
+-- RequÃªte aprÃ¨s, pour tester REMPLACER :id_donneur par 4 (ajout ; Ã  la fin)
 SELECT 	ali.nom
 		,ali.description_alimentaire
 		, ali.quantite
@@ -70,10 +71,10 @@ AND trx.donneur_id = :id_donneur
 AND (ali.date_peremption > CURRENT_DATE OR ali.date_peremption IS NULL) 
 ORDER BY typali.aliment_id DESC;
 		
--- Requête Marchandises_disponibles liste dans des dons (avant que Catherine fasse une carte Trello)
+-- RequÃªte Marchandises_disponibles liste dans des dons (avant que Catherine fasse une carte Trello)
 -- Fonction : listedondispo, fichier : don.php
--- À ajouter : l'alias du champ dans ORDER BY :  ORDER BY ali.alimentaire_id DESC
--- À enlever : 	INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire 
+-- Ã€ ajouter : l'alias du champ dans ORDER BY :  ORDER BY ali.alimentaire_id DESC
+-- Ã€ enlever : 	INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire 
 --				INNER JOIN marchandise_etat maretat ON maretat.etat_id = ali.marchandise_etat
 SELECT ali.nom, 
 	ali.alimentaire_id,
@@ -112,24 +113,24 @@ SELECT ali.nom,
   
 -- Liste des marchandises disponibles par Catherine
 /*	
-    Type Catégorie
+    Type CatÃ©gorie
     Nom du produit
     Description du produit
-    Quantité
-    Unité
-    Date de péremption
+    QuantitÃ©
+    UnitÃ©
+    Date de pÃ©remption
     Nom de l'entreprise donneur
     Adresse de l'entreprise donneur
-    Numéro de téléphone de l'entreprise donneur et le numéro de poste
-    Prénom et Nom de la personne contact de l'entreprise donneur (s'il y a)
+    NumÃ©ro de tÃ©lÃ©phone de l'entreprise donneur et le numÃ©ro de poste
+    PrÃ©nom et Nom de la personne contact de l'entreprise donneur (s'il y a)
     Courriel de l'entreprise donneur (s'il y a)
 */  
 
 
 -- Changement dans la clause WHERE,2016-02-01
 -- Enlever du WHERE : AND (ali.date_peremption > CURRENT_DATE OR ali.date_peremption IS NULL)
--- Pour avoir les marchandises périmées, car elles peuvent être données et encore bonnes.
--- L'ordre dans le GROUP BY est le même que dans l'énoncé de Catherine plus haut.
+-- Pour avoir les marchandises pÃ©rimÃ©es, car elles peuvent Ãªtre donnÃ©es et encore bonnes.
+-- L'ordre dans le GROUP BY est le mÃªme que dans l'Ã©noncÃ© de Catherine plus haut.
 
 SELECT MAX(trx.date_disponible) as date_disponible,
     typali.description_type_aliment,
@@ -187,13 +188,13 @@ GROUP BY typali.description_type_aliment,
 
 -- Fonction Liste des oranismes communautaires
 /*
-- Nom du receveur (organisme qui reçoit)
+- Nom du receveur (organisme qui reÃ§oit)
 - Adresse du receveur
-- Nom de la personne contact (prénom, nom)
-- Numéro de téléphone du receveur
+- Nom de la personne contact (prÃ©nom, nom)
+- NumÃ©ro de tÃ©lÃ©phone du receveur
 - Courriel de l'organisme communautaire
 */
--- PA vérifie si les champs que je mets conviennent à l'idée d'objet que tu souhaites utilisé.
+-- PA vÃ©rifie si les champs que je mets conviennent Ã  l'idÃ©e d'objet que tu souhaites utilisÃ©.
 -- Avec les ajouts de PA (2016-01-25)
 SELECT	org.nom, 
 		adr.no_civique, 
@@ -216,148 +217,114 @@ INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
 INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
 WHERE org.no_osbl IS NOT NULL;
 
--- Fonctionnaliés - requêtes
--- Ajout marchandise (déjà créée par PA), fichier alimentaire.php, fonction: ajoutalimentaire()
--- Chaque valeur correspondant au champ de la table a besoin d'être mis dans les parentèses (VALUES) avec les apostrophes
--- si c'est un champ d'un ou plusieurs caractères ou de date
--- Requête qui fonctionne bien, rien à redire.
+-- FonctionnaliÃ©s - requÃªtes
+-- Ajout marchandise (dÃ©jÃ  crÃ©Ã©e par PA), fichier alimentaire.php, fonction: ajoutalimentaire()
+-- Chaque valeur correspondant au champ de la table a besoin d'Ãªtre mis dans les parentÃ¨ses (VALUES) avec les apostrophes
+-- si c'est un champ d'un ou plusieurs caractÃ¨res ou de date
+-- RequÃªte qui fonctionne bien, rien Ã  redire.
 
 INSERT INTO alimentaire (nom, description_alimentaire, quantite, marchandise_etat, marchandise_unite, valeur, marchandise_statut, type_alimentaire, date_peremption) 
 												VALUES(:nom, :description_alimentaire, :quantite, :marchandise_etat, :marchandise_unite, :valeur, :marchandise_statut, :type_alimentaire, :date_peremption);
--- Test
-INSERT INTO alimentaire (nom, description_alimentaire, quantite, marchandise_etat, marchandise_unite, valeur, marchandise_statut, type_alimentaire, date_peremption) 
-				VALUES('Raisin rouge globe sans pépins', 'Importé du Pérou', 3.00, 1, 2, 6, 3, 1, '2016-01-31 23:00:00' );
  
  -- La fonction ajout marchandise implique l'ajout d'une transaction, fichier alimentaire.php, fonction: ajoutalimentaire()
  -- REMPLACER les champs : donneur_id, :marchandise_id par des valeurs.
- -- Requête qui fonctionne bien, rien à redire.-- 
+ -- RequÃªte qui fonctionne bien, rien Ã  redire.-- 
  
 INSERT INTO transaction (donneur_id, marchandise_id, date_disponible, date_transaction)
 			VALUES(:donneur_id, :marchandise_id,  NOW(), NOW());
  
- -- Test
-INSERT INTO transaction (donneur_id, marchandise_id, date_disponible, date_transaction)
-			VALUES(6, 73,  NOW(), NOW());			
- 
--- Fonctionnaliés - requêtes
--- Modification marchandise (déjà créée par PA), fichier alimentaire.php, fonction: modifieralimentaire()
+-- FonctionnaliÃ©s - requÃªtes
+-- Modification marchandise (dÃ©jÃ  crÃ©Ã©e par PA), fichier alimentaire.php, fonction: modifieralimentaire()
 -- REMPLACER les variables PHP par des valeurs valides.-
--- Chaque valeur correspondant au champ de la table a besoin d'être mis avec les apostrophes
--- si c'est un champ d'un ou plusieurs caractères ou de date
--- La requête ne fonctionne pas bien (manque une virgule après :valeur, et le nom de la colonne description serait 
--- à remplacer par description_alimentaire
--- alignement du WHERE vis à vis le UPDATE.
+-- Chaque valeur correspondant au champ de la table a besoin d'Ãªtre mis avec les apostrophes
+-- si c'est un champ d'un ou plusieurs caractÃ¨res ou de date
+-- La requÃªte ne fonctionne pas bien (manque une virgule aprÃ¨s :valeur, et le nom de la colonne description serait 
+-- Ã  remplacer par description_alimentaire
+-- alignement du WHERE vis Ã  vis le UPDATE.
 
 UPDATE alimentaire SET nom = :nom, description = :description_alimentaire, quantite = :quantite,
 								marchandise_etat = :marchandise_etat, marchandise_unite = :marchandise_unite, valeur = :valeur
 								type_alimentaire = :type_alimentaire, date_peremption = :date_peremption
 								WHERE alimentaire_id = :alimentaire_id;
--- Test
-UPDATE alimentaire SET nom = 'Raisin rouge globe sans pépins', description_alimentaire = 'Importé du Pérou', quantite = 4.00,
-								marchandise_etat = 1, marchandise_unite = 2, valeur = 9,
-								type_alimentaire = 1, date_peremption = '2016-01-31 23:00:00'
-WHERE alimentaire_id = 73;		
 
--- Fonctionnaliés - requêtes
--- Suppression marchandise (déjà créée par PA), fichier alimentaire.php, fonction: cancelleraliment($id_alimentaire)
+-- FonctionnaliÃ©s - requÃªtes
+-- Suppression marchandise (dÃ©jÃ  crÃ©Ã©e par PA), fichier alimentaire.php, fonction: cancelleraliment($id_alimentaire)
 -- REMPLACER :id_alimentaire par un ID valide.
--- Requête parfaite.
+-- RequÃªte parfaite.
 
 UPDATE alimentaire SET marchandise_statut = 7 WHERE alimentaire_id = :id_alimentaire;
 
--- Test
-UPDATE alimentaire SET marchandise_statut = 7 WHERE alimentaire_id = 73;
-
--- Fonctionnaliés - requêtes
--- Collecte marchandise (déjà créée par PA), fichier alimentaire.php, fonction: collecteralimentaire($id_alimentaire)
--- REMPLACER :id_alimentaire par un ID valide et la marchandise_statut = 4 (collecté). J'aurais cru que la valeur
--- soit mise comme dans le cas précédent. Elle est gérée par le code PHP par la suite.
--- Requête fonctionne avec les bonnes valeurs.
+-- FonctionnaliÃ©s - requÃªtes
+-- Collecte marchandise (dÃ©jÃ  crÃ©Ã©e par PA), fichier alimentaire.php, fonction: collecteralimentaire($id_alimentaire)
+-- REMPLACER :id_alimentaire par un ID valide et la marchandise_statut = 4 (collectÃ©). J'aurais cru que la valeur
+-- soit mise comme dans le cas prÃ©cÃ©dent. Elle est gÃ©rÃ©e par le code PHP par la suite.
+-- RequÃªte fonctionne avec les bonnes valeurs.
 
 UPDATE alimentaire SET marchandise_statut = :marchandise_statut WHERE alimentaire_id = :id_alimentaire;	
 
--- Test 
-UPDATE alimentaire SET marchandise_statut = 4 WHERE alimentaire_id = 73;
-
--- Fonctionnaliés - requêtes
+-- FonctionnaliÃ©s - requÃªtes
 -- Collecte transaction
--- REMPLACER : transaction_id par le numéro de transaction que l'on veut modifier le champ date_collecte
--- Nouvelle requête pour PA
--- À ajouter sans doute dans le fichier alimentaire.php où il y a déjà le marchandise_statut qui change avec la collecte.
+-- REMPLACER : transaction_id par le numÃ©ro de transaction que l'on veut modifier le champ date_collecte
+-- Nouvelle requÃªte pour PA
+-- Ã€ ajouter sans doute dans le fichier alimentaire.php oÃ¹ il y a dÃ©jÃ  le marchandise_statut qui change avec la collecte.
 
 UPDATE transaction SET 	date_collecte =  NOW()
 WHERE transaction_id = :transaction_id;
 
--- Test
-UPDATE transaction SET 	date_collecte =  NOW()
-WHERE transaction_id = 39;
-
--- Fonctionnaliés - requêtes
--- Ajout reservation (déjà créée par PA), fichier reservation.php, fonction: reservationajout()
+-- FonctionnaliÃ©s - requÃªtes
+-- Ajout reservation (dÃ©jÃ  crÃ©Ã©e par PA), fichier reservation.php, fonction: reservationajout()
 -- REMPLACER les valeurs : :donneur_id, :receveur_id, :marchandise_id, :date_disponible
--- Requête fonctionne seulement j'ai un avertissement, date_transaction :  Field 'date_transaction' doesn't have a default value
+-- RequÃªte fonctionne seulement j'ai un avertissement, date_transaction :  Field 'date_transaction' doesn't have a default value
 -- Lors de l'insertion la valeur est : 0000-00-00 00:00:00. Je ne sais pas si le PHP ajoute la valeur courante?
--- Une façon de régler l'avertissement c'est d'ajouter à l'insertion le champ : date_transaction et la valeur CURRENT_TIMESTAMP
--- Voir le 2e test et je n'ai aucun avertissement.
+-- Une faÃ§on de rÃ©gler l'avertissement c'est d'ajouter Ã  l'insertion le champ : date_transaction et la valeur CURRENT_TIMESTAMP
 
 INSERT INTO transaction (donneur_id, receveur_id, marchandise_id, date_disponible, date_reservation)
 									VALUES(:donneur_id, :receveur_id, :marchandise_id, :date_disponible,  CURRENT_TIMESTAMP);
 	
--- Test
-INSERT INTO transaction (donneur_id, receveur_id, marchandise_id, date_disponible, date_reservation)
-									VALUES(6, NULL, 73, '2016-01-23 17:37:40',  CURRENT_TIMESTAMP);
-
--- 2e test
-INSERT INTO transaction (donneur_id, receveur_id, marchandise_id, date_disponible, date_reservation, date_transaction)
-									VALUES(6, NULL, 73, '2016-01-23 17:37:40',  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-
--- Fonctionnaliés - requêtes
--- Ajout reservation (déjà créée par PA), fichier reservation.php, fonction: reservationajout()	
--- Suite pour que la marchandise passe à un état de disponible à réservé, une mise à jour sur la table
+-- FonctionnaliÃ©s - requÃªtes
+-- Ajout reservation (dÃ©jÃ  crÃ©Ã©e par PA), fichier reservation.php, fonction: reservationajout()	
+-- Suite pour que la marchandise passe Ã  un Ã©tat de disponible Ã  rÃ©servÃ©, une mise Ã  jour sur la table
 -- alimentaire a lieu.
--- REMPLACER: :marchandise_statut par 2 (réserve) et choisir un :id valide de la table alimenaire
--- Déplacer le WHERE sur une autre ligne
--- Bonne requête.
+-- REMPLACER: :marchandise_statut par 2 (rÃ©serve) et choisir un :id valide de la table alimenaire
+-- DÃ©placer le WHERE sur une autre ligne
+-- Bonne requÃªte.
 
 UPDATE alimentaire SET marchandise_statut = :marchandise_statut WHERE alimentaire_id = :id;
 
--- Test
-UPDATE alimentaire SET marchandise_statut = 2 WHERE alimentaire_id = 73;
-
--- Fonctionnaliés - requêtes
--- Annulation reservation (déjà créée par PA), fichier reservation.php, fonction: annulerreservation($marchandise_id)	
--- REMPLACER chaque variable par des valeurs valides dans la seconde ligne VALUES(). Requête similaire à l'ajout,
--- même commentaire. L'item choisi prendra aura une nouvelle date et heure de disponibilité.
+-- FonctionnaliÃ©s - requÃªtes
+-- Annulation reservation (dÃ©jÃ  crÃ©Ã©e par PA), fichier reservation.php, fonction: annulerreservation($marchandise_id)	
+-- REMPLACER chaque variable par des valeurs valides dans la seconde ligne VALUES(). RequÃªte similaire Ã  l'ajout,
+-- mÃªme commentaire. L'item choisi prendra aura une nouvelle date et heure de disponibilitÃ©.
 
 INSERT INTO transaction (donneur_id, receveur_id, marchandise_id, date_disponible, date_reservation)
 											VALUES(:donneur_id, :receveur_id, :marchandise_id, :date_disponible, :date_reservation);
 
--- Du même coup, la marchandise sera à nouveau disponible.
+-- Du mÃªme coup, la marchandise sera Ã  nouveau disponible.
 -- REMPLACER: :marchandise_statut par 3 (disponible) et choisir un :id valide de la table alimenaire
--- Même requête que plus haut
+-- MÃªme requÃªte que plus haut
 
 UPDATE alimentaire SET marchandise_statut = :marchandise_statut WHERE alimentaire_id = :id;
 
--- Liste des marchandises réservées, ou liste de réservations (Catherine)
+-- Liste des marchandises rÃ©servÃ©es, ou liste de rÃ©servations (Catherine)
 -- 
-/*  Liste à Catherine - Carte Trello
+/*  Liste Ã  Catherine - Carte Trello
     Type alimentaire
     Nom
     Description
-    Quantitée
-    Unité
-    Date de réservation
-    Date de péremption
+    QuantitÃ©e
+    UnitÃ©
+    Date de rÃ©servation
+    Date de pÃ©remption
     Nom du donneur (entreprise qui donne)
     Adresse du donneur
-    Numéro de téléphone du donneur (s'il y a)
+    NumÃ©ro de tÃ©lÃ©phone du donneur (s'il y a)
     Courriel du donneur (s'il y a)
 */
 -- Avec les ajouts de PA (2016-01-25)
--- J'ai ajouté (2016-01-30) dans la condition du WHERE : AND date_reservation IS NOT NULL
--- Une autre condition a besoin d'être ajoutée qui réfère marchandise_id et date_transaction
--- Pour enlever la possibilité d'avoir la même marchandise_id pour 2 usagers différents, une sous-requête
--- est nécessaire.
+-- J'ai ajoutÃ© (2016-01-30) dans la condition du WHERE : AND date_reservation IS NOT NULL
+-- Une autre condition a besoin d'Ãªtre ajoutÃ©e qui rÃ©fÃ¨re marchandise_id et date_transaction
+-- Pour enlever la possibilitÃ© d'avoir la mÃªme marchandise_id pour 2 usagers diffÃ©rents, une sous-requÃªte
+-- est nÃ©cessaire.
 
 SELECT typali.description_type_aliment,
     ali.nom,
@@ -391,7 +358,7 @@ INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
 WHERE ali.marchandise_statut = 2
 AND trx.receveur_id = :receveur_id 
 AND (trx.date_reservation, trx.marchandise_id) in
-                                    (SELECT MAX(trx.date_reservation) as date_réservation,
+                                    (SELECT MAX(trx.date_reservation) as date_rÃ©servation,
                                             trx.marchandise_id  
                                      FROM transaction trx
                                      WHERE trx.marchandise_id in (SELECT DISTINCT marchandise_id FROM transaction)
@@ -399,48 +366,7 @@ AND (trx.date_reservation, trx.marchandise_id) in
                                      GROUP BY trx.marchandise_id)                                     
   ORDER BY typali.description_type_aliment, ali.nom, ali.description_alimentaire, ali.quantite;	
 
--- Test
-SELECT typali.description_type_aliment,
-    ali.nom,
-    ali.description_alimentaire,
-    ali.quantite,
-    marunit.description_marchandise_unite,
-    ali.date_peremption,
-    org.nom,
-    adr.adresse_id,
-    adr.no_civique,
-    typrue.description_type_rue,
-    adr.nom,
-    adr.ville,
-    adr.province,
-    adr.code_postal,
-    adr.pays,
-    org.telephone,
-    org.poste,
-    util.prenom,
-    util.nom,
-    util.courriel
-   
-FROM type_aliment typali
-INNER JOIN alimentaire ali ON ali.type_alimentaire = typali.aliment_id
-INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite
-INNER JOIN transaction trx ON trx.marchandise_id = ali.alimentaire_id
-INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
-INNER JOIN adresse adr ON adr.adresse_id = org.adresse
-INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
-INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
-WHERE ali.marchandise_statut = 2
-AND trx.receveur_id = 5 
-AND (trx.date_reservation, trx.marchandise_id) in
-                                    (SELECT MAX(trx.date_reservation) as date_réservation,
-                                            trx.marchandise_id  
-                                     FROM transaction trx
-                                     WHERE trx.marchandise_id in (SELECT DISTINCT marchandise_id FROM transaction)
-                                     AND trx.date_reservation IS NOT NULL  
-                                     GROUP BY trx.marchandise_id)                                     
-  ORDER BY typali.description_type_aliment, ali.nom, ali.description_alimentaire, ali.quantite;	
-
--- Profil - requêtes - information utilisateur
+-- Profil - requÃªtes - information utilisateur
 -- Avant de faire la modification sur le profil, il faut envoyer toute l'information sur le profil de l'utilisateur
 -- Pour le utilisateur_id, REMPLACER utilisateur_id par une valeur valide.
 
@@ -456,22 +382,9 @@ SELECT 	utilisateur_id,
 FROM utilisateur
 WHERE utilisateur_id = :utilisateur_id;
 
--- Test
-SELECT 	utilisateur_id,
-		mot_de_passe,
-		nom,
-		prenom,
-		courriel,
-		telephone,
-		moyen_contact,
-		organisme_id,
-		derniere_connexion
-FROM utilisateur
-WHERE utilisateur_id = 5;
-
--- Modification profil à créer, fichier utilisateur.php, fonction: modifierutilisateur()
+-- Modification profil Ã  crÃ©er, fichier utilisateur.php, fonction: modifierutilisateur()
 -- REMPLACER les variables PHP par des valeurs valides.
--- Je n'ai pas mis organisme_id, derniere_connexion, utilisateur_id car l'usager n'a pas à le faire.
+-- Je n'ai pas mis organisme_id, derniere_connexion, utilisateur_id car l'usager n'a pas Ã  le faire.
 -- Il manque le champ 'poste' pour rejoindre l'usager. Quelque chose qui aura lieu d'ajouter une fois mis.
 
 UPDATE utilisateur SET 	mot_de_passe = :mot_de_passe, 
@@ -482,26 +395,18 @@ UPDATE utilisateur SET 	mot_de_passe = :mot_de_passe,
 						moyen_contact = :moyen_contact					
 WHERE utilisateur_id = :utilisateur_id;
 
--- Test
-UPDATE utilisateur SET 	mot_de_passe = 'test', 
-						nom = 'Calille',
-						prenom = 'Sylvie',
-						courriel = 'test@test.com', 
-						telephone = '8195378851', 
-						moyen_contact = 1					
-WHERE utilisateur_id = 5;
 
--- Profil - requêtes - information organisme
+-- Profil - requÃªtes - information organisme
 -- Avant de faire la modification sur le profil, il faut envoyer toute l'information sur le profil de l'organisme
 -- Pour le organisme_id, REMPLACER organisme_id par une valeur valide.
 -- Fonction existante par PA. Fichier : organisme.php, fonction: organismeid($id)
--- qui inclut trois requêtes.
+-- qui inclut trois requÃªtes.
 
 SELECT * FROM organisme WHERE organisme_id = :id;
 SELECT * FROM utilisateur WHERE utilisateur_id = :id;
 SELECT * FROM adresse INNER JOIN type_rue on adresse.type_rue = type_rue.type_rue_id WHERE adresse_id = :id;
 
--- Une autre requête pourrait être proposée qui toucherait seulement l'organisme et l'adresse.
+-- Une autre requÃªte pourrait Ãªtre proposÃ©e qui toucherait seulement l'organisme et l'adresse.
 
 SELECT 	adr.adresse_id, 
 		adr.no_civique, 
@@ -551,7 +456,7 @@ INNER JOIN adresse adr ON adr.adresse_id = org.adresse
 INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
 WHERE org.organisme_id = 4;
 
--- Modification profil à créer, 
+-- Modification profil Ã  crÃ©er, 
 -- REMPLACER les variables PHP par des valeurs valides.
 
 UPDATE adresse SET 	no_civique = :no_civique,
@@ -573,32 +478,10 @@ UPDATE organisme SET 	nom = :nom,
 						
 WHERE organisme_id = :organisme_id;
 
--- Test
-UPDATE adresse SET 	no_civique = '543',
-					type_rue = 2,
-					nom = 'Talbot',
-					app = NULL,
-					ville = 'Chicoutimi',
-					province = 'Québec',
-					code_postal = 'G7H4A4',
-					pays = 'Canada'
-						
-WHERE adresse_id = 19; 
-
--- Test
-
-UPDATE organisme SET 	nom = 'La Tablée Élisabeth Bruyère',
-						telephone = '8195374884',
-						poste = NULL,
-						no_entreprise = '1143475094',
-						no_osbl = '119009199RR0001 '
-						
-WHERE organisme_id = 1;
-
--- Demande à PA
+-- Demande Ã  PA
 -- Avec sa correction sur la jointure touchant
 -- INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
--- remplacée par :
+-- remplacÃ©e par :
 SELECT 	adr.adresse_id, 
 		adr.no_civique, 
 		typrue.description_type_rue,
@@ -633,200 +516,160 @@ INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
 WHERE courriel = :courriel 
 AND mot_de_passe = :mdp;
 
--- Test
-
-SELECT 	adr.adresse_id, 
-		adr.no_civique, 
-		typrue.description_type_rue,
-		adr.type_rue,
-		adr.nom,
-		adr.app,
-		adr.ville,
-		adr.province,
-		adr.code_postal,
-		adr.pays,
-		util.utilisateur_id,
-		util.mot_de_passe,
-		util.nom,
-		util.prenom,
-		util.courriel,
-		util.telephone,
-		util.moyen_contact,
-		util.organisme_id,
-		util.derniere_connexion,
-		org.organisme_id,
-		org.nom,
-		org.adresse,
-		org.telephone,
-		org.poste,
-		org.utilisateur_contact,
-		org.no_entreprise,
-		org.no_osbl
-FROM organisme org
-INNER JOIN utilisateur util ON util.organisme_id = org.organisme_id
-INNER JOIN adresse adr ON adr.adresse_id = org.adresse
-INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
-WHERE courriel = 'org1@1.ca' 
-AND mot_de_passe = '123';
-
 --					--
--- REQUÊTE DE STATS --
+-- REQUÃŠTE DE STATS --
 --					--
 
--- Pour le receveur les marchandise reçues
--- Le premier SELECT le receveur_id = :receveur_id
--- Données des tables : transaction (tout), organisme (tout sauf adresse, utilisateur_contact)
--- alimentaire (valeur), type_aliment (description_type_aliment), adresse (tout sauf type_rue), 
--- type_rue (description_type_rue)
--- REMPLACER :receveur_id, :date_debut, :date_fin (dans le premier SELECT le ID joue le rôle de receveur
---	dans le second SELECT le ID joue le rôle de donneur)
+/* 	RequÃªte permettant d'avoir les informations sur les statistiques Mes collectes et Mes dons
+	pour un mÃªme ID, jouant le rÃ´le de donneur et de receveur.
+	REMPLACER :id, :date_debut, :date_fin 
+*/	dans le second SELECT le ID joue le rÃ´le de donneur)
 
-SELECT	org.organisme_id,
-		org.nom,
-		org.telephone,
-		org.poste,
-		org.no_entreprise,
-		org.no_osbl,
-		trx.transaction_id,
-		trx.receveur_id,
-		trx.donneur_id,
-		trx.marchandise_id,
-		trx.date_collecte,
-		trx.date_reservation,
-		trx.date_disponible,
-		trx.date_transaction,
-		ali.valeur,
-		typali.description_type_aliment,
-		adr.adresse_id,
-		adr.no_civique,
-		typrue.description_type_rue,
-		adr.nom,
-		adr.app,
-		adr.ville,
-		adr.province,
-		adr.code_postal,
-		adr.pays
-			
-FROM organisme org
-INNER JOIN transaction trx ON trx.receveur_id = org.organisme_id
+SELECT orgd.organisme_id,
+	   orgd.nom,
+	   orgd.telephone,
+	   orgd.poste,
+	   orgd.no_entreprise,
+	   orgd.no_osbl,
+	   orgr.organisme_id,
+	   orgr.nom,
+	   orgr.telephone,
+	   orgr.poste,
+	   orgr.no_entreprise,
+	   orgr.no_osbl,
+	   trx.transaction_id,
+	   trx.receveur_id,
+	   trx.donneur_id,
+	   trx.marchandise_id,
+	   trx.date_collecte,
+	   trx.date_reservation,
+	   trx.date_disponible,
+	   trx.date_transaction,
+	   ali.valeur,
+	   typali.description_type_aliment,
+	   adrd.adresse_id,
+	   adrd.no_civique,
+	   typrued.description_type_rue,
+	   adrd.nom,
+	   adrd.app,
+	   adrd.ville,
+	   adrd.province,
+	   adrd.code_postal,
+	   adrd.pays,
+	   adrr.adresse_id,
+	   adrr.no_civique,
+	   typruer.description_type_rue,               
+	   adrr.nom,
+	   adrr.app,
+	   adrr.ville,
+	   adrr.province,
+	   adrr.code_postal,
+	   adrr.pays,
+	   ali.nom,
+	   ali.description_alimentaire,
+	   ali.quantite,
+	   maru.description_marchandise_unite
+		 
+FROM transaction trx
+INNER JOIN organisme orgd ON orgr.organisme_id = trx.receveur_id 
+INNER JOIN organisme orgr ON orgd.organisme_id = trx.donneur_id
 INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
 INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
-INNER JOIN adresse adr ON adr.adresse_id = org.adresse
-INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
-WHERE 	trx.receveur_id = :receveur_id
-AND		trx.date_collecte BETWEEN :date_debut AND :date_fin
-AND 	trx.date_collecte IS NOT NULL
+INNER JOIN adresse adrr ON adrr.adresse_id = orgr.adresse
+INNER JOIN adresse adrd ON adrd.adresse_id = orgd.adresse
+INNER JOIN type_rue typruer ON typruer.type_rue_id = adrr.type_rue
+INNER JOIN type_rue typrued ON typrued.type_rue_id = adrd.type_rue
+INNER JOIN marchandise_unite maru ON maru.unite_id = ali.marchandise_unite
 
-UNION
+WHERE trx.date_collecte IS NOT NULL
+AND  trx.receveur_id = :id 
+OR trx.donneur_id = :id
+AND  trx.date_collecte BETWEEN :date_debut AND :date_fin;
 
-SELECT	org.organisme_id,
-		org.nom,
-		org.telephone,
-		org.poste,
-		org.no_entreprise,
-		org.no_osbl,
-		trx.transaction_id,
-		trx.receveur_id,
-		trx.donneur_id,
-		trx.marchandise_id,
-		trx.date_collecte,
-		trx.date_reservation,
-		trx.date_disponible,
-		trx.date_transaction,
-		ali.valeur,
-		typali.description_type_aliment,
-		adr.adresse_id,
-		adr.no_civique,
-		typrue.description_type_rue,
-		adr.nom,
-		adr.app,
-		adr.ville,
-		adr.province,
-		adr.code_postal,
-		adr.pays
-			
-FROM organisme org
-INNER JOIN transaction trx ON trx.donneur_id = org.organisme_id
-INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
-INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
-INNER JOIN adresse adr ON adr.adresse_id = org.adresse
-INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
-WHERE 	trx.donneur_id = :receveur_id
-AND		trx.date_collecte BETWEEN :date_debut AND :date_fin
-AND 	trx.date_collecte IS NOT NULL;
+	
+--	RequÃªtes pour le donneur du mois
+	
+/*	CrÃ©ation d'une table qui va avoir les donnÃ©es du donneur du mois : donneur_mois.
+	Une clÃ© secondaire est ajoutÃ©e sur le champ organisme_id venant de la table organisme.
+*/ 
 
--- Test
+CREATE TABLE `donneur_mois` (
+  `organisme_id` int(10) NOT NULL COMMENT 'NumÃ©ro unique pour l''organisme.',
+  `nom_organisme` varchar(255) NOT NULL COMMENT 'Nom de l''organisme meilleur donneur du mois.',
+  `montant_total` int(10) NOT NULL COMMENT 'ReprÃ©sente la somme totale offerte par l''organisme pour le mois.',
+  `annee` int(4) NOT NULL COMMENT 'ReprÃ©sente l''annÃ©e pour le meilleur donneur du mois a fait son exploit.',
+  `mois` int(2) NOT NULL COMMENT 'ReprÃ©sente le mis pour le meilleur donneur du mois a fait son exploit.',
+  PRIMARY KEY (`annee`,`mois`),
+  UNIQUE KEY `pk_donneur_mois` (`annee`,`mois`),
+  KEY `fk_organisme$donneur_mois` (`organisme_id`),
+  CONSTRAINT `fk_organisme$donneur_mois` FOREIGN KEY (`organisme_id`) REFERENCES `organisme` (`organisme_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Table permettant d''enregistrer le meilleur donneur pour un mois et une annÃ©e en particulier.';
 
-SELECT    org.organisme_id,
-        org.nom,
-        org.telephone,
-        org.poste,
-        org.no_entreprise,
-        org.no_osbl,
-        trx.transaction_id,
-        trx.receveur_id,
-        trx.donneur_id,
-        trx.marchandise_id,
-        trx.date_collecte,
-        trx.date_reservation,
-        trx.date_disponible,
-        trx.date_transaction,
-        ali.valeur,
-        typali.description_type_aliment,
-        adr.adresse_id,
-        adr.no_civique,
-        typrue.description_type_rue,
-        adr.nom,
-        adr.app,
-        adr.ville,
-        adr.province,
-        adr.code_postal,
-        adr.pays
-            
-FROM organisme org
-INNER JOIN transaction trx ON trx.receveur_id = org.organisme_id
-INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
-INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
-INNER JOIN adresse adr ON adr.adresse_id = org.adresse
-INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
-WHERE     trx.receveur_id = 4
-AND        trx.date_collecte BETWEEN '2016-01-25 18:52:33' AND '2016-02-06 18:52:33'
-AND     trx.date_collecte IS NOT NULL
+-- 4 insertions dans la table donneur_mois
 
-UNION
+INSERT INTO `yolaine_hipdev`.`donneur_mois`
+(`organisme_id`,
+`nom_organisme`,
+`montant_total`,
+`annee`,
+`mois`)
+VALUES
+(5,
+'SupermarchÃ© IGA extra Shawinigan',
+3000,
+2015,
+10);
 
-SELECT  org.organisme_id,
-    org.nom,
-    org.telephone,
-    org.poste,
-    org.no_entreprise,
-    org.no_osbl,
-    trx.transaction_id,
-    trx.receveur_id,
-    trx.donneur_id,
-    trx.marchandise_id,
-    trx.date_collecte,
-    trx.date_reservation,
-    trx.date_disponible,
-    trx.date_transaction,
-    ali.valeur,
-    typali.description_type_aliment,
-    adr.adresse_id,
-    adr.no_civique,
-    typrue.description_type_rue,
-    adr.nom,
-    adr.app,
-    adr.ville,
-    adr.province,
-    adr.code_postal,
-    adr.pays
-      
-FROM organisme org
-INNER JOIN transaction trx ON trx.donneur_id = org.organisme_id
-INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
-INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
-INNER JOIN adresse adr ON adr.adresse_id = org.adresse
-INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
-WHERE   trx.donneur_id = 4
-AND     trx.date_collecte BETWEEN '2016-01-25 18:52:33' AND '2016-02-06 18:52:33'
-AND   trx.date_collecte IS NOT NULL;
+INSERT INTO `yolaine_hipdev`.`donneur_mois`
+(`organisme_id`,
+`nom_organisme`,
+`montant_total`,
+`annee`,
+`mois`)
+VALUES
+(6,
+'Super C',
+2500,
+2015,
+11);
+
+INSERT INTO `yolaine_hipdev`.`donneur_mois`
+(`organisme_id`,
+`nom_organisme`,
+`montant_total`,
+`annee`,
+`mois`)
+VALUES
+(7,
+'Alimentation Gauthier et FrÃ¨res',
+2450,
+2015,
+12);
+
+INSERT INTO `yolaine_hipdev`.`donneur_mois`
+(`organisme_id`,
+`nom_organisme`,
+`montant_total`,
+`annee`,
+`mois`)
+VALUES
+(8,
+'MÃ©tro Plus Shawinigan',
+3560,
+2016,
+01);
+
+/*	SELECT pour la route donneur_mois 
+	Remplacer: :annee et :mois pour avoir le donneur du mois d'une annÃ©e prÃ©cise.
+*/
+
+SELECT	organisme_id,
+		nom_organisme,
+		montant_total,
+		annee,
+		mois
+FROM	`yolaine_hipdev`.`donneur_mois`
+WHERE	annee = :annee
+AND		mois = :mois;
+
+

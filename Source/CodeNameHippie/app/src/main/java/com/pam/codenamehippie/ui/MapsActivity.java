@@ -107,8 +107,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                     break;
                 }
                 AdresseModele adresse = organisme.getAdresse();
-                LatLng point = this.activity.getLocationFromName(organisme.getNom() + ", " +
-                                                                 adresse.string());
+                LatLng point = this.activity.getLocationFromName(adresse.string());
                 if (point != null) {
                     MarkerOptions marker = new MarkerOptions().position(point)
                                                               .title(organisme.getNom());
@@ -379,7 +378,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                " Mes réservations ",
                                Toast.LENGTH_SHORT
                               ).show();
-
+                // FIXME: Faire fonctionner la liste de mes réservations.
                 this.adapter.setOrganisme(null);
                 this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_RESERVEE);
                 this.peuplerListeOrganisme(organismeModeleDepot);

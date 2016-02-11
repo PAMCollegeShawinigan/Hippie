@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -93,11 +94,20 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // TODO: Gérer le back stack comme du monde
+        // http://developer.android.com/training/implementing-navigation/temporal.html
         switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-
+            case android.R.id.home: {
+                Intent intent = this.getSupportParentActivityIntent();
+                if ((intent != null) && (NavUtils.shouldUpRecreateTask(this, intent))) {
+                    TaskStackBuilder.create(this)
+                                    .addNextIntentWithParentStack(intent)
+                                    .startActivities();
+                } else {
+                    NavUtils.navigateUpFromSameTask(this);
+                }
+            }
+            return true;
             // FIXME: Utilisation temporaire pour afficher ListeMesDonsActivity
             case R.id.menu_profil:
                 if (!this.getClass().equals(ProfilActivity.class)) {
@@ -111,8 +121,8 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
                 }
                 return true;
             case R.id.info:
-                if (!this.getClass().equals(MainActivity.class)) {
-                    this.startActivity(new Intent(this, MainActivity.class));
+                if (!this.getClass().equals(InfoActivity.class)) {
+                    this.startActivity(new Intent(this, InfoActivity.class));
                 }
                 return true;
             case R.id.menu_deconnexion:
@@ -131,6 +141,13 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
             case R.id.menu_statistique:
                 if (!this.getClass().equals(ListeStatistiquesActivity.class)) {
                     this.startActivity(new Intent(this, ListeStatistiquesActivity.class));
+                }
+                return true;
+
+            // FIXME: Utilisation temporaire pour afficher la page inscription
+            case R.id.inscription:
+                if (!this.getClass().equals(RegisterActivity.class)) {
+                    this.startActivity(new Intent(this, RegisterActivity.class));
                 }
                 return true;
             default:
@@ -158,6 +175,7 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
                 actionBar.setLogo(R.drawable.logo);
                 actionBar.setDisplayUseLogoEnabled(true);
                 actionBar.setDisplayShowTitleEnabled(false);
+                actionBar.setDisplayHomeAsUpEnabled(this.getSupportParentActivityIntent() != null);
             }
         }
         // Configuration du viewSwitcher

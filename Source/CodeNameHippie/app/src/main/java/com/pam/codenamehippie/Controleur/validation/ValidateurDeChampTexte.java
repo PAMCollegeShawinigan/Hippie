@@ -56,9 +56,21 @@ public class ValidateurDeChampTexte extends Observable<ValidateurObserver>
     public static final int PRENOM_LONGUEUR_MAX = 30;
 
     /**
+     * Longueur maximale du champ code postal
+     */
+    public static final int CODE_POSTAL_LONGUEUR_MAX = 7;
+    /**
      * Longueur maximale du champ no telephone
      */
     public static final int NO_TELEPHONE_LONGUEUR_MAX = 10;
+    /**
+     * Longueur maximale du NEQ
+     */
+    public static final int NEQ_LONGUEUR_MAX = 10;
+    /**
+     * Longueur maximale de l'OSBL
+     */
+    public static final int OSBL_LONGUEUR_MAX = 15;
     /**
      * Longueur maximum pour le champ quantité avec critère ########.##
      */

@@ -32,5 +32,9 @@
 		android:id="@+id/menu_statistique"
 		android:orderInCategory="5"
 		android:title="Liste Stats Temporaire" />
+	<item
+	android:id="@+id/inscription"
+	android:orderInCategory="6"
+	android:title="Inscription temporaire" />
 
 </menu>
