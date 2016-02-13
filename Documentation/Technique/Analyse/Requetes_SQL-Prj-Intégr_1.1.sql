@@ -595,12 +595,10 @@ AND  trx.date_collecte BETWEEN :date_debut AND :date_fin;
 
 CREATE TABLE `donneur_mois` (
   `organisme_id` int(10) NOT NULL COMMENT 'Numéro unique pour l''organisme.',
-  `nom_organisme` varchar(255) NOT NULL COMMENT 'Nom de l''organisme meilleur donneur du mois.',
-  `montant_total` int(10) NOT NULL COMMENT 'Représente la somme totale offerte par l''organisme pour le mois.',
-  `annee` int(4) NOT NULL COMMENT 'Représente l''année pour le meilleur donneur du mois a fait son exploit.',
-  `mois` int(2) NOT NULL COMMENT 'Représente le mis pour le meilleur donneur du mois a fait son exploit.',
-  PRIMARY KEY (`annee`,`mois`),
-  UNIQUE KEY `pk_donneur_mois` (`annee`,`mois`),
+  `montant_total` int(10) NOT NULL COMMENT 'Représente la somme totale offerte par l''organisme du donneur du mois pour un mois précis.',
+  `date` datetime NOT NULL COMMENT 'Représente date (année, mois) pour le donneur du mois qui a fait son exploit.',
+  PRIMARY KEY (`date`),
+  UNIQUE KEY `pk_donneur_mois` (`date`),
   KEY `fk_organisme$donneur_mois` (`organisme_id`),
   CONSTRAINT `fk_organisme$donneur_mois` FOREIGN KEY (`organisme_id`) REFERENCES `organisme` (`organisme_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Table permettant d''enregistrer le meilleur donneur pour un mois et une année en particulier.';
@@ -609,67 +607,51 @@ CREATE TABLE `donneur_mois` (
 
 INSERT INTO `yolaine_hipdev`.`donneur_mois`
 (`organisme_id`,
-`nom_organisme`,
 `montant_total`,
-`annee`,
-`mois`)
+`date`)
 VALUES
 (5,
-'Supermarché IGA extra Shawinigan',
 3000,
-2015,
-10);
+'2015-10-25 23:00:00');
 
 INSERT INTO `yolaine_hipdev`.`donneur_mois`
 (`organisme_id`,
-`nom_organisme`,
 `montant_total`,
-`annee`,
-`mois`)
+`date`)
 VALUES
 (6,
-'Super C',
 2500,
-2015,
-11);
+'2015-11-25 23:00:00');
 
 INSERT INTO `yolaine_hipdev`.`donneur_mois`
 (`organisme_id`,
-`nom_organisme`,
 `montant_total`,
-`annee`,
-`mois`)
+`date`)
 VALUES
 (7,
-'Alimentation Gauthier et Frères',
 2450,
-2015,
-12);
+'2015-12-25 23:00:00');
 
 INSERT INTO `yolaine_hipdev`.`donneur_mois`
 (`organisme_id`,
-`nom_organisme`,
 `montant_total`,
-`annee`,
-`mois`)
+`date`)
 VALUES
 (8,
-'Métro Plus Shawinigan',
 3560,
-2016,
-01);
+'2016-01-25 23:00:00');
 
 /*	SELECT pour la route donneur_mois 
 	Remplacer: :annee et :mois pour avoir le donneur du mois d'une année précise.
 */
 
-SELECT	organisme_id,
-		nom_organisme,
-		montant_total,
-		annee,
-		mois
-FROM	`yolaine_hipdev`.`donneur_mois`
-WHERE	annee = :annee
-AND		mois = :mois;
+SELECT	don.organisme_id,
+		org.nom,
+		don.montant_total,
+		don.date
+		
+FROM	donneur_mois don
+INNER JOIN organisme org ON org.organisme_id = don.organisme_id
+WHERE	don.date BETWEEN :date_debut AND date_fin;
 
 
