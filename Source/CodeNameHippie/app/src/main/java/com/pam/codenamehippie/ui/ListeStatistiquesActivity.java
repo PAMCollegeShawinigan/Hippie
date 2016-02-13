@@ -19,7 +19,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by Carl St-Louis le 2016-02-08.
+ * Cette activité sert à afficher les statistiques des produits collectés
+ * selon l'id de l'organisme/entreprise
  */
 public class ListeStatistiquesActivity extends HippieActivity
     implements ObservateurDeDepot<TransactionModele>{
@@ -27,6 +28,7 @@ public class ListeStatistiquesActivity extends HippieActivity
     private static final String TAG = ListeStatistiquesActivity.class.getSimpleName();
     private ExpandableListView listeStatistiques;
     private ListeStatistiquesAdapter statistiquesAdapter;
+    // Id de l'organisme/entreprise
     private Integer orgId;
 
     @Override
@@ -35,18 +37,18 @@ public class ListeStatistiquesActivity extends HippieActivity
         this.setContentView(R.layout.liste_statistiques);
 
         //TODO: Vérifier si AlimentaireModeleDepot ou TransactionModeleDepot
-        TransactionModeleDepot transactionModeleDepot =
-                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
+        //TransactionModeleDepot transactionModeleDepot =
+               // ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
 
         // On va chercher l'expendable listView
         listeStatistiques = (ExpandableListView)findViewById(R.id.list_statistiques_group);
         statistiquesAdapter = new ListeStatistiquesAdapter(this);
         listeStatistiques.setAdapter(statistiquesAdapter);
+        //On va chercher l'id organisme dans le sharedPreferences
         this.orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
                 -1
         );
     }
-
 
     @Override
     protected void onPause() {
