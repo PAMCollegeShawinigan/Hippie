@@ -101,54 +101,67 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                              .create();
 
     private static final String TAG = BaseModeleDepot.class.getSimpleName();
+
     /**
      * Contenant qui renferme les objets entretenus par le dépôt.
      */
     protected final ArrayList<T> modeles = new ArrayList<>();
+
     /**
      * Client http.
      */
     protected final OkHttpClient httpClient;
+
     /**
      * Context pour accèder au ressources string.
      */
     protected final Context context;
+
     /**
      * Verrou de synchronisation.
      */
     protected final Object lock = new Object();
+
     /**
      * Main thread handler
      */
     protected final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+
     /**
      * La valeur du paramètre de type T.
      */
     protected Class classeDeT;
+
     /**
      * Url du des objets du dépôt.
      */
     protected HttpUrl url = HippieApplication.BASE_URL;
+
     /**
      * Url de la dernière requête de peuplement effectuée
      */
     protected HttpUrl urlDeRepeuplement = null;
+
     /**
      * Url pour modifications des objets du dépot.
      */
     protected HttpUrl modifierUrl = null;
+
     /**
      * Url pour les ajouts des objets du dépot
      */
     protected HttpUrl ajoutUrl = null;
+
     /**
      * Url pour les suppressions des objets du dépot
      */
     protected HttpUrl supprimerUrl = null;
+
     /**
      * Liste contenant les objets qui observe le dépôt.
      */
     protected volatile ArrayList<ObservateurDeDepot<T>> observateurs = new ArrayList<>();
+
     /**
      * Foncteur pour les listes résultantes des requêtes
      */
@@ -163,7 +176,6 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *         le client http pour utiliser par les dépots pour faire des requêtes au
      *         serveur
      */
-
     public BaseModeleDepot(Context context, OkHttpClient httpClient) {
         Class clazz = this.getClass();
         ParameterizedType genericType;
