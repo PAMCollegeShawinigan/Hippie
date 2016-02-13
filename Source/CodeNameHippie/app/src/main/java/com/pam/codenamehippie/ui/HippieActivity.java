@@ -121,8 +121,8 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
                 }
                 return true;
             case R.id.info:
-                if (!this.getClass().equals(MainActivity.class)) {
-                    this.startActivity(new Intent(this, MainActivity.class));
+                if (!this.getClass().equals(InfoActivity.class)) {
+                    this.startActivity(new Intent(this, InfoActivity.class));
                 }
                 return true;
             case R.id.menu_deconnexion:
@@ -141,6 +141,13 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
             case R.id.menu_statistique:
                 if (!this.getClass().equals(ListeStatistiquesActivity.class)) {
                     this.startActivity(new Intent(this, ListeStatistiquesActivity.class));
+                }
+                return true;
+
+            // FIXME: Utilisation temporaire pour afficher la page inscription
+            case R.id.inscription:
+                if (!this.getClass().equals(RegisterActivity.class)) {
+                    this.startActivity(new Intent(this, RegisterActivity.class));
                 }
                 return true;
             default:
