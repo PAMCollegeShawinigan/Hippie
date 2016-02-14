@@ -2,7 +2,6 @@ package com.pam.codenamehippie.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,11 +15,15 @@ import com.pam.codenamehippie.controleur.validation.Validateur;
 import com.pam.codenamehippie.controleur.validation.ValidateurDeChampTexte;
 import com.pam.codenamehippie.controleur.validation.ValidateurDeSpinner;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
+import com.pam.codenamehippie.http.exception.HttpReponseException;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.DescriptionModel;
+import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.TypeAlimentaireModele;
+import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot.PeuplerListesDeSpinnerListener;
+import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
 import com.pam.codenamehippie.ui.adapter.TypeAlimentaireModeleSpinnerAdapter;
@@ -156,9 +159,6 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.bAjoutMarchandise.setText(R.string.bouton_ajouter);
 
         // Retrouve l'organisme id de shared pref. -1 signifie qu'il n'y a pas d'organisme.
-        this.organismeId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
-                                                         -1
-                                                        );
 
         // Provient de l'Intent de ListeMesDonsActivity lors du clic sur modifier un produit
         Bundle bundle = this.getIntent().getExtras();
@@ -222,13 +222,15 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurDescription.onResume();
         this.validateurQuantite.onResume();
         this.validateurValeur.onResume();
-        AlimentaireModeleDepot depot =
-                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
+        AlimentaireModeleDepot depot = DepotManager.getInstance().getAlimentaireModeleDepot();
         depot.peuplerLesListesDeSpinners(this);
         if (this.idModele != null) {
             depot.rechercherParId(this.idModele);
         } else {
             this.modele = new AlimentaireModele();
+            UtilisateurModele uc = this.authentificateur.getUtilisateur();
+            OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
+            this.modele.setOrganisme(org);
         }
     }
 
@@ -241,10 +243,6 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurValeur.onPause();
         this.validateurSpinnerUniteMarchandise.onPause();
         this.validateurSpinnerTypeMarchandise.onPause();
-        AlimentaireModeleDepot depot =
-                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        depot.setFiltreDeListe(null);
-        depot.supprimerTousLesObservateurs();
     }
 
     /**
@@ -283,7 +281,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
         }
         // Check si on fait parti d'un organisme...
         // FIXME: Ce check devrait etre fait au serveur.
-        boolean hasOrganismeid = (this.organismeId != -1);
+        boolean hasOrganismeid = (this.modele.getOrganisme() != null);
 
         // Mettre le bouton pour ajouter la marchandise actif si tous les champs requis
         // respecte les conditions des validateurs.
@@ -469,7 +467,28 @@ public class AjoutMarchandiseActivity extends HippieActivity
 
     @Override
     public void surErreur(IOException e) {
-        Log.e(this.getClass().getSimpleName(), "Erreur peuplement spinner", e);
+        Snackbar snackbar;
+        if (e instanceof HttpReponseException) {
+            switch (((HttpReponseException) e).getCode()) {
+                case 404:
+                    snackbar = Snackbar.make(this.viewSwitcher, R.string.error_http_404,
+                                             Snackbar.LENGTH_SHORT);
+                    break;
+                case 500:
+                    snackbar = Snackbar.make(this.viewSwitcher, R.string.error_http_500,
+                                             Snackbar.LENGTH_SHORT);
+                    break;
+                default:
+                    snackbar = Snackbar.make(this.viewSwitcher, R.string.error_connection,
+                                             Snackbar.LENGTH_SHORT);
+                    break;
+
+            }
+        } else {
+            snackbar = Snackbar.make(this.viewSwitcher, R.string.error_connection,
+                                     Snackbar.LENGTH_SHORT);
+        }
+        snackbar.show();
     }
 
     @Override

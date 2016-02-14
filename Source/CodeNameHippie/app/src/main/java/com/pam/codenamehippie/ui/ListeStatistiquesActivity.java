@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ExpandableListView;
 
-import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.TransactionModele;
+import com.pam.codenamehippie.modele.UtilisateurModele;
+import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.modele.depot.TransactionModeleDepot;
 import com.pam.codenamehippie.ui.adapter.ListeStatistiquesAdapter;
@@ -39,34 +41,27 @@ public class ListeStatistiquesActivity extends HippieActivity
         // ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
 
         // On va chercher l'expendable listView
-        listeStatistiques = (ExpandableListView) findViewById(R.id.list_statistiques_group);
-        statistiquesAdapter = new ListeStatistiquesAdapter(this);
-        listeStatistiques.setAdapter(statistiquesAdapter);
+        this.listeStatistiques = (ExpandableListView) findViewById(R.id.list_statistiques_group);
+        this.statistiquesAdapter = new ListeStatistiquesAdapter(this);
+        this.listeStatistiques.setAdapter(this.statistiquesAdapter);
         //On va chercher l'id organisme dans le sharedPreferences
-        this.orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
-                                                   -1
-                                                  );
+        UtilisateurModele uc = this.authentificateur.getUtilisateur();
+        OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
+        this.orgId = (org != null) ? org.getId() : -1;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        TransactionModeleDepot transactionModeleDepot =
-                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
-        transactionModeleDepot.setFiltreDeListe(null);
-        transactionModeleDepot.supprimerTousLesObservateurs();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         TransactionModeleDepot transactionModeleDepot =
-                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
+                DepotManager.getInstance().getTransactionModeleDepot();
         transactionModeleDepot.ajouterUnObservateur(this);
-        this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
-                                      -1
-                                     );
-        if (this.orgId != null && orgId != -1) {
+        if (this.orgId != null && this.orgId != -1) {
             // TODO: Ajouter 2 DatePicker dans le layout list_statistique
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, 2014);

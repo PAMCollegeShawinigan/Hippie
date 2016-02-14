@@ -7,10 +7,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
+import com.pam.codenamehippie.modele.OrganismeModele;
+import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.FiltreDeListe;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.ui.adapter.HippieListAdapter;
@@ -33,7 +35,7 @@ public class ListeMesDonsActivity extends HippieActivity
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.liste_dons);
         AlimentaireModeleDepot alimentaireModeleDepot =
-                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
+                DepotManager.getInstance().getAlimentaireModeleDepot();
 
         this.mesDonsAdapter = new HippieListAdapter(this, alimentaireModeleDepot);
         ListView listeMesDons = (ListView) this.findViewById(R.id.lv_dons);
@@ -59,22 +61,17 @@ public class ListeMesDonsActivity extends HippieActivity
     @Override
     protected void onPause() {
         super.onPause();
-        AlimentaireModeleDepot alimentaireModeleDepot =
-                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        alimentaireModeleDepot.setFiltreDeListe(null);
-        alimentaireModeleDepot.supprimerTousLesObservateurs();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         AlimentaireModeleDepot alimentaireModeleDepot =
-                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        int orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
-                                                  -1
-                                                 );
-        alimentaireModeleDepot.ajouterUnObservateur(this);
+                DepotManager.getInstance().getAlimentaireModeleDepot();
+
+        UtilisateurModele uc = this.authentificateur.getUtilisateur();
+        OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
+        int orgId = (org != null) ? org.getId() : -1;
         // Filtre pour récupérer les items dont le statut est Disponible ou Réservé
         alimentaireModeleDepot.setFiltreDeListe(new FiltreDeListe<AlimentaireModele>() {
             @Override
