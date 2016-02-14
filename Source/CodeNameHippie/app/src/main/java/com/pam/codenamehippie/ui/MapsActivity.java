@@ -171,7 +171,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     }
 
     private final Object mapLock = new Object();
-    private volatile ArrayList<OrganismeModele> listOrganisme = new ArrayList<>();
+    private volatile List<OrganismeModele> listOrganisme = new ArrayList<>();
     private SlidingUpPanelLayout slidingLayout;
     private ExpandableListView expandableListView;
     private volatile GoogleMap map;
@@ -407,7 +407,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     }
 
     @Override
-    public void surChangementDeDonnees(ArrayList<OrganismeModele> modeles) {
+    public void surChangementDeDonnees(List<OrganismeModele> modeles) {
         this.listOrganisme = modeles;
         OrganismeModele[] array = modeles.toArray(new OrganismeModele[modeles.size()]);
         this.prepareMarkerAsyncTask = PrepareMarkerAsyncTask.newInstance(this)

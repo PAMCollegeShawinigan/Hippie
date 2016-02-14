@@ -13,7 +13,7 @@ import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.ui.adapter.MesReservationsAdapter;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Cette classe permet de récupérer la liste des réservations personnalisée selon l'id du receveur
@@ -71,7 +71,7 @@ public class ListeMesReservationsActivity extends HippieActivity
     }
 
     @Override
-    public void surChangementDeDonnees(ArrayList<AlimentaireModele> modeles) {
+    public void surChangementDeDonnees(List<AlimentaireModele> modeles) {
         Log.d("test", "Count= " + modeles.size());
         this.mesReservationsAdapter.setItems(modeles);
     }

@@ -16,7 +16,7 @@ import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.ui.adapter.HippieListAdapter;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Cette classe permet de récupérer la liste des dons personnalisée selon l'id du donneur
@@ -93,7 +93,7 @@ public class ListeMesDonsActivity extends HippieActivity
     }
 
     @Override
-    public void surChangementDeDonnees(ArrayList<AlimentaireModele> modeles) {
+    public void surChangementDeDonnees(List<AlimentaireModele> modeles) {
         Log.d("test", "Count= " + modeles.size());
         this.mesDonsAdapter.setItems(modeles);
 

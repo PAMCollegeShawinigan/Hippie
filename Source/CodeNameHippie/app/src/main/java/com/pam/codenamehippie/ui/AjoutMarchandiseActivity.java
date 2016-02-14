@@ -31,6 +31,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -342,7 +343,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                       .add("marchandise_unite", this.modele.getUniteDeQuantite())
                                       .add("marchandise_etat", "3")
                                       .add("date_peremption",
-                                           this.modele.getDatePeremption().toString())
+                                           this.modele.getDatePeremption().toString()
+                                          )
                                       .add("donneur_id", this.organismeId.toString());
         if (this.idModele != null) {
             // Si le idModele est différent de null, il s'agit d'une modification sur le produit
@@ -444,7 +446,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
     }
 
     @Override
-    public void surChangementDeDonnees(ArrayList<AlimentaireModele> modeles) {
+    public void surChangementDeDonnees(List<AlimentaireModele> modeles) {
         if ((modeles != null) && (modeles.size() != 0)) {
             this.modele = modeles.get(0);
 //            this.validateurNom.setText(this.modele.getNom());
