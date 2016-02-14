@@ -9,8 +9,10 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.util.ArrayMap;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -32,6 +34,8 @@ import com.pam.codenamehippie.http.Authentificateur;
 import okhttp3.OkHttpClient;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
 /**
  * Classe de base pour toutes les {@link android.app.Activity} du projet. Sert principalement à
  * propager le menu principal dans l'action bar.
@@ -46,6 +50,7 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
     protected TextView progressBarTextView;
     protected ProgressBar progressBar;
     protected GoogleApiClient googleApiClient;
+    protected ArrayMap<String, Boolean> permissionsResult = null;
     private Boolean progressBarEstAffichee = null;
 
     @Override
@@ -54,7 +59,6 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
         this.httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
         this.authentificateur = ((Authentificateur) this.httpClient.authenticator());
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
     }
 
     @Override
@@ -152,6 +156,19 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if ((permissions.length != 0) && (grantResults.length != 0)) {
+            this.permissionsResult = new ArrayMap<>(permissions.length);
+            for (int i = 0; i < permissions.length; i += 1) {
+                this.permissionsResult.put(permissions[i], (grantResults[i] == PERMISSION_GRANTED));
+            }
         }
     }
 

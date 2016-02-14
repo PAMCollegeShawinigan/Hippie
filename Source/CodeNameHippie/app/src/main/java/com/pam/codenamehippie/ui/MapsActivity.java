@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +47,9 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                                             ExpandableListView.OnGroupClickListener,
@@ -170,6 +175,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         }
     }
 
+    private static final int REQUEST_FINE_LOCATION = 0x10CA1;
     private final Object mapLock = new Object();
     private volatile List<OrganismeModele> listOrganisme = new ArrayList<>();
     private SlidingUpPanelLayout slidingLayout;
@@ -181,6 +187,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     private AsyncTask prepareMarkerAsyncTask;
     private int orgId;
     private Geocoder geocoder;
+    private Boolean hasFineLocation = true;
 
     /**
      * preparer la carte google et des donnees.
@@ -213,11 +220,34 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                                                 .addOnConnectionFailedListener(this)
                                                                 .addApi(LocationServices.API)
                                                                 .build();
+        if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
+            // TODO: Expliquer la pourquoi on veux cette permission.
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this, ACCESS_FINE_LOCATION)) {
+//            } else {
+            ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION},
+                                              REQUEST_FINE_LOCATION);
+//            }
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (this.permissionsResult != null) {
+            switch (requestCode) {
+                case REQUEST_FINE_LOCATION:
+                    this.hasFineLocation = this.permissionsResult.get(ACCESS_FINE_LOCATION);
+                    break;
+            }
+        }
+
     }
 
     @Override
@@ -285,7 +315,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
             this.map = googleMap;
             this.mapLock.notifyAll();
         }
-        this.map.setMyLocationEnabled(true);
+        this.map.setMyLocationEnabled(this.hasFineLocation);
         this.map.setBuildingsEnabled(true);
         this.map.getUiSettings().setMapToolbarEnabled(false);
         this.map.getUiSettings().setMyLocationButtonEnabled(true);
@@ -450,8 +480,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     @Override
     public void onConnected(Bundle bundle) {
         super.onConnected(bundle);
-        this.lastKnownLocation =
-                LocationServices.FusedLocationApi.getLastLocation(this.googleApiClient);
+        if (this.hasFineLocation) {
+            this.lastKnownLocation =
+                    LocationServices.FusedLocationApi.getLastLocation(this.googleApiClient);
+        }
     }
 
     @Override
