@@ -8,6 +8,7 @@ import com.pam.codenamehippie.http.Authentificateur;
 import com.pam.codenamehippie.http.intercepteur.AcceptJsonInterceptor;
 import com.pam.codenamehippie.http.intercepteur.HttpDebugInterceptor;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
 import com.pam.codenamehippie.modele.depot.TransactionModeleDepot;
 import com.pam.codenamehippie.modele.depot.UtilisateurModeleDepot;
@@ -51,6 +52,7 @@ public class HippieApplication extends Application {
         return this.httpClient;
     }
 
+    @Deprecated
     public synchronized UtilisateurModeleDepot getUtilisateurModeleDepot() {
         if (this.utilisateurModeleDepot == null) {
             this.utilisateurModeleDepot = new UtilisateurModeleDepot(this, this.httpClient);
@@ -58,6 +60,7 @@ public class HippieApplication extends Application {
         return this.utilisateurModeleDepot;
     }
 
+    @Deprecated
     public synchronized OrganismeModeleDepot getOrganismeModeleDepot() {
         if (this.organismeModeleDepot == null) {
             this.organismeModeleDepot = new OrganismeModeleDepot(this, this.httpClient);
@@ -65,6 +68,7 @@ public class HippieApplication extends Application {
         return this.organismeModeleDepot;
     }
 
+    @Deprecated
     public synchronized TransactionModeleDepot getTransactionModeleDepot() {
         if (this.transactionModeleDepot == null) {
             this.transactionModeleDepot = new TransactionModeleDepot(this, this.httpClient);
@@ -72,6 +76,7 @@ public class HippieApplication extends Application {
         return this.transactionModeleDepot;
     }
 
+    @Deprecated
     public synchronized AlimentaireModeleDepot getAlimentaireModeleDepot() {
         if (this.alimentaireModeleDepot == null) {
             this.alimentaireModeleDepot = new AlimentaireModeleDepot(this, this.httpClient);
@@ -98,6 +103,29 @@ public class HippieApplication extends Application {
                                               .setFontAttrId(R.attr.fontPath)
                                               .build()
                                      );
+    }
+
+    @Override
+    public String getSystemServiceName(Class<?> serviceClass) {
+        if (serviceClass.equals(DepotManager.class)) {
+            return DepotManager.DEPOT_MANAGER;
+        }
+        return super.getSystemServiceName(serviceClass);
+    }
+
+    @Override
+    public Object getSystemService(String name) {
+        if (name.equals(DepotManager.DEPOT_MANAGER)) {
+            DepotManager instance;
+            try {
+                instance = DepotManager.getInstance();
+            } catch (IllegalStateException e) {
+                DepotManager.init(this, this.httpClient);
+                instance = DepotManager.getInstance();
+            }
+            return instance;
+        }
+        return super.getSystemService(name);
     }
 
     /**
