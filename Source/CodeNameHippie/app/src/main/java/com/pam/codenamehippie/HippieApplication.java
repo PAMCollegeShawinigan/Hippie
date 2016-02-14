@@ -52,14 +52,28 @@ public class HippieApplication extends Application {
         return this.httpClient;
     }
 
+    /**
+     * Accesseur de depot
+     *
+     * @return Le depot correspondant au nom de la méthode
+     *
+     * @deprecated Utiliser {@link DepotManager#getAlimentaireModeleDepot()}
+     */
     @Deprecated
-    public synchronized UtilisateurModeleDepot getUtilisateurModeleDepot() {
-        if (this.utilisateurModeleDepot == null) {
-            this.utilisateurModeleDepot = new UtilisateurModeleDepot(this, this.httpClient);
+    public synchronized AlimentaireModeleDepot getAlimentaireModeleDepot() {
+        if (this.alimentaireModeleDepot == null) {
+            this.alimentaireModeleDepot = new AlimentaireModeleDepot(this, this.httpClient);
         }
-        return this.utilisateurModeleDepot;
+        return this.alimentaireModeleDepot;
     }
 
+    /**
+     * Accesseur de depot
+     *
+     * @return Le depot correspondant au nom de la méthode
+     *
+     * @deprecated Utiliser {@link DepotManager#getOrganismeModeleDepot()}
+     */
     @Deprecated
     public synchronized OrganismeModeleDepot getOrganismeModeleDepot() {
         if (this.organismeModeleDepot == null) {
@@ -68,6 +82,13 @@ public class HippieApplication extends Application {
         return this.organismeModeleDepot;
     }
 
+    /**
+     * Accesseur de depot
+     *
+     * @return Le depot correspondant au nom de la méthode
+     *
+     * @deprecated Utiliser {@link DepotManager#getTransactionModeleDepot()}
+     */
     @Deprecated
     public synchronized TransactionModeleDepot getTransactionModeleDepot() {
         if (this.transactionModeleDepot == null) {
@@ -76,12 +97,19 @@ public class HippieApplication extends Application {
         return this.transactionModeleDepot;
     }
 
+    /**
+     * Accesseur de depot
+     *
+     * @return Le depot correspondant au nom de la méthode
+     *
+     * @deprecated Utiliser {@link DepotManager#getUtilisateurModeleDepot()}
+     */
     @Deprecated
-    public synchronized AlimentaireModeleDepot getAlimentaireModeleDepot() {
-        if (this.alimentaireModeleDepot == null) {
-            this.alimentaireModeleDepot = new AlimentaireModeleDepot(this, this.httpClient);
+    public synchronized UtilisateurModeleDepot getUtilisateurModeleDepot() {
+        if (this.utilisateurModeleDepot == null) {
+            this.utilisateurModeleDepot = new UtilisateurModeleDepot(this, this.httpClient);
         }
-        return this.alimentaireModeleDepot;
+        return this.utilisateurModeleDepot;
     }
 
     @Override
@@ -103,6 +131,7 @@ public class HippieApplication extends Application {
                                               .setFontAttrId(R.attr.fontPath)
                                               .build()
                                      );
+        DepotManager.init(this, this.httpClient);
     }
 
     @Override
@@ -116,14 +145,7 @@ public class HippieApplication extends Application {
     @Override
     public Object getSystemService(String name) {
         if (name.equals(DepotManager.DEPOT_MANAGER)) {
-            DepotManager instance;
-            try {
-                instance = DepotManager.getInstance();
-            } catch (IllegalStateException e) {
-                DepotManager.init(this, this.httpClient);
-                instance = DepotManager.getInstance();
-            }
-            return instance;
+            return DepotManager.getInstance();
         }
         return super.getSystemService(name);
     }

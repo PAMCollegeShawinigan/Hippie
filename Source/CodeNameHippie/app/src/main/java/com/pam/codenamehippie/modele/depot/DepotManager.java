@@ -22,6 +22,9 @@ import okhttp3.OkHttpClient;
  */
 public final class DepotManager implements ActivityLifecycleCallbacks {
 
+    /**
+     * Constante à utiliser pour les appels à {@link Application#getSystemService(String)}
+     */
     public static final String DEPOT_MANAGER = DepotManager.class.getSimpleName();
 
     private static final AtomicReference<DepotManager> instanceRef = new AtomicReference<>(null);
@@ -38,23 +41,43 @@ public final class DepotManager implements ActivityLifecycleCallbacks {
     /**
      * Instance de {@link UtilisateurModeleDepot} pour l'application
      */
-    private volatile UtilisateurModeleDepot utilisateurModeleDepot;
+    private final UtilisateurModeleDepot utilisateurModeleDepot;
     /**
      * Instance d'{@link OrganismeModeleDepot} pour l'application
      */
-    private volatile OrganismeModeleDepot organismeModeleDepot;
+    private final OrganismeModeleDepot organismeModeleDepot;
     /**
      * Instance de {@link TransactionModeleDepot} pour l'application
      */
-    private volatile TransactionModeleDepot transactionModeleDepot;
+    private final TransactionModeleDepot transactionModeleDepot;
     /**
      * Instance de {@link AlimentaireModeleDepot} pour l'application
      */
-    private volatile AlimentaireModeleDepot alimentaireModeleDepot;
+    private final AlimentaireModeleDepot alimentaireModeleDepot;
 
     private DepotManager(Application application, OkHttpClient httpClient) {
         this.application = application;
         this.httpClient = httpClient;
+        this.alimentaireModeleDepot =
+                new AlimentaireModeleDepot(this.application, this.httpClient);
+        this.registreDeDepot.put(this.alimentaireModeleDepot.classeDeT,
+                                 this.alimentaireModeleDepot
+                                );
+        this.organismeModeleDepot = new OrganismeModeleDepot(this.application, this.httpClient);
+        this.registreDeDepot.put(this.organismeModeleDepot.classeDeT,
+                                 this.organismeModeleDepot
+                                );
+        this.transactionModeleDepot =
+                new TransactionModeleDepot(this.application, this.httpClient);
+        this.registreDeDepot.put(this.transactionModeleDepot.classeDeT,
+                                 this.transactionModeleDepot
+                                );
+        this.utilisateurModeleDepot =
+                new UtilisateurModeleDepot(this.application, this.httpClient);
+        this.registreDeDepot.put(this.utilisateurModeleDepot.classeDeT,
+                                 this.utilisateurModeleDepot
+                                );
+
     }
 
     /**
@@ -82,7 +105,7 @@ public final class DepotManager implements ActivityLifecycleCallbacks {
     }
 
     /**
-     * Retourne le manager de dépot.  {@link DepotManager#init(Application, OkHttpClient)} doit
+     * Retourne le manager de dépot. {@link DepotManager#init(Application, OkHttpClient)} doit
      * être appelée avant cette méthode.
      * <p>
      * Cette méthode est en théorie thread-safe.
@@ -99,55 +122,47 @@ public final class DepotManager implements ActivityLifecycleCallbacks {
         return instance;
     }
 
+    /**
+     * @return l'instance de {@link OkHttpClient} utilisé par les dépots
+     */
     public synchronized OkHttpClient getHttpClient() {
         return this.httpClient;
     }
 
-    @Deprecated
-    public synchronized UtilisateurModeleDepot getUtilisateurModeleDepot() {
-        if (this.utilisateurModeleDepot == null) {
-            this.utilisateurModeleDepot =
-                    new UtilisateurModeleDepot(this.application, this.httpClient);
-            this.registreDeDepot.put(this.utilisateurModeleDepot.classeDeT,
-                                     this.utilisateurModeleDepot
-                                    );
-        }
-        return this.utilisateurModeleDepot;
+    /**
+     * Accesseur de depot
+     *
+     * @return Le depot correspondant au nom de la méthode
+     */
+    public synchronized AlimentaireModeleDepot getAlimentaireModeleDepot() {
+        return this.alimentaireModeleDepot;
     }
 
-    @Deprecated
+    /**
+     * Accesseur de depot
+     *
+     * @return Le depot correspondant au nom de la méthode
+     */
     public synchronized OrganismeModeleDepot getOrganismeModeleDepot() {
-        if (this.organismeModeleDepot == null) {
-            this.organismeModeleDepot = new OrganismeModeleDepot(this.application, this.httpClient);
-            this.registreDeDepot.put(this.organismeModeleDepot.classeDeT,
-                                     this.organismeModeleDepot
-                                    );
-        }
         return this.organismeModeleDepot;
     }
 
-    @Deprecated
+    /**
+     * Accesseur de depot
+     *
+     * @return Le depot correspondant au nom de la méthode
+     */
     public synchronized TransactionModeleDepot getTransactionModeleDepot() {
-        if (this.transactionModeleDepot == null) {
-            this.transactionModeleDepot =
-                    new TransactionModeleDepot(this.application, this.httpClient);
-            this.registreDeDepot.put(this.transactionModeleDepot.classeDeT,
-                                     this.transactionModeleDepot
-                                    );
-        }
         return this.transactionModeleDepot;
     }
 
-    @Deprecated
-    public synchronized AlimentaireModeleDepot getAlimentaireModeleDepot() {
-        if (this.alimentaireModeleDepot == null) {
-            this.alimentaireModeleDepot =
-                    new AlimentaireModeleDepot(this.application, this.httpClient);
-            this.registreDeDepot.put(this.alimentaireModeleDepot.classeDeT,
-                                     this.alimentaireModeleDepot
-                                    );
-        }
-        return this.alimentaireModeleDepot;
+    /**
+     * Accesseur de depot
+     *
+     * @return Le depot correspondant au nom de la méthode
+     */
+    public synchronized UtilisateurModeleDepot getUtilisateurModeleDepot() {
+        return this.utilisateurModeleDepot;
     }
 
     @Override
@@ -198,6 +213,7 @@ public final class DepotManager implements ActivityLifecycleCallbacks {
             if (depot != null) {
                 depot.setFiltreDeListe(null);
                 depot.supprimerTousLesObservateurs();
+                this.getHttpClient().dispatcher().cancelAll();
             }
         }
     }
