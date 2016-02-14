@@ -154,7 +154,8 @@ public final class DepotManager implements ActivityLifecycleCallbacks {
     @SuppressWarnings("unchecked")
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         Class clazz = activity.getClass();
-        if (ObservateurDeDepot.class.isAssignableFrom(clazz)) {
+        if ((ObservateurDeDepot.class.isAssignableFrom(clazz)) &&
+            (!this.registreActivite.containsKey(clazz))) {
             Type[] interfaces = clazz.getGenericInterfaces();
             for (Type iface : interfaces) {
                 ParameterizedType gIface =
@@ -162,9 +163,7 @@ public final class DepotManager implements ActivityLifecycleCallbacks {
                 if (gIface != null) {
                     for (Type arg : gIface.getActualTypeArguments()) {
                         if (BaseModele.class.isAssignableFrom((Class) arg)) {
-                            if (!this.registreActivite.containsKey(clazz)) {
-                                this.registreActivite.put(clazz, (Class) arg);
-                            }
+                            this.registreActivite.put(clazz, (Class) arg);
                         }
                     }
                 }
