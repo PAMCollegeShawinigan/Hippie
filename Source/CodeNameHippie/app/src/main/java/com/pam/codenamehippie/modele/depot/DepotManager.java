@@ -20,12 +20,14 @@ import okhttp3.OkHttpClient;
  * Classe servant à gérer les depots. Cette classe enregistre automatiquement les activitées qui
  * implémente l'interface {@link ObservateurDeDepot} au bon dépot. Cette classe est un singleton.
  */
+
 public final class DepotManager implements ActivityLifecycleCallbacks {
 
     /**
-     * Constante à utiliser pour les appels à {@link Application#getSystemService(String)}
+     * Constante à utiliser pour les appels à
+     * {@link android.content.Context#getSystemService(String)}
      */
-    public static final String DEPOT_MANAGER = DepotManager.class.getSimpleName();
+    public static final String DEPOT_SERVICE = "depot";
 
     private static final AtomicReference<DepotManager> instanceRef = new AtomicReference<>(null);
     private final Application application;
@@ -166,7 +168,6 @@ public final class DepotManager implements ActivityLifecycleCallbacks {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         Class clazz = activity.getClass();
         if ((ObservateurDeDepot.class.isAssignableFrom(clazz)) &&
@@ -193,7 +194,6 @@ public final class DepotManager implements ActivityLifecycleCallbacks {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void onActivityResumed(Activity activity) {
         Class modelClass = this.registreActivite.get(activity.getClass());
         if (modelClass != null) {
@@ -205,7 +205,6 @@ public final class DepotManager implements ActivityLifecycleCallbacks {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void onActivityPaused(Activity activity) {
         Class modelClass = this.registreActivite.get(activity.getClass());
         if (modelClass != null) {

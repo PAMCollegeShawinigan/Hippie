@@ -137,14 +137,14 @@ public class HippieApplication extends Application {
     @Override
     public String getSystemServiceName(Class<?> serviceClass) {
         if (serviceClass.equals(DepotManager.class)) {
-            return DepotManager.DEPOT_MANAGER;
+            return DepotManager.DEPOT_SERVICE;
         }
         return super.getSystemServiceName(serviceClass);
     }
 
     @Override
     public Object getSystemService(String name) {
-        if (name.equals(DepotManager.DEPOT_MANAGER)) {
+        if (name.equals(DepotManager.DEPOT_SERVICE)) {
             return DepotManager.getInstance();
         }
         return super.getSystemService(name);
