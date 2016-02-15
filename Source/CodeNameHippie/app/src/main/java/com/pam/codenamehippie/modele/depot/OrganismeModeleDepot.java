@@ -59,8 +59,9 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
         this.listeOrganismeReservation = this.listeOrganismeDonneur.newBuilder()
                                                                    .addPathSegment("reservation")
                                                                    .build();
-        this.url = this.url.newBuilder().addPathSegment("organisme").build();
         this.donneurMois = this.url.newBuilder().addPathSegment("donneur_mois").build();
+        this.url = this.url.newBuilder().addPathSegment("organisme").build();
+
     }
 
     public void peuplerListeDonneur() {
