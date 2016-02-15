@@ -179,7 +179,8 @@ public class CalendarPickerViewDialogFragment extends AppCompatDialogFragment
         }
     }
 
-    public CalendarPickerViewDialogFragment setOnDateSelectedListener(OnDateSelectedListener listener) {
+    public CalendarPickerViewDialogFragment setOnDateSelectedListener(OnDateSelectedListener
+                                                                              listener) {
         this.listener = listener;
         return this;
     }
