@@ -168,12 +168,12 @@
     <!-- Ressources strings pour layout inscription -->
     <string name="tv_info_inscription">INSCRIPTION</string>
     <string name="tv_info_user">INFORMATIONS SUR L\'UTILISATEUR</string>
-    <string name="tv_inscription_nom">Nom</string>
+    <string name="tv_inscription_nom">Nom du contact</string>
     <string name="et_inscription_nom">NOM</string>
-    <string name="tv_inscription_prenom">Prénom</string>
+    <string name="tv_inscription_prenom">Prénom du contact</string>
     <string name="et_inscription_prenom">PRÉNOM</string>
-    <string name="tv_inscription_username">Nom d\'utilisateur</string>
-    <string name="et_inscription_username">NOM D\'UTILISATEUR</string>
+    <string name="tv_inscription_username">Nom de l'entreprise</string>
+    <string name="et_inscription_username">NOM DE L'ENTREPRISE</string>
     <string name="tv_inscription_password">Mot de passe</string>
     <string name="et_inscription_password">MOT DE PASSE</string>
     <string name="tv_inscription_confirm_password">Confirmer le mot de passe</string>
