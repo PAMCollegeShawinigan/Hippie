@@ -175,7 +175,10 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
                         public void onClick(DialogInterface dialog, int which) {
                             HippieActivity.this.finish();
                         }
-                    }).setMessage(R.string.error_connection).show();
+                    })
+                                                 .setMessage(R.string.error_no_internet)
+                                                 .setTitle(R.string.title_no_internet)
+                                                 .show();
                 }
             }
         }

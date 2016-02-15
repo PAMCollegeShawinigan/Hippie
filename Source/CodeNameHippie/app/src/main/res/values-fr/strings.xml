@@ -135,10 +135,7 @@
     <string name="stats_pile">Empilées</string>
     <string name="stats_cote_a_cote">Côtes à côtes</string>
     <string name="stats_superrposes">Superposées</string>
-    <string name="stats_nbr_affichage_10">10</string>
-    <string name="stats_nbr_affichage_20">20</string>
-    <string name="stats_nbr_affichage_60">60</string>
-    <string name="stats_largeur_fixe">Largeur fixe</string>
+  <string name="stats_largeur_fixe">Largeur fixe</string>
     <string name="stats_largeur_variable">Largeur variable</string>
     <string name="stats_titre_graphique">Répartition de la valeur des denrées par catégorie selon les donneurs</string>
     <string name="stats_axe_y">Valeur des dons </string>
@@ -217,5 +214,7 @@
     <string name="error_http_404">La ressource que vous essayé rejoindre n\'a pas été trouvé</string>
     <string name="error_http_500">Le serveur a rencontré une erreur interne</string>
     <string name="stats_non_selectionne">Veuillez sélectionner une colonne</string>
-
+  <string name="iv_image_profile">Image profile</string>
+  <string name="title_no_internet">Aucune connexion internet</string>
+  <string name="error_no_internet">Une connexion internet est requise par cette application.</string>
 </resources>

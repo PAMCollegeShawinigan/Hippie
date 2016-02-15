@@ -21,8 +21,8 @@
 	<string name="tv_mpo">FORGOT YOUR PASSWORD?</string>
 	<string name="bguest">Guest account</string>
 	<!-- Ressources pour les fonts -->
-	<string name="font_name_fontawesome">fontawesome</string>
-	<string name="font_name_source_sans_pro">SourceSansPro</string>
+	<string name="font_name_fontawesome" translatable="false">fontawesome</string>
+	<string name="font_name_source_sans_pro" translatable="false">SourceSansPro</string>
 	<!-- Ressources pour la liste des marchandises(denrées, dons, etc.) disponibles (layout) -->
 	<string name="marchandise_reservees">Commodity booked</string>
 	<string name="marchandise_disponible">Commodity available</string>
@@ -31,14 +31,14 @@
 	<string name="md_qtee">QTY</string>
 	<string name="md_nom">NAME</string>
 	<string name="iv_md_categorie">Category</string>
-	<string name="tv_md_nom_marchandise">Placeholder</string>
-	<string name="tv_md_description">Placeholder</string>
-	<string name="tv_md_qtee_marchandise">99999 units</string>
-	<string name="tv_md_date_marchandise">99/99/9999</string>
+	<string name="tv_md_nom_marchandise" translatable="false">Placeholder</string>
+	<string name="tv_md_description" translatable="false">Placeholder</string>
+	<string name="tv_md_qtee_marchandise" translatable="false">99999 units</string>
+	<string name="tv_md_date_marchandise" translatable="false">99/99/9999</string>
 	<string name="ib_md_ajouter">Add</string>
 	<string name="iv_md_adresse_mini">Adress</string>
-	<string name="tv_md_nom_entreprise">Placeholder</string>
-	<string name="tv_md_adresse_entreprise">Placeholder</string>
+	<string name="tv_md_nom_entreprise" translatable="false">Placeholder</string>
+	<string name="tv_md_adresse_entreprise" translatable="false">Placeholder</string>
 	<string name="tv_liste_marchandises_dispo">COMMODITIES AVAILABLE</string>
 	<!-- Ressource pour l'actionbar, le menu "settings" et le menu normal -->
 	<string name="profil">Profil</string>
@@ -50,12 +50,12 @@
 	<!-- Ressources pour les organismes communautaires (les layout) -->
 	<string name="tv_organisme_communautaire">COMMUNAL ORGANIZATIONS</string>
 	<string name="iv_org_personne_contact">Contact person</string>
-	<string name="tv_org_personne_contact">Placeholder</string>
+	<string name="tv_org_personne_contact" translatable="false">Placeholder</string>
 	<string name="iv_org_telephone">Phone number</string>
-	<string name="tv_org_telephone">1 888 888-8888</string>
+	<string name="tv_org_telephone" translatable="false">1 888 888-8888</string>
 	<string name="iv_org_adresse">Adress</string>
-	<string name="tv_org_nom_organisme">Placeholder</string>
-	<string name="tv_org_adresse">Placeholder</string>
+	<string name="tv_org_nom_organisme" translatable="false">Placeholder</string>
+	<string name="tv_org_adresse" translatable="false">Placeholder</string>
 	<!--Ressource pour ajoutMarchandiseActivity et layout ajout_marchandise -->
 	<string name="ajouter_marchandise">ADD COMMODITY</string>
 	<string name="modifier_marchandise">MODIFY COMMODITY</string>
@@ -81,9 +81,9 @@
 	<string name="dons_description">DESCRIPTION</string>
 	<string name="dons_qtee">QTY</string>
 	<string name="iv_dons_categorie">Category</string>
-	<string name="tv_dons_nom_marchandise">Product name here</string>
-	<string name="tv_dons_description_marchandise">Product description here</string>
-	<string name="tv_dons_qtee_marchandise">99999 units</string>
+	<string name="tv_dons_nom_marchandise" translatable="false">Product name here</string>
+	<string name="tv_dons_description_marchandise" translatable="false">Product description here</string>
+	<string name="tv_dons_qtee_marchandise" translatable="false">99999 units</string>
 	<string name="ib_dons_modifier">Modify</string>
 	<string name="ib_dons_supprimer">Delete</string>
 	<!--Ressource pour MesReservationsAdapter et ListeMesReservationsActivity-->
@@ -97,10 +97,10 @@
 	<string name="res_qtee">QTY</string>
 	<string name="res_reservation">BEST BEFORE</string>
 	<string name="iv_res_categorie">Category</string>
-	<string name="tv_res_nom_marchandise">Product name here</string>
-	<string name="tv_res_description">Product description here</string>
-	<string name="tv_res_qtee_marchandise">99999 units</string>
-	<string name="tv_res_date_marchandise">99/99/9999</string>
+	<string name="tv_res_nom_marchandise" translatable="false">Product name here</string>
+	<string name="tv_res_description" translatable="false">Product description here</string>
+	<string name="tv_res_qtee_marchandise" translatable="false">99999 units</string>
+	<string name="tv_res_date_marchandise" translatable="false">99/99/9999</string>
 	<string name="ib_res_collecter">Collect</string>
 	<string name="ib_res_supprimer">Delete</string>
 	<!--Ressource pour Layout activity_aide-->
@@ -152,25 +152,24 @@
 	<string name="tv_aide_profil_detail">L’utilisateur voit toutes ses informations de contact et d’entreprise, qu’il a indiquée lors de l’inscription.</string>
 	<!-- Ressource pour la page profil-->
 	<string name="tv_profil_name">PROFILE</string>
-	<string name="iv_image_profile">Image profile</string>
 	<string name="btn_edit_profile">EDIT PROFILE</string>
 	<string name="tv_user_section">USER</string>
 	<string name="tv_contact_name">Contact name :</string>
-	<string name="tv_contact_name_placeholder">Placeholder</string>
+	<string name="tv_contact_name_placeholder" translatable="false">Placeholder</string>
 	<string name="tv_profil_email">Email :</string>
-	<string name="tv_profil_email_placeholder">Placeholder</string>
+	<string name="tv_profil_email_placeholder" translatable="false">Placeholder</string>
 	<string name="tv_profil_phone">Phone :</string>
-	<string name="tv_profil_phone_placeholder">Placeholder</string>
+	<string name="tv_profil_phone_placeholder" translatable="false">Placeholder</string>
 	<string name="tv_profil_moyen_contact">How to contact :</string>
-	<string name="tv_profil_moyen_contact_placeholder">Placeholder</string>
+	<string name="tv_profil_moyen_contact_placeholder" translatable="false">Placeholder</string>
 	<string name="tv_entreprise_section">ORGANIZATION</string>
 	<string name="tv_profil_adresse">Adress :</string>
-	<string name="tv_profil_adresse_placeholder">Placeholder</string>
-	<string name="tv_profil_phone2_placeholder">Placeholder</string>
-	<string name="tv_profil_osbl">OSBL :</string>
-	<string name="tv_profil_osbl_placeholder">Placeholder</string>
-	<string name="tv_profil_neq">NEQ :</string>
-	<string name="tv_profil_neq_placeholder">Placeholder</string>
+	<string name="tv_profil_adresse_placeholder" translatable="false">Placeholder</string>
+	<string name="tv_profil_phone2_placeholder" translatable="false">Placeholder</string>
+	<string name="tv_profil_osbl" translatable="false">OSBL :</string>
+	<string name="tv_profil_osbl_placeholder" translatable="false">Placeholder</string>
+	<string name="tv_profil_neq" translatable="false">NEQ :</string>
+	<string name="tv_profil_neq_placeholder" translatable="false">Placeholder</string>
 	<string name="btn_edit_password">EDIT PASSWORD</string>
 	<!-- Ressource pour Layout Liste Statistiques -->
 	<string name="tv_statistiques_titre">STATISTICS</string>
@@ -237,10 +236,33 @@
 	<string name="tv_inscription_no_osbl">OSBL number</string>
 	<string name="btn_inscription_inscription">Sign up</string>
 	<!-- Autres ressources-->
-	<string name="iv_logo">Logo</string>
+	<string name="iv_logo" translatable="false">Logo</string>
 	<string name="loading">A moment please.</string>
 	<string name="app_name">Codename: Hippie</string>
 	<string name="title_activity_preference">Settings</string>
 	<string name="error_http_404">The resource you are trying to reach wasn\'t found</string>
 	<string name="error_http_500">The server has encountered an internal server error</string>
+	<string name="cat_Produits_laitiers">Dairy</string>
+	<string name="cat_boulangerie">Baked goods</string>
+	<string name="cat_viandes">Meat</string>
+	<string name="cat_surgelés">Frozen products</string>
+	<string name="cat_non_périssable">Non perishable</string>
+	<string name="cat_non_comestible">Inedible</string>
+	<string name="cat_fruits_et_legumes">Fruits and vegetable</string>
+	<string name="iv_image_profile">Profile image</string>
+	<string name="stats_axe_x">Compagny</string>
+	<string name="stats_pile">Stacked</string>
+	<string name="stats_superrposes"></string>
+	<string name="stats_titre_graphique">Distribution of monetary worth per category of goods per compagny</string>
+	<string name="tv_aide_titre_connexion">Login</string>
+	<string name="stats_nbr_affichage_10" translatable="false">10</string>
+	<string name="stats_nbr_affichage_20" translatable="false">20</string>
+	<string name="stats_nbr_affichage_60" translatable="false">60</string>
+	<string name="stats_non_selectionne">Please select a column</string>
+	<string name="stats_axe_y">Worth</string>
+	<string name="stats_cote_a_cote">Side by side</string>
+	<string name="stats_largeur_fixe">Fixed width</string>
+	<string name="stats_largeur_variable">Variable width</string>
+	<string name="title_no_internet">No internet connection</string>
+	<string name="error_no_internet">An internet connection is required for this application.</string>
 </resources>
