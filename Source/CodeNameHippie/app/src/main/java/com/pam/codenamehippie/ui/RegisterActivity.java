@@ -461,12 +461,6 @@ public class RegisterActivity extends HippieActivity
 
     private void sauvegarderFormulaire() {
         this.authentificateur.setMotDePasse(this.validateurMotDePasse.getText().toString());
-        this.sharedPreferences.edit()
-                              .putString(this.getString(R.string.pref_email_key),
-                                         this.validateurCourriel.getText().toString()
-                                        )
-                              .commit();
-
     }
 
     /**

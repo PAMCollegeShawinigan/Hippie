@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +37,7 @@ import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.http.exception.HttpReponseException;
 import com.pam.codenamehippie.modele.AdresseModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
+import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
@@ -45,6 +48,9 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                                             ExpandableListView.OnGroupClickListener,
@@ -170,8 +176,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         }
     }
 
+    private static final int REQUEST_FINE_LOCATION = 0x10CA1;
     private final Object mapLock = new Object();
-    private volatile ArrayList<OrganismeModele> listOrganisme = new ArrayList<>();
+    private volatile List<OrganismeModele> listOrganisme = new ArrayList<>();
     private SlidingUpPanelLayout slidingLayout;
     private ExpandableListView expandableListView;
     private volatile GoogleMap map;
@@ -181,6 +188,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     private AsyncTask prepareMarkerAsyncTask;
     private int orgId;
     private Geocoder geocoder;
+    private Boolean hasFineLocation = true;
 
     /**
      * preparer la carte google et des donnees.
@@ -191,9 +199,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_maps_plus);
-        this.orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
-                                                   -1
-                                                  );
+        UtilisateurModele uc = this.authentificateur.getUtilisateur();
+        OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
+        this.orgId = (org != null) ? org.getId() : -1;
         this.geocoder = new Geocoder(this);
         this.mapView = ((MapView) this.findViewById(R.id.map));
         this.mapView.onCreate(savedInstanceState);
@@ -213,11 +221,34 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                                                 .addOnConnectionFailedListener(this)
                                                                 .addApi(LocationServices.API)
                                                                 .build();
+        if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
+            // TODO: Expliquer la pourquoi on veux cette permission.
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this, ACCESS_FINE_LOCATION)) {
+//            } else {
+            ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION},
+                                              REQUEST_FINE_LOCATION);
+//            }
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (this.permissionsResult != null) {
+            switch (requestCode) {
+                case REQUEST_FINE_LOCATION:
+                    this.hasFineLocation = this.permissionsResult.get(ACCESS_FINE_LOCATION);
+                    break;
+            }
+        }
+
     }
 
     @Override
@@ -285,7 +316,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
             this.map = googleMap;
             this.mapLock.notifyAll();
         }
-        this.map.setMyLocationEnabled(true);
+        this.map.setMyLocationEnabled(this.hasFineLocation);
         this.map.setBuildingsEnabled(true);
         this.map.getUiSettings().setMapToolbarEnabled(false);
         this.map.getUiSettings().setMyLocationButtonEnabled(true);
@@ -366,7 +397,6 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_DISPO);
                 this.peuplerListeOrganisme(organismeModeleDepot);
                 //   map.clear();
-                //  listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
                 // FIXME: Connecter alimentaireModeleDepot et partir une requete pour l'organisme
 
                 break;
@@ -407,7 +437,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     }
 
     @Override
-    public void surChangementDeDonnees(ArrayList<OrganismeModele> modeles) {
+    public void surChangementDeDonnees(List<OrganismeModele> modeles) {
         this.listOrganisme = modeles;
         OrganismeModele[] array = modeles.toArray(new OrganismeModele[modeles.size()]);
         this.prepareMarkerAsyncTask = PrepareMarkerAsyncTask.newInstance(this)
@@ -450,8 +480,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     @Override
     public void onConnected(Bundle bundle) {
         super.onConnected(bundle);
-        this.lastKnownLocation =
-                LocationServices.FusedLocationApi.getLastLocation(this.googleApiClient);
+        if (this.hasFineLocation) {
+            this.lastKnownLocation =
+                    LocationServices.FusedLocationApi.getLastLocation(this.googleApiClient);
+        }
     }
 
     @Override

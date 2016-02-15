@@ -1,135 +1,124 @@
 <resources>
-    <!-- Ressources pour la page connexion -->
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="action_sign_out">Sign out</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is invalid</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="error_connection">Could not connect</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="title_activity_login">Login</string>
-    <string name="title_activity_register">Register</string>
-    <string name="message_welcome">Welcome %1$s</string>
-    <string name="error_confirm_password">"This password doesn\'t match the previous one"</string>
-    <string name="error_field_too_long">The content of this field is too long</string>
-    <string name="error_bad_credentials">This email and password combo do not match anything in our records. Please check your password or register if you don\'t have an account.</string>
-    <string name="tv_inscription">REGISTER</string>
-    <string name="tv_separation">|</string>
-    <string name="tv_mpo">FORGOT YOUR PASSWORD?</string>
-    <string name="bguest">Guest account</string>
-
-    <!-- Ressources pour les fonts -->
-    <string name="font_name_fontawesome">fontawesome</string>
-    <string name="font_name_source_sans_pro">SourceSansPro</string>
-
-    <!-- Ressources pour la liste des marchandises(denrées, dons, etc.) disponibles (layout) -->
-    <string name="marchandise_reservees">Commodity booked</string>
-    <string name="marchandise_disponible">Commodity available</string>
-    <string name="md_donneur">GIVER</string>
-    <string name="md_peremption">BEST BEFORE</string>
-    <string name="md_qtee">QTY</string>
-    <string name="md_nom">NAME</string>
-    <string name="iv_md_categorie">Category</string>
-    <string name="tv_md_nom_marchandise">Placeholder</string>
-    <string name="tv_md_description">Placeholder</string>
-    <string name="tv_md_qtee_marchandise">99999 units</string>
-    <string name="tv_md_date_marchandise">99/99/9999</string>
-    <string name="ib_md_ajouter">Add</string>
-    <string name="iv_md_adresse_mini">Adress</string>
-    <string name="tv_md_nom_entreprise">Placeholder</string>
-    <string name="tv_md_adresse_entreprise">Placeholder</string>
-    <string name="tv_liste_marchandises_dispo">COMMODITIES AVAILABLE</string>
-
-    <!-- Ressource pour l'actionbar, le menu "settings" et le menu normal -->
-    <string name="profil">Profil</string>
-    <string name="title_activity_menu">Settings</string>
-    <string name="menu">Menu</string>
-    <string name="info">About</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="title_activity_maps2">Map</string>
-
-    <!-- Ressources pour les organismes communautaires (les layout) -->
-    <string name="tv_organisme_communautaire">COMMUNAL ORGANIZATIONS</string>
-    <string name="iv_org_personne_contact">Contact person</string>
-    <string name="tv_org_personne_contact">Placeholder</string>
-    <string name="iv_org_telephone">Phone number</string>
-    <string name="tv_org_telephone">1 888 888-8888</string>
-    <string name="iv_org_adresse">Adress</string>
-    <string name="tv_org_nom_organisme">Placeholder</string>
-    <string name="tv_org_adresse">Placeholder</string>
-
-    <!--Ressource pour ajoutMarchandiseActivity et layout ajout_marchandise -->
-    <string name="ajouter_marchandise">ADD COMMODITY</string>
-    <string name="modifier_marchandise">MODIFY COMMODITY</string>
-    <string name="bouton_ajouter">ADD</string>
-    <string name="bouton_modifier">MODIFY</string>
-    <string name="msg_produit_ajoute">Commodity added</string>
-    <string name="msg_produit_modifie">Commodity modified</string>
-    <string name="marchandise_nom">Name</string>
-    <string name="marchandise_description">Description</string>
-    <string name="marchandise_quantites">Quantity</string>
-    <string name="marchandise_unite">Unit</string>
-    <string name="marchandise_valeur">Value</string>
-    <string name="marchandise_type_alimentaire">Food type</string>
-    <string name="marchandise_date_peremption">Expiration date</string>
-
-    <!--Ressource pour HippieListAdapter et ListeMesDonsActivity-->
-    <string name="msg_produit_supprime">Commodity was deleted</string>
-    <string name="msg_confirme_suppression">Are you sure that you want to delete this donation ?</string>
-    <string name="bouton_confirme_oui">YES</string>
-    <string name="bouton_confirme_non">NO</string>
-
-    <!--Ressource pour Layout liste_dons et liste_dons_row-->
-    <string name="tv_mes_dons">MY DONATIONS</string>
-    <string name="dons_nom">NAME</string>
-    <string name="dons_description">DESCRIPTION</string>
-    <string name="dons_qtee">QTY</string>
-    <string name="iv_dons_categorie">Category</string>
-    <string name="tv_dons_nom_marchandise">Product name here</string>
-    <string name="tv_dons_description_marchandise">Product description here</string>
-    <string name="tv_dons_qtee_marchandise">99999 units</string>
-    <string name="ib_dons_modifier">Modify</string>
-    <string name="ib_dons_supprimer">Delete</string>
-
-    <!--Ressource pour MesReservationsAdapter et ListeMesReservationsActivity-->
-    <string name="msg_reservation_supprime">Reservation was deleted</string>
-    <string name="msg_reservation_confirme_suppression">Are you sure that you want to delete this reservation ?</string>
-    <string name="msg_reservation_collecte">Reservation was collected</string>
-    <string name="msg_reservation_confirme_collecte">Are you sure that you want to collect this reservation ?</string>
-
-    <!--Ressource pour Layout liste_reservations et liste_reservations_row-->
-    <string name="tv_mes_reservations">MY RESERVATIONS</string>
-    <string name="res_nom">NAME</string>
-    <string name="res_qtee">QTY</string>
-    <string name="res_reservation">BEST BEFORE</string>
-    <string name="iv_res_categorie">Category</string>
-    <string name="tv_res_nom_marchandise">Product name here</string>
-    <string name="tv_res_description">Product description here</string>
-    <string name="tv_res_qtee_marchandise">99999 units</string>
-    <string name="tv_res_date_marchandise">99/99/9999</string>
-    <string name="ib_res_collecter">Collect</string>
-    <string name="ib_res_supprimer">Delete</string>
-
-    <!--Ressource pour Layout activity_aide-->
-    <string name="tv_aide_titre_entete">Help</string>
-    <string name="tv_aide_titre_entete_maj">HELP</string>
-    <string name="tv_aide_titre_denree">Denrée Ô Suivant</string>
-    <string name="tv_aide_titre_menu">Navigation</string>
-    <string name="tv_aide_titre_organisme">Organization</string>
-    <string name="tv_aide_titre_produits_disponibles">Products available</string>
-    <string name="tv_aide_titre_mes_reservations">My reservations</string>
-    <string name="tv_aide_titre_faire_un_don">Donate</string>
-    <string name="tv_aide_titre_mes_dons">My donations</string>
-    <string name="tv_aide_titre_statistiques">Statistics</string>
-    <string name="tv_aide_titre_profil">Profile</string>
-    <string name="tv_list_aide_group">PlaceHolder</string>
-    <string name="tv_list_aide_detail">PlaceHolder</string>
-
-    <!-- Texte pour la layout activity_aide -->
-    <!-- TODO : à traduire en anglais -->
+	<!-- Ressources pour la page connexion -->
+	<string name="action_sign_in">Sign in or register</string>
+	<string name="action_sign_in_short">Sign in</string>
+	<string name="action_sign_out">Sign out</string>
+	<string name="error_invalid_email">This email address is invalid</string>
+	<string name="error_invalid_password">This password is invalid</string>
+	<string name="error_incorrect_password">This password is incorrect</string>
+	<string name="error_field_required">This field is required</string>
+	<string name="error_connection">Could not connect</string>
+	<string name="prompt_email">Email</string>
+	<string name="prompt_password">Password</string>
+	<string name="title_activity_login">Login</string>
+	<string name="title_activity_register">Register</string>
+	<string name="message_welcome">Welcome %1$s</string>
+	<string name="error_confirm_password">"This password doesn\'t match the previous one"</string>
+	<string name="error_field_too_long">The content of this field is too long</string>
+	<string name="error_bad_credentials">This email and password combo do not match anything in our records. Please check your password or register if you don\'t have an account.</string>
+	<string name="tv_inscription">REGISTER</string>
+	<string name="tv_separation">|</string>
+	<string name="tv_mpo">FORGOT YOUR PASSWORD?</string>
+	<string name="bguest">Guest account</string>
+	<!-- Ressources pour les fonts -->
+	<string name="font_name_fontawesome" translatable="false">fontawesome</string>
+	<string name="font_name_source_sans_pro" translatable="false">SourceSansPro</string>
+	<!-- Ressources pour la liste des marchandises(denrées, dons, etc.) disponibles (layout) -->
+	<string name="marchandise_reservees">Commodity booked</string>
+	<string name="marchandise_disponible">Commodity available</string>
+	<string name="md_donneur">GIVER</string>
+	<string name="md_peremption">BEST BEFORE</string>
+	<string name="md_qtee">QTY</string>
+	<string name="md_nom">NAME</string>
+	<string name="iv_md_categorie">Category</string>
+	<string name="tv_md_nom_marchandise" translatable="false">Placeholder</string>
+	<string name="tv_md_description" translatable="false">Placeholder</string>
+	<string name="tv_md_qtee_marchandise" translatable="false">99999 units</string>
+	<string name="tv_md_date_marchandise" translatable="false">99/99/9999</string>
+	<string name="ib_md_ajouter">Add</string>
+	<string name="iv_md_adresse_mini">Adress</string>
+	<string name="tv_md_nom_entreprise" translatable="false">Placeholder</string>
+	<string name="tv_md_adresse_entreprise" translatable="false">Placeholder</string>
+	<string name="tv_liste_marchandises_dispo">COMMODITIES AVAILABLE</string>
+	<!-- Ressource pour l'actionbar, le menu "settings" et le menu normal -->
+	<string name="profil">Profil</string>
+	<string name="title_activity_menu">Settings</string>
+	<string name="menu">Menu</string>
+	<string name="info">About</string>
+	<string name="title_activity_maps">Map</string>
+	<string name="title_activity_maps2">Map</string>
+	<!-- Ressources pour les organismes communautaires (les layout) -->
+	<string name="tv_organisme_communautaire">COMMUNAL ORGANIZATIONS</string>
+	<string name="iv_org_personne_contact">Contact person</string>
+	<string name="tv_org_personne_contact" translatable="false">Placeholder</string>
+	<string name="iv_org_telephone">Phone number</string>
+	<string name="tv_org_telephone" translatable="false">1 888 888-8888</string>
+	<string name="iv_org_adresse">Adress</string>
+	<string name="tv_org_nom_organisme" translatable="false">Placeholder</string>
+	<string name="tv_org_adresse" translatable="false">Placeholder</string>
+	<!--Ressource pour ajoutMarchandiseActivity et layout ajout_marchandise -->
+	<string name="ajouter_marchandise">ADD COMMODITY</string>
+	<string name="modifier_marchandise">MODIFY COMMODITY</string>
+	<string name="bouton_ajouter">ADD</string>
+	<string name="bouton_modifier">MODIFY</string>
+	<string name="msg_produit_ajoute">Commodity added</string>
+	<string name="msg_produit_modifie">Commodity modified</string>
+	<string name="marchandise_nom">Name</string>
+	<string name="marchandise_description">Description</string>
+	<string name="marchandise_quantites">Quantity</string>
+	<string name="marchandise_unite">Unit</string>
+	<string name="marchandise_valeur">Value</string>
+	<string name="marchandise_type_alimentaire">Food type</string>
+	<string name="marchandise_date_peremption">Expiration date</string>
+	<!--Ressource pour HippieListAdapter et ListeMesDonsActivity-->
+	<string name="msg_produit_supprime">Commodity was deleted</string>
+	<string name="msg_confirme_suppression">Are you sure that you want to delete this donation ?</string>
+	<string name="bouton_confirme_oui">YES</string>
+	<string name="bouton_confirme_non">NO</string>
+	<!--Ressource pour Layout liste_dons et liste_dons_row-->
+	<string name="tv_mes_dons">MY DONATIONS</string>
+	<string name="dons_nom">NAME</string>
+	<string name="dons_description">DESCRIPTION</string>
+	<string name="dons_qtee">QTY</string>
+	<string name="iv_dons_categorie">Category</string>
+	<string name="tv_dons_nom_marchandise" translatable="false">Product name here</string>
+	<string name="tv_dons_description_marchandise" translatable="false">Product description here</string>
+	<string name="tv_dons_qtee_marchandise" translatable="false">99999 units</string>
+	<string name="ib_dons_modifier">Modify</string>
+	<string name="ib_dons_supprimer">Delete</string>
+	<!--Ressource pour MesReservationsAdapter et ListeMesReservationsActivity-->
+	<string name="msg_reservation_supprime">Reservation was deleted</string>
+	<string name="msg_reservation_confirme_suppression">Are you sure that you want to delete this reservation ?</string>
+	<string name="msg_reservation_collecte">Reservation was collected</string>
+	<string name="msg_reservation_confirme_collecte">Are you sure that you want to collect this reservation ?</string>
+	<!--Ressource pour Layout liste_reservations et liste_reservations_row-->
+	<string name="tv_mes_reservations">MY RESERVATIONS</string>
+	<string name="res_nom">NAME</string>
+	<string name="res_qtee">QTY</string>
+	<string name="res_reservation">BEST BEFORE</string>
+	<string name="iv_res_categorie">Category</string>
+	<string name="tv_res_nom_marchandise" translatable="false">Product name here</string>
+	<string name="tv_res_description" translatable="false">Product description here</string>
+	<string name="tv_res_qtee_marchandise" translatable="false">99999 units</string>
+	<string name="tv_res_date_marchandise" translatable="false">99/99/9999</string>
+	<string name="ib_res_collecter">Collect</string>
+	<string name="ib_res_supprimer">Delete</string>
+	<!--Ressource pour Layout activity_aide-->
+	<string name="tv_aide_titre_entete">Help</string>
+	<string name="tv_aide_titre_entete_maj">HELP</string>
+	<string name="tv_aide_titre_denree">Denrée Ô Suivant</string>
+	<string name="tv_aide_titre_menu">Navigation</string>
+	<string name="tv_aide_titre_organisme">Organization</string>
+	<string name="tv_aide_titre_produits_disponibles">Products available</string>
+	<string name="tv_aide_titre_mes_reservations">My reservations</string>
+	<string name="tv_aide_titre_faire_un_don">Donate</string>
+	<string name="tv_aide_titre_mes_dons">My donations</string>
+	<string name="tv_aide_titre_statistiques">Statistics</string>
+	<string name="tv_aide_titre_profil">Profile</string>
+	<string name="tv_list_aide_group">PlaceHolder</string>
+	<string name="tv_list_aide_detail">PlaceHolder</string>
+	<!-- Texte pour la layout activity_aide -->
+	<!-- TODO : à traduire en anglais -->
     <string name="tv_aide_denree_detail">Denrée Ô Suivant est une application de gestion de dons de produits. Elle permet aux entreprises d’afficher des produits à donner. Ainsi, les organismes communautaires peuvent réserver des marchandises dont ils ont besoin et d’aller les recueillir auprès de ceux qui donnent.
 \n\nL’application s’assure que les informations du donneur restent confidentielles, s’il le souhaite, auprès du public et n’apparaissent simplement qu’auprès des organismes reconnus.
 \n\nPour accéder à plus d’informations sur Denrée Ô Suivant, nous vous invitons à consulter la page À propos.</string>
@@ -156,8 +145,7 @@
     <string name="tv_aide_mes_dons_detail">C’est une fonctionnalité disponible à tous les utilisateurs inscrits et qui ont effectués des dons.
 \n\nLa fonctionnalité Mes dons sert à gérer les dons effectués par l’utilisateur. Ainsi, l’entreprise peut y voir ses dons, s’ils sont disponibles ou réservés. L’utilisateur pourra ainsi modifier le don, s’il y a des changements, ou supprimer le don.
 </string>
-
-    <!-- TODO: Mettre le texte statistique lorsque qu'il sera finalisé -->
+	<!-- TODO: Mettre le texte statistique lorsque qu'il sera finalisé -->
     <string name="tv_aide_statistiques_detail">C’est une fonctionnalité accessible à tous, excepté pour certaines informations qui sont personnalisées à l’utilisateur.
 \n\nÀ venir
 </string>
@@ -258,5 +246,5 @@
     <string name="loading">A moment please.</string>
     <string name="app_name">Codename: Hippie</string>
     <string name="title_activity_preference">Settings</string>
-
+	<string name="error_no_internet">An internet connection is required for this application.</string>
 </resources>
