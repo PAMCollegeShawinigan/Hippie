@@ -218,10 +218,6 @@ public class AjoutMarchandiseActivity extends HippieActivity
     @Override
     protected void onResume() {
         super.onResume();
-        this.validateurNom.onResume();
-        this.validateurDescription.onResume();
-        this.validateurQuantite.onResume();
-        this.validateurValeur.onResume();
         AlimentaireModeleDepot depot = DepotManager.getInstance().getAlimentaireModeleDepot();
         depot.peuplerLesListesDeSpinners(this);
         if (this.idModele != null) {
@@ -232,6 +228,10 @@ public class AjoutMarchandiseActivity extends HippieActivity
             OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
             this.modele.setOrganisme(org);
         }
+        this.validateurNom.onResume();
+        this.validateurDescription.onResume();
+        this.validateurQuantite.onResume();
+        this.validateurValeur.onResume();
     }
 
     @Override
