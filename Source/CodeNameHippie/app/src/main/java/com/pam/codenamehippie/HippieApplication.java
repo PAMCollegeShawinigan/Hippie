@@ -6,7 +6,6 @@ import android.os.Looper;
 
 import com.pam.codenamehippie.http.Authentificateur;
 import com.pam.codenamehippie.http.intercepteur.AcceptJsonInterceptor;
-import com.pam.codenamehippie.http.intercepteur.HttpDebugInterceptor;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
@@ -15,6 +14,8 @@ import com.pam.codenamehippie.modele.depot.UtilisateurModeleDepot;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import okhttp3.logging.HttpLoggingInterceptor.Level;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
@@ -116,16 +117,14 @@ public class HippieApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        // Configuration du logger http
+        Level level = (BuildConfig.DEBUG) ? Level.BODY : Level.HEADERS;
         // Configuration du client Http.
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.authenticator(Authentificateur.newInstance(this))
+                         .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(level))
                          .addNetworkInterceptor(AcceptJsonInterceptor.newInstance());
-        if (BuildConfig.DEBUG) {
-            // Rapport de debug pour les requêtes.
-            httpClientBuilder.addNetworkInterceptor(new HttpDebugInterceptor());
-        }
         this.httpClient = httpClientBuilder.build();
-
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                                               .setDefaultFontPath("fonts/opensans_light.ttf")
                                               .setFontAttrId(R.attr.fontPath)
