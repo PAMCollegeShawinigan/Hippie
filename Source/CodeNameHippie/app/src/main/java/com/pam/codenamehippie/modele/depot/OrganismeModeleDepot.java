@@ -27,9 +27,13 @@
 
 package com.pam.codenamehippie.modele.depot;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.pam.codenamehippie.modele.OrganismeModele;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -44,6 +48,7 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
 
     private final HttpUrl listeOrganismeDonneur;
     private final HttpUrl listeOrganismeReservation;
+    private final HttpUrl donneurMois;
 
     /**
      * Construction du dépot pour modèle Organisme
@@ -54,12 +59,28 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
         this.listeOrganismeReservation = this.listeOrganismeDonneur.newBuilder()
                                                                    .addPathSegment("reservation")
                                                                    .build();
+        this.donneurMois = this.url.newBuilder().addPathSegment("donneur_mois").build();
         this.url = this.url.newBuilder().addPathSegment("organisme").build();
+
     }
 
     public void peuplerListeDonneur() {
         this.peuplerLeDepot(this.listeOrganismeDonneur);
 
+    }
+    @SuppressLint("SimpleDateFormat")
+    public void peuplerDonneurMois(Date dateDebut, Date dateFin){
+
+        String dateDebutdf =
+                new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(dateDebut);
+        String dateFindf =
+                new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(dateFin);
+
+
+        this.peuplerLeDepot(this.donneurMois.newBuilder()
+                                            .addQueryParameter("date_debut", dateDebutdf)
+                                            .addQueryParameter("date_fin", dateFindf)
+                                            .build());
     }
 
     public void peuplerListeDonneurReservation(Integer id) {

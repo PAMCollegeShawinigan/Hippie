@@ -14,7 +14,7 @@ import com.pam.codenamehippie.ui.adapter.CarteListeOrganismeAdapter;
 import com.pam.codenamehippie.ui.adapter.MesReservationsAdapter;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Catherine on 2016-01-13.
@@ -64,7 +64,7 @@ public class ListeOrganismesActivity extends HippieActivity
     }
 
     @Override
-    public void surChangementDeDonnees(ArrayList<OrganismeModele> modeles) {
+    public void surChangementDeDonnees(List<OrganismeModele> modeles) {
         this.adapter.setItems(modeles);
     }
 

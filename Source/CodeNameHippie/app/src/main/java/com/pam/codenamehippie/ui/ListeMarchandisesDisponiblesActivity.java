@@ -14,6 +14,7 @@ import com.pam.codenamehippie.ui.adapter.ListeMarchandisesDisponiblesAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Catherine on 2016-01-21.
@@ -21,8 +22,8 @@ import java.util.ArrayList;
  * Activité pour faire afficher la liste des marchandises disponibles (pas google maps)
  * </p>
  */
-public class ListeMarchandisesDisponiblesActivity extends HippieActivity implements
-                                                                         ObservateurDeDepot<AlimentaireModele> {
+public class ListeMarchandisesDisponiblesActivity extends HippieActivity
+        implements ObservateurDeDepot<AlimentaireModele> {
 
     private static final String TAG = ListeMesReservationsActivity.class.getSimpleName();
     private ExpandableListView maListeMarchandisesDisponibles;
@@ -86,7 +87,7 @@ public class ListeMarchandisesDisponiblesActivity extends HippieActivity impleme
     }
 
     @Override
-    public void surChangementDeDonnees(ArrayList<AlimentaireModele> modeles) {
+    public void surChangementDeDonnees(List<AlimentaireModele> modeles) {
         this.listeMarchandisesDisponiblesAdapter.setGroupItems(modeles);
     }
 
