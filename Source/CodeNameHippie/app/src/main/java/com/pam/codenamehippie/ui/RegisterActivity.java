@@ -26,7 +26,7 @@ import com.pam.codenamehippie.modele.depot.UtilisateurModeleDepot;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -461,12 +461,6 @@ public class RegisterActivity extends HippieActivity
 
     private void sauvegarderFormulaire() {
         this.authentificateur.setMotDePasse(this.validateurMotDePasse.getText().toString());
-        this.sharedPreferences.edit()
-                              .putString(this.getString(R.string.pref_email_key),
-                                         this.validateurCourriel.getText().toString()
-                                        )
-                              .commit();
-
     }
 
     /**
@@ -497,7 +491,7 @@ public class RegisterActivity extends HippieActivity
     }
 
     @Override
-    public void surChangementDeDonnees(ArrayList<UtilisateurModele> modeles) {
+    public void surChangementDeDonnees(List<UtilisateurModele> modeles) {
         if ((modeles != null) && (modeles.size() != 0)) {
             this.modele = modeles.get(0);
         }

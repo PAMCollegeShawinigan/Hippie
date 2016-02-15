@@ -30,7 +30,7 @@ package com.pam.codenamehippie.modele.depot;
 import com.pam.codenamehippie.modele.BaseModele;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Interface de callback pour recevoir des notifications de changement dans les dépots.
@@ -51,7 +51,7 @@ public interface ObservateurDeDepot<T extends BaseModele<T>> {
      * @param modeles
      *         le contenu du dépôt au moment du callback.
      */
-    void surChangementDeDonnees(ArrayList<T> modeles);
+    void surChangementDeDonnees(List<T> modeles);
 
     /**
      * Callback pour savoir quand un dépôt finit une requête.
