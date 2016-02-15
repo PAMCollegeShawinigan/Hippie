@@ -250,5 +250,29 @@
     <string name="loading">A moment please.</string>
     <string name="app_name">Codename: Hippie</string>
     <string name="title_activity_preference">Settings</string>
-	<string name="error_no_internet">An internet connection is required for this application.</string>
+		<string name="error_http_404">The resource you are trying to reach wasn\'t found</string>
+  	<string name="error_http_500">The server has encountered an internal server error</string>
+		<string name="cat_Produits_laitiers">Dairy</string>
+		<string name="cat_boulangerie">Baked goods</string>
+		<string name="cat_viandes">Meat</string>
+		<string name="cat_surgelés">Frozen products</string>
+		<string name="cat_non_périssable">Non perishable</string>
+		<string name="cat_non_comestible">Inedible</string>
+		<string name="cat_fruits_et_legumes">Fruits and vegetable</string>
+		<string name="iv_image_profile">Profile image</string>
+		<string name="stats_axe_x">Compagny</string>
+		<string name="stats_pile">Stacked</string>
+		<string name="stats_superrposes"></string>
+		<string name="stats_titre_graphique">Distribution of monetary worth per category of goods per compagny</string>
+		<string name="tv_aide_titre_connexion">Login</string>
+		<string name="stats_nbr_affichage_10" translatable="false">10</string>
+		<string name="stats_nbr_affichage_20" translatable="false">20</string>
+		<string name="stats_nbr_affichage_60" translatable="false">60</string>
+		<string name="stats_non_selectionne">Please select a column</string>
+		<string name="stats_axe_y">Worth</string>
+		<string name="stats_cote_a_cote">Side by side</string>
+		<string name="stats_largeur_fixe">Fixed width</string>
+		<string name="stats_largeur_variable">Variable width</string>
+		<string name="title_no_internet">No internet connection</string>
+		<string name="error_no_internet">An internet connection is required for this application.</string>
 </resources>
