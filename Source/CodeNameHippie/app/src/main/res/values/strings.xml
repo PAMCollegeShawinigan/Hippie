@@ -177,6 +177,10 @@
     <!-- Ressource pour Layout Liste Statistiques -->
     <string name="tv_statistiques_titre">STATISTICS</string>
     <string name="tv_statistiques_valeur_totale">Total value</string>
+		<string name="stats_nbr_affichage_10" translatable="false">10</string>
+-    <string name="stats_nbr_affichage_20" translatable="false">20</string>
+-    <string name="stats_nbr_affichage_60" translatable="false">60</string>
+-    <string name="stats_largeur_fixe">Largeur fixe</string>
 
     <!-- TODO: à traduire en anglais -->
     <!-- Ressources strings pour Layout À propos -->
