@@ -64,6 +64,7 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -77,7 +78,7 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
     //dans le date picker,choisir la date debut et date fin
     private Date dateDu;
     private Date dateAu;
-
+    private Integer orgId;
    // private static final String NO_SELECTION_TXT = "Touch bar to select.";
     private XYPlot plot;
 
@@ -103,23 +104,45 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
     @Override
     protected void onPause() {
         super.onPause();
-        TransactionModeleDepot depot =
-                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
-        depot.setFiltreDeListe(null);
-        depot.supprimerTousLesObservateurs();
+//        TransactionModeleDepot depot =
+//                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
+//        depot.setFiltreDeListe(null);
+//        depot.supprimerTousLesObservateurs();
 
+
+        TransactionModeleDepot transactionModeleDepot =
+                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
+        transactionModeleDepot.setFiltreDeListe(null);
+        transactionModeleDepot.supprimerTousLesObservateurs();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        TransactionModeleDepot depot =
-                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
-        depot.ajouterUnObservateur(this);
+//        TransactionModeleDepot depot =
+//                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
+//        depot.ajouterUnObservateur(this);
         //On va recevoir les donnees de TransactionModeleDepot sur serveur
 //       dateDu = ((Date) findViewById(R.id.date_du));
 //       dateAu = ((Date) findViewById(R.id.date_au));
 //        depot.peuplerTransactions(1,dateDu,dateAu);
+
+
+        TransactionModeleDepot transactionModeleDepot =
+                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
+        transactionModeleDepot.ajouterUnObservateur(this);
+        this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
+                -1
+        );
+        if (this.orgId != null && orgId != -1) {
+            // TODO: Ajouter 2 DatePicker dans le layout list_statistique
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, 2014);
+            Date dateDebut = calendar.getTime();
+            calendar = Calendar.getInstance();
+            Date dateFin = calendar.getTime();
+            transactionModeleDepot.peuplerTransactions(this.orgId, dateDebut, dateFin);
+        }
 
     }
 
@@ -131,6 +154,8 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
 
     @Override
     public void surChangementDeDonnees(ArrayList<TransactionModele> modeles) {
+
+
 
         
 
@@ -383,6 +408,7 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
             public void onItemSelected(AdapterView<?> arg0, View arg1,int arg2, long arg3) {
                 switch ((SeriesSize)arg0.getSelectedItem()) {
 				case Dix:
+                    //requette 1:
 					series1Numbers = series1Numbers10;
 					series2Numbers = series2Numbers10;
                     series3Numbers = series3Numbers10;
@@ -393,6 +419,7 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
 
 					break;
 				case Vingt:
+                    //requette 2:
 					series1Numbers = series1Numbers20;
 					series2Numbers = series2Numbers20;
                     series3Numbers = series3Numbers20;
@@ -403,6 +430,7 @@ public class Stats_Activity extends HippieActivity implements ObservateurDeDepot
 
                     break;
 				case Soixante:
+                    //requette 3:
 					series1Numbers = series1Numbers60;
 					series2Numbers = series2Numbers60;
                     series3Numbers = series3Numbers60;
