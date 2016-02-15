@@ -121,8 +121,8 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
                 }
                 return true;
             case R.id.info:
-                if (!this.getClass().equals(MainActivity.class)) {
-                    this.startActivity(new Intent(this, MainActivity.class));
+                if (!this.getClass().equals(InfoActivity.class)) {
+                    this.startActivity(new Intent(this, InfoActivity.class));
                 }
                 return true;
             case R.id.menu_deconnexion:
