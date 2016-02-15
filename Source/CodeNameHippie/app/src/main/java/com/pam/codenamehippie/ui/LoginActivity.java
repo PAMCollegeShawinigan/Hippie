@@ -132,8 +132,10 @@ public class LoginActivity extends HippieActivity
                                                   Snackbar.LENGTH_SHORT).show();
                                     break;
                             }
+                        } else {
+                            Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT)
+                                    .show();
                         }
-                        Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT).show();
                     }
 
                     @Override
