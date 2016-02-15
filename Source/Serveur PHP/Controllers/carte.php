@@ -35,7 +35,7 @@ class carte extends Controller
 											INNER JOIN type_rue typrue ON adr.type_rue = typrue.type_rue_id
 											
 											WHERE ali.marchandise_statut = 3 AND (ali.date_peremption > current_date OR ali.date_peremption IS NULL)
-			');
+												');
 			
 			$array = array();
 			
