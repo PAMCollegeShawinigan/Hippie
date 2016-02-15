@@ -28,14 +28,14 @@
 package com.pam.codenamehippie.modele.depot;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
-import com.pam.codenamehippie.http.Authentificateur;
+import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.http.exception.HttpReponseException;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.DescriptionModel;
-import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.TypeAlimentaireModele;
 
 import java.io.IOException;
@@ -291,12 +291,12 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
 
     public void ajouterReservation(AlimentaireModele modele, final Runnable action) {
         HttpUrl url = this.reservationUrl.newBuilder().addPathSegment("ajouter").build();
-        OrganismeModele receveur =
-                ((Authentificateur) this.httpClient.authenticator()).getUtilisateur()
-                                                                    .getOrganisme();
+        Integer receveurId =
+                PreferenceManager.getDefaultSharedPreferences(this.context)
+                                 .getInt(this.context.getString(R.string.pref_org_id_key), -1);
 
         FormBody body = new FormBody.Builder().add("marchandise_id", modele.getId().toString())
-                                              .add("receveur_id", receveur.getId().toString())
+                                              .add("receveur_id", receveurId.toString())
                                               .build();
         Request request = new Request.Builder().url(url).post(body).build();
         this.httpClient.newCall(request).enqueue(new Callback() {

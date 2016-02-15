@@ -21,18 +21,20 @@ public class TransactionModele extends BaseModele<TransactionModele> {
     @SerializedName("date_reservation")
     protected Date dateReservation;
     @SerializedName("date_disponible")
-    protected Date dateDisponible = Calendar.getInstance().getTime();
+    protected Date dateDisponible;
     @SerializedName("date_transaction")
-    protected Date dateTransaction = Calendar.getInstance().getTime();
+    protected Date dateTransaction;
 
     public Date getDateTransaction() {
-        return this.dateTransaction;
+        return dateTransaction;
     }
 
     public TransactionModele setDateTransaction(Date dateTransaction) {
         this.dateTransaction = dateTransaction;
         return this;
     }
+
+
 
     public OrganismeModele getReceveur() {
         return this.receveur;
@@ -106,22 +108,6 @@ public class TransactionModele extends BaseModele<TransactionModele> {
         return calendar;
     }
 
-    public Boolean estReservee() {
-        return ((this.dateCollecte == null) &&
-                (this.dateDisponible != null) &&
-                (this.receveur != null));
-    }
-
-    public Boolean estDisponible() {
-        return ((this.dateDisponible != null) && (this.receveur == null));
-    }
-
-    public Boolean estCollectee() {
-        return ((this.dateCollecte != null) &&
-                (this.dateDisponible != null) &&
-                this.receveur != null);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -132,27 +118,23 @@ public class TransactionModele extends BaseModele<TransactionModele> {
         }
         TransactionModele rhs = (TransactionModele) o;
         return (((this.id == null) ? (rhs.id == null) : this.id.equals(rhs.id)) &&
-                ((this.receveur == null)
-                 ? (rhs.receveur == null)
-                 : this.receveur.equals(rhs.receveur)) &&
+                ((this.receveur == null) ? (rhs.receveur == null) : this.receveur.equals(rhs.receveur)) &&
                 ((this.donneur == null)
-                 ? (rhs.donneur == null)
-                 : this.donneur.equals(rhs.donneur)) &&
-                ((this.alimentaire == null)
-                 ? (rhs.alimentaire == null)
-                 : this.alimentaire.equals(rhs.alimentaire)) &&
+                        ? (rhs.donneur == null)
+                        : this.donneur.equals(rhs.donneur)) &&
+                ((this.alimentaire == null) ? (rhs.alimentaire == null) : this.alimentaire.equals(rhs.alimentaire)) &&
                 ((this.dateCollecte == null)
-                 ? (rhs.dateCollecte == null)
-                 : this.dateCollecte.equals(rhs.dateCollecte)) &&
+                        ? (rhs.dateCollecte == null)
+                        : this.dateCollecte.equals(rhs.dateCollecte)) &&
                 ((this.dateReservation == null)
-                 ? (rhs.dateReservation == null)
-                 : this.dateReservation.equals(rhs.dateReservation)) &&
+                        ? (rhs.dateReservation == null)
+                        : this.dateReservation.equals(rhs.dateReservation)) &&
                 ((this.dateDisponible == null)
-                 ? (rhs.dateDisponible == null)
-                 : this.dateDisponible.equals(rhs.dateDisponible)) &&
+                        ? (rhs.dateDisponible == null)
+                        : this.dateDisponible.equals(rhs.dateDisponible)) &&
                 ((this.dateTransaction == null)
-                 ? (rhs.dateTransaction == null)
-                 : this.dateTransaction.equals(rhs.dateTransaction)));
+                        ? (rhs.dateTransaction == null)
+                        : this.dateTransaction.equals(rhs.dateTransaction)));
     }
 
     @Override

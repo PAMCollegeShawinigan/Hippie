@@ -19,7 +19,6 @@ import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Cette classe permet de faire le lien entre les composantes de l'interface utilisateur et
@@ -28,7 +27,7 @@ import java.util.List;
 public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private List<AlimentaireModele> groupItems = new ArrayList<>();
+    private ArrayList<AlimentaireModele> groupItems = new ArrayList<>();
     private AlimentaireModeleDepot depot;
 
     public ListeMarchandisesDisponiblesAdapter(Context context,
@@ -345,7 +344,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
         return 0;
     }
 
-    public void setGroupItems(List<AlimentaireModele> groupItems) {
+    public void setGroupItems(ArrayList<AlimentaireModele> groupItems) {
         this.groupItems = groupItems;
         this.notifyDataSetChanged();
     }

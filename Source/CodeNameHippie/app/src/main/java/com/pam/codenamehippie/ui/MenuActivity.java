@@ -31,7 +31,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
 //        myTextview.setTypeface(myTypeface);
 
         // Set listeners
-        TriangleLayout triangleMenu = (TriangleLayout) this.findViewById(R.id.main_menu_triangle);
+        TriangleLayout triangleMenu = (TriangleLayout) findViewById(R.id.main_menu_triangle);
         triangleMenu.setOnItemSelectedListener(this);
         triangleMenu.setOnItemClickListener(this);
         triangleMenu.setOnRotationFinishedListener(this);
@@ -76,7 +76,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
         switch (view.getId()) {
             case R.id.main_mes_dons_image:
                 // clic sur image profil
-                this.startActivity(new Intent(this, ListeMesDonsActivity.class));
+                startActivity(new Intent(this, ListeMesDonsActivity.class));
                 Toast.makeText(this.getApplicationContext(),
                                " Mes dons ",
                                Toast.LENGTH_SHORT
@@ -85,7 +85,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
 
             case R.id.main_organisme_image:
                 intent = new Intent(this, ListeOrganismesActivity.class);
-                this.startActivity(intent);
+                startActivity(intent);
 
                 // clic sur image carte des organismes
                 Toast.makeText(this.getApplicationContext(),
@@ -96,7 +96,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
 
             case R.id.main_statistique_image:
                 // clic sur image des statistiques
-                this.startActivity(new Intent(this, Stats_Activity.class));
+                startActivity(new Intent(this, Stats_Activity.class));
                 Toast.makeText(this.getApplicationContext(),
                                " Statistiques ",
                                Toast.LENGTH_SHORT
@@ -108,7 +108,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                 // clic sur la carte
                 intent = new Intent(this, MapsActivity.class);
                 //intent.setFlags(view.getId());
-                this.startActivity(intent);
+                startActivity(intent);
                 //startActivity(new Intent(this, MapsActivity.class));
                 Toast.makeText(this.getApplicationContext(),
                                " Carte ",
@@ -120,7 +120,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                 // clic sur les réservations
                 intent = new Intent(this, ListeMesReservationsActivity.class);
                 //  intent.setFlags(view.getId());
-                this.startActivity(intent);
+                startActivity(intent);
                 //  startActivity(new Intent(this, MapsActivity.class));
                 Toast.makeText(this.getApplicationContext(),
                                " Mes réservations ",
@@ -128,7 +128,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
                               ).show();
                 break;
             case R.id.plus:
-                this.startActivity(new Intent(this, AjoutMarchandiseActivity.class));
+                startActivity(new Intent(this, AjoutMarchandiseActivity.class));
                 Toast.makeText(this.getApplicationContext(),
                                " Ajout d'une nouvelle marchandise ",
                                Toast.LENGTH_SHORT
@@ -149,7 +149,6 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
 
     @Override
     public void onCenterClick() {
-        //FIXME: Faire Autre chose quand C'est la seule activité.
         this.finish();
     }
 

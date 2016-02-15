@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.pam.codenamehippie.modele.TypeAlimentaireModele;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Cette classe permet de récupérer les descriptions contenues dans une
@@ -20,13 +19,13 @@ import java.util.List;
 public class TypeAlimentaireModeleSpinnerAdapter extends BaseAdapter {
 
     private final Context context;
-    private volatile List<TypeAlimentaireModele> items = new ArrayList<>();
+    private volatile ArrayList<TypeAlimentaireModele> items = new ArrayList<>();
 
     public TypeAlimentaireModeleSpinnerAdapter(Context context) {
         this.context = context;
     }
 
-    public void setItems(List<TypeAlimentaireModele> items) {
+    public void setItems(ArrayList<TypeAlimentaireModele> items) {
         this.items = items;
         this.notifyDataSetChanged();
     }
