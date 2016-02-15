@@ -230,7 +230,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         AlimentaireModeleDepot alimentaireModeleDepot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
         organismeModeleDepot.ajouterUnObservateur(this);
-        //comprend le ligne code dessous-------------------------------------
+
         alimentaireModeleDepot.ajouterUnObservateur(this.adapter);
         this.peuplerListeOrganisme(organismeModeleDepot);
     }
@@ -364,9 +364,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                               ).show();
 
                 this.adapter.setOrganisme(null);
-               onResume();
-//                this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_DISPO);
-//                this.peuplerListeOrganisme(organismeModeleDepot);
+
+                this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_DISPO);
+                this.peuplerListeOrganisme(organismeModeleDepot);
                 //   map.clear();
                 //  listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
                 // FIXME: Connecter alimentaireModeleDepot et partir une requete pour l'organisme
@@ -383,8 +383,8 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 // FIXME: Faire fonctionner la liste de mes réservations.
                 this.adapter.setOrganisme(null);
             
-//                this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_RESERVEE);
-//                this.peuplerListeOrganisme(organismeModeleDepot);
+                this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_RESERVEE);
+                this.peuplerListeOrganisme(organismeModeleDepot);
                 break;
 
             case R.id.listeMarchandise:
