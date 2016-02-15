@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,12 +26,13 @@ import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
 import com.pam.codenamehippie.ui.adapter.TypeAlimentaireModeleSpinnerAdapter;
+import com.pam.codenamehippie.ui.view.dialogs.CalendarPickerViewDialogFragment;
+import com.squareup.timessquare.CalendarPickerView.OnDateSelectedListener;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -51,7 +51,8 @@ import okhttp3.Response;
 public class AjoutMarchandiseActivity extends HippieActivity
         implements ValidateurObserver,
                    PeuplerListesDeSpinnerListener,
-                   ObservateurDeDepot<AlimentaireModele> {
+                   ObservateurDeDepot<AlimentaireModele>,
+                   OnDateSelectedListener {
 
     private static final String SELECTED_SPINNER_TYPE_POSITION = "position_type";
     private static final String SELECTED_SPINNER_UNITE_POSITION = "position_unite";
@@ -66,11 +67,12 @@ public class AjoutMarchandiseActivity extends HippieActivity
     private boolean valeurEstValide;
     private ValidateurDeSpinner validateurSpinnerUniteMarchandise;
     private ValidateurDeSpinner validateurSpinnerTypeMarchandise;
-    private DatePicker datePeremption;
+    private CalendarPickerViewDialogFragment datePeremptionFragment;
     private Button bAjoutMarchandise;
     private boolean spinnerUniteMarchandiseEstValide;
     private boolean spinnerTypeMarchandiseEstValide;
     private boolean datePeremptionEstValide;
+    private TextView datePicker;
     private TextView tvDatePeremption;
     // Id de alimentaire pour sélection route modifier ou ajouter
     private Integer idModele = null;
@@ -149,10 +151,12 @@ public class AjoutMarchandiseActivity extends HippieActivity
         TypeAlimentaireModeleSpinnerAdapter typeAdapter =
                 new TypeAlimentaireModeleSpinnerAdapter(this);
         spinnerTypeMarchandise.setAdapter(typeAdapter);
+        this.datePicker = (TextView) this.findViewById(R.id.datePicker);
         this.tvDatePeremption = (TextView) this.findViewById(R.id.tvDatePeremption);
-        this.datePeremption = (DatePicker) this.findViewById(R.id.datePicker);
-        // Set la date minimale du date picker au moment présent.
-
+        this.datePeremptionFragment = CalendarPickerViewDialogFragment.assigneUnNouveauFragment()
+                                                                      .pisCestTout()
+                                                                      .setOnDateSelectedListener(
+                                                                              this);
         TextView tvAjoutMarchandise = (TextView) this.findViewById(R.id.tvAjoutMarchandise);
         tvAjoutMarchandise.setText(R.string.ajouter_marchandise);
         this.bAjoutMarchandise = (Button) this.findViewById(R.id.bAjoutMarchandise);
@@ -163,6 +167,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
         // Provient de l'Intent de ListeMesDonsActivity lors du clic sur modifier un produit
         Bundle bundle = this.getIntent().getExtras();
         // Si le Bundle n'est pas null, il s'agit d'une modification à faire sur un don.
+        DateFormat df = android.text.format.DateFormat.getLongDateFormat(this);
         if (bundle != null) {
             // Modifier le TextView pour signifier une modification
             tvAjoutMarchandise.setText(R.string.modifier_marchandise);
@@ -174,10 +179,9 @@ public class AjoutMarchandiseActivity extends HippieActivity
             etQteeMarchandise.setText(bundle.getCharSequence("quantite"));
             etValeurMarchandise.setText(bundle.getCharSequence("valeur"));
 
-            // Récupérer la datePeremption du bundle pour fixer la date du DatePicker
+            // Récupérer la datePeremptionFragment du bundle pour fixer la date du DatePicker
             String dateString = bundle.getString("datePeremption");
             if (dateString != null) {
-                DateFormat df = android.text.format.DateFormat.getLongDateFormat(this);
                 Date date = null;
                 try {
                     date = df.parse(dateString);
@@ -185,17 +189,16 @@ public class AjoutMarchandiseActivity extends HippieActivity
                     e.printStackTrace();
                 }
                 if (date != null) {
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(date);
-                    this.datePeremption.init(calendar.get(Calendar.YEAR),
-                                             calendar.get(Calendar.MONTH),
-                                             calendar.get(Calendar.DAY_OF_MONTH),
-                                             null
-                                            );
-
+                    this.datePeremptionFragment =
+                            CalendarPickerViewDialogFragment.assigneUnNouveauFragment()
+                                                            .avecCetteDateSelectionnee(date)
+                                                            .pisCestTout()
+                                                            .setOnDateSelectedListener(this);
                 }
             }
         }
+        this.datePicker.setText(df.format(this.datePeremptionFragment.dateSelectionee()));
+
         if (savedInstanceState != null) {
             this.selectedSpinnerTypePosition =
                     savedInstanceState.getInt(SELECTED_SPINNER_TYPE_POSITION, 0);
@@ -228,6 +231,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
             OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
             this.modele.setOrganisme(org);
         }
+        // TODO: Internet check
         this.validateurNom.onResume();
         this.validateurDescription.onResume();
         this.validateurQuantite.onResume();
@@ -272,10 +276,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
                         .getEstPerissable() ||
                 this.validateurSpinnerTypeMarchandise.getSelectedItemId() == 0) {
                 this.tvDatePeremption.setVisibility(View.VISIBLE);
-                this.datePeremption.setVisibility(View.VISIBLE);
             } else {
                 this.tvDatePeremption.setVisibility(View.GONE);
-                this.datePeremption.setVisibility(View.GONE);
             }
             this.spinnerTypeMarchandiseEstValide = estValide;
         }
@@ -301,14 +303,6 @@ public class AjoutMarchandiseActivity extends HippieActivity
      * @param v
      */
     public void soumettreMarchandise(final View v) {
-        //TODO: soumettre la marchandise au serveur selon les paramètres TransactionModele
-        // Prend la date du jour pour soumettre l'ajout ou modification d'un item
-        Calendar date = Calendar.getInstance();
-        date.set(this.datePeremption.getYear(),
-                 this.datePeremption.getMonth(),
-                 this.datePeremption.getDayOfMonth()
-                );
-
         DescriptionModel typeAlimentaire =
                 ((DescriptionModel) this.validateurSpinnerTypeMarchandise.getSelectedItem());
         String typeAlimentaireId =
@@ -326,7 +320,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
                    .setEtat("3")
                    .setTypeAlimentaire(typeAlimentaireId)
                    .setTypeAlimentaire(typeAlimentaire.getDescription())
-                   .setDatePeremption(date.getTime());
+                   .setDatePeremption(this.datePeremptionFragment.dateSelectionee());
 
         AlimentaireModeleDepot depot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
@@ -425,12 +419,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurSpinnerUniteMarchandise.setSelectedItemId(0);
         this.validateurValeur.setText(null);
         this.validateurSpinnerTypeMarchandise.setSelectedItemId(0);
-        Calendar calendar = Calendar.getInstance();
-        this.datePeremption.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                                       calendar.get(Calendar.DAY_OF_MONTH)
-                                      );
         this.tvDatePeremption.setVisibility(View.VISIBLE);
-        this.datePeremption.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -452,7 +441,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
 //            this.validateurQuantite.setText(this.modele.getQuantite().toString());
 //            this.validateurValeur.setText(this.modele.getValeur().toString());
 //            Calendar calendar = this.modele.getCalendarDatePeremption();
-//            this.datePeremption.init(calendar.get(Calendar.YEAR),
+//            this.datePeremptionFragment.init(calendar.get(Calendar.YEAR),
 //                                     calendar.get(Calendar.MONTH),
 //                                     calendar.get(Calendar.DAY_OF_MONTH),
 //                                     null
@@ -543,5 +532,22 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.cacherLaProgressbar();
         this.validateurSpinnerUniteMarchandise.onResume();
         this.validateurSpinnerTypeMarchandise.onResume();
+    }
+
+    @Override
+    public void onDateSelected(Date date) {
+        DateFormat df = android.text.format.DateFormat.getLongDateFormat(this);
+        this.datePicker.setText(df.format(this.datePeremptionFragment.dateSelectionee()));
+    }
+
+    @Override
+    public void onDateUnselected(Date date) {
+
+    }
+
+    public void surDatePickerClick(View v) {
+        if (!this.datePeremptionFragment.isVisible()) {
+            this.datePeremptionFragment.show(this.getSupportFragmentManager(), null);
+        }
     }
 }
