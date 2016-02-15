@@ -397,7 +397,6 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_DISPO);
                 this.peuplerListeOrganisme(organismeModeleDepot);
                 //   map.clear();
-                //  listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
                 // FIXME: Connecter alimentaireModeleDepot et partir une requete pour l'organisme
 
                 break;
