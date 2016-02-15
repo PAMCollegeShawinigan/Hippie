@@ -25,7 +25,6 @@ import com.pam.codenamehippie.ui.HippieActivity;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by BEG-163 on 2016-01-18.
@@ -51,7 +50,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
     private final AlimentaireModeleDepot alimentaireModeleDepot;
     private final ViewSwitcher viewSwitcher;
     private final LayoutInflater inflater;
-    private volatile List<AlimentaireModele> listedon = new ArrayList<>();
+    private volatile ArrayList<AlimentaireModele> listedon = new ArrayList<>();
     private OrganismeModele organisme;
     private int listType = 0;
     private int orgId;
@@ -78,7 +77,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
         this.listType = listType;
     }
 
-    public List<AlimentaireModele> getListedon() {
+    public ArrayList<AlimentaireModele> getListedon() {
         return this.listedon;
     }
 
@@ -370,7 +369,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
     }
 
     @Override
-    public void surChangementDeDonnees(List<AlimentaireModele> modeles) {
+    public void surChangementDeDonnees(ArrayList<AlimentaireModele> modeles) {
         this.listedon = modeles;
         this.notifyDataSetChanged();
     }

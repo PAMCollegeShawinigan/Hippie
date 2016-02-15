@@ -12,7 +12,6 @@ import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.OrganismeModele;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by BEG-163 on 2016-01-18.
@@ -20,23 +19,23 @@ import java.util.List;
  */
 public class CarteListeOrganismeAdapter extends BaseExpandableListAdapter {
 
-    private final Context context;
-    private volatile List<OrganismeModele> items = new ArrayList<>();
+    private Context context;
+    private volatile ArrayList<OrganismeModele> items = new ArrayList<>();
 
     public CarteListeOrganismeAdapter(Context context) {
         this.context = context;
-        this.items = this.items;
+        this.items = items;
 
     }
 
-    public void setItems(List<OrganismeModele> listOrgan) {
+    public void setItems(ArrayList<OrganismeModele> listOrgan) {
         this.items = listOrgan;
-        this.notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     @Override
     public int getGroupCount() {
-        return this.items.size();
+        return items.size();
     }
 
     @Override
@@ -48,14 +47,14 @@ public class CarteListeOrganismeAdapter extends BaseExpandableListAdapter {
     @Override
     public Object getGroup(int groupPosition) {
 
-        return this.items.get(groupPosition);
+        return items.get(groupPosition);
 
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
 
-        return this.items.get(groupPosition);
+        return items.get(groupPosition);
     }
 
     @Override
@@ -78,11 +77,11 @@ public class CarteListeOrganismeAdapter extends BaseExpandableListAdapter {
                              boolean isExpanded,
                              View convertView,
                              ViewGroup parent) {
-        LinearLayout layout = new LinearLayout(this.context);
+        LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.HORIZONTAL);
-        ImageView logo = new ImageView(this.context);
-        TextView textView = new TextView(this.context);
-        textView.setText(this.items.get(groupPosition).getNom());
+        ImageView logo = new ImageView(context);
+        TextView textView = new TextView(context);
+        textView.setText(items.get(groupPosition).getNom());
 
         layout.addView(logo);
         layout.addView(textView);
@@ -95,34 +94,34 @@ public class CarteListeOrganismeAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition,
-                             int childPosition,
+                             final int childPosition,
                              boolean isLastChild,
                              View convertView,
                              ViewGroup parent) {
 
-        LinearLayout layout = new LinearLayout(this.context);
+        LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.HORIZONTAL);
 
-        ImageView logo1 = new ImageView(this.context);
+        ImageView logo1 = new ImageView(context);
 
-        TextView textView1 = new TextView(this.context);
+        TextView textView1 = new TextView(context);
 
-        LinearLayout layout1 = new LinearLayout(this.context);
+        LinearLayout layout1 = new LinearLayout(context);
         layout1.setOrientation(LinearLayout.VERTICAL);
 
-        LinearLayout layout2 = new LinearLayout(this.context);
+        LinearLayout layout2 = new LinearLayout(context);
         layout2.setOrientation(LinearLayout.HORIZONTAL);
 
-        LinearLayout layout3 = new LinearLayout(this.context);
+        LinearLayout layout3 = new LinearLayout(context);
         layout3.setOrientation(LinearLayout.HORIZONTAL);
 
-        ImageView logo2 = new ImageView(this.context);
-        TextView textView2 = new TextView(this.context);
+        ImageView logo2 = new ImageView(context);
+        TextView textView2 = new TextView(context);
         layout2.addView(logo2);
         layout2.addView(textView2);
 
-        ImageView logo3 = new ImageView(this.context);
-        TextView textView3 = new TextView(this.context);
+        ImageView logo3 = new ImageView(context);
+        TextView textView3 = new TextView(context);
         layout3.addView(logo3);
         layout3.addView(textView3);
 
@@ -136,12 +135,12 @@ public class CarteListeOrganismeAdapter extends BaseExpandableListAdapter {
         logo1.setPadding(40, 0, 40, 0);
         logo2.setImageResource(R.drawable.personne_contact);
         logo3.setImageResource(R.drawable.telephone2);
-        textView1.setText(this.items.get(groupPosition).getAdresse().toFormattedString());
-        String nomContact = this.items.get(groupPosition).getContact().getPrenom() +
+        textView1.setText(items.get(groupPosition).getAdresse().toFormattedString());
+        String nomContact = items.get(groupPosition).getContact().getPrenom() +
                             " " +
-                            this.items.get(groupPosition).getContact().getNom();
+                            items.get(groupPosition).getContact().getNom();
         textView2.setText(nomContact);
-        textView3.setText(this.items.get(groupPosition).getFormattedTelephone());
+        textView3.setText(items.get(groupPosition).getFormattedTelephone());
         textView1.setTextSize(20);
         textView1.setMaxWidth(700);
 

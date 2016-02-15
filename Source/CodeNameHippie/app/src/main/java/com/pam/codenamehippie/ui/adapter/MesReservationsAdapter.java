@@ -19,7 +19,6 @@ import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Cette classe permet de faire le lien entre les composantes de l'interface utilisateur et
@@ -29,7 +28,7 @@ public class MesReservationsAdapter extends BaseAdapter {
 
     private final Context context;
     private final AlimentaireModeleDepot depot;
-    private volatile List<AlimentaireModele> items = new ArrayList<>();
+    private volatile ArrayList<AlimentaireModele> items = new ArrayList<>();
 
     public MesReservationsAdapter(Context context, AlimentaireModeleDepot depot) {
         this.context = context;
@@ -215,7 +214,7 @@ public class MesReservationsAdapter extends BaseAdapter {
         return row;
     }
 
-    public void setItems(List<AlimentaireModele> items) {
+    public void setItems(ArrayList<AlimentaireModele> items) {
         this.items = items;
         this.notifyDataSetChanged();
     }

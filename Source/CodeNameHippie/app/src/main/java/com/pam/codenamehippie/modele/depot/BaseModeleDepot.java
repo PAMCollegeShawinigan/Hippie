@@ -54,9 +54,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -103,67 +101,54 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                              .create();
 
     private static final String TAG = BaseModeleDepot.class.getSimpleName();
-
     /**
      * Contenant qui renferme les objets entretenus par le dépôt.
      */
     protected final ArrayList<T> modeles = new ArrayList<>();
-
     /**
      * Client http.
      */
     protected final OkHttpClient httpClient;
-
     /**
      * Context pour accèder au ressources string.
      */
     protected final Context context;
-
     /**
      * Verrou de synchronisation.
      */
     protected final Object lock = new Object();
-
     /**
      * Main thread handler
      */
     protected final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
-
     /**
      * La valeur du paramètre de type T.
      */
     protected Class classeDeT;
-
     /**
      * Url du des objets du dépôt.
      */
     protected HttpUrl url = HippieApplication.BASE_URL;
-
     /**
      * Url de la dernière requête de peuplement effectuée
      */
     protected HttpUrl urlDeRepeuplement = null;
-
     /**
      * Url pour modifications des objets du dépot.
      */
     protected HttpUrl modifierUrl = null;
-
     /**
      * Url pour les ajouts des objets du dépot
      */
     protected HttpUrl ajoutUrl = null;
-
     /**
      * Url pour les suppressions des objets du dépot
      */
     protected HttpUrl supprimerUrl = null;
-
     /**
      * Liste contenant les objets qui observe le dépôt.
      */
     protected volatile ArrayList<ObservateurDeDepot<T>> observateurs = new ArrayList<>();
-
     /**
      * Foncteur pour les listes résultantes des requêtes
      */
@@ -178,6 +163,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *         le client http pour utiliser par les dépots pour faire des requêtes au
      *         serveur
      */
+
     public BaseModeleDepot(Context context, OkHttpClient httpClient) {
         Class clazz = this.getClass();
         ParameterizedType genericType;
@@ -276,6 +262,8 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @return une instance du modèle ou null si le reader ne contient plus rien.
      *
+     * @throws IOException
+     *         S'il y a eu un problème de lecture avec le reader
      * @throws JsonIOException
      *         S'il y a eu un problème de lecture de json avec le reader
      * @throws JsonSyntaxException
@@ -489,11 +477,8 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @param modele
      *         le modele à ajouter
-     *
-     * @throws UnsupportedOperationException
-     *         Si le dépot ne supporte pas l'ajout
      */
-    public void ajouterModele(T modele) throws UnsupportedOperationException {
+    public void ajouterModele(T modele) {
         if (this.ajoutUrl == null) {
             if (this.modifierUrl == null) {
                 throw new UnsupportedOperationException("Ce dépôt ne supporte pas l'ajout");
@@ -516,11 +501,8 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @param modele
      *         Le modèle à modifier.
-     *
-     * @throws UnsupportedOperationException
-     *         Si le dépot ne supporte pas l'ajout
      */
-    public void modifierModele(T modele) throws UnsupportedOperationException {
+    public void modifierModele(T modele) {
         if (this.modifierUrl == null) {
             throw new UnsupportedOperationException("Ce dépôt ne supporte pas la modification");
         }
@@ -665,10 +647,8 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
             public void run() {
                 synchronized (BaseModeleDepot.this.lock) {
                     if (!BaseModeleDepot.this.observateurs.isEmpty()) {
-                        List<T> resultat = Collections.unmodifiableList(BaseModeleDepot.this
-                                                                                .modeles);
                         for (ObservateurDeDepot<T> obs : BaseModeleDepot.this.observateurs) {
-                            obs.surChangementDeDonnees(resultat);
+                            obs.surChangementDeDonnees(BaseModeleDepot.this.modeles);
                         }
                     }
                 }

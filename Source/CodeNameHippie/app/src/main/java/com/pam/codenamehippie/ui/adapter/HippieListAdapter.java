@@ -22,7 +22,6 @@ import com.pam.codenamehippie.ui.AjoutMarchandiseActivity;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import static android.text.format.DateFormat.getLongDateFormat;
 
@@ -34,14 +33,14 @@ public class HippieListAdapter extends BaseAdapter {
 
     private final Context context;
     private final AlimentaireModeleDepot depot;
-    private volatile List<AlimentaireModele> items = new ArrayList<>();
+    private volatile ArrayList<AlimentaireModele> items = new ArrayList<>();
 
     public HippieListAdapter(Context context, AlimentaireModeleDepot depot) {
         this.context = context;
         this.depot = depot;
     }
 
-    public void setItems(List<AlimentaireModele> items) {
+    public void setItems(ArrayList<AlimentaireModele> items) {
         this.items = items;
         this.notifyDataSetChanged();
     }
