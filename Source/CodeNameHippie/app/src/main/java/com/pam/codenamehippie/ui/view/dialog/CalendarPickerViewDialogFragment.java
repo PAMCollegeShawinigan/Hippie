@@ -1,5 +1,6 @@
 package com.pam.codenamehippie.ui.view.dialog;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +19,11 @@ import java.util.Date;
 
 public class CalendarPickerViewDialogFragment extends AppCompatDialogFragment
         implements OnDateSelectedListener {
+
+    public interface OnDismissListener {
+
+        void OnDismissListener(CalendarPickerViewDialogFragment fragment, DialogInterface dialog);
+    }
 
     public static final class Builder {
 
@@ -77,7 +83,7 @@ public class CalendarPickerViewDialogFragment extends AppCompatDialogFragment
             return this.selectedDate;
         }
 
-        public Builder avecCetteDateSelectionnee(Date date) {
+        public Builder avecCetteDateSelectionnee(@NonNull Date date) {
             if (((this.minDate.before(date) || this.minDate.equals(date)) &&
                  (this.maxDate.after(date)))) {
                 this.selectedDate = date;
@@ -104,7 +110,8 @@ public class CalendarPickerViewDialogFragment extends AppCompatDialogFragment
     private Date maxDate;
     private Date selectedDate;
     private SelectionMode selectionMode;
-    private OnDateSelectedListener listener;
+    private OnDateSelectedListener onDateSelectedListener;
+    private OnDismissListener onDismissListener;
     private CalendarPickerView view;
 
     public CalendarPickerViewDialogFragment() {
@@ -132,10 +139,21 @@ public class CalendarPickerViewDialogFragment extends AppCompatDialogFragment
         return this.selectedDate;
     }
 
+    public CalendarPickerViewDialogFragment setOnDateSelectedListener(OnDateSelectedListener
+                                                                              listener) {
+        this.onDateSelectedListener = listener;
+        return this;
+    }
+
+    public CalendarPickerViewDialogFragment setOnDismissListener(OnDismissListener listener) {
+        this.onDismissListener = listener;
+        return this;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle args = this.getArguments();
+        Bundle args = (savedInstanceState != null) ? savedInstanceState : this.getArguments();
         if (args != null) {
             if (args.containsKey(MIN_DATE)) {
                 this.minDate = ((Date) args.getSerializable(MIN_DATE));
@@ -158,14 +176,13 @@ public class CalendarPickerViewDialogFragment extends AppCompatDialogFragment
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        if (this.view == null) {
-            this.view = ((CalendarPickerView) inflater.inflate(
-                    R.layout.dialogfragment_calendarpickerview, container, false));
-            this.view.init(this.minDate, this.maxDate)
-                     .withSelectedDate(this.selectedDate)
-                     .inMode(this.selectionMode);
-            this.view.setOnDateSelectedListener(this);
-        }
+        this.view =
+                ((CalendarPickerView) inflater.inflate(R.layout.dialogfragment_calendarpickerview,
+                                                       container, false));
+        this.view.init(this.minDate, this.maxDate)
+                 .withSelectedDate(this.selectedDate)
+                 .inMode(this.selectionMode);
+        this.view.setOnDateSelectedListener(this);
         return this.view;
     }
 
@@ -179,10 +196,14 @@ public class CalendarPickerViewDialogFragment extends AppCompatDialogFragment
         }
     }
 
-    public CalendarPickerViewDialogFragment setOnDateSelectedListener(OnDateSelectedListener
-                                                                              listener) {
-        this.listener = listener;
-        return this;
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(MIN_DATE, this.minDate);
+        outState.putSerializable(MAX_DATE, this.maxDate);
+        outState.putSerializable(SELECTED_DATE, this.selectedDate);
+        outState.putSerializable(SELECTION_MODE, this.selectionMode);
+
     }
 
     @Override
@@ -191,15 +212,28 @@ public class CalendarPickerViewDialogFragment extends AppCompatDialogFragment
             this.selectedDate = date;
             this.dismiss();
         }
-        if (this.listener != null) {
-            this.listener.onDateSelected(date);
+        if (this.onDateSelectedListener != null) {
+            this.onDateSelectedListener.onDateSelected(date);
         }
     }
 
     @Override
     public void onDateUnselected(Date date) {
-        if (this.listener != null) {
-            this.listener.onDateUnselected(date);
+        if (this.onDateSelectedListener != null) {
+            this.onDateSelectedListener.onDateUnselected(date);
         }
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (this.onDismissListener != null) {
+            this.onDismissListener.OnDismissListener(this, dialog);
+        }
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        super.onCancel(dialog);
     }
 }

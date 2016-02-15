@@ -1,7 +1,9 @@
 package com.pam.codenamehippie.ui;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +29,7 @@ import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
 import com.pam.codenamehippie.ui.adapter.TypeAlimentaireModeleSpinnerAdapter;
 import com.pam.codenamehippie.ui.view.dialog.CalendarPickerViewDialogFragment;
+import com.pam.codenamehippie.ui.view.dialog.CalendarPickerViewDialogFragment.OnDismissListener;
 import com.squareup.timessquare.CalendarPickerView.OnDateSelectedListener;
 
 import java.io.IOException;
@@ -48,14 +51,15 @@ import okhttp3.Response;
  * via l'interface utilisateur. La date du jour sera utilisée comme date de disponibilité.
  * Si un produit n'a pas de date de péremption, la date sera mise à null du côté du serveur.
  */
-public class AjoutMarchandiseActivity extends HippieActivity
-        implements ValidateurObserver,
-                   PeuplerListesDeSpinnerListener,
-                   ObservateurDeDepot<AlimentaireModele>,
-                   OnDateSelectedListener {
+public class AjoutMarchandiseActivity extends HippieActivity implements ValidateurObserver,
+                                                                        PeuplerListesDeSpinnerListener,
+                                                                        ObservateurDeDepot<AlimentaireModele>,
+                                                                        OnDateSelectedListener,
+                                                                        OnDismissListener {
 
     private static final String SELECTED_SPINNER_TYPE_POSITION = "position_type";
     private static final String SELECTED_SPINNER_UNITE_POSITION = "position_unite";
+    private static final String SAVED_MODEL = "modele";
 
     private ValidateurDeChampTexte validateurNom;
     private boolean nomEstValide;
@@ -93,41 +97,26 @@ public class AjoutMarchandiseActivity extends HippieActivity
         // critères dont la longeur max et si le champ est requis                          *
         // *********************************************************************************
         EditText etNomMarchandise = (EditText) this.findViewById(R.id.etNomMarchandise);
-        this.validateurNom =
-                ValidateurDeChampTexte.newInstance(this,
-                                                   etNomMarchandise,
-                                                   true,
-                                                   ValidateurDeChampTexte
-                                                           .NOM_ALIMENTAIRE_LONGUEUR_MAX
-                                                  );
+        this.validateurNom = ValidateurDeChampTexte.newInstance(this, etNomMarchandise, true,
+                                                                ValidateurDeChampTexte
+                                                                        .NOM_ALIMENTAIRE_LONGUEUR_MAX);
         this.validateurNom.registerObserver(this);
         EditText etDescMarchandise = (EditText) this.findViewById(R.id.etDescMarchandise);
         this.validateurDescription =
-                ValidateurDeChampTexte.newInstance(this,
-                                                   etDescMarchandise,
-                                                   true,
+                ValidateurDeChampTexte.newInstance(this, etDescMarchandise, true,
                                                    ValidateurDeChampTexte
-                                                           .DESCRIPTION_ALIMENTAIRE_LONGUEUR_MAX
-                                                  );
+                                                           .DESCRIPTION_ALIMENTAIRE_LONGUEUR_MAX);
         this.validateurDescription.registerObserver(this);
         EditText etQteeMarchandise = (EditText) this.findViewById(R.id.etQteeMarchandise);
-        this.validateurQuantite =
-                ValidateurDeChampTexte.newInstance(this,
-                                                   etQteeMarchandise,
-                                                   true,
-                                                   ValidateurDeChampTexte
-                                                           .QUANTITE_ALIMENTAIRE_LONGUEUR_MAX
-                                                  );
+        this.validateurQuantite = ValidateurDeChampTexte.newInstance(this, etQteeMarchandise, true,
+                                                                     ValidateurDeChampTexte
+                                                                             .QUANTITE_ALIMENTAIRE_LONGUEUR_MAX);
         this.validateurQuantite.setEstNumerique(true);
         this.validateurQuantite.registerObserver(this);
         EditText etValeurMarchandise = (EditText) this.findViewById(R.id.etValeurMarchandise);
-        this.validateurValeur =
-                ValidateurDeChampTexte.newInstance(this,
-                                                   etValeurMarchandise,
-                                                   true,
-                                                   ValidateurDeChampTexte
-                                                           .VALEUR_ALIMENTAIRE_LONGUEUR_MAX
-                                                  );
+        this.validateurValeur = ValidateurDeChampTexte.newInstance(this, etValeurMarchandise, true,
+                                                                   ValidateurDeChampTexte
+                                                                           .VALEUR_ALIMENTAIRE_LONGUEUR_MAX);
         this.validateurValeur.registerObserver(this);
         // ***************************************************************************************
         // Chaque Spinner passe par le ValidateurDeSpinner et le choix doit être différent de la *
@@ -153,10 +142,6 @@ public class AjoutMarchandiseActivity extends HippieActivity
         spinnerTypeMarchandise.setAdapter(typeAdapter);
         this.datePicker = (TextView) this.findViewById(R.id.datePicker);
         this.tvDatePeremption = (TextView) this.findViewById(R.id.tvDatePeremption);
-        this.datePeremptionFragment = CalendarPickerViewDialogFragment.assigneUnNouveauFragment()
-                                                                      .pisCestTout()
-                                                                      .setOnDateSelectedListener(
-                                                                              this);
         TextView tvAjoutMarchandise = (TextView) this.findViewById(R.id.tvAjoutMarchandise);
         tvAjoutMarchandise.setText(R.string.ajouter_marchandise);
         this.bAjoutMarchandise = (Button) this.findViewById(R.id.bAjoutMarchandise);
@@ -197,13 +182,17 @@ public class AjoutMarchandiseActivity extends HippieActivity
                 }
             }
         }
-        this.datePicker.setText(df.format(this.datePeremptionFragment.dateSelectionee()));
 
         if (savedInstanceState != null) {
             this.selectedSpinnerTypePosition =
                     savedInstanceState.getInt(SELECTED_SPINNER_TYPE_POSITION, 0);
             this.selectedSpinnerUnitePosition =
                     savedInstanceState.getInt(SELECTED_SPINNER_UNITE_POSITION, 0);
+            String json = savedInstanceState.getString(SAVED_MODEL);
+            if (json != null) {
+                Log.d("Test", json);
+                this.modele = DepotManager.getInstance().getAlimentaireModeleDepot().fromJson(json);
+            }
         }
     }
 
@@ -211,11 +200,14 @@ public class AjoutMarchandiseActivity extends HippieActivity
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SELECTED_SPINNER_UNITE_POSITION,
-                        this.validateurSpinnerUniteMarchandise.getSelectedItemPosition()
-                       );
+                        this.validateurSpinnerUniteMarchandise.getSelectedItemPosition());
         outState.putInt(SELECTED_SPINNER_TYPE_POSITION,
-                        this.validateurSpinnerTypeMarchandise.getSelectedItemPosition()
-                       );
+                        this.validateurSpinnerTypeMarchandise.getSelectedItemPosition());
+        if (this.modele != null) {
+            String json =
+                    DepotManager.getInstance().getAlimentaireModeleDepot().toJson(this.modele);
+            outState.putString(SAVED_MODEL, json);
+        }
     }
 
     @Override
@@ -226,11 +218,16 @@ public class AjoutMarchandiseActivity extends HippieActivity
         if (this.idModele != null) {
             depot.rechercherParId(this.idModele);
         } else {
-            this.modele = new AlimentaireModele();
+            this.modele = (this.modele == null) ? new AlimentaireModele() : this.modele;
             UtilisateurModele uc = this.authentificateur.getUtilisateur();
             OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
             this.modele.setOrganisme(org);
         }
+        DateFormat df = android.text.format.DateFormat.getLongDateFormat(this);
+        Date date = (this.modele.getDatePeremption() != null)
+                    ? this.modele.getDatePeremption()
+                    : new Date();
+        this.datePicker.setText(df.format(date));
         this.validateurNom.onResume();
         this.validateurDescription.onResume();
         this.validateurQuantite.onResume();
@@ -311,15 +308,12 @@ public class AjoutMarchandiseActivity extends HippieActivity
         // FIXME: Gérer l'état de marchandise. On mets 3(neuf) en attendant
         this.modele.setNom(this.validateurNom.getTextString())
                    .setDescription(this.validateurDescription.getTextString())
-                   .setValeur(Long.parseLong(this.validateurValeur
-                                                     .getTextString()))
-                   .setQuantite(Double.parseDouble(this.validateurQuantite
-                                                           .getTextString()))
+                   .setValeur(Long.parseLong(this.validateurValeur.getTextString()))
+                   .setQuantite(Double.parseDouble(this.validateurQuantite.getTextString()))
                    .setUniteDeQuantite(marchandiseUniteId)
                    .setEtat("3")
                    .setTypeAlimentaire(typeAlimentaireId)
-                   .setTypeAlimentaire(typeAlimentaire.getDescription())
-                   .setDatePeremption(this.datePeremptionFragment.dateSelectionee());
+                   .setTypeAlimentaire(typeAlimentaire.getDescription());
 
         AlimentaireModeleDepot depot =
                 ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
@@ -334,8 +328,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                       .add("marchandise_unite", this.modele.getUniteDeQuantite())
                                       .add("marchandise_etat", "3")
                                       .add("date_peremption",
-                                           this.modele.getDatePeremption().toString()
-                                          )
+                                           this.modele.getDatePeremption().toString())
                                       .add("donneur_id", this.organismeId.toString());
         if (this.idModele != null) {
             // Si le idModele est différent de null, il s'agit d'une modification sur le produit
@@ -364,11 +357,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
                             AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Snackbar.make(v,
-                                                  R.string.error_connection,
-                                                  Snackbar.LENGTH_SHORT
-                                                 )
-                                            .show();
+                                    Snackbar.make(v, R.string.error_connection,
+                                                  Snackbar.LENGTH_SHORT).show();
                                 }
                             });
                             break;
@@ -379,10 +369,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
                         public void run() {
                             if (AjoutMarchandiseActivity.this.idModele != null) {
                                 // C'est une modification au produit
-                                Snackbar snackbar = Snackbar.make(v,
-                                                                  R.string.msg_produit_modifie,
-                                                                  Snackbar.LENGTH_SHORT
-                                                                 );
+                                Snackbar snackbar = Snackbar.make(v, R.string.msg_produit_modifie,
+                                                                  Snackbar.LENGTH_SHORT);
 
                                 snackbar.setCallback(new Snackbar.Callback() {
                                     @Override
@@ -395,10 +383,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
 
                             } else {
                                 // C'est un ajout de produit
-                                Snackbar.make(v,
-                                              R.string.msg_produit_ajoute,
-                                              Snackbar.LENGTH_SHORT
-                                             ).show();
+                                Snackbar.make(v, R.string.msg_produit_ajoute, Snackbar.LENGTH_SHORT)
+                                        .show();
                                 AjoutMarchandiseActivity.this.effacerFormulaire();
                             }
                         }
@@ -537,6 +523,9 @@ public class AjoutMarchandiseActivity extends HippieActivity
     public void onDateSelected(Date date) {
         DateFormat df = android.text.format.DateFormat.getLongDateFormat(this);
         this.datePicker.setText(df.format(this.datePeremptionFragment.dateSelectionee()));
+        if (this.modele != null) {
+            this.modele.setDatePeremption(date);
+        }
     }
 
     @Override
@@ -545,8 +534,31 @@ public class AjoutMarchandiseActivity extends HippieActivity
     }
 
     public void surDatePickerClick(View v) {
+        if (this.datePeremptionFragment == null) {
+            this.datePeremptionFragment =
+                    CalendarPickerViewDialogFragment.assigneUnNouveauFragment()
+                                                    .pisCestTout()
+                                                    .setOnDateSelectedListener(this)
+                                                    .setOnDismissListener(this);
+        }
         if (!this.datePeremptionFragment.isVisible()) {
             this.datePeremptionFragment.show(this.getSupportFragmentManager(), null);
         }
+    }
+
+    @Override
+    public void OnDismissListener(CalendarPickerViewDialogFragment fragment,
+                                  DialogInterface dialog) {
+        if (this.modele.getDatePeremption() == null) {
+            this.modele.setDatePeremption(fragment.dateSelectionee());
+        }
+        Date date = this.modele.getDatePeremption();
+        this.datePeremptionFragment =
+                CalendarPickerViewDialogFragment.assigneUnNouveauFragment()
+                                                .avecCetteDateSelectionnee(date)
+                                                .pisCestTout()
+                                                .setOnDateSelectedListener(this)
+                                                .setOnDismissListener(this);
+
     }
 }
