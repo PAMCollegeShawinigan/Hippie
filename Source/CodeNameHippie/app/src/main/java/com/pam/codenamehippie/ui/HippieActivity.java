@@ -2,6 +2,8 @@ package com.pam.codenamehippie.ui;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -17,6 +19,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -163,6 +166,16 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
                 WifiManager wifiManager = ((WifiManager) this.getSystemService(WIFI_SERVICE));
                 if (((wifiManager != null) && !wifiManager.isWifiEnabled())) {
                     wifiManager.setWifiEnabled(true);
+                }
+                if (((activeNetwork != null) && !activeNetwork.isConnected()) ||
+                    (activeNetwork == null)) {
+                    // TODO: Internet check 2.0
+                    new AlertDialog.Builder(this).setPositiveButton("OK", new OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            HippieActivity.this.finish();
+                        }
+                    }).setMessage(R.string.error_connection).show();
                 }
             }
         }

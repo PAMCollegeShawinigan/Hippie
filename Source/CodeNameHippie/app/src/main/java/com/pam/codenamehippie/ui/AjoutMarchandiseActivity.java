@@ -231,7 +231,6 @@ public class AjoutMarchandiseActivity extends HippieActivity
             OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
             this.modele.setOrganisme(org);
         }
-        // TODO: Internet check
         this.validateurNom.onResume();
         this.validateurDescription.onResume();
         this.validateurQuantite.onResume();
