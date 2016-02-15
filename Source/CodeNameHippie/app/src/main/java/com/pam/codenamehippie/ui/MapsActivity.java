@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
+import android.test.mock.MockApplication;
 import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
@@ -363,8 +364,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                               ).show();
 
                 this.adapter.setOrganisme(null);
-                this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_DISPO);
-                this.peuplerListeOrganisme(organismeModeleDepot);
+               onResume();
+//                this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_DISPO);
+//                this.peuplerListeOrganisme(organismeModeleDepot);
                 //   map.clear();
                 //  listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
                 // FIXME: Connecter alimentaireModeleDepot et partir une requete pour l'organisme
@@ -380,8 +382,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                               ).show();
                 // FIXME: Faire fonctionner la liste de mes réservations.
                 this.adapter.setOrganisme(null);
-                this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_RESERVEE);
-                this.peuplerListeOrganisme(organismeModeleDepot);
+            
+//                this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_RESERVEE);
+//                this.peuplerListeOrganisme(organismeModeleDepot);
                 break;
 
             case R.id.listeMarchandise:
