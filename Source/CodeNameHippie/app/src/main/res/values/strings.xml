@@ -82,7 +82,8 @@
 	<string name="dons_qtee">QTY</string>
 	<string name="iv_dons_categorie">Category</string>
 	<string name="tv_dons_nom_marchandise" translatable="false">Product name here</string>
-	<string name="tv_dons_description_marchandise" translatable="false">Product description here</string>
+	<string name="tv_dons_description_marchandise"
+	        translatable="false">Product description here</string>
 	<string name="tv_dons_qtee_marchandise" translatable="false">99999 units</string>
 	<string name="ib_dons_modifier">Modify</string>
 	<string name="ib_dons_supprimer">Delete</string>
@@ -97,10 +98,10 @@
 	<string name="res_qtee">QTY</string>
 	<string name="res_reservation">BEST BEFORE</string>
 	<string name="iv_res_categorie">Category</string>
-	<string name="tv_res_nom_marchandise" translatable="false">Product name here</string>
-	<string name="tv_res_description" translatable="false">Product description here</string>
-	<string name="tv_res_qtee_marchandise" translatable="false">99999 units</string>
-	<string name="tv_res_date_marchandise" translatable="false">99/99/9999</string>
+	<string name="tv_res_nom_marchandise">Product name here</string>
+	<string name="tv_res_description">Product description here</string>
+	<string name="tv_res_qtee_marchandise">99999 units</string>
+	<string name="tv_res_date_marchandise">99/99/9999</string>
 	<string name="ib_res_collecter">Collect</string>
 	<string name="ib_res_supprimer">Delete</string>
 	<!--Ressource pour Layout activity_aide-->
@@ -149,130 +150,123 @@
     <string name="tv_aide_statistiques_detail">C’est une fonctionnalité accessible à tous, excepté pour certaines informations qui sont personnalisées à l’utilisateur.
 \n\nÀ venir
 </string>
-    <string name="tv_aide_profil_detail">L’utilisateur voit toutes ses informations de contact et d’entreprise, qu’il a indiquée lors de l’inscription.</string>
-
-    <!-- Ressource pour la page profil-->
-    <string name="tv_profil_name">PROFILE</string>
-    <string name="iv_image_profile">Image profile</string>
-    <string name="btn_edit_profile">EDIT PROFILE</string>
-    <string name="tv_user_section">USER</string>
-    <string name="tv_contact_name">Contact name :</string>
-    <string name="tv_contact_name_placeholder">Placeholder</string>
-    <string name="tv_profil_email">Email :</string>
-    <string name="tv_profil_email_placeholder">Placeholder</string>
-    <string name="tv_profil_phone">Phone :</string>
-    <string name="tv_profil_phone_placeholder">Placeholder</string>
-    <string name="tv_profil_moyen_contact">How to contact :</string>
-    <string name="tv_profil_moyen_contact_placeholder">Placeholder</string>
-    <string name="tv_entreprise_section">ORGANIZATION</string>
-    <string name="tv_profil_adresse">Adress :</string>
-    <string name="tv_profil_adresse_placeholder">Placeholder</string>
-    <string name="tv_profil_phone2_placeholder">Placeholder</string>
-    <string name="tv_profil_osbl">OSBL :</string>
-    <string name="tv_profil_osbl_placeholder">Placeholder</string>
-    <string name="tv_profil_neq">NEQ :</string>
-    <string name="tv_profil_neq_placeholder">Placeholder</string>
-    <string name="btn_edit_password">EDIT PASSWORD</string>
-
-    <!-- Ressource pour Layout Liste Statistiques -->
-    <string name="tv_statistiques_titre">STATISTICS</string>
-    <string name="tv_statistiques_valeur_totale">Total value</string>
-		<string name="stats_nbr_affichage_10" translatable="false">10</string>
--    <string name="stats_nbr_affichage_20" translatable="false">20</string>
--    <string name="stats_nbr_affichage_60" translatable="false">60</string>
--    <string name="stats_largeur_fixe">Largeur fixe</string>
-
-    <!-- TODO: à traduire en anglais -->
-    <!-- Ressources strings pour Layout À propos -->
-    <string name="tv_titre_qui_nous_sommes">Qui nous sommes?</string>
-    <string name="tv_texte_qui_nous_sommes">Nous sommes des étudiants du Collège Shawinigan, dans l’attestation d’études collégiales Programmation d’applications mobiles. Nous sommes présentement en résidence au Digihub, qui grâce à eux, notre créativité est des plus développés.</string>
-    <string name="tv_sous_titre_idee">Comment nous est venue l’idée de Denrée Ô Suivant?</string>
-    <string name="tv_texte_idee">L’idée nous est venue d’un des parents à notre collège de classe. C’était une idée de base qui s’est développé au fur et à mesure que les idées nous submergeaient.</string>
-    <string name="tv_texte_idee_2">Nous en avons parlé à notre enseignante qui a trouvé l’idée géniale. Ainsi, comme projet de fin de session, nous avons conçu l’application. Dans notre engouement, nous avons décidés de l’avant et ainsi faire ce projet une réalité. C’est donc avec grand plaisir et une immense fierté que nous vous présentons un projet à vocation sociale et communautaire. Un projet afin d’aider les aidants, la communauté et améliorer notre collectivité.</string>
-    <string name="tv_titre_mission">Notre mission</string>
-    <string name="tv_sous_titre_mission"> Simplifier les dons pour les entreprises</string>
-    <string name="tv_texte_mission">Denrée Ô suivant aide les entreprises à afficher leurs ressources. Ainsi, cela évite les sollicitations inappropriées de la part des organismes. Elle facilite aussi la communication avec les organismes et sers à économiser du temps et des ressources humaines.</string>
-    <string name="tv_sous_titre_mission_2">• Vocation sociale et communautaire</string>
-    <string name="tv_texte_mission_2">L’objectif est d’augmenter potentiellement les dons et ainsi donner une aide directe aux plus démunis et aux organismes œuvrant dans le milieu communautaire et social.</string>
-    <string name="tv_sous_titre_mission_3">• Environnement et gaspillage</string>
-    <string name="tv_texte_mission_3">Denrée Ô suivant se donne pour mission de minimiser les ressources gaspillées. Ainsi favoriser la récupération et le recyclage. Il aura donc une revalorisation et une redistribution des ressources non-utilisées. L’impact environnemental en sera plus que positif.</string>
-    <string name="tv_titre_conclusion">En conclusion</string>
-    <string name="tv_texte_conclusion"><![CDATA[Nous sommes Étudiants, mais nous sommes aussi « Carrément Panda », et Entrepreneurs et surtout, nous sommes Shawinigan tout comme vous l’êtes. Issus d’une génération où l’environnement, le recyclage et le partage sont des priorités afin d’accéder à une meilleure qualité de vie, nous croyons en un monde meilleur, une communauté meilleure, et dirigeons nos efforts dans ce sens. L’action sociale et communautaire peut être compatible avec la technologie et faciliter tous les acteurs concernés. Notre projet d’entreprenariat étudiant en est une preuve, malgré toutes les embuches que nous rencontrons chaque jour, et que nous rencontrerons à l’avenir. Il est important de développer et d’encourager l’entreprenariat, de soutenir les entrepreneurs dans leurs démarches, et le DigiHub est un pionnier en ce sens. Vos efforts et votre dynamisme en valent la peine, continuez à travailler pour améliorer le monde qui vous entoure.]]></string>
-
-    <!-- Ressources strings pour layout inscription -->
-    <string name="tv_info_inscription">SIGN UP</string>
-    <string name="tv_info_user">USER INFORMATION</string>
-    <string name="tv_inscription_nom">Contact last name</string>
-    <string name="et_inscription_nom">LAST NAME</string>
-    <string name="tv_inscription_prenom">Contact first name</string>
-    <string name="et_inscription_prenom">FIRST NAME</string>
-    <string name="tv_inscription_username">Organization name</string>
-    <string name="et_inscription_username">ORGANIZATION NAME</string>
-    <string name="tv_inscription_password">Password</string>
-    <string name="et_inscription_password">PASSWORD</string>
-    <string name="tv_inscription_confirm_password">Confirm password</string>
-    <string name="et_inscription_confirm_password">CONFIRM PASSWORD</string>
-    <string name="tv_inscription_info_contact">HOW TO CONTACT INFORMATION</string>
-    <string name="tv_inscription_courriel">Email</string>
-    <string name="et_inscription_courriel">EMAIL</string>
-    <string name="tv_inscription_phone">Phone</string>
-    <string name="et_inscription_phone">PHONE</string>
-    <string name="tv_inscription_phone_poste">Extension</string>
-    <string name="et_inscription_phone_poste">EXTENSION</string>
-    <string name="tv_inscription_moyen_contact">How to contact ?</string>
-    <string name="rb_inscription_courriel">Email</string>
-    <string name="rb_inscription_phone">Phone</string>
-    <string name="rb_inscription_both">Both</string>
-    <string name="tv_inscription_adress">ADRESS</string>
-    <string name="tv_inscription_no_civique">Civic number</string>
-    <string name="tv_inscription_no">NO</string>
-    <string name="tv_inscription_type_rue">Street type</string>
-    <string name="tv_inscription_nom_rue">Street name</string>
-    <string name="et_inscription_nom_rue">STREET NAME</string>
-    <string name="tv_inscription_no_appartement">Appartment number</string>
-    <string name="tv_inscription_ville">City</string>
-    <string name="et_inscription_ville">CITY</string>
-    <string name="tv_inscription_province">Province</string>
-    <string name="et_inscription_province">PROVINCE</string>
-    <string name="tv_inscription_code_postal">Postal code</string>
-    <string name="et_inscription_code_postal">POSTAL CODE</string>
-    <string name="tv_inscription_pays">Country</string>
-    <string name="et_inscription_pays">COUNTRY</string>
-    <string name="tv_inscription_etes_vous">ARE-YOU ?</string>
-    <string name="rb_inscription_entreprise">A business</string>
-    <string name="rb_inscription_organisme">A communal organization</string>
-    <string name="tv_inscription_no_entreprise">Business number (NEQ)</string>
-    <string name="tv_inscription_no_osbl">OSBL number</string>
-    <string name="btn_inscription_inscription">Sign up</string>
-
-    <!-- Autres ressources-->
-    <string name="iv_logo">Logo</string>
-    <string name="loading">A moment please.</string>
-    <string name="app_name">Codename: Hippie</string>
-    <string name="title_activity_preference">Settings</string>
-		<string name="error_http_404">The resource you are trying to reach wasn\'t found</string>
-  	<string name="error_http_500">The server has encountered an internal server error</string>
-		<string name="cat_Produits_laitiers">Dairy</string>
-		<string name="cat_boulangerie">Baked goods</string>
-		<string name="cat_viandes">Meat</string>
-		<string name="cat_surgelés">Frozen products</string>
-		<string name="cat_non_périssable">Non perishable</string>
-		<string name="cat_non_comestible">Inedible</string>
-		<string name="cat_fruits_et_legumes">Fruits and vegetable</string>
-		<string name="iv_image_profile">Profile image</string>
-		<string name="stats_axe_x">Compagny</string>
-		<string name="stats_pile">Stacked</string>
-		<string name="stats_superrposes"></string>
-		<string name="stats_titre_graphique">Distribution of monetary worth per category of goods per compagny</string>
-		<string name="tv_aide_titre_connexion">Login</string>
-		<string name="stats_nbr_affichage_10" translatable="false">10</string>
-		<string name="stats_nbr_affichage_20" translatable="false">20</string>
-		<string name="stats_nbr_affichage_60" translatable="false">60</string>
-		<string name="stats_non_selectionne">Please select a column</string>
-		<string name="stats_axe_y">Worth</string>
-		<string name="stats_cote_a_cote">Side by side</string>
-		<string name="stats_largeur_fixe">Fixed width</string>
-		<string name="stats_largeur_variable">Variable width</string>
-		<string name="title_no_internet">No internet connection</string>
-		<string name="error_no_internet">An internet connection is required for this application.</string>
+	<string name="tv_aide_profil_detail">L’utilisateur voit toutes ses informations de contact et d’entreprise, qu’il a indiquée lors de l’inscription.</string>
+	<!-- Ressource pour la page profil-->
+	<string name="tv_profil_name">PROFILE</string>
+	<string name="iv_image_profile">Image profile</string>
+	<string name="btn_edit_profile">EDIT PROFILE</string>
+	<string name="tv_user_section">USER</string>
+	<string name="tv_contact_name">Contact name :</string>
+	<string name="tv_contact_name_placeholder">Placeholder</string>
+	<string name="tv_profil_email">Email :</string>
+	<string name="tv_profil_email_placeholder">Placeholder</string>
+	<string name="tv_profil_phone">Phone :</string>
+	<string name="tv_profil_phone_placeholder">Placeholder</string>
+	<string name="tv_profil_moyen_contact">How to contact :</string>
+	<string name="tv_profil_moyen_contact_placeholder">Placeholder</string>
+	<string name="tv_entreprise_section">ORGANIZATION</string>
+	<string name="tv_profil_adresse">Adress :</string>
+	<string name="tv_profil_adresse_placeholder">Placeholder</string>
+	<string name="tv_profil_phone2_placeholder">Placeholder</string>
+	<string name="tv_profil_osbl">OSBL :</string>
+	<string name="tv_profil_osbl_placeholder">Placeholder</string>
+	<string name="tv_profil_neq">NEQ :</string>
+	<string name="tv_profil_neq_placeholder">Placeholder</string>
+	<string name="btn_edit_password">EDIT PASSWORD</string>
+	<!-- Ressource pour Layout Liste Statistiques -->
+	<string name="tv_statistiques_titre">STATISTICS</string>
+	<string name="tv_statistiques_valeur_totale">Total value</string>
+	<string name="stats_nbr_affichage_10" translatable="false">10</string>
+	-
+	<string name="stats_nbr_affichage_20" translatable="false">20</string>
+	-
+	<string name="stats_nbr_affichage_60" translatable="false">60</string>
+	-
+	<string name="stats_largeur_fixe">fixed width</string>
+	<!-- TODO: à traduire en anglais -->
+	<!-- Ressources strings pour Layout À propos -->
+	<string name="tv_titre_qui_nous_sommes">Qui nous sommes?</string>
+	<string name="tv_texte_qui_nous_sommes">Nous sommes des étudiants du Collège Shawinigan, dans l’attestation d’études collégiales Programmation d’applications mobiles. Nous sommes présentement en résidence au Digihub, qui grâce à eux, notre créativité est des plus développés.</string>
+	<string name="tv_sous_titre_idee">Comment nous est venue l’idée de Denrée Ô Suivant?</string>
+	<string name="tv_texte_idee">L’idée nous est venue d’un des parents à notre collège de classe. C’était une idée de base qui s’est développé au fur et à mesure que les idées nous submergeaient.</string>
+	<string name="tv_texte_idee_2">Nous en avons parlé à notre enseignante qui a trouvé l’idée géniale. Ainsi, comme projet de fin de session, nous avons conçu l’application. Dans notre engouement, nous avons décidés de l’avant et ainsi faire ce projet une réalité. C’est donc avec grand plaisir et une immense fierté que nous vous présentons un projet à vocation sociale et communautaire. Un projet afin d’aider les aidants, la communauté et améliorer notre collectivité.</string>
+	<string name="tv_titre_mission">Notre mission</string>
+	<string name="tv_sous_titre_mission"> Simplifier les dons pour les entreprises</string>
+	<string name="tv_texte_mission">Denrée Ô suivant aide les entreprises à afficher leurs ressources. Ainsi, cela évite les sollicitations inappropriées de la part des organismes. Elle facilite aussi la communication avec les organismes et sers à économiser du temps et des ressources humaines.</string>
+	<string name="tv_sous_titre_mission_2">• Vocation sociale et communautaire</string>
+	<string name="tv_texte_mission_2">L’objectif est d’augmenter potentiellement les dons et ainsi donner une aide directe aux plus démunis et aux organismes œuvrant dans le milieu communautaire et social.</string>
+	<string name="tv_sous_titre_mission_3">• Environnement et gaspillage</string>
+	<string name="tv_texte_mission_3">Denrée Ô suivant se donne pour mission de minimiser les ressources gaspillées. Ainsi favoriser la récupération et le recyclage. Il aura donc une revalorisation et une redistribution des ressources non-utilisées. L’impact environnemental en sera plus que positif.</string>
+	<string name="tv_titre_conclusion">En conclusion</string>
+	<string name="tv_texte_conclusion"><![CDATA[Nous sommes Étudiants, mais nous sommes aussi « Carrément Panda », et Entrepreneurs et surtout, nous sommes Shawinigan tout comme vous l’êtes. Issus d’une génération où l’environnement, le recyclage et le partage sont des priorités afin d’accéder à une meilleure qualité de vie, nous croyons en un monde meilleur, une communauté meilleure, et dirigeons nos efforts dans ce sens. L’action sociale et communautaire peut être compatible avec la technologie et faciliter tous les acteurs concernés. Notre projet d’entreprenariat étudiant en est une preuve, malgré toutes les embuches que nous rencontrons chaque jour, et que nous rencontrerons à l’avenir. Il est important de développer et d’encourager l’entreprenariat, de soutenir les entrepreneurs dans leurs démarches, et le DigiHub est un pionnier en ce sens. Vos efforts et votre dynamisme en valent la peine, continuez à travailler pour améliorer le monde qui vous entoure.]]></string>
+	<!-- Ressources strings pour layout inscription -->
+	<string name="tv_info_inscription">SIGN UP</string>
+	<string name="tv_info_user">USER INFORMATION</string>
+	<string name="tv_inscription_nom">Contact last name</string>
+	<string name="et_inscription_nom">LAST NAME</string>
+	<string name="tv_inscription_prenom">Contact first name</string>
+	<string name="et_inscription_prenom">FIRST NAME</string>
+	<string name="tv_inscription_username">Organization name</string>
+	<string name="et_inscription_username">ORGANIZATION NAME</string>
+	<string name="tv_inscription_password">Password</string>
+	<string name="et_inscription_password">PASSWORD</string>
+	<string name="tv_inscription_confirm_password">Confirm password</string>
+	<string name="et_inscription_confirm_password">CONFIRM PASSWORD</string>
+	<string name="tv_inscription_info_contact">HOW TO CONTACT INFORMATION</string>
+	<string name="tv_inscription_courriel">Email</string>
+	<string name="et_inscription_courriel">EMAIL</string>
+	<string name="tv_inscription_phone">Phone</string>
+	<string name="et_inscription_phone">PHONE</string>
+	<string name="tv_inscription_phone_poste">Extension</string>
+	<string name="et_inscription_phone_poste">EXTENSION</string>
+	<string name="tv_inscription_moyen_contact">How to contact ?</string>
+	<string name="rb_inscription_courriel">Email</string>
+	<string name="rb_inscription_phone">Phone</string>
+	<string name="rb_inscription_both">Both</string>
+	<string name="tv_inscription_adress">ADRESS</string>
+	<string name="tv_inscription_no_civique">Civic number</string>
+	<string name="tv_inscription_no">NO</string>
+	<string name="tv_inscription_type_rue">Street type</string>
+	<string name="tv_inscription_nom_rue">Street name</string>
+	<string name="et_inscription_nom_rue">STREET NAME</string>
+	<string name="tv_inscription_no_appartement">Appartment number</string>
+	<string name="tv_inscription_ville">City</string>
+	<string name="et_inscription_ville">CITY</string>
+	<string name="tv_inscription_province">Province</string>
+	<string name="et_inscription_province">PROVINCE</string>
+	<string name="tv_inscription_code_postal">Postal code</string>
+	<string name="et_inscription_code_postal">POSTAL CODE</string>
+	<string name="tv_inscription_pays">Country</string>
+	<string name="et_inscription_pays">COUNTRY</string>
+	<string name="tv_inscription_etes_vous">ARE-YOU ?</string>
+	<string name="rb_inscription_entreprise">A business</string>
+	<string name="rb_inscription_organisme">A communal organization</string>
+	<string name="tv_inscription_no_entreprise">Business number (NEQ)</string>
+	<string name="tv_inscription_no_osbl">OSBL number</string>
+	<string name="btn_inscription_inscription">Sign up</string>
+	<!-- Autres ressources-->
+	<string name="iv_logo">Logo</string>
+	<string name="loading">A moment please.</string>
+	<string name="app_name">Codename: Hippie</string>
+	<string name="title_activity_preference">Settings</string>
+	<string name="error_http_404">The resource you are trying to reach wasn\'t found</string>
+	<string name="error_http_500">The server has encountered an internal server error</string>
+	<string name="cat_Produits_laitiers">Dairy</string>
+	<string name="cat_boulangerie">Baked goods</string>
+	<string name="cat_viandes">Meat</string>
+	<string name="cat_surgelés">Frozen products</string>
+	<string name="cat_non_périssable">Non perishable</string>
+	<string name="cat_non_comestible">Inedible</string>
+	<string name="cat_fruits_et_legumes">Fruits and vegetable</string>
+	<string name="stats_axe_x">Compagny</string>
+	<string name="stats_pile">Stacked</string>
+	<string name="stats_superrposes">Overlayed</string>
+	<string name="stats_titre_graphique">Distribution of monetary worth per category of goods per compagny</string>
+	<string name="tv_aide_titre_connexion">Login</string>
+	<string name="stats_non_selectionne">Please select a column</string>
+	<string name="stats_axe_y">Worth</string>
+	<string name="stats_cote_a_cote">Side by side</string>
+	<string name="title_no_internet">No internet connection</string>
+	<string name="error_no_internet">An internet connection is required for this application.</string>
+	<string name="stats_largeur_variable">variable width</string>
 </resources>
