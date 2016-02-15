@@ -1,4 +1,4 @@
-package com.pam.codenamehippie.ui.view.dialogs;
+package com.pam.codenamehippie.ui.view.dialog;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -158,13 +158,14 @@ public class CalendarPickerViewDialogFragment extends AppCompatDialogFragment
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        this.view =
-                ((CalendarPickerView) inflater.inflate(R.layout.dialogfragment_calendarpickerview,
-                                                       container, false));
-        this.view.init(this.minDate, this.maxDate)
-                 .withSelectedDate(this.selectedDate)
-                 .inMode(this.selectionMode);
-        this.view.setOnDateSelectedListener(this);
+        if (this.view == null) {
+            this.view = ((CalendarPickerView) inflater.inflate(
+                    R.layout.dialogfragment_calendarpickerview, container, false));
+            this.view.init(this.minDate, this.maxDate)
+                     .withSelectedDate(this.selectedDate)
+                     .inMode(this.selectionMode);
+            this.view.setOnDateSelectedListener(this);
+        }
         return this.view;
     }
 
@@ -172,22 +173,13 @@ public class CalendarPickerViewDialogFragment extends AppCompatDialogFragment
     public void onStart() {
         super.onStart();
         if (this.view != null) {
-            this.view.fixDialogDimens();
-            if (this.selectionMode == SelectionMode.SINGLE)
-            this.view.selectDate(this.selectedDate);
+            if (this.selectionMode == SelectionMode.SINGLE) {
+                this.view.selectDate(this.selectedDate);
+            }
         }
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (this.view != null) {
-            this.view.unfixDialogDimens();
-        }
-    }
-
-    public CalendarPickerViewDialogFragment setOnDateSelectedListener(OnDateSelectedListener
-                                                                              listener) {
+    public CalendarPickerViewDialogFragment setOnDateSelectedListener(OnDateSelectedListener listener) {
         this.listener = listener;
         return this;
     }

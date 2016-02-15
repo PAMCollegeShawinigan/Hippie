@@ -26,7 +26,7 @@ import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
 import com.pam.codenamehippie.ui.adapter.TypeAlimentaireModeleSpinnerAdapter;
-import com.pam.codenamehippie.ui.view.dialogs.CalendarPickerViewDialogFragment;
+import com.pam.codenamehippie.ui.view.dialog.CalendarPickerViewDialogFragment;
 import com.squareup.timessquare.CalendarPickerView.OnDateSelectedListener;
 
 import java.io.IOException;
