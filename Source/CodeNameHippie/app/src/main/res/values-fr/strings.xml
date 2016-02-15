@@ -172,8 +172,8 @@
     <string name="et_inscription_nom">NOM</string>
     <string name="tv_inscription_prenom">Prénom du contact</string>
     <string name="et_inscription_prenom">PRÉNOM</string>
-    <string name="tv_inscription_username">Nom de l'entreprise</string>
-    <string name="et_inscription_username">NOM DE L'ENTREPRISE</string>
+    <string name="tv_inscription_username">Nom de l\'entreprise</string>
+    <string name="et_inscription_username">NOM DE L\'ENTREPRISE</string>
     <string name="tv_inscription_password">Mot de passe</string>
     <string name="et_inscription_password">MOT DE PASSE</string>
     <string name="tv_inscription_confirm_password">Confirmer le mot de passe</string>
