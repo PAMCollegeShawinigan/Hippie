@@ -261,7 +261,6 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * @throws JsonSyntaxException
      *         Si le json n'est pas convertible en modèle
      */
-    @SuppressWarnings("unchecked")
     public T fromJson(String json) throws JsonSyntaxException {
         synchronized (this.lock) {
             return (T) gson.fromJson(json, this.classeDeT);
@@ -282,7 +281,6 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *         Si le reader rencontre du JSON malformé.
      */
     @Nullable
-    @SuppressWarnings("unchecked")
     public T fromJson(JsonReader reader) throws JsonIOException, JsonSyntaxException {
         synchronized (this.lock) {
             T result = null;
@@ -329,7 +327,6 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * @throws JsonSyntaxException
      *         Si le reader rencontre du JSON malformé.
      */
-    @SuppressWarnings("unchecked")
     public T fromJson(Reader reader) throws IOException, JsonIOException, JsonSyntaxException {
         return this.fromJson(new JsonReader(reader));
     }
@@ -495,9 +492,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      */
     public void ajouterModele(T modele) throws UnsupportedOperationException {
         if (this.ajoutUrl == null) {
-            if (this.modifierUrl == null) {
-                throw new UnsupportedOperationException("Ce dépôt ne supporte pas l'ajout");
-            }
+            throw new UnsupportedOperationException("Ce dépôt ne supporte pas l'ajout");
         }
         synchronized (this.lock) {
             int index = this.modeles.indexOf(modele);
@@ -563,27 +558,26 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                                        .addPathSegment(modele.getId().toString())
                                        .build();
         Request request = new Request.Builder().url(url).get().build();
-        this.httpClient.newCall(request)
-                       .enqueue(new Callback() {
-                           @Override
-                           public void onFailure(Call call, IOException e) {
-                               BaseModeleDepot.this.surErreur(e);
-                           }
+        this.httpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                BaseModeleDepot.this.surErreur(e);
+            }
 
-                           @Override
-                           public void onResponse(Call call, Response response) {
-                               if (!response.isSuccessful()) {
-                                   HttpReponseException e = new HttpReponseException(response);
-                                   BaseModeleDepot.this.surErreur(e);
-                               } else {
-                                   BaseModeleDepot.this.repeuplerLedepot();
-                                   if (action != null) {
-                                       BaseModeleDepot.this.runOnUiThread(action);
-                                   }
-                               }
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (!response.isSuccessful()) {
+                    HttpReponseException e = new HttpReponseException(response);
+                    BaseModeleDepot.this.surErreur(e);
+                } else {
+                    BaseModeleDepot.this.repeuplerLedepot();
+                    if (action != null) {
+                        BaseModeleDepot.this.runOnUiThread(action);
+                    }
+                }
 
-                           }
-                       });
+            }
+        });
     }
 
     /**

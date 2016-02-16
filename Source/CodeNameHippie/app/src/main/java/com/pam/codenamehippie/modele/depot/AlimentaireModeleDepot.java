@@ -31,7 +31,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
-import com.pam.codenamehippie.http.Authentificateur;
 import com.pam.codenamehippie.http.exception.HttpReponseException;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.DescriptionModel;
@@ -271,6 +270,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
             @Override
             public void onFailure(Call call, IOException e) {
                 AlimentaireModeleDepot.this.surErreur(e);
+                AlimentaireModeleDepot.this.surFinDeRequete();
             }
 
             @Override
@@ -289,12 +289,10 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         });
     }
 
-    public void ajouterReservation(AlimentaireModele modele, final Runnable action) {
+    public void ajouterReservation(AlimentaireModele modele,
+                                   OrganismeModele receveur,
+                                   final Runnable action) {
         HttpUrl url = this.reservationUrl.newBuilder().addPathSegment("ajouter").build();
-        OrganismeModele receveur =
-                ((Authentificateur) this.httpClient.authenticator()).getUtilisateur()
-                                                                    .getOrganisme();
-
         FormBody body = new FormBody.Builder().add("marchandise_id", modele.getId().toString())
                                               .add("receveur_id", receveur.getId().toString())
                                               .build();
