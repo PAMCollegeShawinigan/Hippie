@@ -119,6 +119,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurValeur = ValidateurDeChampTexte.newInstance(this, etValeurMarchandise, true,
                                                                    ValidateurDeChampTexte
                                                                            .VALEUR_ALIMENTAIRE_LONGUEUR_MAX);
+        this.validateurValeur.setEstNumerique(true);
         this.validateurValeur.registerObserver(this);
         // ***************************************************************************************
         // Chaque Spinner passe par le ValidateurDeSpinner et le choix doit être différent de la *
@@ -395,8 +396,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
     }
 
     @Override
-    public void OnDismissListener(CalendarPickerViewDialogFragment fragment,
-                                  DialogInterface dialog) {
+    public void onDismiss(CalendarPickerViewDialogFragment fragment,
+                          DialogInterface dialog) {
         if (this.modele.getDatePeremption() == null) {
             this.modele.setDatePeremption(fragment.dateSelectionee());
         }
@@ -420,7 +421,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
         // FIXME: Gérer l'état de marchandise. On mets 3(neuf) en attendant
         this.modele.setNom(this.validateurNom.getTextString())
                    .setDescription(this.validateurDescription.getTextString())
-                   .setValeur(Long.parseLong(this.validateurValeur.getTextString()))
+                   .setValeur(Double.parseDouble(this.validateurValeur.getTextString()))
                    .setQuantite(Double.parseDouble(this.validateurQuantite.getTextString()))
                    .setUniteDeQuantite(marchandiseUniteId)
                    .setEtat("3")

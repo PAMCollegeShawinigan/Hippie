@@ -22,7 +22,11 @@ public class CalendarPickerViewDialogFragment extends AppCompatDialogFragment
 
     public interface OnDismissListener {
 
-        void OnDismissListener(CalendarPickerViewDialogFragment fragment, DialogInterface dialog);
+        void onDismiss(CalendarPickerViewDialogFragment fragment, DialogInterface dialog);
+    }
+
+    public interface OnCancelListener{
+        void onCancel(CalendarPickerViewDialogFragment fragment, DialogInterface dialogInterface);
     }
 
     public static final class Builder {
@@ -112,6 +116,7 @@ public class CalendarPickerViewDialogFragment extends AppCompatDialogFragment
     private SelectionMode selectionMode;
     private OnDateSelectedListener onDateSelectedListener;
     private OnDismissListener onDismissListener;
+    private OnCancelListener onCancelListener;
     private CalendarPickerView view;
 
     public CalendarPickerViewDialogFragment() {
@@ -122,6 +127,8 @@ public class CalendarPickerViewDialogFragment extends AppCompatDialogFragment
         this.selectedDate = this.minDate;
         this.selectionMode = SelectionMode.SINGLE;
     }
+
+
 
     public static Builder assigneUnNouveauFragment() {
         return new Builder();
@@ -228,7 +235,7 @@ public class CalendarPickerViewDialogFragment extends AppCompatDialogFragment
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
         if (this.onDismissListener != null) {
-            this.onDismissListener.OnDismissListener(this, dialog);
+            this.onDismissListener.onDismiss(this, dialog);
         }
     }
 
