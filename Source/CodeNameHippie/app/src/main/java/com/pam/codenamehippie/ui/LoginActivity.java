@@ -121,19 +121,24 @@ public class LoginActivity extends HippieActivity
                                         this.validateurMotDePasse.getTextString(), new Callback() {
                     @Override
                     public void surErreur(IOException e) {
+                        Snackbar snackbar;
                         if (e instanceof HttpReponseException) {
                             switch (((HttpReponseException) e).getCode()) {
                                 case 403:
-                                    Snackbar.make(v, R.string.error_bad_credentials,
-                                                  Snackbar.LENGTH_SHORT).show();
+                                    snackbar = Snackbar.make(v,
+                                                             R.string.error_bad_credentials,
+                                                             Snackbar.LENGTH_SHORT);
                                     break;
                                 default:
-                                    Snackbar.make(v, R.string.error_connection,
-                                                  Snackbar.LENGTH_SHORT).show();
+                                    snackbar = Snackbar.make(v, R.string.error_connection,
+                                                             Snackbar.LENGTH_SHORT);
                                     break;
                             }
+                        } else {
+                            snackbar = Snackbar.make(v, R.string.error_connection,
+                                                     Snackbar.LENGTH_SHORT);
                         }
-                        Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT).show();
+                        snackbar.show();
                     }
 
                     @Override
