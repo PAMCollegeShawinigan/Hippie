@@ -84,7 +84,6 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
     public void setOrganisme(@Nullable OrganismeModele organisme) {
         this.organisme = organisme;
-        this.listedon.clear();
         this.notifyDataSetChanged();
         if (organisme != null) {
             Log.d("ORG", this.organisme.toString());
