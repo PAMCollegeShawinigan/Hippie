@@ -12,12 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.FiltreDeListe;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.ui.HippieActivity;
@@ -62,7 +62,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
         this.inflater =
                 ((LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
         this.alimentaireModeleDepot =
-                ((HippieApplication) activity.getApplication()).getAlimentaireModeleDepot();
+                DepotManager.getInstance().getAlimentaireModeleDepot();
         this.viewSwitcher = ((ViewSwitcher) this.activity.findViewById(R.id.panel_view_switcher));
         if (this.viewSwitcher != null) {
             this.viewSwitcher.setInAnimation(this.activity, android.R.anim.fade_in);

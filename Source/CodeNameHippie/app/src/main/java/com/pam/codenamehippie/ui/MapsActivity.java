@@ -32,13 +32,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.http.exception.HttpReponseException;
 import com.pam.codenamehippie.modele.AdresseModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
 import com.pam.codenamehippie.ui.adapter.CarteAdapterOption;
@@ -256,11 +256,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         super.onResume();
         this.mapView.onResume();
         OrganismeModeleDepot organismeModeleDepot =
-                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
+                DepotManager.getInstance().getOrganismeModeleDepot();
         AlimentaireModeleDepot alimentaireModeleDepot =
-                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        organismeModeleDepot.ajouterUnObservateur(this);
-
+                DepotManager.getInstance().getAlimentaireModeleDepot();
         alimentaireModeleDepot.ajouterUnObservateur(this.adapter);
         this.peuplerListeOrganisme(organismeModeleDepot);
     }
@@ -269,14 +267,6 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     protected void onPause() {
         super.onPause();
         this.mapView.onPause();
-        AlimentaireModeleDepot alimentaireModeleDepot =
-                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        OrganismeModeleDepot organismeModeleDepot =
-                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
-        organismeModeleDepot.setFiltreDeListe(null);
-        organismeModeleDepot.supprimerTousLesObservateurs();
-        alimentaireModeleDepot.setFiltreDeListe(null);
-        alimentaireModeleDepot.supprimerTousLesObservateurs();
         if (this.prepareMarkerAsyncTask != null) {
             this.prepareMarkerAsyncTask.cancel(true);
         }
@@ -382,7 +372,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
 
     public void onButtonClick(View v) {
         OrganismeModeleDepot organismeModeleDepot =
-                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
+                DepotManager.getInstance().getOrganismeModeleDepot();
 
         switch (v.getId()) {
 
