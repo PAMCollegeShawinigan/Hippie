@@ -11,7 +11,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.test.mock.MockApplication;
 import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
@@ -357,7 +356,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                     Snackbar.make(MapsActivity.this.mapView,
                                   "Geocoder service unavailable",
                                   Snackbar.LENGTH_LONG
-                                 ).show();
+                    ).show();
                 }
             });
             return null;
@@ -392,7 +391,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 Toast.makeText(this.getApplicationContext(),
                                " Denrées disponible ",
                                Toast.LENGTH_SHORT
-                              ).show();
+                ).show();
 
                 this.adapter.setOrganisme(null);
 
@@ -409,10 +408,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 Toast.makeText(this.getApplicationContext(),
                                " Mes réservations ",
                                Toast.LENGTH_SHORT
-                              ).show();
+                ).show();
                 // FIXME: Faire fonctionner la liste de mes réservations.
                 this.adapter.setOrganisme(null);
-            
+
                 this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_RESERVEE);
                 this.peuplerListeOrganisme(organismeModeleDepot);
                 break;
