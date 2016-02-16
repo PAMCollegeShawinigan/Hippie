@@ -3,6 +3,7 @@ package com.pam.codenamehippie.ui;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.OrganismeModele;
@@ -31,20 +32,23 @@ public class ListeStatistiquesActivity extends HippieActivity
     // Id de l'organisme/entreprise
     private Integer orgId;
 
+    private TextView tv_totalFinal;
+    public void setTv_totalFinal(TextView tv_totalFinal) {
+        this.tv_totalFinal = tv_totalFinal;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.liste_statistiques);
 
-        //TODO: Vérifier si AlimentaireModeleDepot ou TransactionModeleDepot
-        //TransactionModeleDepot transactionModeleDepot =
-        // ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
-
+        // TODO: trouver une façon d'afficher le total final (somme des valeurs de chaque groupe)
+        tv_totalFinal = (TextView)findViewById(R.id.tv_statistiques_valeur_total);
         // On va chercher l'expendable listView
         this.listeStatistiques = (ExpandableListView) findViewById(R.id.list_statistiques_group);
         this.statistiquesAdapter = new ListeStatistiquesAdapter(this);
         this.listeStatistiques.setAdapter(this.statistiquesAdapter);
-        //On va chercher l'id organisme dans le sharedPreferences
+        //On va chercher l'id organisme
         UtilisateurModele uc = this.authentificateur.getUtilisateur();
         OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
         this.orgId = (org != null) ? org.getId() : -1;
