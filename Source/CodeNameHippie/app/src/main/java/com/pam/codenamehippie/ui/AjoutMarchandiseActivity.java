@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.controleur.validation.Validateur;
 import com.pam.codenamehippie.controleur.validation.ValidateurDeChampTexte;
@@ -38,13 +37,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.HttpUrl;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Cette classe permet à un donneur d'ajouter et modifier des produits à la base de données
@@ -80,7 +72,6 @@ public class AjoutMarchandiseActivity extends HippieActivity
     private TextView datePicker;
     private TextView tvDatePeremption;
     // Id de alimentaire pour sélection route modifier ou ajouter
-    private Integer idModele = null;
     private AlimentaireModele modele;
     // Id de l'organisme dont l'utilisateur est membre.
     private Integer organismeId;
@@ -90,9 +81,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         this.setContentView(R.layout.ajout_marchandise);
-        this.httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
+
         // *********************************************************************************
         // Chaque EditText passe par le ValidateurDeChampTexte et doit répondre à certains *
         // critères dont la longeur max et si le champ est requis                          *
@@ -151,12 +141,13 @@ public class AjoutMarchandiseActivity extends HippieActivity
         // Provient de l'Intent de ListeMesDonsActivity lors du clic sur modifier un produit
         Bundle bundle = this.getIntent().getExtras();
         // Si le Bundle n'est pas null, il s'agit d'une modification à faire sur un don.
+        int id = 0;
         if (bundle != null) {
             // Modifier le TextView pour signifier une modification
             tvAjoutMarchandise.setText(R.string.modifier_marchandise);
             this.bAjoutMarchandise.setText(R.string.bouton_modifier);
             // Obtenir le id du produit à modifier
-            this.idModele = bundle.getInt("id");
+            id = bundle.getInt(MODELE_ID, 0);
         }
         if (savedInstanceState != null) {
             this.selectedSpinnerTypePosition =
@@ -169,6 +160,11 @@ public class AjoutMarchandiseActivity extends HippieActivity
                 this.modele = DepotManager.getInstance().getAlimentaireModeleDepot().fromJson(json);
             }
         }
+        this.modele = (this.modele == null) ? new AlimentaireModele() : this.modele;
+        UtilisateurModele uc = this.authentificateur.getUtilisateur();
+        OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
+        this.modele.setId(id).setOrganisme(org);
+
     }
 
     @Override
@@ -176,15 +172,10 @@ public class AjoutMarchandiseActivity extends HippieActivity
         super.onResume();
         AlimentaireModeleDepot depot = DepotManager.getInstance().getAlimentaireModeleDepot();
         depot.peuplerLesListesDeSpinners(this);
-        if ((this.idModele != null) && (this.modele == null)) {
-            depot.rechercherParId(this.idModele);
-        } else {
-            this.modele = (this.modele == null) ? new AlimentaireModele() : this.modele;
-            UtilisateurModele uc = this.authentificateur.getUtilisateur();
-            OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
-            this.modele.setOrganisme(org);
-            this.afficherModele(this.modele);
+        if (this.modele.getId() != 0) {
+            depot.rechercherParId(this.modele.getId());
         }
+        this.afficherModele(this.modele);
         this.validateurNom.onResume();
         this.validateurDescription.onResume();
         this.validateurQuantite.onResume();
@@ -229,10 +220,13 @@ public class AjoutMarchandiseActivity extends HippieActivity
     public void enValidant(Validateur validateur, boolean estValide) {
         if (validateur.equals(this.validateurNom)) {
             this.nomEstValide = estValide;
+            if (estValide) {
+                this.modele.setNom(this.validateurNom.getTextString());
+            }
         } else if (validateur.equals(this.validateurDescription)) {
             this.descriptionEstValide = estValide;
         } else if (validateur.equals(this.validateurQuantite)) {
-            this.quantiteEstValide = estValide;
+            this.quantiteEstValide = (estValide);
         } else if (validateur.equals(this.validateurValeur)) {
             this.valeurEstValide = estValide;
         } else if (validateur.equals(this.validateurSpinnerUniteMarchandise)) {
@@ -243,8 +237,10 @@ public class AjoutMarchandiseActivity extends HippieActivity
                         .getEstPerissable() ||
                 this.validateurSpinnerTypeMarchandise.getSelectedItemId() == 0) {
                 this.tvDatePeremption.setVisibility(View.VISIBLE);
+                this.datePicker.setVisibility(View.VISIBLE);
             } else {
                 this.tvDatePeremption.setVisibility(View.GONE);
+                this.datePicker.setVisibility(View.GONE);
             }
             this.spinnerTypeMarchandiseEstValide = estValide;
         }
@@ -270,6 +266,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
 
     @Override
     public void surDebutDeRequete() {
+        this.afficherLaProgressBar();
 
     }
 
@@ -285,7 +282,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
 
     @Override
     public void surFinDeRequete() {
-
+        this.cacherLaProgressbar();
     }
 
     @Override
@@ -371,10 +368,15 @@ public class AjoutMarchandiseActivity extends HippieActivity
     @Override
     public void onDateSelected(Date date) {
         DateFormat df = android.text.format.DateFormat.getLongDateFormat(this);
-        this.datePicker.setText(df.format(this.datePeremptionFragment.dateSelectionee()));
+        this.datePicker.setText(df.format(date));
         if (this.modele != null) {
             this.modele.setDatePeremption(date);
         }
+    }
+
+    @Override
+    public void onDismiss(CalendarPickerViewDialogFragment fragment, DialogInterface dialog) {
+        this.onDateSelected(fragment.dateSelectionee());
     }
 
     @Override
@@ -384,24 +386,14 @@ public class AjoutMarchandiseActivity extends HippieActivity
 
     public void surDatePickerClick(View v) {
         if (this.datePeremptionFragment == null) {
-            this.datePeremptionFragment =
-                    CalendarPickerViewDialogFragment.assigneUnNouveauFragment()
-                                                    .pisCestTout()
-                                                    .setOnDateSelectedListener(this)
-                                                    .setOnDismissListener(this);
+            Date date = (this.modele.getDatePeremption() != null)
+                        ? this.modele.getDatePeremption()
+                        : new Date();
+            this.datePeremptionFragment = this.newDatePicker(date);
         }
         if (!this.datePeremptionFragment.isVisible()) {
             this.datePeremptionFragment.show(this.getSupportFragmentManager(), null);
         }
-    }
-
-    @Override
-    public void onDismiss(CalendarPickerViewDialogFragment fragment,
-                          DialogInterface dialog) {
-        if (this.modele.getDatePeremption() == null) {
-            this.modele.setDatePeremption(fragment.dateSelectionee());
-        }
-        this.afficherModele(this.modele);
     }
 
     /**
@@ -429,81 +421,36 @@ public class AjoutMarchandiseActivity extends HippieActivity
                    .setTypeAlimentaire(typeAlimentaire.getDescription());
 
         AlimentaireModeleDepot depot = DepotManager.getInstance().getAlimentaireModeleDepot();
-        // Construction du url pour un ajout de marchandise
-        HttpUrl url = depot.getUrl().newBuilder().addPathSegment("ajout").build();
-        FormBody.Builder body =
-                new FormBody.Builder().add("description", this.modele.getDescription())
-                                      .add("nom", this.modele.getNom())
-                                      .add("quantite", this.modele.getQuantite().toString())
-                                      .add("valeur", this.modele.getValeur().toString())
-                                      .add("type_alimentaire", this.modele.getTypeAlimentaire())
-                                      .add("marchandise_unite", this.modele.getUniteDeQuantite())
-                                      .add("marchandise_etat", "3")
-                                      .add("date_peremption",
-                                           this.modele.getDatePeremption().toString())
-                                      .add("donneur_id", this.organismeId.toString());
-        if (this.idModele != null) {
-            // Si le idModele est différent de null, il s'agit d'une modification sur le produit
-            // et il faut ajouter ce idModele à la requête et modifier le url en conséquence
-            body.add("id", this.idModele.toString());
-            url = depot.getUrl().newBuilder().addPathSegment("modifier").build();
-        }
-        // Construire et envoyer la requête au serveur avec un Callback
-        Request request = new Request.Builder().url(url).post(body.build()).build();
-        this.httpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT).show();
-                    }
-                });
-            }
+        if ((this.modele.getId() != null) && (this.modele.getId() != 0)) {
+            // Si le id est différent de null, il s'agit d'une modification sur le produit
+            // et il faut agir en conséquence.
+            depot.modifierModele(this.modele, new Runnable() {
+                @Override
+                public void run() {
+                    Snackbar snackbar = Snackbar.make(v, R.string.msg_produit_modifie,
+                                                      Snackbar.LENGTH_SHORT);
 
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (!response.isSuccessful()) {
-                    switch (response.code()) {
-                        default:
-                            AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Snackbar.make(v, R.string.error_connection,
-                                                  Snackbar.LENGTH_SHORT).show();
-                                }
-                            });
-                            break;
-                    }
-                } else {
-                    AjoutMarchandiseActivity.this.runOnUiThread(new Runnable() {
+                    snackbar.setCallback(new Snackbar.Callback() {
                         @Override
-                        public void run() {
-                            if (AjoutMarchandiseActivity.this.idModele != null) {
-                                // C'est une modification au produit
-                                Snackbar snackbar = Snackbar.make(v, R.string.msg_produit_modifie,
-                                                                  Snackbar.LENGTH_SHORT);
-
-                                snackbar.setCallback(new Snackbar.Callback() {
-                                    @Override
-                                    public void onDismissed(Snackbar snackbar, int event) {
-                                        if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
-                                            AjoutMarchandiseActivity.this.finish();
-                                        }
-                                    }
-                                }).show();
-
-                            } else {
-                                // C'est un ajout de produit
-                                Snackbar.make(v, R.string.msg_produit_ajoute, Snackbar.LENGTH_SHORT)
-                                        .show();
-                                AjoutMarchandiseActivity.this.effacerFormulaire();
+                        public void onDismissed(Snackbar snackbar, int event) {
+                            if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                                AjoutMarchandiseActivity.this.finish();
                             }
                         }
-                    });
+                    }).show();
                 }
-            }
-        });
+            });
+        } else {
+            depot.ajouterModele(this.modele, new Runnable() {
+                @Override
+                public void run() {
+                    // C'est un ajout de produit
+                    Snackbar.make(v, R.string.msg_produit_ajoute, Snackbar.LENGTH_SHORT)
+                            .show();
+                    AjoutMarchandiseActivity.this.effacerFormulaire();
+                }
+            });
+        }
     }
 
     /**
@@ -517,6 +464,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
         this.validateurValeur.setText(null);
         this.validateurSpinnerTypeMarchandise.setSelectedItemId(0);
         this.tvDatePeremption.setVisibility(View.VISIBLE);
+        this.datePicker.setVisibility(View.VISIBLE);
+        this.onDateSelected(new Date());
     }
 
     private void afficherModele(@NonNull AlimentaireModele modele) {
@@ -540,5 +489,4 @@ public class AjoutMarchandiseActivity extends HippieActivity
                                                .setOnDateSelectedListener(this)
                                                .setOnDismissListener(this);
     }
-
 }
