@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
@@ -152,13 +151,13 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                                         .build();
                 cameraUpdate = CameraUpdateFactory.newCameraPosition(position);
             } else if (bounds != null) {
-                int width = this.activity.mapView.getWidth();
-                int height = this.activity.mapView.getHeight();
-                int padding = 30;
-                ActionBar actionBar = this.activity.getSupportActionBar();
-                if (actionBar != null) {
-                    padding = actionBar.getHeight();
-                }
+                // On set la carte pour projeter sur la taille de l'écran.
+                // C'est pas idéal, mais ça fait.
+                int width = this.activity.getResources().getDisplayMetrics().widthPixels;
+                int height = this.activity.getResources().getDisplayMetrics().heightPixels;
+                int padding =
+                        this.activity.getResources()
+                                     .getDimensionPixelSize(R.dimen.activity_horizontal_margin);
                 cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
             }
             if (cameraUpdate != null) {
