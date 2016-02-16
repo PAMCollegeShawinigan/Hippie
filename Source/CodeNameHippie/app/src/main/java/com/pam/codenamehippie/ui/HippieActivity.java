@@ -133,6 +133,7 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
                })
     @Retention(RetentionPolicy.SOURCE)
     public @interface ServiceName { } // Ceci est pour fermer la trappe à Android Lint... Il y a
+
     protected Authentificateur authentificateur;
     protected OkHttpClient httpClient;
     protected SharedPreferences sharedPreferences;
@@ -205,6 +206,11 @@ public class HippieActivity extends AppCompatActivity implements ConnectionCallb
         // http://developer.android.com/training/implementing-navigation/temporal.html
         switch (item.getItemId()) {
             case android.R.id.home: {
+                if (this.getClass().equals(ListeMarchandisesDisponiblesActivity.class)) {
+                    // FIXME: On imite le button back… C'est pas vraiment kosher.
+                    this.finish();
+                    return true;
+                }
                 Intent intent = this.getSupportParentActivityIntent();
                 if ((intent != null) && (NavUtils.shouldUpRecreateTask(this, intent))) {
                     TaskStackBuilder.create(this)
