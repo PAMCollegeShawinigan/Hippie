@@ -44,8 +44,11 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.pam.codenamehippie.HippieApplication;
+import com.pam.codenamehippie.http.Authentificateur;
 import com.pam.codenamehippie.http.exception.HttpReponseException;
 import com.pam.codenamehippie.modele.BaseModele;
+import com.pam.codenamehippie.modele.OrganismeModele;
+import com.pam.codenamehippie.modele.UtilisateurModele;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -261,6 +264,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * @throws JsonSyntaxException
      *         Si le json n'est pas convertible en modèle
      */
+    @SuppressWarnings("unchecked")
     public T fromJson(String json) throws JsonSyntaxException {
         synchronized (this.lock) {
             return (T) gson.fromJson(json, this.classeDeT);
@@ -426,7 +430,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response) {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                     BaseModeleDepot.this.surErreur(new HttpReponseException(response));
@@ -482,27 +486,51 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     }
 
     /**
-     * Ajouter un nouveau modèle dans le dépôt.
+     * Ajouter un nouveau modèle dans le système.
      *
      * @param modele
-     *         le modele à ajouter
+     *         le modele à ajout.
+     * @param action
+     *         Callback en cas de succes
      *
      * @throws UnsupportedOperationException
      *         Si le dépot ne supporte pas l'ajout
      */
-    public void ajouterModele(T modele) throws UnsupportedOperationException {
+    public void ajouterModele(@NonNull T modele, @Nullable final Runnable action)
+            throws UnsupportedOperationException {
         if (this.ajoutUrl == null) {
             throw new UnsupportedOperationException("Ce dépôt ne supporte pas l'ajout");
         }
-        synchronized (this.lock) {
-            int index = this.modeles.indexOf(modele);
-            if (index != -1) {
-                this.modeles.add(index, modele);
-            } else {
-                this.modeles.add(modele);
-            }
+        FormBody.Builder body = this.toFormBodyBuilder(modele);
+        UtilisateurModele uc =
+                ((Authentificateur) this.httpClient.authenticator()).getUtilisateur();
+        OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
+        if (org != null) {
+            body.add("donneur_id", org.getId().toString());
         }
+        Request request = new Request.Builder().url(this.ajoutUrl).post(body.build()).build();
+        this.surDebutDeRequete();
+        this.httpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
+                BaseModeleDepot.this.surErreur(e);
+                BaseModeleDepot.this.surFinDeRequete();
+            }
 
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (!response.isSuccessful()) {
+                    Log.e(TAG, "Request failed: " + response.toString());
+                    BaseModeleDepot.this.surErreur(new HttpReponseException(response));
+                } else {
+                    if (action != null) {
+                        BaseModeleDepot.this.runOnUiThread(action);
+                    }
+                }
+                BaseModeleDepot.this.surFinDeRequete();
+            }
+        });
     }
 
     /**
@@ -510,16 +538,49 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * paramètre.
      *
      * @param modele
-     *         Le modèle à modifier.
+     *         Le modèle à modifie
+     * @param action
+     *         Callback en cas de succes
      *
      * @throws UnsupportedOperationException
      *         Si le dépot ne supporte pas l'ajout
      */
-    public void modifierModele(T modele) throws UnsupportedOperationException {
+    public void modifierModele(@NonNull T modele, @Nullable final Runnable action)
+            throws UnsupportedOperationException {
         if (this.modifierUrl == null) {
             throw new UnsupportedOperationException("Ce dépôt ne supporte pas la modification");
         }
-        //TODO: Code de modification de modèle générique.
+        FormBody.Builder body = this.toFormBodyBuilder(modele);
+        UtilisateurModele uc =
+                ((Authentificateur) this.httpClient.authenticator()).getUtilisateur();
+        OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
+        if (org != null) {
+            body.add("donneur_id", org.getId().toString());
+        }
+        Request request = new Request.Builder().url(this.modifierUrl).post(body.build()).build();
+        this.surDebutDeRequete();
+        this.httpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
+                BaseModeleDepot.this.surErreur(e);
+                BaseModeleDepot.this.surFinDeRequete();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (!response.isSuccessful()) {
+                    Log.e(TAG, "Request failed: " + response.toString());
+                    BaseModeleDepot.this.surErreur(new HttpReponseException(response));
+                } else {
+                    if (action != null) {
+                        BaseModeleDepot.this.runOnUiThread(action);
+                    }
+                }
+                BaseModeleDepot.this.surFinDeRequete();
+            }
+        });
+
     }
 
     /**
