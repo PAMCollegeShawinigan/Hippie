@@ -101,7 +101,7 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
             // Affiche la valeur des dons de l'entreprise ou la valeur des dons reçus par un
             // organisme selon le cas
             ((TextView) convertView.findViewById(R.id.tv_statistiques_valeur_total_group))
-                    .setText("$ " + String.format("%.2f", total));
+                    .setText("Valeur des dons $ " + String.format("%.2f", total));
 
             return convertView;
     }
@@ -131,6 +131,7 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                              View convertView, ViewGroup parent) {
 
+
         // Fait afficher le layout modèle Details, afin de voir les infos des transactions
         // Lorsque l'on clique sur l'organisme pour voir plus d'informations.
         // C'est le "child" modèle.
@@ -142,25 +143,45 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
             convertView = inflater.inflate(R.layout.liste_statistiques_detail, parent, false);
         }
 
-        // Fait afficher le nom du produit
-        ((TextView) convertView.findViewById(R.id.tv_statistiques_nom_marchandise))
-                .setText(modele.getAlimentaire().getNom());
+        if (childPosition == 0){
+            // Fait afficher entête nom du produit
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_nom_marchandise))
+                    .setText("Nom du produit");
 
-        // Fait afficher la quantité du produit
-        ((TextView) convertView.findViewById(R.id.tv_statistiques_qtee_marchandise))
-                .setText(modele.getAlimentaire().getQuantiteString());
+            // Fait afficher entête quantité
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_qtee_marchandise))
+                    .setText("Qtée");
 
-        // Fait afficher la date de collecte du produit
-        Calendar cal = modele.getCalendarDateCollecte();
-        Date date = cal.getTime();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String dateCollecte = format.format(date);
-        ((TextView) convertView.findViewById(R.id.tv_statistiques_date_collecte))
-                .setText(dateCollecte);
+            // Fait afficher entête date collecte
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_date_collecte))
+                    .setText("Date de collecte");
 
-        // Fait afficher la valeur total du produit
-        ((TextView) convertView.findViewById(R.id.tv_statistiques_valeur_produit))
-                .setText("$ " + String.format("%.2f", modele.getAlimentaire().getValeur()));
+            // Fait afficher entête valeur
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_valeur_produit))
+                    .setText("Valeur");
+
+        } else {
+
+            // Fait afficher le nom du produit
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_nom_marchandise))
+                    .setText(modele.getAlimentaire().getNom());
+
+            // Fait afficher la quantité du produit
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_qtee_marchandise))
+                    .setText(modele.getAlimentaire().getQuantiteString());
+
+            // Fait afficher la date de collecte du produit
+            Calendar cal = modele.getCalendarDateCollecte();
+            Date date = cal.getTime();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String dateCollecte = format.format(date);
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_date_collecte))
+                    .setText(dateCollecte);
+
+            // Fait afficher la valeur total du produit
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_valeur_produit))
+                    .setText("$ " + String.format("%.2f", modele.getAlimentaire().getValeur()));
+             }
 
         return convertView;
     }
