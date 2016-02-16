@@ -543,7 +543,7 @@ public class Stats_Activity extends HippieActivity
             	}
                 updatePlot();
             }
-		
+
         });
 
         spSeriesSize = (Spinner) findViewById(R.id.spSeriesSize);
