@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="pref_header_account">Account</string>
-	<string name="pref_email_key" translatable="false">pref_email_key</string>
 	<string name="pref_title_email">Email</string>
-	<string name="pref_org_id_key" translatable="false">pref_org_id_key</string>
-	<string name="pref_user_id_key" translatable="false">pref_user_id_key</string>
+	<string name="pref_user_key" translatable="false">pref_user_key</string>
 </resources>
