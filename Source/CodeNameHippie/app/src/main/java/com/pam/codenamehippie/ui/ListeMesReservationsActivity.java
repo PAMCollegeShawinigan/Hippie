@@ -1,19 +1,22 @@
 package com.pam.codenamehippie.ui;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.widget.ListView;
 
-import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.http.exception.HttpReponseException;
 import com.pam.codenamehippie.modele.AlimentaireModele;
+import com.pam.codenamehippie.modele.OrganismeModele;
+import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.ui.adapter.MesReservationsAdapter;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Cette classe permet de récupérer la liste des réservations personnalisée selon l'id du receveur
@@ -32,12 +35,12 @@ public class ListeMesReservationsActivity extends HippieActivity
         this.setContentView(R.layout.liste_reservations);
 
         AlimentaireModeleDepot alimentaireModeleDepot =
-                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
+                DepotManager.getInstance().getAlimentaireModeleDepot();
 
         this.mesReservationsAdapter = new MesReservationsAdapter(this, alimentaireModeleDepot);
-        listeMesReservations = (ListView) findViewById(R.id.lv_reservation);
-        listeMesReservations.setItemsCanFocus(false);
-        listeMesReservations.setAdapter(mesReservationsAdapter);
+        this.listeMesReservations = (ListView) this.findViewById(R.id.lv_reservation);
+        this.listeMesReservations.setItemsCanFocus(false);
+        this.listeMesReservations.setAdapter(this.mesReservationsAdapter);
         //this. mesReservationsAdapter.notifyDataSetChanged();
 
     }
@@ -45,22 +48,16 @@ public class ListeMesReservationsActivity extends HippieActivity
     @Override
     protected void onPause() {
         super.onPause();
-        AlimentaireModeleDepot alimentaireModeleDepot =
-                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        alimentaireModeleDepot.setFiltreDeListe(null);
-        alimentaireModeleDepot.supprimerTousLesObservateurs();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         AlimentaireModeleDepot alimentaireModeleDepot =
-                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        int orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
-                                                  -1
-                                                 );
-        alimentaireModeleDepot.ajouterUnObservateur(this);
+                DepotManager.getInstance().getAlimentaireModeleDepot();
+        UtilisateurModele uc = this.authentificateur.getUtilisateur();
+        OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
+        int orgId = (org != null) ? org.getId() : -1;
 
         alimentaireModeleDepot.peuplerListeReservation(orgId);
     }
@@ -71,7 +68,7 @@ public class ListeMesReservationsActivity extends HippieActivity
     }
 
     @Override
-    public void surChangementDeDonnees(ArrayList<AlimentaireModele> modeles) {
+    public void surChangementDeDonnees(List<AlimentaireModele> modeles) {
         Log.d("test", "Count= " + modeles.size());
         this.mesReservationsAdapter.setItems(modeles);
     }
@@ -84,18 +81,33 @@ public class ListeMesReservationsActivity extends HippieActivity
     @Override
     public void surErreur(IOException e) {
         // TODO: Faire un toast.
+        Snackbar snackbar;
         if (e instanceof HttpReponseException) {
             Integer code = ((HttpReponseException) e).getCode();
             switch (code) {
+                case 404:
+                    snackbar = Snackbar.make(this.viewSwitcher, R.string.error_http_404,
+                                             Snackbar.LENGTH_SHORT);
+                    break;
                 case 409:
+                    snackbar = Snackbar.make(this.viewSwitcher, "Conflict", Snackbar.LENGTH_SHORT);
                     Log.e(TAG, "Conflit: déjà reservé", e);
                     break;
+                case 500:
+                    snackbar = Snackbar.make(this.viewSwitcher, R.string.error_http_500,
+                                             Snackbar.LENGTH_SHORT);
+                    break;
                 default:
+                    snackbar = Snackbar.make(this.viewSwitcher, R.string.error_connection,
+                                             Snackbar.LENGTH_SHORT);
                     Log.e(TAG, "code d'erreur:" + code, e);
                     break;
             }
         } else {
+            snackbar = Snackbar.make(this.viewSwitcher, R.string.error_connection,
+                                     Snackbar.LENGTH_SHORT);
             Log.e(TAG, "Requête échouée", e);
         }
+        snackbar.show();
     }
 }
