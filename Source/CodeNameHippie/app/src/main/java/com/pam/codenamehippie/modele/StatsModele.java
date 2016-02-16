@@ -1,34 +1,31 @@
 package com.pam.codenamehippie.modele;
 
-/**
- * Created by Pier-Alain on 2016-02-11.
- */
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Calendar;
 import java.util.Date;
 
-public class StatsModele extends BaseModele<StatsModele>{
-
-
+/**
+ * Created by Pier-Alain on 2016-02-11.
+ */
+public class StatsModele extends BaseModele<StatsModele> {
 
     @SerializedName("montant_total")
-    protected Long montantTotal = 0L;
+    protected Double montantTotal = 0.00d;
     @SerializedName("date")
     protected Date date;
 
-
-    public Long getMontantTotal() {
-        return montantTotal;
+    public Double getMontantTotal() {
+        return this.montantTotal;
     }
 
-    public StatsModele setMontantTotal(Long montantTotal) {
+    public StatsModele setMontantTotal(Double montantTotal) {
         this.montantTotal = montantTotal;
         return this;
     }
 
     public Date getDate() {
-        return date;
+        return this.date;
     }
 
     public StatsModele setDate(Date date) {
