@@ -20,6 +20,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
@@ -52,6 +53,7 @@ import com.androidplot.xy.XYSeriesFormatter;
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.TransactionModele;
+import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.modele.depot.TransactionModeleDepot;
 
@@ -61,12 +63,11 @@ import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Arrays;
-<<<<<<< HEAD
+
 import java.util.Calendar;
 import java.util.Date;
-=======
 import java.util.List;
->>>>>>> refs/remotes/origin/master
+
 
 /**
  * The simplest possible example of using AndroidPlot to plot some data.
@@ -81,14 +82,7 @@ public class Stats_Activity extends HippieActivity
         Soixante
     }
 
-<<<<<<< HEAD
-    //dans le date picker,choisir la date debut et date fin
-    private Date dateDu;
-    private Date dateAu;
-    private Integer orgId;
-   // private static final String NO_SELECTION_TXT = "Touch bar to select.";
-    private XYPlot plot;
-=======
+
     class MyBarFormatter extends BarFormatter {
 
         public MyBarFormatter(int fillColor, int borderColor) {
@@ -134,7 +128,7 @@ public class Stats_Activity extends HippieActivity
             }
         }
     }
->>>>>>> refs/remotes/origin/master
+
 
     // Create a couple arrays of y-values to plot:
     Number[] series1Numbers10 = {2, null, 5, 2, 7, 4, 3, 7, 4, 5};
@@ -222,42 +216,19 @@ public class Stats_Activity extends HippieActivity
     private MyBarFormatter selectionFormatter;
     private TextLabelWidget selectionWidget;
     private Pair<Integer, XYSeries> selection;
-
+    private Integer orgId;
     @Override
     protected void onPause() {
         super.onPause();
-//        TransactionModeleDepot depot =
-//                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
-//        depot.setFiltreDeListe(null);
-//        depot.supprimerTousLesObservateurs();
-
-
-        TransactionModeleDepot transactionModeleDepot =
-                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
-        transactionModeleDepot.setFiltreDeListe(null);
-        transactionModeleDepot.supprimerTousLesObservateurs();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        TransactionModeleDepot depot =
-//                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
-//        depot.ajouterUnObservateur(this);
-        //On va recevoir les donnees de TransactionModeleDepot sur serveur
-//       dateDu = ((Date) findViewById(R.id.date_du));
-//       dateAu = ((Date) findViewById(R.id.date_au));
-//        depot.peuplerTransactions(1,dateDu,dateAu);
-
-
         TransactionModeleDepot transactionModeleDepot =
-                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
-<<<<<<< HEAD
+                DepotManager.getInstance().getTransactionModeleDepot();
         transactionModeleDepot.ajouterUnObservateur(this);
-        this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
-                -1
-        );
-        if (this.orgId != null && orgId != -1) {
+        if (this.orgId != null && this.orgId != -1) {
             // TODO: Ajouter 2 DatePicker dans le layout list_statistique
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, 2014);
@@ -266,35 +237,28 @@ public class Stats_Activity extends HippieActivity
             Date dateFin = calendar.getTime();
             transactionModeleDepot.peuplerTransactions(this.orgId, dateDebut, dateFin);
         }
-=======
-        depot.ajouterUnObservateur(this);
-        //On va recevoir les donnees de TransactionModeleDepot
-        //   depot.peuplerListeOrganisme();
->>>>>>> refs/remotes/origin/master
-
     }
 
     @Override
     public void surDebutDeRequete() {
-
+        this.afficherLaProgressBar();
     }
 
     @Override
     public void surChangementDeDonnees(List<TransactionModele> modeles) {
-
-        
-
 
 
     }
 
     @Override
     public void surFinDeRequete() {
-
+        this.cacherLaProgressbar();
     }
 
     @Override
     public void surErreur(IOException e) {
+        //todo: snackbar
+        Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
 
     }
 
@@ -532,77 +496,10 @@ public class Stats_Activity extends HippieActivity
                 Stats_Activity.this.updatePlot();
             }
 
-<<<<<<< HEAD
-        spWidthStyle = (Spinner) findViewById(R.id.spWidthStyle);
-        ArrayAdapter <BarRenderer.BarWidthStyle> adapter1 = new ArrayAdapter <BarRenderer.BarWidthStyle> (this, android.R.layout.simple_spinner_item, BarRenderer.BarWidthStyle.values() );
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spWidthStyle.setAdapter(adapter1);
-        spWidthStyle.setSelection(BarRenderer.BarWidthStyle.FIXED_WIDTH.ordinal());
-        spWidthStyle.setOnItemSelectedListener(new OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> arg0, View arg1,int arg2, long arg3) {
-            	if (BarRenderer.BarWidthStyle.FIXED_WIDTH.equals(spWidthStyle.getSelectedItem())) {
-            		sbFixedWidth.setVisibility(View.VISIBLE);
-            		sbVariableWidth.setVisibility(View.INVISIBLE);
-            	} else {
-            		sbFixedWidth.setVisibility(View.INVISIBLE);
-            		sbVariableWidth.setVisibility(View.VISIBLE);
-            	}
-                updatePlot();
-            }
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-			}
-        });
 
-        spSeriesSize = (Spinner) findViewById(R.id.spSeriesSize);
-        ArrayAdapter <SeriesSize> adapter11 = new ArrayAdapter <SeriesSize> (this, android.R.layout.simple_spinner_item, SeriesSize.values() );
-        adapter11.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spSeriesSize.setAdapter(adapter11);
-        spSeriesSize.setSelection(SeriesSize.Dix.ordinal());
-        spSeriesSize.setOnItemSelectedListener(new OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> arg0, View arg1,int arg2, long arg3) {
-                switch ((SeriesSize)arg0.getSelectedItem()) {
-				case Dix:
-                    //requette 1:
-					series1Numbers = series1Numbers10;
-					series2Numbers = series2Numbers10;
-                    series3Numbers = series3Numbers10;
-                    series4Numbers = series4Numbers10;
-                    series5Numbers = series5Numbers10;
-                    series6Numbers = series6Numbers10;
-                    series7Numbers = series7Numbers10;
-
-					break;
-				case Vingt:
-                    //requette 2:
-					series1Numbers = series1Numbers20;
-					series2Numbers = series2Numbers20;
-                    series3Numbers = series3Numbers20;
-                    series4Numbers = series4Numbers20;
-                    series5Numbers = series5Numbers20;
-                    series6Numbers = series6Numbers20;
-                    series7Numbers = series7Numbers20;
-
-                    break;
-				case Soixante:
-                    //requette 3:
-					series1Numbers = series1Numbers60;
-					series2Numbers = series2Numbers60;
-                    series3Numbers = series3Numbers60;
-                    series4Numbers = series4Numbers60;
-                    series5Numbers = series5Numbers60;
-                    series6Numbers = series6Numbers60;
-                    series7Numbers = series7Numbers60;
-
-                    break;
-				default:
-					break;
-                }
-                updatePlot();
-=======
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
->>>>>>> refs/remotes/origin/master
+
             }
         });
 
