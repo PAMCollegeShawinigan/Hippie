@@ -61,12 +61,12 @@ import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Arrays;
-
+<<<<<<< HEAD
 import java.util.Calendar;
 import java.util.Date;
-
+=======
 import java.util.List;
-
+>>>>>>> refs/remotes/origin/master
 
 /**
  * The simplest possible example of using AndroidPlot to plot some data.
@@ -81,12 +81,14 @@ public class Stats_Activity extends HippieActivity
         Soixante
     }
 
-
+<<<<<<< HEAD
     //dans le date picker,choisir la date debut et date fin
     private Date dateDu;
     private Date dateAu;
     private Integer orgId;
-
+   // private static final String NO_SELECTION_TXT = "Touch bar to select.";
+    private XYPlot plot;
+=======
     class MyBarFormatter extends BarFormatter {
 
         public MyBarFormatter(int fillColor, int borderColor) {
@@ -132,7 +134,7 @@ public class Stats_Activity extends HippieActivity
             }
         }
     }
-
+>>>>>>> refs/remotes/origin/master
 
     // Create a couple arrays of y-values to plot:
     Number[] series1Numbers10 = {2, null, 5, 2, 7, 4, 3, 7, 4, 5};
@@ -250,7 +252,7 @@ public class Stats_Activity extends HippieActivity
 
         TransactionModeleDepot transactionModeleDepot =
                 ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
-
+<<<<<<< HEAD
         transactionModeleDepot.ajouterUnObservateur(this);
         this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
                 -1
@@ -264,7 +266,11 @@ public class Stats_Activity extends HippieActivity
             Date dateFin = calendar.getTime();
             transactionModeleDepot.peuplerTransactions(this.orgId, dateDebut, dateFin);
         }
-
+=======
+        depot.ajouterUnObservateur(this);
+        //On va recevoir les donnees de TransactionModeleDepot
+        //   depot.peuplerListeOrganisme();
+>>>>>>> refs/remotes/origin/master
 
     }
 
@@ -526,7 +532,7 @@ public class Stats_Activity extends HippieActivity
                 Stats_Activity.this.updatePlot();
             }
 
-
+<<<<<<< HEAD
         spWidthStyle = (Spinner) findViewById(R.id.spWidthStyle);
         ArrayAdapter <BarRenderer.BarWidthStyle> adapter1 = new ArrayAdapter <BarRenderer.BarWidthStyle> (this, android.R.layout.simple_spinner_item, BarRenderer.BarWidthStyle.values() );
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -543,7 +549,9 @@ public class Stats_Activity extends HippieActivity
             	}
                 updatePlot();
             }
-
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
         });
 
         spSeriesSize = (Spinner) findViewById(R.id.spSeriesSize);
@@ -591,8 +599,11 @@ public class Stats_Activity extends HippieActivity
 					break;
                 }
                 updatePlot();
-
-
+=======
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+>>>>>>> refs/remotes/origin/master
+            }
         });
 
         this.sbFixedWidth = (SeekBar) this.findViewById(R.id.sbFixed);
