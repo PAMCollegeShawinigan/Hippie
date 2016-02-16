@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
@@ -157,7 +158,11 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 int height = this.activity.getResources().getDisplayMetrics().heightPixels;
                 int padding =
                         this.activity.getResources()
-                                     .getDimensionPixelSize(R.dimen.activity_horizontal_margin);
+                                     .getDimensionPixelOffset(R.dimen.activity_vertical_margin) * 2;
+                ActionBar bar = this.activity.getSupportActionBar();
+                if (bar != null) {
+                    padding += bar.getHeight();
+                }
                 cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
             }
             if (cameraUpdate != null) {
