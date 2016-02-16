@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#222222</color>
     <color name="colorAccent">#6FA642</color>
     <color name="primary_text_material_light">#000000</color>
+    <color name="calendar_selected_day_bg">@color/colorAccent</color>
+    <color name="calendar_selected_range_bg">#9ccc65</color>
 </resources>

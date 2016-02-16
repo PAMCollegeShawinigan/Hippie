@@ -20,6 +20,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
@@ -52,6 +53,7 @@ import com.androidplot.xy.XYSeriesFormatter;
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.TransactionModele;
+import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.modele.depot.TransactionModeleDepot;
 
@@ -61,7 +63,11 @@ import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.Arrays;
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
 
 /**
  * The simplest possible example of using AndroidPlot to plot some data.
@@ -75,6 +81,7 @@ public class Stats_Activity extends HippieActivity
         Vingt,
         Soixante
     }
+
 
     class MyBarFormatter extends BarFormatter {
 
@@ -121,6 +128,7 @@ public class Stats_Activity extends HippieActivity
             }
         }
     }
+
 
     // Create a couple arrays of y-values to plot:
     Number[] series1Numbers10 = {2, null, 5, 2, 7, 4, 3, 7, 4, 5};
@@ -208,45 +216,49 @@ public class Stats_Activity extends HippieActivity
     private MyBarFormatter selectionFormatter;
     private TextLabelWidget selectionWidget;
     private Pair<Integer, XYSeries> selection;
-
+    private Integer orgId;
     @Override
     protected void onPause() {
         super.onPause();
-        TransactionModeleDepot depot =
-                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
-        depot.setFiltreDeListe(null);
-        depot.supprimerTousLesObservateurs();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        TransactionModeleDepot depot =
-                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
-        depot.ajouterUnObservateur(this);
-        //On va recevoir les donnees de TransactionModeleDepot
-        //   depot.peuplerListeOrganisme();
-
+        TransactionModeleDepot transactionModeleDepot =
+                DepotManager.getInstance().getTransactionModeleDepot();
+        transactionModeleDepot.ajouterUnObservateur(this);
+        if (this.orgId != null && this.orgId != -1) {
+            // TODO: Ajouter 2 DatePicker dans le layout list_statistique
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, 2014);
+            Date dateDebut = calendar.getTime();
+            calendar = Calendar.getInstance();
+            Date dateFin = calendar.getTime();
+            transactionModeleDepot.peuplerTransactions(this.orgId, dateDebut, dateFin);
+        }
     }
 
     @Override
     public void surDebutDeRequete() {
-
+        this.afficherLaProgressBar();
     }
 
     @Override
     public void surChangementDeDonnees(List<TransactionModele> modeles) {
 
+
     }
 
     @Override
     public void surFinDeRequete() {
-
+        this.cacherLaProgressbar();
     }
 
     @Override
     public void surErreur(IOException e) {
+        //todo: snackbar
+        Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
 
     }
 
@@ -484,8 +496,10 @@ public class Stats_Activity extends HippieActivity
                 Stats_Activity.this.updatePlot();
             }
 
+
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
+
             }
         });
 
