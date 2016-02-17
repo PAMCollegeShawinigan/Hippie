@@ -23,7 +23,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
     @SerializedName("marchandise_etat")
     protected String etat;
     @SerializedName("valeur")
-    protected Long valeur = 0L;
+    protected Double valeur = 0.00d;
     @SerializedName("marchandise_statut")
     protected String statut;
     @SerializedName("organisme")
@@ -31,7 +31,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
 
     public OrganismeModele getOrganisme() {return this.organisme;}
 
-    @SuppressWarnings(value = {"unchecked"})
+    @SuppressWarnings("unchecked")
     public T setOrganisme(OrganismeModele organisme) {
         this.organisme = organisme;
         return (T) this;
@@ -41,7 +41,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.nom;
     }
 
-    @SuppressWarnings(value = {"unchecked"})
+    @SuppressWarnings("unchecked")
     public T setNom(String nom) {
         this.nom = nom;
         return (T) this;
@@ -51,7 +51,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.description;
     }
 
-    @SuppressWarnings(value = {"unchecked"})
+    @SuppressWarnings("unchecked")
     public T setDescription(String description) {
         this.description = description;
         return (T) this;
@@ -61,7 +61,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.quantite;
     }
 
-    @SuppressWarnings(value = {"unchecked"})
+    @SuppressWarnings("unchecked")
     public T setQuantite(Double quantite) {
         this.quantite = quantite;
         return (T) this;
@@ -79,7 +79,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.uniteDeQuantite;
     }
 
-    @SuppressWarnings(value = {"unchecked"})
+    @SuppressWarnings("unchecked")
     public T setUniteDeQuantite(String uniteDeQuantite) {
         this.uniteDeQuantite = uniteDeQuantite;
         return (T) this;
@@ -89,18 +89,18 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.etat;
     }
 
-    @SuppressWarnings(value = {"unchecked"})
+    @SuppressWarnings("unchecked")
     public T setEtat(String etat) {
         this.etat = etat;
         return (T) this;
     }
 
-    public Long getValeur() {
+    public Double getValeur() {
         return this.valeur;
     }
 
-    @SuppressWarnings(value = {"unchecked"})
-    public T setValeur(Long valeur) {
+    @SuppressWarnings("unchecked")
+    public T setValeur(Double valeur) {
         this.valeur = valeur;
         return (T) this;
     }
@@ -109,7 +109,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.statut;
     }
 
-    @SuppressWarnings(value = {"unchecked"})
+    @SuppressWarnings("unchecked")
     public T setStatut(String statut) {
         this.statut = statut;
         return (T) this;

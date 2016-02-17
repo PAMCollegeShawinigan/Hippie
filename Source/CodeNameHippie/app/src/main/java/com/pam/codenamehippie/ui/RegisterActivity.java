@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -19,8 +20,13 @@ import com.pam.codenamehippie.controleur.validation.ValidateurDeChampTexte;
 import com.pam.codenamehippie.controleur.validation.ValidateurDeSpinner;
 import com.pam.codenamehippie.controleur.validation.ValidateurMotDePasse;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
+import com.pam.codenamehippie.modele.UtilisateurModele;
+import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
+import com.pam.codenamehippie.modele.depot.UtilisateurModeleDepot;
+import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -31,7 +37,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RegisterActivity extends HippieActivity
-        implements ValidateurObserver, EditText.OnEditorActionListener {
+        implements ValidateurObserver, EditText.OnEditorActionListener, ObservateurDeDepot<UtilisateurModele> {
     // Variable static final pour le spinner
     private static final String SELECTED_SPINNER_TYPE_RUE_POSITION = "position_type_rue";
 
@@ -72,20 +78,23 @@ public class RegisterActivity extends HippieActivity
     private boolean paysEstValide;
 
     // Section information sur l'entreprise (no entreprise et/ou osbl)
-    // TODO : ajout d'une variable pour le radiogroup/radiobutton
     private ValidateurDeChampTexte validateurNoEntreprise;
     private boolean noEntrepriseEstValide;
     private ValidateurDeChampTexte validateurNoOsbl;
     private boolean noOsblEstValide;
 
     private Button loginButton;
+    private UtilisateurModele modele;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_register);
+        this.httpClient = ((HippieApplication) this.getApplication()).getHttpClient();
 
-        // SECTION INFORMATIONS D'UTILISATEUR
+        /**
+         * SECTION INFORMATIONS D'UTILISATEUR
+         */
         // Validateur pour le nom
         EditText etInscriptionNom = ((EditText) this.findViewById(R.id.etInscriptionNom));
         this.validateurNom =
@@ -143,7 +152,11 @@ public class RegisterActivity extends HippieActivity
         // Radio group ID : rgMoyenContact
         // Radio button ID : rbCourriel, rbTelephone et rbBoth
 
-        // SECTION ADRESSE
+
+        /**
+         * SECTION ADRESSE
+         */
+
         // Validateur pour le numéro civique
         EditText etNoCivique = (EditText) this.findViewById(R.id.etNoCivique);
         this.validateurNoCivique =
@@ -156,6 +169,13 @@ public class RegisterActivity extends HippieActivity
         Spinner spinnerTypeRue = (Spinner) this.findViewById(R.id.spinnerTypeRue);
         this.validateurSpinnerTypeRue = ValidateurDeSpinner.newInstance(spinnerTypeRue);
         this.validateurSpinnerTypeRue.registerObserver(this);
+
+        // Binder les type de rues au spinnerTypeRue
+        // TODO : Vérifier si tout est correct
+        UtilisateurModeleDepot utilisateurModeleDepot =
+                ((HippieApplication) this.getApplication()).getUtilisateurModeleDepot();
+        HippieSpinnerAdapter typeRueAdapter = new HippieSpinnerAdapter(this);
+        spinnerTypeRue.setAdapter(typeRueAdapter);
 
         // Validateur pour le nom de rue
         EditText etNomRue = (EditText) this.findViewById(R.id.etNomRue);
@@ -197,10 +217,14 @@ public class RegisterActivity extends HippieActivity
                         true,
                         ValidateurDeChampTexte.NOM_LONGUEUR_MAX);
 
-        // SECTION ENTREPRISE / ORGANISME
+        /**
+         * SECTION ENTREPRISE / ORGANISME
+         */
         // TODO : Radio button/group, regarder ça.
         // RadioGroup ID : rgEtesVous
         // RadioButton ID : rbEntreprise et rbOrganisme
+        RadioButton rbEntreprise = (RadioButton) this.findViewById(R.id.rbEntreprise);
+        RadioButton rbOrganisme = (RadioButton) this.findViewById(R.id.rbOrganisme);
 
         // Validateur pour le numéro d'entreprise
         EditText etNoEntreprise = (EditText) this.findViewById(R.id.etNoEntreprise);
@@ -241,6 +265,10 @@ public class RegisterActivity extends HippieActivity
         this.validateurTelephone.onPause();
         this.validateurSpinnerTypeRue.onPause();
         this.validateurPays.onPause();
+        UtilisateurModeleDepot depot =
+                ((HippieApplication) this.getApplication()).getUtilisateurModeleDepot();
+        depot.setFiltreDeListe(null);
+        depot.supprimerTousLesObservateurs();
     }
 
     protected void onResume() {
@@ -261,6 +289,9 @@ public class RegisterActivity extends HippieActivity
         this.validateurTelephone.onResume();
         this.validateurSpinnerTypeRue.onResume();
         this.validateurPays.onResume();
+        UtilisateurModeleDepot depot =
+                ((HippieApplication) this.getApplication()).getUtilisateurModeleDepot();
+        // FIXME : Peupler les listes de spinners pour le type de rue?
     }
 
     @Override
@@ -315,6 +346,8 @@ public class RegisterActivity extends HippieActivity
             this.telephoneEstValide = estValide;
         } else if (validateur.equals(this.validateurUsername)) {
             this.usernameEstValide = estValide;
+        } else if (validateur.equals(this.validateurProvince)) {
+            this.provinceEstValide = estValide;
         }
 
         this.loginButton.setEnabled(this.motPasseEstValide &&
@@ -331,7 +364,8 @@ public class RegisterActivity extends HippieActivity
                 this.spinnerTypeRueEstValide &&
                 this.villeEstValide &&
                 this.telephoneEstValide &&
-                this.usernameEstValide
+                this.usernameEstValide &&
+                this.provinceEstValide
         );
     }
 
@@ -427,12 +461,6 @@ public class RegisterActivity extends HippieActivity
 
     private void sauvegarderFormulaire() {
         this.authentificateur.setMotDePasse(this.validateurMotDePasse.getText().toString());
-        this.sharedPreferences.edit()
-                              .putString(this.getString(R.string.pref_email_key),
-                                         this.validateurCourriel.getText().toString()
-                                        )
-                              .commit();
-
     }
 
     /**
@@ -447,5 +475,35 @@ public class RegisterActivity extends HippieActivity
                 RegisterActivity.this.finish();
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SELECTED_SPINNER_TYPE_RUE_POSITION,
+                this.validateurSpinnerTypeRue.getSelectedItemPosition()
+        );
+    }
+
+    @Override
+    public void surDebutDeRequete() {
+
+    }
+
+    @Override
+    public void surChangementDeDonnees(List<UtilisateurModele> modeles) {
+        if ((modeles != null) && (modeles.size() != 0)) {
+            this.modele = modeles.get(0);
+        }
+    }
+
+    @Override
+    public void surFinDeRequete() {
+
+    }
+
+    @Override
+    public void surErreur(IOException e) {
+
     }
 }

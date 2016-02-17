@@ -44,8 +44,11 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.pam.codenamehippie.HippieApplication;
+import com.pam.codenamehippie.http.Authentificateur;
 import com.pam.codenamehippie.http.exception.HttpReponseException;
 import com.pam.codenamehippie.modele.BaseModele;
+import com.pam.codenamehippie.modele.OrganismeModele;
+import com.pam.codenamehippie.modele.UtilisateurModele;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -54,7 +57,9 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -101,54 +106,67 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                              .create();
 
     private static final String TAG = BaseModeleDepot.class.getSimpleName();
+
     /**
      * Contenant qui renferme les objets entretenus par le dépôt.
      */
     protected final ArrayList<T> modeles = new ArrayList<>();
+
     /**
      * Client http.
      */
     protected final OkHttpClient httpClient;
+
     /**
      * Context pour accèder au ressources string.
      */
     protected final Context context;
+
     /**
      * Verrou de synchronisation.
      */
     protected final Object lock = new Object();
+
     /**
      * Main thread handler
      */
     protected final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
+
     /**
      * La valeur du paramètre de type T.
      */
     protected Class classeDeT;
+
     /**
      * Url du des objets du dépôt.
      */
     protected HttpUrl url = HippieApplication.BASE_URL;
+
     /**
      * Url de la dernière requête de peuplement effectuée
      */
     protected HttpUrl urlDeRepeuplement = null;
+
     /**
      * Url pour modifications des objets du dépot.
      */
     protected HttpUrl modifierUrl = null;
+
     /**
      * Url pour les ajouts des objets du dépot
      */
     protected HttpUrl ajoutUrl = null;
+
     /**
      * Url pour les suppressions des objets du dépot
      */
     protected HttpUrl supprimerUrl = null;
+
     /**
      * Liste contenant les objets qui observe le dépôt.
      */
     protected volatile ArrayList<ObservateurDeDepot<T>> observateurs = new ArrayList<>();
+
     /**
      * Foncteur pour les listes résultantes des requêtes
      */
@@ -163,7 +181,6 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *         le client http pour utiliser par les dépots pour faire des requêtes au
      *         serveur
      */
-
     public BaseModeleDepot(Context context, OkHttpClient httpClient) {
         Class clazz = this.getClass();
         ParameterizedType genericType;
@@ -262,15 +279,12 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *
      * @return une instance du modèle ou null si le reader ne contient plus rien.
      *
-     * @throws IOException
-     *         S'il y a eu un problème de lecture avec le reader
      * @throws JsonIOException
      *         S'il y a eu un problème de lecture de json avec le reader
      * @throws JsonSyntaxException
      *         Si le reader rencontre du JSON malformé.
      */
     @Nullable
-    @SuppressWarnings("unchecked")
     public T fromJson(JsonReader reader) throws JsonIOException, JsonSyntaxException {
         synchronized (this.lock) {
             T result = null;
@@ -317,7 +331,6 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * @throws JsonSyntaxException
      *         Si le reader rencontre du JSON malformé.
      */
-    @SuppressWarnings("unchecked")
     public T fromJson(Reader reader) throws IOException, JsonIOException, JsonSyntaxException {
         return this.fromJson(new JsonReader(reader));
     }
@@ -417,7 +430,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response) {
                 if (!response.isSuccessful()) {
                     Log.e(TAG, "Request failed: " + response.toString());
                     BaseModeleDepot.this.surErreur(new HttpReponseException(response));
@@ -473,26 +486,51 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
     }
 
     /**
-     * Ajouter un nouveau modèle dans le dépôt.
+     * Ajouter un nouveau modèle dans le système.
      *
      * @param modele
-     *         le modele à ajouter
+     *         le modele à ajout.
+     * @param action
+     *         Callback en cas de succes
+     *
+     * @throws UnsupportedOperationException
+     *         Si le dépot ne supporte pas l'ajout
      */
-    public void ajouterModele(T modele) {
+    public void ajouterModele(@NonNull T modele, @Nullable final Runnable action)
+            throws UnsupportedOperationException {
         if (this.ajoutUrl == null) {
-            if (this.modifierUrl == null) {
-                throw new UnsupportedOperationException("Ce dépôt ne supporte pas l'ajout");
-            }
+            throw new UnsupportedOperationException("Ce dépôt ne supporte pas l'ajout");
         }
-        synchronized (this.lock) {
-            int index = this.modeles.indexOf(modele);
-            if (index != -1) {
-                this.modeles.add(index, modele);
-            } else {
-                this.modeles.add(modele);
-            }
+        FormBody.Builder body = this.toFormBodyBuilder(modele);
+        UtilisateurModele uc =
+                ((Authentificateur) this.httpClient.authenticator()).getUtilisateur();
+        OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
+        if (org != null) {
+            body.add("donneur_id", org.getId().toString());
         }
+        Request request = new Request.Builder().url(this.ajoutUrl).post(body.build()).build();
+        this.surDebutDeRequete();
+        this.httpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
+                BaseModeleDepot.this.surErreur(e);
+                BaseModeleDepot.this.surFinDeRequete();
+            }
 
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (!response.isSuccessful()) {
+                    Log.e(TAG, "Request failed: " + response.toString());
+                    BaseModeleDepot.this.surErreur(new HttpReponseException(response));
+                } else {
+                    if (action != null) {
+                        BaseModeleDepot.this.runOnUiThread(action);
+                    }
+                }
+                BaseModeleDepot.this.surFinDeRequete();
+            }
+        });
     }
 
     /**
@@ -500,13 +538,49 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      * paramètre.
      *
      * @param modele
-     *         Le modèle à modifier.
+     *         Le modèle à modifie
+     * @param action
+     *         Callback en cas de succes
+     *
+     * @throws UnsupportedOperationException
+     *         Si le dépot ne supporte pas l'ajout
      */
-    public void modifierModele(T modele) {
+    public void modifierModele(@NonNull T modele, @Nullable final Runnable action)
+            throws UnsupportedOperationException {
         if (this.modifierUrl == null) {
             throw new UnsupportedOperationException("Ce dépôt ne supporte pas la modification");
         }
-        //TODO: Code de modification de modèle générique.
+        FormBody.Builder body = this.toFormBodyBuilder(modele);
+        UtilisateurModele uc =
+                ((Authentificateur) this.httpClient.authenticator()).getUtilisateur();
+        OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
+        if (org != null) {
+            body.add("donneur_id", org.getId().toString());
+        }
+        Request request = new Request.Builder().url(this.modifierUrl).post(body.build()).build();
+        this.surDebutDeRequete();
+        this.httpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "Request failed: " + call.request().toString(), e);
+                BaseModeleDepot.this.surErreur(e);
+                BaseModeleDepot.this.surFinDeRequete();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (!response.isSuccessful()) {
+                    Log.e(TAG, "Request failed: " + response.toString());
+                    BaseModeleDepot.this.surErreur(new HttpReponseException(response));
+                } else {
+                    if (action != null) {
+                        BaseModeleDepot.this.runOnUiThread(action);
+                    }
+                }
+                BaseModeleDepot.this.surFinDeRequete();
+            }
+        });
+
     }
 
     /**
@@ -545,27 +619,26 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                                        .addPathSegment(modele.getId().toString())
                                        .build();
         Request request = new Request.Builder().url(url).get().build();
-        this.httpClient.newCall(request)
-                       .enqueue(new Callback() {
-                           @Override
-                           public void onFailure(Call call, IOException e) {
-                               BaseModeleDepot.this.surErreur(e);
-                           }
+        this.httpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                BaseModeleDepot.this.surErreur(e);
+            }
 
-                           @Override
-                           public void onResponse(Call call, Response response) {
-                               if (!response.isSuccessful()) {
-                                   HttpReponseException e = new HttpReponseException(response);
-                                   BaseModeleDepot.this.surErreur(e);
-                               } else {
-                                   BaseModeleDepot.this.repeuplerLedepot();
-                                   if (action != null) {
-                                       BaseModeleDepot.this.runOnUiThread(action);
-                                   }
-                               }
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (!response.isSuccessful()) {
+                    HttpReponseException e = new HttpReponseException(response);
+                    BaseModeleDepot.this.surErreur(e);
+                } else {
+                    BaseModeleDepot.this.repeuplerLedepot();
+                    if (action != null) {
+                        BaseModeleDepot.this.runOnUiThread(action);
+                    }
+                }
 
-                           }
-                       });
+            }
+        });
     }
 
     /**
@@ -647,8 +720,10 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
             public void run() {
                 synchronized (BaseModeleDepot.this.lock) {
                     if (!BaseModeleDepot.this.observateurs.isEmpty()) {
+                        List<T> resultat = Collections.unmodifiableList(BaseModeleDepot.this
+                                                                                .modeles);
                         for (ObservateurDeDepot<T> obs : BaseModeleDepot.this.observateurs) {
-                            obs.surChangementDeDonnees(BaseModeleDepot.this.modeles);
+                            obs.surChangementDeDonnees(resultat);
                         }
                     }
                 }

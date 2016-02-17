@@ -3,27 +3,28 @@ package com.pam.codenamehippie.ui;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
-import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
-import com.pam.codenamehippie.modele.AlimentaireModele;
+import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.TransactionModele;
-import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.UtilisateurModele;
+import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.modele.depot.TransactionModeleDepot;
 import com.pam.codenamehippie.ui.adapter.ListeStatistiquesAdapter;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Cette activité sert à afficher les statistiques des produits collectés
  * selon l'id de l'organisme/entreprise
  */
 public class ListeStatistiquesActivity extends HippieActivity
-    implements ObservateurDeDepot<TransactionModele>{
+        implements ObservateurDeDepot<TransactionModele> {
 
     private static final String TAG = ListeStatistiquesActivity.class.getSimpleName();
     private ExpandableListView listeStatistiques;
@@ -31,44 +32,39 @@ public class ListeStatistiquesActivity extends HippieActivity
     // Id de l'organisme/entreprise
     private Integer orgId;
 
+    private TextView tv_totalFinal;
+    public void setTv_totalFinal(TextView tv_totalFinal) {
+        this.tv_totalFinal = tv_totalFinal;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.liste_statistiques);
 
-        //TODO: Vérifier si AlimentaireModeleDepot ou TransactionModeleDepot
-        //TransactionModeleDepot transactionModeleDepot =
-               // ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
-
+        // TODO: trouver une façon d'afficher le total final (somme des valeurs de chaque groupe)
+        tv_totalFinal = (TextView)findViewById(R.id.tv_statistiques_valeur_total);
         // On va chercher l'expendable listView
-        listeStatistiques = (ExpandableListView)findViewById(R.id.list_statistiques_group);
-        statistiquesAdapter = new ListeStatistiquesAdapter(this);
-        listeStatistiques.setAdapter(statistiquesAdapter);
-        //On va chercher l'id organisme dans le sharedPreferences
-        this.orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
-                -1
-        );
+        this.listeStatistiques = (ExpandableListView) findViewById(R.id.list_statistiques_group);
+        this.statistiquesAdapter = new ListeStatistiquesAdapter(this);
+        this.listeStatistiques.setAdapter(this.statistiquesAdapter);
+        //On va chercher l'id organisme
+        UtilisateurModele uc = this.authentificateur.getUtilisateur();
+        OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
+        this.orgId = (org != null) ? org.getId() : -1;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-       TransactionModeleDepot transactionModeleDepot =
-                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
-        transactionModeleDepot.setFiltreDeListe(null);
-        transactionModeleDepot.supprimerTousLesObservateurs();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         TransactionModeleDepot transactionModeleDepot =
-                ((HippieApplication) this.getApplication()).getTransactionModeleDepot();
-        transactionModeleDepot.ajouterUnObservateur(this);
-        this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
-                -1
-        );
-        if (this.orgId != null && orgId != -1) {
+                DepotManager.getInstance().getTransactionModeleDepot();
+        if (this.orgId != null && this.orgId != -1) {
             // TODO: Ajouter 2 DatePicker dans le layout list_statistique
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, 2014);
@@ -85,7 +81,7 @@ public class ListeStatistiquesActivity extends HippieActivity
     }
 
     @Override
-    public void surChangementDeDonnees(ArrayList<TransactionModele> modeles) {
+    public void surChangementDeDonnees(List<TransactionModele> modeles) {
         this.statistiquesAdapter.setItems(modeles);
 
     }

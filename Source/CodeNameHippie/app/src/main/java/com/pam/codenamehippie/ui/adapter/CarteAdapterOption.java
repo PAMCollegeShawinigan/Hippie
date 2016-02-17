@@ -12,12 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.FiltreDeListe;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.ui.HippieActivity;
@@ -25,6 +25,7 @@ import com.pam.codenamehippie.ui.HippieActivity;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by BEG-163 on 2016-01-18.
@@ -50,7 +51,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
     private final AlimentaireModeleDepot alimentaireModeleDepot;
     private final ViewSwitcher viewSwitcher;
     private final LayoutInflater inflater;
-    private volatile ArrayList<AlimentaireModele> listedon = new ArrayList<>();
+    private volatile List<AlimentaireModele> listedon = new ArrayList<>();
     private OrganismeModele organisme;
     private int listType = 0;
     private int orgId;
@@ -61,7 +62,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
         this.inflater =
                 ((LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
         this.alimentaireModeleDepot =
-                ((HippieApplication) activity.getApplication()).getAlimentaireModeleDepot();
+                DepotManager.getInstance().getAlimentaireModeleDepot();
         this.viewSwitcher = ((ViewSwitcher) this.activity.findViewById(R.id.panel_view_switcher));
         if (this.viewSwitcher != null) {
             this.viewSwitcher.setInAnimation(this.activity, android.R.anim.fade_in);
@@ -77,13 +78,12 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
         this.listType = listType;
     }
 
-    public ArrayList<AlimentaireModele> getListedon() {
+    public List<AlimentaireModele> getListedon() {
         return this.listedon;
     }
 
     public void setOrganisme(@Nullable OrganismeModele organisme) {
         this.organisme = organisme;
-        this.listedon.clear();
         this.notifyDataSetChanged();
         if (organisme != null) {
             Log.d("ORG", this.organisme.toString());
@@ -369,7 +369,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
     }
 
     @Override
-    public void surChangementDeDonnees(ArrayList<AlimentaireModele> modeles) {
+    public void surChangementDeDonnees(List<AlimentaireModele> modeles) {
         this.listedon = modeles;
         this.notifyDataSetChanged();
     }
