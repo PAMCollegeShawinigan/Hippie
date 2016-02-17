@@ -209,10 +209,9 @@
 						android:layout_row="7"
 						android:background="@drawable/element"
 						android:hint="@string/marchandise_valeur"
-						android:inputType="number"
-						android:maxLength="10"
+						android:inputType="numberDecimal"
+						android:maxLength="11"
 						android:nextFocusForward="@+id/etTypeMarchandise"
-						android:numeric="integer"
 						android:padding="10dp"
 						android:textColorHint="#c6c6c6" />
 					<!-- TEXTVIEW : Catégorie de la marchandise -->
@@ -266,8 +265,8 @@
 						android:layout_column="1"
 						android:layout_row="12"
 						android:onClick="surDatePickerClick"
-						tools:text="@string/marchandise_date_peremption"
-						tools:ignore="MissingPrefix" />
+						tools:ignore="MissingPrefix"
+						tools:text="@string/marchandise_date_peremption" />
 					<!-- BOUTON : Ajouter une marchandise -->
 					<Button
 						android:id="@+id/bAjoutMarchandise"

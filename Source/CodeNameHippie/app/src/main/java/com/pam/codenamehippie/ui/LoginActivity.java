@@ -117,6 +117,7 @@ public class LoginActivity extends HippieActivity
      *         un objet view qui est en lien avec l'interaction de connection.
      */
     public void onClickLogin(final View v) {
+        this.afficherLaProgressBar();
         this.authentificateur.connecter(this.validateurCourriel.getTextString(),
                                         this.validateurMotDePasse.getTextString(), new Callback() {
                     @Override
@@ -138,6 +139,7 @@ public class LoginActivity extends HippieActivity
                             snackbar = Snackbar.make(v, R.string.error_connection,
                                                      Snackbar.LENGTH_SHORT);
                         }
+                        LoginActivity.this.cacherLaProgressbar();
                         snackbar.show();
                     }
 
