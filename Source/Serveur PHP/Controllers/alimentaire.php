@@ -69,11 +69,13 @@ class alimentaire extends Controller
 		{
 			$date_peremption = $_POST['date_peremption'];
 		}
+	
 
-
-		$req = $bdd->prepare('INSERT INTO alimentaire (nom, description_alimentaire, quantite, marchandise_etat, marchandise_unite, valeur, marchandise_statut, type_alimentaire, date_peremption)
+		$req = preparation('INSERT INTO alimentaire (nom, description_alimentaire, quantite, marchandise_etat, marchandise_unite, valeur, marchandise_statut, type_alimentaire, date_peremption)
 												VALUES(:nom, :description_alimentaire, :quantite, :marchandise_etat, :marchandise_unite, :valeur, :marchandise_statut, :type_alimentaire, :date_peremption)');
-			$req->execute(array(
+	
+	
+		$req = executer($req,array(
 				'nom' => $_POST['nom'],
 				'description_alimentaire' => $_POST['description'],
 				'quantite'=> $_POST['quantite'],
@@ -82,7 +84,9 @@ class alimentaire extends Controller
 				'valeur' =>$_POST['valeur'],
 				'marchandise_statut' => '3', // TO_DO modifier le hard-coding ( 3 = disponible)
 				'type_alimentaire'=> $_POST['type_alimentaire'],
-				'date_peremption' =>$date_peremption));
+				'date_peremption' =>$date_peremption));										
+												
+		
 
 			$last_index = $bdd->lastInsertId();
 

@@ -11,4 +11,28 @@ catch (Exception $e)
 {
         die('Erreur : ' . $e->getMessage());
 }
+
+function preparation($requete){
+	
+	try
+	{
+	return($bdd->prepare($requete);
+	}
+	catch(PDOException $e)
+	{
+		return response('Echec de la preparation de la requete :'.$requete.'('.$e ->getCode().')'. $e ->getMessage(),400);
+	}
+}
+function executer($req,$array){
+	
+	try
+	{
+	return($req ->execute($array));
+	}
+	catch(PDOException $e)
+	{
+		return response('Echec de la preparation de la requete :'.$requete.'('.$e ->getCode().')'. $e ->getMessage(),400);
+	}
+}
+
 ?>
