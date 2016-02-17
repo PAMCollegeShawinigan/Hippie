@@ -310,7 +310,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
             this.map = googleMap;
             this.mapLock.notifyAll();
         }
-        this.map.setMyLocationEnabled((this.hasFineLocation) && (this.lastKnownLocation != null));
+        this.map.setMyLocationEnabled((this.hasFineLocation) || (this.lastKnownLocation != null));
         this.map.setBuildingsEnabled(true);
         this.map.getUiSettings().setMapToolbarEnabled(false);
         this.map.getUiSettings().setMyLocationButtonEnabled(true);
