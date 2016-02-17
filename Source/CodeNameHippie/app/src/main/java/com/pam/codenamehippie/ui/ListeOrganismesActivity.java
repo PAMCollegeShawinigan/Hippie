@@ -5,16 +5,16 @@ import android.util.Log;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 
-import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.OrganismeModele;
+import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
 import com.pam.codenamehippie.ui.adapter.CarteListeOrganismeAdapter;
 import com.pam.codenamehippie.ui.adapter.MesReservationsAdapter;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Catherine on 2016-01-13.
@@ -35,24 +35,19 @@ public class ListeOrganismesActivity extends HippieActivity
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.liste_organisme);
         this.adapter = new CarteListeOrganismeAdapter(this);
-        ((ExpandableListView) findViewById(R.id.liste_organisme)).setAdapter(adapter);
+        ((ExpandableListView) this.findViewById(R.id.liste_organisme)).setAdapter(this.adapter);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        OrganismeModeleDepot depot =
-                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
-        depot.setFiltreDeListe(null);
-        depot.supprimerTousLesObservateurs();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         OrganismeModeleDepot depot =
-                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
+                DepotManager.getInstance().getOrganismeModeleDepot();
         depot.ajouterUnObservateur(this);
         depot.peuplerListeOrganisme();
 
@@ -64,7 +59,7 @@ public class ListeOrganismesActivity extends HippieActivity
     }
 
     @Override
-    public void surChangementDeDonnees(ArrayList<OrganismeModele> modeles) {
+    public void surChangementDeDonnees(List<OrganismeModele> modeles) {
         this.adapter.setItems(modeles);
     }
 

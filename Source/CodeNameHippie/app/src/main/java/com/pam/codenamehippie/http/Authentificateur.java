@@ -29,7 +29,6 @@ package com.pam.codenamehippie.http;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -37,8 +36,8 @@ import android.util.Log;
 import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.http.exception.HttpReponseException;
-import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.UtilisateurModele;
+import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.UtilisateurModeleDepot;
 
 import java.io.IOException;
@@ -59,8 +58,7 @@ import okhttp3.Route;
 /**
  * Classe servant de délégué au client HTTP pour les authentification de type Basic.
  */
-public final class Authentificateur
-        implements Authenticator, SharedPreferences.OnSharedPreferenceChangeListener {
+public final class Authentificateur implements Authenticator {
 
     public interface Callback {
 
@@ -74,11 +72,8 @@ public final class Authentificateur
             HttpUrl.parse("http://yolainecourteau.com/hippie/laravel/public/");
     private final HippieApplication context;
     private final SharedPreferences preferences;
-    private final String userIdKey;
-    private final String orgIdKey;
-    private final String emailKey;
+    private final String userKey;
     private final Object lock = new Object();
-    private volatile String courriel;
     private volatile String motDePasse;
     private volatile UtilisateurModele utilisateur;
 
@@ -88,11 +83,7 @@ public final class Authentificateur
     private Authentificateur(HippieApplication context) {
         this.context = context;
         this.preferences = PreferenceManager.getDefaultSharedPreferences(this.context);
-        this.preferences.registerOnSharedPreferenceChangeListener(this);
-        this.userIdKey = this.context.getString(R.string.pref_user_id_key);
-        this.orgIdKey = this.context.getString(R.string.pref_org_id_key);
-        this.emailKey = this.context.getString(R.string.pref_email_key);
-        this.courriel = this.preferences.getString(this.emailKey, null);
+        this.userKey = this.context.getString(R.string.pref_user_key);
     }
 
     /**
@@ -114,30 +105,28 @@ public final class Authentificateur
         }
     }
 
-    public UtilisateurModele getUtilisateur() {
+    public  UtilisateurModele getUtilisateur() {
         synchronized (this.lock) {
+            if (this.utilisateur == null) {
+                String json = this.preferences.getString(this.userKey, null);
+                if (json == null) {
+                    return null;
+                }
+                // Charge l'objet utilisateur des pref
+                UtilisateurModeleDepot depot =
+                        DepotManager.getInstance().getUtilisateurModeleDepot();
+                this.utilisateur = depot.fromJson(json);
+
+            }
             return this.utilisateur;
         }
     }
 
-    @SuppressLint("CommitPrefEdits")
     public void setUtilisateur(@NonNull UtilisateurModele utilisateur) {
         synchronized (this.lock) {
             this.utilisateur = utilisateur;
-            Editor editor =
-                    this.preferences.edit().putInt(this.userIdKey, this.utilisateur.getId());
-            editor.putString(this.emailKey, this.utilisateur.getCourriel());
-            OrganismeModele organisme = this.utilisateur.getOrganisme();
-            if (organisme != null) {
-                editor.putInt(this.orgIdKey, organisme.getId());
-            }
-            editor.commit();
-        }
-    }
-
-    public String getCourriel() {
-        synchronized (this.lock) {
-            return this.courriel;
+            UtilisateurModeleDepot depot = DepotManager.getInstance().getUtilisateurModeleDepot();
+            this.preferences.edit().putString(this.userKey, depot.toJson(this.utilisateur)).apply();
         }
     }
 
@@ -148,8 +137,9 @@ public final class Authentificateur
             Log.d(TAG, "Challenge: " + challenge.toString());
         }
         synchronized (this.lock) {
-            if ((this.courriel != null) && (this.motDePasse != null)) {
-                String credentials = Credentials.basic(this.courriel, this.motDePasse);
+            String courriel = this.utilisateur.getCourriel();
+            if ((courriel != null) && (this.motDePasse != null)) {
+                String credentials = Credentials.basic(courriel, this.motDePasse);
                 return response.request().newBuilder().header("Authorization", credentials).build();
             } else {
                 // On lance une exeception si le combo mot de passe/email est pas bon.
@@ -162,20 +152,18 @@ public final class Authentificateur
     }
 
     /**
-     * Fonction pour vérifié si on est authentifié. On se considère authentifié si on a des
-     * cookies ou que l'authentificateur à un mot de passe en mémoire.
+     * Fonction pour vérifié si on est authentifié. On se considère authentifié si on a un objet
+     * utilisateur ou que l'authentificateur à un mot de passe en mémoire.
      *
-     * @return vrai si on est authentifié faux sinon.
+     * @return Vrai si on est authentifié faux sinon.
      */
     public boolean estAuthentifie() {
-        // On check seulement si on a un user id en mémoire.
         //TODO: Token d'authenfication
-        return ((this.motDePasse != null) ||
-                (this.preferences.contains(this.context.getString(R.string.pref_user_id_key))));
+        return ((this.motDePasse != null) || (this.getUtilisateur() != null));
     }
 
     /**
-     * Connecte l'application au service web.
+     * Connecte l'application au service web avec l'utilisateur existant.
      * <p>
      * Cet méthode est équivalente à:
      * </p>
@@ -190,24 +178,51 @@ public final class Authentificateur
      * @param callback
      *         callback pour les résultats de l'opération
      *
-     * @see Authentificateur#connecter(Callback)
      */
     public void connecter(@NonNull String motDePasse, @NonNull Callback callback) {
         this.setMotDePasse(motDePasse);
-        this.connecter(callback);
+        RequestBody requestBody =
+                new FormBody.Builder().add("courriel", this.utilisateur.getCourriel())
+                                      .add("mot_de_passe", this.getMotDePasse())
+                                      .build();
+        this.connecter(requestBody, callback);
+    }
+
+    /**
+     * Connecte l'application au service web avec le mot de passe et courriel passé en paramètre.
+     * <p>
+     * Cet méthode est équivalente à:
+     * </p>
+     * <pre class=”prettyprint”>
+     * authenficateur.setMotDePasse(motDePasse);
+     * authenficateur.connecter(callback);
+     * </pre>
+     * Cette méthode est asychrone et retourne immédiatement
+     *
+     * @param motDePasse
+     *         mot de passe à utiliser
+     * @param callback
+     *         callback pour les résultats de l'opération
+     */
+    public void connecter(@NonNull String courriel,
+                          @NonNull String motDePasse,
+                          @NonNull Callback callback) {
+        this.setMotDePasse(motDePasse);
+        RequestBody requestBody = new FormBody.Builder().add("courriel", courriel)
+                                                        .add("mot_de_passe", this.getMotDePasse())
+                                                        .build();
+        this.connecter(requestBody, callback);
     }
 
     /**
      * Connecte l'application au service web.
      *
+     * @param requestBody trucs à envoyer en paramètres au serveur.
+     *
      * @param callback
      *         callback pour les résultats de l'opération
      */
-    public void connecter(@NonNull final Callback callback) {
-        RequestBody requestBody =
-                new FormBody.Builder().add("courriel", this.getCourriel())
-                                      .add("mot_de_passe", this.getMotDePasse())
-                                      .build();
+    private void connecter(@NonNull RequestBody requestBody, @NonNull final Callback callback) {
         Request request =
                 new Request.Builder().url(CONNECTION_URL).post(requestBody).build();
         this.context.getHttpClient().newCall(request).enqueue(new okhttp3.Callback() {
@@ -235,10 +250,10 @@ public final class Authentificateur
                     // On "déconnecte": on a échoué.
                     Authentificateur.this.deconnecter();
                 } else {
-                    UtilisateurModeleDepot depotUtilisateur =
-                            Authentificateur.this.context.getUtilisateurModeleDepot();
+                    UtilisateurModeleDepot depot =
+                            DepotManager.getInstance().getUtilisateurModeleDepot();
                     Reader reader = response.body().charStream();
-                    Authentificateur.this.setUtilisateur(depotUtilisateur.fromJson(reader));
+                    Authentificateur.this.setUtilisateur(depot.fromJson(reader));
                     Authentificateur.this.context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -254,28 +269,10 @@ public final class Authentificateur
     @SuppressLint("CommitPrefEdits")
     public void deconnecter() {
         // TODO: Mieux gérer l'authentification.
-        Editor editor = this.preferences.edit();
-        // On supprime l'ID d'organisme.
-        if (this.preferences.contains(this.orgIdKey)) {
-            editor.remove(this.orgIdKey);
-        }
-        // On supprime l'ID de l'utilisateur.
-        if (this.preferences.contains(this.userIdKey)) {
-            editor.remove(this.userIdKey);
-        }
-        editor.commit();
+        this.preferences.edit().remove(this.userKey).commit();
         synchronized (this.lock) {
             this.motDePasse = null;
             this.utilisateur = null;
-        }
-    }
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        synchronized (this.lock) {
-            if (key.equals(this.context.getString(R.string.pref_email_key))) {
-                this.courriel = sharedPreferences.getString(key, null);
-            }
         }
     }
 }

@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
@@ -30,12 +32,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.pam.codenamehippie.HippieApplication;
 import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.http.exception.HttpReponseException;
 import com.pam.codenamehippie.modele.AdresseModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
+import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
+import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
 import com.pam.codenamehippie.ui.adapter.CarteAdapterOption;
@@ -45,6 +48,9 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                                             ExpandableListView.OnGroupClickListener,
@@ -146,12 +152,16 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                                         .build();
                 cameraUpdate = CameraUpdateFactory.newCameraPosition(position);
             } else if (bounds != null) {
-                int width = this.activity.mapView.getWidth();
-                int height = this.activity.mapView.getHeight();
-                int padding = 30;
-                ActionBar actionBar = this.activity.getSupportActionBar();
-                if (actionBar != null) {
-                    padding = actionBar.getHeight();
+                // On set la carte pour projeter sur la taille de l'écran.
+                // C'est pas idéal, mais ça fait.
+                int width = this.activity.getResources().getDisplayMetrics().widthPixels;
+                int height = this.activity.getResources().getDisplayMetrics().heightPixels;
+                int padding =
+                        this.activity.getResources()
+                                     .getDimensionPixelOffset(R.dimen.activity_vertical_margin) * 2;
+                ActionBar bar = this.activity.getSupportActionBar();
+                if (bar != null) {
+                    padding += bar.getHeight();
                 }
                 cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
             }
@@ -170,8 +180,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         }
     }
 
+    private static final int REQUEST_FINE_LOCATION = 0x10CA1;
     private final Object mapLock = new Object();
-    private volatile ArrayList<OrganismeModele> listOrganisme = new ArrayList<>();
+    private volatile List<OrganismeModele> listOrganisme = new ArrayList<>();
     private SlidingUpPanelLayout slidingLayout;
     private ExpandableListView expandableListView;
     private volatile GoogleMap map;
@@ -181,6 +192,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     private AsyncTask prepareMarkerAsyncTask;
     private int orgId;
     private Geocoder geocoder;
+    private Boolean hasFineLocation = true;
 
     /**
      * preparer la carte google et des donnees.
@@ -191,9 +203,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_maps_plus);
-        this.orgId = this.sharedPreferences.getInt(this.getString(R.string.pref_org_id_key),
-                                                   -1
-                                                  );
+        UtilisateurModele uc = this.authentificateur.getUtilisateur();
+        OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
+        this.orgId = (org != null) ? org.getId() : -1;
         this.geocoder = new Geocoder(this);
         this.mapView = ((MapView) this.findViewById(R.id.map));
         this.mapView.onCreate(savedInstanceState);
@@ -213,6 +225,14 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                                                 .addOnConnectionFailedListener(this)
                                                                 .addApi(LocationServices.API)
                                                                 .build();
+        if (ContextCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
+            // TODO: Expliquer la pourquoi on veux cette permission.
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this, ACCESS_FINE_LOCATION)) {
+//            } else {
+            ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION},
+                                              REQUEST_FINE_LOCATION);
+//            }
+        }
     }
 
     @Override
@@ -221,15 +241,28 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (this.permissionsResult != null) {
+            switch (requestCode) {
+                case REQUEST_FINE_LOCATION:
+                    this.hasFineLocation = this.permissionsResult.get(ACCESS_FINE_LOCATION);
+                    break;
+            }
+        }
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         this.mapView.onResume();
         OrganismeModeleDepot organismeModeleDepot =
-                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
+                DepotManager.getInstance().getOrganismeModeleDepot();
         AlimentaireModeleDepot alimentaireModeleDepot =
-                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        organismeModeleDepot.ajouterUnObservateur(this);
-        //comprend le ligne code dessous-------------------------------------
+                DepotManager.getInstance().getAlimentaireModeleDepot();
         alimentaireModeleDepot.ajouterUnObservateur(this.adapter);
         this.peuplerListeOrganisme(organismeModeleDepot);
     }
@@ -238,14 +271,6 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     protected void onPause() {
         super.onPause();
         this.mapView.onPause();
-        AlimentaireModeleDepot alimentaireModeleDepot =
-                ((HippieApplication) this.getApplication()).getAlimentaireModeleDepot();
-        OrganismeModeleDepot organismeModeleDepot =
-                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
-        organismeModeleDepot.setFiltreDeListe(null);
-        organismeModeleDepot.supprimerTousLesObservateurs();
-        alimentaireModeleDepot.setFiltreDeListe(null);
-        alimentaireModeleDepot.supprimerTousLesObservateurs();
         if (this.prepareMarkerAsyncTask != null) {
             this.prepareMarkerAsyncTask.cancel(true);
         }
@@ -285,7 +310,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
             this.map = googleMap;
             this.mapLock.notifyAll();
         }
-        this.map.setMyLocationEnabled(true);
+        this.map.setMyLocationEnabled((this.hasFineLocation) && (this.lastKnownLocation != null));
         this.map.setBuildingsEnabled(true);
         this.map.getUiSettings().setMapToolbarEnabled(false);
         this.map.getUiSettings().setMyLocationButtonEnabled(true);
@@ -325,7 +350,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                     Snackbar.make(MapsActivity.this.mapView,
                                   "Geocoder service unavailable",
                                   Snackbar.LENGTH_LONG
-                                 ).show();
+                    ).show();
                 }
             });
             return null;
@@ -351,7 +376,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
 
     public void onButtonClick(View v) {
         OrganismeModeleDepot organismeModeleDepot =
-                ((HippieApplication) this.getApplication()).getOrganismeModeleDepot();
+                DepotManager.getInstance().getOrganismeModeleDepot();
 
         switch (v.getId()) {
 
@@ -360,13 +385,13 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 Toast.makeText(this.getApplicationContext(),
                                " Denrées disponible ",
                                Toast.LENGTH_SHORT
-                              ).show();
+                ).show();
 
                 this.adapter.setOrganisme(null);
+
                 this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_DISPO);
                 this.peuplerListeOrganisme(organismeModeleDepot);
                 //   map.clear();
-                //  listOrganisme = TestDonneeCentre.prepareDonnees_disponible();
                 // FIXME: Connecter alimentaireModeleDepot et partir une requete pour l'organisme
 
                 break;
@@ -377,9 +402,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 Toast.makeText(this.getApplicationContext(),
                                " Mes réservations ",
                                Toast.LENGTH_SHORT
-                              ).show();
+                ).show();
                 // FIXME: Faire fonctionner la liste de mes réservations.
                 this.adapter.setOrganisme(null);
+
                 this.adapter.setListType(CarteAdapterOption.LIST_TYPE_MARCHANDISE_RESERVEE);
                 this.peuplerListeOrganisme(organismeModeleDepot);
                 break;
@@ -407,7 +433,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     }
 
     @Override
-    public void surChangementDeDonnees(ArrayList<OrganismeModele> modeles) {
+    public void surChangementDeDonnees(List<OrganismeModele> modeles) {
         this.listOrganisme = modeles;
         OrganismeModele[] array = modeles.toArray(new OrganismeModele[modeles.size()]);
         this.prepareMarkerAsyncTask = PrepareMarkerAsyncTask.newInstance(this)
@@ -450,8 +476,10 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     @Override
     public void onConnected(Bundle bundle) {
         super.onConnected(bundle);
-        this.lastKnownLocation =
-                LocationServices.FusedLocationApi.getLastLocation(this.googleApiClient);
+        if (this.hasFineLocation) {
+            this.lastKnownLocation =
+                    LocationServices.FusedLocationApi.getLastLocation(this.googleApiClient);
+        }
     }
 
     @Override

@@ -539,14 +539,13 @@ OR trx.donneur_id = :id
 AND  trx.date_collecte BETWEEN :date_debut AND :date_fin;   
 
 /* Requête : Identifier le donneur du mois (statistiques)                                          */
-/* Fichier: donneur_mois.php, fonction :                                              
-   REMPLACER les variables:  :date_debut, :date_fin                                                */
+/* Fichier: donneur_mois.php, fonction :                                                           */
 
 SELECT	don.organisme_id,
 		org.nom,
 		don.montant_total,
-		don.date
+		don.date_donneur_mois
 		
 FROM	donneur_mois don
 INNER JOIN organisme org ON org.organisme_id = don.organisme_id
-WHERE	don.date BETWEEN :date_debut AND date_fin;   
+WHERE EXTRACT(YEAR_MONTH FROM date_donneur_mois) BETWEEN (EXTRACT(YEAR_MONTH FROM '2015-12-14')) AND (EXTRACT(YEAR_MONTH FROM '2016-02-01'));

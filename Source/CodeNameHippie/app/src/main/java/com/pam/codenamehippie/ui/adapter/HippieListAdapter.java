@@ -22,6 +22,7 @@ import com.pam.codenamehippie.ui.AjoutMarchandiseActivity;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static android.text.format.DateFormat.getLongDateFormat;
 
@@ -33,14 +34,14 @@ public class HippieListAdapter extends BaseAdapter {
 
     private final Context context;
     private final AlimentaireModeleDepot depot;
-    private volatile ArrayList<AlimentaireModele> items = new ArrayList<>();
+    private volatile List<AlimentaireModele> items = new ArrayList<>();
 
     public HippieListAdapter(Context context, AlimentaireModeleDepot depot) {
         this.context = context;
         this.depot = depot;
     }
 
-    public void setItems(ArrayList<AlimentaireModele> items) {
+    public void setItems(List<AlimentaireModele> items) {
         this.items = items;
         this.notifyDataSetChanged();
     }
@@ -108,7 +109,8 @@ public class HippieListAdapter extends BaseAdapter {
         ((TextView) row.findViewById(R.id.tv_dons_nom_marchandise)).setText(modele.getNom());
         ((TextView) row.findViewById(R.id.tv_dons_description_marchandise))
                 .setText(modele.getDescription());
-        ((TextView) row.findViewById(R.id.tv_dons_qtee_marchandise)).setText(modele.getQuantiteString());
+        ((TextView) row.findViewById(R.id.tv_dons_qtee_marchandise)).setText(
+                modele.getQuantiteString());
         ImageButton ibDonSupprimer = (ImageButton) row.findViewById(R.id.ib_don_supprimer);
         ImageButton ibDonModifier = (ImageButton) row.findViewById(R.id.ib_dons_modifier);
 
@@ -121,13 +123,7 @@ public class HippieListAdapter extends BaseAdapter {
                 // Créer un bundle pour faire voyager les données vers AjoutMarchandiseActivity
                 Bundle bundle = new Bundle();
                 // Insérer les données aux bundle
-                bundle.putString("nom", modele.getNom());
-                bundle.putString("description", modele.getDescription());
-                bundle.putString("quantite", modele.getQuantite().toString());
-                bundle.putString("unite", modele.getUniteDeQuantite());
-                bundle.putString("valeur", modele.getValeur().toString());
-                bundle.putString("typeAlimentaire", modele.getTypeAlimentaire());
-                bundle.putInt("id", modele.getId());
+                bundle.putInt(AjoutMarchandiseActivity.MODELE_ID, modele.getId());
                 if (modele.getDatePeremption() != null) {
                     Date date = modele.getDatePeremption();
                     DateFormat df = getLongDateFormat(HippieListAdapter.this.context);
@@ -148,7 +144,7 @@ public class HippieListAdapter extends BaseAdapter {
                         Toast.makeText(HippieListAdapter.this.context,
                                        R.string.msg_produit_supprime,
                                        Toast.LENGTH_LONG
-                                      ).show();
+                        ).show();
                     }
                 };
                 // Confirmer la suppression du don
@@ -162,7 +158,7 @@ public class HippieListAdapter extends BaseAdapter {
                                     case DialogInterface.BUTTON_POSITIVE:
                                         HippieListAdapter.this.depot.supprimerModele(modele,
                                                                                      showToast
-                                                                                    );
+                                        );
                                         dialog.dismiss();
                                         break;
                                     default:
@@ -178,10 +174,10 @@ public class HippieListAdapter extends BaseAdapter {
                 builder.setMessage(R.string.msg_confirme_suppression)
                        .setPositiveButton(R.string.bouton_confirme_oui,
                                           dialogOnClickListener
-                                         )
+                       )
                        .setNegativeButton(R.string.bouton_confirme_non,
                                           dialogOnClickListener
-                                         )
+                       )
                        .create()
                        .show();
             }

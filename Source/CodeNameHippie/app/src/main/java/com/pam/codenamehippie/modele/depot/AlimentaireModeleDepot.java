@@ -28,14 +28,13 @@
 package com.pam.codenamehippie.modele.depot;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
-import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.http.exception.HttpReponseException;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.DescriptionModel;
+import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.TypeAlimentaireModele;
 
 import java.io.IOException;
@@ -130,8 +129,6 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         this.httpClient.newCall(listeUniteRequete).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
-                // TODO: Mettre un toast ou whatever
-                Log.e(TAG, "Request failed: " + call.request().toString(), e);
                 AlimentaireModeleDepot.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -161,10 +158,6 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                                 gson.fromJson(response.body().charStream(), type);
                         temp.addAll(AlimentaireModeleDepot.this.listeUnitee);
                         AlimentaireModeleDepot.this.listeUnitee = temp;
-                        Log.d(TAG,
-                              "Liste type alimentaire: " +
-                              AlimentaireModeleDepot.this.listeUnitee.toString()
-                             );
                     }
                     AlimentaireModeleDepot.this.runOnUiThread(new Runnable() {
                         @Override
@@ -180,8 +173,6 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         this.httpClient.newCall(listeTypeAlimentaireRequete).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
-                // TODO: Mettre un toast ou whatever
-                Log.e(TAG, "Request failed: " + call.request().toString(), e);
                 AlimentaireModeleDepot.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -213,10 +204,6 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
                                 gson.fromJson(response.body().charStream(), type);
                         temp.addAll(AlimentaireModeleDepot.this.listeTypeAlimentaire);
                         AlimentaireModeleDepot.this.listeTypeAlimentaire = temp;
-                        Log.d(TAG,
-                              "Liste type alimentaire: " +
-                              AlimentaireModeleDepot.this.listeTypeAlimentaire.toString()
-                             );
                     }
                     AlimentaireModeleDepot.this.runOnUiThread(new Runnable() {
                         @Override
@@ -271,6 +258,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
             @Override
             public void onFailure(Call call, IOException e) {
                 AlimentaireModeleDepot.this.surErreur(e);
+                AlimentaireModeleDepot.this.surFinDeRequete();
             }
 
             @Override
@@ -289,14 +277,12 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
         });
     }
 
-    public void ajouterReservation(AlimentaireModele modele, final Runnable action) {
+    public void ajouterReservation(AlimentaireModele modele,
+                                   OrganismeModele receveur,
+                                   final Runnable action) {
         HttpUrl url = this.reservationUrl.newBuilder().addPathSegment("ajouter").build();
-        Integer receveurId =
-                PreferenceManager.getDefaultSharedPreferences(this.context)
-                                 .getInt(this.context.getString(R.string.pref_org_id_key), -1);
-
         FormBody body = new FormBody.Builder().add("marchandise_id", modele.getId().toString())
-                                              .add("receveur_id", receveurId.toString())
+                                              .add("receveur_id", receveur.getId().toString())
                                               .build();
         Request request = new Request.Builder().url(url).post(body).build();
         this.httpClient.newCall(request).enqueue(new Callback() {

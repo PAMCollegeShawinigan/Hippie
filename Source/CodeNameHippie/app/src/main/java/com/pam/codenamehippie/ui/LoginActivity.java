@@ -35,19 +35,17 @@ public class LoginActivity extends HippieActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_login);
-        this.validateurCourriel =
-                ValidateurCourriel.newInstance(this,
-                                               ((EditText) this.findViewById(R.id.etCourriel)),
-                                               true
-                                              );
-        String rememberedEmail = this.authentificateur.getCourriel();
+        this.validateurCourriel = ValidateurCourriel.newInstance(this,
+                                                                 ((EditText) this.findViewById(
+                                                                         R.id.etCourriel)), true);
+        UtilisateurModele uc = this.authentificateur.getUtilisateur();
+        String rememberedEmail = (uc != null) ? uc.getCourriel() : "";
         if ((rememberedEmail != null)) {
             this.validateurCourriel.setText(rememberedEmail);
         }
-        this.validateurMotDePasse =
-                ValidateurMotDePasse.newInstance(this,
-                                                 ((EditText) this.findViewById(R.id.etPassword))
-                                                );
+        this.validateurMotDePasse = ValidateurMotDePasse.newInstance(this,
+                                                                     ((EditText) this.findViewById(
+                                                                             R.id.etPassword)));
         this.validateurMotDePasse.getEditText().setOnEditorActionListener(this);
         this.loginButton = ((Button) this.findViewById(R.id.bLogin));
     }
@@ -119,48 +117,46 @@ public class LoginActivity extends HippieActivity
      *         un objet view qui est en lien avec l'interaction de connection.
      */
     public void onClickLogin(final View v) {
-        this.sharedPreferences.edit()
-                              .putString(this.getString(R.string.pref_email_key),
-                                         this.validateurCourriel.getTextString()
-                                        )
-                              .commit();
-        this.authentificateur.connecter(this.validateurMotDePasse.getTextString(), new Callback() {
-            @Override
-            public void surErreur(IOException e) {
-                if (e instanceof HttpReponseException) {
-                    switch (((HttpReponseException) e).getCode()) {
-                        case 403:
-                            Snackbar.make(v, R.string.error_bad_credentials, Snackbar.LENGTH_SHORT)
-                                    .show();
-                            break;
-                        default:
-                            Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT)
-                                    .show();
-                            break;
+        this.afficherLaProgressBar();
+        this.authentificateur.connecter(this.validateurCourriel.getTextString(),
+                                        this.validateurMotDePasse.getTextString(), new Callback() {
+                    @Override
+                    public void surErreur(IOException e) {
+                        Snackbar snackbar;
+                        if (e instanceof HttpReponseException) {
+                            switch (((HttpReponseException) e).getCode()) {
+                                case 403:
+                                    snackbar = Snackbar.make(v,
+                                                             R.string.error_bad_credentials,
+                                                             Snackbar.LENGTH_SHORT);
+                                    break;
+                                default:
+                                    snackbar = Snackbar.make(v, R.string.error_connection,
+                                                             Snackbar.LENGTH_SHORT);
+                                    break;
+                            }
+                        } else {
+                            snackbar = Snackbar.make(v, R.string.error_connection,
+                                                     Snackbar.LENGTH_SHORT);
+                        }
+                        LoginActivity.this.cacherLaProgressbar();
+                        snackbar.show();
                     }
-                }
-                Snackbar.make(v, R.string.error_connection, Snackbar.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void surSucces(UtilisateurModele utilisateur) {
-                Snackbar.make(v,
-                              LoginActivity.this.getString(R.string.message_welcome,
-                                                           utilisateur.getNomComplet()
-                                                          ),
-                              Snackbar.LENGTH_SHORT
-                             )
-                        .setCallback(new Snackbar.Callback() {
+                    @Override
+                    public void surSucces(UtilisateurModele utilisateur) {
+                        Snackbar.make(v, LoginActivity.this.getString(R.string.message_welcome,
+                                                                      utilisateur.getNomComplet()),
+                                      Snackbar.LENGTH_SHORT).setCallback(new Snackbar.Callback() {
                             @Override
                             public void onDismissed(Snackbar snackbar, int event) {
                                 super.onDismissed(snackbar, event);
                                 LoginActivity.this.navigueAMainActivity();
                             }
-                        })
-                        .show();
+                        }).show();
 
-            }
-        });
+                    }
+                });
     }
 
     /**
@@ -170,7 +166,7 @@ public class LoginActivity extends HippieActivity
         LoginActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(LoginActivity.this, InfoActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                 LoginActivity.this.startActivity(intent);
                 LoginActivity.this.finish();
             }
