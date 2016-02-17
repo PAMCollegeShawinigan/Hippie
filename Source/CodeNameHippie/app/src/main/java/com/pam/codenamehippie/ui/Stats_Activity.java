@@ -227,7 +227,7 @@ public class Stats_Activity extends HippieActivity
         super.onResume();
         TransactionModeleDepot transactionModeleDepot =
                 DepotManager.getInstance().getTransactionModeleDepot();
-        transactionModeleDepot.ajouterUnObservateur(this);
+//        transactionModeleDepot.ajouterUnObservateur(this);
         if (this.orgId != null && this.orgId != -1) {
             // TODO: Ajouter 2 DatePicker dans le layout list_statistique
             Calendar calendar = Calendar.getInstance();

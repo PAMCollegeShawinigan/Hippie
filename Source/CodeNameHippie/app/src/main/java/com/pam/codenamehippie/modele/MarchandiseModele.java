@@ -31,6 +31,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
 
     public OrganismeModele getOrganisme() {return this.organisme;}
 
+    @SuppressWarnings("unchecked")
     public T setOrganisme(OrganismeModele organisme) {
         this.organisme = organisme;
         return (T) this;
@@ -40,6 +41,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.nom;
     }
 
+    @SuppressWarnings("unchecked")
     public T setNom(String nom) {
         this.nom = nom;
         return (T) this;
@@ -49,6 +51,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.description;
     }
 
+    @SuppressWarnings("unchecked")
     public T setDescription(String description) {
         this.description = description;
         return (T) this;
@@ -58,6 +61,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.quantite;
     }
 
+    @SuppressWarnings("unchecked")
     public T setQuantite(Double quantite) {
         this.quantite = quantite;
         return (T) this;
@@ -75,6 +79,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.uniteDeQuantite;
     }
 
+    @SuppressWarnings("unchecked")
     public T setUniteDeQuantite(String uniteDeQuantite) {
         this.uniteDeQuantite = uniteDeQuantite;
         return (T) this;
@@ -84,6 +89,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.etat;
     }
 
+    @SuppressWarnings("unchecked")
     public T setEtat(String etat) {
         this.etat = etat;
         return (T) this;
@@ -93,6 +99,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.valeur;
     }
 
+    @SuppressWarnings("unchecked")
     public T setValeur(Double valeur) {
         this.valeur = valeur;
         return (T) this;
@@ -102,6 +109,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.statut;
     }
 
+    @SuppressWarnings("unchecked")
     public T setStatut(String statut) {
         this.statut = statut;
         return (T) this;
