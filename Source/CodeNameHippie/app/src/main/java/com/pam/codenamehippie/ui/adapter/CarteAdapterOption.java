@@ -273,54 +273,63 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                 }
                 break;
             case R.layout.liste_reservations_row:
-                // Fait afficher l'icône correspondant au bon type alimentaire à côté du texte
-                String image = modele.getTypeAlimentaire();
-                ImageView ivResCategorie = (ImageView) row.findViewById(R.id.iv_res_categorie);
-                switch (image) {
-                    case "Surgelés":
-                        ivResCategorie.setImageResource(R.drawable.map_surgele);
-                        break;
-                    case "Fruits et Légumes":
-                        ivResCategorie.setImageResource(R.drawable.map_fruit_legume);
-                        break;
-                    case "Boulangerie":
-                        ivResCategorie.setImageResource(R.drawable.map_boulangerie);
-                        break;
-                    case "Produits laitiers":
-                        ivResCategorie.setImageResource(R.drawable.map_laitier);
-                        break;
-                    case "Viandes":
-                        ivResCategorie.setImageResource(R.drawable.map_viande);
-                        break;
-                    case "Non Périssable":
-                        ivResCategorie.setImageResource(R.drawable.map_non_perissable);
-                        break;
-                    default:
-                        ivResCategorie.setImageResource(R.drawable.map_non_comestible);
-                        break;
+                if (modele != null) {
+                    // Fait afficher l'icône correspondant au bon type alimentaire à côté du texte
+                    String image = modele.getTypeAlimentaire();
+                    if (image != null) {
+                        ImageView ivResCategorie =
+                                (ImageView) row.findViewById(R.id.iv_res_categorie);
+                        switch (image) {
+                            case "Surgelés":
+                                ivResCategorie.setImageResource(R.drawable.map_surgele);
+                                break;
+                            case "Fruits et Légumes":
+                                ivResCategorie.setImageResource(R.drawable.map_fruit_legume);
+                                break;
+                            case "Boulangerie":
+                                ivResCategorie.setImageResource(R.drawable.map_boulangerie);
+                                break;
+                            case "Produits laitiers":
+                                ivResCategorie.setImageResource(R.drawable.map_laitier);
+                                break;
+                            case "Viandes":
+                                ivResCategorie.setImageResource(R.drawable.map_viande);
+                                break;
+                            case "Non Périssable":
+                                ivResCategorie.setImageResource(R.drawable.map_non_perissable);
+                                break;
+                            default:
+                                ivResCategorie.setImageResource(R.drawable.map_non_comestible);
+                                break;
+                        }
+                    }
+
+                    // Assigner les valeurs nom, description, quantités, unité et ajouter deux
+                    // ImageButton par
+                    // rangée selon le nombre d'items contenus dans l'ArrayList.
+                    ((TextView) row.findViewById(R.id.tv_res_nom_marchandise)).setText(
+                            modele.getNom());
+                    ((TextView) row.findViewById(R.id.tv_res_description)).setText(
+                            modele.getDescription());
+                    ((TextView) row.findViewById(R.id.tv_res_qtee_marchandise)).setText(
+                            modele.getQuantiteString());
+
+                    // Affiche la date de péremption.
+                    if (modele.getDatePeremption() != null) {
+                        DateFormat format =
+                                android.text.format.DateFormat.getLongDateFormat(this.activity);
+                        String date = format.format(modele.getDatePeremption());
+                        ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setText(date);
+                    } else {
+                        ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setVisibility
+                                                                                            (View.INVISIBLE);
+
+                    }
+
+                    //FIXME: Arranger bouton supprimer réservation et collecte, afin de les faires
+                    // fonctionner
+                    break;
                 }
-
-                // Assigner les valeurs nom, description, quantités, unité et ajouter deux
-                // ImageButton par
-                // rangée selon le nombre d'items contenus dans l'ArrayList.
-                ((TextView) row.findViewById(R.id.tv_res_nom_marchandise)).setText(modele.getNom());
-                ((TextView) row.findViewById(R.id.tv_res_description)).setText(modele.getDescription());
-                ((TextView) row.findViewById(R.id.tv_res_qtee_marchandise)).setText(modele.getQuantiteString());
-
-                // Affiche la date de péremption.
-                if (modele.getDatePeremption() != null) {
-                    DateFormat format =
-                            android.text.format.DateFormat.getLongDateFormat(this.activity);
-                    String date = format.format(modele.getDatePeremption());
-                    ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setText(date);
-                } else {
-                    ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setVisibility
-                                                                                        (View.INVISIBLE);
-                }
-
-                //FIXME: Arranger bouton supprimer réservation et collecte, afin de les faires
-                // fonctionner
-                break;
             default:
                 break;
         }
