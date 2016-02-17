@@ -6,6 +6,7 @@ import android.os.Looper;
 
 import com.pam.codenamehippie.http.Authentificateur;
 import com.pam.codenamehippie.http.intercepteur.AcceptJsonInterceptor;
+import com.pam.codenamehippie.http.intercepteur.AcceptLanguageInterceptor;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.OrganismeModeleDepot;
@@ -122,14 +123,15 @@ public class HippieApplication extends Application {
         // Configuration du client Http.
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         httpClientBuilder.authenticator(Authentificateur.newInstance(this))
-                         .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(level))
-                         .addNetworkInterceptor(AcceptJsonInterceptor.newInstance());
+                         .addNetworkInterceptor(AcceptJsonInterceptor.newInstance())
+                         .addNetworkInterceptor(AcceptLanguageInterceptor.newInstance(this))
+                         .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(level));
         this.httpClient = httpClientBuilder.build();
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                                               .setDefaultFontPath("fonts/opensans_light.ttf")
                                               .setFontAttrId(R.attr.fontPath)
                                               .build()
-                                     );
+        );
         DepotManager.init(this, this.httpClient);
     }
 
