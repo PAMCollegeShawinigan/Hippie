@@ -105,7 +105,7 @@ public final class Authentificateur implements Authenticator {
         }
     }
 
-    public UtilisateurModele getUtilisateur() {
+    public  UtilisateurModele getUtilisateur() {
         synchronized (this.lock) {
             if (this.utilisateur == null) {
                 String json = this.preferences.getString(this.userKey, null);

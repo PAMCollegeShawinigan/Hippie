@@ -80,7 +80,6 @@ public class ListeMesReservationsActivity extends HippieActivity
 
     @Override
     public void surErreur(IOException e) {
-        // TODO: Faire un toast.
         Snackbar snackbar;
         if (e instanceof HttpReponseException) {
             Integer code = ((HttpReponseException) e).getCode();
@@ -90,8 +89,8 @@ public class ListeMesReservationsActivity extends HippieActivity
                                              Snackbar.LENGTH_SHORT);
                     break;
                 case 409:
-                    snackbar = Snackbar.make(this.viewSwitcher, "Conflict", Snackbar.LENGTH_SHORT);
-                    Log.e(TAG, "Conflit: déjà reservé", e);
+                    snackbar = Snackbar.make(this.viewSwitcher, "Conflit: déjà reservé",
+                                             Snackbar.LENGTH_SHORT);
                     break;
                 case 500:
                     snackbar = Snackbar.make(this.viewSwitcher, R.string.error_http_500,
@@ -100,14 +99,13 @@ public class ListeMesReservationsActivity extends HippieActivity
                 default:
                     snackbar = Snackbar.make(this.viewSwitcher, R.string.error_connection,
                                              Snackbar.LENGTH_SHORT);
-                    Log.e(TAG, "code d'erreur:" + code, e);
                     break;
             }
         } else {
             snackbar = Snackbar.make(this.viewSwitcher, R.string.error_connection,
                                      Snackbar.LENGTH_SHORT);
-            Log.e(TAG, "Requête échouée", e);
         }
         snackbar.show();
+        Log.e(TAG, "Requête échouée", e);
     }
 }

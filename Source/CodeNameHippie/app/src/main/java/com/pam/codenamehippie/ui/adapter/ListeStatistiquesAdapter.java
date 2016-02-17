@@ -132,6 +132,7 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
                              View convertView, ViewGroup parent) {
 
 
+        //TODO: http://robusttechhouse.com/how-to-add-header-footer-to-expandablelistview-childview/
         // Fait afficher le layout modèle Details, afin de voir les infos des transactions
         // Lorsque l'on clique sur l'organisme pour voir plus d'informations.
         // C'est le "child" modèle.
