@@ -417,9 +417,11 @@ public class AjoutMarchandiseActivity extends HippieActivity
                    .setQuantite(Double.parseDouble(this.validateurQuantite.getTextString()))
                    .setUniteDeQuantite(marchandiseUniteId)
                    .setEtat("3")
-                   .setTypeAlimentaire(typeAlimentaireId)
-                   .setTypeAlimentaire(typeAlimentaire.getDescription());
-
+                   .setTypeAlimentaire(typeAlimentaireId);
+        if (((TypeAlimentaireModele) this.validateurSpinnerTypeMarchandise.getSelectedItem())
+                    .getEstPerissable() && this.modele.getDatePeremption() == null) {
+            this.modele.setDatePeremption(new Date());
+        }
         AlimentaireModeleDepot depot = DepotManager.getInstance().getAlimentaireModeleDepot();
         if ((this.modele.getId() != null) && (this.modele.getId() != 0)) {
             // Si le id est différent de null, il s'agit d'une modification sur le produit
