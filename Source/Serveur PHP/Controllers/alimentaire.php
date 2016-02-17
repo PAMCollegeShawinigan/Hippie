@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Http\Controllers\alimentaire;
 
+
 class alimentaire extends Controller
 {
 
@@ -13,7 +14,7 @@ class alimentaire extends Controller
 
 		$header = array ('Content-Type' => 'application/json; charset=UTF-8','charset' => 'utf-8');
 
-			include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
+			include('Connection/bdlogin.php');
 
 			$req = $bdd->prepare('Select *
 									FROM alimentaire
@@ -53,6 +54,7 @@ class alimentaire extends Controller
 	public function ajoutalimentaire(){
 
 		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
+		
 
 		$perissable = $bdd->prepare('SELECT perissable FROM type_aliment WHERE aliment_id = :type_alimentaire ');
 
@@ -71,11 +73,11 @@ class alimentaire extends Controller
 		}
 	
 
-		$req = preparation('INSERT INTO alimentaire (nom, description_alimentaire, quantite, marchandise_etat, marchandise_unite, valeur, marchandise_statut, type_alimentaire, date_peremption)
-												VALUES(:nom, :description_alimentaire, :quantite, :marchandise_etat, :marchandise_unite, :valeur, :marchandise_statut, :type_alimentaire, :date_peremption)');
+		$req = 'INSERT INTO alimentaire (nom, description_alimentaire, quantite, marchandise_etat, marchandise_unite, valeur, marchandise_statut, type_alimentaire, date_peremption)
+												VALUES(:nom, :description_alimentaire, :quantite, :marchandise_etat, :marchandise_unite, :valeur, :marchandise_statut, :type_alimentaire, :date_peremption)';
 	
 	
-		$req = executer($req,array(
+		$array = array(
 				'nom' => $_POST['nom'],
 				'description_alimentaire' => $_POST['description'],
 				'quantite'=> $_POST['quantite'],
@@ -84,20 +86,20 @@ class alimentaire extends Controller
 				'valeur' =>$_POST['valeur'],
 				'marchandise_statut' => '3', // TO_DO modifier le hard-coding ( 3 = disponible)
 				'type_alimentaire'=> $_POST['type_alimentaire'],
-				'date_peremption' =>$date_peremption));										
+				'date_peremption' =>$date_peremption);										
 												
-		
+		execution($req, $array);
 
-			$last_index = $bdd->lastInsertId();
-
-
-			$req2 = $bdd ->prepare('INSERT INTO transaction (donneur_id, marchandise_id, date_disponible, date_transaction)
-			VALUES(:donneur_id, :marchandise_id,  NOW(), NOW())');
-				$req2->execute(array(
+			$req = 'INSERT INTO transaction (donneur_id, marchandise_id, date_disponible, date_transaction)
+			VALUES(:donneur_id, :marchandise_id,  NOW(), NOW())';
+				
+				$array = array(
 				'donneur_id'=>  $_POST['donneur_id'],
-				'marchandise_id' => $last_index
-				));
+				'marchandise_id' => $bdd->lastInsertId()
+				);
 
+				execution($req, $array);
+					
 				return response('lajout a ete fait',200);
 
 	}
@@ -177,7 +179,7 @@ class alimentaire extends Controller
 			return response('La cancellation a ete fait',200);
 	}
 
-	public function collecteralimentaire($id_alimentaire){ //TO-DO FAIRE UNE TRANSACTION
+	public function collecteralimentaire($id_alimentaire){ 
 		include('Connection/bdlogin.php');
 
 				$req1 = $bdd ->prepare('SELECT transaction_id, receveur_id, donneur_id, date_reservation, date_disponible FROM transaction WHERE marchandise_id = :marchandise_id ORDER BY transaction_id DESC LIMIT 1'); // selectionne les informations de la derniere transaction relié a l'aliment
