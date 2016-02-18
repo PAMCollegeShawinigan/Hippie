@@ -92,14 +92,13 @@ public class ListeStatistiquesActivity extends HippieActivity
 
     @Override
     public void surChangementDeDonnees(List<TransactionModele> modeles) {
+        totalFinal = 0.00d;
         for (TransactionModele modele : modeles) {
             totalFinal += modele.getAlimentaire().getValeur();
         }
         tv_totalFinal.setText(String.format("$ " + "%.2f", totalFinal));
         Log.d("totalFinal", totalFinal.toString());
         this.statistiquesAdapter.setItems(modeles);
-
-
     }
 
     @Override
