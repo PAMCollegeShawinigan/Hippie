@@ -10,6 +10,7 @@ import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.TransactionModele;
 import com.pam.codenamehippie.modele.UtilisateurModele;
 import com.pam.codenamehippie.modele.depot.DepotManager;
+import com.pam.codenamehippie.modele.depot.FiltreDeListe;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.modele.depot.TransactionModeleDepot;
 import com.pam.codenamehippie.ui.adapter.ListeStatistiquesAdapter;
@@ -31,6 +32,7 @@ public class ListeStatistiquesActivity extends HippieActivity
     private ListeStatistiquesAdapter statistiquesAdapter;
     // Id de l'organisme/entreprise
     private Integer orgId;
+    private Double totalFinal = 0.00d;
 
     private TextView tv_totalFinal;
     public void setTv_totalFinal(TextView tv_totalFinal) {
@@ -71,6 +73,14 @@ public class ListeStatistiquesActivity extends HippieActivity
             Date dateDebut = calendar.getTime();
             calendar = Calendar.getInstance();
             Date dateFin = calendar.getTime();
+            // TODO: inserer filtre de liste
+//            transactionModeleDepot.setFiltreDeListe(new FiltreDeListe<TransactionModele>() {
+//                @Override
+//                public boolean appliquer(TransactionModele item) {
+//                    OrganismeModele k = item.getReceveur();
+//                    return (orgId.toString().equalsIgnoreCase(k.toString()));
+//                }
+//            });
             transactionModeleDepot.peuplerTransactions(this.orgId, dateDebut, dateFin);
         }
     }
@@ -82,8 +92,13 @@ public class ListeStatistiquesActivity extends HippieActivity
 
     @Override
     public void surChangementDeDonnees(List<TransactionModele> modeles) {
+        totalFinal = 0.00d;
+        for (TransactionModele modele : modeles) {
+            totalFinal += modele.getAlimentaire().getValeur();
+        }
+        tv_totalFinal.setText(String.format("$ " + "%.2f", totalFinal));
+        Log.d("totalFinal", totalFinal.toString());
         this.statistiquesAdapter.setItems(modeles);
-
     }
 
     @Override

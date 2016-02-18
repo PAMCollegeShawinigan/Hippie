@@ -109,4 +109,58 @@ class carte extends Controller
 		}
 		return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE); // transforme l'array en JSon
 	}
+	
+	public function organismereservation($id_organisme){
+		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
+		$header = array ('Content-Type' => 'application/json; charset=UTF-8', 'charset' => 'utf-8' );
+			 
+		$req = $bdd -> prepare('SELECT
+										org.nom,
+										adr.adresse_id,
+										adr.no_civique,
+										typrue.description_type_rue,
+										adr.nom,
+										adr.ville,
+										adr.province,
+										adr.code_postal,
+										adr.pays,
+										adr.app,
+										org.telephone,
+										org.poste,
+										util.prenom,
+										util.nom,
+										util.courriel,
+										util.telephone
+										 
+									FROM transaction trx
+									INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
+									INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+									INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+									INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
+									WHERE trx.date_reservation IS NOT NULL
+									AND trx.date_collecte IS NULL
+									AND trx.receveur_id = :receveur_id
+									GROUP BY trx.receveur_id, trx.donneur_id');	
+
+											
+								$req->execute(array(
+						'receveur_id' => $id_organisme
+						));
+						
+						$array = array();
+				while($resultat = $req->fetch()){
+
+						$adresse = array('id' => $resultat[1], 'no_civique' => $resultat[2], 'type_rue' => $resultat[3], 'nom' => $resultat[4],'app' => $resultat[9], 'ville' => $resultat[5], 'province' => $resultat[6], 'code_postal' => $resultat[7], 'pays' =>$resultat[8]);
+						
+						$contact = array('nom'=> $resultat[13], 'prenom' => $resultat[12], 'courriel' => $resultat[14], 'telephone' => $resultat[15] );
+						
+						$organisme = array('nom' => $resultat[0], 'telephone' => $resultat[10], 'poste' => $resultat[11], 'adresse' => $adresse, 'contact' => $contact );
+						
+						array_push($array, $organisme);
+				}
+				
+				return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE);
+	
+		
+	}
 }
