@@ -98,9 +98,11 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
 
             // Affiche la valeur des dons de l'entreprise ou la valeur des dons reçus par un
             // organisme selon le cas
+            String v = String.format("$ %.2f", total);
+            String s = String.format(this.context.getString(R.string.tv_statistiques_valeur_total_group),v);
             ((TextView) convertView.findViewById(R.id.tv_statistiques_valeur_total_group))
-                    .setText(R.string.tv_statistiques_valeur_total_group + " " + String.format("%.2f", total));
-
+                    .setText(s );
+            
             return convertView;
     }
 
@@ -154,7 +156,7 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
 
             // Fait afficher la valeur total du produit
             ((TextView) convertView.findViewById(R.id.tv_statistiques_valeur_produit))
-                    .setText("$ " + String.format("%.2f", modele.getAlimentaire().getValeur()));
+                    .setText(String.format("$ %.2f", modele.getAlimentaire().getValeur()));
              }
 
         return convertView;
