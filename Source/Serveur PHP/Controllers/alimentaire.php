@@ -11,12 +11,10 @@ class alimentaire extends Controller
 
 	public function alimentaireid($id) // retourne l'objet aliment selon l'id
 	{
+			require('Connection/bdlogin.php');
+			require('function.php');
 
-		$header = array ('Content-Type' => 'application/json; charset=UTF-8','charset' => 'utf-8');
-
-			include('Connection/bdlogin.php');
-
-			$req = $bdd->prepare('Select *
+			$req = 'SELECT *
 									FROM alimentaire
 
 									INNER JOIN marchandise_etat ON alimentaire.marchandise_etat = marchandise_etat.etat_id
@@ -24,24 +22,16 @@ class alimentaire extends Controller
 									INNER JOIN marchandise_statut ON alimentaire.marchandise_statut = marchandise_statut.statut_id
 									INNER JOIN type_aliment ON alimentaire.type_alimentaire = type_aliment.aliment_id
 
-									WHERE alimentaire_id = :id'); // Requête de tout les champs d'organisme
+									WHERE alimentaire_id = :id'; // Requête de tout les champs d'organisme
 
 
-					$req->execute(array(
-							'id' => $id));
+			$arr = array('id' => $id);
 
-						$resultat = $req->fetch();
+				$resultat = execution($req,$arr) ->fetch();
 
-				if($resultat['date_peremption'] != null ){
-
-				$date = date_create($resultat['date_peremption']);
-
-				$date_peremption = date_format($date, DATE_ATOM);
-				}
-				else
-				{
-					$date_peremption = 'null';
-				}
+				
+				$date_peremption = convertirdate($resultat['date_peremption']);
+				
 
 			$array = array('nom' => $resultat['nom'], 'description' => $resultat['description_alimentaire'], 'quantite' => $resultat['quantite'],
 						'marchandise_etat'=> $resultat['description_marchandise_etat'], 'unite' => $resultat['description_marchandise_unite'],
@@ -56,19 +46,17 @@ class alimentaire extends Controller
 		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
 		
 
-		$perissable = $bdd->prepare('SELECT perissable FROM type_aliment WHERE aliment_id = :type_alimentaire ');
+		$req = 'SELECT perissable FROM type_aliment WHERE aliment_id = :type_alimentaire ';
 
-		$perissable->execute(array(
-		'type_alimentaire'=>$_POST['type_alimentaire']
-		));
+		$arr = array('type_alimentaire'=>$_POST['type_alimentaire']));
 
-		$reponse = $perissable->fetch();
+		$resultat = execution($req,$arr)->fetch();
 
-		if($reponse['perissable'] == 0){
+		// si le type alimentaire est perissable defini $date_peremption sinon le met NULL
+		if($resultat['perissable'] == 0){
 			$date_peremption = NULL;
 		}
-		else
-		{
+		else{
 			$date_peremption = $_POST['date_peremption'];
 		}
 	
@@ -77,28 +65,28 @@ class alimentaire extends Controller
 												VALUES(:nom, :description_alimentaire, :quantite, :marchandise_etat, :marchandise_unite, :valeur, :marchandise_statut, :type_alimentaire, :date_peremption)';
 	
 	
-		$array = array(
+		$arr = array(
 				'nom' => $_POST['nom'],
 				'description_alimentaire' => $_POST['description'],
 				'quantite'=> $_POST['quantite'],
 				'marchandise_etat' => $_POST['marchandise_etat'],
 				'marchandise_unite'=> $_POST['unite'],
-				'valeur' =>$_POST['valeur'],
+				'valeur' => $_POST['valeur'],
 				'marchandise_statut' => '3', // TO_DO modifier le hard-coding ( 3 = disponible)
 				'type_alimentaire'=> $_POST['type_alimentaire'],
-				'date_peremption' =>$date_peremption);										
+				'date_peremption' => $date_peremption);										
 												
 		execution($req, $array);
 
 			$req = 'INSERT INTO transaction (donneur_id, marchandise_id, date_disponible, date_transaction)
 			VALUES(:donneur_id, :marchandise_id,  NOW(), NOW())';
 				
-				$array = array(
+				$arr = array(
 				'donneur_id'=>  $_POST['donneur_id'],
 				'marchandise_id' => $bdd->lastInsertId()
 				);
 
-				execution($req, $array);
+		execution($req, $array);
 					
 				return response('lajout a ete fait',200);
 

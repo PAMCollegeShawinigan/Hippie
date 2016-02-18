@@ -16,8 +16,9 @@ function execution($requete, $array){
 		$req = $bdd ->prepare($requete);
 	
 	
-		return ($req->execute($array));
+		$req->execute($array);
 		
+		return $req;
 		
 		
 	}
