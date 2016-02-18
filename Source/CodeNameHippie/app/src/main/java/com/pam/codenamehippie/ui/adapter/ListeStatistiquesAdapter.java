@@ -1,6 +1,8 @@
 package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
+import android.support.v4.util.ArrayMap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,13 +32,17 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
     private final Context context;
     private TransactionModeleDepot depot;
 
+    // Liste pour statistiques produits collecté en tant que donneur
+    private Map<OrganismeModele ,List<TransactionModele>> items = new ArrayMap<>();
+
 
     public void setItems(List<TransactionModele> items) {
         this.items.clear();
         if (items != null && !items.isEmpty()) {
             for (TransactionModele modele : items) {
-               // OrganismeModele k = modele.getDonneur();
-                OrganismeModele k = modele.getReceveur();
+                OrganismeModele k = modele.getDonneur();
+                //OrganismeModele k = modele.getReceveur();
+;
                 if (this.items.containsKey(k)) {
                     this.items.get(k).add(modele);
                 } else {
@@ -48,9 +54,7 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
         }
         this.notifyDataSetChanged();
     }
-
-    // Liste pour statistiques produits collecté en tant que donneur
-    private Map<OrganismeModele ,List<TransactionModele>> items = new HashMap<>();
+;
     // Liste pour statistiques produits collecté en tant que receveur
    // private volatile ArrayList<AlimentaireModele> itemsReceveur = new ArrayList<>();
 
@@ -113,7 +117,7 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.items.get(this.getGroup(groupPosition)).size();
+        return this.items.get(this.getGroup(groupPosition)).size() +1 ;
     }
 
     @Override
@@ -132,10 +136,11 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
                              View convertView, ViewGroup parent) {
 
 
+        //TODO: http://robusttechhouse.com/how-to-add-header-footer-to-expandablelistview-childview/
         // Fait afficher le layout modèle Details, afin de voir les infos des transactions
         // Lorsque l'on clique sur l'organisme pour voir plus d'informations.
         // C'est le "child" modèle.
-        TransactionModele modele = this.getChild(groupPosition, childPosition);
+
 
         if (convertView == null) {
             LayoutInflater inflater =
@@ -162,6 +167,7 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
 
         } else {
 
+            TransactionModele modele = this.getChild(groupPosition, childPosition - 1);
             // Fait afficher le nom du produit
             ((TextView) convertView.findViewById(R.id.tv_statistiques_nom_marchandise))
                     .setText(modele.getAlimentaire().getNom());

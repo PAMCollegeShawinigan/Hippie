@@ -15,13 +15,14 @@ class donneurmois extends Controller
 		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev	
 		
 		$req = $bdd->prepare('SELECT don.organisme_id,
-									  org.nom,
-									  don.montant_total,
-									  don.date
-									  
-									FROM donneur_mois don
-									INNER JOIN organisme org ON org.organisme_id = don.organisme_id
-									WHERE don.date BETWEEN :date_debut AND :date_fin');
+											  org.nom,
+											  don.montant_total,
+											  don.date_donneur_mois
+											  
+											FROM donneur_mois don
+											INNER JOIN organisme org ON org.organisme_id = don.organisme_id
+											WHERE EXTRACT(YEAR_MONTH FROM date_donneur_mois) BETWEEN (EXTRACT(YEAR_MONTH FROM :date_debut)) 
+											AND (EXTRACT(YEAR_MONTH FROM :date_fin))');
 		
 		
 		
@@ -34,7 +35,7 @@ class donneurmois extends Controller
 					$array = array();	
 					While( $resultat = $req->fetch())	
 					{
-						$date = convertirdate($resultat['date']);
+						$date = convertirdate($resultat['date_donneur_mois']);
 						$stats = array('montant_total' => $resultat['montant_total'], 'date' => $date);
 						$org = array('nom'=> $resultat['nom'], 'organisme_id' => $resultat['organisme_id'], 'statistique' => $stats);
 						
