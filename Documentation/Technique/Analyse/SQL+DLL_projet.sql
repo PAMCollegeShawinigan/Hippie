@@ -549,3 +549,35 @@ SELECT	don.organisme_id,
 FROM	donneur_mois don
 INNER JOIN organisme org ON org.organisme_id = don.organisme_id
 WHERE EXTRACT(YEAR_MONTH FROM date_donneur_mois) BETWEEN (EXTRACT(YEAR_MONTH FROM '2015-12-14')) AND (EXTRACT(YEAR_MONTH FROM '2016-02-01'));
+
+/* Requête : Liste des organismes donneurs à l'affichage de la carte 
+				des réservations pour un id receveur.        									   */
+/* Fichier: carte.php, fonction : organsimereservaton                                              */
+
+SELECT
+    org.nom,
+    adr.adresse_id,
+    adr.no_civique,
+    typrue.description_type_rue,
+    adr.nom,
+    adr.ville,
+    adr.province,
+    adr.code_postal,
+    adr.pays,
+    adr.app,
+    org.telephone,
+    org.poste,
+    util.prenom,
+    util.nom,
+    util.courriel,
+    util.telephone
+     
+FROM transaction trx
+INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
+INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
+WHERE trx.date_reservation IS NOT NULL
+AND trx.date_collecte IS NULL
+AND trx.receveur_id = 4
+GROUP BY trx.receveur_id, trx.donneur_id;

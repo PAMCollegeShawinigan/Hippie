@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Nom Organisme"
+        android:text="PlaceHolder: Nom organisme"
         android:id="@+id/tv_statistiques_nom_organisme_group"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -19,7 +19,7 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Valeur totale"
+        android:text="@string/tv_statistiques_valeur_total_group"
         android:id="@+id/tv_statistiques_valeur_total_group"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"

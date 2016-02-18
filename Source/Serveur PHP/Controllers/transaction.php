@@ -76,7 +76,7 @@ namespace App\Http\Controllers;
 
 													WHERE trx.date_collecte IS NOT NULL
 
-													AND  trx.receveur_id = :id OR trx.donneur_id = :id
+													AND  trx.receveur_id = :id1 OR trx.donneur_id = :id2
 													AND  trx.date_collecte BETWEEN :date_debut AND :date_fin');
 													
 													//$date_du = date_create($_GET['date_du']);
@@ -84,7 +84,8 @@ namespace App\Http\Controllers;
 													
 													
 													$req->execute(array(
-															'id' => $id,
+															'id1' => $id,
+															'id2' => $id,
 															'date_fin' => $_GET['date_au'],
 															'date_debut' => $_GET['date_du']
 															));
