@@ -108,42 +108,14 @@
                 android:layout_width="wrap_content"
                 android:layout_gravity="center"
                 android:orientation="horizontal">
-            <CheckBox android:id="@+id/cat_boulangerie"
-                android:text="@string/cat_boulangerie"
+            <CheckBox android:id="@+id/tv_statistiques_valeur_total"
+                android:text="@string/tv_statistiques_valeur_totale"
                 android:checked="true"
                 android:layout_height="wrap_content"
-                android:layout_width="fill_parent"/>
-            <CheckBox android:id="@+id/cat_fruits_et_legumes"
-                android:text="@string/cat_fruits_et_legumes"
-                android:checked="true"
-                android:layout_height="wrap_content"
-                android:layout_width="fill_parent"/>
-            <CheckBox android:id="@+id/cat_Produits_laitiers"
-                android:text="@string/cat_Produits_laitiers"
-                android:checked="true"
-                android:layout_height="wrap_content"
-                android:layout_width="fill_parent"/>
-            <CheckBox android:id="@+id/cat_viandes"
-                android:text="@string/cat_viandes"
-                android:checked="true"
-                android:layout_height="wrap_content"
-                android:layout_width="fill_parent"/>
-            <CheckBox android:id="@+id/cat_surgelés"
-                android:text="@string/cat_surgelés"
-                android:checked="true"
-                android:layout_height="wrap_content"
-                android:layout_width="fill_parent"/>
-            <CheckBox android:id="@+id/cat_non_périssable"
-                android:text="@string/cat_non_périssable"
-                android:checked="true"
-                android:layout_height="wrap_content"
-                android:layout_width="fill_parent"/>
-            <CheckBox android:id="@+id/cat_non_comestible"
-                android:text="@string/cat_non_comestible"
-                android:checked="true"
-                android:layout_height="wrap_content"
-                android:layout_width="fill_parent"/>
+                android:layout_width="fill_parent"/><![CDATA[
+
             />
+        ]]>
         </LinearLayout>
     </LinearLayout>
         <include layout="@layout/loading" />
