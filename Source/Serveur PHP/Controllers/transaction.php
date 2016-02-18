@@ -78,11 +78,8 @@ namespace App\Http\Controllers;
 
 													AND  trx.receveur_id = :id1 OR trx.donneur_id = :id2
 													AND  trx.date_collecte BETWEEN :date_debut AND :date_fin');
-													
-													//$date_du = date_create($_GET['date_du']);
-													//$date_au = date_create($_GET['date_au']);
-													
-													
+												
+																		
 													$req->execute(array(
 															'id1' => $id,
 															'id2' => $id,
@@ -90,7 +87,7 @@ namespace App\Http\Controllers;
 															'date_debut' => $_GET['date_du']
 															));
 															
-															
+														
 												$array = array();			
 											while($resultat = $req->fetch()){
 												$adresse_donneur = array('id' => $resultat[22], 'no_civique' => $resultat[23], 'type_rue' => $resultat[24], 'app' => $resultat[26], 'nom' => $resultat[25], 'ville' => $resultat[27], 'province' => $resultat[28], 'code_postal' => $resultat[29], 'pays' =>$resultat[30]);
