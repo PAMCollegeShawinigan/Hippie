@@ -53,7 +53,7 @@
 <div id="title-sect">
 <h1>yolaine_hipdev<br> Data Dictionary</h1>
 <p>
-<em>2015-12-15</em>
+<em>2016-02-18</em>
 </p>
 <p class="proj-desc">
 <em></em>
@@ -63,6 +63,7 @@
 <ul>
 <li><a href='#adresse'>adresse</a></li>
 <li><a href='#alimentaire'>alimentaire</a></li>
+<li><a href='#donneur_mois'>donneur_mois</a></li>
 <li><a href='#marchandise_etat'>marchandise_etat</a></li>
 <li><a href='#marchandise_statut'>marchandise_statut</a></li>
 <li><a href='#marchandise_unite'>marchandise_unite</a></li>
@@ -181,7 +182,7 @@
 </tr>
 <tr>
     <td>code_postal</td>
-    <td>VARCHAR(10)</td>
+    <td>VARCHAR(6)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -302,7 +303,7 @@
 </tr>
 <tr>
     <td>valeur</td>
-    <td>INT(10)</td>
+    <td>DECIMAL(10,2)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -341,7 +342,7 @@
 </tr>
 <tr>
     <td>date_peremption</td>
-    <td>TIMESTAMP</td>
+    <td>DATETIME</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -350,7 +351,63 @@
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
     <td>NULL</td>
-    <td>Date(timestamp) pour la durée de conservation de l&apos;aliment.</td>
+    <td>Date(DATETIME) pour la durée de conservation de l&apos;aliment.</td>
+</tr>
+</table>
+<table id='donneur_mois'>
+<caption>donneur_mois</caption>
+<tr><td colspan='11'>Table permettant d&apos;enregistrer le meilleur donneur pour un mois et une année en particulier.</td></tr>
+<tr>
+    <th>Column name</th>
+    <th>DataType</th>
+    <th><abbr title='Primary Key'>PK</abbr></th>
+    <th><abbr title='Not Null'>NN</abbr></th>
+    <th><abbr title='Unique'>UQ</abbr></th>
+    <th><abbr title='Binary'>BIN</abbr></th>
+    <th><abbr title='Unsigned'>UN</abbr></th>
+    <th><abbr title='Zero Fill'>ZF</abbr></th>
+    <th><abbr title='Auto Increment'>AI</abbr></th>
+    <th>Default</th>
+    <th>Comment</th>
+</tr>
+<tr>
+    <td>organisme_id</td>
+    <td>INT(10)</td>
+    <td>&nbsp;</td>
+    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td></td>
+    <td>Numéro unique pour l&apos;organisme.</td>
+</tr>
+<tr>
+    <td>montant_total</td>
+    <td>DECIMAL(10,2)</td>
+    <td>&nbsp;</td>
+    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td></td>
+    <td>Représente la somme totale offerte par l&apos;organisme du donneur du mois pour un mois précis.</td>
+</tr>
+<tr>
+    <td>date_donneur_mois</td>
+    <td>DATE</td>
+    <td>&#10004;</td>
+    <td>&#10004;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td></td>
+    <td>Représente date (année, mois) pour le donneur du mois qui a fait son exploit.</td>
 </tr>
 </table>
 <table id='marchandise_etat'>
@@ -513,7 +570,7 @@
 </tr>
 <tr>
     <td>nom</td>
-    <td>VARCHAR(30)</td>
+    <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
@@ -548,7 +605,7 @@
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
     <td></td>
-    <td>Numéro de téléphone de l&apos;oranisme.</td>
+    <td>Numéro de téléphone de l&apos;organisme.</td>
 </tr>
 <tr>
     <td>poste</td>
@@ -673,7 +730,7 @@
 </tr>
 <tr>
     <td>date_collecte</td>
-    <td>TIMESTAMP</td>
+    <td>DATETIME</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -682,11 +739,11 @@
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
     <td>NULL</td>
-    <td>Date de la collecte par l&apos;oranisme receveur.</td>
+    <td>Date (DATETIME) de la collecte par l&apos;oranisme receveur.</td>
 </tr>
 <tr>
     <td>date_reservation</td>
-    <td>TIMESTAMP</td>
+    <td>DATETIME</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -695,11 +752,11 @@
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
     <td>NULL</td>
-    <td>Date de la réservation faite par l&apos;organisme receveur.</td>
+    <td>Date (DATETIME) de la réservation faite par l&apos;organisme receveur.</td>
 </tr>
 <tr>
     <td>date_disponible</td>
-    <td>TIMESTAMP</td>
+    <td>DATETIME</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -708,11 +765,11 @@
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
     <td>'0000-00-00 00:00:00'</td>
-    <td>Date de la transaction</td>
+    <td>Date (DATETIME) où la marchandise est disponible.</td>
 </tr>
 <tr>
     <td>date_transaction</td>
-    <td>TIMESTAMP</td>
+    <td>DATETIME</td>
     <td>&nbsp;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
@@ -720,8 +777,8 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td>CURRENT_TIMESTAMP</td>
     <td></td>
+    <td>Date (DATETIME) de la transaction.</td>
 </tr>
 </table>
 <table id='type_aliment'>
@@ -765,6 +822,19 @@
     <td class='attr'>&nbsp;</td>
     <td>NULL</td>
     <td>Indique le nom de l&apos;aliment pour chaque nombre unique.</td>
+</tr>
+<tr>
+    <td>perissable</td>
+    <td>INT(1)</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td class='attr'>&nbsp;</td>
+    <td>NULL</td>
+    <td>La ressource est périssable = 1, non-périssable = 0</td>
 </tr>
 </table>
 <table id='type_rue'>
@@ -893,7 +963,7 @@
 </tr>
 <tr>
     <td>telephone</td>
-    <td>VARCHAR(15)</td>
+    <td>VARCHAR(10)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -915,7 +985,7 @@
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
     <td></td>
-    <td>Choix entre téléphone ou courriel pour rejoindre l&apos;utilisateur.</td>
+    <td>Moyen de rejoindre l&apos;utilisateur ; téléphone seulement = 0, courriel seulement = 1, les deux = 2.</td>
 </tr>
 <tr>
     <td>organisme_id</td>
@@ -932,7 +1002,7 @@
 </tr>
 <tr>
     <td>derniere_connexion</td>
-    <td>TIMESTAMP</td>
+    <td>DATETIME</td>
     <td>&nbsp;</td>
     <td>&#10004;</td>
     <td>&nbsp;</td>
@@ -940,8 +1010,8 @@
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td class='attr'>&nbsp;</td>
-    <td>CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</td>
-    <td>Date-temps de la dernière connexion.</td>
+    <td></td>
+    <td>Date et heure(DATETIME) lors de la dernière connexion.</td>
 </tr>
 </table>
 </body>
