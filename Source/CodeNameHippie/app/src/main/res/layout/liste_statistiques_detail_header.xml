@@ -7,12 +7,11 @@
     android:gravity="center_vertical"
     android:padding="10dp">
 
-
     <!--ENTETE:  Nom du produit-->
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Nom du produit"
+        android:text="@string/tv_statistiques_nom_marchandise"
         android:id="@+id/tv_statistiques_nom_marchandise"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -25,7 +24,7 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Qtée"
+        android:text="@string/tv_statistiques_qtee_marchandise"
         android:id="@+id/tv_statistiques_qtee_marchandise"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -38,7 +37,7 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Date de collecte"
+        android:text="@string/tv_statistiques_date_collecte"
         android:id="@+id/tv_statistiques_date_collecte"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -51,7 +50,7 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Valeur"
+        android:text="@string/tv_statistiques_valeur_produit"
         android:id="@+id/tv_statistiques_valeur_produit"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
