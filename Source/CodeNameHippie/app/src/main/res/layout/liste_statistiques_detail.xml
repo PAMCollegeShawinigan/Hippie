@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--Chaque ligne contenu dans la liste MES DONS contient les éléments suivants-->
+<!--Chaque ligne contenu dans la liste LISTE STATISTIQUES contient les éléments suivants-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
