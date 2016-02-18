@@ -54,6 +54,8 @@ Route:: get('carte/','carte@entreprisedon');
 
 Route:: get('carte/{id}','carte@donid');
 
+Route:: get('carte/reservation/{id_organisme}','carte@organismereservation');
+
 Route:: get('transaction/{id}', 'transaction@transactions');
 
 Route:: get('donneur_mois', 'donneurmois@donneurdumois');
