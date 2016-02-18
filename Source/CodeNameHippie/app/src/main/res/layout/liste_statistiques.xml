@@ -71,7 +71,7 @@
                         android:layout_weight="0.1"
                         android:paddingLeft="15dp"
                         android:paddingRight="10dp"
-                        android:text="Le donneur du mois est :"
+                        android:text="@string/tv_statistiques_donneur_mois_titre"
                         android:textColor="@color/colorAccent"
                         android:textSize="18sp"
                         fontPath="fonts/arialrounded.ttf"
@@ -85,7 +85,7 @@
                         android:layout_weight="0.1"
                         android:paddingLeft="0dp"
                         android:paddingRight="0dp"
-                        android:text="Metro Plus Shawinigan"
+                        android:text="PlaceHolder: Nom du donneur du mois"
                         android:textColor="@color/colorAccent"
                         android:textSize="18sp"
                         fontPath="fonts/arialrounded.ttf"
@@ -124,7 +124,7 @@
                         android:layout_weight="0.1"
                         android:paddingLeft="30dp"
                         android:paddingRight="10dp"
-                        android:text="Valeur totale des dons:"
+                        android:text="@string/tv_statistiques_valeur_total_titre"
                         android:textSize="18dp"
                         android:textStyle="bold"
                         fontPath="fonts/opensans_semibold.ttf"
@@ -138,9 +138,10 @@
                         android:layout_weight="0.1"
                         android:paddingLeft="30dp"
                         android:paddingRight="10dp"
-                        android:text="$ 5000.00"
                         android:textSize="18dp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        fontPath="fonts/opensans_semibold.ttf"
+                        tools:ignore="MissingPrefix"/>
 
                 </LinearLayout>
             </LinearLayout>
