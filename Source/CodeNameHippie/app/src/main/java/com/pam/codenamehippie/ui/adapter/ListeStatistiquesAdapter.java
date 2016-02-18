@@ -1,6 +1,7 @@
 package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
+import android.support.v4.util.ArrayMap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +13,12 @@ import com.pam.codenamehippie.R;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.TransactionModele;
-import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.modele.depot.TransactionModeleDepot;
-import com.pam.codenamehippie.ui.HippieActivity;
 
-import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,15 +29,20 @@ import java.util.Map;
  */
 public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
 
-
     private final Context context;
     private TransactionModeleDepot depot;
+
+    // Liste pour statistiques produits collecté en tant que donneur
+    private Map<OrganismeModele ,List<TransactionModele>> items = new ArrayMap<>();
+
 
     public void setItems(List<TransactionModele> items) {
         this.items.clear();
         if (items != null && !items.isEmpty()) {
             for (TransactionModele modele : items) {
                 OrganismeModele k = modele.getDonneur();
+                //OrganismeModele k = modele.getReceveur();
+;
                 if (this.items.containsKey(k)) {
                     this.items.get(k).add(modele);
                 } else {
@@ -48,9 +54,7 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
         }
         this.notifyDataSetChanged();
     }
-
-    // Liste pour statistiques produits collecté en tant que donneur
-    private Map<OrganismeModele ,List<TransactionModele>> items = new HashMap<>();
+;
     // Liste pour statistiques produits collecté en tant que receveur
    // private volatile ArrayList<AlimentaireModele> itemsReceveur = new ArrayList<>();
 
@@ -81,26 +85,29 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
                                  ViewGroup parent) {
 
             final OrganismeModele modele = this.getGroup(groupPosition);
-            long total = 0L;
+            Double total = 0.00;
             for (TransactionModele e : this.items.get(modele)) {
                 AlimentaireModele ea = e.getAlimentaire();
-                total += ((ea != null) && (ea.getValeur() != null))? ea.getValeur() : 0L;
+                total += ((ea != null) && (ea.getValeur() != null))? ea.getValeur() : 0.00;
             }
 
             if (convertView == null) {
-                LayoutInflater infalInflater =
-                        (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater infalInflater = (LayoutInflater) this.context
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView =
                     infalInflater.inflate(R.layout.liste_statistiques_group, parent, false);
         }
 
-        // Affiche le nom de l'organisme ou entreprise selon le cas
-        ((TextView) convertView.findViewById(R.id.tv_statistiques_nom_organisme_group)).setText(modele.getNom());
-        // Affiche la valeur des dons de l'entreprise ou la valeur des dons reçus par un organisme
-        // selon le cas
+            // Affiche le nom de l'organisme ou entreprise selon le cas
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_nom_organisme_group))
+                    .setText(modele.getNom());
 
-                ((TextView) convertView.findViewById(R.id.tv_statistiques_valeur_total_group)).setText("Ajouter Somme");
-        return null;
+            // Affiche la valeur des dons de l'entreprise ou la valeur des dons reçus par un
+            // organisme selon le cas
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_valeur_total_group))
+                    .setText("Valeur des dons $ " + String.format("%.2f", total));
+
+            return convertView;
     }
 
     @Override
@@ -110,7 +117,7 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.items.get(this.getGroup(groupPosition)).size();
+        return this.items.get(this.getGroup(groupPosition)).size() +1 ;
     }
 
     @Override
@@ -125,9 +132,64 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
 
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
+                             View convertView, ViewGroup parent) {
 
-        return null;
+
+        //TODO: http://robusttechhouse.com/how-to-add-header-footer-to-expandablelistview-childview/
+        // Fait afficher le layout modèle Details, afin de voir les infos des transactions
+        // Lorsque l'on clique sur l'organisme pour voir plus d'informations.
+        // C'est le "child" modèle.
+
+
+        if (convertView == null) {
+            LayoutInflater inflater =
+                    (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.liste_statistiques_detail, parent, false);
+        }
+
+        if (childPosition == 0){
+            // Fait afficher entête nom du produit
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_nom_marchandise))
+                    .setText("Nom du produit");
+
+            // Fait afficher entête quantité
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_qtee_marchandise))
+                    .setText("Qtée");
+
+            // Fait afficher entête date collecte
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_date_collecte))
+                    .setText("Date de collecte");
+
+            // Fait afficher entête valeur
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_valeur_produit))
+                    .setText("Valeur");
+
+        } else {
+
+            TransactionModele modele = this.getChild(groupPosition, childPosition - 1);
+            // Fait afficher le nom du produit
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_nom_marchandise))
+                    .setText(modele.getAlimentaire().getNom());
+
+            // Fait afficher la quantité du produit
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_qtee_marchandise))
+                    .setText(modele.getAlimentaire().getQuantiteString());
+
+            // Fait afficher la date de collecte du produit
+            Calendar cal = modele.getCalendarDateCollecte();
+            Date date = cal.getTime();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String dateCollecte = format.format(date);
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_date_collecte))
+                    .setText(dateCollecte);
+
+            // Fait afficher la valeur total du produit
+            ((TextView) convertView.findViewById(R.id.tv_statistiques_valeur_produit))
+                    .setText("$ " + String.format("%.2f", modele.getAlimentaire().getValeur()));
+             }
+
+        return convertView;
     }
 
     @Override
