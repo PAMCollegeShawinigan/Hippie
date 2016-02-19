@@ -18,7 +18,6 @@ import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.FiltreDeListe;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
-import com.pam.codenamehippie.ui.HippieActivity;
 import com.pam.codenamehippie.ui.view.ListeMarchandiseDispoGroupView;
 import com.pam.codenamehippie.ui.view.ListeReservationsRowView;
 
@@ -57,7 +56,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
      */
     public static final int LISTE_TYPE_MARCHANDISE_RESERVEE = (2 + ORGANISME_INFO_CHILD_COUNT) - 1;
 
-    private final HippieActivity activity;
+    private final Context context;
     private final AlimentaireModeleDepot alimentaireModeleDepot;
     private final ViewSwitcher viewSwitcher;
     private final LayoutInflater inflater;
@@ -66,17 +65,17 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
     private OrganismeModele organisme;
     private int listeType = LISTE_TYPE_MARCHANDISE_DISPO;
 
-    public CarteAdapterOption(HippieActivity activity, int orgId) {
-        this.activity = activity;
+    public CarteAdapterOption(Context context, int orgId, ViewSwitcher viewSwitcher) {
+        this.context = context;
         this.orgId = orgId;
         this.inflater =
-                ((LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+                ((LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
         this.alimentaireModeleDepot =
                 DepotManager.getInstance().getAlimentaireModeleDepot();
-        this.viewSwitcher = ((ViewSwitcher) this.activity.findViewById(R.id.panel_view_switcher));
+        this.viewSwitcher = viewSwitcher;
         if (this.viewSwitcher != null) {
-            this.viewSwitcher.setInAnimation(this.activity, android.R.anim.fade_in);
-            this.viewSwitcher.setOutAnimation(this.activity, android.R.anim.fade_out);
+            this.viewSwitcher.setInAnimation(this.context, android.R.anim.fade_in);
+            this.viewSwitcher.setOutAnimation(this.context, android.R.anim.fade_out);
         }
     }
 
@@ -188,7 +187,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
             case LISTE_TYPE_MARCHANDISE_DISPO: {
                 AlimentaireModele modele = this.getChild(groupPosition, childPosition);
                 if ((row == null) || !(row instanceof ListeMarchandiseDispoGroupView)) {
-                    row = new ListeMarchandiseDispoGroupView(this.activity);
+                    row = new ListeMarchandiseDispoGroupView(this.context);
                 }
                 ((ListeMarchandiseDispoGroupView) row).afficherModele(modele);
                 break;
@@ -196,7 +195,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
             case LISTE_TYPE_MARCHANDISE_RESERVEE: {
                 AlimentaireModele modele = this.getChild(groupPosition, childPosition);
                 if ((row == null) || !(row instanceof ListeReservationsRowView)) {
-                    row = new ListeReservationsRowView(this.activity);
+                    row = new ListeReservationsRowView(this.context);
                 }
                 ((ListeReservationsRowView) row).afficherModele(modele);
                 break;

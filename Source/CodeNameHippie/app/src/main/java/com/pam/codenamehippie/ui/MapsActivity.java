@@ -15,7 +15,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -51,6 +53,12 @@ import java.util.List;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.ANCHORED;
+import static com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.COLLAPSED;
+import static com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.EXPANDED;
+import static com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.HIDDEN;
 
 public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                                             ExpandableListView.OnGroupClickListener,
@@ -188,11 +196,14 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     private volatile GoogleMap map;
     private volatile Location lastKnownLocation;
     private MapView mapView;
+    private RelativeLayout mapViewContainer;
     private CarteAdapterOption adapter;
     private AsyncTask prepareMarkerAsyncTask;
     private int orgId;
     private Geocoder geocoder;
     private Boolean hasFineLocation = true;
+    private ViewSwitcher panelViewSwitcher;
+    private int panelHeight;
 
     /**
      * preparer la carte google et des donnees.
@@ -207,17 +218,20 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
         this.orgId = (org != null) ? org.getId() : -1;
         this.geocoder = new Geocoder(this);
+        this.panelViewSwitcher = ((ViewSwitcher) this.findViewById(R.id.panel_view_switcher));
+        this.mapViewContainer = ((RelativeLayout) this.findViewById(R.id.mapView));
         this.mapView = ((MapView) this.findViewById(R.id.map));
         this.mapView.onCreate(savedInstanceState);
         this.slidingLayout = (SlidingUpPanelLayout) this.findViewById(R.id.sliding_layout);
         this.slidingLayout.setAnchorPoint(0.6f);
-        this.slidingLayout.setVisibility(View.GONE);
+        this.panelHeight = this.slidingLayout.getPanelHeight();
+        this.slidingLayout.setPanelState(HIDDEN);
+        this.slidingLayout.setPanelSlideListener(this);
         this.expandableListView = (ExpandableListView) this.findViewById(R.id.expandableListView);
-        this.adapter = new CarteAdapterOption(this, this.orgId);
+        this.adapter = new CarteAdapterOption(this, this.orgId, this.panelViewSwitcher);
         this.expandableListView.setAdapter(this.adapter);
         // mettre le listener pour le click de group de l'expandablelistview
         this.expandableListView.setOnGroupClickListener(this);
-        this.slidingLayout.setPanelSlideListener(this);
         // FIXME: Checker dans this.getIntent().getExtras() pour afficher les bonnes listes.
 
         this.googleApiClient = new GoogleApiClient.Builder(this).useDefaultAccount()
@@ -321,9 +335,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
     public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
         if (!parent.isGroupExpanded(groupPosition)) {
             parent.expandGroup(groupPosition);
-            this.slidingLayout.setPanelState(PanelState.ANCHORED);
-        } else if (this.slidingLayout.getPanelState() == PanelState.ANCHORED) {
-            this.slidingLayout.setPanelState(PanelState.EXPANDED);
+            this.slidingLayout.setPanelState(ANCHORED);
+        } else if (this.slidingLayout.getPanelState() == ANCHORED) {
+            this.slidingLayout.setPanelState(EXPANDED);
         } else {
             parent.collapseGroup(groupPosition);
             this.slidingLayout.setPanelState(PanelState.COLLAPSED);
@@ -481,7 +495,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
 
     @Override
     public void onPanelCollapsed(View view) {
-        this.mapView.setVisibility(View.VISIBLE);
+        this.mapViewContainer.setVisibility(VISIBLE);
         ExpandableListAdapter adapter = this.expandableListView.getExpandableListAdapter();
         if (adapter != null) {
             for (int i = adapter.getGroupCount(); i >= 0; i -= 1) {
@@ -492,17 +506,17 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
 
     @Override
     public void onPanelExpanded(View view) {
-        this.mapView.setVisibility(View.GONE);
+        this.mapViewContainer.setVisibility(GONE);
     }
 
     @Override
     public void onPanelAnchored(View view) {
-        this.mapView.setVisibility(View.VISIBLE);
+        this.mapViewContainer.setVisibility(VISIBLE);
     }
 
     @Override
     public void onPanelHidden(View view) {
-
+        this.mapViewContainer.setVisibility(VISIBLE);
     }
 
     @Override
@@ -516,9 +530,11 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         }
 
         this.adapter.setOrganisme(adapterOrganisme);
-        if (this.slidingLayout.getPanelState() == PanelState.ANCHORED ||
-            this.slidingLayout.getPanelState() == PanelState.EXPANDED) {
+        if (this.slidingLayout.getPanelState() == ANCHORED ||
+            this.slidingLayout.getPanelState() == EXPANDED) {
             this.expandableListView.expandGroup(0, true);
+        } else if (this.slidingLayout.getPanelState() == HIDDEN) {
+            this.slidingLayout.setPanelState(COLLAPSED);
         }
         CameraPosition position =
                 CameraPosition.builder(MapsActivity.this.map.getCameraPosition())
