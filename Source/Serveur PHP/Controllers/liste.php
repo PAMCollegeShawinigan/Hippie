@@ -8,7 +8,7 @@ use App\Http\Controllers\liste;
 class liste extends Controller
 {
 
-	public function liste($type){
+	public function liste($type){ //retourne la liste d'element contenu dans la bd selon le type demandé
 	
 	include('Connection/bdlogin.php');
 
@@ -60,6 +60,7 @@ class liste extends Controller
 					array_push($array, $arr);
 				}
 
+				// retourne 200 si le programme ne rencontre pas d'erreur sinon la fonction execution lance une exeption
 				return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE);
 
 

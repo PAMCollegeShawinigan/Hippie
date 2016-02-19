@@ -43,10 +43,9 @@ class reservation extends Controller
 				'date_disponible' => $transaction['date_disponible']
 				));
 				
-			$req3 = $bdd -> prepare('UPDATE alimentaire SET marchandise_statut = :marchandise_statut WHERE alimentaire_id = :id'); 
+			$req3 = $bdd -> prepare('UPDATE alimentaire SET marchandise_statut = 2 WHERE alimentaire_id = :id'); 
 				$req3->execute(array(
-				'id' => $_POST['marchandise_id'],
-				'marchandise_statut' => '2' ));  // TODO modifier le hard-coding ( 2 = reserve)
+				'id' => $_POST['marchandise_id']));  // TODO modifier le hard-coding ( 2 = reserve)
 				
 				return response('La reservation a ete fait',200);
 	
@@ -71,9 +70,8 @@ class reservation extends Controller
 							'marchandise_id' => $marchandise_id
 							));
 						
-					$req3 = $bdd ->prepare('UPDATE alimentaire SET marchandise_statut = :marchandise_statut WHERE alimentaire_id = :id');
+					$req3 = $bdd ->prepare('UPDATE alimentaire SET marchandise_statut = 3 WHERE alimentaire_id = :id');
 						$req3->execute(array(
-							'marchandise_statut' => '3',
 							'id' => $marchandise_id
 							));
 		return response('La reservation a ete annulé',200);

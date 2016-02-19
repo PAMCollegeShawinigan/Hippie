@@ -133,14 +133,20 @@ class carte extends Controller
 										util.telephone
 										 
 									FROM transaction trx
-									INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
-									INNER JOIN adresse adr ON adr.adresse_id = org.adresse
-									INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
-									INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
-									WHERE trx.date_reservation IS NOT NULL
-									AND trx.date_collecte IS NULL
-									AND trx.receveur_id = :receveur_id
-									GROUP BY trx.receveur_id, trx.donneur_id');	
+							INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
+							INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
+							INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+							INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+							INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
+							WHERE ali.marchandise_statut = 2
+							AND trx.receveur_id = :receveur_id
+							AND (trx.date_reservation, trx.marchandise_id) in
+																(SELECT MAX(trx.date_reservation) as date_réservation,
+																		trx.marchandise_id  
+																 FROM transaction trx
+																 WHERE trx.marchandise_id in (SELECT DISTINCT marchandise_id FROM transaction)
+																 AND trx.date_reservation IS NOT NULL  
+																 GROUP BY trx.marchandise_id)');	
 
 											
 								$req->execute(array(
