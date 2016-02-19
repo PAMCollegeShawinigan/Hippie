@@ -116,7 +116,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
     @Override
     public int getChildTypeCount() {
-        return ORGANISME_INFO_CHILD_COUNT + 1;
+        return ORGANISME_INFO_CHILD_COUNT + 2;
     }
 
     @Override
