@@ -386,11 +386,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                " Denrées disponible ",
                                Toast.LENGTH_SHORT
                 ).show();
+                this.adapter.setOrganisme(null);
                 this.adapter.setListeType(CarteAdapterOption.LISTE_TYPE_MARCHANDISE_DISPO);
                 this.peuplerListeOrganisme(organismeModeleDepot);
-                //   map.clear();
-                // FIXME: Connecter alimentaireModeleDepot et partir une requete pour l'organisme
-
                 break;
 
             case R.id.mesReservation:
@@ -400,7 +398,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                                " Mes réservations ",
                                Toast.LENGTH_SHORT
                 ).show();
-                // FIXME: Faire fonctionner la liste de mes réservations.
+                this.adapter.setOrganisme(null);
                 this.adapter.setListeType(CarteAdapterOption.LISTE_TYPE_MARCHANDISE_RESERVEE);
                 this.peuplerListeOrganisme(organismeModeleDepot);
                 break;

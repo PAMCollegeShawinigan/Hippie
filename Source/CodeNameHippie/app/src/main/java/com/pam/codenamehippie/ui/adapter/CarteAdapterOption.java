@@ -2,7 +2,6 @@ package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +86,6 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
     public void setListeType(int listeType) {
         this.listeType = listeType;
-        this.peuplerListe();
     }
 
     public List<AlimentaireModele> getListedon() {
@@ -279,7 +277,6 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
 
     private void peuplerListe() {
         if (this.organisme != null) {
-            Log.d("ORG", this.organisme.toString());
             switch (this.listeType) {
                 case LISTE_TYPE_MARCHANDISE_DISPO:
                     this.alimentaireModeleDepot.setFiltreDeListe(null);
@@ -299,6 +296,9 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                 default:
                     throw new IllegalStateException("Type de liste inconnu");
             }
+        } else {
+            this.listedon = null;
+            this.notifyDataSetChanged();
         }
     }
 }
