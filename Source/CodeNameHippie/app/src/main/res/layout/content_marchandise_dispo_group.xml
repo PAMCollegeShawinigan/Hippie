@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              tools:showIn="@layout/liste_marchandise_dispo_group">
+
+    <!-- Icône pour faire afficher les différentes catégories -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/iv_md_categorie"
+        android:contentDescription="@string/iv_md_categorie"
+        android:focusable="false"/>
+
+    <!-- Wrapper pour le nom et la description -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_weight="0.1"
+        android:focusable="false"
+        >
+
+        <!-- Nom de la marchandise -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_md_nom_marchandise"
+            android:id="@+id/tv_md_nom_marchandise"
+            android:focusable="false"
+            />
+
+        <!-- Description de la marchandise -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@string/tv_md_description"
+            android:id="@+id/tv_md_description"
+            android:layout_weight="0.1"
+            android:focusable="false"
+            />
+
+    </LinearLayout>
+
+    <!-- Quantité marchandise -->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_md_qtee_marchandise"
+        android:id="@+id/tv_md_qtee_marchandise"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_weight="0.1"
+        android:focusable="false"/>
+
+    <!-- Date de péremption de la marchandise -->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_md_date_marchandise"
+        android:id="@+id/tv_md_date_marchandise"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_weight="0.1"
+        android:focusable="false"/>
+
+    <!-- Bouton afin d'ajouter la marchandise -->
+    <ImageButton
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/ib_md_ajouter"
+        android:background="@drawable/crochet"
+        android:contentDescription="@string/ib_md_ajouter"
+        android:focusable="false"/>
+
+</merge>
