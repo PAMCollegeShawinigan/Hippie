@@ -10,27 +10,27 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-// TO_DO modifier le hard-coding ( 3 = disponible)
 
-Route:: post('/', 'connection@connect');
 
-Route:: get('liste/{type}', 'liste@liste');
+Route:: post('/', 'connection@connect'); // permet la connection et retourne les informations de l'utilisateur et l'organisme auquel il est relié
 
-Route:: get('adresse/{id}', 'adresse@adresse'); // Retourne l'adresse selon l'id
+Route:: get('liste/{type}', 'liste@liste'); // retourne la liste de certaine caractéristiques selon le type (alimentaire, rue, etat, etc..)
+
+Route:: get('adresse/{id}', 'adresse@adresse'); // Retourne l'adresse selon l'id (NON-UTILISE)
 
 Route:: get('organisme/', 'organisme@listeorganisme');
 
 Route:: get('organisme/{id}', 'organisme@organismeid');
 
-Route:: get('alimentaire/{id}', 'alimentaire@alimentaireid');
+Route:: get('alimentaire/{id}', 'alimentaire@alimentaireid'); //retourne l'objet aliment selon l'id voulu
 
-Route:: post('alimentaire/ajout','alimentaire@ajoutalimentaire');
+Route:: post('alimentaire/ajout','alimentaire@ajoutalimentaire'); // permet l'ajout d'aliment
 
-Route:: post('alimentaire/modifier','alimentaire@modifieralimentaire');
+Route:: post('alimentaire/modifier','alimentaire@modifieralimentaire'); // permet la modification d'un aliment
 
-Route:: get('alimentaire/canceller/{id}','alimentaire@cancelleraliment');
+Route:: get('alimentaire/canceller/{id}','alimentaire@cancelleraliment'); // permet de canceller un aliment ( ne le supprime pas )
 
-Route:: get('alimentaire/collecter/{id}','alimentaire@collecteralimentaire');
+Route:: get('alimentaire/collecter/{id}','alimentaire@collecteralimentaire'); // permet de collecter un aliment
 
 Route:: get('utilisateur/','utilisateur@listeutilisateur');
 

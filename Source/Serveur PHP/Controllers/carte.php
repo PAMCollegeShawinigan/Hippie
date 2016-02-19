@@ -10,49 +10,61 @@ class carte extends Controller
 
 	public function entreprisedon() // fait afficher la liste des entreprises qui ont des aliments a donner
 	{
-		$header = array ('Content-Type' => 'application/json; charset=UTF-8', 'charset' => 'utf-8' );
-		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
+		
+		require('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
 		
 			
-			$req = $bdd->query('SELECT DISTINCT org.organisme_id, 
-												org.nom,
-												adr.no_civique,
-												adr.nom,
-												typrue.description_type_rue,
-												adr.ville,
-												adr.province,
-												adr.code_postal,
-												adr.pays,
-												adr.adresse_id,
-												org.telephone,
-												org.poste		
-											FROM alimentaire ali
+			$req = 'SELECT DISTINCT org.organisme_id, 
+									org.nom,
+									adr.no_civique,
+									adr.nom,
+									typrue.description_type_rue,
+									adr.ville,
+									adr.province,
+									adr.code_postal,
+									adr.pays,
+									adr.adresse_id,
+									org.telephone,
+									org.poste
+									
+									FROM alimentaire ali
 											
-											INNER JOIN marchandise_statut marstat ON marstat.statut_id = ali.marchandise_statut
-											INNER JOIN transaction trx ON trx.marchandise_id = ali.alimentaire_id 
-											INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
-											INNER JOIN adresse adr ON adr.adresse_id = org.adresse
-											INNER JOIN type_rue typrue ON adr.type_rue = typrue.type_rue_id
+									INNER JOIN marchandise_statut marstat ON marstat.statut_id = ali.marchandise_statut
+									INNER JOIN transaction trx ON trx.marchandise_id = ali.alimentaire_id 
+									INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
+									INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+									INNER JOIN type_rue typrue ON adr.type_rue = typrue.type_rue_id
 											
-											WHERE ali.marchandise_statut = 3 AND (ali.date_peremption > current_date OR ali.date_peremption IS NULL)
-												');
+									WHERE ali.marchandise_statut = 3 AND (ali.date_peremption > current_date OR ali.date_peremption IS NULL)';
+												
 			
 			$array = array();
 			
-			
-			
-			while($resultat = $req->fetch()) // s'execute dans que la requete retourne des resultats
-						{
+			$requete = requete($req);
+			while($resultat = $requete->fetch()) // s'execute dans que la requete retourne des resultats
+			{ 
+						
 							//création d'un array d'objet adresse
-							$adresse = array('no_civique' => $resultat[2], 
-									'nom' => $resultat[3], 'type_rue' => $resultat[4], 'ville' => $resultat[5],
-										'province' => $resultat[6], 'code_postal' => $resultat[7], 'pays' => $resultat[8], 'id' => $resultat[9]);
+						$adresse = array(	'no_civique' => $resultat[2], 
+											'nom' => $resultat[3],
+											'type_rue' => $resultat[4],
+											'ville' => $resultat[5],
+											'province' => $resultat[6],
+											'code_postal' => $resultat[7],
+											'pays' => $resultat[8],
+											'id' => $resultat[9]);
+											
 						//création d'un array d'objet aliment contenant adresse
-						$arr = array('id' =>$resultat[0], 'nom' => $resultat[1], 'telephone' => $resultat[10], 'poste' => $resultat[11], 'adresse' => $adresse );
+						$arr = array(	'id' =>$resultat[0],
+										'nom' => $resultat[1],
+										'telephone' => $resultat[10],
+										'poste' => $resultat[11],
+										'adresse' => $adresse );
 						
 						array_push($array, $arr);
-						}
+			}
 			
+		//retourne 200 si le programme ne rencontre pas d'erreur sinon requete() lance une exception
 		return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE);
 			
 			

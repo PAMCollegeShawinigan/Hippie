@@ -11,9 +11,9 @@ class alimentaire extends Controller
 
 	public function alimentaireid($id) { // retourne l'objet aliment selon son id
 		require('Connection/bdlogin.php');
-		require('function.php');
+		require('fonction.php');
 		
-			$req = 'SELECT *FROM alimentaire
+			$req = 'SELECT * FROM alimentaire
 
 									INNER JOIN marchandise_etat ON alimentaire.marchandise_etat = marchandise_etat.etat_id
 									INNER JOIN marchandise_unite ON alimentaire.marchandise_unite = marchandise_unite.unite_id
@@ -27,7 +27,7 @@ class alimentaire extends Controller
 
 				$resultat = execution($req,$arr)->fetch();
 
-				
+				//convertis la date de peremption en DATE_ATOM
 			$date_peremption = convertirdate($resultat['date_peremption']);
 				
 
@@ -96,7 +96,7 @@ class alimentaire extends Controller
 		require('Connection/bdlogin.php');
 		require('fonction.php');
 		
-			// si n'est plus disponible envoi un 409
+			// si l'aliment n'est plus disponible envoi un 409
 		if(!sidisponible($id_alimentaire)){
 			return response('La marchandise n\'est plus disponible', 409);
 		}
@@ -146,7 +146,7 @@ class alimentaire extends Controller
 	{
 		require('Connection/bdlogin.php'); // inclus le fichier de connection à la bd
 		
-			// si n'est plus disponible envoi un 409
+			// si l'aliment n'est plus disponible envoi un 409
 		if(!sidisponible($id_alimentaire)){
 			return response('La marchandise n\'est plus disponible', 409);
 		}
@@ -178,7 +178,7 @@ class alimentaire extends Controller
 		require('Connection/bdlogin.php');
 		require('fonction.php');
  
-			// si n'est plus disponible envoi un 409
+			// si l'aliment n'est plus disponible envoi un 409
 		if(!sidisponible($id_alimentaire)){
 			return response('La marchandise n\'est plus disponible', 409);
 		}
