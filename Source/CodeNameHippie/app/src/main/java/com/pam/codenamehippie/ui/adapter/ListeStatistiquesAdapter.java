@@ -30,11 +30,8 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
     private final Context context;
     private TransactionModeleDepot depot;
 
-    private static final int STATISTIQUE_INFO_CHILD_COUNT = 1;
-
     // Liste pour statistiques produits collecté en tant que donneur
     private Map<OrganismeModele ,List<TransactionModele>> items = new ArrayMap<>();
-
 
     public void setItems(List<TransactionModele> items) {
         this.items.clear();
@@ -54,9 +51,6 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
         }
         this.notifyDataSetChanged();
     }
-;
-    // Liste pour statistiques produits collecté en tant que receveur
-   // private volatile ArrayList<AlimentaireModele> itemsReceveur = new ArrayList<>();
 
 
     public ListeStatistiquesAdapter(Context context) {
@@ -104,9 +98,11 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
 
             // Affiche la valeur des dons de l'entreprise ou la valeur des dons reçus par un
             // organisme selon le cas
+            String v = String.format("$ %.2f", total);
+            String s = String.format(this.context.getString(R.string.tv_statistiques_valeur_total_group),v);
             ((TextView) convertView.findViewById(R.id.tv_statistiques_valeur_total_group))
-                    .setText("Valeur des dons $ " + String.format("%.2f", total));
-
+                    .setText(s );
+            
             return convertView;
     }
 
@@ -160,7 +156,7 @@ public class ListeStatistiquesAdapter extends BaseExpandableListAdapter{
 
             // Fait afficher la valeur total du produit
             ((TextView) convertView.findViewById(R.id.tv_statistiques_valeur_produit))
-                    .setText("$ " + String.format("%.2f", modele.getAlimentaire().getValeur()));
+                    .setText(String.format("$ %.2f", modele.getAlimentaire().getValeur()));
              }
 
         return convertView;
