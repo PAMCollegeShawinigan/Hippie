@@ -209,9 +209,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                 }
                 AdresseModele adresse = this.organisme.getAdresse();
                 UtilisateurModele contact = this.organisme.getContact();
-                TextView v = ((TextView) row.findViewById(R.id.tv_org_nom_organisme));
-                afficherTexteOuMettreLaVueInvisible(v, this.organisme.getNom());
-                v = ((TextView) row.findViewById(R.id.tv_org_telephone));
+                TextView v = ((TextView) row.findViewById(R.id.tv_org_telephone));
                 afficherTexteOuMettreLaVueInvisible(v, this.organisme.getFormattedTelephone());
                 String s = null;
                 if (adresse != null) {
