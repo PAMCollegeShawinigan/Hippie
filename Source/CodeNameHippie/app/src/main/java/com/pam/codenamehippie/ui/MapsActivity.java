@@ -228,6 +228,8 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         this.slidingLayout.setPanelState(HIDDEN);
         this.slidingLayout.setPanelSlideListener(this);
         this.expandableListView = (ExpandableListView) this.findViewById(R.id.expandableListView);
+        // On fait disparaitre le chevron.
+        this.expandableListView.setGroupIndicator(null);
         this.adapter = new CarteAdapterOption(this, this.orgId, this.panelViewSwitcher);
         this.expandableListView.setAdapter(this.adapter);
         // mettre le listener pour le click de group de l'expandablelistview
