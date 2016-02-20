@@ -62,6 +62,7 @@ class carte extends Controller
 										'adresse' => $adresse );
 						
 						array_push($array, $arr);
+						
 			}
 			
 		//retourne 200 si le programme ne rencontre pas d'erreur sinon requete() lance une exception
@@ -72,113 +73,121 @@ class carte extends Controller
 	
 	
 	public function donid($id_donneur){ // affichage des aliments disponible par id_entreprise
-		$header = array ('Content-Type' => 'application/json; charset=UTF-8', 'charset' => 'utf-8' );
 		
-		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev		
-		
-		$req = $bdd -> prepare('SELECT DISTINCT ali.nom,
-										ali.alimentaire_id,
-										ali.description_alimentaire, 
-										ali.quantite, 
-										marunit.description_marchandise_unite,
-										ali.date_peremption,
-										ali.valeur
+		require('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev		
+		require('fonction.php');
+			$req = 'SELECT DISTINCT ali.nom,
+								ali.alimentaire_id,
+								ali.description_alimentaire, 
+								ali.quantite, 
+								marunit.description_marchandise_unite,
+								ali.date_peremption,
+								ali.valeur
 		
 								FROM transaction trx
 							
-							INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
-							INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
-							INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
-							INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite
+								INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
+								INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
+								INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
+								INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite
 
-							WHERE (ali.marchandise_statut = 3 )AND trx.donneur_id = :id_donneur AND (ali.date_peremption > current_date OR ali.date_peremption IS NULL) ORDER BY aliment_id DESC');
-		
-					$req->execute(array(
-						'id_donneur' => $id_donneur //passe le parametre a la requete MYSQL
-						));
-		
-		$array = array(); // array vide remplis dans la boucle
-		
-		while($resultat = $req->fetch()){ // s'execute dans que la requete retourne des resultats
+								WHERE (ali.marchandise_statut = 3 )AND trx.donneur_id = :id_donneur AND (ali.date_peremption > current_date OR ali.date_peremption IS NULL) ORDER BY aliment_id DESC';
 			
-			if($resultat['date_peremption'] != null ) //gere la date
-			{
-			$date = date_create($resultat['date_peremption']);
+			$variable = array('id_donneur' => $id_donneur );
+						
+		
+		
+			$array = array(); // array vide remplis dans la boucle
+		
+			while($resultat = execution($req, $variable)->fetch()){ 
 			
-			$date_peremption = date_format($date, DATE_ATOM); // transforme la date en format ATOM géré par l'api
+					$date_peremption = convertirdate($resultat['date_peremption']);	
+			
+					$arr = array( 	'id' => $resultat['alimentaire_id'],
+									'quantite' => $resultat['quantite'], 
+									'unite' => $resultat['description_marchandise_unite'], 
+									'nom' => $resultat['nom'],
+									'description' => $resultat['description_alimentaire'], 
+									'date_peremption' => $date_peremption,
+									'valeur' => $resultat['valeur']);
+			
+					array_push($array, $arr);
+			
 			}
-			else
-			{
-				$date_peremption = null;
-			}	
-			
-			$arr = array( 'id' => $resultat['alimentaire_id'], 'quantite' => $resultat['quantite'], 'unite' => $resultat['description_marchandise_unite'], 
-			'nom' => $resultat['nom'], 'description' => $resultat['description_alimentaire'], 
-			 'date_peremption' => $date_peremption, 'valeur' => $resultat['valeur']);
-			
-			array_push($array, $arr);
-			
-		}
+			//retourne 200 su le programme ne rencontre pas d'erreur sinon $execution lance une exception
 		return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE); // transforme l'array en JSon
 	}
 	
 	public function organismereservation($id_organisme){
-		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
-		$header = array ('Content-Type' => 'application/json; charset=UTF-8', 'charset' => 'utf-8' );
+		require('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
 			 
-		$req = $bdd -> prepare('SELECT
-										org.nom,
-										adr.adresse_id,
-										adr.no_civique,
-										typrue.description_type_rue,
-										adr.nom,
-										adr.ville,
-										adr.province,
-										adr.code_postal,
-										adr.pays,
-										adr.app,
-										org.telephone,
-										org.poste,
-										util.prenom,
-										util.nom,
-										util.courriel,
-										util.telephone
+				$req = 'SELECT
+								org.nom,
+								adr.adresse_id,
+								adr.no_civique,
+								typrue.description_type_rue,
+								adr.nom,
+								adr.ville,
+								adr.province,
+								adr.code_postal,
+								adr.pays,
+								adr.app,
+								org.telephone,
+								org.poste,
+								util.prenom,
+								util.nom,
+								util.courriel,
+								util.telephone
 										 
-									FROM transaction trx
-							INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
-							INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
-							INNER JOIN adresse adr ON adr.adresse_id = org.adresse
-							INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
-							INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
-							WHERE ali.marchandise_statut = 2
-							AND trx.receveur_id = :receveur_id
-							AND (trx.date_reservation, trx.marchandise_id) in
+								FROM transaction trx
+								
+								INNER JOIN organisme org ON org.organisme_id = trx.donneur_id
+								INNER JOIN alimentaire ali ON ali.alimentaire_id = trx.marchandise_id
+								INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+								INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+								INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
+								WHERE ali.marchandise_statut = 2
+								AND trx.receveur_id = :receveur_id
+								AND (trx.date_reservation, trx.marchandise_id) in
 																(SELECT MAX(trx.date_reservation) as date_réservation,
 																		trx.marchandise_id  
 																 FROM transaction trx
 																 WHERE trx.marchandise_id in (SELECT DISTINCT marchandise_id FROM transaction)
 																 AND trx.date_reservation IS NOT NULL  
-																 GROUP BY trx.marchandise_id)');	
+																 GROUP BY trx.marchandise_id)';	
 
 											
-								$req->execute(array(
-						'receveur_id' => $id_organisme
-						));
+					$variable = array('receveur_id' => $id_organisme);
 						
-						$array = array();
-				while($resultat = $req->fetch()){
+				$array = array();
+					while($resultat = execution($req, $variable)->fetch()){
 
-						$adresse = array('id' => $resultat[1], 'no_civique' => $resultat[2], 'type_rue' => $resultat[3], 'nom' => $resultat[4],'app' => $resultat[9], 'ville' => $resultat[5], 'province' => $resultat[6], 'code_postal' => $resultat[7], 'pays' =>$resultat[8]);
-						
-						$contact = array('nom'=> $resultat[13], 'prenom' => $resultat[12], 'courriel' => $resultat[14], 'telephone' => $resultat[15] );
-						
-						$organisme = array('nom' => $resultat[0], 'telephone' => $resultat[10], 'poste' => $resultat[11], 'adresse' => $adresse, 'contact' => $contact );
+							$adresse = array(	'id' => $resultat[1],
+												'no_civique' => $resultat[2],
+												'type_rue' => $resultat[3],
+												'nom' => $resultat[4],
+												'app' => $resultat[9],
+												'ville' => $resultat[5],
+												'province' => $resultat[6],
+												'code_postal' => $resultat[7],
+												'pays' =>$resultat[8]);
+							
+							$contact = array(	'nom'=> $resultat[13],
+												'prenom' => $resultat[12],
+												'courriel' => $resultat[14],
+												'telephone' => $resultat[15] );
+							
+							$organisme = array(	'nom' => $resultat[0],
+												'telephone' => $resultat[10],
+												'poste' => $resultat[11],
+												'adresse' => $adresse,
+												'contact' => $contact );
 						
 						array_push($array, $organisme);
+						
 				}
-				
-				return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE);
-	
+				//retourne 200 su le programme ne rencontre pas d'erreur sinon $execution lance une exception
+			return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE);
 		
 	}
 }
