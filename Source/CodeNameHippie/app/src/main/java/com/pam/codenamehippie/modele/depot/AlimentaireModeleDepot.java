@@ -79,7 +79,7 @@ public class AlimentaireModeleDepot extends BaseModeleDepot<AlimentaireModele> {
     private volatile ArrayList<DescriptionModel> listeUnitee;
     private volatile ArrayList<TypeAlimentaireModele> listeTypeAlimentaire;
 
-    public AlimentaireModeleDepot(Context context, OkHttpClient httpClient) {
+    protected AlimentaireModeleDepot(Context context, OkHttpClient httpClient) {
 
         super(context, httpClient);
         HttpUrl baseListeUrl = this.url.newBuilder().addPathSegment("liste").build();
