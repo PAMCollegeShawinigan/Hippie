@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,6 +47,16 @@ public final class ActionMarchandiseDispo implements OnClickListener,
      */
     private final AlimentaireModeleDepot depot;
 
+    private final Runnable reserverCallback = new Runnable() {
+        @Override
+        public void run() {
+            Snackbar.make(ActionMarchandiseDispo.this.reserverButton,
+                          R.string.msg_reservation_ajoute,
+                          Snackbar.LENGTH_SHORT)
+                    .show();
+        }
+    };
+
     private ActionMarchandiseDispo(View reserverButton,
                                    OrganismeModele receveur,
                                    AlimentaireModele modele) {
@@ -58,9 +69,9 @@ public final class ActionMarchandiseDispo implements OnClickListener,
 
     }
 
-    private static ActionMarchandiseDispo instancier(@NonNull View reserverButton,
-                                                     @NonNull OrganismeModele receveur,
-                                                     @NonNull AlimentaireModele modele) {
+    public static ActionMarchandiseDispo instancier(@NonNull View reserverButton,
+                                                    @NonNull OrganismeModele receveur,
+                                                    @NonNull AlimentaireModele modele) {
         return new ActionMarchandiseDispo(reserverButton, receveur, modele);
     }
 
@@ -68,6 +79,7 @@ public final class ActionMarchandiseDispo implements OnClickListener,
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
+                this.depot.ajouterReservation(this.modele, this.receveur, this.reserverCallback);
                 dialog.dismiss();
                 break;
             default:
@@ -80,7 +92,7 @@ public final class ActionMarchandiseDispo implements OnClickListener,
     @Override
     public void onClick(View v) {
         if (v.equals(this.reserverButton)) {
-            this.afficherDialog(R.string.marchandise_reservees);
+            this.afficherDialog(R.string.msg_reservation_confirme_ajout);
         }
 
     }

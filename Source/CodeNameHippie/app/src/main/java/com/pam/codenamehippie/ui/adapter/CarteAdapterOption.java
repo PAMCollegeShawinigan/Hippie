@@ -60,14 +60,14 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
     private final AlimentaireModeleDepot alimentaireModeleDepot;
     private final ViewSwitcher viewSwitcher;
     private final LayoutInflater inflater;
-    private final int orgId;
+    private final OrganismeModele org;
     private volatile List<AlimentaireModele> listedon = new ArrayList<>();
     private OrganismeModele organisme;
     private int listeType = LISTE_TYPE_MARCHANDISE_DISPO;
 
-    public CarteAdapterOption(Context context, int orgId, ViewSwitcher viewSwitcher) {
+    public CarteAdapterOption(Context context, OrganismeModele org, ViewSwitcher viewSwitcher) {
         this.context = context;
-        this.orgId = orgId;
+        this.org = org;
         this.inflater =
                 ((LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
         this.alimentaireModeleDepot =
@@ -189,7 +189,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                 if ((row == null) || !(row instanceof ListeMarchandiseDispoGroupView)) {
                     row = new ListeMarchandiseDispoGroupView(this.context);
                 }
-                ((ListeMarchandiseDispoGroupView) row).afficherModele(modele);
+                ((ListeMarchandiseDispoGroupView) row).afficherModele(modele, this.org);
                 break;
             }
             case LISTE_TYPE_MARCHANDISE_RESERVEE: {
@@ -290,7 +290,7 @@ public class CarteAdapterOption extends BaseExpandableListAdapter
                                                .equals(CarteAdapterOption.this.organisme);
                                 }
                             });
-                    this.alimentaireModeleDepot.peuplerListeReservation(this.orgId);
+                    this.alimentaireModeleDepot.peuplerListeReservation(this.org.getId());
                     break;
                 default:
                     throw new IllegalStateException("Type de liste inconnu");

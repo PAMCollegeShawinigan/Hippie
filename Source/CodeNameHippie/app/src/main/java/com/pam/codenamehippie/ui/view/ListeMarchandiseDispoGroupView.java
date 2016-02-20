@@ -2,14 +2,18 @@ package com.pam.codenamehippie.ui.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.controleur.ActionMarchandiseDispo;
 import com.pam.codenamehippie.modele.AlimentaireModele;
+import com.pam.codenamehippie.modele.OrganismeModele;
 
 import static com.pam.codenamehippie.ui.util.Math.convertirDpEnPixels;
 import static com.pam.codenamehippie.ui.util.ViewUtils.afficherDateOuMettreLaVueInvisble;
@@ -23,12 +27,12 @@ public class ListeMarchandiseDispoGroupView extends LinearLayout {
     private TextView date;
     private ImageView image;
     private AlimentaireModele modele;
+    private ImageButton imageButton;
 
     public ListeMarchandiseDispoGroupView(Context context) {
         super(context);
         this.init(context);
     }
-
     public AlimentaireModele getModele() {
         return this.modele;
     }
@@ -46,9 +50,11 @@ public class ListeMarchandiseDispoGroupView extends LinearLayout {
         this.date = ((TextView) this.findViewById(R.id.tv_md_date_marchandise));
         this.quantite = ((TextView) this.findViewById(R.id.tv_md_qtee_marchandise));
         this.image = ((ImageView) this.findViewById(R.id.iv_md_categorie));
+        this.imageButton = ((ImageButton) this.findViewById(R.id.ib_md_ajouter));
     }
 
-    public void afficherModele(@NonNull AlimentaireModele item) {
+    public void afficherModele(@NonNull AlimentaireModele item,
+                               @Nullable OrganismeModele receveur) {
         this.modele = item;
         afficherTexteOuMettreLaVueInvisible(this.nomMarchandise, this.modele.getNom());
         afficherTexteOuMettreLaVueInvisible(this.description, this.modele.getDescription());
@@ -56,6 +62,11 @@ public class ListeMarchandiseDispoGroupView extends LinearLayout {
         afficherDateOuMettreLaVueInvisble(this.date,
                                           DateFormat.getLongDateFormat(this.getContext()),
                                           this.modele.getDatePeremption());
+        if (receveur != null) {
+            ActionMarchandiseDispo.instancier(this.imageButton, receveur, item);
+        } else {
+            this.imageButton.setVisibility(GONE);
+        }
         String typeAlimentaire = this.modele.getTypeAlimentaire();
         if (typeAlimentaire != null) {
             switch (typeAlimentaire) {

@@ -4,11 +4,13 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.controleur.ActionReservation;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 
 import static com.pam.codenamehippie.ui.util.Math.convertirDpEnPixels;
@@ -22,6 +24,8 @@ public class ListeReservationsRowView extends LinearLayout {
     private TextView quantite;
     private TextView date;
     private ImageView image;
+    private ImageButton collecterButton;
+    private ImageButton supprimerButton;
     private AlimentaireModele modele;
 
     public ListeReservationsRowView(Context context) {
@@ -46,6 +50,9 @@ public class ListeReservationsRowView extends LinearLayout {
         this.date = ((TextView) this.findViewById(R.id.tv_res_date_marchandise));
         this.quantite = ((TextView) this.findViewById(R.id.tv_res_qtee_marchandise));
         this.image = ((ImageView) this.findViewById(R.id.iv_res_categorie));
+        this.supprimerButton = ((ImageButton) this.findViewById(R.id.ib_res_collecter));
+        this.collecterButton = ((ImageButton) this.findViewById(R.id.ib_res_supprimer));
+
     }
 
     public void afficherModele(@NonNull AlimentaireModele item) {
@@ -56,6 +63,7 @@ public class ListeReservationsRowView extends LinearLayout {
         afficherDateOuMettreLaVueInvisble(this.date,
                                           DateFormat.getLongDateFormat(this.getContext()),
                                           this.modele.getDatePeremption());
+        ActionReservation.instancier(this.supprimerButton, this.collecterButton, item);
         String typeAlimentaire = this.modele.getTypeAlimentaire();
         if (typeAlimentaire != null) {
             switch (typeAlimentaire) {

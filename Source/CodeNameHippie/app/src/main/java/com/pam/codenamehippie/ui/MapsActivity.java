@@ -216,7 +216,6 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         this.setContentView(R.layout.activity_maps_plus);
         UtilisateurModele uc = this.authentificateur.getUtilisateur();
         OrganismeModele org = (uc != null) ? uc.getOrganisme() : null;
-        this.orgId = (org != null) ? org.getId() : -1;
         this.geocoder = new Geocoder(this);
         this.panelViewSwitcher = ((ViewSwitcher) this.findViewById(R.id.panel_view_switcher));
         this.mapViewContainer = ((RelativeLayout) this.findViewById(R.id.mapView));
@@ -230,7 +229,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         this.expandableListView = (ExpandableListView) this.findViewById(R.id.expandableListView);
         // On fait disparaitre le chevron.
         this.expandableListView.setGroupIndicator(null);
-        this.adapter = new CarteAdapterOption(this, this.orgId, this.panelViewSwitcher);
+        this.adapter = new CarteAdapterOption(this, org, this.panelViewSwitcher);
         this.expandableListView.setAdapter(this.adapter);
         // mettre le listener pour le click de group de l'expandablelistview
         this.expandableListView.setOnGroupClickListener(this);
@@ -409,14 +408,13 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
 
             case R.id.mesReservation:
                 // affiche mes reservations sur la carte
-                // just pour tester,deuxiem clique va causer planter.
-                Toast.makeText(this.getApplicationContext(),
-                               " Mes réservations ",
-                               Toast.LENGTH_SHORT
-                ).show();
-                this.adapter.setOrganisme(null);
-                this.adapter.setListeType(CarteAdapterOption.LISTE_TYPE_MARCHANDISE_RESERVEE);
-                this.peuplerListeOrganisme(organismeModeleDepot);
+                if (this.orgId != -1) {
+                    this.adapter.setOrganisme(null);
+                    this.adapter.setListeType(CarteAdapterOption.LISTE_TYPE_MARCHANDISE_RESERVEE);
+                    this.peuplerListeOrganisme(organismeModeleDepot);
+                } else {
+                    Snackbar.make(this.mapView, "Non disponible", Snackbar.LENGTH_LONG).show();
+                }
                 break;
 
             case R.id.listeMarchandise:
@@ -553,11 +551,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
                 depot.peuplerListeDonneur();
                 break;
             case CarteAdapterOption.LISTE_TYPE_MARCHANDISE_RESERVEE:
-                if (this.orgId != -1) {
-                    depot.peuplerListeDonneurReservation(this.orgId);
-                } else {
-                    Snackbar.make(this.mapView, "Non disponible", Snackbar.LENGTH_LONG).show();
-                }
+                depot.peuplerListeDonneurReservation(this.orgId);
                 break;
             default:
                 throw new IllegalStateException("Type de liste inconnu");
