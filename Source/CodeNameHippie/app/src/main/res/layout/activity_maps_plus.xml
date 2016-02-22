@@ -51,10 +51,11 @@
 					android:layout_alignParentBottom="false"
 					android:layout_alignParentEnd="true"
 					android:layout_marginRight="15dp"
-					android:background="@drawable/map_marchandise_btn"
+					android:background="@drawable/box"
 					android:contentDescription="@null"
 					android:hapticFeedbackEnabled="false"
-					android:onClick="onButtonClick" />
+					android:onClick="onButtonClick"
+					android:baselineAlignBottom="true" />
 				<!-- Bouton pour la liste de mes réservations -->
 				<!-- TODO: Faire une "animation" au onClick du bouton mesReservations-->
 				<ImageButton
