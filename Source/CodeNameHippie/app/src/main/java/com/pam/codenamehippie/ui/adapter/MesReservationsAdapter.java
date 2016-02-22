@@ -1,8 +1,6 @@
 package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.controleur.ActionReservation;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 
@@ -113,104 +111,7 @@ public class MesReservationsAdapter extends BaseAdapter {
         } else {
             ((TextView) row.findViewById(R.id.tv_res_date_marchandise)).setVisibility(View.INVISIBLE);
         }
-
-        // Supprimer une réservation de la liste
-
-        ibSupprimerReservation.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                final Runnable showToast = new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(MesReservationsAdapter.this.context,
-                                       R.string.msg_reservation_supprime, Toast.LENGTH_LONG
-                                      ).show();
-                    }
-                };
-                // Confirmer la suppression de la réservation
-                // Pour sauver de la mémoire, on instancie un seul click listener pour les deux
-                // bouton.
-                DialogInterface.OnClickListener dialogOnClickListener =
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case DialogInterface.BUTTON_POSITIVE:
-                                        MesReservationsAdapter.this.depot.annulerReservation(modele,
-                                                                                             showToast
-                                                                                            );
-                                        dialog.dismiss();
-                                        break;
-                                    default:
-                                        dialog.dismiss();
-                                        break;
-                                }
-                            }
-                        };
-
-                // Construction du message pour suppression d'une réservation
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(MesReservationsAdapter.this.context);
-                builder.setMessage(R.string.msg_reservation_confirme_suppression)
-                       .setPositiveButton(R.string.bouton_confirme_oui,
-                                          dialogOnClickListener
-                                         )
-                       .setNegativeButton(R.string.bouton_confirme_non,
-                                          dialogOnClickListener
-                                         )
-                       .create()
-                       .show();
-            }
-        });
-
-        ibCollecterReservation.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                final Runnable showToast = new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(MesReservationsAdapter.this.context,
-                                       R.string.msg_reservation_collecte, Toast.LENGTH_LONG
-                                      ).show();
-                    }
-                };
-                // Confirmer la collecte de la réservation
-                // Pour sauver de la mémoire, on instancie un seul click listener pour les deux
-                // bouton.
-                DialogInterface.OnClickListener dialogOnClickListener =
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case DialogInterface.BUTTON_POSITIVE:
-                                        MesReservationsAdapter.this.depot.collecter(modele,
-                                                                                    showToast
-                                                                                   );
-                                        dialog.dismiss();
-                                        break;
-                                    default:
-                                        dialog.dismiss();
-                                        break;
-                                }
-                            }
-                        };
-
-                // Construction du message pour collecte d'une reservation
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(MesReservationsAdapter.this.context);
-                builder.setMessage(R.string.msg_reservation_confirme_collecte)
-                       .setPositiveButton(R.string.bouton_confirme_oui,
-                                          dialogOnClickListener
-                                         )
-                       .setNegativeButton(R.string.bouton_confirme_non,
-                                          dialogOnClickListener
-                                         )
-                       .create()
-                       .show();
-            }
-        });
+        ActionReservation.instancier(ibSupprimerReservation, ibCollecterReservation, modele);
 
         return row;
     }
