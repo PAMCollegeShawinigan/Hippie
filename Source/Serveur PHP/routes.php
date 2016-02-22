@@ -18,9 +18,9 @@ Route:: get('liste/{type}', 'liste@liste'); // retourne la liste de certaine car
 
 Route:: get('adresse/{id}', 'adresse@adresse'); // Retourne l'adresse selon l'id (NON-UTILISE)
 
-Route:: get('organisme/', 'organisme@listeorganisme');
+Route:: get('organisme/', 'organisme@listeorganisme'); // retourne la liste des organismes
 
-Route:: get('organisme/{id}', 'organisme@organismeid');
+Route:: get('organisme/{id}', 'organisme@organismeid'); // retourne les informations d'un organisme selon l'id
 
 Route:: get('alimentaire/{id}', 'alimentaire@alimentaireid'); //retourne l'objet aliment selon l'id voulu
 
@@ -40,25 +40,25 @@ Route:: post('utilisateur/', 'utilisateur@enregistrement');
 
 Route:: post('utilisateur/modifier','utilisateur@modifierutilisateur');
 
-Route:: post('reservation/ajouter','reservation@reservationajout');
+Route:: post('reservation/ajouter','reservation@reservationajout'); // permet de faire une reservation
 
-Route:: get('reservation/annuler/{marchandise_id}','reservation@annulerreservation');
+Route:: get('reservation/annuler/{marchandise_id}','reservation@annulerreservation'); // permet d'annuler une reservation
 
-Route:: get('reservation/liste/{id_organisme}','reservation@listereservation');
+Route:: get('reservation/liste/{id_organisme}','reservation@listereservation'); // retourne la liste des reservation incluant l'aliment et l'adresse
 
-Route:: get('don/listedon/{id}','don@listedonid');
+Route:: get('don/listedon/{id}','don@listedonid'); // retourne les aliment qu'un donneur donne
 
-Route:: get('don/listedondispo','don@listedondispo');
+Route:: get('don/listedondispo','don@listedondispo'); // retourne la liste de tout les don disponible tout donneur confondu
 
-Route:: get('carte/','carte@entreprisedon');
+Route:: get('carte/','carte@entreprisedon'); // fait afficher la liste des entreprises qui ont des aliments a donner
 
-Route:: get('carte/{id}','carte@donid');
+Route:: get('carte/{id}','carte@donid'); // affichage des aliments disponible par id_entreprise
 
-Route:: get('carte/reservation/{id_organisme}','carte@organismereservation');
+Route:: get('carte/reservation/{id_organisme}','carte@organismereservation'); // retourne les organismes pour lesquels l'utilisateur a des reservations
 
-Route:: get('transaction/{id}', 'transaction@transactions');
+Route:: get('transaction/{id}', 'transaction@transactions'); // retourne toutes les transactions concernant l'utilisateur autant en tant que donneur que receveur
 
-Route:: get('donneur_mois', 'donneurmois@donneurdumois');
+Route:: get('donneur_mois', 'donneurmois@donneurdumois'); // retourne le ou les donneurs du mois selon les date debut et date fin
 
 
 

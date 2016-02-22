@@ -5,47 +5,20 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Http\Controllers\organisme;
 
-	class organisme extends Controller
-	{
+class organisme extends Controller
+{
 		
-		public function nomid(){
-			$header = array (
-                'Content-Type' => 'application/json; charset=UTF-8',
-                'charset' => 'utf-8'
-            );
+		public function organismeid($id){ // retourne les informations d'un organisme selon son id ****REFAIRE****
 			
-			include('Connection/bdlogin.php');
-			
-			
-			$req = $bdd->query('SELECT organisme_id, nom FROM organisme'); // Requête de l'id_organisme et du nom de l'organisme
-
-					$array = array();
-					while($reponse = $req->fetch()){
-						
-						$arr = array('id' => $reponse['organisme_id'], 'nom' => $reponse['nom']);
-						
-						array_push($array, $arr);
-
-					}
-					
-					return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE);
-			
-		}
-		
-		public function organismeid($id){
-					
-			$header = array (
-                'Content-Type' => 'application/json; charset=UTF-8',
-                'charset' => 'utf-8'
-            );
-			
-			include('Connection/bdlogin.php');
+			require('Connection/bdlogin.php');
 			
 			
 			// Requête pour obtenir les informations du contact de l'organisme
-			$req1 = $bdd->prepare('Select * From organisme WHERE organisme_id = :id'); // Requête de tout les champs d'organisme
-				$req1->execute(array(
-					'id' => $id));
+				$req = 'Select * 
+							FROM organisme 
+							WHERE organisme_id = :id';
+							
+				$variable = array('id' => $id);
 					
 					$organisme = $req1->fetch();
 					
@@ -80,53 +53,66 @@ use App\Http\Controllers\organisme;
 					
 					
 		}
-		public function listeorganisme(){
-			$header = array (
-                'Content-Type' => 'application/json; charset=UTF-8',
-                'charset' => 'utf-8'
-            );
-			
-			include('Connection/bdlogin.php');
+		public function listeorganisme() // retourne la liste des organismes
+		{	
+			require('Connection/bdlogin.php');
 			
 			
-			$req = $bdd->query('SELECT  org.nom, 
-										  adr.no_civique, 
-										  typrue.description_type_rue, 
-										  adr.nom, 
-										  adr.ville, 
-										  adr.province, 
-										  adr.code_postal, 
-										  adr.pays,
-										  util.prenom,
-										  util.nom,
-										  util.courriel,
-										  util.telephone,
-										  org.telephone,
-										  org.poste
+				$req = 'SELECT  org.nom, 
+								adr.no_civique, 
+								typrue.description_type_rue, 
+								adr.nom, 
+								adr.ville, 
+								adr.province, 
+								adr.code_postal, 
+								adr.pays,
+								util.prenom,
+								util.nom,
+								util.courriel,
+								util.telephone,
+								org.telephone,
+								org.poste
 										  
 										  
-										FROM organisme org
-										INNER JOIN adresse adr ON adr.adresse_id = org.adresse
-										INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
-										INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
-										WHERE org.no_osbl IS NOT NULL;'); 
+								FROM organisme org
+											
+								INNER JOIN adresse adr ON adr.adresse_id = org.adresse
+								INNER JOIN type_rue typrue ON typrue.type_rue_id = adr.type_rue
+								INNER JOIN utilisateur util ON util.utilisateur_id = org.utilisateur_contact
+											
+								WHERE org.no_osbl IS NOT NULL';
+
+				$req = requete($req);							
 
 					$array = array();
-					while($resultat = $req->fetch()){
-						$adresse = array('no_civique' => $resultat[1], 'type_rue' => $resultat[2], 'nom' => $resultat[3], 'ville' => $resultat[4], 'province' => $resultat[5], 'code_postal' => $resultat[6], 'pays' =>$resultat[7]);
+					while($resultat = $req->fetch())
+					{
+						$adresse = array(	'no_civique' => $resultat[1],
+											'type_rue' => $resultat[2],
+											'nom' => $resultat[3],
+											'ville' => $resultat[4],
+											'province' => $resultat[5],
+											'code_postal' => $resultat[6],
+											'pays' =>$resultat[7]);
 						
-						$contact = array('prenom'=> $resultat[8], 'nom' => $resultat[9], 'courriel' => $resultat[10], 'telephone' => $resultat[11]);
+						$contact = array(	'prenom'=> $resultat[8],
+											'nom' => $resultat[9],
+											'courriel' => $resultat[10],
+											'telephone' => $resultat[11]);
 						
 						
-						$arr = array('telephone' => $resultat['12'], 'nom' => $resultat['0'], 'poste' => $resultat[13], 'adresse' => $adresse, 'contact' => $contact);
+						$organisme = array(	'telephone' => $resultat['12'],
+											'nom' => $resultat['0'],
+											'poste' => $resultat[13],
+											'adresse' => $adresse,
+											'contact' => $contact);
 						
-						array_push($array, $arr);
+						array_push($array, $organisme);
 
 					}
 					
-					return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE);
+			return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE);
 			
 		}
 		
- 
-	}
+}

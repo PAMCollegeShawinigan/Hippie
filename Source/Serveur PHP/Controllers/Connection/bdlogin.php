@@ -6,8 +6,8 @@ use Illuminate\Database\Connection;
 	$header = array ('Content-Type' => 'application/json; charset=UTF-8','charset' => 'utf-8');
 
 
-function execution($requete, $array){
-	
+function execution($requete, $array) //execute une requete avec des variables
+{
 	try
 	{
 		$bdd = DB:: connection()->getPdo();
@@ -20,26 +20,30 @@ function execution($requete, $array){
 		
 		return $req;
 		
-		
 	}
-	catch(PDOException $e){
+	
+	catch(PDOException $e)
+	{
 		throw $e;
 	}
 	
 
 }
-function requete($requete)
+
+
+function requete($requete) //execute une requete sans variables
+{
+	try
 	{
-		try
-		{
-			$bdd = DB:: connection()->getPdo();
+		$bdd = DB:: connection()->getPdo();
 			
-			return $bdd->query($requete);
-		}
-		catch(PDOException $e)
-		{
-			throw $e;
-		}
+		return $bdd->query($requete);
+	}
+	
+	catch(PDOException $e)
+	{
+		throw $e;
+	}
 		
-	}	
+}	
 	

@@ -49,11 +49,10 @@ class alimentaire extends Controller
 	public function ajoutalimentaire(){ // permet d'ajouter un aliment et de créer une transaction
 
 		require('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
-		
-
+	
 			$req = 'SELECT perissable FROM type_aliment WHERE aliment_id = :type_alimentaire ';
 
-			$arr = array('type_alimentaire'=>$_POST['type_alimentaire']);
+			$arr = array('type_alimentaire' => $_POST['type_alimentaire']);
 
 				$resultat = execution($req,$arr)->fetch();
 

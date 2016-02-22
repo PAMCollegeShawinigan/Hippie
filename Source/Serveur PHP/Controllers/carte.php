@@ -118,7 +118,7 @@ class carte extends Controller
 		return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE); // transforme l'array en JSon
 	}
 	
-	public function organismereservation($id_organisme){
+	public function organismereservation($id_organisme){ // retourne les organismes pour lesquels l'utilisateur a des reservations
 		require('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
 			 
 				$req = 'SELECT
