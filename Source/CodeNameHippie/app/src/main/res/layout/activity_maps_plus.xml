@@ -14,15 +14,15 @@
 	<ViewSwitcher
 		android:id="@+id/main_view_switcher"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+		android:layout_height="match_parent"
+		android:layout_marginTop="?actionBarSize">
 		<!-- Panel pour faire afficher les entreprises et qui "slide" -->
 		<com.sothree.slidinguppanel.SlidingUpPanelLayout
 			android:id="@+id/sliding_layout"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:layout_marginTop="?actionBarSize"
 			android:gravity="bottom"
-			app:umanoDragView="@+id/dragView"
+			app:umanoDragView="@+id/panel_view_switcher"
 			app:umanoFadeColor="@android:color/transparent"
 			app:umanoOverlay="false"
 			app:umanoPanelHeight="65dp"
@@ -51,7 +51,8 @@
 					android:layout_alignParentBottom="false"
 					android:layout_alignParentEnd="true"
 					android:layout_marginRight="15dp"
-					android:background="@drawable/map_marchandise_btn"
+					android:background="@drawable/box"
+					android:baselineAlignBottom="true"
 					android:contentDescription="@null"
 					android:hapticFeedbackEnabled="false"
 					android:onClick="onButtonClick" />
@@ -92,25 +93,18 @@
 			<ViewSwitcher
 				android:id="@+id/panel_view_switcher"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent">
-				<!-- Intègre l'expandable listview -->
-				<LinearLayout
+				android:layout_height="match_parent"
+				android:clickable="true"
+				android:focusable="false">
+				<!-- Expandable list view qui fait afficher les entreprises et les denrées -->
+				<ExpandableListView
+					android:id="@+id/expandableListView"
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
-					android:background="#ffffff"
-					android:clickable="true"
-					android:focusable="false"
-					android:orientation="vertical">
-					<!-- Expandable list view qui fait afficher les entreprises et les denrées -->
-					<ExpandableListView
-						android:id="@+id/expandableListView"
-						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:childDivider="@drawable/divider2"
-						android:divider="@drawable/divider1"
-						android:padding="7dp"
-						android:visibility="visible" />
-				</LinearLayout>
+					android:childDivider="@drawable/divider2"
+					android:divider="@drawable/divider1"
+					android:padding="7dp"
+					android:visibility="visible" />
 				<include layout="@layout/loading_carte_panel" />
 			</ViewSwitcher>
 		</com.sothree.slidinguppanel.SlidingUpPanelLayout>

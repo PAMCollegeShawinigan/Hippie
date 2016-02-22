@@ -224,4 +224,6 @@
     <string name="iv_image_profile">Image profile</string>
     <string name="title_no_internet">Aucune connexion internet</string>
     <string name="error_no_internet">Une connexion internet est requise par cette application.</string>
+    <string name="msg_reservation_ajoute">Marchandise reservée</string>
+    <string name="msg_reservation_confirme_ajout">Êtes-vous sur de vouloir réserver cette marchandise ?</string>
 </resources>

@@ -1,80 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--Chaque ligne contenu dans la liste MES RÉSERVATIONS contient les éléments suivants-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center_vertical"
+              android:orientation="horizontal"
               android:padding="10dp">
-
-    <!--Afficher l'icône de la catégorie-->
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/iv_res_categorie"
-        android:contentDescription="@string/iv_res_categorie"/>
-
-    <!-- Wrap pour placer les informations tel que voulu -->
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_weight="0.1">
-
-        <!--Afficher le nom de la marchandise-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/tv_res_nom_marchandise"
-            android:id="@+id/tv_res_nom_marchandise"/>
-
-        <!--Afficher la description de la marchandise-->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="@string/tv_res_description"
-            android:id="@+id/tv_res_description"
-            android:layout_weight="0.1"/>
-
-    </LinearLayout>
-
-    <!--Afficher la quantité de la marchandise-->
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/tv_res_qtee_marchandise"
-        android:id="@+id/tv_res_qtee_marchandise"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_weight="0.1"/>
-
-    <!--Afficher la date de péremption de la marchandise-->
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/tv_res_date_marchandise"
-        android:id="@+id/tv_res_date_marchandise"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_weight="0.1"/>
-
-    <!--Afficher le bouton pour collecter une réservation-->
-    <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:id="@+id/ib_res_collecter"
-        android:background="@drawable/collecter"
-        android:layout_marginRight="5dp"
-        android:contentDescription="@string/ib_res_collecter"/>
-
-    <!--Afficher le bouton pour supprimer une réservation-->
-    <ImageButton
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:id="@+id/ib_res_supprimer"
-        android:background="@drawable/x_rouge"
-        android:contentDescription="@string/ib_res_supprimer"/>
-
+    <include layout="@layout/content_reservations_row" />
 </LinearLayout>

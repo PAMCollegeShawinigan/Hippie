@@ -45,7 +45,7 @@ public class TransactionModeleDepot extends BaseModeleDepot<TransactionModele> {
     /**
      * Construction du dépot pour modèle Transaction
      */
-    public TransactionModeleDepot(Context context, OkHttpClient httpClient) {
+    protected TransactionModeleDepot(Context context, OkHttpClient httpClient) {
         super(context, httpClient);
         this.url = this.url.newBuilder().addPathSegment("transaction").build();
     }
