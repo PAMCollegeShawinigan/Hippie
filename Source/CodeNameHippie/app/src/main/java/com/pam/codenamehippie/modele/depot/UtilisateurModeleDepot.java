@@ -39,7 +39,7 @@ import okhttp3.OkHttpClient;
 
 public class UtilisateurModeleDepot extends BaseModeleDepot<UtilisateurModele> {
 
-    public UtilisateurModeleDepot(Context context, OkHttpClient httpClient) {
+    protected UtilisateurModeleDepot(Context context, OkHttpClient httpClient) {
         super(context, httpClient);
         this.url = this.url.newBuilder().addPathSegment("utilisateur").build();
     }

@@ -181,7 +181,7 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
      *         le client http pour utiliser par les dépots pour faire des requêtes au
      *         serveur
      */
-    public BaseModeleDepot(Context context, OkHttpClient httpClient) {
+    protected BaseModeleDepot(Context context, OkHttpClient httpClient) {
         Class clazz = this.getClass();
         ParameterizedType genericType;
         // Recherche la première classe générique dans l'heritage.
