@@ -29,6 +29,8 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
     @SerializedName("organisme")
     protected OrganismeModele organisme;
 
+    protected transient volatile String cacheQuantiteString;
+
     public OrganismeModele getOrganisme() {return this.organisme;}
 
     @SuppressWarnings("unchecked")
@@ -64,15 +66,19 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
     @SuppressWarnings("unchecked")
     public T setQuantite(Double quantite) {
         this.quantite = quantite;
+        this.cacheQuantiteString = null;
         return (T) this;
     }
 
     public String getQuantiteString() {
-        if (this.uniteDeQuantite != null) {
-            return this.quantite.toString() + " " + this.uniteDeQuantite;
-        } else {
-            return this.quantite.toString();
+        if (this.cacheQuantiteString == null) {
+            if (this.uniteDeQuantite != null) {
+                this.cacheQuantiteString = this.quantite.toString() + " " + this.uniteDeQuantite;
+            } else {
+                this.cacheQuantiteString = this.quantite.toString();
+            }
         }
+        return this.cacheQuantiteString;
     }
 
     public String getUniteDeQuantite() {
@@ -82,6 +88,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
     @SuppressWarnings("unchecked")
     public T setUniteDeQuantite(String uniteDeQuantite) {
         this.uniteDeQuantite = uniteDeQuantite;
+        this.cacheQuantiteString = null;
         return (T) this;
     }
 

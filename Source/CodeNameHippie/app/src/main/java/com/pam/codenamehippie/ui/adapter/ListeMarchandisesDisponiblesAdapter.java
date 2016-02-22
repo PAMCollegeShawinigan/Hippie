@@ -1,9 +1,6 @@
 package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.controleur.ActionMarchandiseDispo;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
@@ -240,55 +238,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
         ImageButton ibAjouter = (ImageButton) convertView.findViewById(R.id.ib_md_ajouter);
         if (this.receveur != null) {
             ibAjouter.setFocusable(false);
-            // Simplement pour la lisibilité.
-            final ListeMarchandisesDisponiblesAdapter self = this;
-            ibAjouter.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    final Runnable showToast = new Runnable() {
-                        @Override
-                        public void run() {
-                            Snackbar.make(v, "Marchandise réservée", Snackbar.LENGTH_SHORT).show();
-                        }
-                    };
-
-                    // Confirmer la collecte de la réservation
-                    // Pour sauver de la mémoire, on instancie un seul click listener pour les deux
-                    // bouton.
-                    DialogInterface.OnClickListener dialogOnClickListener =
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    switch (which) {
-                                        case DialogInterface.BUTTON_POSITIVE:
-                                            self.depot.ajouterReservation(modele,
-                                                                          self.receveur,
-                                                                          showToast);
-                                            dialog.dismiss();
-                                            break;
-                                        default:
-                                            dialog.dismiss();
-                                            break;
-                                    }
-                                }
-                            };
-
-                    // Construction du message pour collecte d'une reservation
-                    AlertDialog.Builder builder =
-                            new AlertDialog.Builder(ListeMarchandisesDisponiblesAdapter.this
-                                                            .context);
-
-                    builder.setMessage("Êtes-vous sur de réserver ce produit ?")
-                           .setPositiveButton(R.string.bouton_confirme_oui,
-                                              dialogOnClickListener
-                           )
-                           .setNegativeButton(R.string.bouton_confirme_non,
-                                              dialogOnClickListener
-                           )
-                           .create()
-                           .show();
-                }
-            });
+            ActionMarchandiseDispo.instancier(ibAjouter, this.receveur, modele);
         } else {
             ibAjouter.setVisibility(View.GONE);
         }

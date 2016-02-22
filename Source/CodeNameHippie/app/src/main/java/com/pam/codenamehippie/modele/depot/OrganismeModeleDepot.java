@@ -53,7 +53,7 @@ public class OrganismeModeleDepot extends BaseModeleDepot<OrganismeModele> {
     /**
      * Construction du dépot pour modèle Organisme
      */
-    public OrganismeModeleDepot(Context context, OkHttpClient httpClient) {
+     protected OrganismeModeleDepot(Context context, OkHttpClient httpClient) {
         super(context, httpClient);
         this.listeOrganismeDonneur = this.url.newBuilder().addPathSegment("carte").build();
         this.listeOrganismeReservation = this.listeOrganismeDonneur.newBuilder()

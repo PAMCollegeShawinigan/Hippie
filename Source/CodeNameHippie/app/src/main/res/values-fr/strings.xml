@@ -147,7 +147,7 @@
     <string name="tv_statistiques_valeur_totale">Valeur totale</string>
     <string name="tv_statistiques_donneur_mois_titre">Le donneur du mois est:</string>
     <string name="tv_statistiques_valeur_total_titre">Valeur total des dons:</string>
-    <string name="tv_statistiques_valeur_total_group">Valeur des dons $</string>
+    <string name="tv_statistiques_valeur_total_group">Valeur des dons: %1$s</string>
     <string name="tv_statistiques_nom_marchandise">Nom du produit</string>
     <string name="tv_statistiques_qtee_marchandise">Qtée</string>
     <string name="tv_statistiques_date_collecte">Date de collecte</string>
@@ -224,4 +224,6 @@
     <string name="iv_image_profile">Image profile</string>
     <string name="title_no_internet">Aucune connexion internet</string>
     <string name="error_no_internet">Une connexion internet est requise par cette application.</string>
+    <string name="msg_reservation_ajoute">Marchandise reservée</string>
+    <string name="msg_reservation_confirme_ajout">Êtes-vous sur de vouloir réserver cette marchandise ?</string>
 </resources>
