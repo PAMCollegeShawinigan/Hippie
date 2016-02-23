@@ -28,16 +28,14 @@
             android:id="@+id/tv_md_nom_entreprise"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/tv_md_nom_entreprise"
-            />
+            android:text="@string/tv_md_nom_entreprise" />
 
         <!-- Adresse de l'entreprise -->
         <TextView
             android:id="@+id/tv_md_adresse_entreprise"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/tv_md_adresse_entreprise"
-            />
+            android:text="@string/tv_md_adresse_entreprise" />
     </LinearLayout>
 
 </LinearLayout>
