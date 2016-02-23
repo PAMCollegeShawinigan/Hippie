@@ -38,7 +38,9 @@ class don extends Controller
 			$variable = array('id_donneur' => $id_donneur);
 		
 			$array = array();
-		while($resultat = execution($req, $variable)->fetch())
+			$req = execution($req, $variable);
+			
+		while($resultat = $req->fetch())
 		{
 				
 			$date_peremption = convertirdate($resultat['date_peremption']); // convertis la date en DATE_ATOM
@@ -65,7 +67,8 @@ class don extends Controller
 	public function listedondispo() // retourne la liste de tout les don disponible tout donneur confondu
 	{
 			
-		require('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev		
+		require('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev	
+		require('fonction.php');	
 		
 			$req = 'SELECT typali.description_type_aliment,
 							ali.alimentaire_id,		
@@ -129,7 +132,7 @@ class don extends Controller
 								ali.alimentaire_id,
 								marstat.description_marchandise_statut,
 								org.organisme_id,
-								adr.app');
+								adr.app';
 		
 			$req = requete($req); // execute la requete
 		
@@ -163,7 +166,7 @@ class don extends Controller
 											'description' => $resultat[3],
 											'quantite' => $resultat[4],
 											'unite' => $resultat[5],
-											'date_peremption' => $date_peremption,
+											'date_peremption' => convertirdate($resultat[6]),
 											'marchandise_statut' => $resultat[7],
 											'type_alimentaire' => $resultat[0], 
 											'organisme' => $organisme);
