@@ -8,51 +8,56 @@ use App\Http\Controllers\utilisateur;
 class utilisateur extends Controller
 {
 
-	public function listeutilisateur()
+	public function listeutilisateur() // retourne la liste des utilisateurs
 	{
-			$header = array ('Content-Type' => 'application/json; charset=UTF-8','charset' => 'utf-8');
+			require('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
 			
-			include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
-			
-			$req = $bdd ->query('SELECT utilisateur_id, nom, prenom FROM utilisateur');
+			$req = 'SELECT 	utilisateur_id,
+							nom,
+							prenom 
+							
+							FROM utilisateur';
+							
+			$req = requete($req);
 			
 			$array = array();
 			while($resultat = $req->fetch()){
-				$arr = array('id'=> $resultat['utilisateur_id'], 'nom' => $resultat['nom'], 'prenom' => $resultat['prenom']);
+				
+				$arr = array('id'=> $resultat['utilisateur_id'],
+							 'nom' => $resultat['nom'],
+							 'prenom' => $resultat['prenom']);
 				
 				array_push($array, $arr);
 			}
-			
+			// retourne 200 si le programme ne rencontre pas d'erreur sinon la fonction execution lance une exeption
 			return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE);
 			
 			
 	}
 	
-	public function utilisateurid($id)
+	public function utilisateurid($id) // retourne un utilisateur selon son id
 	{
-		$header = array ('Content-Type' => 'application/json; charset=UTF-8','charset' => 'utf-8');
+			require('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
 			
-			include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
+			$req = 'SELECT nom, prenom, courriel, telephone, organisme_id FROM utilisateur WHERE utilisateur_id = :id';
 			
-			$req = $bdd ->prepare('SELECT nom, prenom, courriel, telephone, organisme_id FROM utilisateur WHERE utilisateur_id = :id');
-			
-			$req->execute(array(
-						'id' => $id
-						));
+			$variable = array('id' => $id);
 						
-						$resultat = $req->fetch();
+						$resultat = execution($req, $variable)->fetch();
 						
 						
 						if($resultat['organisme_id'] != null)
 							{
-								$req2 = $bdd -> prepare('SELECT nom FROM organisme WHERE organisme_id = :id');
-								$req2->execute(array(
-									'id' => $resultat['organisme_id']
-												));
+								$req = 'SELECT nom 
+										FROM organisme 
+										WHERE organisme_id = :id';
+								
+								$variable = array('id' => $resultat['organisme_id']);
 												
-												$organisme = $req2->fetch();
+								$organisme = execution($req, $variable)->fetch();
 												
-											$org = array('id' => $resultat['organisme_id'], 'nom' => $organisme['nom'])	;
+								$org = array(	'id' => $resultat['organisme_id'],
+												'nom' => $organisme['nom'])	;
 							
 							}
 						else
@@ -60,49 +65,50 @@ class utilisateur extends Controller
 								$org = null;
 							
 							}
-						$array = array('nom' => $resultat['nom'], 'prenom' => $resultat['prenom'], 'courriel' => $resultat['courriel'], 'telephone' => $resultat['telephone'], 'organisme' => $org );
+						$array = array(	'nom' => $resultat['nom'],
+										'prenom' => $resultat['prenom'],
+										'courriel' => $resultat['courriel'],
+										'telephone' => $resultat['telephone'],
+										'organisme' => $org );
 						
 						
-				return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE);
+			return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE);
 		
 	}
 	
-	public function enregistrement(){
+	public function enregistrement() // permet l'enregistrement d'un nouvel utilisateur
+	{
 		
-		include('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
+		require('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
 		
-		$req = $bdd ->prepare('SELECT utilisateur_id FROM utilisateur WHERE courriel = :courriel');
-		$req->execute(array(
-						'courriel' => $_POST['courriel']
-						));
-				$resultat = $req->fetch();
+		$req = 'SELECT utilisateur_id
+					FROM utilisateur 
+					WHERE courriel = :courriel';
+					
+		$variable = array('courriel' => $_POST['courriel']);
+		
 
-					if(!$resultat)
-						{
-							$req2 = $bdd -> prepare('INSERT INTO utilisateur (nom, prenom, courriel, mot_de_passe, moyen_contact, organisme_id ) VALUES (:nom, :prenom,:courriel ,:mot_de_passe, :moyen_contact, :organisme_id)');
-							
-								$req2->execute(array(
-								'nom' => $_POST['nom'],
-								'prenom' => $_POST['prenom'],
-								'courriel' => $_POST['courriel'],
-								'mot_de_passe' => $_POST['mot_de_passe'],
-								'moyen_contact' => '1', // par defaut composante a gérer plus tard
-								'organisme_id' => $_POST['organisme_id']
-								));
-							
-							$last_index = $bdd->exec('SELECT LAST_INSERT_ID() FROM utilisateur');
-							
-							$arr = array('id' => $last_index);
-							
-							return response() -> json($arr,200);
-						}
-					else
-						{
-						return response('Le courriel est deja utilise', 409);
-						}
-						
-						
+		if($resultat = execution($req, $variable)->fetch()) // verifi si le courriel est deja utilisé si oui retourne un erreur
+		{
+
+			return response('Le courriel est deja utilise', 409);
+				
+		}			
 		
+		$req = 'INSERT INTO utilisateur (nom, prenom, courriel, mot_de_passe, moyen_contact, organisme_id ) 
+								VALUES (:nom, :prenom, :courriel, :mot_de_passe, :moyen_contact, :organisme_id)';
+				
+		$variable = array(	'nom' => $_POST['nom'],
+							'prenom' => $_POST['prenom'],
+							'courriel' => $_POST['courriel'],
+							'mot_de_passe' => $_POST['mot_de_passe'],
+							'moyen_contact' => '1', // par defaut composante a gérer plus tard
+							'organisme_id' => $_POST['organisme_id']);
+							
+		execution($req, $variable);					
+				
+			return response() -> json($arr,200);
+				
 	}
 	
 	public function modifierutilisateur(){

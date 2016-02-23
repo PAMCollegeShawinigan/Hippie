@@ -2,6 +2,9 @@ package com.pam.codenamehippie.controleur;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
@@ -14,6 +17,8 @@ import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
 import com.pam.codenamehippie.modele.depot.DepotManager;
 
+import static android.content.Context.WIFI_SERVICE;
+
 /**
  * Classe servant à encapsuler les fonctions de button d'item de liste view de réservation.
  */
@@ -22,6 +27,7 @@ public final class ActionReservation implements OnClickListener,
 
     private static final int ACTION_COLLECTER = 1;
     private static final int ACTION_SUPPRIMER = 2;
+    private static final int ACTION_AUCUNE_CONNEXION = 3;
     /**
      * Button supprimer
      */
@@ -107,14 +113,30 @@ public final class ActionReservation implements OnClickListener,
 
     @Override
     public void onClick(View v) {
-        if (v.equals(this.collecterButton)) {
-            this.afficherDialog(R.string.msg_reservation_confirme_collecte);
-            this.actionButton = ACTION_COLLECTER;
-        } else {
-            this.afficherDialog(R.string.msg_reservation_confirme_suppression);
-            this.actionButton = ACTION_SUPPRIMER;
+        ConnectivityManager connectivityManager =
+                ((ConnectivityManager) this.context.getSystemService(Context.CONNECTIVITY_SERVICE));
+        if (connectivityManager != null) {
+            NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+            if (((activeNetwork != null) && !activeNetwork.isConnected()) ||
+                    (activeNetwork == null)) {
+                WifiManager wifiManager = ((WifiManager) this.context.getSystemService(WIFI_SERVICE));
+                if (((wifiManager != null) && !wifiManager.isWifiEnabled())) {
+                    wifiManager.setWifiEnabled(true);
+                }
+                if (((activeNetwork != null) && !activeNetwork.isConnected()) ||
+                        (activeNetwork == null)) {
+                    // TODO: Internet check 2.0
+                    this.afficherOkDialog(R.string.error_no_internet);
+                    this.actionButton = ACTION_AUCUNE_CONNEXION;
+                }
+            } else if (v.equals(this.collecterButton)) {
+                this.afficherDialog(R.string.msg_reservation_confirme_collecte);
+                this.actionButton = ACTION_COLLECTER;
+            } else {
+                this.afficherDialog(R.string.msg_reservation_confirme_suppression);
+                this.actionButton = ACTION_SUPPRIMER;
+            }
         }
-
     }
 
     private void afficherDialog(@StringRes int message) {
@@ -123,5 +145,12 @@ public final class ActionReservation implements OnClickListener,
                                              .setNegativeButton(R.string.bouton_confirme_non, this)
                                              .create()
                                              .show();
+    }
+
+    private void afficherOkDialog(@StringRes int message) {
+        new AlertDialog.Builder(this.context).setMessage(message)
+                .setPositiveButton("OK", this)
+                .create()
+                .show();
     }
 }
