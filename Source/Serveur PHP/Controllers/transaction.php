@@ -72,7 +72,7 @@ class Transaction extends Controller
 							WHERE trx.date_collecte IS NOT NULL
 
 							AND  trx.receveur_id = :id1 OR trx.donneur_id = :id2
-							AND  trx.date_collecte BETWEEN :date_debut AND :date_fin');
+							AND  trx.date_collecte BETWEEN :date_debut AND :date_fin';
 												
 																		
 			$variable = array(	'id1' => $id,
@@ -81,8 +81,9 @@ class Transaction extends Controller
 								'date_debut' => $_GET['date_du']);
 															
 														
-			$array = array();			
-			while($resultat = execution($req, $variable)->fetch())
+			$array = array();		
+			$req = execution($req, $variable);	
+			while($resultat = $req->fetch())
 			{
 				$adresse_donneur = array(	'id' => $resultat[22],
 											'no_civique' => $resultat[23],

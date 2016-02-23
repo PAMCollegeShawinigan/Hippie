@@ -101,7 +101,7 @@ class reservation extends Controller
 	
 	public function listereservation($id_organisme){ // retourne la liste des reservation incluant l'aliment et l'adresse
 		require('Connection/bdlogin.php'); //inclu le fichier de connection a la basse de donné hip_dev
-	
+		require('fonction.php');
 		
 		$req = 'SELECT 	ali.alimentaire_id,
 						typali.description_type_aliment,
@@ -151,7 +151,8 @@ class reservation extends Controller
 		$variable = array('receveur_id' => $id_organisme);
 						
 			$array = array();
-		while($resultat = execution($req, $variable)->fetch())
+			$req = execution($req, $variable);
+		while($resultat = $req->fetch())
 		{		
 					
 			$adresse = array(	'id' => $resultat[8],

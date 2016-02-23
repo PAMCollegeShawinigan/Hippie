@@ -25,10 +25,11 @@ class donneurmois extends Controller
 						WHERE EXTRACT(YEAR_MONTH FROM date_donneur_mois) BETWEEN (EXTRACT(YEAR_MONTH FROM :date_debut)) 
 						AND (EXTRACT(YEAR_MONTH FROM :date_fin))';	
 		
-		$variables = array(	'date_debut' => $_GET['date_debut'],
+		$variable = array(	'date_debut' => $_GET['date_debut'],
 							'date_fin' => $_GET['date_fin']);
 							
-			$array = array();	
+			$array = array();
+			$req = execution($req, $variable);	
 			While( $resultat = $req->fetch())	
 			{
 						$date = convertirdate($resultat['date_donneur_mois']); // retourne la date en DATE_ATOM
