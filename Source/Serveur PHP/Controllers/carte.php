@@ -35,7 +35,7 @@ class carte extends Controller
 									INNER JOIN adresse adr ON adr.adresse_id = org.adresse
 									INNER JOIN type_rue typrue ON adr.type_rue = typrue.type_rue_id
 											
-									WHERE ali.marchandise_statut = 3 AND (ali.date_peremption > current_date OR ali.date_peremption IS NULL)';
+									WHERE ali.marchandise_statut = 3 AND (ali.date_peremption > CURRENT_DATE OR ali.date_peremption IS NULL)';
 												
 			
 			$array = array();
@@ -82,7 +82,8 @@ class carte extends Controller
 								ali.quantite, 
 								marunit.description_marchandise_unite,
 								ali.date_peremption,
-								ali.valeur
+								ali.valeur,
+								typali.description_type_aliment
 		
 								FROM transaction trx
 							
@@ -91,7 +92,10 @@ class carte extends Controller
 								INNER JOIN type_aliment typali ON typali.aliment_id = ali.type_alimentaire
 								INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite
 
-								WHERE (ali.marchandise_statut = 3 )AND trx.donneur_id = :id_donneur AND (ali.date_peremption > current_date OR ali.date_peremption IS NULL) ORDER BY aliment_id DESC';
+								WHERE (ali.marchandise_statut = 3 )
+								AND trx.donneur_id = :id_donneur 
+								AND (ali.date_peremption > CURRENT_DATE OR ali.date_peremption IS NULL)
+								ORDER BY ali.aliment_id DESC';
 			
 			$variable = array('id_donneur' => $id_donneur );
 						
@@ -99,7 +103,8 @@ class carte extends Controller
 		
 			$array = array(); // array vide remplis dans la boucle
 		
-			while($resultat = execution($req, $variable)->fetch()){ 
+			$req = execution($req, $variable);
+			while($resultat = $req->fetch()){ 
 			
 					$date_peremption = convertirdate($resultat['date_peremption']);	
 			
@@ -109,7 +114,8 @@ class carte extends Controller
 									'nom' => $resultat['nom'],
 									'description' => $resultat['description_alimentaire'], 
 									'date_peremption' => $date_peremption,
-									'valeur' => $resultat['valeur']);
+									'valeur' => $resultat['valeur'],
+									'type_alimentaire' => $resultat['description_type_aliment']);
 			
 					array_push($array, $arr);
 			
@@ -160,7 +166,8 @@ class carte extends Controller
 					$variable = array('receveur_id' => $id_organisme);
 						
 				$array = array();
-					while($resultat = execution($req, $variable)->fetch()){
+				$req = execution($req, $variable);
+					while($resultat = $req->fetch()){
 
 							$adresse = array(	'id' => $resultat[1],
 												'no_civique' => $resultat[2],

@@ -32,13 +32,13 @@ Route:: get('alimentaire/canceller/{id}','alimentaire@cancelleraliment'); // per
 
 Route:: get('alimentaire/collecter/{id}','alimentaire@collecteralimentaire'); // permet de collecter un aliment
 
-Route:: get('utilisateur/','utilisateur@listeutilisateur');
+Route:: get('utilisateur/','utilisateur@listeutilisateur'); // retourne la liste des utilisateurs
 
-Route:: get('utilisateur/{id}','utilisateur@utilisateurid');
+Route:: get('utilisateur/{id}','utilisateur@utilisateurid'); // retourne un utilisateur selon son id
 
-Route:: post('utilisateur/', 'utilisateur@enregistrement');
+Route:: post('utilisateur/', 'utilisateur@enregistrement'); // permet l'enregistrement d'un utilisateur
 
-Route:: post('utilisateur/modifier','utilisateur@modifierutilisateur');
+Route:: post('utilisateur/modifier','utilisateur@modifierutilisateur'); // route en place mais vide
 
 Route:: post('reservation/ajouter','reservation@reservationajout'); // permet de faire une reservation
 

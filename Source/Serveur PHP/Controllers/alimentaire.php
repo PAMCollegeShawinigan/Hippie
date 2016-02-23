@@ -96,7 +96,8 @@ class alimentaire extends Controller
 		require('fonction.php');
 		
 			// si l'aliment n'est plus disponible envoi un 409
-		if(!sidisponible($id_alimentaire)){
+		if(!sidisponible($id_alimentaire))
+		{
 			return response('La marchandise n\'est plus disponible', 409);
 		}
 
