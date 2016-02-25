@@ -32,8 +32,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nous sommes des étudiants du Collège Shawinigan, dans l’attestation d’études collégiales Programmation d’applications mobiles. Nous sommes présentement en résidence au Digihub, qui grâce à eux, notre créativité est des plus développés. "
             android:id="@+id/textView6"
+            android:text="Nous sommes des étudiants du Collège Shawinigan inscrits à l’attestation d’études collégiales (AEC) en Programmation d’applications mobiles. Grâce à l’accueil généreux du Digihub, nous pouvons étudier et suivre nos cours dans un milieu d’avant-garde et privilégié par les nouvelles technologies."
             android:textSize="20dp"
             android:layout_marginTop="10dp" />
 
@@ -53,8 +53,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="L’idée nous est venue d’un des parents à notre collège de classe. C’était une idée de base qui s’est développé au fur et à mesure que les idées nous submergeaient. "
             android:id="@+id/textView8"
+            android:text="L’idée nous est venue d’un des parents à notre collègue de classe en troisième session. D’un commun accord ; étudiants et professeur ; nous avons mis en pratique les cours suivis en programmation pour en faire le projet pour le cours de ‘développement d’applications mobiles’ sur Androïd."
             android:textSize="20dp"
             android:layout_marginTop="10dp" />
 
@@ -62,7 +62,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nous en avons parlé à notre enseignante qui a trouvé l’idée géniale. Ainsi, comme projet de fin de session, nous avons conçu l’application. Dans notre engouement, nous avons décidés de l’avant et ainsi faire ce projet une réalité. C’est donc avec grand plaisir et une immense fierté que nous vous présentons un projet à vocation sociale et communautaire. Un projet afin d’aider les aidants, la communauté et améliorer notre collectivité. "
+            android:text="Pour notre cours ‘projet d’intégration’, cours final avant notre stage, nous avons proposé de poursuivre le projet à notre enseignante qui a trouvé l’idée géniale. Ainsi, nous avons conçu l’application et nous avons fait une réalité. C’est donc avec grand plaisir et une immense fierté que nous vous présentons un projet à vocation sociale et communautaire. Un projet afin d’aider les aidants, la communauté et améliorer notre collectivité."
             android:id="@+id/textView9"
             android:textSize="20dp"
             android:layout_marginTop="10dp" />
@@ -97,11 +97,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Denrée Ô suivant aide les entreprises à afficher leurs ressources. Ainsi, cela évite les sollicitations inappropriées de la part des organismes. Elle facilite aussi la communication avec les organismes et sers à économiser du temps et des ressources humaines. "
+            android:text="Denrée Ô suivant aide les entreprises à afficher leurs ressources. Ainsi, cela évite les sollicitations inappropriées de la part des organismes. Elle facilite aussi la communication avec les organismes et sert à économiser du temps et des ressources humaines."
             android:id="@+id/textView12"
             android:textSize="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="40dp" />
+            android:layout_marginLeft="80dp" />
 
         <!-- SOUS-TITRE : Vocation sociale et communautaire -->
         <TextView
@@ -120,11 +120,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="L’objectif est d’augmenter potentiellement les dons et ainsi donner une aide directe aux plus démunis et aux organismes œuvrant dans le milieu communautaire et social. "
+            android:text="L’objectif est d’augmenter potentiellement les dons et de donner une aide directe aux plus démunis par l’entremise des organismes œuvrant dans le milieu communautaire et social."
             android:id="@+id/textView14"
             android:textSize="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="40dp" />
+            android:layout_marginLeft="80dp" />
 
         <!-- SOUS-TITRE : Environnement et gaspillage -->
         <TextView
@@ -143,12 +143,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Denrée Ô suivant se donne pour mission de minimiser les ressources gaspillées. Ainsi favoriser la récupération et le recyclage. Il aura donc une revalorisation et une redistribution des ressources non-utilisées. L’impact environnemental en sera plus que positif. "
             android:id="@+id/textView16"
+            android:text="Denrée Ô suivant se donne pour mission de minimiser les ressources gaspillées. Elle favorise la récupération et le recyclage. Il aura donc une revalorisation et une redistribution des ressources non utilisées. L’impact environnemental en sera plus que positif."
             android:textSize="20dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:layout_marginLeft="40dp" />
+            android:layout_marginLeft="60dp" />
 
         <!-- TITRE : En conclusion -->
         <TextView
@@ -167,7 +167,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nous sommes Étudiants, mais nous sommes aussi « Carrément Panda », et Entrepreneurs et surtout, nous sommes Shawinigan tout comme vous l’êtes. Issus d’une génération où l’environnement, le recyclage et le partage sont des priorités afin d’accéder à une meilleure qualité de vie, nous croyons en un monde meilleur, une communauté meilleure, et dirigeons nos efforts dans ce sens. L’action sociale et communautaire peut être compatible avec la technologie et faciliter tous les acteurs concernés. Notre projet d’entreprenariat étudiant en est une preuve, malgré toutes les embuches que nous rencontrons chaque jour, et que nous rencontrerons à l’avenir. Il est important de développer et d’encourager l’entreprenariat, de soutenir les entrepreneurs dans leurs démarches, et le DigiHub est un pionnier en ce sens. Vos efforts et votre dynamisme en valent la peine, continuez à travailler pour améliorer le monde qui vous entoure. "
+            android:text="Nous sommes à la fois Étudiants et Entrepreneurs, partageant aussi l’idée d’être « Carrément Panda ». Nous sommes à Shawinigan tout comme vous l’êtes. Issus d’une génération où l’environnement, le recyclage et le partage sont des priorités afin d’accéder à une meilleure qualité de vie. Nous croyons en un monde meilleur, une communauté meilleure, et dirigeons nos efforts dans ce sens. L’action sociale et communautaire peut être compatible avec la technologie et faciliter tous les acteurs concernés.
+Notre projet d’entrepreneuriat étudiant en est une preuve que, malgré toutes les embuches que nous rencontrons chaque jour, nous pouvons contribuer à un avenir meilleur. Il est important de développer et d’encourager l’entrepreneuriat, de soutenir les entrepreneurs dans leurs démarches, et le DigiHub est un pionnier en ce sens. Vos efforts et votre dynamisme en valent la peine, ensemble, continuons à travailler pour améliorer le monde qui nous entoure."
             android:id="@+id/textView18"
             android:textSize="20dp"
             android:layout_marginTop="10dp"
