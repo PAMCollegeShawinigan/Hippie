@@ -110,18 +110,15 @@ public class Stats_Activity extends HippieActivity
          * Implementing this method to allow us to inject our
          * special selection getFormatter.
          *
-         * @param index
-         *         index of the point being rendered.
-         * @param series
-         *         XYSeries to which the point being rendered belongs.
-         *
+         * @param index  index of the point being rendered.
+         * @param series XYSeries to which the point being rendered belongs.
          * @return
          */
         @Override
         public MyBarFormatter getFormatter(int index, XYSeries series) {
             if (Stats_Activity.this.selection != null &&
-                Stats_Activity.this.selection.second == series &&
-                Stats_Activity.this.selection.first == index) {
+                    Stats_Activity.this.selection.second == series &&
+                    Stats_Activity.this.selection.first == index) {
                 return Stats_Activity.this.selectionFormatter;
             } else {
                 return this.getFormatter(series);
@@ -132,91 +129,24 @@ public class Stats_Activity extends HippieActivity
 
     // Create a couple arrays of y-values to plot:
     Number[] series1Numbers10 = {2, null, 5, 2, 7, 4, 3, 7, 4, 5};
-    Number[] series2Numbers10 = {4, 6, 3, null, 2, 0, 7, 4, 5, 4};
-    Number[] series3Numbers10 = {1, 2, 4, 0, 1, 3, 5, 7, 9, null};
-    Number[] series4Numbers10 = {5, 6, 7, null, 0, 9, 8, 7, 6, 5};
-    Number[] series5Numbers10 = {9, 0, 1, 5, 2, 4, 6, 8, 3, null};
-    Number[] series6Numbers10 = {2, 5, 1, 6, null, 7, 9, 1, 0, 9};
-    Number[] series7Numbers10 = {3, 2, 6, 9, 2, 4, null, 2, 9, 8};
-    Number[] series1Numbers20 = {2, null, 5, 2, 7, 4, 3, 7, 4, 5, 7, 4, 5, 8, 5, 3, 6, 3, 9, 3};
-    Number[] series2Numbers20 = {4, 6, 3, null, 2, 0, 7, 4, 5, 4, 9, 6, 2, 8, 4, 0, 7, 4, 7, 9};
-    Number[] series3Numbers20 = {8, 8, 9, null, 1, 3, 9, 2, 7, 2, 11, 3, 1, 2, 7, 5, 0, 1, 4, 10};
-    Number[] series4Numbers20 = {2, 6, 7, 8, 9, 10, 1, null, 5, 7, 8, 9, 1, 2, 3, 5, 4, 3, 21, 1};
-    Number[] series5Numbers20 = {1, 4, null, 8, 9, 2, 3, 0, 9, 8, 7, 6, 5, 4, 3, 2, 1, 2, 3, 9};
-    Number[] series6Numbers20 = {12, 13, 4, 8, 9, null, 9, 3, 5, 6, 7, 1, 4, 7, 8, 8, 1, 2, 19, 1};
-    Number[] series7Numbers20 =
-            {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-    Number[] series1Numbers60 = {
-            2, null, 5, 2, 7, 4, 3, 7, 4, 5, 7, 4, 5, 8, 5, 3, 6, 3, 9, 3, 2, null, 5, 2, 7, 4, 3,
-            7, 4, 5, 7, 4, 5, 8, 5, 3, 6, 3, 9, 3, 2, null, 5, 2, 7, 4, 3, 7, 4, 5, 7, 4, 5, 8, 5,
-            3, 6, 3, 9, 3
-    };
-    Number[] series2Numbers60 = {
-            4, 6, 3, null, 2, 0, 7, 4, 5, 4, 9, 6, 2, 8, 4, 0, 7, 4, 7, 9, 4, 6, 3, null, 2, 0, 7,
-            4, 5, 4, 9, 6, 2, 8, 4, 0, 7, 4, 7, 9, 4, 6, 3, null, 2, 0, 7, 4, 5, 4, 9, 6, 2, 8, 4,
-            0, 7, 4, 7, 9
-    };
-    Number[] series3Numbers60 = {
-            1, 5, 2, null, 0, 4, 5, 6, 1, 2, 3, 4, 9, 8, 7, 6, 5, 3, 2, 1, 0, 9, 3, null, 1, 2, 3,
-            7, 6, 5, 4, 3, 2, 9, 1, 3, 8, 1, 2, 3, 5, 8, 9, null, 1, 0, 7, 6, 5, 8, 8, 1, 3, 4, 2,
-            3, 0, 2, 3, 5
-    };
-    Number[] series4Numbers60 = {
-            7, 4, 5, 4, 9, 6, null, 8, 4, 0, 7, 4, 7, 9, 4, 6, 3, null, 2, 0, 7, 4, 5, 4, 9, 6, 2,
-            8, 4, 0, 7, 4, 2, 3, 4, 9, 8, 7, 6, 5, 3, 2, 1, 0, 9, 3, null, 1, 2, 3, 7, 6, 5, 4, 3,
-            2, 9, 1, 7, 7
-    };
-    Number[] series5Numbers60 = {
-            7, 4, 7, 9, 4, 6, 3, null, 2, 0, 7, 4, 5, 4, 9, 6, 2, 8, 4, 0, 7, 4, 2, 3, 4, 9, 8, 7,
-            6, 5, 3, 2, 1, 0, 9, 3, null, 1, 2, 3, 7, 6, 5, 4, 3, 2, 9, 1, 7, 7, 4, 5, 4, 9, 6,
-            null, 7, 9, 3, 5
-    };
-    Number[] series6Numbers60 = {
-            0, 4, 5, 6, 1, 2, 3, 4, 9, 8, 7, 6, 5, 3, 2, 1, 0, 9, 3, null, 1, 2, 3, 7, 6, 5, 4, 3,
-            2, 9, 1, 3, 8, 1, 2, 3, 5, 8, 9, null, 1, 0, 7, 6, 5, 8, 8, 1, 3, 4, 2, 3, 0, 2, 3, 5,
-            7, 4, 8, 1, 8
-    };
-    Number[] series7Numbers60 = {
-            2, null, 5, 2, 7, 4, 3, 7, 4, 5, 7, 4, 5, 8, 5, 3, 6, 3, 9, 3, 2, null, 5, 2, 7, 4, 3,
-            7, 4, 7, 6, 5, 3, 2, 1, 0, 9, 3, null, 1, 2, 3, 7, 6, 5, 4, 3, 2, 9, 1, 3, 8, 1, 2, 3,
-            5, 8, 9, 9, 9
-    };
+
     Number[] series1Numbers = this.series1Numbers10;
-    Number[] series2Numbers = this.series2Numbers10;
-    Number[] series3Numbers = this.series3Numbers10;
-    Number[] series4Numbers = this.series4Numbers10;
-    Number[] series5Numbers = this.series5Numbers10;
-    Number[] series6Numbers = this.series6Numbers10;
-    Number[] series7Numbers = this.series7Numbers10;
+
     // private static final String NO_SELECTION_TXT = "Touch bar to select.";
     private XYPlot plot;
     private CheckBox series1CheckBox;
-    private CheckBox series2CheckBox;
-    private CheckBox series3CheckBox;
-    private CheckBox series4CheckBox;
-    private CheckBox series5CheckBox;
-    private CheckBox series6CheckBox;
-    private CheckBox series7CheckBox;
+
     private Spinner spRenderStyle, spWidthStyle, spSeriesSize;
     private SeekBar sbFixedWidth, sbVariableWidth;
     private XYSeries series1;
-    private XYSeries series2;
-    private XYSeries series3;
-    private XYSeries series4;
-    private XYSeries series5;
-    private XYSeries series6;
-    private XYSeries series7;
+
     private MyBarFormatter formatter1;
-    private MyBarFormatter formatter2;
-    private MyBarFormatter formatter3;
-    private MyBarFormatter formatter4;
-    private MyBarFormatter formatter5;
-    private MyBarFormatter formatter6;
-    private MyBarFormatter formatter7;
+
     private MyBarFormatter selectionFormatter;
     private TextLabelWidget selectionWidget;
     private Pair<Integer, XYSeries> selection;
     private Integer orgId;
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -227,11 +157,11 @@ public class Stats_Activity extends HippieActivity
         super.onResume();
         TransactionModeleDepot transactionModeleDepot =
                 DepotManager.getInstance().getTransactionModeleDepot();
-        transactionModeleDepot.ajouterUnObservateur(this);
+//        transactionModeleDepot.ajouterUnObservateur(this);
         if (this.orgId != null && this.orgId != -1) {
             // TODO: Ajouter 2 DatePicker dans le layout list_statistique
             Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, 2014);
+            calendar.set(Calendar.YEAR, 2016);
             Date dateDebut = calendar.getTime();
             calendar = Calendar.getInstance();
             Date dateFin = calendar.getTime();
@@ -281,14 +211,7 @@ public class Stats_Activity extends HippieActivity
 //        selectionFormatter = new MyBarFormatter(Color.argb(1000,224,222,84), Color.WHITE);
 
         this.formatter1 = new MyBarFormatter(Color.argb(200, 78, 130, 189), Color.LTGRAY);//Bleu
-        this.formatter2 = new MyBarFormatter(Color.argb(200, 194, 80, 79), Color.LTGRAY);//Rouge
-        this.formatter3 = new MyBarFormatter(Color.argb(200, 156, 187, 88), Color.LTGRAY);//vert
-        this.formatter4 = new MyBarFormatter(Color.argb(200, 46, 181, 164), Color.LTGRAY);//lime
-        this.formatter5 = new MyBarFormatter(Color.argb(200, 128, 100, 162), Color.LTGRAY);//Violet
-        this.formatter6 =
-                new MyBarFormatter(Color.argb(200, 67, 172, 197), Color.LTGRAY);//Bleu pâle
-        this.formatter7 =
-                new MyBarFormatter(Color.argb(200, 50, 86, 140), Color.LTGRAY);//Bleu marin
+
         this.selectionFormatter = new MyBarFormatter(Color.argb(1000, 224, 222, 84), Color.WHITE);
 
         /*formatter1 = new MyBarFormatter(Color.argb(200, 85, 87, 79), Color.LTGRAY);
@@ -301,13 +224,13 @@ public class Stats_Activity extends HippieActivity
         selectionFormatter = new MyBarFormatter(Color.argb(1000,224,222,84), Color.WHITE);*/
 
         this.selectionWidget = new TextLabelWidget(this.plot.getLayoutManager(),
-                                                   this.getString(R.string.stats_non_selectionne),
+                this.getString(R.string.stats_non_selectionne),
 
-                                                   new Size(PixelUtils.dpToPix(100),
-                                                            SizeLayoutType.ABSOLUTE,
-                                                            PixelUtils.dpToPix(100),
-                                                            SizeLayoutType.ABSOLUTE),
-                                                   TextOrientationType.HORIZONTAL);
+                new Size(PixelUtils.dpToPix(100),
+                        SizeLayoutType.ABSOLUTE,
+                        PixelUtils.dpToPix(100),
+                        SizeLayoutType.ABSOLUTE),
+                TextOrientationType.HORIZONTAL);
 
         this.selectionWidget.setPaddingLeft(10);
 
@@ -319,7 +242,7 @@ public class Stats_Activity extends HippieActivity
         this.selectionWidget.setBackgroundPaint(p);
 
         this.selectionWidget.position(0, XLayoutStyle.RELATIVE_TO_CENTER, PixelUtils.dpToPix(60),
-                                      YLayoutStyle.ABSOLUTE_FROM_TOP, AnchorPosition.TOP_MIDDLE);
+                YLayoutStyle.ABSOLUTE_FROM_TOP, AnchorPosition.TOP_MIDDLE);
         this.selectionWidget.pack();
 
         // reduce the number of range labels
@@ -330,7 +253,7 @@ public class Stats_Activity extends HippieActivity
         this.plot.setTicksPerDomainLabel(2);
 
         // setup checkbox listers:
-        this.series1CheckBox = (CheckBox) this.findViewById(R.id.cat_boulangerie);
+        this.series1CheckBox = (CheckBox) this.findViewById(R.id.tv_statistiques_valeur_total);
         this.series1CheckBox.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -339,59 +262,6 @@ public class Stats_Activity extends HippieActivity
                     }
                 });
 
-        this.series2CheckBox = (CheckBox) this.findViewById(R.id.cat_fruits_et_legumes);
-        this.series2CheckBox.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        Stats_Activity.this.onS2CheckBoxClicked(b);
-                    }
-                });
-
-        this.series3CheckBox = (CheckBox) this.findViewById(R.id.cat_Produits_laitiers);
-        this.series3CheckBox.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        Stats_Activity.this.onS3CheckBoxClicked(b);
-                    }
-                });
-
-        this.series4CheckBox = (CheckBox) this.findViewById(R.id.cat_surgelés);
-        this.series4CheckBox.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        Stats_Activity.this.onS4CheckBoxClicked(b);
-                    }
-                });
-
-        this.series5CheckBox = (CheckBox) this.findViewById(R.id.cat_viandes);
-        this.series5CheckBox.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        Stats_Activity.this.onS5CheckBoxClicked(b);
-                    }
-                });
-
-        this.series6CheckBox = (CheckBox) this.findViewById(R.id.cat_non_périssable);
-        this.series6CheckBox.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        Stats_Activity.this.onS6CheckBoxClicked(b);
-                    }
-                });
-
-        this.series7CheckBox = (CheckBox) this.findViewById(R.id.cat_non_comestible);
-        this.series7CheckBox.setOnCheckedChangeListener(
-                new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        Stats_Activity.this.onS7CheckBoxClicked(b);
-                    }
-                });
 
         this.plot.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -409,8 +279,8 @@ public class Stats_Activity extends HippieActivity
                 {BarRenderer.BarRenderStyle.SIDE_BY_SIDE, BarRenderer.BarRenderStyle.STACKED};
         ArrayAdapter<BarRenderer.BarRenderStyle> adapter =
                 new ArrayAdapter<BarRenderer.BarRenderStyle>(this,
-                                                             android.R.layout.simple_spinner_item,
-                                                             arr);
+                        android.R.layout.simple_spinner_item,
+                        arr);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.spRenderStyle.setAdapter(adapter);
         this.spRenderStyle.setSelection(BarRenderer.BarRenderStyle.STACKED.ordinal());
@@ -427,11 +297,11 @@ public class Stats_Activity extends HippieActivity
         this.spWidthStyle = (Spinner) this.findViewById(R.id.spWidthStyle);
         ArrayAdapter<BarRenderer.BarWidthStyle> adapter1 =
                 new ArrayAdapter<BarRenderer.BarWidthStyle>(this,
-                                                            android.R.layout.simple_spinner_item,
-                                                            BarRenderer.BarWidthStyle.values());
+                        android.R.layout.simple_spinner_item,
+                        BarRenderer.BarWidthStyle.values());
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.spWidthStyle.setAdapter(adapter1);
-        this.spWidthStyle.setSelection(BarRenderer.BarWidthStyle.FIXED_WIDTH.ordinal());
+        this.spWidthStyle.setSelection(BarRenderer.BarWidthStyle.VARIABLE_WIDTH.ordinal());
         this.spWidthStyle.setOnItemSelectedListener(new OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 if (BarRenderer.BarWidthStyle.FIXED_WIDTH.equals(
@@ -453,7 +323,7 @@ public class Stats_Activity extends HippieActivity
         this.spSeriesSize = (Spinner) this.findViewById(R.id.spSeriesSize);
         ArrayAdapter<SeriesSize> adapter11 =
                 new ArrayAdapter<SeriesSize>(this, android.R.layout.simple_spinner_item,
-                                             SeriesSize.values());
+                        SeriesSize.values());
         adapter11.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.spSeriesSize.setAdapter(adapter11);
         this.spSeriesSize.setSelection(SeriesSize.Dix.ordinal());
@@ -462,33 +332,6 @@ public class Stats_Activity extends HippieActivity
                 switch ((SeriesSize) arg0.getSelectedItem()) {
                     case Dix:
                         Stats_Activity.this.series1Numbers = Stats_Activity.this.series1Numbers10;
-                        Stats_Activity.this.series2Numbers = Stats_Activity.this.series2Numbers10;
-                        Stats_Activity.this.series3Numbers = Stats_Activity.this.series3Numbers10;
-                        Stats_Activity.this.series4Numbers = Stats_Activity.this.series4Numbers10;
-                        Stats_Activity.this.series5Numbers = Stats_Activity.this.series5Numbers10;
-                        Stats_Activity.this.series6Numbers = Stats_Activity.this.series6Numbers10;
-                        Stats_Activity.this.series7Numbers = Stats_Activity.this.series7Numbers10;
-
-                        break;
-                    case Vingt:
-                        Stats_Activity.this.series1Numbers = Stats_Activity.this.series1Numbers20;
-                        Stats_Activity.this.series2Numbers = Stats_Activity.this.series2Numbers20;
-                        Stats_Activity.this.series3Numbers = Stats_Activity.this.series3Numbers20;
-                        Stats_Activity.this.series4Numbers = Stats_Activity.this.series4Numbers20;
-                        Stats_Activity.this.series5Numbers = Stats_Activity.this.series5Numbers20;
-                        Stats_Activity.this.series6Numbers = Stats_Activity.this.series6Numbers20;
-                        Stats_Activity.this.series7Numbers = Stats_Activity.this.series7Numbers20;
-
-                        break;
-                    case Soixante:
-                        Stats_Activity.this.series1Numbers = Stats_Activity.this.series1Numbers60;
-                        Stats_Activity.this.series2Numbers = Stats_Activity.this.series2Numbers60;
-                        Stats_Activity.this.series3Numbers = Stats_Activity.this.series3Numbers60;
-                        Stats_Activity.this.series4Numbers = Stats_Activity.this.series4Numbers60;
-                        Stats_Activity.this.series5Numbers = Stats_Activity.this.series5Numbers60;
-                        Stats_Activity.this.series6Numbers = Stats_Activity.this.series6Numbers60;
-                        Stats_Activity.this.series7Numbers = Stats_Activity.this.series7Numbers60;
-
                         break;
                     default:
                         break;
@@ -509,13 +352,17 @@ public class Stats_Activity extends HippieActivity
             @Override
             public void onProgressChanged(SeekBar seekBar,
                                           int i,
-                                          boolean b) {Stats_Activity.this.updatePlot();}
+                                          boolean b) {
+                Stats_Activity.this.updatePlot();
+            }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
 
         this.sbVariableWidth = (SeekBar) this.findViewById(R.id.sbVariable);
@@ -525,13 +372,17 @@ public class Stats_Activity extends HippieActivity
             @Override
             public void onProgressChanged(SeekBar seekBar,
                                           int i,
-                                          boolean b) {Stats_Activity.this.updatePlot();}
+                                          boolean b) {
+                Stats_Activity.this.updatePlot();
+            }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
 
         this.plot.setDomainValueFormat(new NumberFormat() {
@@ -540,8 +391,8 @@ public class Stats_Activity extends HippieActivity
                 int year = (int) (value + 0.5d) / 12;
                 int month = (int) ((value + 0.5d) % 12);
                 return new StringBuffer(DateFormatSymbols.getInstance().getShortMonths()[month] +
-                                        " '0" +
-                                        year);
+                        " '0" +
+                        year);
             }
 
             @Override
@@ -565,41 +416,12 @@ public class Stats_Activity extends HippieActivity
 
         // Setup our Series with the selected number of elements
         this.series1 = new SimpleXYSeries(Arrays.asList(this.series1Numbers),
-                                          SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "1");
-        this.series2 = new SimpleXYSeries(Arrays.asList(this.series2Numbers),
-                                          SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "2");
-        this.series3 = new SimpleXYSeries(Arrays.asList(this.series3Numbers),
-                                          SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "3");
-        this.series4 = new SimpleXYSeries(Arrays.asList(this.series4Numbers),
-                                          SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "4");
-        this.series5 = new SimpleXYSeries(Arrays.asList(this.series5Numbers),
-                                          SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "5");
-        this.series6 = new SimpleXYSeries(Arrays.asList(this.series6Numbers),
-                                          SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "6");
-        this.series7 = new SimpleXYSeries(Arrays.asList(this.series7Numbers),
-                                          SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "7");
+                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Totale");
+
 
         // add a new series' to the xyplot:
         if (this.series1CheckBox.isChecked()) {
             this.plot.addSeries(this.series1, this.formatter1);
-        }
-        if (this.series2CheckBox.isChecked()) {
-            this.plot.addSeries(this.series2, this.formatter2);
-        }
-        if (this.series3CheckBox.isChecked()) {
-            this.plot.addSeries(this.series3, this.formatter3);
-        }
-        if (this.series4CheckBox.isChecked()) {
-            this.plot.addSeries(this.series4, this.formatter4);
-        }
-        if (this.series5CheckBox.isChecked()) {
-            this.plot.addSeries(this.series5, this.formatter5);
-        }
-        if (this.series6CheckBox.isChecked()) {
-            this.plot.addSeries(this.series6, this.formatter6);
-        }
-        if (this.series7CheckBox.isChecked()) {
-            this.plot.addSeries(this.series7, this.formatter7);
         }
 
         // Setup the BarRenderer with our selected options
@@ -625,8 +447,8 @@ public class Stats_Activity extends HippieActivity
         // make sure the point lies within the graph area.  we use gridrect
         // because it accounts for margins and padding as well.
         if (this.plot.getGraphWidget()
-                     .getGridDimensions()
-                     .marginatedRect.contains(point.x, point.y)) {
+                .getGridDimensions()
+                .marginatedRect.contains(point.x, point.y)) {
             Number x = this.plot.getXVal(point);
             Number y = this.plot.getYVal(point);
 
@@ -636,7 +458,7 @@ public class Stats_Activity extends HippieActivity
 
             // find the closest value to the selection:
             for (SeriesAndFormatter<XYSeries, ? extends XYSeriesFormatter> sfPair : this.plot
-                                                                                            .getSeriesRegistry()) {
+                    .getSeriesRegistry()) {
                 XYSeries series = sfPair.getSeries();
                 for (int i = 0; i < series.size(); i++) {
                     Number thisX = series.getX(i);
@@ -653,8 +475,8 @@ public class Stats_Activity extends HippieActivity
                             xDistance = thisXDistance;
                             yDistance = thisYDistance;
                         } else if (thisXDistance == xDistance &&
-                                   thisYDistance < yDistance &&
-                                   thisY.doubleValue() >= y.doubleValue()) {
+                                thisYDistance < yDistance &&
+                                thisY.doubleValue() >= y.doubleValue()) {
                             this.selection = new Pair<Integer, XYSeries>(i, series);
                             xDistance = thisXDistance;
                             yDistance = thisYDistance;
@@ -673,7 +495,7 @@ public class Stats_Activity extends HippieActivity
             this.selectionWidget.setPaddingRight(35);
         } else {
             this.selectionWidget.setText(this.selection.second.getTitle() + " : " +
-                                         this.selection.second.getY(this.selection.first) + " $ ");
+                    this.selection.second.getY(this.selection.first) + " $ ");
         }
         this.plot.redraw();
     }
@@ -687,57 +509,4 @@ public class Stats_Activity extends HippieActivity
         this.plot.redraw();
     }
 
-    private void onS2CheckBoxClicked(boolean checked) {
-        if (checked) {
-            this.plot.addSeries(this.series2, this.formatter2);
-        } else {
-            this.plot.removeSeries(this.series2);
-        }
-        this.plot.redraw();
-    }
-
-    private void onS3CheckBoxClicked(boolean checked) {
-        if (checked) {
-            this.plot.addSeries(this.series3, this.formatter3);
-        } else {
-            this.plot.removeSeries(this.series3);
-        }
-        this.plot.redraw();
-    }
-
-    private void onS4CheckBoxClicked(boolean checked) {
-        if (checked) {
-            this.plot.addSeries(this.series4, this.formatter4);
-        } else {
-            this.plot.removeSeries(this.series4);
-        }
-        this.plot.redraw();
-    }
-
-    private void onS5CheckBoxClicked(boolean checked) {
-        if (checked) {
-            this.plot.addSeries(this.series5, this.formatter5);
-        } else {
-            this.plot.removeSeries(this.series5);
-        }
-        this.plot.redraw();
-    }
-
-    private void onS6CheckBoxClicked(boolean checked) {
-        if (checked) {
-            this.plot.addSeries(this.series6, this.formatter6);
-        } else {
-            this.plot.removeSeries(this.series6);
-        }
-        this.plot.redraw();
-    }
-
-    private void onS7CheckBoxClicked(boolean checked) {
-        if (checked) {
-            this.plot.addSeries(this.series7, this.formatter7);
-        } else {
-            this.plot.removeSeries(this.series7);
-        }
-        this.plot.redraw();
-    }
 }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.ListeMesDonsActivity">
+    tools:context=".ui.ListeStatistiquesActivity">
 
     <!-- Fait afficher l'action bar -->
     <include layout="@layout/content_appbar_main" />
@@ -63,68 +63,54 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <!-- ENTETE: Nom organisme et ou entreprise-->
+                    <!-- TITRE: Donneur du mois -->
                     <TextView
-                        android:id="@+id/tv_statistiques_nom_organisme_titre"
+                        android:id="@+id/tv_statistiques_donneur_mois_titre"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.1"
-                        android:paddingLeft="65dp"
+                        android:paddingLeft="15dp"
                         android:paddingRight="10dp"
-                        android:text="Nom organisme"
-                        android:textStyle="bold"
-                        fontPath="fonts/opensans_semibold.ttf"
-                        tools:ignore="MissingPrefix" />
+                        android:text="@string/tv_statistiques_donneur_mois_titre"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="18sp"
+                        fontPath="fonts/arialrounded.ttf"
+                        tools:ignore="MissingPrefix"/>
 
-                    <!-- ENTETE: Valeur totale des dons -->
+                    <!-- NOM: Donneur du mois -->
                     <TextView
-                        android:id="@+id/tv_statistiques_valeur_total_titre"
+                        android:id="@+id/tv_statistiques_donneur_mois_nom"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.1"
-                        android:paddingLeft="30dp"
-                        android:paddingRight="10dp"
-                        android:text="Valeur totale"
-                        android:textStyle="bold"
-                        fontPath="fonts/opensans_semibold.ttf"
+                        android:paddingLeft="0dp"
+                        android:paddingRight="0dp"
+                        android:text="PlaceHolder: Nom du donneur du mois"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="18sp"
+                        fontPath="fonts/arialrounded.ttf"
                         tools:ignore="MissingPrefix" />
 
                 </LinearLayout>
 
-                <!-- Wrap pour placer les informations tel que voulu -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <!-- AFFICHER: Nom organisme et ou entreprise -->
-                    <TextView
-                        android:id="@+id/tv_statistiques_nom_organisme"
-                        android:layout_width="0dp"
+                    <!-- Divider, pour diviser le titre et les informations -->
+                    <ImageView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.1"
-                        android:paddingLeft="65dp"
-                        android:paddingRight="10dp"
-                        android:text="Super C" />
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/divider1"
+                        android:contentDescription="@null"/>
 
-                    <!-- AFFICHER: La valeur totale des dons -->
-                    <TextView
-                        android:id="@+id/tv_statistiques_valeur_total"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.1"
-                        android:paddingLeft="30dp"
-                        android:paddingRight="10dp"
-                        android:text="$ 5000.00" />
-
-                </LinearLayout>
                 <!--Contenant servant à afficher les groupes STATISTIQUES-->
                 <ExpandableListView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/list_statistiques_group"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="65dp"/>
+                    android:layout_marginBottom="65dp"
+                    tools:listitem="@layout/liste_statistiques_group"
+                    tools:listfooter="@layout/liste_statistique_footer"/>
             </LinearLayout>
         </LinearLayout>
 

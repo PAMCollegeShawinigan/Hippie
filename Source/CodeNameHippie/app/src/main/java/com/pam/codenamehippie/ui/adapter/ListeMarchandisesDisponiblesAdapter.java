@@ -1,8 +1,6 @@
 package com.pam.codenamehippie.ui.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +8,9 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pam.codenamehippie.R;
+import com.pam.codenamehippie.controleur.ActionMarchandiseDispo;
 import com.pam.codenamehippie.modele.AlimentaireModele;
 import com.pam.codenamehippie.modele.OrganismeModele;
 import com.pam.codenamehippie.modele.depot.AlimentaireModeleDepot;
@@ -30,11 +28,14 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
     private Context context;
     private List<AlimentaireModele> groupItems = new ArrayList<>();
     private AlimentaireModeleDepot depot;
+    private OrganismeModele receveur;
 
     public ListeMarchandisesDisponiblesAdapter(Context context,
-                                               AlimentaireModeleDepot alimentaireDepot) {
+                                               AlimentaireModeleDepot alimentaireDepot,
+                                               OrganismeModele receveur) {
         this.context = context;
         this.depot = alimentaireDepot;
+        this.receveur = receveur;
     }
 
     /**
@@ -54,7 +55,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     @Override
     public OrganismeModele getChild(int groupPosition, int childPosition) {
-        return groupItems.get(groupPosition).getOrganisme();
+        return this.groupItems.get(groupPosition).getOrganisme();
     }
 
     /**
@@ -137,7 +138,7 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
     @Override
     public AlimentaireModele getGroup(int groupPosition) {
-        return groupItems.get(groupPosition);
+        return this.groupItems.get(groupPosition);
     }
 
     /**
@@ -235,58 +236,12 @@ public class ListeMarchandisesDisponiblesAdapter extends BaseExpandableListAdapt
 
         // Réserver la marchandise (pour les organismes seulement)
         ImageButton ibAjouter = (ImageButton) convertView.findViewById(R.id.ib_md_ajouter);
-        ibAjouter.setFocusable(false);
-        ibAjouter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Runnable showToast = new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(ListeMarchandisesDisponiblesAdapter.this.context,
-                                       "Marchandise réservée",
-                                       Toast.LENGTH_LONG
-                                      ).show();
-                    }
-                };
-
-                // Confirmer la collecte de la réservation
-                // Pour sauver de la mémoire, on instancie un seul click listener pour les deux
-                // bouton.
-                DialogInterface.OnClickListener dialogOnClickListener =
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case DialogInterface.BUTTON_POSITIVE:
-                                        ListeMarchandisesDisponiblesAdapter.this.depot
-                                                .ajouterReservation(
-                                                        modele,
-                                                        showToast
-                                                                   );
-                                        dialog.dismiss();
-                                        break;
-                                    default:
-                                        dialog.dismiss();
-                                        break;
-                                }
-                            }
-                        };
-
-                // Construction du message pour collecte d'une reservation
-                AlertDialog.Builder builder =
-                        new AlertDialog.Builder(ListeMarchandisesDisponiblesAdapter.this.context);
-                builder.setMessage("Êtes-vous sur de réserver ce produit ?")
-                       .setPositiveButton(R.string.bouton_confirme_oui,
-                                          dialogOnClickListener
-                                         )
-                       .setNegativeButton(R.string.bouton_confirme_non,
-                                          dialogOnClickListener
-                                         )
-                       .create()
-                       .show();
-            }
-        });
-
+        if (this.receveur != null) {
+            ibAjouter.setFocusable(false);
+            ActionMarchandiseDispo.instancier(ibAjouter, this.receveur, modele);
+        } else {
+            ibAjouter.setVisibility(View.GONE);
+        }
         return convertView;
     }
 

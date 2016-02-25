@@ -29,8 +29,11 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
     @SerializedName("organisme")
     protected OrganismeModele organisme;
 
+    protected transient volatile String cacheQuantiteString;
+
     public OrganismeModele getOrganisme() {return this.organisme;}
 
+    @SuppressWarnings("unchecked")
     public T setOrganisme(OrganismeModele organisme) {
         this.organisme = organisme;
         return (T) this;
@@ -40,6 +43,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.nom;
     }
 
+    @SuppressWarnings("unchecked")
     public T setNom(String nom) {
         this.nom = nom;
         return (T) this;
@@ -49,6 +53,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.description;
     }
 
+    @SuppressWarnings("unchecked")
     public T setDescription(String description) {
         this.description = description;
         return (T) this;
@@ -58,25 +63,32 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.quantite;
     }
 
+    @SuppressWarnings("unchecked")
     public T setQuantite(Double quantite) {
         this.quantite = quantite;
+        this.cacheQuantiteString = null;
         return (T) this;
     }
 
     public String getQuantiteString() {
-        if (this.uniteDeQuantite != null) {
-            return this.quantite.toString() + " " + this.uniteDeQuantite;
-        } else {
-            return this.quantite.toString();
+        if (this.cacheQuantiteString == null) {
+            if (this.uniteDeQuantite != null) {
+                this.cacheQuantiteString = this.quantite.toString() + " " + this.uniteDeQuantite;
+            } else {
+                this.cacheQuantiteString = this.quantite.toString();
+            }
         }
+        return this.cacheQuantiteString;
     }
 
     public String getUniteDeQuantite() {
         return this.uniteDeQuantite;
     }
 
+    @SuppressWarnings("unchecked")
     public T setUniteDeQuantite(String uniteDeQuantite) {
         this.uniteDeQuantite = uniteDeQuantite;
+        this.cacheQuantiteString = null;
         return (T) this;
     }
 
@@ -84,6 +96,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.etat;
     }
 
+    @SuppressWarnings("unchecked")
     public T setEtat(String etat) {
         this.etat = etat;
         return (T) this;
@@ -93,6 +106,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.valeur;
     }
 
+    @SuppressWarnings("unchecked")
     public T setValeur(Double valeur) {
         this.valeur = valeur;
         return (T) this;
@@ -102,6 +116,7 @@ public abstract class MarchandiseModele<T extends MarchandiseModele<T>> extends 
         return this.statut;
     }
 
+    @SuppressWarnings("unchecked")
     public T setStatut(String statut) {
         this.statut = statut;
         return (T) this;

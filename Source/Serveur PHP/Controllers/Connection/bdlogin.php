@@ -1,14 +1,49 @@
 <?php
 
-date_default_timezone_set('America/Montreal');
+use Illuminate\Database\Connection;
 
-try
+	$bdd = DB:: connection()->getPdo();
+	$header = array ('Content-Type' => 'application/json; charset=UTF-8','charset' => 'utf-8');
+
+
+function execution($requete, $array) //execute une requete avec des variables
 {
-	$bdd = new PDO('mysql:host=localhost;dbname=yolaine_hipdev; charset=utf8', 'yolaine_hippie', 'hippie', array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+	try
+	{
+		$bdd = DB:: connection()->getPdo();
+
+		
+		$req = $bdd ->prepare($requete);
 	
+	
+		$req->execute($array);
+		
+		return $req;
+		
+	}
+	
+	catch(PDOException $e)
+	{
+		throw $e;
+	}
+	
+
 }
-catch (Exception $e)
+
+
+function requete($requete) //execute une requete sans variables
 {
-        die('Erreur : ' . $e->getMessage());
-}
-?>
+	try
+	{
+		$bdd = DB:: connection()->getPdo();
+			
+		return $bdd->query($requete);
+	}
+	
+	catch(PDOException $e)
+	{
+		throw $e;
+	}
+		
+}	
+	

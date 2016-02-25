@@ -176,6 +176,14 @@
 	<!-- Ressource pour Layout Liste Statistiques -->
 	<string name="tv_statistiques_titre">STATISTICS</string>
 	<string name="tv_statistiques_valeur_totale">Total value</string>
+	<string name="tv_statistiques_donneur_mois_titre">The monthly contributor is:</string>
+	<string name="tv_statistiques_valeur_total_titre">Total value of donations:</string>
+	<string name="tv_statistiques_valeur_total_group">Value of donations: %1$s</string>
+	<string name="tv_statistiques_nom_marchandise">Product name</string>
+	<string name="tv_statistiques_qtee_marchandise">Qty</string>
+	<string name="tv_statistiques_date_collecte">Pickup date</string>
+	<string name="tv_statistiques_valeur_produit">Value</string>
+
 	<string name="stats_nbr_affichage_10" translatable="false">10</string>
 	-
 	<string name="stats_nbr_affichage_20" translatable="false">20</string>
@@ -269,4 +277,6 @@
 	<string name="title_no_internet">No internet connection</string>
 	<string name="error_no_internet">An internet connection is required for this application.</string>
 	<string name="stats_largeur_variable">variable width</string>
+	<string name="msg_reservation_ajoute">Commodity was reserved</string>
+	<string name="msg_reservation_confirme_ajout">Are you sure that you want to reserve this commodity ?</string>
 </resources>

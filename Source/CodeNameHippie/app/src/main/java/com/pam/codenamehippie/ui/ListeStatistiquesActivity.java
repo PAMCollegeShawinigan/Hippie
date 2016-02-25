@@ -2,6 +2,7 @@ package com.pam.codenamehippie.ui;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Cette activité sert à afficher les statistiques des produits collectés
@@ -27,10 +29,12 @@ public class ListeStatistiquesActivity extends HippieActivity
         implements ObservateurDeDepot<TransactionModele> {
 
     private static final String TAG = ListeStatistiquesActivity.class.getSimpleName();
+    private View footer;
     private ExpandableListView listeStatistiques;
     private ListeStatistiquesAdapter statistiquesAdapter;
     // Id de l'organisme/entreprise
     private Integer orgId;
+    private Double totalFinal = 0.00d;
 
     private TextView tv_totalFinal;
     public void setTv_totalFinal(TextView tv_totalFinal) {
@@ -42,11 +46,17 @@ public class ListeStatistiquesActivity extends HippieActivity
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.liste_statistiques);
 
-        // TODO: trouver une façon d'afficher le total final (somme des valeurs de chaque groupe)
-        tv_totalFinal = (TextView)findViewById(R.id.tv_statistiques_valeur_total);
         // On va chercher l'expendable listView
         this.listeStatistiques = (ExpandableListView) findViewById(R.id.list_statistiques_group);
         this.statistiquesAdapter = new ListeStatistiquesAdapter(this);
+        if (this.footer == null) {
+            this.footer = this.getLayoutInflater().inflate(R.layout.liste_statistique_footer,
+                                                           this.listeStatistiques, false);
+        }
+        this.listeStatistiques.addFooterView(this.footer);
+
+        // TODO: trouver une façon d'afficher le total final (somme des valeurs de chaque groupe)
+        this.tv_totalFinal = (TextView) findViewById(R.id.tv_statistiques_valeur_total);
         this.listeStatistiques.setAdapter(this.statistiquesAdapter);
         //On va chercher l'id organisme
         UtilisateurModele uc = this.authentificateur.getUtilisateur();
@@ -71,6 +81,14 @@ public class ListeStatistiquesActivity extends HippieActivity
             Date dateDebut = calendar.getTime();
             calendar = Calendar.getInstance();
             Date dateFin = calendar.getTime();
+            // TODO: inserer filtre de liste
+//            transactionModeleDepot.setFiltreDeListe(new FiltreDeListe<TransactionModele>() {
+//                @Override
+//                public boolean appliquer(TransactionModele item) {
+//                    OrganismeModele k = item.getReceveur();
+//                    return (orgId.toString().equalsIgnoreCase(k.toString()));
+//                }
+//            });
             transactionModeleDepot.peuplerTransactions(this.orgId, dateDebut, dateFin);
         }
     }
@@ -82,8 +100,13 @@ public class ListeStatistiquesActivity extends HippieActivity
 
     @Override
     public void surChangementDeDonnees(List<TransactionModele> modeles) {
+        this.totalFinal = 0.00d;
+        for (TransactionModele modele : modeles) {
+            this.totalFinal += modele.getAlimentaire().getValeur();
+        }
+        this.tv_totalFinal.setText(String.format(Locale.getDefault(), "$ %.2f", this.totalFinal));
+        Log.d("totalFinal", this.totalFinal.toString());
         this.statistiquesAdapter.setItems(modeles);
-
     }
 
     @Override
