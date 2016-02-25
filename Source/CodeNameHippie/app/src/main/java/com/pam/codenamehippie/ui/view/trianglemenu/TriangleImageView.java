@@ -12,32 +12,32 @@ import com.pam.codenamehippie.R;
  */
 public class TriangleImageView extends ImageView {
 
-    // Angle is used for the positioning on the circle
+    //Angle est utilisé pour le positionnement sur le cercle
     private float angle = 0;
-    // Position represents the index of this view in the viewgroups children array
+    //Position qui représente l'indice dans le tableau enfants viewgroup
     private int position = 0;
-    // The name of the view
+    // Le nom de la view
     private String name;
 
     /**
-     * Return the angle of the view.
-     * @return Returns the angle of the view in degrees.
+     * Retourner l'angle de la vue.
+     * @return Renvoie l'angle de vue en degrés.
      */
     public float getAngle() {
         return angle;
     }
 
     /**
-     * Set the angle of the view.
-     * @param angle The angle to be set for the view.
+     * Réglez l'angle de la vue.
+     * @param angle L'angle doit être réglé pour la vue.
      */
     public void setAngle(float angle) {
         this.angle = angle;
     }
 
     /**
-     * Return the position of the view.
-     * @return Returns the position of the view.
+     * Retourne la position de la vue.
+     * @return Retourne la position de la vue.
      */
     public int getPosition() {
         return position;
@@ -52,8 +52,8 @@ public class TriangleImageView extends ImageView {
     }
 
     /**
-     * Return the name of the view.
-     * @return Returns the name of the view.
+     * Réglez la position de la vue
+     * @return Retourne le nom de la vue.
      */
     public String getName(){
         return name;
@@ -61,8 +61,8 @@ public class TriangleImageView extends ImageView {
 
 
     /**
-     * Set the name of the view.
-     * @param name The name to be set for the view.
+     * Définissez le nom de la vue.
+     * @param name Le nom à définir pour la vue.
      */
     public void setName(String name){
         this.name = name;
