@@ -57,8 +57,8 @@
 	<string name="tv_org_nom_organisme" translatable="false">Placeholder</string>
 	<string name="tv_org_adresse" translatable="false">Placeholder</string>
 	<!--Ressource pour ajoutMarchandiseActivity et layout ajout_marchandise -->
-	<string name="ajouter_marchandise">ADD COMMODITY</string>
-	<string name="modifier_marchandise">MODIFY COMMODITY</string>
+	<string name="ajouter_marchandise">ADD DONATION</string>
+	<string name="modifier_marchandise">MODIFY DONATION</string>
 	<string name="bouton_ajouter">ADD</string>
 	<string name="bouton_modifier">MODIFY</string>
 	<string name="msg_produit_ajoute">Commodity added</string>
