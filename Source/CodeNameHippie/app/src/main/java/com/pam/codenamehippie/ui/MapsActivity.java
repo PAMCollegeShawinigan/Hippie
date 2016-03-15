@@ -289,6 +289,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         if (this.prepareMarkerAsyncTask != null) {
             this.prepareMarkerAsyncTask.cancel(true);
         }
+        AlimentaireModeleDepot alimentaireModeleDepot =
+                DepotManager.getInstance().getAlimentaireModeleDepot();
+        alimentaireModeleDepot.supprimerTousLesObservateurs();
 
     }
 
