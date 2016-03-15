@@ -19,46 +19,46 @@ import android.view.animation.DecelerateInterpolator;
 import com.pam.codenamehippie.R;
 
 /**
- * Created by Catherine on 2015-12-09.
+ * Created by Catherine et Eric on 2015-12-09.
  */
 public class TriangleLayout extends ViewGroup {
-    // Event listeners
+    // Les écouteurs d'événement
     private OnItemClickListener onItemClickListener = null;
     private OnItemSelectedListener onItemSelectedListener = null;
     private OnCenterClickListener onCenterClickListener = null;
     private OnRotationFinishedListener onRotationFinishedListener = null;
 
-    // Background image
+    // l'image du Background
     private Bitmap imageOriginal, imageScaled;
     private Matrix matrix;
 
-    // Sizes of the ViewGroup
+    // Tailles du ViewGroup
     private int circleWidth, circleHeight;
     private int radius = 0;
 
-    // Child sizes
+    // la taille des enfants
     private int maxChildWidth = 0;
     private int maxChildHeight = 0;
     private int childWidth = 0;
     private int childHeight = 0;
 
-    // Touch detection
+    // détection tactile
     private GestureDetector gestureDetector;
-    // Detecting inverse rotations
+    // Détecter rotations inverses
     private boolean[] quadrantTouched;
 
-    // Settings of the ViewGroup
+    // Réglages du ViewGroup
     private int speed = 25;
     private float angle = 90;
     private float firstChildPos = 90;
     private boolean isRotating = true;
 
-    // Tapped and selected child
+    // Tap pour selectionner l'enfant
     private int tappedViewsPostition = -1;
     private View tappedView = null;
     private int selected = 0;
 
-    // Rotation animator
+    // animation de la rotation
     private ObjectAnimator animator;
 
     public TriangleLayout(Context context) {
@@ -90,7 +90,7 @@ public class TriangleLayout extends ViewGroup {
             TypedArray a = getContext().obtainStyledAttributes(attrs,
                     R.styleable.TriangleLayout);
 
-            // The angle where the first menu item will be drawn
+            // L'angle où le premier élément de menu sera établi
             angle = a.getInt(R.styleable.TriangleLayout_firstChildPosition,
                     (int) angle);
             firstChildPos = angle;
@@ -103,8 +103,7 @@ public class TriangleLayout extends ViewGroup {
                 int picId = a.getResourceId(
                         R.styleable.TriangleLayout_triangleBackground, -1);
 
-                // If a background image was set as an attribute,
-                // retrieve the image
+                // Si une image de fond a été défini comme un attribut, récupérer l'image
                 if (picId != -1) {
                     imageOriginal = BitmapFactory.decodeResource(
                             getResources(), picId);
@@ -113,16 +112,16 @@ public class TriangleLayout extends ViewGroup {
 
             a.recycle();
 
-            // Initialize the matrix only once
+            // Initialiser la matrice qu'une seule fois
             if (matrix == null) {
                 matrix = new Matrix();
             } else {
-                // Not needed, you can also post the matrix immediately to
-                // restore the old state
+                // Pas besoin, vous pouvez également afficher la matrice immédiatement
+                // Restaurer l'ancien état
                 matrix.reset();
             }
 
-            // Needed for the ViewGroup to be drawn
+            // Nécessaire pour le ViewGroup à tirer
             setWillNotDraw(false);
         }
     }
@@ -137,7 +136,7 @@ public class TriangleLayout extends ViewGroup {
     }
 
     /**
-     * Returns the currently selected menu
+     * Retourne le menu sélectionné
      *
      * @return the view which is currently the closest to the first item
      *         position
@@ -153,7 +152,7 @@ public class TriangleLayout extends ViewGroup {
         circleWidth = getWidth();
 
         if (imageOriginal != null) {
-            // Scaling the size of the background image
+            // Mise à l'échelle de la taille de l'image d'arrière-plan
             if (imageScaled == null) {
                 float sx = (((radius + childWidth / 2) * 4) / (float) imageOriginal
                         .getWidth());
@@ -169,7 +168,7 @@ public class TriangleLayout extends ViewGroup {
             }
 
             if (imageScaled != null) {
-                // Move the background to the center
+                // Déplacer l'arrière-plan au centre
                 int cx = (circleWidth - imageScaled.getWidth()) / 2;
                 int cy = (circleHeight - imageScaled.getHeight()) / 2;
 
@@ -185,7 +184,7 @@ public class TriangleLayout extends ViewGroup {
         maxChildWidth = 0;
         maxChildHeight = 0;
 
-        // Measure once to find the maximum child size.
+        // Mesurer temps pour trouver la taille maximale de l'enfant.
         int childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(
                 MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.AT_MOST);
         int childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(
@@ -205,7 +204,7 @@ public class TriangleLayout extends ViewGroup {
                     .max(maxChildHeight, child.getMeasuredHeight());
         }
 
-        // Measure again for each child to be exactly the same size.
+        // Mesurer à nouveau pour chaque enfant soit exactement de la même taille.
         childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(maxChildWidth,
                 MeasureSpec.EXACTLY);
         childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(maxChildHeight,
@@ -229,7 +228,7 @@ public class TriangleLayout extends ViewGroup {
         int layoutWidth = r - l;
         int layoutHeight = b - t;
 
-        // Laying out the child views
+        // Couché sur le point de vue de l'enfant
         final int childCount = getChildCount();
         int left, top;
         radius = (layoutWidth <= layoutHeight) ? layoutWidth /5
@@ -271,10 +270,10 @@ public class TriangleLayout extends ViewGroup {
     }
 
     /**
-     * Rotates the given view to the firstChildPosition
+     * Pivoter la vue donnée à la première position de l'enfant
      *
      * @param view
-     *            the view to be rotated
+     *            la vue qui rotationne
      */
     private void rotateViewToCenter(TriangleImageView view) {
         Log.v(VIEW_LOG_TAG, "rotateViewToCenter");
@@ -392,7 +391,7 @@ public class TriangleLayout extends ViewGroup {
     }
 
     /**
-     * @return The angle of the unit circle with the image views center
+     * @return L'angle du cercle unité avec le centre de l'image
      */
     private double getPositionAngle(double xTouch, double yTouch) {
         double x = xTouch - (circleWidth / 2d);
@@ -407,13 +406,13 @@ public class TriangleLayout extends ViewGroup {
             case 4:
                 return 360 + Math.asin(y / Math.hypot(x, y)) * 180 / Math.PI;
             default:
-                // ignore, does not happen
+                // ignorer, si ça ce ne se fait pas
                 return 0;
         }
     }
 
     /**
-     * @return The quadrant of the position
+     * @return Le quadrant de la position
      */
     private static int getPositionQuadrant(double x, double y) {
         if (x >= 0) {
@@ -423,7 +422,7 @@ public class TriangleLayout extends ViewGroup {
         }
     }
 
-    // Touch helpers
+    // touchez aides
     private double touchStartAngle;
     private boolean didMove = false;
 
@@ -434,7 +433,7 @@ public class TriangleLayout extends ViewGroup {
             if (isRotating) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // reset the touched quadrants
+                        // réinitialiser les quadrants tactiles
                         for (int i = 0; i < quadrantTouched.length; i++) {
                             quadrantTouched[i] = false;
                         }
@@ -459,7 +458,7 @@ public class TriangleLayout extends ViewGroup {
                 }
             }
 
-            // set the touched quadrant to true
+            // sdéfinir le quadrant touché à true
             quadrantTouched[getPositionQuadrant(event.getX()
                     - (circleWidth / 2), circleHeight - event.getY()
                     - (circleHeight / 2))] = true;
@@ -476,7 +475,7 @@ public class TriangleLayout extends ViewGroup {
             if (!isRotating) {
                 return false;
             }
-            // get the quadrant of the start and the end of the fling
+            // obtenir le quadrant du début et de la fin de l'aventure
             int q1 = getPositionQuadrant(e1.getX() - (circleWidth / 2),
                     circleHeight - e1.getY() - (circleHeight / 2));
             int q2 = getPositionQuadrant(e2.getX() - (circleWidth / 2),
