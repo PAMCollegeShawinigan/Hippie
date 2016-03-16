@@ -257,7 +257,7 @@
 	<!-- Autres ressources-->
 	<string name="iv_logo">Logo</string>
 	<string name="loading">A moment please.</string>
-	<string name="app_name">Codename: Hippie</string>
+	<string name="app_name">Denrée Ô Suivant</string>
 	<string name="title_activity_preference">Settings</string>
 	<string name="error_http_404">The resource you are trying to reach wasn\'t found</string>
 	<string name="error_http_500">The server has encountered an internal server error</string>
