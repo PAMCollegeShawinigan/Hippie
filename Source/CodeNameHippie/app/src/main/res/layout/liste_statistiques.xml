@@ -85,7 +85,7 @@
                         android:layout_weight="0.1"
                         android:paddingLeft="0dp"
                         android:paddingRight="0dp"
-                        android:text="PlaceHolder: Nom du donneur du mois"
+                        android:text="Super C"
                         android:textColor="@color/colorAccent"
                         android:textSize="18sp"
                         fontPath="fonts/arialrounded.ttf"

@@ -173,6 +173,7 @@
 	<string name="tv_profil_neq">NEQ :</string>
 	<string name="tv_profil_neq_placeholder">Placeholder</string>
 	<string name="btn_edit_password">EDIT PASSWORD</string>
+
 	<!-- Ressource pour Layout Liste Statistiques -->
 	<string name="tv_statistiques_titre">STATISTICS</string>
 	<string name="tv_statistiques_valeur_totale">Total value</string>
@@ -191,6 +192,7 @@
 	<string name="stats_nbr_affichage_60" translatable="false">60</string>
 	-
 	<string name="stats_largeur_fixe">fixed width</string>
+
 	<!-- TODO: à traduire en anglais -->
 	<!-- Ressources strings pour Layout À propos -->
 	<string name="tv_titre_qui_nous_sommes">Qui nous sommes?</string>
@@ -255,7 +257,7 @@
 	<!-- Autres ressources-->
 	<string name="iv_logo">Logo</string>
 	<string name="loading">A moment please.</string>
-	<string name="app_name">Codename: Hippie</string>
+	<string name="app_name">Denrée Ô Suivant</string>
 	<string name="title_activity_preference">Settings</string>
 	<string name="error_http_404">The resource you are trying to reach wasn\'t found</string>
 	<string name="error_http_500">The server has encountered an internal server error</string>
