@@ -188,7 +188,7 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         }
     }
 
-    private static final int REQUEST_FINE_LOCATION = 0x10CA1;
+    private static final int REQUEST_FINE_LOCATION = 1;
     private final Object mapLock = new Object();
     private volatile List<OrganismeModele> listOrganisme = new ArrayList<>();
     private SlidingUpPanelLayout slidingLayout;
@@ -289,6 +289,9 @@ public class MapsActivity extends HippieActivity implements OnMapReadyCallback,
         if (this.prepareMarkerAsyncTask != null) {
             this.prepareMarkerAsyncTask.cancel(true);
         }
+        AlimentaireModeleDepot alimentaireModeleDepot =
+                DepotManager.getInstance().getAlimentaireModeleDepot();
+        alimentaireModeleDepot.supprimerTousLesObservateurs();
 
     }
 
