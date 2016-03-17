@@ -15,7 +15,8 @@
 		android:id="@+id/main_view_switcher"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_marginTop="?actionBarSize">
+		android:layout_marginTop="?actionBarSize"
+		android:background="#ffffff">
 		<!-- Panel pour faire afficher les entreprises et qui "slide" -->
 		<com.sothree.slidinguppanel.SlidingUpPanelLayout
 			android:id="@+id/sliding_layout"
@@ -27,12 +28,14 @@
 			app:umanoOverlay="false"
 			app:umanoPanelHeight="65dp"
 			app:umanoParalaxOffset="100dp"
-			app:umanoShadowHeight="4dp">
+			app:umanoShadowHeight="4dp"
+			android:background="#ffffff">
 			<!-- Vue de la carte google -->
 			<RelativeLayout
 				android:id="@+id/mapView"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent">
+				android:layout_height="match_parent"
+				android:background="#ffffff">
 				<!-- Fragment pour la map -->
 				<com.google.android.gms.maps.MapView
 					android:id="@+id/map"
@@ -95,7 +98,8 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:clickable="true"
-				android:focusable="false">
+				android:focusable="false"
+				android:background="#ffffff">
 				<!-- Expandable list view qui fait afficher les entreprises et les denrées -->
 				<ExpandableListView
 					android:id="@+id/expandableListView"
