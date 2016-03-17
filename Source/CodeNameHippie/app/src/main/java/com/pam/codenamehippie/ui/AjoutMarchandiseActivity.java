@@ -233,8 +233,9 @@ public class AjoutMarchandiseActivity extends HippieActivity
             this.spinnerUniteMarchandiseEstValide = estValide;
         } else if (validateur.equals(this.validateurSpinnerTypeMarchandise)) {
             // Mettre invisible le DatePicker si un produit est non perissable
-            if (((TypeAlimentaireModele) this.validateurSpinnerTypeMarchandise.getSelectedItem())
-                        .getEstPerissable() ||
+            TypeAlimentaireModele item =
+            (TypeAlimentaireModele) this.validateurSpinnerTypeMarchandise.getSelectedItem())
+            if ((item != null && item.getEstPerissable()) ||
                 this.validateurSpinnerTypeMarchandise.getSelectedItemId() == 0) {
                 this.tvDatePeremption.setVisibility(View.VISIBLE);
                 this.datePicker.setVisibility(View.VISIBLE);
