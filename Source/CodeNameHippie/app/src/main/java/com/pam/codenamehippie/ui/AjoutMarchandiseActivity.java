@@ -232,6 +232,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
         } else if (validateur.equals(this.validateurSpinnerUniteMarchandise)) {
             this.spinnerUniteMarchandiseEstValide = estValide;
         } else if (validateur.equals(this.validateurSpinnerTypeMarchandise)) {
+
             // Mettre invisible le DatePicker si un produit est non perissable
             if (((TypeAlimentaireModele) this.validateurSpinnerTypeMarchandise.getSelectedItem())
                         .getEstPerissable() ||
