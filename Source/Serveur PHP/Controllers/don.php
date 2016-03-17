@@ -33,7 +33,7 @@ class don extends Controller
 									INNER JOIN marchandise_etat maretat ON maretat.etat_id = ali.marchandise_etat
 									INNER JOIN marchandise_unite marunit ON marunit.unite_id = ali.marchandise_unite 
 
-									WHERE trx.donneur_id = :id_donneur ORDER BY alimentaire_id DESC';
+									WHERE trx.donneur_id = :id_donneur ORDER BY ali.alimentaire_id DESC';
 			
 			$variable = array('id_donneur' => $id_donneur);
 		
@@ -55,7 +55,7 @@ class don extends Controller
 								'valeur' => $resultat['valeur'],
 								'marchandise_statut' => $resultat['description_marchandise_statut']);
 				
-			array_push($array, $arr);
+			array_push($array, $aliment);
 				
 		}
 		

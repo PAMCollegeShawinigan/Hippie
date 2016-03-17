@@ -95,7 +95,7 @@ class carte extends Controller
 								WHERE (ali.marchandise_statut = 3 )
 								AND trx.donneur_id = :id_donneur 
 								AND (ali.date_peremption > CURRENT_DATE OR ali.date_peremption IS NULL)
-								ORDER BY ali.aliment_id DESC';
+								ORDER BY ali.alimentaire_id DESC';
 			
 			$variable = array('id_donneur' => $id_donneur );
 						
