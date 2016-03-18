@@ -70,7 +70,7 @@ import java.util.List;
 
 
 /**
- * The simplest possible example of using AndroidPlot to plot some data.
+ * L'exemple le plus simple possible d'utiliser AndroidPlot pour tracer des données.
  */
 
 public class Stats_Activity extends HippieActivity
@@ -107,11 +107,12 @@ public class Stats_Activity extends HippieActivity
         }
 
         /**
-         * Implementing this method to allow us to inject our
-         * special selection getFormatter.
+         * L'application de cette méthode pour nous permettre d'injecter votre
+         *  getFormatter de sélection spéciale.
          *
-         * @param index  index of the point being rendered.
-         * @param series XYSeries to which the point being rendered belongs.
+         *
+         * @param index  index du point d'être rendue.
+         * @param series XYSeries à laquelle le point d'être rendus appartient.
          * @return
          */
         @Override
@@ -127,7 +128,7 @@ public class Stats_Activity extends HippieActivity
     }
 
 
-    // Create a couple arrays of y-values to plot:
+    // Créer quelques tableaux de valeurs y pour tracer:
     Number[] series1Numbers10 = {2, null, 5, 2, 7, 4, 3, 7, 4, 5};
 
     Number[] series1Numbers = this.series1Numbers10;
@@ -201,27 +202,9 @@ public class Stats_Activity extends HippieActivity
         // initialize our XYPlot reference:
         this.plot = (XYPlot) this.findViewById(R.id.plot);
 
-//        formatter1 = new MyBarFormatter(Color.argb(200, 88, 93, 89), Color.LTGRAY);
-//        formatter2 = new MyBarFormatter(Color.argb(200, 145, 169, 145), Color.LTGRAY);
-//        formatter3 = new MyBarFormatter(Color.argb(200, 148, 145, 169), Color.LTGRAY);
-//        formatter4 = new MyBarFormatter(Color.argb(200, 106, 80, 87), Color.LTGRAY);
-//        formatter5 = new MyBarFormatter(Color.argb(200, 169, 154, 128), Color.LTGRAY);
-//        formatter6 = new MyBarFormatter(Color.argb(200, 70, 92, 70), Color.LTGRAY);
-//        formatter7 = new MyBarFormatter(Color.argb(200, 74, 70, 92), Color.LTGRAY);
-//        selectionFormatter = new MyBarFormatter(Color.argb(1000,224,222,84), Color.WHITE);
-
         this.formatter1 = new MyBarFormatter(Color.argb(200, 78, 130, 189), Color.LTGRAY);//Bleu
 
         this.selectionFormatter = new MyBarFormatter(Color.argb(1000, 224, 222, 84), Color.WHITE);
-
-        /*formatter1 = new MyBarFormatter(Color.argb(200, 85, 87, 79), Color.LTGRAY);
-        formatter2 = new MyBarFormatter(Color.argb(200, 166, 201, 85), Color.LTGRAY);
-        formatter3 = new MyBarFormatter(Color.argb(200, 207, 215, 194), Color.LTGRAY);
-        formatter4 = new MyBarFormatter(Color.argb(200, 76, 87, 53), Color.LTGRAY);
-        formatter5 = new MyBarFormatter(Color.argb(200, 159, 164, 158), Color.LTGRAY);
-        formatter6 = new MyBarFormatter(Color.argb(200, 93, 134, 59), Color.LTGRAY);
-        formatter7 = new MyBarFormatter(Color.argb(200, 67, 101, 40), Color.LTGRAY);
-        selectionFormatter = new MyBarFormatter(Color.argb(1000,224,222,84), Color.WHITE);*/
 
         this.selectionWidget = new TextLabelWidget(this.plot.getLayoutManager(),
                 this.getString(R.string.stats_non_selectionne),
@@ -236,7 +219,7 @@ public class Stats_Activity extends HippieActivity
 
         this.selectionWidget.getLabelPaint().setTextSize(PixelUtils.dpToPix(20));
 
-        // add a dark, semi-transparent background to the selection label widget:
+        // ajouter un fond semi-transparent sombre pour le widget étiquette de sélection:
         Paint p = new Paint();
         p.setARGB(100, 0, 0, 0);
         this.selectionWidget.setBackgroundPaint(p);
@@ -245,14 +228,14 @@ public class Stats_Activity extends HippieActivity
                 YLayoutStyle.ABSOLUTE_FROM_TOP, AnchorPosition.TOP_MIDDLE);
         this.selectionWidget.pack();
 
-        // reduce the number of range labels
+        // réduire le nombre d'étiquettes de la gamme
         this.plot.setTicksPerRangeLabel(3);
         this.plot.setRangeLowerBoundary(0, BoundaryMode.FIXED);
         this.plot.getGraphWidget().getGridBox().setPadding(30, 10, 30, 0);
 
         this.plot.setTicksPerDomainLabel(2);
 
-        // setup checkbox listers:
+        // Lister la configuration de cases à cocher:
         this.series1CheckBox = (CheckBox) this.findViewById(R.id.tv_statistiques_valeur_total);
         this.series1CheckBox.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {
@@ -411,20 +394,20 @@ public class Stats_Activity extends HippieActivity
 
     private void updatePlot() {
 
-        // Remove all current series from each plot
+        // Retirer toutes les séries en cours de chaque parcelle
         this.plot.clear();
 
-        // Setup our Series with the selected number of elements
+        // Configuration de votre série avec le nombre sélectionné d'éléments
         this.series1 = new SimpleXYSeries(Arrays.asList(this.series1Numbers),
                 SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Totale");
 
 
-        // add a new series' to the xyplot:
+        // ajouter une nouvelle série »à la xyplot:
         if (this.series1CheckBox.isChecked()) {
             this.plot.addSeries(this.series1, this.formatter1);
         }
 
-        // Setup the BarRenderer with our selected options
+        // Configuration du BarRenderer avec vos options sélectionnées
         MyBarRenderer renderer = ((MyBarRenderer) this.plot.getRenderer(MyBarRenderer.class));
         renderer.setBarRenderStyle(
                 (BarRenderer.BarRenderStyle) this.spRenderStyle.getSelectedItem());
@@ -444,8 +427,8 @@ public class Stats_Activity extends HippieActivity
 
     private void onPlotClicked(PointF point) {
 
-        // make sure the point lies within the graph area.  we use gridrect
-        // because it accounts for margins and padding as well.
+        // Assurez-vous que le point se trouve dans la zone graphique. nous utilisons la grille rect
+        // car il tient compte des marges et le padding ainsi.
         if (this.plot.getGraphWidget()
                 .getGridDimensions()
                 .marginatedRect.contains(point.x, point.y)) {
@@ -456,7 +439,7 @@ public class Stats_Activity extends HippieActivity
             double xDistance = 0;
             double yDistance = 0;
 
-            // find the closest value to the selection:
+            // trouver la valeur la plus proche de la sélection:
             for (SeriesAndFormatter<XYSeries, ? extends XYSeriesFormatter> sfPair : this.plot
                     .getSeriesRegistry()) {
                 XYSeries series = sfPair.getSeries();
@@ -486,7 +469,7 @@ public class Stats_Activity extends HippieActivity
             }
 
         } else {
-            // if the press was outside the graph area, deselect:
+            // trouver la valeur la plus proche de la sélection:
             this.selection = null;
         }
 

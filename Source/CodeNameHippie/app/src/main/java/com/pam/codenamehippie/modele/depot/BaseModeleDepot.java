@@ -358,24 +358,25 @@ public abstract class BaseModeleDepot<T extends BaseModele<T>> {
                 SerializedName fieldAnnotation = field.getAnnotation(SerializedName.class);
                 boolean old = field.isAccessible();
                 field.setAccessible(true);
-                String serializeName = fieldAnnotation.value();
-                try {
-                    Object value = field.get(modele);
-                    // On saute par dessus pour les champs qui sont des modeles pour le moment.
-                    if ((value != null) && !(value instanceof BaseModele)) {
-                        if (value instanceof Date) {
-                            @SuppressLint("SimpleDateFormat") String dateString =
-                                    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(value);
-                            formBuilder.add(serializeName, dateString);
-                        } else {
-                            formBuilder.add(serializeName, value.toString());
+                if (fieldAnnotation != null) {
+                    String serializeName = fieldAnnotation.value();
+                    try {
+                        Object value = field.get(modele);
+                        // On saute par dessus pour les champs qui sont des modeles pour le moment.
+                        if ((value != null) && !(value instanceof BaseModele)) {
+                            if (value instanceof Date) {
+                                @SuppressLint("SimpleDateFormat") String dateString =
+                                        new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(value);
+                                formBuilder.add(serializeName, dateString);
+                            } else {
+                                formBuilder.add(serializeName, value.toString());
+                            }
                         }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
                     }
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
                 }
                 field.setAccessible(old);
-
             }
             clazz = clazz.getSuperclass();
         } while (clazz != null);

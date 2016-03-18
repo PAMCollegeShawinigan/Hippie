@@ -50,8 +50,8 @@
     <string name="iv_org_adresse">Adresse</string>
 
     <!--Ressource pour ajoutMarchandiseActivity et layout ajout_marchandise -->
-    <string name="ajouter_marchandise">GESTION DE PRODUITS</string>
-    <string name="modifier_marchandise">MODIFIER UN PRODUIT</string>
+    <string name="ajouter_marchandise">AJOUTER UN DON</string>
+    <string name="modifier_marchandise">MODIFIER UN DON</string>
     <string name="bouton_ajouter">AJOUTER</string>
     <string name="bouton_modifier">MODIFIER</string>
     <string name="msg_produit_ajoute">Marchandise ajoutée</string>
@@ -217,7 +217,7 @@
 
     <!-- Autres ressources-->
     <string name="loading">Un moment s\'il-vous-plaît.</string>
-    <string name="app_name">Nom de code: Hippie</string>
+    <string name="app_name">Denrée Ô Suivant</string>
     <string name="error_http_404">La ressource que vous essayé rejoindre n\'a pas été trouvé</string>
     <string name="error_http_500">Le serveur a rencontré une erreur interne</string>
     <string name="stats_non_selectionne">Veuillez sélectionner une colonne</string>
