@@ -146,6 +146,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
             // Modifier le TextView pour signifier une modification
             tvAjoutMarchandise.setText(R.string.modifier_marchandise);
             this.bAjoutMarchandise.setText(R.string.bouton_modifier);
+            this.bAjoutMarchandise.setEnabled(true);
             // Obtenir le id du produit à modifier
             id = bundle.getInt(MODELE_ID, 0);
         }
@@ -252,13 +253,15 @@ public class AjoutMarchandiseActivity extends HippieActivity
 
         // Mettre le bouton pour ajouter la marchandise actif si tous les champs requis
         // respecte les conditions des validateurs.
-        this.bAjoutMarchandise.setEnabled(this.nomEstValide &&
+       /* this.bAjoutMarchandise.setEnabled(this.nomEstValide &&
                                           this.descriptionEstValide &&
                                           this.quantiteEstValide &&
                                           this.valeurEstValide &&
                                           this.spinnerUniteMarchandiseEstValide &&
                                           this.spinnerTypeMarchandiseEstValide &&
                                           hasOrganismeid);
+                                          */
+        this.bAjoutMarchandise.setEnabled(true);
     }
 
     @Override
