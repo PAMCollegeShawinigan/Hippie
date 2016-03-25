@@ -30,15 +30,11 @@ http://yolainecourteau.com/hippie/laravel/public/utilisateur/ en GET, retourne l
 
 http://yolainecourteau.com/hippie/laravel/public/utilisateur/{id} en GET, mettre l'id de l'utilisateur desiré au lieu de {id}, retourne les informations relié a l'utilisateur, s'il fait parti d'un organisme, retourne l'id et le nom de l'organisme sinon retourne null
 
-http://yolainecourteau.com/hippie/laravel/public/utilisateur en POST, permet l'inscription d'un utilisateur, prends nom, prenom, courriel, mot_de_passe et retourne l'id attribué a l'utilisateur
-
 ALIMENTAIRE
 
 http://yolainecourteau.com/hippie/laravel/public/alimentaire/{id} en GET, mettre l'id de la marchanfise desiré au lieu de {id}, retourne toutes les informations relié a la marchandise_etat
 ***a tester***
 http://yolainecourteau.com/hippie/laravel/public/alimentaire/ajout en POST, permet l'ajout d'une marchandise dans la base de donné et la met disponible et cré une transaction, a besoin de [nom(string), description(string), quantité(float), marchandise_etat(int,fk), marchandise_unite(int,fk), valeur(int), type_alimentaire(int, fk), date_peremption, donneur_id]
-
-
 
 RESERVATION
 

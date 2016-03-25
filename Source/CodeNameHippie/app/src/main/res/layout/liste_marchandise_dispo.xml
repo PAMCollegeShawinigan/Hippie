@@ -1,112 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:weightSum="1"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    <!-- TODO: Mettre les bonnes polices de caractères -->
-
-    <!-- Fait apparaître l'action bar -->
-    <include layout="@layout/content_appbar_main"/>
-
-    <!-- Viewswitcher pour la bar de progression -->
-    <ViewSwitcher
-        android:id="@+id/main_view_switcher"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <!-- Layout, puisque le viewswitcher ne peut pas prendre plus que un enfant -->
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- TITRE : PRODUITS DISPONIBLES -->
-            <TextView
-                android:id="@+id/tv_liste_md"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/tv_liste_marchandises_dispo"
-                android:textSize="25sp"
-                fontPath="fonts/arialrounded.ttf"
-                tools:ignore="MissingPrefix"/>
-
-            <!-- Divider, pour diviser le titre et les informations -->
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/divider1"
-                android:contentDescription="@null"/>
-
-            <!-- Wrapper, afin de faire afficher les entêtes pour les produits disponibles
-                (Nom, Quantité, Date de péremption) -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp">
-
-                <!--ENTETE: NOM MARCHANDISE -->
-                <TextView
-                    android:id="@+id/tv_md_nom"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1"
-                    android:paddingLeft="65dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/md_nom"
-                    android:textStyle="bold"
-                    fontPath="fonts/opensans_semibold.ttf"
-                    tools:ignore="MissingPrefix"/>
-
-                <!--ENTETE: QUANTITÉ MARCHANDISE -->
-                <TextView
-                    android:id="@+id/tv_md_qtee"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1"
-                    android:paddingLeft="30dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/md_qtee"
-                    android:textStyle="bold"
-                    fontPath="fonts/opensans_semibold.ttf"
-                    tools:ignore="MissingPrefix"/>
-
-                <!--ENTETE: DATE DE PÉREMPTION MARCHANDISE -->
-                <TextView
-                    android:id="@+id/tv_md_peremption"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.1"
-                    android:paddingRight="10dp"
-                    android:text="@string/md_peremption"
-                    android:textStyle="bold"
-                    fontPath="fonts/opensans_semibold.ttf"
-                    tools:ignore="MissingPrefix"/>
-
-            </LinearLayout>
-
-            <!-- Listview pour faire afficher les produits disponibles -->
-            <ExpandableListView
-                android:id="@+id/marchandise_dispo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="65dp"/>
-        </LinearLayout>
-
-        <include layout="@layout/loading"/>
-    </ViewSwitcher>
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:weightSum="1"
+	app:layout_behavior="@string/appbar_scrolling_view_behavior">
+	<!-- TODO: Mettre les bonnes polices de caractères -->
+	<!-- Fait apparaître l'action bar -->
+	<include layout="@layout/content_appbar_main" />
+	<!-- Viewswitcher pour la bar de progression -->
+	<ViewSwitcher
+		android:id="@+id/main_view_switcher"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior">
+		<!-- Layout, puisque le viewswitcher ne peut pas prendre plus que un enfant -->
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+			<!-- TITRE : PRODUITS DISPONIBLES -->
+			<TextView
+				android:id="@+id/tv_liste_md"
+				fontPath="fonts/arialrounded.ttf"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="10dp"
+				android:layout_marginRight="10dp"
+				android:layout_marginTop="15dp"
+				android:text="@string/tv_liste_marchandises_dispo"
+				android:textSize="25sp"
+				tools:ignore="MissingPrefix" />
+			<!-- Divider, pour diviser le titre et les informations -->
+			<ImageView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="10dp"
+				android:layout_marginRight="10dp"
+				android:background="@drawable/divider1"
+				android:contentDescription="@null" />
+			<!-- Wrapper, afin de faire afficher les entêtes pour les produits disponibles
+				(Nom, Quantité, Date de péremption) -->
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:paddingBottom="10dp"
+				android:paddingLeft="10dp"
+				android:paddingTop="10dp">
+				<!--ENTETE: NOM MARCHANDISE -->
+				<TextView
+					android:id="@+id/tv_md_nom"
+					fontPath="fonts/opensans_semibold.ttf"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="0.1"
+					android:paddingLeft="65dp"
+					android:paddingRight="10dp"
+					android:text="@string/md_nom"
+					android:textStyle="bold"
+					tools:ignore="MissingPrefix" />
+				<!--ENTETE: QUANTITÉ MARCHANDISE -->
+				<TextView
+					android:id="@+id/tv_md_qtee"
+					fontPath="fonts/opensans_semibold.ttf"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="0.1"
+					android:paddingLeft="30dp"
+					android:paddingRight="10dp"
+					android:text="@string/md_qtee"
+					android:textStyle="bold"
+					tools:ignore="MissingPrefix" />
+				<!--ENTETE: DATE DE PÉREMPTION MARCHANDISE -->
+				<TextView
+					android:id="@+id/tv_md_peremption"
+					fontPath="fonts/opensans_semibold.ttf"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="0.1"
+					android:paddingRight="10dp"
+					android:text="@string/md_peremption"
+					android:textStyle="bold"
+					tools:ignore="MissingPrefix" />
+			</LinearLayout>
+			<!-- Listview pour faire afficher les produits disponibles -->
+			<ExpandableListView
+				android:id="@+id/marchandise_dispo"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="65dp"
+				tools:listitem="@layout/liste_marchandise_dispo_group" />
+		</LinearLayout>
+		<include layout="@layout/loading" />
+	</ViewSwitcher>
 </android.support.design.widget.CoordinatorLayout>

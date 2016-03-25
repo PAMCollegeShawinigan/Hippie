@@ -48,7 +48,6 @@ public class ListeOrganismesActivity extends HippieActivity
         super.onResume();
         OrganismeModeleDepot depot =
                 DepotManager.getInstance().getOrganismeModeleDepot();
-        depot.ajouterUnObservateur(this);
         depot.peuplerListeOrganisme();
 
     }

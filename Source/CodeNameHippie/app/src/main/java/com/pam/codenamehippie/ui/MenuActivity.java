@@ -96,7 +96,7 @@ public class MenuActivity extends HippieActivity implements OnItemSelectedListen
 
             case R.id.main_statistique_image:
                 // clic sur image des statistiques
-                this.startActivity(new Intent(this, Stats_Activity.class));
+                this.startActivity(new Intent(this, ListeStatistiquesActivity.class));
                 Toast.makeText(this.getApplicationContext(),
                                " Statistiques ",
                                Toast.LENGTH_SHORT

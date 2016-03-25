@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Wrap pour placer les informations tel que voulu -->
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="horizontal">
+	<!-- ENTETE: Valeur totale des dons -->
+	<TextView
+		android:id="@+id/tv_statistiques_valeur_total_titre"
+		fontPath="fonts/opensans_semibold.ttf"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_weight="0.02"
+		android:paddingRight="10dp"
+		android:text="@string/tv_statistiques_valeur_total_titre"
+		android:textSize="18dp"
+		android:textStyle="bold"
+		tools:ignore="MissingPrefix"
+		android:layout_marginTop="15dp"
+		android:paddingLeft="20dp" />
+	<!-- AFFICHER: La valeur totale des dons -->
+	<TextView
+		android:id="@+id/tv_statistiques_valeur_total"
+		fontPath="fonts/opensans_semibold.ttf"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:paddingLeft="30dp"
+		android:paddingRight="10dp"
+		android:textSize="18dp"
+		android:textStyle="bold"
+		tools:ignore="MissingPrefix"
+		android:layout_marginTop="15dp"
+		android:layout_marginRight="417dp" />
+</LinearLayout>

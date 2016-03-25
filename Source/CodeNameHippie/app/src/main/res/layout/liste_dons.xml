@@ -93,7 +93,8 @@ tools:context=".ui.ListeMesDonsActivity">
 					android:text="@string/dons_description"
 					android:textStyle="bold"
 					fontPath="fonts/opensans_semibold.ttf"
-					tools:ignore="MissingPrefix"/>
+					tools:ignore="MissingPrefix"
+					android:layout_marginLeft="220dp" />
 
 				<!--ENTETE: QUANTITÉ MARCHANDISE -->
 				<TextView
@@ -107,7 +108,8 @@ tools:context=".ui.ListeMesDonsActivity">
 					android:text="@string/dons_qtee"
 					android:textStyle="bold"
 					fontPath="fonts/opensans_semibold.ttf"
-					tools:ignore="MissingPrefix"/>
+					tools:ignore="MissingPrefix"
+					android:layout_marginLeft="130dp" />
 			</LinearLayout>
 
 			<!--Contenant servant à afficher les items(MES DONS)-->

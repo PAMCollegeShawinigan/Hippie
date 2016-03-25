@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.MenuActivity">
+    tools:context=".ui.MenuActivity"
+    android:background="#ffffff">
 
     <!-- Fait afficher l'action bar-->
     <include layout="@layout/content_appbar_main"/>
@@ -17,7 +18,7 @@
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
-        triangle:triangleBackground="@drawable/bg_menu3"
+        triangle:triangleBackground="@drawable/bg_menu_2"
         triangle:firstChildPosition="North"
         triangle:isRotating="false"
         triangle:speed="25"

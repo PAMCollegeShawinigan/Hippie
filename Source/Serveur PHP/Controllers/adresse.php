@@ -10,31 +10,29 @@ class adresse extends Controller
 
     public function adresse($id) //retourne l'adresse par l'id
     {
-		include('Connection/bdlogin.php');
-		$header = array ('Content-Type' => 'application/json; charset=UTF-8','charset' => 'utf-8');
+		require('Connection/bdlogin.php');
 		
-		$req = $bdd->prepare('SELECT * 
-								FROM adresse 
-								INNER JOIN type_rue on adresse.type_rue = type_rue.type_rue_id 
-								WHERE adresse_id = :id');
+		$req = 'SELECT * 
+						FROM adresse 
+						INNER JOIN type_rue on adresse.type_rue = type_rue.type_rue_id 
+						WHERE adresse_id = :id';
 		
-				$req->execute(array(
-					'id' => $id));
+		$array = array('id' => $id);
 					
-					$adresse = $req->fetch();
+			$adresse = execution($req, $array)->fetch();
+							
 				
-				
-				
-				$array = array('no_civique' => $adresse['no_civique'], 'nom' => $adresse['nom'], 
-								'type_rue' => $adresse['description_type_rue'], 'app' => $adresse['app'], 'ville' => $adresse['ville'],
-								'province' => $adresse['province'], 'code_postal' => $adresse['code_postal'], 'pays' => $adresse['pays']);
-				
-				
-				
-				
+		$array = array(	'no_civique' => $adresse['no_civique'],
+						'nom' => $adresse['nom'], 
+						'type_rue' => $adresse['description_type_rue'],
+						'app' => $adresse['app'], 
+						'ville' => $adresse['ville'],
+						'province' => $adresse['province'],
+						'code_postal' => $adresse['code_postal'],
+						'pays' => $adresse['pays']);
+					
+				//retourne 200 si le programme ne rencontre pas d'erreur sinon execution lance une exeption
 				return response() -> json($array,200,$header,JSON_UNESCAPED_UNICODE);
-				
-	
 	
 	}
 }	

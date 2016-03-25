@@ -21,6 +21,7 @@ import com.pam.codenamehippie.controleur.validation.ValidateurDeSpinner;
 import com.pam.codenamehippie.controleur.validation.ValidateurMotDePasse;
 import com.pam.codenamehippie.controleur.validation.ValidateurObserver;
 import com.pam.codenamehippie.modele.UtilisateurModele;
+import com.pam.codenamehippie.modele.depot.DepotManager;
 import com.pam.codenamehippie.modele.depot.ObservateurDeDepot;
 import com.pam.codenamehippie.modele.depot.UtilisateurModeleDepot;
 import com.pam.codenamehippie.ui.adapter.HippieSpinnerAdapter;
@@ -37,7 +38,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class RegisterActivity extends HippieActivity
-        implements ValidateurObserver, EditText.OnEditorActionListener, ObservateurDeDepot<UtilisateurModele> {
+        implements ValidateurObserver,
+                   EditText.OnEditorActionListener,
+                   ObservateurDeDepot<UtilisateurModele> {
+
     // Variable static final pour le spinner
     private static final String SELECTED_SPINNER_TYPE_RUE_POSITION = "position_type_rue";
 
@@ -173,7 +177,7 @@ public class RegisterActivity extends HippieActivity
         // Binder les type de rues au spinnerTypeRue
         // TODO : Vérifier si tout est correct
         UtilisateurModeleDepot utilisateurModeleDepot =
-                ((HippieApplication) this.getApplication()).getUtilisateurModeleDepot();
+                DepotManager.getInstance().getUtilisateurModeleDepot();
         HippieSpinnerAdapter typeRueAdapter = new HippieSpinnerAdapter(this);
         spinnerTypeRue.setAdapter(typeRueAdapter);
 
@@ -265,10 +269,6 @@ public class RegisterActivity extends HippieActivity
         this.validateurTelephone.onPause();
         this.validateurSpinnerTypeRue.onPause();
         this.validateurPays.onPause();
-        UtilisateurModeleDepot depot =
-                ((HippieApplication) this.getApplication()).getUtilisateurModeleDepot();
-        depot.setFiltreDeListe(null);
-        depot.supprimerTousLesObservateurs();
     }
 
     protected void onResume() {
@@ -289,8 +289,6 @@ public class RegisterActivity extends HippieActivity
         this.validateurTelephone.onResume();
         this.validateurSpinnerTypeRue.onResume();
         this.validateurPays.onResume();
-        UtilisateurModeleDepot depot =
-                ((HippieApplication) this.getApplication()).getUtilisateurModeleDepot();
         // FIXME : Peupler les listes de spinners pour le type de rue?
     }
 
