@@ -146,6 +146,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
             // Modifier le TextView pour signifier une modification
             tvAjoutMarchandise.setText(R.string.modifier_marchandise);
             this.bAjoutMarchandise.setText(R.string.bouton_modifier);
+            this.bAjoutMarchandise.setEnabled(true);
             // Obtenir le id du produit à modifier
             id = bundle.getInt(MODELE_ID, 0);
         }
@@ -234,8 +235,8 @@ public class AjoutMarchandiseActivity extends HippieActivity
         } else if (validateur.equals(this.validateurSpinnerTypeMarchandise)) {
 
             // Mettre invisible le DatePicker si un produit est non perissable
-            TypeAlimentaireModele item =
-            (TypeAlimentaireModele) this.validateurSpinnerTypeMarchandise.getSelectedItem();
+            TypeAlimentaireModele item = (TypeAlimentaireModele) this.validateurSpinnerTypeMarchandise.getSelectedItem();
+
             if ((item != null && item.getEstPerissable()) ||
                 this.validateurSpinnerTypeMarchandise.getSelectedItemId() == 0) {
                 this.tvDatePeremption.setVisibility(View.VISIBLE);
@@ -252,13 +253,15 @@ public class AjoutMarchandiseActivity extends HippieActivity
 
         // Mettre le bouton pour ajouter la marchandise actif si tous les champs requis
         // respecte les conditions des validateurs.
-        this.bAjoutMarchandise.setEnabled(this.nomEstValide &&
+       /* this.bAjoutMarchandise.setEnabled(this.nomEstValide &&
                                           this.descriptionEstValide &&
                                           this.quantiteEstValide &&
                                           this.valeurEstValide &&
                                           this.spinnerUniteMarchandiseEstValide &&
                                           this.spinnerTypeMarchandiseEstValide &&
                                           hasOrganismeid);
+                                          */
+        this.bAjoutMarchandise.setEnabled(true);
     }
 
     @Override
@@ -421,7 +424,7 @@ public class AjoutMarchandiseActivity extends HippieActivity
                    .setEtat("3")
                    .setTypeAlimentaire(typeAlimentaireId);
         if (((TypeAlimentaireModele) this.validateurSpinnerTypeMarchandise.getSelectedItem())
-                    .getEstPerissable() && this.modele.getDatePeremption() == null) {
+                    .getEstPerissable() == false && this.modele.getDatePeremption() == null) {
             this.modele.setDatePeremption(new Date());
         }
         AlimentaireModeleDepot depot = DepotManager.getInstance().getAlimentaireModeleDepot();

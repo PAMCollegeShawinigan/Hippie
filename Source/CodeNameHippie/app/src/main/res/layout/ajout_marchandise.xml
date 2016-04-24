@@ -280,7 +280,9 @@
 						android:background="@drawable/button"
 						android:onClick="soumettreMarchandise"
 						android:text="@string/bouton_ajouter"
-						android:textColor="#FFFFFF" />
+						android:textColor="#FFFFFF"
+						android:clickable="true"
+						android:contextClickable="true" />
 				</GridLayout>
 			</LinearLayout>
 		</android.support.v4.widget.NestedScrollView>
